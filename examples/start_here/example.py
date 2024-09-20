@@ -122,7 +122,10 @@ def run():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # Add event report
     add_report_event_counter(task, manifest, event_trigger_list=["HappyBirthday"])
 

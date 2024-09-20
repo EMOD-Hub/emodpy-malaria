@@ -1,5 +1,4 @@
 def set_config( config ):
-    config.parameters.Infectious_Period_Constant = 0
     config.parameters.Enable_Demographics_Reporting = 0
     config.parameters.Enable_Maternal_Infection_Transmission = 0
     

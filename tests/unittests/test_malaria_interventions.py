@@ -1444,6 +1444,7 @@ class TestMalariaInterventions(unittest.TestCase):
         released_number = 203847
         released_fraction = None
         released_infectious = 0
+        released_microsporidia = 0
         released_species = "arabiensis"
         released_genome = [["X", "X"]]
         add_scheduled_mosquito_release(campaign=camp, released_number=203847)
@@ -1456,6 +1457,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Released_Infectious"], released_infectious)
         self.assertEqual(self.intervention_config["Released_Species"], released_species)
         self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
+        self.assertEqual(self.intervention_config["Released_Microsporidia"], released_microsporidia)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
@@ -1469,6 +1471,7 @@ class TestMalariaInterventions(unittest.TestCase):
         intervention_name = "MosquitoReleaseTesting"
         released_fraction = 0.88
         released_infectious = 0.33
+        released_microsporidia = 1
         released_species = "funestus"
         released_genome = [["s", "S"]]
         node_ids = [234, 4356, 54]
@@ -1479,7 +1482,8 @@ class TestMalariaInterventions(unittest.TestCase):
                                        released_fraction=released_fraction,
                                        released_infectious=released_infectious,
                                        released_species=released_species,
-                                       released_genome=released_genome)
+                                       released_genome=released_genome,
+                                       released_microsopridia=released_microsporidia)
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.start_day, start_day)
@@ -1489,6 +1493,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Released_Infectious"], released_infectious)
         self.assertEqual(self.intervention_config["Released_Species"], released_species)
         self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
+        self.assertEqual(self.intervention_config["Released_Microsporidia"], released_microsporidia)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)

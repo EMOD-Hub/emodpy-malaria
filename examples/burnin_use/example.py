@@ -118,7 +118,10 @@ def general_sim(erad_path, serialized_exp_id):
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # Create simulation sweep with builder
     builder = SimulationBuilder()
 

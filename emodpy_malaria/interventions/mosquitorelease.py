@@ -10,7 +10,9 @@ def _mosquito_release(campaign,
                       released_fraction: float = None,
                       released_infectious: float = 0,
                       released_species: str = "arabiensis",
-                      released_genome: list = None):
+                      released_genome: list = None,
+                      released_microsopridia: bool = False
+                      ):
     """
         Configures node-targeted MosquitoRelease intervention
     Args:
@@ -28,6 +30,7 @@ def _mosquito_release(campaign,
         released_species: The case sensitive name of the species of vectors to be released.
         released_genome: This defines the alleles of the genome of the vectors to be released.
             It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
+        released_microsopridia: A boolean indicating if the released vectors are infected with microsporidia or not.
 
     Returns:
         Configured MosquitoRelease intervention
@@ -50,7 +53,7 @@ def _mosquito_release(campaign,
     intervention.Released_Species = released_species
     intervention.Released_Genome = released_genome
     intervention.Released_Wolbachia = "VECTOR_WOLBACHIA_FREE"
-
+    intervention.Released_Microsporidia = 1 if released_microsopridia else 0
     return intervention
 
 
@@ -65,7 +68,8 @@ def add_scheduled_mosquito_release(
         released_fraction: float = None,
         released_infectious: float = 0,
         released_species: str = "arabiensis",
-        released_genome: list = None):
+        released_genome: list = None,
+        released_microsopridia: bool = False):
     """
         Adds to the campaign a node-level MosquitoRelease intervention
 
@@ -91,7 +95,7 @@ def add_scheduled_mosquito_release(
         released_species: The case sensitive name of the species of vectors to be released.
         released_genome: This defines the alleles of the genome of the vectors to be released.
             It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
-
+        released_microsopridia: A boolean indicating if the released vectors are infected with microsporidia or not.
 
     Returns:
         Formatted intervention
@@ -109,7 +113,8 @@ def add_scheduled_mosquito_release(
                                           released_fraction=released_fraction,
                                           released_infectious=released_infectious,
                                           released_species=released_species,
-                                          released_genome=released_genome)
+                                          released_genome=released_genome,
+                                          released_microsopridia=released_microsopridia)
     add_campaign_event(campaign=campaign,
                        start_day=start_day,
                        node_ids=node_ids,

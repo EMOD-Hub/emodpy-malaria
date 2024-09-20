@@ -79,10 +79,19 @@ def general_sim():
     # platform = Platform("SLURM", node_group="idm_48cores", priority="Highest")
     platform = Platform("Calculon", node_group="idm_48cores")
 
-    task = EMODTask.from_default2(eradication_path=manifest.eradication_path, campaign_builder=build_camp, demog_builder=build_demog, schema_path=manifest.schema_file, param_custom_cb=set_param_fn, ep4_custom_cb=ep4_fn, config_path="config.json" )
+    task = EMODTask.from_default2(eradication_path=manifest.eradication_path,
+                                  campaign_builder=build_camp,
+                                  demog_builder=build_demog,
+                                  schema_path=manifest.schema_file,
+                                  param_custom_cb=set_param_fn,
+                                  ep4_custom_cb=ep4_fn,
+                                  config_path="config.json" )
+
     pathed_asset = Asset( manifest.schema_file, relative_path="python")
     task.common_assets.add_asset(pathed_asset)
-    task.set_sif( manifest.sif )
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
 
     # Create simulation sweep with builder
     builder = SimulationBuilder()

@@ -57,7 +57,7 @@ podTemplate(
 				def wheelFile = sh(returnStdout: true, script: "find ./dist -name '*.whl'").toString().trim()
 				//def wheelFile = sh(returnStdout: true, script: "python3 ./.github/scripts/get_wheel_filename.py --package-file package_setup.py").toString().trim()
 				echo "This is the package file: ${wheelFile}"
-				sh "pip3 install $wheelFile --index-url=https://packages.idmod.org/api/pypi/pypi-production/simple --pre"
+				sh "pip3 install $wheelFile --index-url=https://packages.idmod.org/api/pypi/pypi-production/simple"
 				 
 				//sh "pip3 install dataclasses"
 				sh 'pip3 install keyrings.alt'
@@ -99,6 +99,21 @@ podTemplate(
 				build_ok = false
 				echo e.toString()  
 			}
+
+			try{
+				stage('ReadMe Test') {
+					echo "Running ReadMe Tests"
+					dir('tests/doc_tests') {
+						sh 'pip3 install pytest'
+						sh 'python3 run_tests.py'
+						junit '**/*test*.xml'
+					}
+				}
+			} catch(e) {
+				build_ok = false
+				echo e.toString()  
+			}
+			
 			
 			stage('Run Examples') {		    
 				echo "Running examples"

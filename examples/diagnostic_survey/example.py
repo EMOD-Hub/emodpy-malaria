@@ -115,7 +115,10 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # Adding ReportEventCounter so you can see the events.
     from emodpy_malaria.reporters.builtin import ReportEventCounter
 

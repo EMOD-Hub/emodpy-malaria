@@ -130,7 +130,10 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)

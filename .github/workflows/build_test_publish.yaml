@@ -32,6 +32,8 @@ jobs:
         with:
           package_file: 'package_setup.py'
       - name: run tests
+        env:
+          ignore_comps: True
         run: python -m unittest discover .
         working-directory: ./tests
       - name: Push version bump

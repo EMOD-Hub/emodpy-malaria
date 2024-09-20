@@ -3,6 +3,7 @@ import csv
 import os
 from emodpy_malaria.malaria_vector_species_params import species_params
 
+
 #
 # PUBLIC API section
 #
@@ -11,8 +12,8 @@ def set_team_defaults(config, manifest):
     Set configuration defaults using team-wide values, including drugs and vector species.
 
     Args:
-        config:
-        manifest:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
 
     Returns:
         configured config
@@ -22,7 +23,7 @@ def set_team_defaults(config, manifest):
     config.parameters.Simulation_Type = "VECTOR_SIM"
     config.parameters.Infection_Updates_Per_Timestep = 8
     config.parameters.Incubation_Period_Constant = 7
-    config.parameters.Infectious_Period_Constant = 10
+    config.parameters.Infectious_Period_Constant = 7
 
     # VECTOR_SIM parameters (formerly lived in dtk-tools/dtk/vector/params.py)
     config.parameters.Enable_Vector_Species_Report = 0
@@ -79,7 +80,7 @@ def get_species_params(config, species: str = None):
     Returns the species parameters dictionary with the matching species **Name**
 
     Args:
-        config:
+        config: schema-backed config smart dict
         species: Species to look up
 
     Returns:
@@ -97,7 +98,7 @@ def set_species_param(config, species, parameter, value, overwrite=False):
         Raises value error if species not found
 
     Args:
-        config:
+        config: schema-backed config smart dict
         species: name of species for which to set the parameter
         parameter: parameter to set
         value: value to set the parameter to
@@ -114,10 +115,64 @@ def set_species_param(config, species, parameter, value, overwrite=False):
             for val in value:
                 vector_species[parameter].append(val)
             return
+        else:
+            vector_species[parameter].append(value)
+            return
     else:
         vector_species[parameter] = value
         return
     raise ValueError(f"Species {species} not found.\n")
+
+
+def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
+                            capacity_distribution_number_of_years: int = 1,
+                            capacity_distribution_over_time: dict = None):
+    """
+        Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters
+
+    Args:
+        manifest:  manifest file containing the schema path
+        max_larval_capacity:  The maximum larval capacity. Sets **Max_Larval_Capacity**
+        capacity_distribution_number_of_years:  The total length of time in
+            years for the scaling.  If the simulation goes longer than this time, the pattern will repeat.  Ideally,
+            this value times 365 is the last value in 'Capacity_Distribution_Over_Time'.
+            Sets **Capacity_Distribution_Number_Of_Years**
+        capacity_distribution_over_time:  "This allows one to scale the larval
+            capacity over time.  The Times and Values arrays must be the same length where Times is in days and
+            Values are a scale factor per degrees squared.  The value is multiplied times the max capacity and
+            'Node_Grid_Size' squared/4. Ideally, you want the last value  to equal the first value if they are
+            one day apart.  A point will be added if not. Sets **Capacity_Distribution_Over_Time**
+
+            **Example**::
+
+                {
+                    "Times": [0,  30,  60,   91,  122, 152, 182, 213, 243, 274, 304, 334, 365 ],
+                    "Values": [3, 0.8, 1.25, 0.1, 2.7, 8,    4,   35, 6.8, 6.5, 2.6, 2.1, 2]
+                }
+
+    Returns:
+        Configured Habitat_Type: "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
+    """
+    if not capacity_distribution_over_time or "Times" not in capacity_distribution_over_time or "Values" not in capacity_distribution_over_time:
+        raise ValueError("Please define capacity_distribution_over_time as a dictionary: {'Times':[], 'Values':[]}.\n")
+    times_length = len(capacity_distribution_over_time["Times"])
+    values_length = len(capacity_distribution_over_time["Values"])
+    if not (values_length == times_length):
+        raise ValueError(f"Please make sure the 'Times' and 'Values' lists in the capacity_distribution_over_time "
+                         f"dictionary are of equal lengths. Currently 'Times' is {times_length} "
+                         f"entrees and 'Values' is {values_length} entrees long.\n")
+
+    habitat = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
+    habitat.parameters.Habitat_Type = "LINEAR_SPLINE"
+    habitat.parameters.Max_Larval_Capacity = max_larval_capacity
+    habitat.parameters.Capacity_Distribution_Number_Of_Years = capacity_distribution_number_of_years
+    # adding larval capacity
+    capacity_distribution = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
+    capacity_distribution.parameters.Times = capacity_distribution_over_time["Times"]
+    capacity_distribution.parameters.Values = capacity_distribution_over_time["Values"]
+    habitat.parameters.Capacity_Distribution_Over_Time = capacity_distribution.parameters
+
+    return habitat.parameters
 
 
 def add_species(config, manifest, species_to_select):
@@ -127,7 +182,7 @@ def add_species(config, manifest, species_to_select):
 
     Args:
         config: schema-backed config smart dict
-        manifest:
+        manifest: manifest file containing the schema path
         species_to_select: a list of species or a name of a single species you'd like to set from
             malaria_vector_species_params.py
 
@@ -141,10 +196,11 @@ def add_species(config, manifest, species_to_select):
     for species in species_to_select:
         vector_species_parameters = species_params(manifest, species)
         if isinstance(vector_species_parameters, list):
-            raise ValueError(f"'{species}' species not found in list, available species are: {vector_species_parameters}. "
-                             f"We suggest adding 'gambiae' species and changing "
-                             f"the name and relevant parameters with set_species_params() or "
-                             f"adding your species to malaria_vector_species_params.py.\n")
+            raise ValueError(
+                f"'{species}' species not found in list, available species are: {vector_species_parameters}. "
+                f"We suggest adding 'gambiae' species and changing "
+                f"the name and relevant parameters with set_species_params() or "
+                f"adding your species to malaria_vector_species_params.py.\n")
         else:
             config.parameters.Vector_Species_Params.append(vector_species_parameters)
 
@@ -187,8 +243,8 @@ def add_genes_and_alleles(config, manifest, species: str = None, alleles: list =
             ]
 
     Args:
-        config:
-        manifest:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
         species: species to which to assign the alleles
         alleles: List of tuples of (**Name**, **Initial_Allele_Frequency**, **Is_Y_Chromosome**) for a set of alleles
             or (**Name**, **Initial_Allele_Frequency**), 1/0 or True/False can be used for Is_Y_Chromosome,
@@ -228,8 +284,8 @@ def add_mutation(config, manifest, species, mutate_from, mutate_to, probability)
     Adds to **Mutations** parameter in a Gene which has the matching **Alleles**
 
     Args:
-        config:
-        manifest:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
         species: Name of vector species to which we're adding mutations
         mutate_from: The allele in the gamete that could mutate
         mutate_to: The allele that this locus will change to during gamete generation
@@ -280,8 +336,8 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
                 }
 
     Args:
-        config:
-        manifest:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
         species: **Name** of species for which to add this  **Gene_To_Trait_Modifiers**
         allele_combo: List of lists, This defines a possible subset of allele pairs that a vector could have.
             Each pair are alleles from one gene.  If the vector has this subset, then the associated traits will
@@ -368,8 +424,8 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
             {..}
 
     Args:
-        config:
-        manifest:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
         insecticide_name: The name of the insecticide to which attach the resistance.
         species: Name of the species of vectors.
         allele_combo: List of combination of alleles that vectors must have in order to be resistant.
@@ -466,8 +522,8 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
             }
 
     Args:
-        config:
-        manifest:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
         species: Name of the species for which we're setting the drivers
         driving_allele: This is the allele that is known as the driver
         driver_type: This indicates the type of driver.
@@ -601,7 +657,7 @@ def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capac
     where i is index of species_name and j is index of habitat_type.
 
     Args:
-        config:
+        config: schema-backed config smart dict
         species_name: string. Species_Name to target.
         habitat_type: enum. Habitat_Type to target.
         max_larval_capacity: integer. New value of Max_Larval_Capacity.
@@ -620,4 +676,65 @@ def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capac
 
     raise ValueError(f"Failed to find habitat_type {habitat_type} for species {species_name}.")
 
-    return  # can't get here
+
+def add_microsporidia(config, manifest, species_name: str = None, female_to_male_probability: float = 0,
+                      male_to_female_probability: float = 0, female_to_egg_probability: float = 0,
+                      duration_to_disease_acquisition_modification: dict = None, larval_growth_modifier: float = 1,
+                      female_mortality_modifier: float = 1, male_mortality_modifier: float = 1):
+    """
+        Adds microsporidia parameters to the named species' parameters.
+
+    Args:
+        config: schema-backed config dictionary, written to config.json
+        manifest: file that contains path to the schema file
+        species_name: Species to target, **Name** parameter
+        female_to_male_probability: **Microsporidia_Female_To_Male_Transmission_Probability** The probability
+            an infected female will infect an uninfected male.
+        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
+            an infected male will infect an uninfected female
+        female_to_egg_probability: **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
+            an infected female will infect her eggs when laying them.
+        duration_to_disease_acquisition_modification: **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
+            A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
+            **Times** is an array of days in ascending order that represent the number of days since the vector become
+            infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
+            probability that the vector will acquire malaria due to Microsporidia.
+
+             **Example**::
+
+                {
+                    "Times": [    0,   3,   6,   9 ],
+                    "Values": [ 1.0, 1.0, 0.5, 0.0 ]
+                }
+
+        larval_growth_modifier: **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
+            dependent, larval growth progress.
+        female_mortality_modifier: **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
+            rate for female vectors due to general life expectancy, age, and dry heat
+        male_mortality_modifier: **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
+            male vectors due to general life expectancy, age, and dry heat
+
+    Returns:
+        Nothing
+    """
+    if not species_name:
+        raise ValueError("Please define species name.\n")
+    if not duration_to_disease_acquisition_modification:
+        duration_to_disease_acquisition_modification = \
+            {
+                "Times": [0,   3,    6,    9],
+                "Values": [1.0, 1.0, 0.5, 0.0]
+            }
+
+    species_parameters = get_species_params(config, species_name)
+
+    d_t_d_a_m = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
+    d_t_d_a_m.parameters.Times = duration_to_disease_acquisition_modification["Times"]
+    d_t_d_a_m.parameters.Values = duration_to_disease_acquisition_modification["Values"]
+    species_parameters.Microsporidia_Duration_To_Disease_Acquisition_Modification = d_t_d_a_m.parameters
+    species_parameters.Microsporidia_Female_To_Male_Transmission_Probability = female_to_male_probability
+    species_parameters.Microsporidia_Male_To_Female_Transmission_Probability = male_to_female_probability
+    species_parameters.Microsporidia_Female_To_Egg_Transmission_Probability = female_to_egg_probability
+    species_parameters.Microsporidia_Larval_Growth_Modifier = larval_growth_modifier
+    species_parameters.Microsporidia_Female_Mortality_Modifier = female_mortality_modifier
+    species_parameters.Microsporidia_Male_Mortality_Modifier = male_mortality_modifier

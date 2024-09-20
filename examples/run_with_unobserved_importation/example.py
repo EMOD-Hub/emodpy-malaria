@@ -225,7 +225,10 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # adding reporter
     add_malaria_transmission_report(task, manifest, start_day=report_start)
 

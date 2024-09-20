@@ -111,7 +111,10 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # need to add ReportHumanMigrationTracking.csv
     # need to add ReportEventRecorder.csv
 

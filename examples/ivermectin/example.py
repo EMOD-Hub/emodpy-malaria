@@ -102,6 +102,16 @@ def set_config_parameters(config):
     malaria_config.add_insecticide_resistance(config, manifest, insecticide_name="Example",
                                               allele_combo=[["a", "a"]],
                                               species="gambiae", blocking=0.2, killing=0.3, repelling=0)
+    linear_spline_habitat = vector_config.configure_linear_spline(manifest, max_larval_capacity=234000000,
+                                                                  capacity_distribution_number_of_years=1,
+                                                                  capacity_distribution_over_time={
+                                                                      "Times": [0, 30, 60, 91, 122, 152, 182, 213, 243,
+                                                                                274, 304, 334, 365],
+                                                                      "Values": [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8,
+                                                                                 6.5, 2.6, 2.1, 3]
+                                                                  }
+                                                                  )
+    malaria_config.set_species_param(config, "gambiae", "Habitats", linear_spline_habitat)
 
     return config
 
@@ -148,7 +158,10 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)

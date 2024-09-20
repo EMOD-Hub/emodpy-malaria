@@ -81,9 +81,10 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
-    print("Adding local assets (py scripts mainly)...")
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # We are creating one-simulation experiment straight from task.
     experiment_name = "Create simulation from serialized file with replaced genomes"
     experiment = Experiment.from_task(task=task, name=experiment_name)

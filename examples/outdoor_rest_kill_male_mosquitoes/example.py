@@ -145,7 +145,10 @@ def general_sim(erad_path, ep4_scripts):
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     # print("Adding asset dir...")
     # task.common_assets.add_directory(assets_directory=manifest.assets_input_dir)
     add_report_vector_stats(task, manifest, species_list=["gambiae", "funestus", "arabiensis"])

@@ -1,4 +1,4 @@
-#
+import os
 # This is a user-modifiable Python file designed to be a set of simple input file and directory settings that you can
 # choose and change.
 #
@@ -12,6 +12,7 @@ eradication_path = "download/Eradication"
 # Create 'Assets' directory or change to a path you prefer. idmtools will upload files found here.
 assets_input_dir = "Assets"
 plugins_folder = "download/reporter_plugins"
-
+# the location of the file containing AssetCollection id for the dtk sif (singularity image)
+sif_path = os.path.join(os.pardir, 'dtk_sif.id')
 ep4_path = "python_scripts"
-experiment_id="experiment_id"
+experiment_id = "experiment_id"

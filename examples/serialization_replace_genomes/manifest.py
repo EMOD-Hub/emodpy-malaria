@@ -1,7 +1,10 @@
+import os
+
 #
 # This is a user-modifiable Python file designed to be a set of simple input file and directory settings that you can choose and change.
 #
-
+# the location of the file containing AssetCollection id for the dtk sif (singularity image)
+sif_path = os.path.join(os.pardir, 'dtk_sif.id')
 # Path to experiment id of experiment that created the serialized population 
 experiment_id = "../burnin_create_parasite_genetics/experiment_id"
 eradication_path="download/Eradication"

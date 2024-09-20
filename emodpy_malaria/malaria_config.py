@@ -4,6 +4,7 @@ import os
 from . import vector_config
 from emodpy_malaria.malaria_vector_species_params import species_params
 
+
 #
 # PUBLIC API section
 #
@@ -27,6 +28,9 @@ def set_team_defaults(config, manifest):
     """
     vector_config.set_team_defaults(config, manifest)
     config.parameters.Simulation_Type = "MALARIA_SIM"
+    # removing Infectious_Period parameteres because not allowed in MALARIA_SIM, but need in VECTOR SIM
+    config.parameters.pop("Infectious_Period_Constant")
+    config.parameters.pop("Infectious_Period_Distribution")
     config.parameters.Malaria_Strain_Model = "FALCIPARUM_RANDOM_STRAIN"
     config.parameters.Enable_Disease_Mortality = 0
     # config.parameters.Enable_Malaria_CoTransmission = 0
@@ -207,7 +211,7 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
     Malaria_Model = "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS"
 
     Args:
-        config:
+        config: schema-backed config smart dict
         manifest: schema path container
         var_gene_randomness_type: possible values are "FIXED_NEIGHBORHOOD", "FIXED_MSP", "ALL_RANDOM" (default)
 
@@ -348,7 +352,7 @@ def set_drug_param(config, drug_name: str = None, parameter: str = None, value: 
          set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
 
     Args:
-        config:
+        config: schema-backed config smart dict
         drug_name: The drug that has a parameter to set
         parameter: The parameter to set
         value: The new value to set
@@ -372,8 +376,8 @@ def add_drug_resistance(config, manifest, drugname: str = None, drug_resistant_s
     Adds drug resistances by drug name and parameters
 
     Args:
-        config:
-        manifest:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
         drugname: name of the drug for which to assign resistances
         drug_resistant_string: A series of nucleotide base letters (A, C, G, T) that represent the drug resistant
             values at locations in the genome
@@ -388,8 +392,8 @@ def add_drug_resistance(config, manifest, drugname: str = None, drug_resistant_s
 
     drugmod = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:DrugModifier"])
     drugmod.parameters.Drug_Resistant_String = drug_resistant_string
-    drugmod.parameters.Max_IRBC_Kill_Modifier = pkpd_c50_modifier
-    drugmod.parameters.PKPD_C50_Modifier = max_irbc_kill_modifier
+    drugmod.parameters.Max_IRBC_Kill_Modifier = max_irbc_kill_modifier
+    drugmod.parameters.PKPD_C50_Modifier = pkpd_c50_modifier
 
     for drug_param in config.parameters.Malaria_Drug_Params:
         if drug_param.Name == drugname:
@@ -438,7 +442,7 @@ def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_la
     where i is index of species_name and j is index of habitat_type.
 
     Args:
-        config:
+        config: schema-backed config smart dict
         species_name: string. Species_Name to target.
         habitat_type: enum. Habitat_Type to target.
         max_larval_capacity: integer. New value of Max_Larval_Capacity.
@@ -448,3 +452,82 @@ def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_la
 
     """
     return vector_config.set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity)
+
+
+def add_microsporidia(config, manifest, species_name: str = None, female_to_male_probability: float = 0,
+                      male_to_female_probability: float = 0, female_to_egg_probability: float = 0,
+                      duration_to_disease_acquisition_modification: dict = None, larval_growth_modifier: float = 1,
+                      female_mortality_modifier: float = 1, male_mortality_modifier: float = 1):
+    """
+        Adds microsporidia parameters to the named species' parameters.
+
+    Args:
+        config: schema-backed config dictionary, written to config.json
+        manifest: file that contains path to the schema file
+        species_name: Species to target, **Name** parameter
+        female_to_male_probability: **Microsporidia_Female_to_Male_Transmission_Probability** The probability
+            an infected female will infect an uninfected male.
+        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
+            an infected male will infect an uninfected female
+        female_to_egg_probability: **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
+            an infected female will infect her eggs when laying them.
+        duration_to_disease_acquisition_modification: **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
+            A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
+            **Times** is an array of days in ascending order that represent the number of days since the vector become
+            infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
+            probability that the vector will acquire malaria due to Microsporidia.
+
+             **Example**::
+
+                {
+                    "Times": [    0,   3,   6,   9 ],
+                    "Values": [ 1.0, 1.0, 0.5, 0.0 ]
+                }
+
+        larval_growth_modifier: **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
+            dependent, larval growth progress.
+        female_mortality_modifier: **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
+            rate for female vectors due to general life expectancy, age, and dry heat
+        male_mortality_modifier: **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
+            male vectors due to general life expectancy, age, and dry heat
+
+    Returns:
+        Nothing
+    """
+    vector_config.add_microsporidia(config, manifest, species_name, female_to_male_probability,
+                                    male_to_female_probability, female_to_egg_probability,
+                                    duration_to_disease_acquisition_modification, larval_growth_modifier,
+                                    female_mortality_modifier, male_mortality_modifier)
+
+
+def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
+                            capacity_distribution_number_of_years: int = 1,
+                            capacity_distribution_over_time: dict = None):
+    """
+        Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters
+
+    Args:
+        manifest:  manifest file containing the schema path
+        max_larval_capacity:  The maximum larval capacity. Sets **Max_Larval_Capacity**
+        capacity_distribution_number_of_years:  The total length of time in
+            years for the scaling.  If the simulation goes longer than this time, the pattern will repeat.  Ideally,
+            this value times 365 is the last value in 'Capacity_Distribution_Over_Time'.
+            Sets **Capacity_Distribution_Number_Of_Years**
+        capacity_distribution_over_time:  "This allows one to scale the larval
+            capacity over time.  The Times and Values arrays must be the same length where Times is in days and
+            Values are a scale factor per degrees squared.  The value is multiplied times the max capacity and
+            'Node_Grid_Size' squared/4. Ideally, you want the last value  to equal the first value if they are
+            one day apart.  A point will be added if not. Sets **Capacity_Distribution_Over_Time**
+
+            **Example**::
+
+                {
+                    "Times": [0,  30,  60,   91,  122, 152, 182, 213, 243, 274, 304, 334, 365 ],
+                    "Values": [3, 0.8, 1.25, 0.1, 2.7, 8,    4,   35, 6.8, 6.5, 2.6, 2.1, 2]
+                }
+
+    Returns:
+        Configured Habitat_Type: "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
+    """
+    return vector_config.configure_linear_spline(manifest, max_larval_capacity, capacity_distribution_number_of_years,
+                                                 capacity_distribution_over_time)

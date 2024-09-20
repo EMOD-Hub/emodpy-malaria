@@ -12,7 +12,8 @@ default_config = None  # is set in setUpClass()
 
 import schema_path_file
 
-from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_max_larval_capacity
+from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_max_larval_capacity, \
+    configure_linear_spline
 
 from emodpy_malaria.vector_config import \
     add_genes_and_alleles, \
@@ -37,7 +38,6 @@ class TestMalariaConfig(unittest.TestCase):
 
     def set_malaria_config(self, config):
         config.parameters.Simulation_Type = "MALARIA_SIM"
-        config.parameters.Infectious_Period_Constant = 0
         config.parameters.Enable_Demographics_Birth = 1
         config.parameters.Enable_Demographics_Reporting = 0
         config.parameters.Run_Number = 99
@@ -132,17 +132,17 @@ class TestMalariaConfig(unittest.TestCase):
     def test_add_genes_and_alleles(self):
         add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="funestus",
-                    alleles=[("a0", 0.5), ("a1", 0.35), ("a2", 0.15)])
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("a0", 0.5), ("a1", 0.35), ("a2", 0.15)])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="funestus",
-                    alleles=[("b0", 0.90), ("b1", 0.1)])
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("b0", 0.90), ("b1", 0.1)])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="arabiensis",
-                    alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
+                              schema_path_file,
+                              species="arabiensis",
+                              alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
         for species in self.config.parameters.Vector_Species_Params:
             if species.Name == "funestus":
                 self.assertEqual(len(species.Genes), 2)
@@ -160,17 +160,17 @@ class TestMalariaConfig(unittest.TestCase):
     def test_add_genes_and_alleles_gender_gene(self):
         add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="funestus",
-                    alleles=[("a0", 0.5, 1), ("a1", 0.35, 1), ("a2", 0.15)])
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("a0", 0.5, 1), ("a1", 0.35, 1), ("a2", 0.15)])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="funestus",
-                    alleles=[("b0", 0.90), ("b1", 0.1)])
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("b0", 0.90), ("b1", 0.1)])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="arabiensis",
-                    alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
+                              schema_path_file,
+                              species="arabiensis",
+                              alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
         for species in self.config.parameters.Vector_Species_Params:
             if species.Name == "funestus":
                 self.assertEqual(len(species.Genes), 2)
@@ -190,17 +190,17 @@ class TestMalariaConfig(unittest.TestCase):
     def test_add_mutation(self):
         add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="funestus",
-                    alleles=[("a0", 0.5), ("a1", 0.35), ("a2", 0.15)])
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("a0", 0.5), ("a1", 0.35), ("a2", 0.15)])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="funestus",
-                    alleles=[("b0", 0.90), ("b1", 0.1)])
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("b0", 0.90), ("b1", 0.1)])
         add_genes_and_alleles(self.config,
-                    schema_path_file,
-                    species="arabiensis",
-                    alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
+                              schema_path_file,
+                              species="arabiensis",
+                              alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
         add_mutation(self.config, schema_path_file, "arabiensis", mutate_from="c1", mutate_to="c2",
                      probability=0.04)
         add_mutation(self.config, schema_path_file, "arabiensis", mutate_from="c0", mutate_to="c1",
@@ -228,7 +228,6 @@ class TestMalariaConfig(unittest.TestCase):
                                     self.assertEqual(mutation.Mutate_To, "c2")
                                     self.assertEqual(mutation.Probability_Of_Mutation, 0.04)
 
-
     def test_set_max_larval_capacity(self):
         add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
         set_max_larval_capacity(self.config, "funestus", "TEMPORARY_RAINFALL", 123000)
@@ -241,6 +240,19 @@ class TestMalariaConfig(unittest.TestCase):
                 self.assertEqual(species.Habitats[0]["Habitat_Type"], "TEMPORARY_RAINFALL")
                 self.assertEqual(species.Habitats[0]["Max_Larval_Capacity"], 654000)
 
+    def test_configure_linear_spline(self):
+        add_species(self.config, schema_path_file, ["funestus"])
+        times = [1, 60, 180, 300, 500, 720]
+        values = [0.5, 1, 3, 2, 1, 0.1]
+        spline = configure_linear_spline(schema_path_file, max_larval_capacity=123456,
+                                         capacity_distribution_number_of_years=2,
+                                         capacity_distribution_over_time={"Times": times,
+                                                                          "Values": values})
+        self.assertEqual(spline.Max_Larval_Capacity, 123456)
+        self.assertEqual(spline.Habitat_Type, "LINEAR_SPLINE")
+        self.assertEqual(spline.Capacity_Distribution_Over_Time.Times, times)
+        self.assertEqual(spline.Capacity_Distribution_Over_Time.Values, values)
+        self.assertEqual(spline.Capacity_Distribution_Number_Of_Years, 2)
 
 if __name__ == '__main__':
     unittest.main()

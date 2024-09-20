@@ -5,8 +5,6 @@ from emodpy_malaria import malaria_config as malconf
 
 def set_config(config):
     # config.parameters.Acquisition_Blocking_Immunity_Decay_Rate = 0
-    config.parameters.Acquisition_Blocking_Immunity_Duration_Before_Decay = 0
-    config.parameters.Infectious_Period_Constant = 0
     config.parameters.Enable_Birth = 1
     # config.parameters.Enable_Coinfection = 1
     config.parameters.Enable_Demographics_Birth = 1

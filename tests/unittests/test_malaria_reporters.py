@@ -38,6 +38,7 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Include_Wolbachia_Columns'], 0)
         self.assertEqual(self.p_dict['Include_Gestation_Columns'], 0)
         self.assertEqual(self.p_dict['Include_Death_By_State_Columns'], 0)
+        self.assertEqual(self.p_dict['Include_Microsporidia_Columns'], 0)
         pass
 
     def test_vector_stats_custom(self):
@@ -47,7 +48,8 @@ class TestMalariaReport(unittest.TestCase):
                                                     include_wolbachia=1,
                                                     include_death_state=1,
                                                     species_list=["gambiae", "SillySkeeter"],
-                                                    stratify_by_species=1)
+                                                    stratify_by_species=1,
+                                                    include_microsporidia=1)
         self.p_dict = self.tmp_reporter.parameters
         self.assertIsNotNone(self.tmp_reporter)
         self.assertEqual(self.p_dict['Stratify_By_Species'], 1)
@@ -55,6 +57,7 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Include_Wolbachia_Columns'], 1)
         self.assertEqual(self.p_dict['Include_Gestation_Columns'], 1)
         self.assertEqual(self.p_dict['Include_Death_By_State_Columns'], 1)
+        self.assertEqual(self.p_dict['Include_Microsporidia_Columns'], 1)
         pass
 
     # endregion
@@ -645,13 +648,15 @@ class TestMalariaReport(unittest.TestCase):
         include_wolbachia = 1
         include_gestation = 1
         barcodes = ["AAATTAGC"]
+        include_microsporidia = 1
         self.tmp_reporter = add_report_vector_stats_malaria_genetics(None, schema_path_file,
                                                                      species_list=species_list,
                                                                      stratify_by_species=stratify_by_species,
                                                                      include_death_state=include_gestation,
                                                                      include_wolbachia=include_wolbachia,
                                                                      include_gestation=include_gestation,
-                                                                     barcodes=barcodes)
+                                                                     barcodes=barcodes,
+                                                                     include_microsporidia=include_microsporidia)
         self.p_dict = self.tmp_reporter.parameters
         self.assertIsNotNone(self.tmp_reporter)
         self.assertEqual(self.p_dict['Species_List'], species_list)
@@ -660,6 +665,7 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Include_Gestation_Columns'], include_gestation)
         self.assertEqual(self.p_dict['Include_Death_By_State_Columns'], include_gestation)
         self.assertEqual(self.p_dict['Barcodes'], barcodes)
+        self.assertEqual(self.p_dict['Include_Microsporidia_Columns'], include_microsporidia)
 
     def test_report_vector_stats_malaria_genetics_default(self):
         species_list = empty_list
@@ -667,6 +673,7 @@ class TestMalariaReport(unittest.TestCase):
         include_wolbachia = 0
         include_gestation = 0
         barcodes = empty_list
+        include_microsporidia = 0
         self.tmp_reporter = add_report_vector_stats_malaria_genetics(None, schema_path_file)
         self.p_dict = self.tmp_reporter.parameters
         self.assertIsNotNone(self.tmp_reporter)
@@ -675,6 +682,7 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Include_Wolbachia_Columns'], include_wolbachia)
         self.assertEqual(self.p_dict['Include_Gestation_Columns'], include_gestation)
         self.assertEqual(self.p_dict['Include_Death_By_State_Columns'], include_gestation)
+        self.assertEqual(self.p_dict['Include_Microsporidia_Columns'], include_microsporidia)
         self.assertEqual(self.p_dict['Barcodes'], barcodes)
 
     # endregion

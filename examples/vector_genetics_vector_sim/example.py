@@ -121,7 +121,10 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     add_report_vector_genetics(task, manifest, species="gambiae", include_vector_state=False,
                                allele_combinations_for_stratification=[["a"], ["b"]])
 

@@ -164,7 +164,10 @@ def general_sim(erad_path, ep4_scripts):
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     add_reports(task, manifest)
 
     # print("Adding asset dir...")

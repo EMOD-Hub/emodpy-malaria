@@ -100,7 +100,8 @@ def add_report_vector_stats(task, manifest,
                             stratify_by_species: int = 0,
                             include_death_state: int = 0,
                             include_wolbachia: int = 0,
-                            include_gestation: int = 0):
+                            include_gestation: int = 0,
+                            include_microsporidia: int = 0):
     """
     Adds ReportVectorStats report to the simulation. See class definition for description of the report.
 
@@ -114,7 +115,8 @@ def add_report_vector_stats(task, manifest,
             INFECTED, INFECTIOUS, and MALE
         include_wolbachia: if 1(true), add a column for each type of Wolbachia
         include_gestation: if 1(true), adds columns for feeding and gestation
-
+        include_microsporidia: if 1(true), adds columns for the number of vectors that have microsporidia in
+            each state during this time step
     Returns:
         if task is not set, returns the configured reporter, otherwise returns nothing
     """
@@ -129,6 +131,7 @@ def add_report_vector_stats(task, manifest,
         params.Include_Death_By_State_Columns = include_death_state
         params.Include_Wolbachia_Columns = include_wolbachia
         params.Include_Gestation_Columns = include_gestation
+        params.Include_Microsporidia_Columns = include_microsporidia
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -1020,6 +1023,7 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
                                              include_death_state: int = 0,
                                              include_wolbachia: int = 0,
                                              include_gestation: int = 0,
+                                             include_microsporidia: int = 0,
                                              barcodes: list = None):
     """
     Adds ReportVectorStatsMalariaGenetics report to the simulation. See class definition for description of the report.
@@ -1034,6 +1038,8 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
             INFECTED, INFECTIOUS, and MALE
         include_wolbachia: if 1(true), add a column for each type of Wolbachia
         include_gestation: if 1(true), adds columns for feeding and gestation
+        include_microsporidia: if 1(true), adds columns for the number of vectors that have microsporidia in
+            each state during this time step
         barcodes: a list of barcode strings. The report contains the number of human infections with each barcode.
             Use '*' for a wild card at a loci to include all values at that loci.  For example, “A*T” includes AAT,
             ACT, AGT, and ATT. The report contains a BarcodeOther column for barcodes that are not defined.
@@ -1053,6 +1059,7 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
         params.Include_Death_By_State_Columns = include_death_state
         params.Include_Wolbachia_Columns = include_wolbachia
         params.Include_Gestation_Columns = include_gestation
+        params.Include_Microsporidia_Columns = include_microsporidia
         params.Barcodes = barcodes if barcodes else []
         return params
 

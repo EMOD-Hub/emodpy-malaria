@@ -3,6 +3,8 @@ import pathlib
 from sys import platform
 from pathlib import Path
 
+from emodpy_malaria.weather.weather_variable import WeatherVariable
+
 dirs = os.listdir()
 input_files = list()
 
@@ -79,9 +81,9 @@ rule burnin_create_infections:
             out_050 = Path("burnin_create_infections", "serialization_files", "output", "state-00050.dtk")
     run:
         shell(get_command("burnin_create_infections", python_version=config['python_version']))
-		
+
 rule burnin_create_parasite_genetics:
-    input: 
+    input:
     output: Path("burnin_create_parasite_genetics", "experiment_id"),
             out_050 = Path("burnin_create_parasite_genetics", "serialization_files", "output", "state-00050.dtk")
     run:
@@ -99,14 +101,14 @@ rule serialization_remove_infections:
             Path("serialization_remove_infections", "experiment_id")
     run:
         shell(get_command("serialization_remove_infections", python_version=config['python_version']))
-		
+
 rule serialization_replace_genomes:
     input:  rules.burnin_create_parasite_genetics.output.out_050
     output: Path("serialization_replace_genomes", "output", "state-00050_replaced_genomes.dtk"),
             Path("serialization_replace_genomes", "experiment_id")
     run:
         shell(get_command("serialization_replace_genomes", python_version=config['python_version']))
-        
+
 rule drug_campaign:
     input: 
     output: Path("drug_campaign","experiment_id")
@@ -257,12 +259,31 @@ rule embedded_python_post_processing:
         shell(get_command("embedded_python_post_processing", python_version=config['python_version']))
 
 rule create_demographics:
-    input: 
+    input:
     output: Path("create_demographics", "experiment_id")
-    run:        
+    run:
         shell(get_command("create_demographics", python_version=config['python_version']))
 
+rule weather:
+    input:  Path("weather", "input", "site_details.csv")
+    output: Path("weather", "output", "demo1", "weather.csv"),
+            expand(Path("weather", "output", "demo2", "dtk_15arcmin_{variable}_daily.bin{suffix}"),
+                variable=[v.name.lower() for v in WeatherVariable.list()],
+                suffix=["", ".json"])
+    run:
+        shell(get_command("weather", script="scenarios_walkthrough.py", python_version=config['python_version']))
 
+rule weather_sim:
+    input:  rules.weather.output
+    output: Path("weather", "experiment_id")
+    run:
+         shell(get_command("weather", python_version=config['python_version']))
+
+rule microsporidia:
+    input:
+    output: Path("microsporidia", "experiment_id")
+    run:
+        shell(get_command("microsporidia", python_version=config['python_version']))
 
 rule clean:
     input: 

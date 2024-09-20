@@ -99,7 +99,10 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-
+    
+    # set the singularity image to be used when running this experiment
+    task.set_sif(manifest.sif_path)
+    
     """THIS IS WHERE WE ADD THE REPORTS"""
     add_event_recorder(task, event_list=["HappyBirthday", "Births"],
                        start_day=7, end_day=34, node_ids=[1], min_age_years=3,
@@ -181,5 +184,5 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
-    # dtk.setup(pathlib.Path(manifest.eradication_path).parent)
+    dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()
