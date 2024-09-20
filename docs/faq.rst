@@ -3,10 +3,15 @@ Frequently asked questions
 ==========================
 
 As you get started with |EMODPY_malaria|, you may have questions. The most common
-questions are answered below. The most common questions are answered below. For
-questions related to functionality in related packages, see :doc:`idmtools:faq`
-for |IT_s|, :doc:`emod_api:faq` for |emod_api|, and :doc:`emodpy:faq` for
-|EMODPY_s|.
+questions are answered below. The most common questions are answered below. 
+For questions related to functionality in related packages, see the
+following documentation:
+
+* :doc:`emod-malaria:faq` for |EMOD_s|
+* :doc:`idmtools:faq` for |IT_s|
+* :doc:`emod_api:faq` for |emod_api|
+* :doc:`emodpy:faq` for |EMODPY_s|  
+
 
 .. contents:: Contents
    :local:
@@ -154,6 +159,21 @@ examples/start_here/example.py.
   :lines: 55-82
 
 A helper function to make this task even easier may be coming shortly.
+
+
+Where else should I search for functions?
+=========================================
+Yes, `emod-api <https://docs.idmod.org/projects/emod-api/en/latest/>`_. Any functionality that is not malaria-specific (or disease-specific) will be found in emod-api. In particular you'll probably find very useful functions for crafting campaigns in `emod-api.interventions.common <https://docs.idmod.org/projects/emod-api/en/latest/emod_api.interventions.common.html>`_, such as the `ScheduledCampaignEvent <https://docs.idmod.org/projects/emod-api/en/latest/emod_api.interventions.common.html#emod_api.interventions.common.ScheduledCampaignEvent>`_ function and the `TriggeredCampaignEvent <https://docs.idmod.org/projects/emod-api/en/latest/emod_api.interventions.common.html#emod_api.interventions.common.TriggeredCampaignEvent>`_ function.
+
+
+Do I need to be connected to the VPN?
+=====================================
+The original way of procuring the model binary itself was via a call to get_model_files(). This required you to be VPN-ed in. This is no longer the preferred approach. Instead you will want to use the 'bootstrap' approach. This involves installing the emod_malaria package, which should happen automatically, and using code like::
+
+    import emod_malaria.bootstrap as dtk
+    dtk.setup(...)
+
+This does not require VPN. The value you pass to setup is the path where the model files will be put.
 
 
 Is there an example of creating a demographics file from scratch with the API?

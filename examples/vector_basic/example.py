@@ -52,7 +52,7 @@ def build_campaign():
     campaign.schema_path = manifest.schema_file
 
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
-    campaign.add(bednet.Bednet(campaign, start_day=200, coverage=.5, killing_eff=0.7, blocking_eff=0.5, usage_eff=0.5))
+    campaign.add(bednet.Bednet(campaign.schema_path, start_day=200, coverage=.5, killing_eff=0.7, blocking_eff=0.5, usage_eff=0.5))
 
     #campaign.add(
         #mr.MosquitoRelease(campaign, start_day=1, by_number=True, number=20000, infectious=0.2, species="gambiae",

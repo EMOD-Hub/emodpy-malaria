@@ -5,7 +5,8 @@ from functools import \
     partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
 
 # idmtools ...
-
+from idmtools.assets import Asset, AssetCollection  #
+from idmtools.builders import SimulationBuilder
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
 
@@ -14,37 +15,43 @@ import emodpy.emod_task as emod_task
 from emodpy.utils import EradicationBambooBuilds
 from emodpy.bamboo import get_model_files
 
-# emod_api
-import emod_api.migration as migration
-import emodpy_malaria.malaria_config as malaria_config
+
 import manifest
 
-"""
-    In this example we create migration for a multi-node simulation and add spatial output.
-    We are getting demographics files from a server, which is only reachable when you're on VPN
-    
-"""
+# ****************************************************************
+# This is an example template with the most basic functions
+# which create config and demographics from pre-set defaults
+# and adds one intervention to campaign file. Runs the simulation
+# and writes experiment id into experiment_id
+#
+# ****************************************************************
 
 
 def build_campaign():
     """
-    Build a campaign input file for the DTK using emod_api.
-    Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
+        Creating empty campaign. For adding interventions please find intervention name in the examples
+    Returns:
+        campaign object
     """
-    import emod_api.campaign as campaign
-    from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_usage_dependent_bednet
 
-    # This isn't desirable. Need to think about right way to provide schema (once)
+    import emod_api.campaign as campaign
+    from emodpy_malaria.interventions.irs import add_triggered_irs_housing_modification, \
+        add_scheduled_irs_housing_modification
+
     campaign.schema_path = manifest.schema_file
 
-    # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
-    nodes = [1402941398, 1402941399, 1402941400, 1402941401, 1402941404, 1402941410, 1403072469, 1403072470, 1403072471,
-             1403072472]
-    add_scheduled_usage_dependent_bednet(campaign, start_day=10,
-                                         demographic_coverage=0.5,
-                                         killing_initial_effect=0.5,
-                                         blocking_initial_effect=0.5,
-                                         node_ids=nodes)
+    add_scheduled_irs_housing_modification(campaign=campaign, start_day=3, demographic_coverage=0.34,
+                                           killing_initial_effect=0.9, killing_box_duration=30,
+                                           killing_decay_time_constant=60, repelling_initial_effect=0.2,
+                                           repelling_box_duration=60, repelling_decay_time_constant=0)
+
+    add_triggered_irs_housing_modification(campaign=campaign, start_day=2, demographic_coverage=0.77,
+                                           trigger_condition_list=["HappyBirthday"], listening_duration=15,
+                                           delay_period_constant=3, killing_initial_effect=0.8,
+                                           killing_box_duration=30, killing_decay_time_constant=60,
+                                           repelling_initial_effect=0.33, repelling_box_duration=60,
+                                           repelling_decay_time_constant=30)
+
     return campaign
 
 
@@ -53,35 +60,28 @@ def set_config_parameters(config):
     This function is a callback that is passed to emod-api.config to set parameters The Right Way.
     """
     # You have to set simulation type explicitly before you set other parameters for the simulation
-    config.parameters.Simulation_Type = "MALARIA_SIM"
     # sets "default" malaria parameters as determined by the malaria team
+    import emodpy_malaria.malaria_config as malaria_config
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae"])
-    config.parameters.Enable_Migration_Heterogeneity = 0
-    config.parameters.Enable_Vector_Species_Report = 1
-    config.parameters.Custom_Individual_Events = ["Bednet_Got_New_One", "Bednet_Using", "Bednet_Discarded"]
-    config.parameters.Enable_Spatial_Output = 1  # remove when emodpy-malaria #35 is closed
-    config.parameters.Spatial_Output_Channels = [
-        "Adult_Vectors", "New_Infections", "Infectious_Vectors"]
-
     config.parameters.Simulation_Duration = 80
 
     return config
 
 
 def build_demographics():
+    """
+    Build a demographics input file for the DTK using emod_api.
+    Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
+    Also right now this function takes care of the config updates that are required as a result of specific demog
+    settings. We do NOT want the emodpy-disease developers to have to know that. It needs to be done automatically in
+    emod-api as much as possible.
+
+    """
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
 
-    # YOU NEED TO BE ON VPN (IDM internal network) to be able to access this server
-    input_file = malaria_config.get_file_from_http(
-        "http://ipadvweb02.linux.idm.ctr:8000/" + manifest.population_input_path)
-    demographics = Demographics.from_pop_csv(input_file, site='burkina')
-
-    migration_partial = partial(migration.from_demog_and_param_gravity,
-                                gravity_params=[7.50395776e-06, 9.65648371e-01, 9.65648371e-01, -1.10305489e+00],
-                                id_ref='burkina', migration_type=migration.Migration.REGIONAL)
-
-    return demographics, migration_partial
+    demographics = Demographics.from_template_node(lat=0, lon=0, pop=10000, name=1, forced_id=1)
+    return demographics
 
 
 def general_sim():
@@ -94,9 +94,9 @@ def general_sim():
 
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    platform = Platform("Calculon", node_group="idm_48cores")
 
-    experiment_name = "Migration and Spatial example"
+    experiment_name = "irs_example"
 
     # create EMODTask
     print("Creating EMODTask (from files)...")
@@ -109,9 +109,6 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-
-    # need to add ReportHumanMigrationTracking.csv
-    # need to add ReportEventRecorder.csv
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.

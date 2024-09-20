@@ -51,7 +51,7 @@ def build_camp():
 
     campaign.schema_path = manifest.schema_file
 
-    campaign.add(bednet.Bednet(campaign, start_day=100, coverage=1.0, killing_eff=1.0, blocking_eff=1.0, usage_eff=1.0,
+    campaign.add(bednet.Bednet(campaign.schema_path, start_day=100, coverage=1.0, killing_eff=1.0, blocking_eff=1.0, usage_eff=1.0,
                                node_ids=[]))
     return campaign
 

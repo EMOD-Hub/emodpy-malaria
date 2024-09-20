@@ -6,7 +6,7 @@ Follow the steps below to install |EMODPY_malaria|.
 
     .. note::
 
-        Currently, VPN connection is required to run the example.
+        Currently, an IDM VPN connection is required to run the example.
 
 #.  Open a command prompt and create a virtual environment in any directory you choose. The
     command below names the environment "v-emodpy-malaria", but you may use any desired name::
@@ -37,10 +37,6 @@ Follow the steps below to install |EMODPY_malaria|.
 #.  Install |EMODPY_malaria| packages::
 
         pip install emodpy_malaria
-
-    If you are on Python 3.6, also run::
-
-        pip install dataclasses
 
     If you are on Linux, also run::
 

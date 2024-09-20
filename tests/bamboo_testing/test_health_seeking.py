@@ -108,7 +108,7 @@ class TestHealthSeeking(unittest.TestCase):
             event_df = pd.read_csv(file_path)
             event_count = event_df['Event_Name'].value_counts()
             new_clinical_count = event_count['NewClinicalCase']
-            treatment_count = event_count['Received_Treatment']
+            treatment_count = event_count['ReceivedTreatment']
             self.assertGreater(coverage * seek, treatment_count / new_clinical_count,
                                msg=f'Test failed: expected treatment fraction should be less than {coverage * seek}, '
                                    f'got {treatment_count / new_clinical_count}')
@@ -162,7 +162,7 @@ class TestHealthSeeking(unittest.TestCase):
             event_df = event_df[event_df['Time'] > start_day]
             event_count = event_df['Event_Name'].value_counts()
             new_infection_count = event_count['NewInfectionEvent']
-            treatment_count = event_count['Received_Treatment']
+            treatment_count = event_count['ReceivedTreatment']
             self.assertAlmostEqual(treatment_count/new_infection_count, coverage * seek, delta=0.01,
                                    msg=f'Test failed: expected treatment fraction is {coverage * seek}, got '
                                        f'{treatment_count/new_infection_count}')

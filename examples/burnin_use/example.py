@@ -74,7 +74,7 @@ def build_camp():
     camp.schema_path = manifest.schema_file
 
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." ) 
-    camp.add(bednet.Bednet(camp, start_day=100, coverage=1.0, killing_eff=1.0, blocking_eff=1.0, usage_eff=1.0,
+    camp.add(bednet.Bednet(camp.schema_path, start_day=100, coverage=1.0, killing_eff=1.0, blocking_eff=1.0, usage_eff=1.0,
                            node_ids=[]))
     return camp
 

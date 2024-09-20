@@ -17,7 +17,7 @@ venv> pip install emodpy_malaria
 4) Create profile for snakemake (see snakemake help)
 
 On Windows:
-In C:\ProgramData\snakemake\snakemake or C:\Users\USER_NAME\AppData\Local\snakemake\snakemake create a directory ```default``` and a file ```default.yaml```
+In C:\ProgramData\snakemake\snakemake or C:\Users\USER_NAME\AppData\Local\snakemake\snakemake create a directory ```default``` and a file ```default.yaml``` (or ```config.yaml```, depending on machine's ask)
 with the content: 
 ```
 jobs: 1

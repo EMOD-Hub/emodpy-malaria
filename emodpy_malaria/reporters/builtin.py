@@ -830,31 +830,56 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
         return reporter
 
 
-def add_event_recorder(task, event_list, only_include_events_in_list=True, ips_to_record=None):
+def add_event_recorder(task, event_list: list = None, only_include_events_in_list: bool = True,
+                       ips_to_record: list = None,
+                       start_day: int = 0, end_day: int = 365000, node_ids: list = None, min_age_years: float = 0,
+                       max_age_years: float = 365000, must_have_ip_key_value: str = "",
+                       must_have_intervention: str = "",
+                       property_change_ip_to_record: str = ""):
     """
     Adds ReportEventRecorder report to the simulation. See class definition for description of the report.
 
     Args:
         task: task to which to add the reporter
         event_list: a list of events to record or exclude, depending on value of only_include_events_in_list
-        only_include_events_in_list: if True, only record events listed.  if False, record ALL events EXCEPT for the ones listed
+        only_include_events_in_list: if True, only record events listed.  if False, record ALL events EXCEPT for the
+            ones listed
         ips_to_record: list of individual properties to include in report
+        start_day: The day of the simulation to start collecting data
+        end_day: The day of the simulation to stop collecting data.
+        node_ids: Data will be collected for the nodes in this list, if None - all nodes have data collected.
+        min_age_years: Minimum age in years of people to collect data on
+        max_age_years: Maximum age in years of people to collect data on
+        must_have_ip_key_value: A Key:Value pair that the individual must have in order to be included. Empty string
+            means don't look at IndividualProperties
+        must_have_intervention: The name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
+        property_change_ip_to_record:If the string is not empty, then the recorder will add the PropertyChange event to the
+            list of events that the report is listening to. However, it will only record the events where the property
+            changed the value of the given key
+
     Returns:
         Nothing
-
     """
     # Documentation: https://docs.idmod.org/projects/emod-malaria/en/latest/software-report-event-recorder.html
+    if not event_list:
+        if only_include_events_in_list:
+            raise ValueError("Please define event_list parameter.\n")
+        else:
+            event_list = []
 
     task.config.parameters.Report_Event_Recorder = 1
     task.config.parameters.Report_Event_Recorder_Events = event_list
     task.config.parameters.Report_Event_Recorder_Individual_Properties = ips_to_record if ips_to_record else []
-
-    if only_include_events_in_list:
-        # Only record events listed
-        task.config.parameters.Report_Event_Recorder_Ignore_Events_In_List = 0
-    else:
-        # Record ALL events EXCEPT for the ones listed
-        task.config.parameters.Report_Event_Recorder_Ignore_Events_In_List = 1
+    task.config.parameters.Report_Event_Recorder_Start_Day = start_day
+    task.config.parameters.Report_Event_Recorder_End_Day = end_day
+    task.config.parameters.Report_Event_Recorder_Node_IDs_Of_Interest = node_ids if node_ids else []
+    task.config.parameters.Report_Event_Recorder_Min_Age_Years = min_age_years
+    task.config.parameters.Report_Event_Recorder_Max_Age_Years = max_age_years
+    task.config.parameters.Report_Event_Recorder_Must_Have_IP_Key_Value = must_have_ip_key_value
+    task.config.parameters.Report_Event_Recorder_Must_Have_Intervention = must_have_intervention
+    task.config.parameters.Report_Event_Recorder_PropertyChange_IP_Key_Of_Interest = property_change_ip_to_record
+    task.config.parameters.Report_Event_Recorder_Ignore_Events_In_List = 0 if only_include_events_in_list else 1
 
 
 def add_report_intervention_pop_avg(task, manifest,

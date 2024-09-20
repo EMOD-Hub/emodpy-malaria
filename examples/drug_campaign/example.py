@@ -31,7 +31,8 @@ def build_campaign():
 
     import emod_api.campaign as campaign
     import emodpy_malaria.interventions.drug_campaign as drug_campaign
-    campaign.schema_path = manifest.schema_file
+    import emodpy_malaria.interventions.adherentdrug as ad
+    campaign.set_schema( manifest.schema_file )
 
     # Please note: "add_MDA" and other specific campaigns cannot be added directly as there are
     # parameters configured for them inside the add_drug_campaign function
@@ -52,6 +53,25 @@ def build_campaign():
                                     trigger_condition_list=["HappyBirthday"], treatment_delay=1,
                                     receiving_drugs_event_name="MSAT")
 
+    adherent_drug = ad.adherent_drug(campaign=campaign,
+                                      doses=[["Sulfadoxine", "Pyrimethamine", 'Amodiaquine'],
+                                             ['Amodiaquine'],
+                                             ['Amodiaquine'],
+                                             ["Pyrimethamine"]],
+                                      dose_interval=1,
+                                      non_adherence_options=['Stop'],
+                                      non_adherence_distribution=[1],
+                                      adherence_values=[
+                                          1,  # for day 1
+                                          0.6,  # day 2
+                                          0.4,
+                                          0.4
+                                      ]
+                                                          )
+    # give everyone adherent_drug
+    drug_campaign.add_drug_campaign(camp=campaign, campaign_type="MDA", adherent_drug_configs=[adherent_drug],
+                                    start_days=[10],
+                                    coverage=0.56)
     return campaign
 
 

@@ -8,7 +8,7 @@ from emodpy_malaria.interventions.drug import new_intervention_as_file as drug_f
 from emodpy_malaria.interventions.irs import new_intervention_as_file as irs_file
 from emodpy_malaria.interventions.spacespraying import new_intervention_as_file as spacespray_file
 from emodpy_malaria.interventions.sugartrap import new_intervention_as_file as sugartrap_file
-from emodpy_malaria.interventions.udbednet import new_intervention_as_file as rei_bednet
+from emodpy_malaria.interventions.usage_dependent_bednet import new_intervention_as_file as rei_bednet
 from emodpy_malaria.interventions.inputeir import new_intervention_as_file as inputeir
 from emodpy_malaria.interventions.vaccine import new_intervention_as_file as simple_vaccine
 
@@ -38,6 +38,8 @@ class MalariaInterventionFileTest(unittest.TestCase):
         self.event = self.campaign['Events'][0]
         self.start_day = self.event['Start_Day']
         self.intervention_class = self.event['Event_Coordinator_Config']['Intervention_Config']['class']
+        if self.intervention_class == "MultiInterventionDistributor":
+            self.intervention_class = self.event['Event_Coordinator_Config']['Intervention_Config']['Intervention_List'][0]['class']
         return
 
     def file_is_there(self):
@@ -58,19 +60,20 @@ class MalariaInterventionFileTest(unittest.TestCase):
 
     def run_test(self):
         self.assertFalse(self.file_is_there())
-
+        camp.campaign_dict["Events"] = []  # resetting
         if self.file_path:
-            self.method_under_test(camp
-                                   , start_day=self.specific_start_day
-                                   , filename=self.file_path)
+            self.method_under_test(camp,
+                                   start_day=self.specific_start_day,
+                                   filename=self.file_path)
         else:
-            self.method_under_test(camp
-                                   , start_day=self.specific_start_day)
+            self.method_under_test(camp,
+                                   start_day=self.specific_start_day)
         if not self.file_path:
             self.file_path = f"{self.expected_intervention_class}.json"
         self.load_event()
         self.assertEqual(self.start_day, self.specific_start_day)
         self.assertEqual(self.intervention_class, self.expected_intervention_class)
+
         return
 
     def test_bednet_file(self):
@@ -212,8 +215,8 @@ class MalariaInterventionFileTest(unittest.TestCase):
                 self.method_under_test(camp, start_day=self.specific_start_day)
             self.load_event()
             self.assertEqual(self.start_day, self.specific_start_day)
-            self.assertEqual(self.event['Event_Coordinator_Config']['Intervention_Config']['Intervention_List'][0]
-                             ["class"], self.expected_intervention_class)
+            self.assertEqual(self.event['Event_Coordinator_Config']['Intervention_Config']
+                    ["class"], self.expected_intervention_class)
         run_test()
         return
 

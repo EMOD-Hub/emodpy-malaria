@@ -21,7 +21,7 @@ def set_config(config):
     config.parameters.Enable_Natural_Mortality = 0
     # config.parameters.Report_Event_Recorder = 1
     # config.parameters.Custom_Individual_Events = ["Received_Treatment"]
-    config.parameters.Report_Event_Recorder_Events = ["Received_Treatment", "NewInfectionEvent", "NewClinicalCase",
+    config.parameters.Report_Event_Recorder_Events = ["ReceivedTreatment", "NewInfectionEvent", "NewClinicalCase",
                                                       "NewSevereCase"]
     config.parameters.x_Base_Population = 0.1
     # Must make sure mosquitos are not dying from anything but vaccine

@@ -27,7 +27,7 @@ def set_team_defaults(config, manifest):
     # VECTOR_SIM parameters (formerly lived in dtk-tools/dtk/vector/params.py)
     config.parameters.Enable_Vector_Species_Report = 0
     config.parameters.Vector_Sampling_Type = "VECTOR_COMPARTMENTS_NUMBER"
-    config.parameters.Mosquito_Weight = 1
+    # config.parameters.Mosquito_Weight = 1 # If this parameter is set, config.parameters.Vector_Sampling_Type is automatically changed to "SAMPLE_IND_VECTORS"
 
     config.parameters.Enable_Vector_Aging = 0
     config.parameters.Enable_Vector_Mortality = 1
@@ -55,10 +55,9 @@ def set_team_defaults(config, manifest):
     # Other defaults from dtk-tools transition  #fixme very likely needs pruning
     config.parameters.Egg_Saturation_At_Oviposition = "SATURATION_AT_OVIPOSITION"
     config.parameters.Enable_Demographics_Reporting = 0
-    config.parameters.Enable_Rainfall_Stochasticity = 1
-    config.parameters.Minimum_Adult_Age_Years = 15
+    # config.parameters.Enable_Rainfall_Stochasticity = 1
     config.parameters.Node_Grid_Size = 0.042
-    config.parameters.Population_Density_C50 = 30
+    # config.parameters.Population_Density_C50 = 30
     config.parameters.Population_Scale_Type = "FIXED_SCALING"
 
     # setting up parameters for climate constant

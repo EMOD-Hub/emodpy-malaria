@@ -146,7 +146,7 @@ def add_drug_campaign(camp,
                 :doc:`emod-malaria:parameter-campaign-individual-broadcasteventtoothernodes`
                 to broadcast a "Give_Drugs_rfMDA" event, which triggers
                 :doc:`emod-malaria:parameter-campaign-individual-multiinterventiondistributor`
-                to distribute drugs and a "Received_Treatment" event followed by
+                to distribute drugs and a "ReceivedTreatment" event followed by
                 a delayed "Give_Drugs_rfMDA" event to neighboring nodes, which
                 will trigger another drug distribution. 
 
@@ -676,7 +676,7 @@ def add_rfMSAT(camp, start_day: int = 0, coverage: float = 1, drug_configs: list
         Demographic_Coverage=trigger_coverage,
         Node_Property_Restrictions=node_property_restrictions,
         Duration=listening_duration,
-        Triggers=["Received_Treatment"],
+        Triggers=["ReceivedTreatment"],
         Intervention_List=[DelayedIntervention(
             camp,
             Delay_Dict={"Delay_Period_Constant": treatment_delay},
@@ -755,7 +755,7 @@ def add_rfMDA(camp, start_day: int = 0, coverage: float = 1, drug_configs: list 
         Demographic_Coverage=trigger_coverage,
         Node_Property_Restrictions=node_property_restrictions,
         Property_Restrictions=ind_property_restrictions,
-        Triggers=["Received_Treatment"],
+        Triggers=["ReceivedTreatment"],
         Duration=listening_duration,
         Intervention_List=[
             DelayedIntervention(

@@ -1,3 +1,4 @@
 emodpy~=1.16
-emod-malaria==0.0.10
-snakemake~=6.12
+emod-malaria==0.0.12
+emod-api~=1.22
+

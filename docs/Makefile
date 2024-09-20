@@ -56,9 +56,7 @@ clean:
 
 generate-api: 
 	-rm modules.rst
-	-rm emodpy_malaria_index.rst
 	sphinx-apidoc -f -e -M -o . ../emodpy_malaria
-	mv modules.rst emodpy_malaria_index.rst 
 
 .PHONY: html
 html:

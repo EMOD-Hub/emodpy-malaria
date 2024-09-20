@@ -2,7 +2,9 @@ import os
 import json
 import unittest
 import emodpy_malaria.demographics.MalariaDemographics as MalariaDemographics
+from emod_api.demographics.Node import Node
 import emod_api.demographics.Demographics as ApiDemographics
+import pandas as pd
 
 from pathlib import Path
 import sys
@@ -193,6 +195,102 @@ class DemoTest(unittest.TestCase):
             self.assertEqual(lon, demog.nodes[index].node_attributes.longitude)
             self.assertEqual(node_id, demog.nodes[index].forced_id)
 
+    def test_add_vector_species_from_csv(self):
+        """
+        Checks that add_initial_vectors_per_species_from_csv():
+            does not accept a nonexistent csv path
+            appropriately maps the node id to an array of species presence      
+        """
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        csv_path = os.path.join(current_dir, "inputs", "species_vec.csv")
+        bad_csv_path = os.path.join(current_dir, "inputs", "species_vec2.csv")
+        output_file = os.path.join(current_dir,"demo_output", "vec_species_from_csv.csv")
+        delete_existing_file(output_file)
+
+        data = pd.read_csv(csv_path)
+
+        # creates list of node_ids from csv
+        nodes = [Node(100, 200, 500, forced_id=id, name=f"id_{id}") for id in list(data["node_id"])]
+
+        # creates demographics object with only nodes from csv
+        demog = MalariaDemographics.MalariaDemographics(nodes=nodes)
+        demog.add_initial_vectors_per_species_from_csv(csv_path)
+
+
+        demog.generate_file(output_file)
+        with open(output_file, 'r') as demo_file:
+            demog_dict = json.load(demo_file)
+
+        # checks species values for each node from csv (dataframe) against generated file
+        for node in demog_dict["Nodes"]:
+            row = data[data["node_id"] == node["NodeID"]]
+            columns = list(data.columns)
+            columns.remove("node_id")
+
+            for species in columns:
+                node["NodeAttributes"]["InitialVectorsPerSpecies"][species]
+                self.assertEqual(list(row[species])[0], node["NodeAttributes"]["InitialVectorsPerSpecies"][species])
+
+        # tests that a bad csv path will yield ValueError
+        bad_demog = MalariaDemographics.MalariaDemographics(nodes=nodes)
+        with self.assertRaises(ValueError):
+            bad_demog.add_initial_vectors_per_species_from_csv(bad_csv_path)
+
+    def test_add_vector_species(self):
+        """
+        Tests that add_initial_vectors_per_species():
+            Applies species to all nodes when none are specified
+            Applies species to specified node when it is specified
+            Applies species to several specified nodes as expected
+            Does not accept invalid node ids
+        """
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        outfile = os.path.join(current_dir, "demo_output", "vec_with_id.json")
+        outfile2 = os.path.join(current_dir, "demo_output", "vec_with_no_id.json")
+
+        delete_existing_file(outfile)
+        delete_existing_file(outfile2)
+
+        # tests that specifying vec_species with no node ids is as expected
+        vec_species={"Mosquito": 200}
+        demog_no_id = MalariaDemographics.from_template_node()
+        demog_no_id.add_initial_vectors_per_species(init_vector_species=vec_species)
+        demog_no_id.generate_file(outfile)
+        
+        with open(outfile, 'r') as demo_file:
+            demog_no_id_dict = json.load(demo_file)
+
+        self.assertEqual(demog_no_id_dict["Defaults"]["NodeAttributes"]["InitialVectorsPerSpecies"], vec_species)
+
+        # tests that specifying vec species with node id list applies vec species
+        # to that node as expected
+        vec_species2={"Mosquito": 300}
+        demog = MalariaDemographics.from_template_node(forced_id=5)
+        demog.add_initial_vectors_per_species(init_vector_species=vec_species2, node_ids=[5])
+        demog.generate_file(outfile2)
+        with open(outfile2, 'r') as demo_file:
+            demog_dict = json.load(demo_file)
+        self.assertEqual(demog_dict["Nodes"][0]["NodeAttributes"]["InitialVectorsPerSpecies"], vec_species2)
+
+        # tests that specifying vec species with node id list with >1 length applies vec species
+        # to all nodes as expected
+        nodes = [Node(100, 200, 500, forced_id=id, name=f"id_{id}") for id in range(5)]
+        demog_with_nodes = MalariaDemographics.MalariaDemographics(nodes=nodes)
+        demog_with_nodes.add_initial_vectors_per_species(init_vector_species=vec_species2, node_ids=[0,1,2,3,4])
+        delete_existing_file(outfile)
+        demog_with_nodes.generate_file(outfile)
+        
+        
+        with open(outfile, 'r') as demo_file:
+            demog_dict_nodes = json.load(demo_file)["Nodes"]
+        
+        for node in demog_dict_nodes:
+            self.assertEqual(node["NodeAttributes"]["InitialVectorsPerSpecies"], vec_species2)
+
+        # tests that invalid node id yields ValueError
+        with self.assertRaises(ValueError):
+            demog_with_nodes.add_initial_vectors_per_species(init_vector_species=vec_species2, node_ids=[6])
+
     def test_from_csv_bad_id(self):
         input_file = os.path.join('demo_data', 'demog_in_faulty.csv')
 
@@ -229,7 +327,6 @@ class DemoTest(unittest.TestCase):
 
         self.assertDictEqual(demog_json, demog.raw)
 
-        import pandas as pd
         csv_df = pd.read_csv(input_file, encoding='iso-8859-1')
 
         # the following assertion fails, logged as https://github.com/InstituteforDiseaseModeling/emod-api/issues/367

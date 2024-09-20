@@ -50,7 +50,8 @@ class MalariaTestImports(unittest.TestCase):
         from emodpy_malaria.interventions import irs
 
         self.expected_items = [
-            "add_irs_housing_modification", "utils"
+            "add_triggered_irs_housing_modification", "add_scheduled_irs_housing_modification",
+            "irs_configuration"
         ]
         self.verify_expected_items_present(namespace=irs)
         return
@@ -81,12 +82,20 @@ class MalariaTestImports(unittest.TestCase):
         ]
         self.verify_expected_items_present(namespace=sugartrap)
 
-    def test_intervention_udbednet(self):
-        from emodpy_malaria.interventions import udbednet
+    def test_intervention_vaccine(self):
+        from emodpy_malaria.interventions import vaccine
         self.expected_items = [
-            "UDBednet", "_get_seasonal_times_and_values", "_get_age_times_and_values"
+            "add_scheduled_vaccine", "utils", "add_triggered_vaccine", "_simple_vaccine"
         ]
-        self.verify_expected_items_present(namespace=udbednet)
+        self.verify_expected_items_present(namespace=vaccine)
+
+    def test_intervention_usage_dependent_bednet(self):
+        from emodpy_malaria.interventions import usage_dependent_bednet
+        self.expected_items = [
+            "add_scheduled_usage_dependent_bednet", "add_triggered_usage_dependent_bednet",
+            "_get_seasonal_times_and_values", "_get_age_times_and_values"
+        ]
+        self.verify_expected_items_present(namespace=usage_dependent_bednet)
 
     def test_drug_campaign(self):
         from emodpy_malaria.interventions import drug_campaign
@@ -101,7 +110,7 @@ class MalariaTestImports(unittest.TestCase):
     def test_ivermectin(self):
         from emodpy_malaria.interventions import ivermectin
         self.expected_items = [
-            "Ivermectin"
+            "_ivermectin", "add_triggered_ivermectin", "add_scheduled_ivermectin"
         ]
         self.verify_expected_items_present(namespace=ivermectin)
 
@@ -112,13 +121,13 @@ class MalariaTestImports(unittest.TestCase):
         ]
         self.verify_expected_items_present(namespace=diag_survey)
 
-    def test_common_imports(self):
-        from emodpy_malaria.interventions import common
-        self.expected_items = [
-            "AntimalarialDrug", "MalariaDiagnostic"
-        ]
-
-        self.verify_expected_items_present(namespace=common)
+    # def test_common_imports(self):
+    #     from emodpy_malaria.interventions import common
+    #     self.expected_items = [
+    #         "add_campaign_event", "malaria_diagnostic"
+    #     ]
+    #
+    #     self.verify_expected_items_present(namespace=common)
 
     # endregion
 

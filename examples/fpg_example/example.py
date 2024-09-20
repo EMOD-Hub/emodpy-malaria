@@ -98,9 +98,9 @@ def set_config_parameters(config, habitat_scale_factor=1, seasonality_type='seas
     serialize_year = 1
     s_pop_filename = ""
 
-    config.parameters.Enable_Initial_Prevalence = 0
+
     config.parameters.x_Base_Population = population_scale_factor
-    config.parameters.Simulation_Duration = (years * 365) + 1
+    config.parameters.Simulation_Duration =  (years * 365) + 1
 
     # -------SERIALIZATION-----
 
@@ -137,7 +137,7 @@ def build_demographics():
     """
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
 
-    demographics = Demographics.from_template_node(lat=0, lon=0, pop=10000, name=1, forced_id=1)
+    demographics = Demographics.from_template_node(lat=0, lon=0, pop=10000, name=1, forced_id=1, init_prev=0)
     return demographics
 
 

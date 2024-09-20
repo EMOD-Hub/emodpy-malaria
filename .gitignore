@@ -40,7 +40,6 @@ __pycache__/
 # Sphinx documentation
 docs/_build/
 docs/emodpy_malaria*
-docs/external/*.rst
 emodpy_malaria.egg-info/
 
 /venv

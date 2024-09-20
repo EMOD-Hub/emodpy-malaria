@@ -30,6 +30,6 @@ runs:
       run: python ./.github/scripts/get_wheel_filename.py --package-file ${{ inputs.package_file }} --set-gh-actions-var wheel-file
       shell: bash
     - name: install package
-      run: pip install ${{ steps.wheel.outputs.wheel-file }}
+      run: pip install --pre ${{ steps.wheel.outputs.wheel-file }}
       shell: bash
     

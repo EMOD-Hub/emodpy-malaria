@@ -19,7 +19,7 @@ def species_params(manifest, species):
     vsp = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorSpeciesParameters"])
     vsp.parameters.Anthropophily = 0.65
     vsp.parameters.Name = "gambiae"
-    vsp.parameters.Acquire_Modifier = 0.2
+    vsp.parameters.Acquire_Modifier = 0.8
     vsp.parameters.Adult_Life_Expectancy = 20
     vsp.parameters.Aquatic_Arrhenius_1 = 84200000000
     vsp.parameters.Aquatic_Arrhenius_2 = 8328

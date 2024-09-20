@@ -13,8 +13,8 @@ import emodpy.emod_task as emod_task
 from emodpy.utils import EradicationBambooBuilds
 from emodpy.bamboo import get_model_files
 
-
 import manifest
+
 
 # ****************************************************************
 # This is an example template with the most basic functions
@@ -33,25 +33,52 @@ def build_campaign():
     """
 
     import emod_api.campaign as campaign
-    import emodpy_malaria.interventions.ivermectin as ivermectin
+    from emodpy_malaria.interventions.ivermectin import add_scheduled_ivermectin, add_triggered_ivermectin
 
     # passing in schema file to verify that everything is correct.
     campaign.schema_path = manifest.schema_file
-    # creating an Ivermectin intervention inside the ivermectin, and adding it to campaign
-    campaign.add(ivermectin.Ivermectin(schema_path_container=campaign,
-                                       start_day=20,
-                                       target_num_individuals=43,
-                                       demographic_coverage=0.95, # this will be ignored because we have target_num_idividuals set
-                                       killing_initial_effect=0.65,
-                                       killing_box_duration=2,
-                                       killing_exponential_decay_rate=0.25))
-    # same intervention but now targeting only a portion of the demographic
-    campaign.add(ivermectin.Ivermectin(schema_path_container=campaign,
-                                       start_day=20,
-                                       demographic_coverage=0.57,
-                                       killing_initial_effect=0.65,
-                                       killing_box_duration=2,
-                                       killing_exponential_decay_rate=0.25))
+
+    add_scheduled_ivermectin(campaign=campaign,
+                             start_day=20,
+                             target_num_individuals=43,
+                             demographic_coverage=0.95,  # will be ignored because we have target_num_individuals set
+                             killing_initial_effect=0.65,
+                             killing_box_duration=2,
+                             killing_decay_time_constant=25,
+                             cost=22,
+                             insecticide="Example",
+                             intervention_name="Ivermectin1")
+    add_scheduled_ivermectin(campaign=campaign,
+                             start_day=2,
+                             demographic_coverage=0.95,  # will be ignored because we have target_num_individuals set
+                             killing_initial_effect=0.77,
+                             killing_box_duration=0,
+                             killing_decay_time_constant=50,
+                             insecticide="Example",
+                             intervention_name="Ivermectin2")
+
+    add_triggered_ivermectin(campaign=campaign,
+                             start_day=20,
+                             demographic_coverage=0.57,
+                             trigger_condition_list=["HappyBirthday", "Births"],
+                             delay_period_constant=7,
+                             listening_duration=33,
+                             # ind_property_restrictions=["Risk:High"],
+                             killing_initial_effect=0.88,
+                             killing_box_duration=0,
+                             killing_decay_time_constant=0,
+                             insecticide="Example",
+                             intervention_name="Ivermectin3"
+                             )
+    add_triggered_ivermectin(campaign=campaign,
+                             start_day=20,
+                             trigger_condition_list=["HappyBirthday", "Births"],
+                             killing_initial_effect=0.88,
+                             killing_box_duration=66,
+                             killing_decay_time_constant=0,
+                             insecticide="Example",
+                             intervention_name="Ivermectin3"
+                             )
     return campaign
 
 
@@ -68,9 +95,13 @@ def set_config_parameters(config):
     # You have to set simulation type explicitly before you set other parameters for the simulation
     # sets "default" malaria parameters as determined by the malaria team
     import emodpy_malaria.malaria_config as malaria_config
+    import emodpy_malaria.vector_config as vector_config
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae"])
-    config.parameters.Simulation_Duration = 80
+    vector_config.add_genes_and_alleles(config, manifest, "gambiae", [("a", 0.5), ("b", 0.5), ("c", 0)])
+    malaria_config.add_insecticide_resistance(config, manifest, insecticide_name="Example",
+                                              allele_combo=[["a", "a"]],
+                                              species="gambiae", blocking=0.2, killing=0.3, repelling=0)
 
     return config
 
@@ -88,7 +119,7 @@ def build_demographics():
 
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
 
-    demographics = Demographics.from_template_node(lat=0, lon=0, pop=10000, name=1, forced_id=1)
+    demographics = Demographics.from_template_node(lat=0, lon=0, pop=100, name=1, forced_id=1)
     return demographics
 
 
@@ -140,5 +171,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

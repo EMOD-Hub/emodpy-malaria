@@ -132,8 +132,8 @@ def general_sim():
     """
 
     # Set platform
-    platform = Platform("SLURMStage")  # to run on comps2.idmod.org for testing/dev work
-    # platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    # platform = Platform("SLURMStage")  # to run on comps2.idmod.org for testing/dev work
+    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
 
     experiment_name = "ScaleLarvalHabitat_Example"
 

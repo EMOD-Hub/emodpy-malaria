@@ -32,18 +32,22 @@ def build_campaign():
     Build a campaign input file for the DTK using emod_api.
     Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
     """
-    import emod_api.campaign as camp
-    import emodpy_malaria.interventions.udbednet as udb
+    import emod_api.campaign as campaign
+    from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_usage_dependent_bednet
 
     # This isn't desirable. Need to think about right way to provide schema (once)
-    camp.schema_path = manifest.schema_file
+    campaign.schema_path = manifest.schema_file
 
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
     nodes = [1402941398, 1402941399, 1402941400, 1402941401, 1402941404, 1402941410, 1403072469, 1403072470, 1403072471,
              1403072472]
-    camp.add(udb.UDBednet(camp, start_day=10, coverage=0.5, killing_eff=0.5, blocking_eff=0.5, node_ids=nodes))
+    add_scheduled_usage_dependent_bednet(campaign, start_day=10,
+                                         demographic_coverage=0.5,
+                                         killing_initial_effect=0.5,
+                                         blocking_initial_effect=0.5,
+                                         node_ids=nodes)
 
-    return camp
+    return campaign
 
 
 def set_config_parameters(config):
@@ -133,5 +137,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

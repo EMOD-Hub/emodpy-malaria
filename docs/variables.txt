@@ -23,11 +23,10 @@
 .. |EMOD_s| replace:: EMOD
 .. |IT_l| replace:: idmtools
 .. |IT_s| replace:: idmtools
-.. |Python_IT| replace:: Python 3.6.2 or 3.7 64-bit
 .. |SSMT_l| replace:: Server-Side Modeling Tools (SSMT)
 .. |SSMT_s| replace:: SSMT
 .. |DT| replace:: DTK-Tools
 .. |DTM| replace:: DTK-Tools-Malaria
 .. |COMPS_l| replace:: COmputational Modeling Platform Service (COMPS)
 .. |COMPS_s| replace:: COMPS
-.. |Python_supp| replace:: Python 3.6.2 or 3.7 64-bit
+.. |Python_supp| replace:: Python 3.9 64-bit

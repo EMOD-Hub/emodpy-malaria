@@ -50,7 +50,7 @@ class TreatmentSeekingTest(unittest.TestCase):
         start_day = 10
         drug = ['drug_1', 'drug_2', 'drug_3', 'drug4']
         targets = [
-            {'trigger': 'NewInfection', 'coverage': 0.7, 'seek': 0.9, 'rate': 0.9},
+            {'trigger': 'NewInfectionEvent', 'coverage': 0.7, 'seek': 0.9, 'rate': 0.9},
             {'trigger': 'Births', 'coverage': 0.3, 'seek': 0.2, 'rate': 1.6}
         ]
         broadcast_event_name = 'Test_event'
@@ -91,7 +91,7 @@ class TreatmentSeekingTest(unittest.TestCase):
                 else:
                     self.assertTrue(False, msg="Wrong event in intervention.")
 
-            if event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["NewInfection"]:
+            if event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["NewInfectionEvent"]:
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.7 * 0.9)
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
@@ -123,7 +123,7 @@ class TreatmentSeekingTest(unittest.TestCase):
         targets = [
             {'trigger': 'NewClinicalCase', 'coverage': 0.1, 'agemin': 15, 'agemax': 70, 'seek': 0.4, 'rate': 0.3},
             {'trigger': 'NewSevereCase', 'coverage': 0.8, 'seek': 0.6, 'rate': 0.5}]
-        broadcast_event_name = 'Received_Treatment'
+        broadcast_event_name = 'ReceivedTreatment'
 
         self.assertEqual(len(camp.campaign_dict['Events']), len(targets))
         for event in camp.campaign_dict["Events"]:

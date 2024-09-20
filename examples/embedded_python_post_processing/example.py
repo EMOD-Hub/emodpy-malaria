@@ -50,16 +50,16 @@ def build_camp():
     Build a campaign input file for the DTK using emod_api.
     Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
     """
-    import emod_api.campaign as camp
-    import emod_api.interventions.outbreak as ob 
+    import emod_api.campaign as campaign
+    import emodpy_malaria.interventions.outbreak as ob
 
     print(f"Telling emod-api to use {manifest.schema_file} as schema.")
-    camp.schema_path = manifest.schema_file
+    campaign.schema_path = manifest.schema_file
     
     # importation pressure
-    event = ob.new_intervention( camp, timestep=1, cases=100 )
-    camp.add( event, first=True )
-    return camp
+    ob.add_outbreak_individual(campaign, start_day=1, repetitions=-1, timesteps_between_repetitions=1,
+                                target_num_individuals=2)
+    return campaign
 
 def build_demog():
     """
@@ -76,10 +76,11 @@ def ep4_fn( task ):
 def general_sim():
     # Create a platform
     # Show how to dynamically set priority and node_group
-    platform = Platform("SLURM", node_group="idm_48cores", priority="Highest") 
+    # platform = Platform("SLURM", node_group="idm_48cores", priority="Highest")
+    platform = Platform("Calculon", node_group="idm_48cores")
 
     task = EMODTask.from_default2(eradication_path=manifest.eradication_path, campaign_builder=build_camp, demog_builder=build_demog, schema_path=manifest.schema_file, param_custom_cb=set_param_fn, ep4_custom_cb=ep4_fn, config_path="config.json" )
-    pathed_asset = Asset( "stash/schema.json", relative_path="python")
+    pathed_asset = Asset( manifest.schema_file, relative_path="python")
     task.common_assets.add_asset(pathed_asset)
     task.set_sif( manifest.sif )
 

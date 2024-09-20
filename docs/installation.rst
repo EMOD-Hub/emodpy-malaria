@@ -7,7 +7,7 @@ instructions in :doc:`installation-basic`.
 
 * Windows 10 Pro or Enterprise, or Linux
 
-* |Python_IT| (https://www.python.org/downloads/release)
+* |Python_supp| (https://www.python.org/downloads/release)
 
 * Git client, such as Git Bash or the Git GUI
 

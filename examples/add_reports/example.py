@@ -101,6 +101,11 @@ def general_sim():
     )
 
     """THIS IS WHERE WE ADD THE REPORTS"""
+    add_event_recorder(task, event_list=["HappyBirthday", "Births"],
+                       start_day=7, end_day=34, node_ids=[1], min_age_years=3,
+                       max_age_years=21, must_have_ip_key_value="",
+                       must_have_intervention="Ivermectin",
+                       property_change_ip_to_record="")
 
     # ReportDrugStatus
     add_drug_status_report(task, manifest, start_day=5, end_day=43)
@@ -109,11 +114,11 @@ def general_sim():
     add_human_migration_tracking(task, manifest)
 
     # ReportEventCounter
-    add_report_event_counter(task, manifest, event_trigger_list=["HappyBirthday"], report_description="HappyBirthday")
+    add_report_event_counter(task, manifest, event_trigger_list=["HappyBirthday"])
 
     # MalariaImmunityReport
     add_malaria_immunity_report(task, manifest, duration_days=10, reporting_interval=2, max_number_reports=2, nodes=[],
-                                age_bins=[24, 50, 115], report_description="TestReport2")
+                                age_bins=[24, 50, 115])
 
     # MalariaPatientJSONReport
     add_malaria_patient_json_report(task, manifest)
@@ -122,7 +127,7 @@ def general_sim():
     add_malaria_summary_report(task, manifest, start_day=56, duration_days=23, reporting_interval=7,
                                age_bins=[3, 77, 115],
                                infectiousness_bins=[0.023, 0.1, 0.5], max_number_reports=3, parasitemia_bins=[12, 3423],
-                               pretty_format=True, report_description="TestReport3")
+                               pretty_format=True)
 
     # ReportNodeDemographics
     add_report_node_demographics(task, manifest, age_bins=[5, 25, 100])
@@ -143,7 +148,7 @@ def general_sim():
     add_vector_habitat_report(task, manifest)
 
     # ReportIneterventionPopAvg
-    add_report_intervention_pop_avg(task, manifest, start_day=70, report_description="test")
+    add_report_intervention_pop_avg(task, manifest, start_day=70)
 
     # ReportNodeDemographicsMalaria
     add_report_node_demographics_malaria(task, manifest, age_bins=[3, 25, 50, 100])
@@ -152,8 +157,7 @@ def general_sim():
     add_malaria_survey_analyzer(task, manifest, start_day=34, duration_days=355, event_trigger_list=["HappyBirthday"],
                                 max_number_reports=74,
                                 reporting_interval=12,
-                                nodes=[1],
-                                report_description="Example_MalariaSurveyJSONAnalyzer")
+                                nodes=[1])
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.

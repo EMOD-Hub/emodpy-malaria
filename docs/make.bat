@@ -79,9 +79,7 @@ if errorlevel 9009 (
 if "%1" == "generate-api" (
 	set SPHINX_APIDOC_OPTIONS=members,undoc-members,show-inheritance,ignore-module-all
 	del modules.rst >nul 2>&1
-	del emodpy_malaria_index.rst >nul 2>&1
 	sphinx-apidoc -f -e -M -o . ../emodpy_malaria
-	REN modules.rst emodpy_malaria_index.rst 
 	goto end
 )
 

@@ -59,16 +59,16 @@ def build_campaign(start_day=1, coverage=1.0, killing_effect=0, constant_duratio
     # passing in manifest
     campaign.schema_path = manifest.schema_file
     campaign.add(spray.SpaceSpraying(campaign, start_day=start_day, spray_coverage=coverage,
-                                      killing_effect=killing_effect, box_duration=constant_duration, decay_rate=0.03),
+                                     killing_effect=killing_effect, box_duration=constant_duration, decay_rate=0.03),
                  first=True)  # this flag should only be set in the first intervention if there are multiple being added
 
     # Pleast notice lack of "first=True" flag, only the first (within this function) intervention needs it
-    campaign.add(ivermectin.Ivermectin(schema_path_container=campaign,
-                                       start_day=20,
-                                       demographic_coverage=0.57,
-                                       killing_initial_effect=0.65,
-                                       killing_box_duration=2,
-                                       killing_exponential_decay_rate=0.25))
+    ivermectin.add_scheduled_ivermectin(campaign=campaign,
+                                        start_day=20,
+                                        demographic_coverage=0.57,
+                                        killing_initial_effect=0.65,
+                                        killing_box_duration=2,
+                                        killing_decay_time_constant=0.25)
     return campaign
 
 
@@ -199,5 +199,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()
