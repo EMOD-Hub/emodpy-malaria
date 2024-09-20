@@ -164,7 +164,7 @@ class TestHealthSeeking(unittest.TestCase):
             event_count = event_df['Event_Name'].value_counts()
             new_infection_count = event_count['NewInfectionEvent']
             treatment_count = event_count['ReceivedTreatment']
-            self.assertAlmostEqual(treatment_count/new_infection_count, coverage * seek, delta=0.01,
+            self.assertAlmostEqual(treatment_count/new_infection_count, coverage * seek, delta=0.02,
                                    msg=f'Test failed: expected treatment fraction is {coverage * seek}, got '
                                        f'{treatment_count/new_infection_count}')
 

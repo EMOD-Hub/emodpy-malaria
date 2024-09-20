@@ -13,7 +13,7 @@ csv_file = Path(weather_dir1).joinpath("weather.csv")
 print("\n---=| WEATHER REQUEST |=---\n")
 
 # Request weather files
-wr = generate_weather(platform="SLURMStage",
+wr = generate_weather(platform="Calculon",
                       site_file="input/site_details.csv",
                       start_date=2020001,
                       end_date=2021001,

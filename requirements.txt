@@ -1,2 +1,2 @@
 emodpy~=1.16
-emod-malaria==0.0.18
+emod-malaria

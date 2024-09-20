@@ -456,7 +456,9 @@ def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_la
 
 def add_microsporidia(config, manifest, species_name: str = None, female_to_male_probability: float = 0,
                       male_to_female_probability: float = 0, female_to_egg_probability: float = 0,
-                      duration_to_disease_acquisition_modification: dict = None, larval_growth_modifier: float = 1,
+                      duration_to_disease_acquisition_modification: dict = None,
+                      duration_to_disease_transmission_modification: dict = None,
+                      larval_growth_modifier: float = 1,
                       female_mortality_modifier: float = 1, male_mortality_modifier: float = 1):
     """
         Adds microsporidia parameters to the named species' parameters.
@@ -473,7 +475,7 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
             an infected female will infect her eggs when laying them.
         duration_to_disease_acquisition_modification: **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
-            **Times** is an array of days in ascending order that represent the number of days since the vector become
+            **Times** is an array of days in ascending order that represent the number of days since the vector became
             infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
             probability that the vector will acquire malaria due to Microsporidia.
 
@@ -483,7 +485,18 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
                     "Times": [    0,   3,   6,   9 ],
                     "Values": [ 1.0, 1.0, 0.5, 0.0 ]
                 }
+        duration_to_disease_transmission_modification: **Microsporidia_Duration_To_Disease_Transmission_Modification**,
+            A dictionary for "Times" and "Values" as an age-based modification that the female will transmit malaria.
+            **Times** is an array of days in ascending order that represent the number of days since the vector became
+            infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
+            probability that the vector will acquire malaria due to Microsporidia.
 
+             **Example**::
+
+                {
+                    "Times": [    0,   3,   6,   9 ],
+                    "Values": [ 1.0, 1.0, 0.75, 0.5]
+                }
         larval_growth_modifier: **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
             dependent, larval growth progress.
         female_mortality_modifier: **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
@@ -496,7 +509,9 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
     """
     vector_config.add_microsporidia(config, manifest, species_name, female_to_male_probability,
                                     male_to_female_probability, female_to_egg_probability,
-                                    duration_to_disease_acquisition_modification, larval_growth_modifier,
+                                    duration_to_disease_acquisition_modification,
+                                    duration_to_disease_transmission_modification,
+                                    larval_growth_modifier,
                                     female_mortality_modifier, male_mortality_modifier)
 
 

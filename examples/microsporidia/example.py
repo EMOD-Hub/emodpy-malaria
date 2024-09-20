@@ -57,10 +57,13 @@ def set_config_parameters(config):
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae", "funestus"])
     config.parameters.Simulation_Duration = 300
+    transmission_modification = {"Times": [0, 6], "Values": [1, 0.5]}
     malaria_config.add_microsporidia(config, manifest, species_name="gambiae",
                                      female_to_male_probability=1,
                                      male_to_female_probability=0, female_to_egg_probability=0,
-                                     duration_to_disease_acquisition_modification=None, larval_growth_modifier=1,
+                                     duration_to_disease_acquisition_modification=None,
+                                     duration_to_disease_transmission_modification=transmission_modification,
+                                     larval_growth_modifier=1,
                                      female_mortality_modifier=1, male_mortality_modifier=1)
 
     return config

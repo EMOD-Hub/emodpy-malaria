@@ -196,10 +196,10 @@ I see a lot of MALARIA_SIM examples. Are there any VECTOR_SIM examples?
 
 Yes! The following examples use VECTOR_SIM:
 
-  * examples/migration_spatial_vector_sim
-  * examples/vector_basic
-  * examples/vector_genetics_insecticide_resistance
-  * examples/vector_genetics_vector_sim
+  * `migration_spatial_vector_sim <../examples/migration_spatial_vector_sim>`_
+  * `vector_basic <../examples/vector_basic>`_
+  * `vector_genetics_insecticide_resistance <../examples/vector_genetics_insecticide_resistance>`_
+  * `vector_genetics_vector_sim <../examples/vector_genetics_vector_sim>`_
 
 Is there a multi-node or spatial example?
 =========================================

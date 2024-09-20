@@ -8,7 +8,7 @@ def _mosquito_release(campaign,
                       intervention_name: str = iv_name,
                       released_number: int = None,
                       released_fraction: float = None,
-                      released_infectious: float = 0,
+                      released_infectious: bool = False,
                       released_species: str = "arabiensis",
                       released_genome: list = None,
                       released_microsopridia: bool = False
@@ -49,7 +49,7 @@ def _mosquito_release(campaign,
     else:
         intervention.Released_Fraction = released_fraction
 
-    intervention.Released_Infectious = released_infectious
+    intervention.Released_Infectious = 1 if released_infectious else 0
     intervention.Released_Species = released_species
     intervention.Released_Genome = released_genome
     intervention.Released_Wolbachia = "VECTOR_WOLBACHIA_FREE"
@@ -66,7 +66,7 @@ def add_scheduled_mosquito_release(
         intervention_name: str = iv_name,
         released_number: int = None,
         released_fraction: float = None,
-        released_infectious: float = 0,
+        released_infectious: bool = False,
         released_species: str = "arabiensis",
         released_genome: list = None,
         released_microsopridia: bool = False):

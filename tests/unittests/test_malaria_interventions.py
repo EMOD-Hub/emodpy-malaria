@@ -1470,7 +1470,7 @@ class TestMalariaInterventions(unittest.TestCase):
         timesteps_between_repetitions = 41
         intervention_name = "MosquitoReleaseTesting"
         released_fraction = 0.88
-        released_infectious = 0.33
+        released_infectious = 1
         released_microsporidia = 1
         released_species = "funestus"
         released_genome = [["s", "S"]]
