@@ -1,0 +1,46 @@
+name: build test publish
+on:
+  push:
+    branches:
+      - release*
+      - master
+      - main
+jobs:
+  build_test_publish:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '***SKIPBUILD***')"
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: [ '3.6' ]
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Config github user
+        run: |
+          git config --global user.email "idm_bamboo_user@idmod.org"
+          git config --global user.name "BambooUser-IDM"
+      - uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      - id: build-install
+        name: Build and install package
+        uses: ./.github/actions/build-install-package
+        with:
+          package_file: 'package_setup.py'
+      - name: run tests
+        run: python -m unittest discover .
+        working-directory: ./tests
+      - name: Push version bump
+        run: git push
+      - name: twine upload
+        run: twine upload --verbose --repository-url https://packages.idmod.org/api/pypi/idm-pypi-staging/ --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_TOKEN }} ${{ steps.build-install.outputs.wheel-file }}
+      - name: Add wheel artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: emodpy-malaria.wheel
+          path: ${{ steps.build-install.outputs.wheel-file }}
+

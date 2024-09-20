@@ -1,0 +1,8 @@
+- changing individual properties
+- health-seeking 
+    - Likelihood of seeking care dependent on age, gender, or IP
+    - Triggered by NewClinicalCase or NewSevereCase individual events
+    - Specifying drugs used when infection is cleared
+- Mass drug campaigns: in dtk-tools, I use these heavily, with drug code, diagnostic type/threshold.
+    - add_diagnostic_survey
+    - add_drug_campaign

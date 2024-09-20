@@ -1,0 +1,39 @@
+name: build test
+on:
+  push:
+    branches:
+      - dev-*
+  pull_request:
+    branches:
+      - dev-*
+      - release*
+      - master
+      - main
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '***SKIPBUILD***')"
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: [ '3.6' ]
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Config github user
+        run: |
+          git config --global user.email "idm_bamboo_user@idmod.org"
+          git config --global user.name "BambooUser-IDM"
+      - uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      - name: Build and install package
+        uses: ./.github/actions/build-install-package
+        with:
+          package_file: 'package_setup.py'
+      - name: run tests
+        run: python -m unittest discover .
+        working-directory: ./tests
