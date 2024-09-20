@@ -12,8 +12,10 @@ import importlib
 
 
 class Genome:
-    """Represent a single genome
     """
+    Represent a single genome
+    """
+
     def convert_char_to_int(ch):
         if ch == 'A':
             return 0
@@ -29,8 +31,8 @@ class Genome:
     def create_genome(barcode_str, allele_root_id):
         g = Genome()
         g.barcode_str = barcode_str
-        g.hash_code = 17    # must match value in C++ code, see file ParasiteGnome.cpp
-        g.barcode_hash_code = 17    # must match value in C++ code, see file ParasiteGnome.cpp
+        g.hash_code = 17  # must match value in C++ code, see file ParasiteGnome.cpp
+        g.barcode_hash_code = 17  # must match value in C++ code, see file ParasiteGnome.cpp
 
         for ch in barcode_str:
             val = Genome.convert_char_to_int(ch)
@@ -124,16 +126,18 @@ def get_next_genome(next_barcode_fn, allele_root_id, ser_pop_genome_map, cache_g
 
 def replace_genomes(input_file, next_barcode_fn, output_file):
     """
-    Replaces genomes in infected individuals and vectors.
+        Replaces genomes in infected individuals and vectors.
+
     Args:
-        input_file (): Input serialized population file
-        next_barcode_fn (): Function that return the next barcode. The function is called once for every infection of an
-         individual and once for every vector in the vector population.
-        output_file (): Output file with replaced genomes.
+        input_file:  Input serialized population file
+        next_barcode_fn: Function that return the next barcode. The function is called once for every infection of an
+            individual and once for every vector in the vector population.
+        output_file: Output file with replaced genomes.
 
     Returns:
         Nothing
     """
+
     if not os.path.exists(input_file):
         raise Exception(f"Couldn't find specified input file: {input_file}.")
     if next_barcode_fn is None:
@@ -146,47 +150,55 @@ def replace_genomes(input_file, next_barcode_fn, output_file):
     cache_genome_map = {}
 
     for node in pop.nodes:
-        tic1 = time.perf_counter()
+        # tic1 = time.perf_counter()
         for person in node["individualHumans"]:
             # print("------------ " + str(person["suid"]["id"]) + " -----------------")
             for infection in person["infections"]:
-                next_genome = get_next_genome(next_barcode_fn, person["suid"]["id"], ser_pop_genome_map, cache_genome_map)
+                next_genome = get_next_genome(next_barcode_fn, person["suid"]["id"], ser_pop_genome_map,
+                                              cache_genome_map)
                 length_barcode = len(infection["infection_strain"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
-                assert length_barcode == len(next_genome["m_pInner"]["m_NucleotideSequence"]), f"New barcode has wrong length."
+                assert length_barcode == len(
+                    next_genome["m_pInner"]["m_NucleotideSequence"]), f"New barcode has wrong length."
                 infection["infection_strain"]["m_Genome"] = next_genome
 
-        tic2 = time.perf_counter()
-        print(f"{tic2 - tic1:0.4f}")
+        # tic2 = time.perf_counter()
+        # print(f"{tic2 - tic1:0.4f}")
 
         for vector_pop in node["m_vectorpopulations"]:
-            print(len(vector_pop["AdultQueues"]))
-            tic1 = time.perf_counter()
+            # print(len(vector_pop["AdultQueues"]))
+            # tic1 = time.perf_counter()
             for vector in vector_pop["AdultQueues"]["collection"]:
-               # print("------------ VECTOR " + str(vector["m_ID"]) + " -----------------")
+                # print("------------ VECTOR " + str(vector["m_ID"]) + " -----------------")
                 for oocyst in vector["m_OocystCohorts"]:
                     genome_oocyst = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
                     length_oocyst_barcode = len(oocyst["m_MaleGametocyteGenome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_oocyst["m_pInner"]["m_NucleotideSequence"]) == length_oocyst_barcode, f"New barcode has wrong length."
+                    assert len(genome_oocyst["m_pInner"][
+                                   "m_NucleotideSequence"]) == length_oocyst_barcode, f"New barcode has wrong length."
                     oocyst["m_MaleGametocyteGenome"] = genome_oocyst
 
                     genome_oocyst = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
-                    length_oocyst_barcode = len(oocyst["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_oocyst["m_pInner"]["m_NucleotideSequence"]) == length_oocyst_barcode, f"New barcode has wrong length."
+                    length_oocyst_barcode = len(
+                        oocyst["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
+                    assert len(genome_oocyst["m_pInner"][
+                                   "m_NucleotideSequence"]) == length_oocyst_barcode, f"New barcode has wrong length."
                     oocyst["m_pStrainIdentity"]["m_Genome"] = genome_oocyst
 
                 for sporo in vector["m_SporozoiteCohorts"]:
                     genome_sporo = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
                     length_sporo_barcode = len(sporo["m_MaleGametocyteGenome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_sporo["m_pInner"]["m_NucleotideSequence"]) == length_sporo_barcode, f"New barcode has wrong length."
+                    assert len(genome_sporo["m_pInner"][
+                                   "m_NucleotideSequence"]) == length_sporo_barcode, f"New barcode has wrong length."
                     sporo["m_MaleGametocyteGenome"] = genome_sporo
 
                     genome_sporo = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
-                    length_sporo_barcode = len(sporo["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_sporo["m_pInner"]["m_NucleotideSequence"]) == length_sporo_barcode, f"New barcode has wrong length."
+                    length_sporo_barcode = len(
+                        sporo["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
+                    assert len(genome_sporo["m_pInner"][
+                                   "m_NucleotideSequence"]) == length_sporo_barcode, f"New barcode has wrong length."
                     sporo["m_pStrainIdentity"]["m_Genome"] = genome_sporo
 
-            tic2 = time.perf_counter()
-            print(f"{tic2 - tic1:0.4f}")
+            # tic2 = time.perf_counter()
+            # print(f"{tic2 - tic1:0.4f}")
 
     pop.write(output_file)
 
@@ -219,11 +231,14 @@ def test_replace_genomes(input_fn, get_next_barcode):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Replace genomes.", epilog="E.g. python replace_genomes.py -i state-00050.dtk -o low_eir_no_DR.dtk -m replace_genomes_get_next_barcode -f get_next_barcode")
+    parser = argparse.ArgumentParser(description="Replace genomes.",
+                                     epilog="E.g. python replace_genomes.py -i state-00050.dtk -o low_eir_no_DR.dtk -m replace_genomes_get_next_barcode -f get_next_barcode")
     parser.add_argument("-i", "--input_file", type=Path, required=True, help="Serialized population file.")
     parser.add_argument("-o", "--output_file", type=Path, required=True, help="Serialized population output file.")
-    parser.add_argument("-m", "--module", type=str, default="replace_genomes_get_next_barcode", help="Module that contains the function to generate the barcodes.")
-    parser.add_argument("-f", "--get_next_barcode_func", type=str, default="get_next_barcode", help="Name of the function that returns the barcodes")
+    parser.add_argument("-m", "--module", type=str, default="replace_genomes_get_next_barcode",
+                        help="Module that contains the function to generate the barcodes.")
+    parser.add_argument("-f", "--get_next_barcode_func", type=str, default="get_next_barcode",
+                        help="Name of the function that returns the barcodes")
     args = parser.parse_args()
 
     try:

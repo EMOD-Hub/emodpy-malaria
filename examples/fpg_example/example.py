@@ -182,8 +182,8 @@ def general_sim():
     add_sql_report_malaria_genetics(task, manifest, start_day=13, end_day=92, include_infection_table=True,
                                     include_health_table=True,
                                     include_drug_table=True, include_individual_properties=False)
-    add_report_fpg_output(task, manifest, start_day=30, end_day=80, filename_suffix="example",
-                          min_age_years=3, max_age_years=15, include_barcode_ids=True,
+    add_report_fpg_output(task, manifest, start_day=30, end_day=80,
+                          min_age_years=3, max_age_years=15, include_genome_ids=True,
                           minimum_parasite_density=3.3, sampling_period=5)
 
     # We are creating one-simulation experiment straight from task.

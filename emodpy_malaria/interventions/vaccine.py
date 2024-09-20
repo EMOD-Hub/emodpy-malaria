@@ -1,17 +1,18 @@
 """
 This module contains functionality for vaccine distribution.
 """
-
+import math
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils, common
 from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
 
 
 def _simple_vaccine(campaign,
+                    intervention_name: str = "SimpleVaccine",
                     vaccine_type: str = "AcquisitionBlocking",
                     vaccine_take: float = 1,
                     vaccine_initial_effect: float = 1,
-                    vaccine_box_duration: int = 365,
+                    vaccine_box_duration: float = 365,
                     vaccine_decay_time_constant: float = 100,
                     efficacy_is_multiplicative: bool = True):
     """
@@ -19,6 +20,8 @@ def _simple_vaccine(campaign,
 
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container
+        intervention_name: The optional name used to refer to this intervention as a means to differentiate it
+            from others that use the same class
         vaccine_type: The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
             "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"
         vaccine_take: The rate at which delivered vaccines will successfully stimulate an immune response and achieve
@@ -39,6 +42,7 @@ def _simple_vaccine(campaign,
 
     schema_path = campaign.schema_path
     intervention = s2c.get_class_with_defaults("SimpleVaccine", schema_path)
+    intervention.Intervention_Name = intervention_name
     intervention.Vaccine_Type = vaccine_type
     intervention.Vaccine_Take = vaccine_take
     intervention.Efficacy_Is_Multiplicative = 1 if efficacy_is_multiplicative else 0
@@ -61,7 +65,9 @@ def add_scheduled_vaccine(campaign,
                           target_age_min: int = 0,
                           target_age_max: int = 125,
                           target_gender: str = "All",
+                          target_residents_only: bool = False,
                           broadcast_event: str = None,
+                          intervention_name: str = "SimpleVaccine",
                           vaccine_type: str = "AcquisitionBlocking",
                           vaccine_take: float = 1,
                           vaccine_initial_effect: float = 1,
@@ -90,8 +96,12 @@ def add_scheduled_vaccine(campaign,
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+            the simulation in the node (i.e. those that claim the node as their residence)
         broadcast_event: "The name of the event to be broadcast. This event must be set in the
             **Custom_Coordinator_Events** configuration parameter. When None or Empty, nothing is broadcast.
+        intervention_name: The optional name used to refer to this intervention as a means to differentiate it
+            from others that use the same class
         vaccine_type: The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
             "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"
         vaccine_take: The rate at which delivered vaccines will successfully stimulate an immune response and achieve
@@ -107,7 +117,9 @@ def add_scheduled_vaccine(campaign,
         Nothing
     """
 
-    intervention = _simple_vaccine(campaign, vaccine_type=vaccine_type,
+    intervention = _simple_vaccine(campaign,
+                                   intervention_name=intervention_name,
+                                   vaccine_type=vaccine_type,
                                    vaccine_take=vaccine_take,
                                    vaccine_initial_effect=vaccine_initial_effect,
                                    vaccine_box_duration=vaccine_box_duration,
@@ -127,6 +139,7 @@ def add_scheduled_vaccine(campaign,
                        target_age_min=target_age_min,
                        target_age_max=target_age_max,
                        target_gender=target_gender,
+                       target_residents_only=target_residents_only,
                        individual_intervention=intervention)
 
 
@@ -140,14 +153,16 @@ def add_triggered_vaccine(campaign,
                           repetitions: int = 1,
                           timesteps_between_repetitions: int = 365,
                           ind_property_restrictions: list = None,
-                          target_age_min: int = 0,
-                          target_age_max: int = 125,
+                          target_age_min: float = 0,
+                          target_age_max: float = 125,
                           target_gender: str = "All",
+                          target_residents_only: bool = False,
                           broadcast_event: str = None,
+                          intervention_name: str = "SimpleVaccine",
                           vaccine_type: str = "AcquisitionBlocking",
                           vaccine_take: float = 1,
                           vaccine_initial_effect: float = 1,
-                          vaccine_box_duration: int = 365,
+                          vaccine_box_duration: float = 365,
                           vaccine_decay_time_constant: float = 100,
                           efficacy_is_multiplicative: bool = True):
     """
@@ -175,8 +190,12 @@ def add_triggered_vaccine(campaign,
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
-        broadcast_event: "The name of the event to be broadcast. This event must be set in the
-            **Custom_Coordinator_Events** configuration parameter. When None or Empty, nothing is broadcast.
+        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+            the simulation in the node (i.e. those that claim the node as their residence)
+        broadcast_event: The name of the event to be broadcast. This event must be set in the
+            **Custom_Coordinator_Events** configuration parameter. When None or "", nothing is broadcast.
+        intervention_name: The optional name used to refer to this intervention as a means to differentiate it
+            from others that use the same class
         vaccine_type: The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
             "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"
         vaccine_take: The rate at which delivered vaccines will successfully stimulate an immune response and achieve
@@ -187,17 +206,23 @@ def add_triggered_vaccine(campaign,
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
+        malaria_vaccine: Type of malaria vaccine, one of 'RTSS' (simple vaccine), 'PEV' (preerythrocytic vaccine),
+            'TBV' (sexual stage vaccine). Defaults is 'None'. Setting this parameter means you want pre-configured
+            malaria vaccine and any other vaccine configuration parameters will be ignored.
 
     Returns:
         Nothing
     """
 
-    intervention = _simple_vaccine(campaign, vaccine_type=vaccine_type,
+    intervention = _simple_vaccine(campaign,
+                                   intervention_name=intervention_name,
+                                   vaccine_type=vaccine_type,
                                    vaccine_take=vaccine_take,
                                    vaccine_initial_effect=vaccine_initial_effect,
                                    vaccine_box_duration=vaccine_box_duration,
                                    vaccine_decay_time_constant=vaccine_decay_time_constant,
                                    efficacy_is_multiplicative=efficacy_is_multiplicative)
+
     if broadcast_event:
         intervention = [intervention, common.BroadcastEvent(campaign, Event_Trigger=broadcast_event)]
 
@@ -214,6 +239,7 @@ def add_triggered_vaccine(campaign,
                                        target_age_min=target_age_min,
                                        target_age_max=target_age_max,
                                        target_gender=target_gender,
+                                       target_residents_only=target_residents_only,
                                        individual_intervention=intervention)
 
 

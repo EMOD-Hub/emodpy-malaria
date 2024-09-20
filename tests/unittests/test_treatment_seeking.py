@@ -19,7 +19,7 @@ import json
 class TreatmentSeekingTest(unittest.TestCase):
     runInComps = False
     debug = False
-    schema_path = schema_path_file.schema_path
+    schema_path = schema_path_file.schema_file
 
     def __init__(self, *args, **kwargs):
         super(TreatmentSeekingTest, self).__init__(*args, **kwargs)
@@ -48,10 +48,10 @@ class TreatmentSeekingTest(unittest.TestCase):
         Asserts non default values with _get_events.
         """
         start_day = 10
-        drug = ['drug_1', 'drug_2', 'drug_3', 'drug4']
+        drug = ['drug_1', 'drug_2', 'drug_3', 'drug_4']
         targets = [
-            {'trigger': 'NewInfectionEvent', 'coverage': 0.7, 'seek': 0.9, 'rate': 0.9},
-            {'trigger': 'Births', 'coverage': 0.3, 'seek': 0.2, 'rate': 1.6}
+            {'trigger': 'NewInfectionEvent', 'coverage': 0.7,  'rate': 0.9},
+            {'trigger': 'Births', 'coverage': 0.3, 'rate': 1.6}
         ]
         broadcast_event_name = 'Test_event'
         node_ids = [1, 2]
@@ -74,37 +74,62 @@ class TreatmentSeekingTest(unittest.TestCase):
                              'NodeLevelHealthTriggeredIV')
             self.assertEqual(event['Start_Day'], 10)
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']['class'], 'MultiInterventionDistributor')
+                                 'Actual_IndividualIntervention_Config']['class'], 'DelayedIntervention')
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Property_Restrictions_Within_Node"], ind_property_restrictions)
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Duration"], duration)
+            testdrug_found = False
+            testdrug2_found = False
+            testdrug3_found = False
+            testdrug4_found = False
+            broadcast_found = False
+            property_changer_found = False
             for intervention in event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']['Intervention_List']:
-                if intervention["class"] == "DelayedIntervention":
-                    anti_malaria_drugs = intervention['Actual_IndividualIntervention_Configs'][0:4]
-                    self.assertListEqual(drug, [d['Drug_Type'] for d in anti_malaria_drugs])
-
-                    broadcast_event = intervention['Actual_IndividualIntervention_Configs'][4]
-                    self.assertEqual(broadcast_event_name, broadcast_event['Broadcast_Event'])
-
-                elif intervention["class"] == "PropertyValueChanger":
-                    self.assertEqual(intervention["Revert"], drug_ineligibility_duration)
+                                 'Actual_IndividualIntervention_Config']['Actual_IndividualIntervention_Configs']:
+                if intervention["class"] == "AntimalarialDrug":
+                    if intervention["Drug_Type"] == "drug_1":
+                        self.assertEqual(intervention['Intervention_Name'],
+                                         "AntimalarialDrug_drug_1")
+                        testdrug_found = True
+                    elif intervention["Drug_Type"] == "drug_2":
+                        self.assertEqual(intervention["Drug_Type"], "drug_2")
+                        self.assertEqual(intervention['Intervention_Name'],
+                                         "AntimalarialDrug_drug_2")
+                        testdrug2_found = True
+                    elif intervention["Drug_Type"] == "drug_3":
+                        self.assertEqual(intervention['Intervention_Name'],
+                                         "AntimalarialDrug_drug_3")
+                        testdrug3_found = True
+                    else:
+                        self.assertEqual(intervention["Drug_Type"], "drug_4")
+                        self.assertEqual(intervention['Intervention_Name'],
+                                         "AntimalarialDrug_drug_4")
+                        testdrug4_found = True
+                elif intervention["class"] == "BroadcastEvent":
+                    broadcast_found = True
+                    self.assertEqual(intervention["Broadcast_Event"], broadcast_event_name)
                 else:
-                    self.assertTrue(False, msg="Wrong event in intervention.")
+                    self.assertEqual(intervention["class"], "PropertyValueChanger")
+                    property_changer_found = True
+                    self.assertEqual(intervention["Daily_Probability"], 1)
+                    self.assertEqual(intervention["Revert"], drug_ineligibility_duration)
+                    self.assertEqual(intervention["Target_Property_Key"], "DrugStatus")
+                    self.assertEqual(intervention["Target_Property_Value"], "RecentDrug")
+            self.assertTrue(testdrug_found and testdrug2_found and broadcast_found and property_changer_found and testdrug3_found and testdrug4_found)
 
             if event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["NewInfectionEvent"]:
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.7 * 0.9)
+                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.7 )
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
                 self.assertAlmostEqual(event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']['Intervention_List'][0]["Delay_Period_Exponential"], 1/0.9)
+                                 'Actual_IndividualIntervention_Config']["Delay_Period_Exponential"], 1/0.9)
             elif event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["Births"]:
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.3 * 0.2)
+                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.3 )
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
                 self.assertAlmostEqual(event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']['Intervention_List'][0]["Delay_Period_Exponential"], 1/1.6)
+                                 'Actual_IndividualIntervention_Config']["Delay_Period_Exponential"], 1/1.6)
             elif event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["Births"]:
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.3 * 0.2)
+                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.3 )
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
                 self.assertAlmostEqual(event['Event_Coordinator_Config']['Intervention_Config'][
@@ -117,41 +142,29 @@ class TreatmentSeekingTest(unittest.TestCase):
         Asserts default values with _get_events.
         """
         camp.campaign_dict['Events'] = []
-        ts.add_treatment_seeking(camp)
+        ts.add_treatment_seeking(camp, targets=[{"trigger": "HappyBirthday"}])
 
         drug = ['Artemether', 'Lumefantrine']
-        targets = [
-            {'trigger': 'NewClinicalCase', 'coverage': 0.1, 'agemin': 15, 'agemax': 70, 'seek': 0.4, 'rate': 0.3},
-            {'trigger': 'NewSevereCase', 'coverage': 0.8, 'seek': 0.6, 'rate': 0.5}]
-        broadcast_event_name = 'ReceivedTreatment'
-
-        self.assertEqual(len(camp.campaign_dict['Events']), len(targets))
+        broadcast_event_name = 'Received_Treatment'
         for event in camp.campaign_dict["Events"]:
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']['class'],
                              'NodeLevelHealthTriggeredIV')
             self.assertEqual(event['Start_Day'], 1)
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']['class'], 'DelayedIntervention')
+                                 'Actual_IndividualIntervention_Config']['class'], 'MultiInterventionDistributor')
             for intervention in event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']['Actual_IndividualIntervention_Configs']:
+                                 'Actual_IndividualIntervention_Config']['Intervention_List']:
                 if intervention["class"] == "BroadcastEvent":
                     self.assertEqual(intervention["Broadcast_Event"], broadcast_event_name)
                 else:
                     self.assertEqual(intervention["class"], "AntimalarialDrug")
                     self.assertIn(intervention["Drug_Type"], drug)
+            self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"], ["HappyBirthday"])
+            self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 1)
+            self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
+            self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
 
-            if event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["NewClinicalCase"]:
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.1 * 0.4)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 15)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 70)
-                self.assertAlmostEqual(event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']["Delay_Period_Exponential"], 3.3333333)
-            elif event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["NewSevereCase"]:
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.8 * 0.6)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config'][
-                                 'Actual_IndividualIntervention_Config']["Delay_Period_Exponential"], 2)
+
 
 
 

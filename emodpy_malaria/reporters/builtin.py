@@ -1,8 +1,13 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from emodpy.reporters.base import BuiltInReporter
 from emod_api import schema_to_class as s2c
-import emod_api.interventions.utils as utils
+from idmtools.assets import Asset
+import json
+import urllib.request
+
+
+vis_url = "https://bryanressler-idmod.github.io/vis.json"
 
 
 def check_vectors(task):
@@ -38,6 +43,29 @@ def all_vectors_if_none(task):
     for species_params in task.config.parameters.Vector_Species_Params:
         species_list.append(species_params["Name"])
     return species_list
+
+
+def add_visualizations(task):
+    """
+        Adds pointer files that create visualization for reports relevant to malaria.
+        Currently, "AllInsets", "BinnedReport", "MalariaInterventions", "MalariaSummaryReport"
+        
+    Args:
+        task:  task to which to add the pointer files as assets
+
+    Returns:
+        Nothing
+    """
+    relevant_diseases = ["generic", "malaria"]
+    sites = []
+    with urllib.request.urlopen(vis_url) as vis_file:
+        vis = json.load(vis_file)
+    for disease in relevant_diseases:
+        sites.extend(vis["diseases"][disease])
+    for site in sites:
+        pointer = vis["sites"][site]["url"]
+        pointer_file_name = f"{site}.html"
+        task.common_assets.add_asset(Asset(filename=pointer_file_name, content=pointer), fail_on_duplicate=False)
 
 
 def add_report_vector_genetics(task, manifest,
@@ -241,6 +269,7 @@ def add_malaria_summary_report(task, manifest,
         return params
 
     reporter.config(rec_config_builder, manifest)
+
     if task:
         task.reporters.add_reporter(reporter)
     else:  # assume we're running a unittest
@@ -896,7 +925,13 @@ def add_drug_status_report(task, manifest,
 def add_report_infection_stats_malaria(task, manifest,
                                        start_day: int = 0,
                                        end_day: int = 365000,
-                                       reporting_interval: int = 30):
+                                       reporting_interval: int = 30,
+                                       include_hepatocyte: bool = True,
+                                       hepatocyte_threshold: int = 0,
+                                       include_irbc: bool = True,
+                                       irbc_threshold: int = 0,
+                                       include_gametocyte: bool = True,
+                                       gametocyte_threshold: int = 0):
     """
     Adds ReportInfectionStatsMalaria report to the simulation.
     See class definition for description of the report.
@@ -908,6 +943,21 @@ def add_report_infection_stats_malaria(task, manifest,
         end_day: the day of the simulation to stop collecting data
         reporting_interval: defines the cadence of the report by specifying how many time steps to collect data
             before writing to the file
+        include_hepatocyte: If set to True, then a column will be added to the report providing the count of the
+            infected hepatocytes. Default is True.
+        hepatocyte_threshold: If the column is included and the number of hepatocytes related to this
+            infection are greater than or equal to this value, then the row of data will be included. Default is 0,
+            so any/all counts of hepatocytes will be included.
+        include_irbc: If set to True, then a column will be added to the report with the number of Infected Red
+            Blood Cells from this infection. Default is True.
+        irbc_threshold: If the column is included and the number of IRBCs related to this infection are greater
+            than or equal to this value, then the row of data will be included. Default is 0,
+            so any/all counts of IRBCs will be included.
+        include_gametocyte: If set to True, then a column will be added to the report that contains the number
+            of gametocytes (male & female) from this infection. Default is True.
+        gametocyte_threshold: "If the column is included and the number of gametocytes related to this infection
+            are greater than or equal to this value, then the row of data will be included. Default is 0,
+            so any/all counts of gametocytes will be included.
 
     Returns:
         if task is not set, returns the configured reporter, otherwise returns nothing
@@ -919,6 +969,12 @@ def add_report_infection_stats_malaria(task, manifest,
         params.Start_Day = start_day
         params.End_Day = end_day
         params.Reporting_Interval = reporting_interval
+        params.Include_Column_Hepatocyte = include_hepatocyte
+        params.Include_Column_IRBC = include_irbc
+        params.Include_Column_Gametocyte = include_gametocyte
+        params.Include_Data_Threshold_Hepatocytes = hepatocyte_threshold
+        params.Include_Data_Threshold_IRBC = irbc_threshold
+        params.Include_Data_Threshold_Gametocytes = gametocyte_threshold
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -1036,7 +1092,8 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
                                                   hrp_strings: list = None,
                                                   age_bins: list = None,
                                                   ip_key_to_collect: str = "",
-                                                  stratify_by_gender: bool = True):
+                                                  stratify_by_gender: bool = True,
+                                                  include_identity_by_xxx: bool = False):
     """
     Adds ReportNodeDemographicsMalariaGenetics report to the simulation.
     See class definition for description of the report.
@@ -1062,6 +1119,8 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
         ip_key_to_collect: The name of theIndividualProperties key by which to stratify the report.
             An empty string does not stratify by Individual Properties
         stratify_by_gender: if True(1), to stratify by gender. Set to False(0) to not stratify by gender.
+        include_identity_by_xxx: if True(1), include columns about the average Identity By State (IBS) and
+            Identity By Descent (IBD) for all new infections with unique barcodes in the last year.
 
     Returns:
         if task is not set, returns the configured reporter, otherwise returns nothing
@@ -1077,6 +1136,7 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
         params.Drug_Resistant_Strings = drug_resistant_strings if drug_resistant_strings else []
         params.HRP_Strings = hrp_strings if hrp_strings else []
         params.Drug_Resistant_And_HRP_Statistic_Type = drug_resistant_and_hrp_statistic_type
+        params.Include_Identity_By_XXX = 1 if include_identity_by_xxx else 0
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -1278,6 +1338,30 @@ def add_report_intervention_pop_avg(task, manifest,
         return reporter
 
 
+def add_report_microsporidia(task, manifest):
+    """
+    Adds ReportMicrosporidia reporter. See class definition for description of the report.
+    There are no special parameter that need to be configured to generate the report.
+
+    Args:
+        task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest: Schema path file
+
+    Returns:
+        if task is not set, returns the configured reporter, otherwise returns nothing
+    """
+    reporter = ReportMicrosporidia()  # Create the reporter
+
+    def rec_config_builder(params):
+        return params
+
+    reporter.config(rec_config_builder, manifest)
+    if task:
+        task.reporters.add_reporter(reporter)
+    else:  # assume we're running a unittest
+        return reporter
+
+
 def add_report_fpg_output(task, manifest,
                           start_day: int = 0,
                           end_day: int = 365000,
@@ -1287,7 +1371,7 @@ def add_report_fpg_output(task, manifest,
                           must_have_ip_key_value: str = "",
                           must_have_intervention: str = "",
                           filename_suffix: str = "",
-                          include_barcode_ids: bool = False,
+                          include_genome_ids: bool = False,
                           minimum_parasite_density: float = 1,
                           sampling_period: float = 1):
     """
@@ -1305,9 +1389,8 @@ def add_report_fpg_output(task, manifest,
             means don't look at IPs (individual properties)
         must_have_intervention: the name of the an intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
-        filename_suffix: augments the filename of the report. If multiple reports are being generated,
-            this allows you to distinguish among the multiple reports
-        include_barcode_ids: Add a column that has a list of Barcode IDs (hashcode) for the person.
+        filename_suffix: NOT USED
+        include_genome_ids: Add a column that has a list of Genome IDs (hashcode) for the person.
         minimum_parasite_density: The minimum density that the infection must have to be included in the list
             of infections. A value of zero implies include all infections. Number of asexual parasites
             per micro liter of blood.
@@ -1322,6 +1405,8 @@ def add_report_fpg_output(task, manifest,
             raise ValueError(f"ERROR: This report only works with 'Malaria_Model' = "
                              f"'MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS', but you have "
                              f"'Malaria_Model' = '{task.config.parameters.Malaria_Model}' .\n")
+    if filename_suffix:
+        print("WARNING: add_report_fpg_output()'s filename_suffix is an unused parameter and will be ignored.\n")
 
     reporter = ReportFpgOutputForObservationalModel()  # Create the reporter
 
@@ -1333,11 +1418,37 @@ def add_report_fpg_output(task, manifest,
         params.Min_Age_Years = min_age_years
         params.Must_Have_IP_Key_Value = must_have_ip_key_value
         params.Must_Have_Intervention = must_have_intervention
-        params.Filename_Suffix = filename_suffix
-        params.Include_Barcode_IDs = 1 if include_barcode_ids else 0
+        params.Include_Genome_IDs = 1 if include_genome_ids else 0
         params.Minimum_Parasite_Density = minimum_parasite_density
         params.Sampling_Period = sampling_period
 
+        return params
+
+    reporter.config(rec_config_builder, manifest)
+    if task:
+        task.reporters.add_reporter(reporter)
+    else:  # assume we're running a unittest
+        return reporter
+
+
+def add_report_simulation_stats(task, manifest):
+    """
+    Adds ReportSimulationStats to collect data on the computational performance of the model
+    (duration, memory, number of persisted interventions, etc).
+
+    There are no special parameter that need to be configured to generate the report.
+
+    Args:
+        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest: schema path file
+
+    Returns:
+        if task is not set, returns the configured reporter, otherwise returns nothing
+    """
+
+    reporter = ReportSimulationStats()  # Create the reporter
+
+    def rec_config_builder(params):  # not used yet
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -1658,7 +1769,7 @@ class ReportNodeDemographicsMalaria(BuiltInReporter):
     Genome_Markers because this report assumes that the simulation setup parameter Malaria_Model is set to
     MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
 
-    Note: If you need detailed data on the infections with different barcodes, use the MalariaSqlReport. That report
+    Note: If you need detailed data on the infections with different barcodes, use the SqlReportMalaria. That report
     contains data on all barcodes, without specifying what they are.
     """
 
@@ -1679,7 +1790,7 @@ class ReportNodeDemographicsMalariaGenetics(BuiltInReporter):
     Genome_Markers because this report assumes that the simulation setup parameter Malaria_Model is set to
     MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
 
-    Note: If you need detailed data on the infections with different barcodes, use the MalariaSqlReport. That report
+    Note: If you need detailed data on the infections with different barcodes, use the SqlReportMalaria. That report
     contains data on all barcodes, without specifying what they are.
     """
 
@@ -1763,6 +1874,39 @@ class ReportFpgOutputForObservationalModel(BuiltInReporter):
     def config(self, config_builder, manifest):
         self.class_name = "ReportFpgOutputForObservationalModel"
         report_params = s2c.get_class_with_defaults("ReportFpgOutputForObservationalModel", manifest.schema_file)
+        report_params = config_builder(report_params)
+        report_params.finalize()
+        report_params.pop("Sim_Types")
+        self.parameters.update(dict(report_params))
+
+
+@dataclass
+class ReportSimulationStats(BuiltInReporter):
+    """
+    Adds ReportSimulationStats to collect data on the computational performance of the model
+    (duration, memory, number of persisted interventions, etc).
+    """
+
+    def config(self, config_builder, manifest):
+        self.class_name = "ReportSimulationStats"
+        report_params = s2c.get_class_with_defaults("ReportSimulationStats", manifest.schema_file)
+        report_params = config_builder(report_params)
+        report_params.finalize()
+        report_params.pop("Sim_Types")
+        self.parameters.update(dict(report_params))
+
+
+@dataclass
+class ReportMicrosporidia(BuiltInReporter):
+    """
+    ReportMicrosporidia generates a ReportMicrosporidia.csv. It is a stratified report where the data is stratified
+    by time, node, species and microsporidia strain; with columns of counts of vectors in each state for that
+    stratification.
+    """
+
+    def config(self, config_builder, manifest):
+        self.class_name = "ReportMicrosporidia"
+        report_params = s2c.get_class_with_defaults("ReportMicrosporidia", manifest.schema_file)
         report_params = config_builder(report_params)
         report_params.finalize()
         report_params.pop("Sim_Types")

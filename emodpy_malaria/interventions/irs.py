@@ -1,7 +1,8 @@
 
-from emod_api.interventions.common import TriggeredCampaignEvent, ScheduledCampaignEvent
+from emod_api.interventions.common import BroadcastEvent
 from emod_api import schema_to_class as s2c
 import emod_api.interventions.utils as utils
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
 
 default_name = "IRSHousingModification"
 
@@ -9,8 +10,17 @@ default_name = "IRSHousingModification"
 def add_scheduled_irs_housing_modification(
         campaign,
         start_day: int = 1,
-        demographic_coverage: float = 1,
+        demographic_coverage: float = 1.0,
+        target_num_individuals: int = None,
         node_ids: list = None,
+        repetitions: int = 1,
+        timesteps_between_repetitions: int = 365,
+        ind_property_restrictions: list = None,
+        target_age_min: int = 0,
+        target_age_max: int = 125,
+        target_gender: str = "All",
+        target_residents_only: bool = False,
+        broadcast_event: str = "Received_IRS",
         killing_initial_effect: float = 1,
         killing_box_duration: int = 0,
         killing_decay_time_constant: int = 90,
@@ -29,11 +39,29 @@ def add_scheduled_irs_housing_modification(
         IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
-        start_day: The day on which the intervention is distributed
-        demographic_coverage: The fraction of individuals in the target demographic that will receive this intervention
-        node_ids: A list of node ids to which this intervention will be distributed. None or [] distributes
-            intervention to all nodes
+        campaign: campaign object to which the intervention will be added, and schema_path container
+        start_day: The day the intervention is given out.
+        demographic_coverage: This value is the probability that each individual in the target population will
+            receive the intervention. It does not guarantee that the exact fraction of the target population set by
+            Demographic_Coverage receives the intervention.
+        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
+            demographic_coverage parameter is ignored
+        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention
+        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**
+        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**
+        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
+        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender: The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+            the simulation in the node (i.e. those that claim the node as their residence)
+        broadcast_event: "The name of the event to be broadcast. This event must be set in the
+            **Custom_Coordinator_Events** configuration parameter. When None or "", nothing is broadcast.
+            Default: "Received_IRS"
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -61,19 +89,40 @@ def add_scheduled_irs_housing_modification(
                                      repelling_decay_time_constant=repelling_decay_time_constant,
                                      insecticide=insecticide,
                                      intervention_name=intervention_name)
+    if broadcast_event:
+        intervention = [intervention, BroadcastEvent(campaign, broadcast_event)]
 
-    campaign.add(ScheduledCampaignEvent(campaign, Start_Day=start_day, Node_Ids=node_ids,
-                                        Demographic_Coverage=demographic_coverage, Intervention_List=[intervention]))
+    add_campaign_event(campaign=campaign,
+                       start_day=start_day,
+                       demographic_coverage=demographic_coverage,
+                       target_num_individuals=target_num_individuals,
+                       node_ids=node_ids,
+                       repetitions=repetitions,
+                       timesteps_between_repetitions=timesteps_between_repetitions,
+                       ind_property_restrictions=ind_property_restrictions,
+                       target_age_min=target_age_min,
+                       target_age_max=target_age_max,
+                       target_gender=target_gender,
+                       target_residents_only=target_residents_only,
+                       individual_intervention=intervention)
 
 
 def add_triggered_irs_housing_modification(
         campaign,
         start_day: int = 1,
-        demographic_coverage: float = 1,
-        node_ids: list = None,
         trigger_condition_list: list = None,
         listening_duration: int = -1,
         delay_period_constant: float = 0,
+        demographic_coverage: float = 1.0,
+        node_ids: list = None,
+        repetitions: int = 1,
+        timesteps_between_repetitions: int = 365,
+        ind_property_restrictions: list = None,
+        target_age_min: float = 0,
+        target_age_max: float = 125,
+        target_gender: str = "All",
+        target_residents_only: bool = False,
+        broadcast_event: str = "Received_IRS",
         killing_initial_effect: float = 1,
         killing_box_duration: int = 0,
         killing_decay_time_constant: int = 90,
@@ -92,16 +141,32 @@ def add_triggered_irs_housing_modification(
         IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
-        start_day: The day on which the intervention is distributed
-        demographic_coverage: The fraction of individuals in the target demographic that will receive this intervention
-        node_ids: A list of node ids to which this intervention will be distributed. None or [] distributes
-            intervention to all nodes
+        campaign: campaign object to which the intervention will be added, and schema_path container
+        start_day: The day the intervention is given out.
         trigger_condition_list: A list of the events that will trigger intervention distribution.
         listening_duration: The number of time steps that the distributed event will monitor for triggers.
             Default is -1, which is indefinitely.
         delay_period_constant: Optional. Delay, in days, before the intervention is given out after a trigger
             is received.
+        demographic_coverage: This value is the probability that each individual in the target population will
+            receive the intervention. It does not guarantee that the exact fraction of the target population set by
+            Demographic_Coverage receives the intervention.
+        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention
+        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**
+        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**
+        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
+        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender: The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+            the simulation in the node (i.e. those that claim the node as their residence)
+        broadcast_event: "The name of the event to be broadcast. This event must be set in the
+            **Custom_Coordinator_Events** configuration parameter. When None or "", nothing is broadcast.
+            Default: "Received_IRS"
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -128,16 +193,24 @@ def add_triggered_irs_housing_modification(
                                      repelling_decay_time_constant=repelling_decay_time_constant,
                                      insecticide=insecticide,
                                      intervention_name=intervention_name)
+    if broadcast_event:
+        intervention = [intervention, BroadcastEvent(campaign, broadcast_event)]
 
-    campaign.add(TriggeredCampaignEvent(camp=campaign,
-                                        Start_Day=start_day,
-                                        Event_Name="IRSHousingInterventionEvent",
-                                        Triggers=trigger_condition_list,
-                                        Intervention_List=[intervention],
-                                        Demographic_Coverage=demographic_coverage,
-                                        Duration=listening_duration,
-                                        Node_Ids=node_ids,
-                                        Delay=delay_period_constant))
+    add_triggered_campaign_delay_event(campaign=campaign,
+                                       start_day=start_day,
+                                       trigger_condition_list=trigger_condition_list,
+                                       listening_duration=listening_duration,
+                                       delay_period_constant=delay_period_constant,
+                                       demographic_coverage=demographic_coverage,
+                                       node_ids=node_ids,
+                                       repetitions=repetitions,
+                                       timesteps_between_repetitions=timesteps_between_repetitions,
+                                       ind_property_restrictions=ind_property_restrictions,
+                                       target_age_min=target_age_min,
+                                       target_age_max=target_age_max,
+                                       target_gender=target_gender,
+                                       target_residents_only=target_residents_only,
+                                       individual_intervention=intervention)
 
 
 def irs_configuration(campaign,

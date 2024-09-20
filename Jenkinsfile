@@ -66,40 +66,13 @@ podTemplate(
 				sh "pip3 freeze"
 			}
 			stage('Login') {
-				withCredentials([string(credentialsId: 'Comps_emodpy_user', variable: 'user'), string(credentialsId: 'Comps_emodpy_password', variable: 'password'),
-								 string(credentialsId: 'Bamboo_id', variable: 'bamboo_user'), string(credentialsId: 'Bamboo', variable: 'bamboo_password')]) {
-					dir('tests/bamboo_testing') {
-						sh 'python3 create_auth_token_args.py --comps_url https://comps2.idmod.org --username $user --password $password'
-						sh 'python3 create_auth_token_args.py --comps_url https://comps.idmod.org --username yechen --password $password'
-						sh 'python3 bamboo_login_with_arguments.py -u $bamboo_user -p $bamboo_password'
+				withCredentials([usernamePassword(credentialsId: 'comps_jenkins_user', usernameVariable: 'COMPS_USERNAME', passwordVariable: 'COMPS_PASSWORD'),
+					         usernamePassword(credentialsId: 'comps2_jenkins_user', usernameVariable: 'COMPS2_USERNAME', passwordVariable: 'COMPS2_PASSWORD')]) {
+					dir('tests') {
+					    sh 'python3 create_auth_token_args.py --comps_url https://comps2.idmod.org --username $COMPS2_USERNAME --password $COMPS2_PASSWORD'
+					    sh 'python3 create_auth_token_args.py --comps_url https://comps.idmod.org --username $COMPS_USERNAME --password $COMPS_PASSWORD'
 					}
-				}
-			}
-			try{
-				stage('Unit Test') {
-					echo "Running Unit test Tests"
-					dir('tests/unittests') {
-						sh "pip3 install unittest-xml-reporting"
-						sh 'python3 -m xmlrunner discover'
-						junit '*.xml'
-					}
-				}
-			} catch(e) {
-				build_ok = false
-				echo e.toString()  
-			}
-			
-			try{
-				stage('Sim Test') {
-					echo "Running sim Tests"
-					dir('tests/bamboo_testing') {
-						sh 'python3 -m xmlrunner discover'
-						junit '*.xml'
-					}
-				}
-			} catch(e) {
-				build_ok = false
-				echo e.toString()  
+			    	}
 			}
 
 			try{
@@ -115,15 +88,30 @@ podTemplate(
 				build_ok = false
 				echo e.toString()  
 			}
-			
-			
-			stage('Run Examples') {		    
-				echo "Running examples"
-					dir('examples') {
-						sh 'pip3 install snakemake'
-						sh 'snakemake --cores=10 --config python_version=python3'
+
+			try{
+				stage('Run Tests and Get Coverage') {		    
+					echo "Running examples"
+					dir('tests/unittests') {
+						sh 'pip3 install coverage xmlrunner'
+						sh 'python3 get_unittest_coverage.py'
+						archiveArtifacts artifacts: 'coverage.tar.gz', allowEmptyArchive: false
+						junit 'test_reports/*.xml'
 					}
 				}
+			} catch(e) {
+				build_ok = false
+				echo e.toString()  
+			}
+
+			stage('Run Examples') {		    
+			echo "Running examples"
+				dir('examples') {
+					sh 'pip3 install snakemake'
+					sh 'snakemake --cores=10 --config python_version=python3'
+				}
+			}
+
 			if(build_ok) {
 				currentBuild.result = "SUCCESS"
 			} else {
@@ -132,3 +120,7 @@ podTemplate(
 		}
 	}
   }
+
+
+
+

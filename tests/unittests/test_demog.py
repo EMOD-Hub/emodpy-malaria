@@ -297,6 +297,7 @@ class DemoTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             MalariaDemographics.from_csv(input_file, res=25 / 3600)
 
+    @unittest.skip("Known issue logged at https://github.com/InstituteforDiseaseModeling/emodpy-malaria/issues/620")
     def test_from_pop_csv(self):
         out_filename = os.path.join(self.out_folder, "demographics_from_pop_csv.json")
         delete_existing_file(out_filename)

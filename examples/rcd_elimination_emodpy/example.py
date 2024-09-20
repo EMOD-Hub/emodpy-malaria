@@ -54,33 +54,26 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
                  'coverage': u5_hs_rate,
                  'agemin': 0,
                  'agemax': 5,
-                 'seek': 1,
                  'rate': 0.3},
                 {'trigger': 'NewClinicalCase',
                  'coverage': o5_hs_rate,
                  'agemin': 5,
                  'agemax': 100,
-                 'seek': 1,
                  'rate': 0.3},
                 {'trigger': 'NewSevereCase',
-                 'coverage': 0.9,
-                 'agemin': 0,
-                 'agemax': 5,
-                 'seek': 1,
                  'rate': 0.5},
                 {'trigger': 'NewSevereCase',
                  'coverage': 0.8,
-                 'agemin': 5,
-                 'agemax': 100,
-                 'seek': 1,
-                 'rate': 0.5}]
+                 'agemin': 5},
+                {'trigger': 'HappyBirthday'}
+        ]
 
     add_treatment_seeking(campaign=campaign,
                           node_ids=nodeIDs,
                           start_day=1,
                           targets=create_target_list(u5_hs_rate, o5_hs_rate),
                           drug=['Artemether', 'Lumefantrine'],
-                          broadcast_event_name="ReceivedTreatment")
+                          broadcast_event_name="Received_Treatment")
 
     request_msat_config = BroadcastEventToOtherNodes(
         camp=campaign,
@@ -96,7 +89,7 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
                                 max_stock=1,
                                 max_distributed_per_day=1,
                                 intervention_config=request_msat_config,
-                                trigger_condition_list=["ReceivedTreatment"],
+                                trigger_condition_list=["Received_Treatment"],
                                 waiting_period=0)
 
     # response - no need to break them up, they are both triggered events, with AL drug code, the diagnostic-related

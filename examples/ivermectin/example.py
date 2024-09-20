@@ -65,8 +65,7 @@ def build_campaign():
                              listening_duration=33,
                              # ind_property_restrictions=["Risk:High"],
                              killing_initial_effect=0.88,
-                             killing_box_duration=0,
-                             killing_decay_time_constant=0,
+                             killing_box_duration=-1,
                              insecticide="Example",
                              intervention_name="Ivermectin3"
                              )

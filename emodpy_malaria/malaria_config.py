@@ -454,12 +454,17 @@ def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_la
     return vector_config.set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity)
 
 
-def add_microsporidia(config, manifest, species_name: str = None, female_to_male_probability: float = 0,
-                      male_to_female_probability: float = 0, female_to_egg_probability: float = 0,
+def add_microsporidia(config, manifest, species_name: str = None,
+                      strain_name: str = "Strain_A",
+                      female_to_male_probability: float = 0,
+                      female_to_egg_probability: float = 0,
+                      male_to_female_probability: float = 0,
+                      male_to_egg_probability: float = 0,
                       duration_to_disease_acquisition_modification: dict = None,
                       duration_to_disease_transmission_modification: dict = None,
                       larval_growth_modifier: float = 1,
-                      female_mortality_modifier: float = 1, male_mortality_modifier: float = 1):
+                      female_mortality_modifier: float = 1,
+                      male_mortality_modifier: float = 1):
     """
         Adds microsporidia parameters to the named species' parameters.
 
@@ -467,12 +472,17 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
         config: schema-backed config dictionary, written to config.json
         manifest: file that contains path to the schema file
         species_name: Species to target, **Name** parameter
+        strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
+            Cannot be empty string
         female_to_male_probability: **Microsporidia_Female_to_Male_Transmission_Probability** The probability
             an infected female will infect an uninfected male.
-        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
-            an infected male will infect an uninfected female
         female_to_egg_probability: **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
             an infected female will infect her eggs when laying them.
+        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
+            an infected male will infect an uninfected female
+        male_to_egg_probability: **Microsporidia_Male_To_Egg_Transmission_Probability** The probability a female that
+            mated with an infected male will infect her eggs when laying them, independent of her being infected and
+            transmitting to her offspring.
         duration_to_disease_acquisition_modification: **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
             **Times** is an array of days in ascending order that represent the number of days since the vector became
@@ -507,12 +517,18 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
     Returns:
         Nothing
     """
-    vector_config.add_microsporidia(config, manifest, species_name, female_to_male_probability,
-                                    male_to_female_probability, female_to_egg_probability,
-                                    duration_to_disease_acquisition_modification,
-                                    duration_to_disease_transmission_modification,
-                                    larval_growth_modifier,
-                                    female_mortality_modifier, male_mortality_modifier)
+    vector_config.add_microsporidia(config, manifest,
+                                    species_name=species_name,
+                                    strain_name=strain_name,
+                                    female_to_male_probability=female_to_male_probability,
+                                    female_to_egg_probability=female_to_egg_probability,
+                                    male_to_female_probability=male_to_female_probability,
+                                    male_to_egg_probability=male_to_egg_probability,
+                                    duration_to_disease_acquisition_modification=duration_to_disease_acquisition_modification,
+                                    duration_to_disease_transmission_modification=duration_to_disease_transmission_modification,
+                                    larval_growth_modifier=larval_growth_modifier,
+                                    female_mortality_modifier=female_mortality_modifier,
+                                    male_mortality_modifier=male_mortality_modifier)
 
 
 def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),

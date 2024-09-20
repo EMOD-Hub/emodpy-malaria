@@ -212,5 +212,5 @@ if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
 
-    # dtk.setup(pathlib.Path(manifest.eradication_path).parent)
+    dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_test(manifest.eradication_path)

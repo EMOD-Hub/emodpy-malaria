@@ -9,7 +9,7 @@ import random
 from emod_api.interventions.common import *
 from emodpy_malaria.interventions.drug import _antimalarial_drug
 from emodpy_malaria.interventions.diag_survey import add_diagnostic_survey
-from emodpy_malaria.interventions.common import add_campaign_event
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
 
 # Different configurations of regimens and drugs
 drug_cfg = {
@@ -91,13 +91,16 @@ def add_drug_campaign(campaign,
                       fmda_radius: int = 0,
                       node_selection_type: str = 'DISTANCE_ONLY',
                       trigger_coverage: float = 1.0,
+                      trigger_name: str = None,
                       snowballs: int = 0,
                       treatment_delay: int = 0,
                       triggered_campaign_delay: int = 0,
+                      delay_distribution: dict = None,
                       node_ids: list = None,
                       target_group: any = 'Everyone',
                       drug_ineligibility_duration: int = 0,
                       ind_property_restrictions: list = None,
+                      ind_prop_restr_birthtrigger_event: list = None,
                       disqualifying_properties: list = None,
                       trigger_condition_list: list = None,
                       listening_duration: int = -1,
@@ -118,40 +121,27 @@ def add_drug_campaign(campaign,
     interventions are created with a delay that sends an event to distribute
     drugs.
 
-
-
-
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will
             be added. 
         campaign_type: The type of drug campaign. Available options are:
-
-            MDA 
-                Add a mass drug administration intervention.
-            MSAT 
-                Add a  mass screening and treatment intervention.
-            SMC 
-                Add a seasonal malaria chemoprevention intervention.
-            fMDA
-                Add a focal mass drug administration intervention based on 
-                results from a diagnostic survey, which is either scheduled or
-                triggered (when **trigger_condition_list** is present).
-            MTAT 
-                Add a mass testing and treatment intervention.
-            rfMSAT 
-                Add a reactive focal mass screening and treatment intervention.
-                Detecting malaria triggers diagnostic surveys to run on
-                neighboring nodes and so on, up to the number of triggered interventions
-                defined in the **snowballs** parameter.
-            rfMDA 
-                Add a reactive focal mass drug administration intervention. This triggers
-                :doc:`emod-malaria:parameter-campaign-individual-broadcasteventtoothernodes`
-                to broadcast a "Give_Drugs_rfMDA" event, which triggers
-                :doc:`emod-malaria:parameter-campaign-individual-multiinterventiondistributor`
-                to distribute drugs and a "ReceivedTreatment" event followed by
-                a delayed "Give_Drugs_rfMDA" event to neighboring nodes, which
-                will trigger another drug distribution. 
-
+            MDA - Add a mass drug administration intervention.
+            MSAT - Add a  mass screening and treatment intervention.
+            SMC - Add a seasonal malaria chemoprevention intervention.
+            fMDA- Add a focal mass drug administration intervention based on
+            results from a diagnostic survey, which is either scheduled or
+            triggered (when **trigger_condition_list** is present).
+            MTAT- Add a mass testing and treatment intervention.
+            rfMSAT -Add a reactive focal mass screening and treatment intervention.
+            Detecting malaria triggers diagnostic surveys to run on
+            neighboring nodes and so on, up to the number of triggered interventions
+            defined in the **snowballs** parameter.
+            rfMDA - Add a reactive focal mass drug administration intervention. This triggers
+            to broadcast a "Give_Drugs_rfMDA" event, which triggers
+            to distribute drugs and a "Received_Treatment" event followed by
+            a delayed "Give_Drugs_rfMDA" event to neighboring nodes, which
+            will trigger another drug distribution.
+            PMC -
         drug_code: The code of the drug regimen to distribute. This must be 
             listed in the ``drug_cfg`` dictionary.
         start_days: List of start days (integers) when the drug regimen will
@@ -173,8 +163,6 @@ def add_drug_campaign(campaign,
             :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`. 
         measurement_sensitivity: The setting for **Measurement_Sensitivity**
             in :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
-        detection_threshold: The setting for **Detection_Threshold** in 
-            :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`. 
         fmda_radius: Radius (in km) of focal response upon finding infection. 
             Used in simulations with many small nodes to simulate 
             community health workers distributing drugs to surrounding houses.
@@ -184,6 +172,10 @@ def add_drug_campaign(campaign,
         trigger_coverage: The fraction of trigger events that will trigger reactive
             case detection (RCD). Used when **campaign_type** is set to rfMSAT or rfMDA. 
             To set the fraction of individuals reached during RCD response, use **coverage**.
+        trigger_name: Name of broadcast event sent out after trigger event.
+            Also used as in drug campaign with default "Received_{trigger_name}"
+            Example:
+                "IPTi_{x}" with x = number of IPTi dose
         snowballs: The number of times each triggered intervention will be distributed
             to surrounding nodes. For example, one snowball gives drugs to nodes
             neighboring the first node and two snowballs gives drugs to the nodes 
@@ -195,7 +187,17 @@ def add_drug_campaign(campaign,
         triggered_campaign_delay: When using **trigger_condition_list**, this
             indicates the delay period between receiving the trigger event
             and running the triggered campaign intervention.
-        node_ids: The setting for **Node_List** in :ref:`emod-malaria:campaign-nodeset-config`. 
+        delay_distribution: For triggered_campaign_delay_event used in IPTi campaign,
+            dictionary of parameters that define the distribution for duration at node, including the distribution
+            Default: None
+            Durations are in days.
+
+            Examples::
+
+                {"Delay_Period_Distribution":"GAUSSIAN_DISTRIBUTION",
+                 "Delay_Period_Gaussian_Mean": triggered_campaign_delay, "Delay_Period_Gaussian_Std_Dev" 3}
+
+        node_ids: The setting for **Node_List** in :ref:`emod-malaria:campaign-nodeset-config`.
         target_group: A dictionary of ``{'agemin': x, 'agemax': y}`` to
             target MDA, SMC, MSAT, fMDA to individuals between x and y years
             of age. Default is Everyone.
@@ -207,6 +209,11 @@ def add_drug_campaign(campaign,
         ind_property_restrictions: The setting for **Property_Restrictions_Within_Node**
             in :doc:`emod-malaria:parameter-campaign-event-triggeredeventcoordinator`
             that individuals must have to receive the diagnostic intervention.
+        ind_prop_restr_birthtrigger_event: List of IndividualProperty key:value pairs that
+            individuals must have to create trigger event for the intervention.
+            For example, ``[{"IndividualProperty1":"PropertyValue1"},
+            {"IndividualProperty2":"PropertyValue2"}]``. Default is no restrictions.
+            Used in triggered_campaign_delay_event that creates BroadcastEvent to trigger vaccine campaign.
         disqualifying_properties: The setting for **Disqualifying_Properties**
             in :doc:`emod-malaria:parameter-campaign-individual-antimalarialdrug` or
             in :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
@@ -251,10 +258,10 @@ def add_drug_campaign(campaign,
 
     expire_recent_drugs = None
     if drug_ineligibility_duration > 0:
-        expire_recent_drugs = PropertyValueChanger(
-            Target_Property_Key="DrugStatus",
-            Target_Property_Value="RecentDrug",
-            Revert=drug_ineligibility_duration)
+        expire_recent_drugs = PropertyValueChanger(camp=campaign,
+                                                   Target_Property_Key="DrugStatus",
+                                                   Target_Property_Value="RecentDrug",
+                                                   Revert=drug_ineligibility_duration)
 
     if start_days is None:
         start_days = [1]
@@ -320,6 +327,18 @@ def add_drug_campaign(campaign,
                   ind_property_restrictions=ind_property_restrictions,
                   disqualifying_properties=disqualifying_properties)
 
+    # birthtriggered drug campaign
+    elif campaign_type == 'PMC':
+        if treatment_delay:
+            raise ValueError('"treatment_delay" parameter is not used in IPTi')
+        add_IPTi(campaign, start_day=start_days[0],
+                 triggered_campaign_delay=triggered_campaign_delay, trigger_name=trigger_name,
+                 coverage=coverage, delay_distribution=delay_distribution,
+                 drug_configs=drug_configs, listening_duration=listening_duration,
+                 node_ids=node_ids,
+                 ind_prop_restr_birthtrigger_event=ind_prop_restr_birthtrigger_event,
+                 ind_property_restrictions=ind_property_restrictions)
+
     else:
         raise Exception('Warning: unrecognized campaign type\n')
         pass
@@ -370,7 +389,7 @@ def add_MDA(campaign, start_days: list = None, coverage: float = 1.0, drug_confi
         target_age_max = target_group["agemax"]
     if "gender" in target_group:
         target_sex = target_group["gender"]
-       
+
     """
         raise KeyError("Unknown target_group parameter. Please pass in 'Everyone' or a dictionary of "
                        "{'agemin' : x, 'agemax' : y, 'gender': 'Female'} to target  to individuals between x and "
@@ -471,7 +490,7 @@ def add_MSAT(campaign, start_days: list = None, coverage: float = 1.0, drug_conf
     else:
         msat_cfg = [DelayedIntervention(
             campaign,
-            Delay_Dict={ "Delay_Period_Constant":treatment_delay },
+            Delay_Dict={"Delay_Period_Constant": treatment_delay},
             Configs=event_config)]
 
     # MSAT controlled by MalariaDiagnostic campaign event rather than New_Diagnostic_Sensitivity
@@ -654,7 +673,7 @@ def add_rfMSAT(campaign, start_day: int = 0, coverage: float = 1, drug_configs: 
         Node_Ids=node_ids,
         Demographic_Coverage=trigger_coverage,
         Duration=listening_duration,
-        Triggers=["ReceivedTreatment"],
+        Triggers=["Received_Treatment"],
         Intervention_List=[DelayedIntervention(
             campaign,
             Delay_Dict={"Delay_Period_Constant": treatment_delay},
@@ -731,7 +750,7 @@ def add_rfMDA(campaign, start_day: int = 0, coverage: float = 1, drug_configs: l
         Node_Ids=node_ids,
         Demographic_Coverage=trigger_coverage,
         Property_Restrictions=ind_property_restrictions,
-        Triggers=["ReceivedTreatment"],
+        Triggers=["Received_Treatment"],
         Duration=listening_duration,
         Intervention_List=[
             DelayedIntervention(
@@ -763,7 +782,8 @@ def add_rfMDA(campaign, start_day: int = 0, coverage: float = 1, drug_configs: l
     campaign.add(fmda_distribute_drugs)
 
 
-def fmda_cfg(campaign, fmda_type: any = 0, node_selection_type: str = 'DISTANCE_ONLY', event_trigger: str = 'Give_Drugs'):
+def fmda_cfg(campaign, fmda_type: any = 0, node_selection_type: str = 'DISTANCE_ONLY',
+             event_trigger: str = 'Give_Drugs'):
     """
     Create an fMDA (focal mass drug administration) configuration.
 
@@ -788,3 +808,100 @@ def fmda_cfg(campaign, fmda_type: any = 0, node_selection_type: str = 'DISTANCE_
         Include_My_Node=1,
         Node_Selection_Type=node_selection_type,
         Max_Distance_To_Other_Nodes_Km=fmda_type)
+
+
+def add_IPTi(campaign, start_day: int = 1, triggered_campaign_delay: int = None, trigger_name: str = None,
+             coverage: float = 1, trigger_coverage: float = 1,
+             drug_configs: list = None, listening_duration: int = -1,
+             delay_distribution: dict = None,
+             node_ids: list = None, ind_prop_restr_birthtrigger_event: list = None,
+             ind_property_restrictions: list = None):
+    """
+    This function adds two intervention types and multiple deployments to your campaign file:
+    1) "IPTi" (IPTi eligible) - triggered campaign_delay_event of
+    "Births" event with a "triggered_campaign_delay" option, with "demographic_coverage".
+    2) "Received_IPTi" event-triggered MultiIntervention event
+    distributing "drug_configs" drugs, with "coverage"
+    to specify custom coverages at the triggered campaign_delay_event.
+
+    Upon "Births" event a delayed "IPTi" is sent out,
+    which triggers giving drugs in a separate event "Received_IPTi".
+
+    Args:
+        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will
+            be added.
+        start_day: The day the intervention is distributed. Default is 0.
+        trigger_coverage: Used to create BroadcastEvent to trigger IPTi campaign after Births. Default is 1
+            (i.e. all infants are captured by health system to reach an age eligible for IPTi).
+        coverage: The proportion of the population covered by the intervention (fraction of infants receiving IPTi)
+        drug_configs: List of dictionaries of drug configurations to be
+            distributed, created in add_drug_campaign.
+        listening_duration: Duration of the existence of the intervention.
+            Default is ongoing.
+        delay_distribution:  Dictionary of parameters that define the distribution for duration at node, including
+            the distribution
+            Default: None
+            Durations are in days.
+
+            Examples::
+
+                    {"Delay_Period_Distribution":"GAUSSIAN_DISTRIBUTION",
+                    "Delay_Period_Gaussian_Mean": 14, "Delay_Period_Gaussian_Std_Dev" 3}
+                    {"Delay_Period_Distribution":"POISSON_DISTRIBUTION",
+                    "Delay_Period_Poisson_Mean" 30}
+                If None automatically uses:
+                    {"Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                    "Delay_Period_Constant": triggered_campaign_delay}
+
+        triggered_campaign_delay: When using trigger_condition_list, this indicates the delay period
+            between receiving the trigger event and running the triggered campaign intervention
+            (days after Births at which infant is eligible for IPTi).
+            This is ignored if delay_distribution is not None.
+        trigger_name: Name of broadcast event sent out after trigger event.
+            Also used as in drug campaign with default "Received_{trigger_name}"
+            Example:
+                "IPTi_{x}" with x = number of IPTi dose
+        node_ids: The list of nodes to apply this intervention to (**Node_List**
+            parameter). If not provided, set value of NodeSetAll.
+        ind_property_restrictions: List of IndividualProperty key:value pairs that
+            individuals must have to receive the diagnostic intervention.
+            For example, ``[{"IndividualProperty1":"PropertyValue1"},
+            {"IndividualProperty2":"PropertyValue2"}]``. Default is no restrictions.
+
+    Returns:
+        None
+    """
+    if drug_configs is None:
+        raise Exception("You have to pass in drug_configs (list of drug configurations) that can be generated with "
+                        "malaria.interventions.malaria_drugs import drug_configs_from_code.\n")
+    if triggered_campaign_delay and delay_distribution:
+        raise Exception("You passed in a triggered_campaign_delay AND a delay_distribution. Please pick one.\n")
+    if triggered_campaign_delay:
+        delay_distribution = {"Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                              "Delay_Period_Constant": triggered_campaign_delay}
+
+    if ind_property_restrictions is None:
+        ind_property_restrictions = []
+
+    broadcast_event = BroadcastEvent(campaign, trigger_name)
+    if delay_distribution:
+        broadcast_event = DelayedIntervention(campaign, Configs=[broadcast_event],
+                                              Delay_Dict=delay_distribution)
+    add_triggered_campaign_delay_event(campaign, start_day=start_day,
+                                       trigger_condition_list=['Births'],
+                                       demographic_coverage=trigger_coverage,
+                                       listening_duration=listening_duration,
+                                       ind_property_restrictions=ind_prop_restr_birthtrigger_event,
+                                       node_ids=node_ids,
+                                       individual_intervention=broadcast_event)
+
+    interventions = drug_configs + [BroadcastEvent(campaign, f"Received_{trigger_name}")]
+
+    add_triggered_campaign_delay_event(campaign=campaign,
+                                       start_day=start_day,
+                                       trigger_condition_list=[trigger_name],
+                                       listening_duration=listening_duration,
+                                       demographic_coverage=coverage,
+                                       node_ids=node_ids,
+                                       ind_property_restrictions=ind_property_restrictions,
+                                       individual_intervention=interventions)

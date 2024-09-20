@@ -114,7 +114,7 @@ def add_larvicide(
 
 def new_intervention_as_file(campaign, start_day: int = 1, filename: str = None):
     """
-    Creates a file with SpaceSpray intervention
+    Creates a file with Larvicides intervention
     Args:
         campaign:
         start_day: the day to distribute the Larvicides intervention
@@ -125,7 +125,7 @@ def new_intervention_as_file(campaign, start_day: int = 1, filename: str = None)
     """
 
     campaign.reset()
-    add_larvicide( campaign )
+    add_larvicide( campaign, start_day=start_day )
     if filename is None:
         filename = "Larvicides.json"
     campaign.save(filename)

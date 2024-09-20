@@ -71,7 +71,7 @@ def add_scale_larval_habitats(campaign, df=None,
                 if len(habitat_names) == 1:
                     habitat_scales.append({"Habitat": habitat_columns[0],
                                            "Species": "ALL_SPECIES",
-                                           "Factor": float(gn)})
+                                           "Factor": float(gn[0])})
                 else:
                     for x, y in zip(habitat_columns, gn):
                         habitat_scales.append({"Habitat": x,
@@ -84,7 +84,7 @@ def add_scale_larval_habitats(campaign, df=None,
                         habitat, sp = habitat_columns[0].split('.')
                         habitat_scales.append({"Habitat": habitat,
                                                "Species": sp,
-                                               "Factor": float(gn)})
+                                               "Factor": float(gn[0])})
                     else:
                         habitat = habitat_columns[0].split('.')[0]
                         species = [x.split('.')[1] for x in habitat_columns]

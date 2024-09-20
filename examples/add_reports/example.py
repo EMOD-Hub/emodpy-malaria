@@ -167,6 +167,9 @@ def general_sim():
                                 reporting_interval=12,
                                 node_ids=[1])
 
+    # ReportSimulationStats
+    add_report_simulation_stats(task, manifest)
+
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)

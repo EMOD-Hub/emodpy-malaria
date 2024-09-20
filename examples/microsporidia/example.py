@@ -14,6 +14,7 @@ from idmtools.entities.experiment import Experiment
 import emodpy.emod_task as emod_task
 from emodpy.utils import EradicationBambooBuilds
 from emodpy.bamboo import get_model_files
+from emodpy_malaria.vector_migration.vector_migration import from_demographics_and_gravity_params
 
 import manifest
 
@@ -41,8 +42,10 @@ def build_campaign(microsporidia=True):
 
     campaign.set_schema(manifest.schema_file)
 
-    add_scheduled_mosquito_release(campaign, 100, released_number=5000, released_species="gambiae",
-                                   released_microsopridia=microsporidia)
+    add_scheduled_mosquito_release(campaign, 50, released_number=1000, released_species="gambiae",
+                                   released_microsporidia=True, released_genome=[['X', 'Y']])
+    add_scheduled_mosquito_release(campaign, 50, released_number=1000, released_species="gambiae",
+                                   released_microsporidia="Strain_B", released_genome=[['X', 'Y']])
 
     return campaign
 
@@ -56,10 +59,19 @@ def set_config_parameters(config):
     import emodpy_malaria.malaria_config as malaria_config
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae", "funestus"])
-    config.parameters.Simulation_Duration = 300
+    config.parameters.Simulation_Duration = 100
     transmission_modification = {"Times": [0, 6], "Values": [1, 0.5]}
     malaria_config.add_microsporidia(config, manifest, species_name="gambiae",
-                                     female_to_male_probability=1,
+                                     female_to_male_probability=0,
+                                     male_to_female_probability=0, female_to_egg_probability=0,
+                                     duration_to_disease_acquisition_modification=None,
+                                     duration_to_disease_transmission_modification=transmission_modification,
+                                     larval_growth_modifier=1,
+                                     female_mortality_modifier=1, male_mortality_modifier=1)
+    malaria_config.add_microsporidia(config, manifest, species_name="gambiae",
+                                     strain_name="Strain_B",
+                                     male_to_egg_probability=1,
+                                     female_to_male_probability=0,
                                      male_to_female_probability=0, female_to_egg_probability=0,
                                      duration_to_disease_acquisition_modification=None,
                                      duration_to_disease_transmission_modification=transmission_modification,
@@ -71,35 +83,45 @@ def set_config_parameters(config):
 
 def sweep_female_to_male_probability(simulation, value):
     simulation.task.config.parameters.Vector_Species_Params[
-        0].Microsporidia_Female_To_Male_Transmission_Probability = value
+        0].Microsporidia[0].Female_To_Male_Transmission_Probability = value
     return {"female_to_male_probability": value}
 
 
 def sweep_male_to_female_probability(simulation, value):
     simulation.task.config.parameters.Vector_Species_Params[
-        0].Microsporidia_Male_To_Female_Transmission_Probability = value
+        0].Microsporidia[0].Male_To_Female_Transmission_Probability = value
     return {"male_to_female_probability": value}
 
 
 def sweep_female_to_egg_probability(simulation, value):
     simulation.task.config.parameters.Vector_Species_Params[
-        0].Microsporidia_Female_To_Egg_Transmission_Probability = value
+        0].Microsporidia[0].Female_To_Egg_Transmission_Probability = value
     return {"female_to_egg_probability": value}
 
 
+def sweep_male_to_egg_probability(simulation, value):
+    simulation.task.config.parameters.Vector_Species_Params[
+        0].Microsporidia[0].Male_To_Egg_Transmission_Probability = value
+    return {"male_to_egg_probability": value}
+
+
 def sweep_larval_growth_modifier(simulation, value):
-    simulation.task.config.parameters.Vector_Species_Params[0].Microsporidia_Larval_Growth_Modifier = value
+    simulation.task.config.parametersVector_Species_Params[
+        0].Microsporidia[0].Larval_Growth_Modifier = value
     return {"larval_growth_modifier": value}
 
 
 def sweep_female_mortality_modifier(simulation, value):
-    simulation.task.config.parameters.Vector_Species_Params[0].Microsporidia_Female_Mortality_Modifier = value
+    simulation.task.config.parameters.Vector_Species_Params[
+        0].Microsporidia[0].Female_Mortality_Modifier = value
     return {"female_mortality_modifier": value}
 
 
 def sweep_male_mortality_modifier(simulation, value):
-    simulation.task.config.parameters.Vector_Species_Params[0].Microsporidia_Male_Mortality_Modifier = value
+    simulation.task.config.parameters.Vector_Species_Params[
+        0].Microsporidia[0].Male_Mortality_Modifier = value
     return {"male_mortality_modifier": value}
+
 
 def on_off_microsporidia(simulation, value):
     """
@@ -117,7 +139,6 @@ def on_off_microsporidia(simulation, value):
     return {"microsporidia": value}
 
 
-
 def build_demographics():
     """
     Build a demographics input file for the DTK using emod_api.
@@ -129,7 +150,7 @@ def build_demographics():
     """
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
 
-    demographics = Demographics.from_template_node(lat=0, lon=0, pop=10000, name=1, forced_id=1)
+    demographics = Demographics.from_params(tot_pop=10000, num_nodes=50, frac_rural=0.1)
     return demographics
 
 
@@ -179,16 +200,27 @@ def general_sim(selected_platform):
 
     builder.add_sweep_definition(on_off_microsporidia, [True, False])
 
-    builder.add_sweep_definition(sweep_female_to_egg_probability, [0, 0.5, 1])
+    # builder.add_sweep_definition(sweep_male_to_egg_probability, [0, 0.5, 1])
     # builder.add_sweep_definition(sweep_female_to_male_probability, [0, 0.5, 1])
     # builder.add_sweep_definition(sweep_male_to_female_probability, [0,  0.5, 1])
     # builder.add_sweep_definition(sweep_larval_growth_modifier, [0, 0.5,  1,  5])
     # builder.add_sweep_definition(sweep_female_mortality_modifier, [0, 0.5, 1,  5])
     # builder.add_sweep_definition(sweep_male_mortality_modifier, [0, 0.5, 1, 5])
 
-    from emodpy_malaria.reporters.builtin import add_report_vector_stats
+    # we need a demographics object to pass to
+    demog = build_demographics()
+    grav_parm = [1, 0.3, 0.01, -1.3]
+    from_demographics_and_gravity_params(task, demographics_object=demog, gravity_params=grav_parm,
+                                         migration_type="LOCAL_MIGRATION")
+
+    from emodpy_malaria.reporters.builtin import add_report_vector_stats, add_report_microsporidia, add_report_vector_migration
     # ReportVectorStats
-    add_report_vector_stats(task, manifest, species_list=["gambiae"], include_gestation=0, include_microsporidia=1)
+    add_report_vector_stats(task, manifest, species_list=["gambiae"], include_gestation=True,
+                            include_microsporidia=True)
+    add_report_vector_migration(task, manifest)
+
+    # ReportMicrosporidia
+    add_report_microsporidia(task, manifest)
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.

@@ -8,17 +8,16 @@ import importlib
 # idmtools ...
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
-
+from emodpy_malaria.serialization.replace_genomes import replace_genomes, test_replace_genomes
+import emodpy_malaria.serialization.replace_genomes_get_next_barcode as replace_genomes_get_next_barcode
 from emodpy.emod_task import EMODTask
-
-sys.path.append('../../emodpy_malaria/serialization')  # current root dir is "examples/serialization_replace_genomes", add "serialization" to the path Python searches for modules
-import replace_genomes      # import from directory "serialization"
-import replace_genomes_get_next_barcode
 
 """
 This examples takes a serialized population and uses the function replace_genomes() to replace
 the genome of an individual's infection and the vector population.   
 """
+
+
 def set_param_fn(config):
     """
     This function is a callback that is passed to emod-api.config to set parameters The Right Way.
@@ -26,10 +25,10 @@ def set_param_fn(config):
     import emodpy_malaria.malaria_config as malaria_config
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, "gambiae")
-    config.parameters.Simulation_Duration = 1   # Just to check if saved dtk file can be loaded
+    config.parameters.Simulation_Duration = 1  # Just to check if saved dtk file can be loaded
     config.parameters.Serialized_Population_Reading_Type = "READ"
     config.parameters.Serialization_Mask_Node_Read = 0
-    config.parameters.Serialized_Population_Path = manifest.assets_input_dir # <--we uploaded files to here
+    config.parameters.Serialized_Population_Path = manifest.assets_input_dir  # <--we uploaded files to here
     config.parameters.Serialized_Population_Filenames = [manifest.destination]
     config.parameters.Serialization_Precision = "REDUCED"
     config.parameters.Malaria_Model = "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS"
@@ -37,7 +36,7 @@ def set_param_fn(config):
     config.parameters.Parasite_Genetics.Sporozoites_Per_Oocyst_Distribution = "GAUSSIAN_DISTRIBUTION"
 
     config.parameters.Parasite_Genetics.PfEMP1_Variants_Genome_Locations = [
-        214333,   428667,  958667, 1274333, 1864900, 2139900, 2414900,
+        214333, 428667, 958667, 1274333, 1864900, 2139900, 2414900,
         2989900, 3289900, 3589900, 4150000, 4410000, 4670000, 4930000,
         5470000, 5750000, 6030000, 6310000, 6870000, 7150000, 7430000,
         7710000, 8250000, 8510000, 8770000, 9030000, 9590000, 9890000,
@@ -53,6 +52,7 @@ def set_param_fn(config):
 
     return config
 
+
 def build_demog():
     """
         Builds demographics
@@ -60,7 +60,8 @@ def build_demog():
         final demographics object
     """
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
-    return Demographics.from_params() # dummy, loading serialized population
+    return Demographics.from_params()  # dummy, loading serialized population
+
 
 def general_sim():
     """
@@ -81,10 +82,10 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
+
     # set the singularity image to be used when running this experiment
     task.set_sif(manifest.sif_path)
-    
+
     # We are creating one-simulation experiment straight from task.
     experiment_name = "Create simulation from serialized file with replaced genomes"
     experiment = Experiment.from_task(task=task, name=experiment_name)
@@ -113,20 +114,21 @@ def run_example():
     # 1)  replace genomes in the serialized file created by burnin_create_parasite_genetics example
     source_dtk = Path(manifest.ser_path, manifest.source)
     destination_dtk = Path(manifest.ser_out_path, manifest.destination)
+    Path(manifest.ser_out_path).mkdir(parents=True, exist_ok=True)
     get_next_barcode_fn = replace_genomes_get_next_barcode.get_next_barcode
-    replace_genomes.replace_genomes(source_dtk, get_next_barcode_fn, destination_dtk)
-    
+    replace_genomes(source_dtk, get_next_barcode_fn, destination_dtk)
+
     # 2) Check that modified dtk file contains the correct barcodes
-    importlib.reload(replace_genomes_get_next_barcode)  # reimport module to reinitialize variables in module containing function to get next barcode
-    replace_genomes.test_replace_genomes(destination_dtk, get_next_barcode_fn)
+    # reimport module to reinitialize variables in module containing function to get next barcode
+    importlib.reload(replace_genomes_get_next_barcode)
+    test_replace_genomes(destination_dtk, get_next_barcode_fn)
 
     # 3) Run sim with the modified file
     general_sim()
 
 
-
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
+
     dtk.setup(Path(manifest.eradication_path).parent)
     run_example()
-

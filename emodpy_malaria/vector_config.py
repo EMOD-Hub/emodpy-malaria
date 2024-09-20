@@ -71,6 +71,7 @@ def set_team_defaults(config, manifest):
     config.parameters.Enable_Climate_Stochasticity = 0
 
     config.parameters.Simulation_Duration = 365
+    config.parameters.Start_Time = 0  # default is 1, but interventions often start at 0, which will make them not work
 
     return config
 
@@ -110,18 +111,23 @@ def set_species_param(config, species, parameter, value, overwrite=False):
 
     vector_species = get_species_params(config, species)
 
-    if parameter in vector_species and isinstance(vector_species[parameter], list) and not overwrite:
-        if isinstance(value, list):
-            for val in value:
-                vector_species[parameter].append(val)
-            return
+    if parameter in vector_species:
+        if isinstance(vector_species[parameter], list):
+            if overwrite:
+                if isinstance(value, list):
+                    vector_species[parameter] = value
+                else:
+                    vector_species[parameter] = [value]
+            else:
+                if isinstance(value, list):
+                    for val in value:
+                        vector_species[parameter].append(val)
+                else:
+                    vector_species[parameter].append(value)
         else:
-            vector_species[parameter].append(value)
-            return
+            vector_species[parameter] = value
     else:
         vector_species[parameter] = value
-        return
-    raise ValueError(f"Species {species} not found.\n")
 
 
 def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
@@ -316,6 +322,52 @@ def add_mutation(config, manifest, species, mutate_from, mutate_to, probability)
     return config
 
 
+def create_trait(manifest, trait: str = None, modifier: float = None,
+                 sporozoite_barcode_string: str = None, gametocyte_a_barcode_string: str = None,
+                 gametocyte_b_barcode_string: str = None):
+    """
+        Configures and returns a modifier trait.
+
+    Args:
+        manifest: manifest file containing the schema path
+        trait: The trait to be modified of vectors with the given allele combination.
+            Available traits are: "INFECTED_BY_HUMAN", "FECUNDITY", "FEMALE_EGG_RATIO", "STERILITY",
+            "TRANSMISSION_TO_HUMAN", "ADJUST_FERTILE_EGGS", "MORTALITY", "INFECTED_PROGRESS", "OOCYST_PROGRESSION",
+            "SPOROZOITE_MORTALITY"
+        modifier: The multiplier to use to modify the given trait for vectors with the given allele combination.
+        sporozoite_barcode_string: TBD
+        gametocyte_a_barcode_string: TBD
+        gametocyte_b_barcode_string: TBD
+
+    Returns:
+        trait parameters that can be added to a list and passed to add_trait() function
+    """
+    traits_available = ["INFECTED_BY_HUMAN", "FECUNDITY", "FEMALE_EGG_RATIO", "STERILITY", "TRANSMISSION_TO_HUMAN",
+                        "ADJUST_FERTILE_EGGS", "MORTALITY", "INFECTED_PROGRESS", "OOCYST_PROGRESSION",
+                        "SPOROZOITE_MORTALITY"]
+    if not trait or modifier is None:
+        raise ValueError(f'Please define both trait and modifier. Available traits are: {traits_available}.\n')
+    if trait == "OOCYST_PROGRESSION" and not (gametocyte_a_barcode_string and gametocyte_b_barcode_string):
+        raise ValueError("With trait = 'OOCYST_PROGRESSION', you need to define gametocyte_a_barcode_string and "
+                         "gametocyte_b_barcode_string. \n")
+    if trait == "SPOROZOITE_MORTALITY" and not sporozoite_barcode_string:
+        raise ValueError("With trait = 'SPOROZOITE_MORTALITY', you need to define sporozoite_barcode_string.\n")
+    if trait not in traits_available:
+        raise ValueError(f"Can't find trait '{trait}' in available traits. Traits available for use "
+                         f"are {traits_available}")
+
+    trait_modifier = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:TraitModifier"])
+    trait_modifier.parameters.Trait = trait
+    trait_modifier.parameters.Modifier = modifier
+    if trait == "SPOROZOITE_MORTALITY":
+        trait_modifier.parameters.Sporozoite_Barcode_String = sporozoite_barcode_string
+    if trait == "OOCYST_PROGRESSION":
+        trait_modifier.parameters.Gametocyte_A_Barcode_String = gametocyte_a_barcode_string
+        trait_modifier.parameters.Gametocyte_B_Barcode_String = gametocyte_b_barcode_string
+
+    return trait_modifier.parameters
+
+
 def add_trait(config, manifest, species, allele_combo: list = None, trait_modifiers: list = None):
     """
     Use this function to add traits as part of vector genetics configuration, the trait is assigned to the
@@ -346,10 +398,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
 
             [[  "X",  "X" ], [ "a0", "a1" ]]
 
-        trait_modifiers:  List of tuples of (**Trait**, **Modifier**) for the *Allele_Combinations**
-            **Example**::
-
-            [("FECUNDITY", 0.5), ("X_SHRED", 0.80)]
+        trait_modifiers: list of trait modifier parameters created with create_trait() function.
 
     Returns:
         configured config
@@ -360,7 +409,9 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
     for combo in allele_combo:
         if len(combo) != 2:
             raise ValueError(
-                "Each combo in allele_combo must have two values - one for each chromosome, '*' is acceptable")
+                "Each combo in allele_combo must have two values - one for each chromosome, '*' is acceptable. \n")
+    if not trait_modifiers or not isinstance(trait_modifiers, list):
+        raise ValueError("Please make sure to pass in a list of trait modifiers created by create_trait() funciton.\n")
 
     species_params = get_species_params(config, species)
     # Check that the alleles referenced here have been 'declared' previously
@@ -382,13 +433,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
 
     trait = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:GeneToTraitModifierConfig"])
     trait.parameters.Allele_Combinations = allele_combo
-
-    for index, trait_modifier in enumerate(trait_modifiers):
-        trait_mod = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:TraitModifier"])
-        trait_mod.parameters.Trait = trait_modifier[0]
-        trait_mod.parameters.Modifier = trait_modifier[1]
-        trait.parameters.Trait_Modifiers.append(trait_mod.parameters)
-
+    trait.parameters.Trait_Modifiers = trait_modifiers
     species_params.Gene_To_Trait_Modifiers.append(trait.parameters)
 
     return config
@@ -577,6 +622,7 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
     species_params = get_species_params(config, species)
     gender_allele_required = False
     gender_allele_to_shred = False
+    gender_allele_to_shred_to = False
 
     gene_driver = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorGeneDriver"])
     gene_driver.parameters.Driving_Allele = driving_allele
@@ -592,22 +638,31 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
                         gender_allele_required = True
                         if driver_type == "X_SHRED" and allele["Is_Y_Chromosome"] == 0:
                             raise ValueError(
-                                f"For 'driver_type' = X_SHRED, 'allele_to_shred' should be the Y chromosome.\n")
+                                f"For 'driver_type' = X_SHRED, 'shredding_allele_required' should be a Y chromosome.\n")
                         elif driver_type == "Y_SHRED" and allele["Is_Y_Chromosome"] == 1:
                             raise ValueError(
-                                f"For 'driver_type' = Y_SHRED, 'allele_to_shred' should be the X chromosome.\n")
+                                f"For 'driver_type' = Y_SHRED, 'shredding_allele_required' should be an X chromosome.\n")
                     elif allele["Name"] == allele_to_shred:
                         gender_allele_to_shred = True
                         if driver_type == "X_SHRED" and allele["Is_Y_Chromosome"] == 1:
                             raise ValueError(
-                                f"For 'driver_type'= X_SHRED, 'allele_to_shred' should not be Y chromosome.\n")
+                                f"For 'driver_type'= X_SHRED, 'allele_to_shred' should be X chromosome.\n")
                         elif driver_type == "Y_SHRED" and allele["Is_Y_Chromosome"] == 0:
                             raise ValueError(
-                                f"For 'driver_type'= Y_SHRED, 'allele_to_shred' should be the X chromosome.\n")
+                                f"For 'driver_type'= Y_SHRED, 'allele_to_shred' should be Y chromosome.\n")
+                    elif allele["Name"] == allele_to_shred_to:
+                        gender_allele_to_shred_to = True
+                        if driver_type == "X_SHRED" and allele["Is_Y_Chromosome"] == 1:
+                            raise ValueError(
+                                f"For 'driver_type'= X_SHRED, 'allele_to_shred' should be X chromosome.\n")
+                        elif driver_type == "Y_SHRED" and allele["Is_Y_Chromosome"] == 0:
+                            raise ValueError(
+                                f"For 'driver_type'= Y_SHRED, 'allele_to_shred_to' should be Y chromosome.\n")
 
-        if not (gender_allele_required and gender_allele_to_shred):
-            raise ValueError(f"Looks like shredding allele required or allele to shred are not on a gender gene, "
-                             f"but they both should be. Please verify your settings.\n")
+        if not (gender_allele_required and gender_allele_to_shred and gender_allele_to_shred_to):
+            raise ValueError(f"Looks like shredding_allele_required or allele_to_shred or allele_to_shred_to are not "
+                             f"on a gender gene, "
+                             f"but they all should be. Please verify your settings.\n")
 
         shredding_alleles = dfs.schema_to_config_subnode(manifest.schema_file,
                                                          ["idmTypes", "idmType:ShreddingAlleles"])
@@ -637,7 +692,7 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
                     return config
                 else:
                     raise ValueError(f"The gene driver with 'driving_allele'={driving_allele} must have exactly one "
-                                     f"entry in 'Alleles_Driven' for this allele and therefore cannot be used for"
+                                     f"entry in 'Alleles_Driven' for this allele and therefore cannot be used for "
                                      f"multiple 'driver_type's.\n")
 
     if driver_type == "X_SHRED" or driver_type == "Y_SHRED":
@@ -677,12 +732,17 @@ def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capac
     raise ValueError(f"Failed to find habitat_type {habitat_type} for species {species_name}.")
 
 
-def add_microsporidia(config, manifest, species_name: str = None, female_to_male_probability: float = 0,
-                      male_to_female_probability: float = 0, female_to_egg_probability: float = 0,
+def add_microsporidia(config, manifest, species_name: str = None,
+                      strain_name: str = "Strain_A",
+                      female_to_male_probability: float = 0,
+                      female_to_egg_probability: float = 0,
+                      male_to_female_probability: float = 0,
+                      male_to_egg_probability: float = 0,
                       duration_to_disease_acquisition_modification: dict = None,
                       duration_to_disease_transmission_modification: dict = None,
                       larval_growth_modifier: float = 1,
-                      female_mortality_modifier: float = 1, male_mortality_modifier: float = 1):
+                      female_mortality_modifier: float = 1,
+                      male_mortality_modifier: float = 1):
     """
         Adds microsporidia parameters to the named species' parameters.
 
@@ -690,12 +750,17 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
         config: schema-backed config dictionary, written to config.json
         manifest: file that contains path to the schema file
         species_name: Species to target, **Name** parameter
+        strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
+            Cannot be empty string
         female_to_male_probability: **Microsporidia_Female_to_Male_Transmission_Probability** The probability
             an infected female will infect an uninfected male.
-        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
-            an infected male will infect an uninfected female
         female_to_egg_probability: **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
             an infected female will infect her eggs when laying them.
+        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
+            an infected male will infect an uninfected female
+        male_to_egg_probability: **Microsporidia_Male_To_Egg_Transmission_Probability** The probability a female that
+            mated with an infected male will infect her eggs when laying them, independent of her being infected and
+            transmitting to her offspring.
         duration_to_disease_acquisition_modification: **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
             **Times** is an array of days in ascending order that represent the number of days since the vector became
@@ -731,7 +796,9 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
         Nothing
     """
     if not species_name:
-        raise ValueError("Please define species name.\n")
+        raise ValueError("Please define species_name.\n")
+    if not strain_name:
+        raise ValueError("Please define strain_name.\n")
     if not duration_to_disease_acquisition_modification:
         duration_to_disease_acquisition_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.5, 0.0]}
     if not duration_to_disease_transmission_modification:
@@ -745,11 +812,15 @@ def add_microsporidia(config, manifest, species_name: str = None, female_to_male
     d_t_d_t_m = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
     d_t_d_t_m.parameters.Times = duration_to_disease_transmission_modification["Times"]
     d_t_d_t_m.parameters.Values = duration_to_disease_transmission_modification["Values"]
-    species_parameters.Microsporidia_Duration_To_Disease_Acquisition_Modification = d_t_d_a_m.parameters
-    species_parameters.Microsporidia_Duration_To_Disease_Transmission_Modification = d_t_d_t_m.parameters
-    species_parameters.Microsporidia_Female_To_Male_Transmission_Probability = female_to_male_probability
-    species_parameters.Microsporidia_Male_To_Female_Transmission_Probability = male_to_female_probability
-    species_parameters.Microsporidia_Female_To_Egg_Transmission_Probability = female_to_egg_probability
-    species_parameters.Microsporidia_Larval_Growth_Modifier = larval_growth_modifier
-    species_parameters.Microsporidia_Female_Mortality_Modifier = female_mortality_modifier
-    species_parameters.Microsporidia_Male_Mortality_Modifier = male_mortality_modifier
+    microsporidia = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:MicrosporidiaParameters"])
+    microsporidia.parameters.Duration_To_Disease_Acquisition_Modification = d_t_d_a_m.parameters
+    microsporidia.parameters.Duration_To_Disease_Transmission_Modification = d_t_d_t_m.parameters
+    microsporidia.parameters.Female_To_Male_Transmission_Probability = female_to_male_probability
+    microsporidia.parameters.Male_To_Female_Transmission_Probability = male_to_female_probability
+    microsporidia.parameters.Larval_Growth_Modifier = larval_growth_modifier
+    microsporidia.parameters.Female_To_Egg_Transmission_Probability = female_to_egg_probability
+    microsporidia.parameters.Female_Mortality_Modifier = female_mortality_modifier
+    microsporidia.parameters.Male_Mortality_Modifier = male_mortality_modifier
+    microsporidia.parameters.Male_To_Egg_Transmission_Probability = male_to_egg_probability
+    microsporidia.parameters.Strain_Name = strain_name
+    species_parameters.Microsporidia = species_parameters.Microsporidia.append(microsporidia.parameters)

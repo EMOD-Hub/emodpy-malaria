@@ -14,6 +14,7 @@ import emodpy.emod_task as emod_task
 from emodpy.utils import EradicationBambooBuilds
 from emodpy.bamboo import get_model_files
 
+from emodpy_malaria.reporters.builtin import *
 import manifest
 
 """
@@ -32,6 +33,7 @@ def build_campaign():
     import emod_api.campaign as campaign
     import emodpy_malaria.interventions.drug_campaign as drug_campaign
     import emodpy_malaria.interventions.adherentdrug as ad
+    import emodpy_malaria.interventions.outbreak as outbreak
     campaign.set_schema(manifest.schema_file)
 
     # Please note: "add_MDA" and other specific campaigns cannot be added directly as there are
@@ -72,6 +74,9 @@ def build_campaign():
     drug_campaign.add_drug_campaign(campaign=campaign, campaign_type="MDA", adherent_drug_configs=[adherent_drug],
                                     start_days=[10],
                                     coverage=0.56)
+
+    outbreak.add_outbreak_individual(campaign, demographic_coverage=0.3)
+
     return campaign
 
 
@@ -131,24 +136,19 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-    
+
     # set the singularity image to be used when running this experiment
     task.set_sif(manifest.sif_path)
-    
+
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)
 
     # Adding ReportEventCounter report
-    from emodpy_malaria.reporters.builtin import ReportEventCounter
 
-    def fmr_config_builder(params):
-        params.Event_Trigger_List = ["HappyBirthday", "MDA", "MSAT"]
-        return params
-
-    report = ReportEventCounter()
-    report.config(fmr_config_builder, manifest)
-    task.reporters.add_reporter(report)
+    add_report_infection_stats_malaria(task, manifest, start_day=14, reporting_interval=10,  irbc_threshold=1000000
+                                       )
+    add_report_event_counter(task, manifest, event_trigger_list=["HappyBirthday", "MDA", "MSAT"])
 
     # The last step is to call run() on the ExperimentManager to run the simulations.
     experiment.run(wait_until_done=True, platform=platform)

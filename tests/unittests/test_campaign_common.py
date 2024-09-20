@@ -10,8 +10,8 @@ parent = Path(__file__).resolve().parent
 sys.path.append(str(parent))
 import schema_path_file
 
-campaign.set_schema(schema_path_file.schema_path)
-schema_path = schema_path_file.schema_path
+campaign.set_schema(schema_path_file.schema_file)
+schema_path = schema_path_file.schema_file
 
 
 class CommonInterventionTest(unittest.TestCase):

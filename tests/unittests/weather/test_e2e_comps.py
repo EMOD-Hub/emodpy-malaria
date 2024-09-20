@@ -24,7 +24,7 @@ class WeatherE2ECompsTests(unittest.TestCase):
         if not self.comps_url or not self.comps_user or not self.comps_pass:
             print("Enter the credentials when prompt.")
         else:
-            subprocess.run([sys.executable, Path(__file__).parent.parent.parent.joinpath("bamboo_testing/create_auth_token_args.py"),
+            subprocess.run([sys.executable, Path(__file__).parent.parent.parent.joinpath("create_auth_token_args.py"),
                         "--comps_url", self.comps_url, "--username",  self.comps_user, "--password",  self.comps_pass])
         self.out_dir = tempfile.mkdtemp()
 

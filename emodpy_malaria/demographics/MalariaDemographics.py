@@ -179,10 +179,12 @@ def from_pop_csv(pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", si
     Returns:
         A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance
     """
-    if os.path.exists(pop_filename_in) == False:
+    if not os.path.exists(pop_filename_in):
         raise ValueError(f"Can't find input data file {pop_filename_in}")
 
-    generic_demog = Demog.from_pop_csv(pop_filename_in, pop_filename_out, site)
+    generic_demog = Demog.from_pop_csv(pop_filename_in=pop_filename_in, res=1/120, id_ref="from_pop_csv",
+                                       pop_filename_out=pop_filename_out, site=site)
+
     nodes = generic_demog._nodes
     return MalariaDemographics(nodes=nodes, idref=site)
 

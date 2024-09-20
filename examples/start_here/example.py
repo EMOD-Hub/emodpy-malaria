@@ -78,7 +78,7 @@ def build_camp():
     # This isn't desirable. Need to think about right way to provide schema (once)
     camp.schema_path = manifest.schema_file
 
-    ts.add_treatment_seeking(camp, start_day=1, node_ids=[321])
+    ts.add_treatment_seeking(camp, targets=[{"trigger": "HappyBirthday"}], start_day=1, node_ids=[321])
     return camp
 
 

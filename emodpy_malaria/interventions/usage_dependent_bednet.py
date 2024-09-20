@@ -73,6 +73,9 @@ def add_scheduled_usage_dependent_bednet(
         target_num_individuals: int = None,
         node_ids: list = None,
         ind_property_restrictions: list = None,
+        target_age_min: float = 0,
+        target_age_max: float = 125,
+        target_gender: str = "All",
         intervention_name: str = "UsageDependentBednet",
         discard_config: dict = None,
         insecticide: str = "",
@@ -82,12 +85,15 @@ def add_scheduled_usage_dependent_bednet(
         blocking_initial_effect: float = 0.9,
         blocking_box_duration: int = 0,
         blocking_decay_time_constant: float = 730,
+        blocking_linear_times: list = None,
+        blocking_linear_values: list = None,
+        blocking_expire_at_end: int = 0,
         killing_initial_effect: float = 0,
         killing_box_duration: int = 0,
         killing_decay_time_constant: float = 1460,
         age_dependence: dict = None,
-        seasonal_dependence: dict = None
-):
+        seasonal_dependence: dict = None,
+        dont_allow_duplicates: bool = False):
     """
     Add an insecticide-treated net (ITN) intervention with a seasonal usage
     pattern to the campaign using the **UsageDependentBednet** class.
@@ -114,13 +120,16 @@ def add_scheduled_usage_dependent_bednet(
             that individuals must have to receive the intervention (
             **Property_Restrictions_Within_Node** parameter). In the format ``[{
             "BitingRisk":"High"}, {"IsCool":"Yes}]``.
+        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender: The gender targeted for an intervention: All, Male, or Female.
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
             attached to a person if they have different Intervention_Name values.
         discard_config: A dictionary of parameters needed to define expiration distribution.
             No need to definite the distribution with all its parameters
             Default is bednet being discarded with EXPONENTIAL_DISTRIBUTION with Expiration_Period_Exponential of 10 years
-            
+
             Examples::
 
                     for Gaussian: {"Expiration_Period_Distribution": "GAUSSIAN_DISTRIBUTION",
@@ -139,6 +148,12 @@ def add_scheduled_usage_dependent_bednet(
         blocking_initial_effect: Initial strength of the Blocking effect. The effect may decay over time.
         blocking_box_duration: Box duration of effect in days before the decay of Blocking Initial_Effect.
         blocking_decay_time_constant: The exponential decay length, in days of the Blocking Initial_Effect.
+        blocking_linear_times: An array of days that matches the defined linear values for Blocking Initial_Effect
+        blocking_linear_values: An array of multiplier values that matches the defined linear days for
+            Blocking Initial_Effect.
+        blocking_expire_at_end: Set to 1 to have efficacy go to zero and let the intervention expire when the end of
+            the map is reached.  Only vaccines and bednet usage currently support this expiration feature.
+            defaults to 0.
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -158,7 +173,8 @@ def add_scheduled_usage_dependent_bednet(
             Examples::
 
                 {"Times":[], "Values":[]} or {"min_cov":0.45, "max_day":300}
-
+        dont_allow_duplicates: Set to True to prevent individual from receiving another copy of the intervention.
+            Default is False.
 
     Returns:
         None
@@ -190,17 +206,24 @@ def add_scheduled_usage_dependent_bednet(
                                            blocking_initial_effect=blocking_initial_effect,
                                            blocking_box_duration=blocking_box_duration,
                                            blocking_decay_time_constant=blocking_decay_time_constant,
+                                           blocking_linear_times=blocking_linear_times,
+                                           blocking_linear_values=blocking_linear_values,
+                                           blocking_expire_at_end=blocking_expire_at_end,
                                            killing_initial_effect=killing_initial_effect,
                                            killing_box_duration=killing_box_duration,
                                            killing_decay_time_constant=killing_decay_time_constant,
                                            age_dependence=age_dependence,
-                                           seasonal_dependence=seasonal_dependence)
+                                           seasonal_dependence=seasonal_dependence,
+                                           dont_allow_duplicates=dont_allow_duplicates)
 
     malaria_common.add_campaign_event(campaign=campaign,
                                       start_day=start_day,
                                       demographic_coverage=demographic_coverage,
                                       target_num_individuals=target_num_individuals,
                                       node_ids=node_ids,
+                                      target_age_min=target_age_min,
+                                      target_age_max=target_age_max,
+                                      target_gender=target_gender,
                                       ind_property_restrictions=ind_property_restrictions,
                                       individual_intervention=intervention)
 
@@ -213,6 +236,9 @@ def add_triggered_usage_dependent_bednet(campaign,
                                          trigger_condition_list: list = None,
                                          triggered_campaign_delay: float = None,
                                          listening_duration: int = -1,
+                                         target_age_min: float = 0,
+                                         target_age_max: float = 125,
+                                         target_gender: str = "All",
                                          intervention_name: str = "UsageDependentBednet",
                                          discard_config: dict = None,
                                          insecticide: str = "",
@@ -222,12 +248,15 @@ def add_triggered_usage_dependent_bednet(campaign,
                                          blocking_initial_effect: float = 0.9,
                                          blocking_box_duration: int = 0,
                                          blocking_decay_time_constant: float = 730,
+                                         blocking_linear_times: list = None,
+                                         blocking_linear_values: list = None,
+                                         blocking_expire_at_end: int = 0,
                                          killing_initial_effect: float = 0,
                                          killing_box_duration: int = 0,
                                          killing_decay_time_constant: float = 1460,
                                          age_dependence: dict = None,
-                                         seasonal_dependence: dict = None
-                                         ):
+                                         seasonal_dependence: dict = None,
+                                         dont_allow_duplicates: bool = False):
     """
     Add an insecticide-treated net (ITN) intervention with a seasonal usage
     pattern to the campaign using the **UsageDependentBednet** class.
@@ -236,6 +265,7 @@ def add_triggered_usage_dependent_bednet(campaign,
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
         box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+        if any of the blocking_linear_* parameters are defined, only blocking_initial_effect is used.
 
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container
@@ -256,6 +286,9 @@ def add_triggered_usage_dependent_bednet(campaign,
         listening_duration: If run as a birth-triggered event or a trigger_condition_list,
             specifies the duration for the distribution to continue. Default
             is to continue until the end of the simulation.
+        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender: The gender targeted for an intervention: All, Male, or Female.
         ind_property_restrictions: The IndividualProperty key:value pairs
             that individuals must have to receive the intervention (
             **Property_Restrictions_Within_Node** parameter). In the format ``[{
@@ -285,6 +318,12 @@ def add_triggered_usage_dependent_bednet(campaign,
         blocking_initial_effect: Initial strength of the Blocking effect. The effect may decay over time.
         blocking_box_duration: Box duration of effect in days before the decay of Blocking Initial_Effect.
         blocking_decay_time_constant: The exponential decay length, in days of the Blocking Initial_Effect.
+        blocking_linear_times: An array of days that matches the defined linear values for Blocking Initial_Effect.
+        blocking_linear_values: An array of multiplier values that matches the defined linear days for
+            Blocking Initial_Effect.
+        blocking_expire_at_end: Set to 1 to have efficacy go to zero and let the intervention expire when the end of
+            the map is reached.  Only vaccines and bednet usage currently support this expiration feature.
+            defaults to 0.
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -304,7 +343,8 @@ def add_triggered_usage_dependent_bednet(campaign,
             Examples::
 
                 {"Times":[], "Values":[]} or {"min_cov":0.45, "max_day":300}
-
+        dont_allow_duplicates: Set to True to prevent individual from receiving another copy of the intervention.
+            Default is False.
 
 
     Returns:
@@ -339,11 +379,15 @@ def add_triggered_usage_dependent_bednet(campaign,
                                            blocking_initial_effect=blocking_initial_effect,
                                            blocking_box_duration=blocking_box_duration,
                                            blocking_decay_time_constant=blocking_decay_time_constant,
+                                           blocking_linear_times=blocking_linear_times,
+                                           blocking_linear_values=blocking_linear_values,
+                                           blocking_expire_at_end=blocking_expire_at_end,
                                            killing_initial_effect=killing_initial_effect,
                                            killing_box_duration=killing_box_duration,
                                            killing_decay_time_constant=killing_decay_time_constant,
                                            age_dependence=age_dependence,
-                                           seasonal_dependence=seasonal_dependence)
+                                           seasonal_dependence=seasonal_dependence,
+                                           dont_allow_duplicates=dont_allow_duplicates)
     malaria_common.add_triggered_campaign_delay_event(campaign=campaign,
                                                       start_day=start_day,
                                                       demographic_coverage=demographic_coverage,
@@ -352,6 +396,9 @@ def add_triggered_usage_dependent_bednet(campaign,
                                                       delay_period_constant=triggered_campaign_delay,
                                                       ind_property_restrictions=ind_property_restrictions,
                                                       node_ids=node_ids,
+                                                      target_age_min=target_age_min,
+                                                      target_age_max=target_age_max,
+                                                      target_gender=target_gender,
                                                       individual_intervention=intervention)
 
 
@@ -365,11 +412,15 @@ def _usage_dependent_bednet(campaign,
                             blocking_initial_effect: float = 0.9,
                             blocking_box_duration: int = 0,
                             blocking_decay_time_constant: float = 730,
+                            blocking_linear_times: list = None,
+                            blocking_linear_values: list = None,
+                            blocking_expire_at_end: int = 0,
                             killing_initial_effect: float = 0,
                             killing_box_duration: int = 0,
                             killing_decay_time_constant: float = 1460,
                             age_dependence: dict = None,
-                            seasonal_dependence: dict = None):
+                            seasonal_dependence: dict = None,
+                            dont_allow_duplicates: bool = False):
     """
         Configures UsageDependentBednet intervention
 
@@ -402,6 +453,14 @@ def _usage_dependent_bednet(campaign,
         blocking_box_duration: Box duration of effect in days before the decay of Blocking Initial_Effect.
             -1 indicates effect is indefinite (WaningEffectConstant)
         blocking_decay_time_constant: The exponential decay length, in days of the Blocking Initial_Effect.
+        blocking_linear_times: An array of days that matches the defined linear values for Blocking Initial_Effect
+            if this is set, WaningEffectMapLinear is used, box_duration and decay_time_constant is ignored for blocking
+        blocking_linear_values: An array of multiplier values that matches the defined linear days for
+            Blocking Initial_Effect. if this is set, WaningEffectMapLinear is used, box_duration and
+            decay_time_constant is ignored for blocking
+        blocking_expire_at_end: Set to 1 to have efficacy go to zero and let the intervention expire when the end of
+            the map is reached.  Only vaccines and bednet usage currently support this expiration feature.
+            defaults to 0.
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
             -1 indicates effect is indefinite (WaningEffectConstant)
@@ -422,6 +481,8 @@ def _usage_dependent_bednet(campaign,
             Examples::
 
                 {"Times":[], "Values":[]} or {"min_cov":0.45, "max_day":300}
+        dont_allow_duplicates: Set to True to prevent individual from receiving another copy of the intervention.
+            Default is False.
 
     Returns:
        A configured UsageDependentBednet intervention.
@@ -430,15 +491,24 @@ def _usage_dependent_bednet(campaign,
         discard_config = {"Expiration_Period_Exponential": 10 * 365}
 
     schema_path = campaign.schema_path
-    blocking = utils.get_waning_from_params(schema_path=schema_path, initial=blocking_initial_effect,
-                                            box_duration=blocking_box_duration,
-                                            decay_time_constant=blocking_decay_time_constant)
-    killing = utils.get_waning_from_params(schema_path=schema_path, initial=killing_initial_effect,
-                                           box_duration=killing_box_duration,
-                                           decay_time_constant=killing_decay_time_constant)
-    repelling = utils.get_waning_from_params(schema_path=schema_path, initial=repelling_initial_effect,
-                                             box_duration=repelling_box_duration,
-                                             decay_time_constant=repelling_decay_time_constant)
+
+    if blocking_linear_values or blocking_linear_values:
+        if len(blocking_linear_times) != len(blocking_linear_values):
+            raise ValueError("'blocking_linear_times' and 'blocking_linear_values' lists must be the same length.\n")
+        times_values = list(zip(blocking_linear_times, blocking_linear_values))
+        blocking = utils.get_waning_from_points(schema_path=schema_path, initial=blocking_initial_effect,
+                                                times_values=times_values,
+                                                expire_at_end=blocking_expire_at_end)
+    else:
+        blocking = utils.get_waning_from_parameters(schema_path=schema_path, initial=blocking_initial_effect,
+                                                    box_duration=blocking_box_duration,
+                                                    decay_time_constant=blocking_decay_time_constant)
+    killing = utils.get_waning_from_parameters(schema_path=schema_path, initial=killing_initial_effect,
+                                               box_duration=killing_box_duration,
+                                               decay_time_constant=killing_decay_time_constant)
+    repelling = utils.get_waning_from_parameters(schema_path=schema_path, initial=repelling_initial_effect,
+                                                 box_duration=repelling_box_duration,
+                                                 decay_time_constant=repelling_decay_time_constant)
 
     intervention = s2c.get_class_with_defaults("UsageDependentBednet", schema_path)
 
@@ -456,6 +526,7 @@ def _usage_dependent_bednet(campaign,
     intervention.Repelling_Config = repelling
     intervention.Intervention_Name = intervention_name
     intervention.Insecticide_Name = insecticide
+    intervention.Dont_Allow_Duplicates = 1 if dont_allow_duplicates else 0
 
     # I kind of hate this but let's try it for now
     for param in discard_config:

@@ -63,6 +63,7 @@ def add_triggered_campaign_delay_event(campaign,
                                        target_age_min: float = 0,
                                        target_age_max: float = 125,
                                        target_gender: str = "All",
+                                       target_residents_only: bool = False,
                                        blackout_event_trigger: str = None,
                                        blackout_period: float = 0,
                                        blackout_on_first_occurrence: bool = 0,
@@ -89,9 +90,14 @@ def add_triggered_campaign_delay_event(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
+        disqualifying_properties: A list of IndividualProperty key:value pairs that cause an intervention to be aborted.
+            Generally used to control the flow of health care access. For example, to prevent the same individual from
+            accessing health care via two different routes at the same time.
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+            the simulation in the node (i.e. those that claim the node as their residence)
         blackout_event_trigger: The event to broadcast if an intervention cannot be distributed due to the
             **Blackout_Period**.
         blackout_period: After the initial intervention distribution, the time, in days, to wait before distributing
@@ -121,6 +127,7 @@ def add_triggered_campaign_delay_event(campaign,
                                           Target_Gender=target_gender,
                                           Target_Age_Max=target_age_max,
                                           Target_Age_Min=target_age_min,
+                                          Target_Residents_Only=1 if target_residents_only else 0,
                                           Duration=listening_duration,
                                           Demographic_Coverage=demographic_coverage,
                                           Delay=delay_period_constant,
@@ -149,6 +156,7 @@ def add_campaign_event(campaign,
                        target_age_min: float = 0,
                        target_age_max: float = 125,
                        target_gender: str = "All",
+                       target_residents_only: bool = False,
                        individual_intervention: any = None,
                        node_intervention: any = None):
     """
@@ -173,6 +181,8 @@ def add_campaign_event(campaign,
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+            the simulation in the node (i.e. those that claim the node as their residence)
         individual_intervention: Individual intervention or a list of individual interventions to be distributed
             by this event
         node_intervention: Node intervention or a list of node interventions to be distributed
@@ -197,6 +207,7 @@ def add_campaign_event(campaign,
                                               Target_Age_Min=target_age_min,
                                               Target_Age_Max=target_age_max,
                                               Target_Gender=target_gender,
+                                              Target_Residents_Only=target_residents_only,
                                               Intervention_List=individual_intervention if isinstance(
                                                   individual_intervention,
                                                   list) else [

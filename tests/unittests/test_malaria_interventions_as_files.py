@@ -12,6 +12,7 @@ from emodpy_malaria.interventions.usage_dependent_bednet import new_intervention
 from emodpy_malaria.interventions.inputeir import new_intervention_as_file as inputeir
 from emodpy_malaria.interventions.vaccine import new_intervention_as_file as simple_vaccine
 from emodpy_malaria.interventions.mosquitorelease import new_intervention_as_file as mosquito_release_file
+from emodpy_malaria.interventions.larvicide import new_intervention_as_file as larvicide_file
 
 import emod_api.campaign as camp
 camp.schema_path = schema_path_file.schema_file
@@ -114,6 +115,19 @@ class MalariaInterventionFileTest(unittest.TestCase):
         camp.campaign_dict["Events"] = []
         self.method_under_test = irs_file
         self.expected_intervention_class = "IRSHousingModification"
+        self.file_path = None
+        self.run_test()
+        return
+
+    def test_larvicide_file(self):
+        self.method_under_test = larvicide_file
+        self.expected_intervention_class = "Larvicides"
+        self.run_test()
+        return
+
+    def test_larvicide_file_nofilename(self):
+        self.method_under_test = larvicide_file
+        self.expected_intervention_class = "Larvicides"
         self.file_path = None
         self.run_test()
         return

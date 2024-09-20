@@ -166,7 +166,7 @@ wd = WeatherData.from_csv(file_path=data_path, info=info, attributes=meta)
 print(wd.to_dict(), wd.metadata.node_offset_str)
 ```
 
-### From a CVS (All Weather Files)
+### From a CSV (All Weather Files)
 This example shows a way to create all weather files required by EMOD from a single csv file using WeatherSet class.  
 In this case each weather variable has a separate column, as specified in the weather_columns dictionary. 
 ```python

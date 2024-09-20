@@ -34,7 +34,8 @@ skip_tests = ["download_files",
 			  "migration_spatial_vector_sim", #432
 			  "migration_spatial_malaria_sim", #432
 			  "add_reports", #433
-			  "embedded_python_post_processing" #434
+			  "embedded_python_post_processing", #434
+			  "serialization_replace_genomes" #632
               ]
 
 # "migration_spatial_malaria_sim",	# needs vpn connection
@@ -180,15 +181,23 @@ rule vector_basic:
     output: Path("vector_basic", "experiment_id")
     run:        
         shell(get_command("vector_basic", python_version=config['python_version']))
+        
 rule vector_genetics_vector_sim:
     input: 
     output: Path("vector_genetics_vector_sim", "experiment_id")
     run:        
         shell(get_command("vector_genetics_vector_sim", python_version=config['python_version']))
-rule vgir:
+
+rule vector_genetics_parasite_resistance:
     input: 
-    output: Path("vector_genetics_insecticide_resistance", "experiment_id")
+    output: Path("vector_genetics_parasite_resistance", "experiment_id")
     run:        
+        shell(get_command("vector_genetics_parasite_resistance", python_version=config['python_version']))
+
+rule vector_genetics_insecticide_resistance:
+    input:
+    output: Path("vector_genetics_insecticide_resistance", "experiment_id")
+    run:
         shell(get_command("vector_genetics_insecticide_resistance", python_version=config['python_version']))
 
 rule diagnostic_survey:

@@ -1,7 +1,7 @@
 import emod_api.config.default_from_schema_no_validation as dfs
 
 
-def species_params(manifest, species):
+def species_params(manifest, species: str = None):
     """
         Returns configured species parameters based on species name
 

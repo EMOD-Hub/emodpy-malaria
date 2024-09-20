@@ -53,10 +53,12 @@ def set_param_fn(config):
 
     # these are the traits/benefits based on the alleles
     # protects vectors from infection
-    vector_config.add_trait(config, manifest, "gambiae", [["X", "X"], ["a", "*"]], [("INFECTED_BY_HUMAN", 0)])
+    trait1 = vector_config.create_trait(manifest, trait="INFECTED_BY_HUMAN", modifier=0)
+    vector_config.add_trait(config, manifest, "gambiae", [["X", "X"], ["a", "*"]], [trait1])
     # vectors make more eggs
-    vector_config.add_trait(config, manifest, "gambiae", [["b", "b"], ["one", "two"]], [("FECUNDITY", 10),
-                                                                                        ("INFECTED_BY_HUMAN", 0.37)])
+    trait2 = vector_config.create_trait(manifest, trait="FECUNDITY", modifier=10)
+    trait3 = vector_config.create_trait(manifest, trait="INFECTED_BY_HUMAN", modifier=0.37)
+    vector_config.add_trait(config, manifest, "gambiae", [["b", "b"], ["one", "two"]], [trait2, trait3])
 
     # adding insecticide resistance to "pyrenthroid"
     vector_config.add_insecticide_resistance(config, manifest, "pyrethroid", "gambiae", [["three", "three"]],

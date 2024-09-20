@@ -14,7 +14,7 @@ def sweep_duration_to_disease(simulation, value):
     """
     The config parameter sweep function
     """
-    simulation.task.config.parameters.Vector_Species_Params[0].Microsporidia_Duration_To_Disease_Acquisition_Modification.Times[1] = value
+    simulation.task.config.parameters.Vector_Species_Params[0]["Microsporidia"]["Duration_To_Disease_Acquisition_Modification"]["Times"][1] = value
     return {"duration_to_disease": value}
 
 
@@ -31,7 +31,9 @@ def set_param_fn(config):
         "Values": [0]
     }
     malaria_config.add_microsporidia(config, manifest, species_name="gambiae",
+                                     strain_name="Test_Strain",
                                      female_to_male_probability=1,
+                                     male_to_egg_probability=0,
                                      male_to_female_probability=1, female_to_egg_probability=1,
                                      duration_to_disease_acquisition_modification=duration_to_disease_acquisition,
                                      larval_growth_modifier=1,
@@ -52,7 +54,7 @@ def build_camp():
     campaign.set_schema(manifest.schema_file)
 
     add_scheduled_mosquito_release(campaign, 50, released_number=10000, released_species="gambiae",
-                                   released_microsopridia=True)
+                                   released_microsporidia="Test_Strain")
     return campaign
 
 
@@ -68,12 +70,15 @@ def build_demog():
 
 class TestMicrosporidiaDisease(IntegrationTest):
     def setUp(self):
+        import emod_malaria.bootstrap as dtk
+        import pathlib
         # test_name is optional but recommended
         self.test_name = 'test_microsporidia_duration_to_disease_simple'
         # Copy Singularity definition files from idm_test package to your local folder(default value is './../sif').
         CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
         sif_dir = os.path.join(CURRENT_DIR, "..", "sif")
         bootstrap.setup(local_dir=sif_dir)
+        dtk.setup(pathlib.Path(manifest.eradication_path).parent)
 
     def test_microsporidia_duration_to_disease(self):
         self.run_test(camp_fn_cb=build_camp, demog_fn_cb=build_demog, sweep_fn_cb=None,

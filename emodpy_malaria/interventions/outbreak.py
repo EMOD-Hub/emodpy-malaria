@@ -95,7 +95,8 @@ def add_outbreak_malaria_genetics(campaign,
                                   barcode_allele_frequencies_per_genome_location: list = None,
                                   drug_resistant_allele_frequencies_per_genome_location: list = None,
                                   hrp_allele_frequencies_per_genome_location: list = None,
-                                  hrp_string: str = None):
+                                  hrp_string: str = None,
+                                  broadcast_event: str = None):
     """
         Creates a scheduled OutbreakIndividualMalariaGenetics CampaignEvent which can then
         be added to a campaign.
@@ -161,6 +162,7 @@ def add_outbreak_malaria_genetics(campaign,
             that represent the HRP values at locations in the genome. There must be one character for each location
             defined in <config>.Parasite_Genetics.HRP_Genome_Locations. 'A' means HRP marker is present and a
             non-'A' means it isn't.
+        broadcast_event: Optional event that will be sent out at the same time as outbreak is distributed
 
     Returns:
         CampaignEvent which then can be added to the campaign file
@@ -221,6 +223,10 @@ def add_outbreak_malaria_genetics(campaign,
     intervention.Create_Nucleotide_Sequence_From = create_nucleotide_sequence_from
     intervention.Ignore_Immunity = 1 if ignore_immunity else 0
     intervention.Incubation_Period_Override = incubation_period_override
+
+    if broadcast_event:
+        intervention = MultiInterventionDistributor(campaign, [intervention,
+                                                               BroadcastEvent(campaign, Event_Trigger=broadcast_event)])
 
     add_campaign_event(campaign, start_day=start_day, demographic_coverage=demographic_coverage,
                        repetitions=repetitions,

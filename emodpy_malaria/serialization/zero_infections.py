@@ -60,7 +60,7 @@ def zero_vector_infections(vector_pop_list: list, remove=False):
                     cohort.m_pStrain = dtk.NullPtr()
 
 
-def zero_human_infections(humans: List[dict], keep_ids: list = []):
+def zero_human_infections(humans: List[dict], keep_ids: list = None):
     """
     Sets the infection state of individuals to uninfected.
 
@@ -72,18 +72,22 @@ def zero_human_infections(humans: List[dict], keep_ids: list = []):
         None
 
     """
+    if not keep_ids:
+        keep_ids = []
     for person in humans:
         if person.suid.id not in keep_ids:
             if all(key in person for key in UNINFECTED_HUMAN):
                 person.update(UNINFECTED_HUMAN)
             else:
                 missing_keys = set(UNINFECTED_HUMAN).difference(set(person))
-                raise KeyError("Template Uninfected Human and human of serialized population differ in the following key(s): ", missing_keys )
+                raise KeyError("Template Uninfected Human and human of serialized population differ in the following "
+                               "key(s): ", missing_keys)
 
 
-def zero_infections(source_filename: str, dest_filename: str, ignore_nodes: List[int], keep_individuals: List[int], remove=False) -> None:
+def zero_infections(source_filename: str, dest_filename: str, ignore_nodes: List[int], keep_individuals: List[int],
+                    remove=False) -> None:
     """
-    Removes/Resets infections from humans and vectors.
+    Removes/resets infections from humans and vectors.
 
     Args:
         source_filename: input file
@@ -117,7 +121,7 @@ def zero_infections(source_filename: str, dest_filename: str, ignore_nodes: List
     ser_pop.write(dest_filename)
 
 
-def _get_paths(ser_paths: List[str], ser_date: List[str]) -> List[str]:
+def _get_paths(ser_paths: List[str], ser_date: List[str]) -> List[List[Path]]:
     """
     Get the path to all dtk files with a certain time stamp in a list of directories.
     Files with 'zero' in the name are skipped.
@@ -126,15 +130,16 @@ def _get_paths(ser_paths: List[str], ser_date: List[str]) -> List[str]:
         ser_paths: a list of directories to look into for *.dtk files
         ser_date: list of time stamps
 
-    Returns: A list of paths to dtk files
-
+    Returns:
+        A list of paths to dtk files
     """
     print("ser_paths: ", ser_paths)
     files = []
     for s, serpath in enumerate(ser_paths):
-        print('Processing simulation %d of %d' % (s+1, len(ser_paths)))
+        print('Processing simulation %d of %d' % (s + 1, len(ser_paths)))
         dtk_files = [x.name for x in Path(serpath).glob('*.dtk')]
-        serialization_files = [Path(serpath, x) for x in dtk_files if ('zero' not in x and any(map(lambda s: s in x, ser_date)))]
+        serialization_files = [Path(serpath, x) for x in dtk_files if
+                               ('zero' not in x and any(map(lambda s: s in x, ser_date)))]
 
         for filename in serialization_files:
             output_filename = Path(filename.parent, filename.stem + '_zero' + filename.suffix)
@@ -146,18 +151,22 @@ def _get_paths(ser_paths: List[str], ser_date: List[str]) -> List[str]:
     return files
 
 
-def zero_infection_path(in_out_paths: list, ser_date: list, ignore_nodeids: list = [], keep_humanids: list = []):
+def zero_infection_path(in_out_paths: list, ser_date: list, ignore_nodeids: list = None, keep_humanids: list = None):
     """
-    Loop over all *.dtk files in ser_paths that have ser_date in the file name but not 'zero' and remove human and vector infections.
-    '_zero' is appended to the output files.
+    Loop over all .dtk files in ser_paths that have ser_date in the file name but not 'zero' and remove human and
+     vector infections. '_zero' is appended to the output files.
 
     Args:
+        in_out_paths: a list of lists of paths for directories to look into for .dtk files
         ser_date:  List of timestamps
-        ser_paths: Paths
         ignore_nodeids: list of nodes that are ignored
         keep_humanids: infections are not removed from these humans
 
     """
+    if not ignore_nodeids:
+        ignore_nodeids = []
+    if not keep_humanids:
+        keep_humanids = []
     file_paths = _get_paths(in_out_paths, ser_date)
     for in_path, out_path in file_paths:
         zero_infections(in_path, out_path, ignore_nodeids, keep_humanids)
@@ -166,15 +175,19 @@ def zero_infection_path(in_out_paths: list, ser_date: list, ignore_nodeids: list
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Remove infections from individuals and vectors")
     parser.add_argument("-i", "--ignore", default=[], type=int, nargs="+", help="List of nodes that are ignored.")
-    parser.add_argument("-k", "--keep", default=[], type=int, nargs="*", help="List of individuals that keep their infections.")
+    parser.add_argument("-k", "--keep", default=[], type=int, nargs="*",
+                        help="List of individuals that keep their infections.")
 
     remove_from_file_group = parser.add_argument_group(title='Remove infections from one file')
     remove_from_file_group.add_argument("-s", "--source", help="input file", default=None)
     remove_from_file_group.add_argument("-d", "--destination", help="output file", default="output.dtk")
 
     remove_from_paths_group = parser.add_argument_group(title='Remove infections from all files in given paths')
-    remove_from_paths_group.add_argument("-p", "--paths", default=[], nargs='+', type=Path, help="List of paths containing the dtk files.")
-    remove_from_paths_group.add_argument("-t", "--time_stamps", default=[], nargs='+', type=str, help="List of timesteps. Filenames containing this timestep are processed, e.g. 001,021,365 ")
+    remove_from_paths_group.add_argument("-p", "--paths", default=[], nargs='+', type=Path,
+                                         help="List of paths containing the dtk files.")
+    remove_from_paths_group.add_argument("-t", "--time_stamps", default=[], nargs='+', type=str,
+                                         help="List of timesteps. Filenames containing this timestep are "
+                                              "processed, e.g. 001,021,365 ")
 
     args = parser.parse_args()
 
@@ -188,5 +201,3 @@ if __name__ == '__main__':
     else:
         parser.print_help()
         exit(0)
-
-

@@ -10,16 +10,16 @@ from emodpy_malaria.interventions.common import add_campaign_event, add_triggere
 
 def _simple_bednet(campaign,
                    killing_initial_effect: float = 1,
-                   killing_box_duration: float = 0,
+                   killing_box_duration: float = -1,
                    killing_decay_time_constant: float = 0,
                    blocking_initial_effect: float = 1,
-                   blocking_box_duration: float = 0,
+                   blocking_box_duration: float = -1,
                    blocking_decay_time_constant: float = 0,
                    repelling_initial_effect: float = 1,
-                   repelling_box_duration: float = 0,
+                   repelling_box_duration: float = -1,
                    repelling_decay_time_constant: float = 0,
                    usage_initial_effect: float = 1,
-                   usage_box_duration: float = 0,
+                   usage_box_duration: float = -1,
                    usage_decay_time_constant: float = 0,
                    insecticide: str = "",
                    cost: float = 0,
@@ -91,7 +91,7 @@ def new_intervention_as_file(campaign, start_day, filename=None):
 
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
-        start_day: The day of the simulation on which the bednets are distributed. We recommend 
+        start_day: The day of the simulation on which the bednets are distributed. We recommend
             aligning this with the start of the simulation.
         filename: The campaign filename; can be omitted and default will be used and returned to user.
 
@@ -122,10 +122,10 @@ def add_itn_scheduled(campaign,
                       killing_box_duration: int = 0,
                       killing_decay_time_constant: float = 7300,
                       repelling_initial_effect: float = 0,
-                      repelling_box_duration: float = 0,
+                      repelling_box_duration: float = -1,
                       repelling_decay_time_constant: float = 0,
                       usage_initial_effect: float = 1,
-                      usage_box_duration: float = 0,
+                      usage_box_duration: float = -1,
                       usage_decay_time_constant: float = 0,
                       insecticide: str = "",
                       cost: float = 0,
@@ -247,10 +247,10 @@ def add_itn_triggered(campaign,
                       killing_box_duration: int = 0,
                       killing_decay_time_constant: float = 7300,
                       repelling_initial_effect: float = 0,
-                      repelling_box_duration: float = 0,
+                      repelling_box_duration: float = -1,
                       repelling_decay_time_constant: float = 0,
                       usage_initial_effect: float = 1,
-                      usage_box_duration: float = 0,
+                      usage_box_duration: float = -1,
                       usage_decay_time_constant: float = 0,
                       insecticide: str = "",
                       cost: float = 0,
