@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 # idmtools
+import os
+
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
 
@@ -66,17 +68,13 @@ def build_demog():
     return demog
 
 
-def general_sim():
+def general_sim(selected_platform):
     """
         This function is designed to be a parameterized version of the sequence of things we do
     every time we run an emod experiment.
     Returns:
         Nothing
     """
-
-    # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
     experiment_name = "Create simulation from serialized files"
     
     # create EMODTask 
@@ -93,8 +91,21 @@ def general_sim():
         plugin_report=None  # report
     )
     
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
+    # Set platform
+    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
+    if selected_platform == "COMPS":
+        platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+        # set the singularity image to be used when running this experiment
+        task.set_sif(manifest.sif_id)
+    elif selected_platform.startswith("SLURM"):
+        # This is for native slurm cluster
+        # Quest slurm cluster. 'b1139' is guest partition for idm user. You may have different partition and acct
+        platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
+                            account='b1139', modules=['singularity'], max_running_jobs=10)
+        # set the singularity image to be used when running this experiment
+        # dtk_build_rocky_39.sif can be downloaded with command:
+        # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
+        task.set_sif(manifest.SIF_PATH, platform)
     
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
@@ -115,27 +126,35 @@ def general_sim():
         fd.write(experiment.uid.hex)
     print()
     print(experiment.uid.hex)
-    
-    # important bit
-    # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
-    from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
-    dl_wi = DownloadWorkItem(
-                             related_experiments=[experiment.uid.hex],
-                             file_patterns=["output/*.dtk"],
-                             simulation_prefix_format_str='serialization_files',
-                             verbose=True,
-                             output_path="",
-                             delete_after_download=False,
-                             include_assets=True,
-                             compress_type=CompressType.deflate)
+    if selected_platform == "COMPS":
+        # important bit
+        # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
+        from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
+        dl_wi = DownloadWorkItem(
+                                 related_experiments=[experiment.uid.hex],
+                                 file_patterns=["output/*.dtk"],
+                                 simulation_prefix_format_str='serialization_files',
+                                 verbose=True,
+                                 output_path="",
+                                 delete_after_download=False,
+                                 include_assets=True,
+                                 compress_type=CompressType.deflate)
 
-    dl_wi.run(wait_on_done=True, platform=platform)
-    print("SHOULD BE DOWNLOADED")
-
+        dl_wi.run(wait_on_done=True, platform=platform)
+        print("SHOULD BE DOWNLOADED")
+    elif selected_platform.startswith("SLURM"):
+        for simulation in experiment.simulations:
+            simulation_dir = platform._op_client.get_directory(simulation)
+            if os.path.exists(os.path.join(simulation_dir, "output", "state-00050.dtk")):
+                print("dtk file path: ", os.path.join(simulation_dir, "output", "state-00050.dtk"))
+                assert True
+            else:
+                print("dtk file not exists!")
+                assert False
 
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    
-    general_sim()
+    selected_platform = "COMPS"
+    general_sim(selected_platform)

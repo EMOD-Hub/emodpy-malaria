@@ -230,7 +230,7 @@ def general_sim():
     task.set_sif(manifest.sif_path)
     
     # adding reporter
-    add_malaria_transmission_report(task, manifest, start_day=report_start)
+    add_malaria_cotransmission_report(task, manifest, start_day=report_start)
 
     # setting up all the sweeping
     builder = SimulationBuilder()

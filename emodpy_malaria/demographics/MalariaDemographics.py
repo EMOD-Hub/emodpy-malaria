@@ -213,13 +213,18 @@ def from_csv(input_file, res=30 / 3600, id_ref="from_csv", init_prev=0.0, includ
 
 def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"):
     """
+    Creates nodes with following logic: First node is the urban node, which contains
+    tot_pop * (1-frac_rural) of the population, the rest of the nodes splip the left-over
+    population with less and less people in each node.
+
     Create a multi-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
     instance as a synthetic population based on a few parameters.
 
     Args:
         tot_pop: The total human population in the node.
         num_nodes: The number of nodes to create.
-        frac_rural: The fraction of the population that is rural.
+        frac_rural: The fraction of the population that will be distributed between
+            nodes 2 and higher
         id_ref: Method describing how the latitude and longitude values are created
             for each of the nodes in a simulation. "Gridded world" values use a grid 
             overlaid across the globe at some arcsec resolution. You may also generate 

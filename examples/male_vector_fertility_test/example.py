@@ -171,7 +171,7 @@ def general_sim(erad_path, ep4_scripts):
 
     # create experiment from builder
     print(f"Prompting for COMPS creds if necessary...")
-    experiment = Experiment.from_builder(builder, task, name="Malaria SpaceSpraying kill male silly_skeeter")
+    experiment = Experiment.from_builder(builder, task, name="male_vector_fertility_test")
 
     # other_assets = AssetCollection.from_id(pl.run())
     # experiment.assets.add_assets(other_assets)

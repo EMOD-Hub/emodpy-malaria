@@ -224,12 +224,12 @@ class WeatherRequest:
             self._asset_file_tuples = [(a, Path(self.local_dir).joinpath(a.filename)) for a in asc]
 
             # Validate asset file names match expected pattern.
-            _expected_files = sorted(self.files)
-            _actual_files = sorted([str(f) for _, f in self._asset_file_tuples if "land" not in str(f)])
-            if _expected_files != _actual_files:
-                print("Asset collection files don't contain all expected files.")
-                print(f"Expected: {_expected_files}")
-                print(f"Actual: {_actual_files}")
+            expected_files = sorted(self.files)
+            actual_files = sorted([str(f) for _, f in self._asset_file_tuples])
+            odd_files = set(actual_files) - set(expected_files)
+            if len(odd_files) > 0:
+                print("Warning: Some weather files have unexpected names:")
+                print("\n".join(odd_files))
 
         return self._asset_file_tuples
 

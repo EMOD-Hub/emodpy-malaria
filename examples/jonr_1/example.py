@@ -65,9 +65,8 @@ def set_param_fn(config):
     config.parameters.Enable_Vector_Species_Report = 1
     config.parameters.Enable_Migration_Heterogeneity = 0
     config = conf.set_team_defaults(config, manifest)
-    config.parameters.Vector_Species_Params = []
     conf.add_species(config, manifest, ["gambiae"])
-
+    config.parameters.Vector_Sampling_Type = "TRACK_ALL_VECTORS"
     return config
 
 
@@ -79,16 +78,19 @@ def build_camp():
     import emod_api.campaign as camp
     import emodpy_malaria.interventions.bednet as bednet
     from emodpy_malaria.interventions.irs import add_scheduled_irs_housing_modification
-    import emodpy_malaria.interventions.drug as drug
+    from emodpy_malaria.interventions.drug import add_scheduled_antimalarial_drug
+    from emodpy_malaria.interventions.outbreak import add_outbreak_individual
 
     # This isn't desirable. Need to think about right way to provide schema (once)
     camp.schema_path = manifest.schema_file
 
+    add_outbreak_individual(campaign=camp, start_day=1, demographic_coverage=0.3)
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
     add_scheduled_irs_housing_modification(campaign=camp, start_day=100, demographic_coverage=0.5,
                                            repelling_initial_effect=0.5, killing_initial_effect=0.5)
 
-    camp.add(drug.AntimalarialDrug(camp, start_day=300, coverage=0.5))
+    add_scheduled_antimalarial_drug(campaign=camp, start_day=20, demographic_coverage=0.3,
+                                    drug_type="Artemether")
     """
     add_IRS(cb, start=start,
             coverage_by_ages=[{'coverage': coverage}],
@@ -129,13 +131,13 @@ def add_reports(task, manifest):
     Inbox:
     """
 
-    add_malaria_summary_report(task, manifest, report_description="Annual Report",
-                               start_day=2*365, reporting_interval=365, max_number_reports=1,
+    add_malaria_summary_report(task, manifest, filename_suffix="Annual Report",
+                               start_day=2 * 365, reporting_interval=365, max_number_reports=1,
                                age_bins=[2, 10, 125], parasitemia_bins=[0, 50, 200, 500, 2000000])
     add_human_migration_tracking(task, manifest)
 
-    add_malaria_transmission_report(task, manifest, start_day=1, duration_days=1*365,
-                                    report_description="Jon's Transmission Report")
+    add_malaria_cotransmission_report(task, manifest, start_day=1, end_day=1 + 1 * 365,
+                                      filename_suffix="Jon's Transmission Report")
 
 
 def general_sim(erad_path, ep4_scripts):
@@ -164,10 +166,10 @@ def general_sim(erad_path, ep4_scripts):
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
+
     # set the singularity image to be used when running this experiment
     task.set_sif(manifest.sif_path)
-    
+
     add_reports(task, manifest)
 
     # print("Adding asset dir...")
@@ -209,5 +211,6 @@ def run_test(erad_path):
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
-    dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    run_test( manifest.eradication_path )
+
+    # dtk.setup(pathlib.Path(manifest.eradication_path).parent)
+    run_test(manifest.eradication_path)

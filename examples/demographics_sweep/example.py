@@ -60,43 +60,51 @@ def set_config_parameters(config):
     return config
 
 
-def build_demographics(birth_rate=0.0004, total_population=300, rural_fraction=0.21):
+def build_demographics(birth_rate=0.004, total_population=300, rural_fraction=0.21):
     """
-    Build a demographics input file for the DTK using emod_api.
-    Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
-    Also right now this function takes care of the config updates that are required as a result of specific demog settings. We do NOT want the emodpy-disease developers to have to know that. It needs to be done automatically in emod-api as much as possible.
-    TBD: Pass the config (or a 'pointer' thereto) to the demog functions or to the demog class/module.
+        Creates a demographics object that will be written to a demographics file to
+        be used by the simulation.
+    Args:
+        birth_rate: Birth rate for all the nodes
+        total_population: total population for all the nodes
+        rural_fraction: fraction of the population that will live in all the nodes
+            but the first (see below)
 
+    Returns:
+        Configured demographics object
     """
+
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
     import emod_api.demographics.DemographicsTemplates as demogTemplates
 
-    # creates a demographic file with 5k total people (randomly?) spread between 5 nodes
+    #     Creates nodes with following logic: First node is the urban node, which contains
+    #     tot_pop * (1-frac_rural) of the population, the rest of the nodes splip the left-over
+    #     population with less and less people in each node.
     demographics = Demographics.from_params(tot_pop=total_population, num_nodes=5,
                                             frac_rural=rural_fraction, id_ref="from_params")
 
-    # update birth rate directly, this access the demographics class/object as if it's a json file
-    # this only has the defaults and not the information for individual nodes yet
-    demographics.raw['Defaults']['NodeAttributes'].update({"BirthRate": birth_rate})
-    # demographics.AddIndividualPropertyAndHINT("Mood", ["Happy", "Sad"], [0.73, 0.27])
+    demographics.raw['Defaults']['NodeAttributes'].update({
+        "BirthRate": birth_rate})
 
     return demographics
 
 
-def update_demographics_multiple_params(simulation, values):
+def update_demographics_multiple_params(simulation, birth_rate, rural_fraction, total_population):
     """
         This callback function modifies several demographics parameters
     Args:
-        simulation:
-        values: an array of values with which you want to update the paramters
+        simulation: simulation object that will be created in comps
+        birth_rate: birth rate parameter which will be modified in the sweep
+        rural_fraction: rural fraction parameter which will be modified in the sweep
+        total_population: total population distributed between the nodes
 
     Returns:
         tag that will be used with the simulation
     """
-    build_demog_partial = partial(build_demographics, birth_rate=values[0], rural_fraction=values[1],
-                                  total_population=values[2])
+    build_demog_partial = partial(build_demographics, birth_rate=birth_rate, rural_fraction=rural_fraction,
+                                  total_population=total_population)
     simulation.task.create_demog_from_callback(build_demog_partial, from_sweep=True)
-    return {"birth_rate": values[0], "rural_fraction": values[1], "total_population": values[2]}
+    return dict(birth_rate=birth_rate, rural_fraction=rural_fraction, total_population=total_population)
 
 
 def general_sim():
@@ -130,20 +138,16 @@ def general_sim():
     # sweeping over start day AND killing effectiveness - this will be a cross product
     builder = SimulationBuilder()
 
-    # this sweeps over one parameter, calling several of these one-parameter sweeps in
-    # this script will cause only the last parameter to be swept, but there will be a cross-product-of-the-sweeps
-    # number of simulations created.
-    # comment out the builder below when using this
-    # builder.add_sweep_definition(update_campaign_start_day, [23, 3, 84, 1])
-
-    # this is how you sweep over a multiple-parameters space:
-    # itertools product creates a an array with all the combinations of parameters (cross-product)
-    # so, 2x3x2 = 12 simulations
-    import itertools
-    # "birth_rate": values[0], "rural_fraction": values[1],"total_population": values[2]
-    builder.add_sweep_definition(update_demographics_multiple_params,
-                                 list(itertools.product([0.000412, 0.000422], [0.95, 0.87, 0.58], [300, 512])))
-
+    # this will sweep over the entire parameter space in a cross-product fashion
+    # you will get 2x3x2 simulations
+    builder.add_multiple_parameter_sweep_definition(
+        update_demographics_multiple_params,
+        dict(
+            birth_rate=[0.000412, 0.000422],
+            total_population=[1000, 700, 200],
+            rural_fraction=[0.3, 0.5]
+        )
+    )
     # create experiment from builder
     experiment = Experiment.from_builder(builder, task, name=experiment_name)
 
