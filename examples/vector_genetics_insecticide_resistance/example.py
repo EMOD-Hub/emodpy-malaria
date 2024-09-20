@@ -58,7 +58,6 @@ def set_param_fn(config):
     vector_config.add_trait(config, manifest, "gambiae", [["b", "b"], ["one", "two"]], [("FECUNDITY", 10),
                                                                                         ("INFECTED_BY_HUMAN", 0.37)])
 
-
     # adding insecticide resistance to "pyrenthroid"
     vector_config.add_insecticide_resistance(config, manifest, "pyrethroid", "gambiae", [["three", "three"]],
                                              blocking=0.0, killing=0.0)
@@ -69,7 +68,6 @@ def set_param_fn(config):
     vector_config.add_species_drivers(config, manifest, "gambiae", driving_allele="c",
                                       driver_type="INTEGRAL_AUTONOMOUS", to_copy="two", to_replace="one",
                                       likelihood_list=[("one", 0.15), ("two", 0.85)])
-
 
     config.parameters.Simulation_Duration = 10
 
@@ -86,16 +84,20 @@ def build_campaign():
     import emodpy_malaria.interventions.mosquitorelease as mosquitorelease
 
     # This isn't desirable. Need to think about right way to provide schema (once)
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
-    campaign.add(bednet.Bednet(campaign.schema_path, start_day=1, coverage=0.5, killing_eff=0.7, blocking_eff=0.5, usage_eff=0.5,
-                               insecticide="pyrethroid"))
+    bednet.add_itn_scheduled(campaign,
+                             start_day=1,
+                             demographic_coverage=0.5,
+                             killing_initial_effect=0.7,
+                             blocking_initial_effect=0.5,
+                             usage_initial_effect=0.5,
+                             insecticide="pyrethroid")
 
-    campaign.add(
-        mosquitorelease.MosquitoRelease(campaign, start_day=1, released_number=20000, released_infectious=0.2,
-                                        released_species="gambiae",
-                                        released_genome=[["X", "X"], ["a", "b"], ["three", "three"]]))
+    mosquitorelease.add_scheduled_mosquito_release(campaign, start_day=1, released_number=20000,
+                                                   released_infectious=0.2, released_species="gambiae",
+                                                   released_genome=[["X", "X"], ["a", "b"], ["three", "three"]])
 
     return campaign
 
@@ -162,5 +164,6 @@ def general_sim():
 
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

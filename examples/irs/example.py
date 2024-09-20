@@ -38,7 +38,7 @@ def build_campaign():
     from emodpy_malaria.interventions.irs import add_triggered_irs_housing_modification, \
         add_scheduled_irs_housing_modification
 
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     add_scheduled_irs_housing_modification(campaign=campaign, start_day=3, demographic_coverage=0.34,
                                            killing_initial_effect=0.9, killing_box_duration=30,

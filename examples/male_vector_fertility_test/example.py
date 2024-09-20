@@ -90,19 +90,17 @@ def set_param_fn(config):
     return config
 
 
-def build_camp(actual_start_day=90, current_insecticide="kill_male_silly",
+def build_camp(actual_start_day=90, current_insecticide="only_kill_male_silly",
                coverage=1.0, killing_effectiveness=0.5):
     import emod_api.campaign as camp
-    import emodpy_malaria.interventions.spacespraying as spray
+    from emodpy_malaria.interventions.spacespraying import add_scheduled_space_spraying
 
     # This isn't desirable. Need to think about right way to provide schema (once)
     camp.schema_path = manifest.schema_file
 
-    # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
-    camp.add(spray.SpaceSpraying(camp, start_day=actual_start_day, spray_coverage=coverage,
-                                 killing_effect=killing_effectiveness, box_duration=730,
-                                 insecticide=current_insecticide),
-             first=True)
+    add_scheduled_space_spraying(camp, start_day=actual_start_day, spray_coverage=coverage,
+                                 killing_initial_effect=killing_effectiveness, killing_box_duration=730,
+                                 insecticide=current_insecticide)
     return camp
 
 
@@ -110,7 +108,9 @@ def build_demog():
     """
     Build a demographics input file for the DTK using emod_api.
     Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
-    Also right now this function takes care of the config updates that are required as a result of specific demog settings. We do NOT want the emodpy-disease developers to have to know that. It needs to be done automatically in emod-api as much as possible.
+    Also right now this function takes care of the config updates that are required as a result of specific demog
+    settings. We do NOT want the emodpy-disease developers to have to know that. It needs to be done
+    automatically in emod-api as much as possible.
     TBD: Pass the config (or a 'pointer' thereto) to the demog functions or to the demog class/module.
 
     """

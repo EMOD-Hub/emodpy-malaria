@@ -8,6 +8,7 @@ import emod_api.demographics.Demographics as Demog
 from emod_api.demographics import DemographicsTemplates as DT
 import emod_api.config.default_from_schema_no_validation as dfs
 
+
 class MalariaDemographics(Demog.Demographics):
     """
     This class is derived from :py:class:`emod_api:emod_api.demographics.Demographics.Demographics` 
@@ -30,30 +31,32 @@ class MalariaDemographics(Demog.Demographics):
     Returns: 
         None 
      """
-    def __init__(self, nodes, idref="Gridded world grump2.5arcmin", base_file=None, init_prev=0.0, include_biting_heterogeneity=True):
-        super().__init__( nodes, idref, base_file )
+
+    def __init__(self, nodes, idref="Gridded world grump2.5arcmin", base_file=None, init_prev=0.0,
+                 include_biting_heterogeneity=True):
+        super().__init__(nodes, idref, base_file)
         super().SetDefaultNodeAttributes(birth=True)
         if init_prev > 0:
             # Do constant intial prevalence as uniform with same min and max.
-            super().SetInitPrevFromUniformDraw( init_prev, init_prev, f"Constant Initial Prevalence ({init_prev})"  )
+            super().SetInitPrevFromUniformDraw(init_prev, init_prev, f"Constant Initial Prevalence ({init_prev})")
         if include_biting_heterogeneity:
-            self.set_risk_lowmedium() # lognormal, default=1.6
+            self.set_risk_lowmedium()  # lognormal, default=1.6
 
-    def set_risk_lowmedium( self ):
+    def set_risk_lowmedium(self):
         """
             Set initial risk for low-medium transmission settings per: 
             https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
         """
-        super().SetHeteroRiskLognormalDist( mean=0.0, sigma=1.6 )
+        super().SetHeteroRiskLognormalDist(mean=0.0, sigma=1.6)
 
-    def set_risk_high( self ):
+    def set_risk_high(self):
         """
             Set initial risk for high transmission settings per: 
             https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
         """
-        super().SetHeteroRiskExponDist( mean=1.0 ) # 1.0 is placeholder
+        super().SetHeteroRiskExponDist(mean=1.0)  # 1.0 is placeholder
 
-    def add_larval_habitat_multiplier( self, schema, hab_type, multiplier, species="ALL_SPECIES", node_id=0 ):
+    def add_larval_habitat_multiplier(self, schema, hab_type, multiplier, species="ALL_SPECIES", node_id=0):
         """
             Add LarvalHabitatMultiplier to node(s).
 
@@ -61,7 +64,7 @@ class MalariaDemographics(Demog.Demographics):
                 schema: Path to schema.json.
                 hab_type: Habitat type.
                 multiplier: Multiplier or Factor.
-                specices: Specific species (defaults to ALL).
+                species: Specific species (defaults to ALL).
                 node_id: Nodes for this LHM. Defaults to all.
 
             Returns:
@@ -81,14 +84,14 @@ class MalariaDemographics(Demog.Demographics):
                 lhm_dict = self.raw['Defaults']['NodeAttributes']["LarvalHabitatMultiplier"]
             else:
                 lhm_dict = []
-            lhm_dict.append( lhm.parameters )
-            self.SetNodeDefaultFromTemplate( { "LarvalHabitatMultiplier": lhm_dict }, setter_fn = None )
+            lhm_dict.append(lhm.parameters)
+            self.SetNodeDefaultFromTemplate({"LarvalHabitatMultiplier": lhm_dict}, setter_fn=None)
         else:
             if self.get_node(node_id).node_attributes.larval_habitat_multiplier:
                 lhm_dict = self.get_node(node_id).node_attributes.larval_habitat_multiplier
             else:
                 lhm_dict = []
-            lhm_dict.append( lhm.parameters )
+            lhm_dict.append(lhm.parameters)
             self.get_node(node_id).node_attributes.larval_habitat_multiplier = lhm_dict
 
     def add_initial_vectors_per_species(self, init_vector_species, node_ids=None):
@@ -137,7 +140,7 @@ class MalariaDemographics(Demog.Demographics):
                 ivps = dict()
                 for species in line:
                     if species != "node_id":
-                        ivps[species] = float(line[species])  # int?
+                        ivps[species] = int(line[species])
                 self.add_initial_vectors_per_species(ivps, [node])
 
 
@@ -158,10 +161,12 @@ def from_template_node(lat=0, lon=0, pop=1e6, name=1, forced_id=1, init_prev=0.2
     Returns:
         A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance.
     """
-    new_nodes = [Demog.Node(lat=lat, lon=lon, pop=pop, name=name, forced_id=forced_id) ]
-    return MalariaDemographics(nodes=new_nodes, init_prev=init_prev, include_biting_heterogeneity=include_biting_heterogeneity)
+    new_nodes = [Demog.Node(lat=lat, lon=lon, pop=pop, name=name, forced_id=forced_id)]
+    return MalariaDemographics(nodes=new_nodes, init_prev=init_prev,
+                               include_biting_heterogeneity=include_biting_heterogeneity)
 
-def from_pop_csv( pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", site="No_Site" ):
+
+def from_pop_csv(pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", site="No_Site"):
     """
     Create a multi-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
     instance from a CSV file describing a population.
@@ -174,14 +179,15 @@ def from_pop_csv( pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", s
     Returns:
         A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance
     """
-    if os.path.exists( pop_filename_in ) == False:
-        raise ValueError( f"Can't find input data file {pop_filename_in}" )
+    if os.path.exists(pop_filename_in) == False:
+        raise ValueError(f"Can't find input data file {pop_filename_in}")
 
-    generic_demog = Demog.from_pop_csv( pop_filename_in, pop_filename_out, site )
+    generic_demog = Demog.from_pop_csv(pop_filename_in, pop_filename_out, site)
     nodes = generic_demog._nodes
     return MalariaDemographics(nodes=nodes, idref=site)
 
-def from_csv(input_file, res=30/3600, id_ref="from_csv", init_prev=0.0, include_biting_heterogeneity=True):
+
+def from_csv(input_file, res=30 / 3600, id_ref="from_csv", init_prev=0.0, include_biting_heterogeneity=True):
     """
     Create a multi-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
     instance from a CSV file describing a population.
@@ -196,14 +202,16 @@ def from_csv(input_file, res=30/3600, id_ref="from_csv", init_prev=0.0, include_
     Returns:
         A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance
     """
-    if os.path.exists( input_file ) == False:
-        raise ValueError( f"Can't find input data file {input_file}" )
+    if os.path.exists(input_file) == False:
+        raise ValueError(f"Can't find input data file {input_file}")
 
-    generic_demog = Demog.from_csv( input_file, res, id_ref )
+    generic_demog = Demog.from_csv(input_file, res, id_ref)
     nodes = generic_demog._nodes
-    return MalariaDemographics(nodes=nodes, idref=id_ref, init_prev=init_prev, include_biting_heterogeneity=include_biting_heterogeneity)
+    return MalariaDemographics(nodes=nodes, idref=id_ref, init_prev=init_prev,
+                               include_biting_heterogeneity=include_biting_heterogeneity)
 
-def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params" ):
+
+def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"):
     """
     Create a multi-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
     instance as a synthetic population based on a few parameters.
@@ -221,7 +229,6 @@ def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"
     Returns:
         A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance.
     """
-    generic_demog = Demog.from_params(tot_pop, num_nodes, frac_rural, id_ref )
+    generic_demog = Demog.from_params(tot_pop, num_nodes, frac_rural, id_ref)
     nodes = generic_demog.nodes
-    return MalariaDemographics(nodes=nodes, idref=id_ref )
-
+    return MalariaDemographics(nodes=nodes, idref=id_ref)

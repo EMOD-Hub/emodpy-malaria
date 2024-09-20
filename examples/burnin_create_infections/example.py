@@ -49,7 +49,7 @@ def build_camp():
     import emod_api.campaign as campaign
     import emodpy_malaria.interventions.outbreak as outbreak
 
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
     outbreak.add_outbreak_individual(campaign, target_num_individuals=100)
     return campaign
 

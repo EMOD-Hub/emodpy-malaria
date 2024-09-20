@@ -36,7 +36,7 @@ def build_campaign():
     import emodpy_malaria.interventions.ivermectin as ivermectin
 
     # passing in schema file to verify that everything is correct.
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
     # creating an Ivermectin intervention inside the ivermectin, and adding it to campaign
     campaign.add(ivermectin.Ivermectin(schema_path_container=campaign))
 
@@ -117,17 +117,17 @@ def general_sim():
     add_report_event_counter(task, manifest, event_trigger_list=["HappyBirthday"])
 
     # MalariaImmunityReport
-    add_malaria_immunity_report(task, manifest, duration_days=10, reporting_interval=2, max_number_reports=2, nodes=[],
+    add_malaria_immunity_report(task, manifest, end_day=10, reporting_interval=2, max_number_reports=2, node_ids=[],
                                 age_bins=[24, 50, 115])
 
     # MalariaPatientJSONReport
     add_malaria_patient_json_report(task, manifest)
 
     # MalariaSummaryReport
-    add_malaria_summary_report(task, manifest, start_day=56, duration_days=23, reporting_interval=7,
+    add_malaria_summary_report(task, manifest, start_day=56, end_day=66, reporting_interval=7,
                                age_bins=[3, 77, 115],
                                infectiousness_bins=[0.023, 0.1, 0.5], max_number_reports=3, parasitemia_bins=[12, 3423],
-                               pretty_format=True)
+                               pretty_format=1)
 
     # ReportNodeDemographics
     add_report_node_demographics(task, manifest, age_bins=[5, 25, 100])
@@ -154,10 +154,10 @@ def general_sim():
     add_report_node_demographics_malaria(task, manifest, age_bins=[3, 25, 50, 100])
 
     # MalariaSurveyJSONAnalyzer
-    add_malaria_survey_analyzer(task, manifest, start_day=34, duration_days=355, event_trigger_list=["HappyBirthday"],
+    add_malaria_survey_analyzer(task, manifest, start_day=34, end_day=355, event_trigger_list=["HappyBirthday"],
                                 max_number_reports=74,
                                 reporting_interval=12,
-                                nodes=[1])
+                                node_ids=[1])
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
@@ -181,5 +181,5 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
-    dtk.setup(pathlib.Path(manifest.eradication_path).parent)
+    # dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

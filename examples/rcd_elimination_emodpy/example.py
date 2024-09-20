@@ -46,7 +46,7 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
     import emod_api.campaign as campaign
 
     # passing in manifest
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
     o5_hs_rate = u5_hs_rate * 0.5
 
     def create_target_list(u5_hs_rate, o5_hs_rate):
@@ -80,7 +80,7 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
                           start_day=1,
                           targets=create_target_list(u5_hs_rate, o5_hs_rate),
                           drug=['Artemether', 'Lumefantrine'],
-                          broadcast_event_name="Received_Treatment")
+                          broadcast_event_name="ReceivedTreatment")
 
     request_msat_config = BroadcastEventToOtherNodes(
         camp=campaign,
@@ -96,7 +96,7 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
                                 max_stock=1,
                                 max_distributed_per_day=1,
                                 intervention_config=request_msat_config,
-                                trigger_condition_list=["Received_Treatment"],
+                                trigger_condition_list=["ReceivedTreatment"],
                                 waiting_period=0)
 
     # response - no need to break them up, they are both triggered events, with AL drug code, the diagnostic-related
@@ -131,7 +131,6 @@ def set_config_parameters(config):
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae"])
     config.parameters.Simulation_Duration = 80
-    config.parameters.Custom_Individual_Events = ["Received_Treatment", "Diagnostic_Survey_0", "InfectionDropped"]
     return config
 
 

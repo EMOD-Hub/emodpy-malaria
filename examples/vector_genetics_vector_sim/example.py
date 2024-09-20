@@ -36,7 +36,7 @@ def set_param_fn(config):
 
     # add gender alleles; they need to be first, per #4576
     vector_config.add_genes_and_alleles(config, manifest, "gambiae",
-                              [("X1", 0.25), ("X2", 0.25), ("Y1", 0.15, 1), ("Y2", 0.35, 1)])
+                                        [("X1", 0.25), ("X2", 0.25), ("Y1", 0.15, 1), ("Y2", 0.35, 1)])
 
     # Vector Genetics, the main purpose of this example.
     vector_config.add_genes_and_alleles(config, manifest, "gambiae", [("a", 0.5), ("b", 0.5), ("c", 0)])
@@ -44,7 +44,6 @@ def set_param_fn(config):
     vector_config.add_mutation(config, manifest, "gambiae", mutate_from="b", mutate_to="c", probability=0.1)
     vector_config.add_mutation(config, manifest, "gambiae", mutate_from="c", mutate_to="a", probability=0.1)
     vector_config.add_mutation(config, manifest, "gambiae", mutate_from="a", mutate_to="c", probability=0.03)
-
 
     # another set of alleles
     vector_config.add_genes_and_alleles(config, manifest, "gambiae", [("one", 0.9), ("two", 0.05), ("three", 0.05)])
@@ -76,12 +75,11 @@ def build_campaign():
     import emodpy_malaria.interventions.mosquitorelease as mr
 
     # This isn't desirable. Need to think about right way to provide schema (once)
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
-    campaign.add(
-        mr.MosquitoRelease(campaign, start_day=1, released_number=20000, released_infectious=0.2,
-                            released_species="gambiae",
-                            released_genome=[["X1", "X1"], ["one", "two"], ["b", "b"]]))
+    mr.add_scheduled_mosquito_release(campaign, start_day=1, released_number=20000, released_infectious=0.2,
+                                      released_species="gambiae",
+                                      released_genome=[["X1", "X1"], ["one", "two"], ["b", "b"]])
 
     return campaign
 
@@ -151,5 +149,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

@@ -55,14 +55,14 @@ def build_campaign(start_day=1, coverage=1.0, killing_effect=0, constant_duratio
     import emod_api.campaign as campaign
     import emodpy_malaria.interventions.spacespraying as spray
     import emodpy_malaria.interventions.ivermectin as ivermectin
-
+    from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_usage_dependent_bednet
     # passing in manifest
-    campaign.schema_path = manifest.schema_file
-    campaign.add(spray.SpaceSpraying(campaign, start_day=start_day, spray_coverage=coverage,
-                                     killing_effect=killing_effect, box_duration=constant_duration, decay_rate=0.03),
-                 first=True)  # this flag should only be set in the first intervention if there are multiple being added
+    campaign.set_schema(manifest.schema_file)
+    add_scheduled_usage_dependent_bednet(campaign, start_day=start_day, demographic_coverage=coverage)
+    spray.add_scheduled_space_spraying(campaign, start_day=start_day, spray_coverage=coverage,
+                                       killing_initial_effect=killing_effect, killing_box_duration=constant_duration,
+                                       killing_decay_time_constant=33)
 
-    # Pleast notice lack of "first=True" flag, only the first (within this function) intervention needs it
     ivermectin.add_scheduled_ivermectin(campaign=campaign,
                                         start_day=20,
                                         demographic_coverage=0.57,

@@ -72,15 +72,12 @@ def build_camp():
         Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
     """
     import emod_api.campaign as camp
-    import emodpy_malaria.interventions.bednet as bednet
+
     import emodpy_malaria.interventions.treatment_seeking as ts
 
     # This isn't desirable. Need to think about right way to provide schema (once)
     camp.schema_path = manifest.schema_file
 
-    # print( f"Telling emod-api to use {manifest.schema_file} as schema." ) 
-    # camp.add( bednet.Bednet( camp, start_day=100, coverage=1.0, killing_eff=1.0,
-    # blocking_eff=1.0, usage_eff=1.0, node_ids=[321] ) )
     ts.add_treatment_seeking(camp, start_day=1, node_ids=[321])
     return camp
 

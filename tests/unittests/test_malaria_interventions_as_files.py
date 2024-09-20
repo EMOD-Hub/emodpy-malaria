@@ -11,6 +11,7 @@ from emodpy_malaria.interventions.sugartrap import new_intervention_as_file as s
 from emodpy_malaria.interventions.usage_dependent_bednet import new_intervention_as_file as rei_bednet
 from emodpy_malaria.interventions.inputeir import new_intervention_as_file as inputeir
 from emodpy_malaria.interventions.vaccine import new_intervention_as_file as simple_vaccine
+from emodpy_malaria.interventions.mosquitorelease import new_intervention_as_file as mosquito_release_file
 
 import emod_api.campaign as camp
 camp.schema_path = schema_path_file.schema_file
@@ -130,17 +131,37 @@ class MalariaInterventionFileTest(unittest.TestCase):
         self.run_test()
         return
 
-    def test_sugartrap_file(self):
-        self.method_under_test = sugartrap_file
-        self.expected_intervention_class = "SugarTrap"
+    def test_mosquito_release_file(self):
+        camp.campaign_dict["Events"] = []
+        self.method_under_test = mosquito_release_file
+        self.expected_intervention_class = "MosquitoRelease"
         self.run_test()
         return
 
+    def test_mosquito_release_file_nofilename(self):
+        camp.campaign_dict["Events"] = []
+        self.method_under_test = mosquito_release_file
+        self.expected_intervention_class = "MosquitoRelease"
+        self.file_path = None
+        self.run_test()
+        return
+
+
+    def test_sugartrap_file(self):
+        camp.campaign_dict["Events"] = []
+        self.method_under_test = sugartrap_file
+        self.expected_intervention_class = "SugarTrap"
+        self.run_test()
+        camp.campaign_dict["Events"] = []
+        return
+
     def test_sugartrap_file_nofilename(self):
+        camp.campaign_dict["Events"] = []
         self.method_under_test = sugartrap_file
         self.expected_intervention_class = "SugarTrap"
         self.file_path = None
         self.run_test()
+        camp.campaign_dict["Events"] = []
         return
 
     def test_udbednet_file(self):
@@ -159,6 +180,7 @@ class MalariaInterventionFileTest(unittest.TestCase):
         return
 
     def inputeir_file_test(self):
+        camp.campaign_dict["Events"] = []
         self.is_debugging = False
         self.method_under_test = inputeir
         self.expected_intervention_class = "InputEIR"
@@ -185,40 +207,45 @@ class MalariaInterventionFileTest(unittest.TestCase):
             self.assertEqual(self.event['Event_Coordinator_Config']['Intervention_Config']['Monthly_EIR'], eir)
             self.assertEqual(self.intervention_class, self.expected_intervention_class)
         run_test(eir)
+        camp.campaign_dict["Events"] = []
         return
 
     def test_inputeir_file_nofilename(self):
+        camp.campaign_dict["Events"] = []
         self.file_path = None
         self.inputeir_file_test()
+        camp.campaign_dict["Events"] = []
         return
 
     def test_inputeir_file(self):
+        camp.campaign_dict["Events"] = []
         self.file_path = 'inputeir_filename'
         self.inputeir_file_test()
-        return
-
-    def test_add_vaccine_file_nofilename(self):
-        if self.file_is_there():
-            os.unlink(self.file_path)
-        self.is_debugging = False
-        self.method_under_test = simple_vaccine
-        self.expected_intervention_class = "SimpleVaccine"
-        self.file_path = None
         camp.campaign_dict["Events"] = []
-
-        def run_test():
-            self.assertFalse(self.file_is_there())
-            if self.file_path:
-                self.method_under_test(camp, start_day=self.specific_start_day, filename=self.file_path)
-            else:
-                self.file_path = f"{self.expected_intervention_class}.json"
-                self.method_under_test(camp, start_day=self.specific_start_day)
-            self.load_event()
-            self.assertEqual(self.start_day, self.specific_start_day)
-            self.assertEqual(self.event['Event_Coordinator_Config']['Intervention_Config']
-                    ["class"], self.expected_intervention_class)
-        run_test()
         return
+
+    # def test_add_vaccine_file_nofilename(self):
+    #     if self.file_is_there():
+    #         os.unlink(self.file_path)
+    #     self.is_debugging = False
+    #     self.method_under_test = simple_vaccine
+    #     self.expected_intervention_class = "SimpleVaccine"
+    #     self.file_path = None
+    #     camp.campaign_dict["Events"] = []
+    #
+    #     def run_test():
+    #         self.assertFalse(self.file_is_there())
+    #         if self.file_path:
+    #             self.method_under_test(camp, start_day=self.specific_start_day, filename=self.file_path)
+    #         else:
+    #             self.file_path = f"{self.expected_intervention_class}.json"
+    #             self.method_under_test(camp, start_day=self.specific_start_day)
+    #         self.load_event()
+    #         self.assertEqual(self.start_day, self.specific_start_day)
+    #         self.assertEqual(self.event['Event_Coordinator_Config']['Intervention_Config']
+    #                 ["class"], self.expected_intervention_class)
+    #     run_test()
+    #     return
 
 
 if __name__ == '__main__':

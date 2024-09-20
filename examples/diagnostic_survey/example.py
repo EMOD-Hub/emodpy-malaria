@@ -31,7 +31,7 @@ def build_campaign():
     import emod_api.interventions.common  # this is where BroadcastEvent comes from
 
     # adding schema file, so it can be looked up when creating the campaigns
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # creating events to broadcast with positive and negative results
     fever_detected = emod_api.interventions.common.BroadcastEvent(campaign, Event_Trigger="FEVER")

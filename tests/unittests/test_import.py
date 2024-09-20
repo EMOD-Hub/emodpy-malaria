@@ -32,7 +32,7 @@ class MalariaTestImports(unittest.TestCase):
         from emodpy_malaria.interventions import bednet
 
         self.expected_items = [
-            "Bednet", "BasicBednet", "utils"
+            "_simple_bednet", "new_intervention_as_file", "add_itn_scheduled", "add_itn_triggered"
         ]
         self.verify_expected_items_present(namespace=bednet)
         return
@@ -60,7 +60,7 @@ class MalariaTestImports(unittest.TestCase):
         from emodpy_malaria.interventions import outdoorrestkill
 
         self.expected_items = [
-            "add_OutdoorRestKill"
+            "add_outdoorrestkill"
         ]
         self.verify_expected_items_present(namespace=outdoorrestkill)
         return
@@ -69,7 +69,7 @@ class MalariaTestImports(unittest.TestCase):
         from emodpy_malaria.interventions import spacespraying
 
         self.expected_items = [
-            "SpaceSpraying", "utils"
+            "add_scheduled_space_spraying", "utils", "_space_spraying"
         ]
 
         self.verify_expected_items_present(namespace=spacespraying)
@@ -78,7 +78,7 @@ class MalariaTestImports(unittest.TestCase):
     def test_intervention_sugartrap(self):
         from emodpy_malaria.interventions import sugartrap
         self.expected_items = [
-            "SugarTrap", "utils"
+            "add_scheduled_sugar_trap", "utils", "_sugar_trap"
         ]
         self.verify_expected_items_present(namespace=sugartrap)
 

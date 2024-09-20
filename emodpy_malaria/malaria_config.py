@@ -28,10 +28,10 @@ def set_team_defaults(config, manifest):
     vector_config.set_team_defaults(config, manifest)
     config.parameters.Simulation_Type = "MALARIA_SIM"
     config.parameters.Malaria_Strain_Model = "FALCIPARUM_RANDOM_STRAIN"
+    config.parameters.Enable_Disease_Mortality = 0
     # config.parameters.Enable_Malaria_CoTransmission = 0
 
     # INFECTION
-
     config.parameters.Max_MSP1_Antibody_Growthrate = 0
     config.parameters.Min_Adapted_Response = 0
     config.parameters.Infection_Updates_Per_Timestep = 8

@@ -54,7 +54,7 @@ def build_camp():
     import emodpy_malaria.interventions.outbreak as ob
 
     print(f"Telling emod-api to use {manifest.schema_file} as schema.")
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
     
     # importation pressure
     ob.add_outbreak_individual(campaign, start_day=1, repetitions=-1, timesteps_between_repetitions=1,

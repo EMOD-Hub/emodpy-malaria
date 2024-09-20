@@ -38,7 +38,7 @@ def build_campaign():
     from emodpy_malaria.interventions.scale_larval_habitats import add_scale_larval_habitats
 
     # passing in schema file to verify that everything is correct.
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
     # # Scale TEMPORARY_RAINFALL by 3 - fold for all nodes, all species:
     # df = pd.DataFrame({'TEMPORARY_RAINFALL': [3]})
     # add_scale_larval_habitats(campaign, df=df, start_day=1)

@@ -96,12 +96,12 @@ def set_param_fn(config):
 def build_camp(actual_start_day=90, current_insecticide="only_kill_male_funestus",
                killing_effectiveness=0.5):
     import emod_api.campaign as campaign
-    from emodpy_malaria.interventions.outdoorrestkill import add_OutdoorRestKill
-    campaign.schema_path = manifest.schema_file
-    campaign = add_OutdoorRestKill(campaign, start_day=actual_start_day,
-                                   insecticide_name=current_insecticide,
-                                   killing_initial_effect=killing_effectiveness,
-                                   killing_box_duration=10, killing_exponential_decay_rate=0.07)
+    from emodpy_malaria.interventions.outdoorrestkill import add_outdoorrestkill
+    campaign.set_schema(manifest.schema_file)
+    add_outdoorrestkill(campaign, start_day=actual_start_day,
+                        insecticide=current_insecticide,
+                        killing_initial_effect=killing_effectiveness,
+                        killing_box_duration=10, killing_decay_time_constant=1 / 0.07)
 
     return campaign
 
@@ -192,5 +192,6 @@ def run_test(erad_path):
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_test(manifest.eradication_path)

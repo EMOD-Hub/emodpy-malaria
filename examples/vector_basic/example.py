@@ -48,15 +48,19 @@ def build_campaign():
     import emodpy_malaria.interventions.bednet as bednet
     import emodpy_malaria.interventions.mosquitorelease as mr
 
-    # This isn't desirable. Need to think about right way to provide schema (once)
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
-    campaign.add(bednet.Bednet(campaign.schema_path, start_day=200, coverage=.5, killing_eff=0.7, blocking_eff=0.5, usage_eff=0.5))
+    bednet.add_itn_scheduled(campaign,
+                             start_day=200,
+                             demographic_coverage=.5,
+                             killing_initial_effect=0.7,
+                             blocking_initial_effect=0.5,
+                             usage_initial_effect=0.5)
 
-    #campaign.add(
-        #mr.MosquitoRelease(campaign, start_day=1, by_number=True, number=20000, infectious=0.2, species="gambiae",
-                           #genome=[["X", "X"], ["a", "b"], ["three", "three"]]))
+    # mr.add_scheduled_mosquito_release(campaign, start_day=1, released_number=20000, released_infectious=0.2,
+    #                                   released_species="gambiae",
+    #                                   released_genome=[["X", "X"], ["a", "b"], ["three", "three"]])
 
     return campaign
 

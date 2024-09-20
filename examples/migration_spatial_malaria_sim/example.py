@@ -35,7 +35,7 @@ def build_campaign():
     from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_usage_dependent_bednet
 
     # This isn't desirable. Need to think about right way to provide schema (once)
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
     nodes = [1402941398, 1402941399, 1402941400, 1402941401, 1402941404, 1402941410, 1403072469, 1403072470, 1403072471,

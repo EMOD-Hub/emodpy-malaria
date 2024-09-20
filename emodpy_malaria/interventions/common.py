@@ -221,7 +221,6 @@ def add_triggered_campaign_delay_event(campaign,
         triggered_event.Property_Restrictions = individual_restrictions
     campaign.add(event)
 
-
 def add_campaign_event(campaign,
                        start_day: int = 1,
                        demographic_coverage: float = 1.0,

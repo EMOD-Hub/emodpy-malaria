@@ -1,5 +1,5 @@
 from emod_api import schema_to_class as s2c
-from emod_api.interventions.common import utils
+from emod_api.interventions.common import utils, BroadcastEvent
 from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
 
 
@@ -17,7 +17,8 @@ def add_scheduled_ivermectin(campaign,
                              killing_decay_time_constant: float = 0,
                              insecticide: str = "",
                              cost: float = 1,
-                             intervention_name: str = "Ivermectin"
+                             intervention_name: str = "Ivermectin",
+                             broadcast_event: str = "Received_Ivermectin"
                              ):
     """
         Adds a scheduled Ivermectin CampaignEvent to the campaign, which can be repeated any number of times.
@@ -56,6 +57,9 @@ def add_scheduled_ivermectin(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple Ivermectin interventions
             attached to a person if they have different Intervention_Name values.
+        broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
+            Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
+
     Returns:
         Nothing
 
@@ -68,6 +72,8 @@ def add_scheduled_ivermectin(campaign,
                                insecticide=insecticide,
                                cost=cost,
                                intervention_name=intervention_name)
+    if broadcast_event:
+        intervention = [intervention, BroadcastEvent(camp=campaign, Event_Trigger=broadcast_event)]
 
     add_campaign_event(campaign,
                        start_day=start_day,
@@ -95,7 +101,9 @@ def add_triggered_ivermectin(campaign,
                              killing_decay_time_constant: float = 0,
                              insecticide: str = "",
                              cost: float = 1,
-                             intervention_name: str = "Ivermectin"):
+                             intervention_name: str = "Ivermectin",
+                             broadcast_event: str = "Received_Ivermectin"
+                             ):
     """
         Adds a triggered Ivermectin CampaignEvent to the campaign, that responds to a trigger after an optional
         delay. The intervention is distributed on start_day and responds to triggers for a listening_duration of days.
@@ -137,6 +145,8 @@ def add_triggered_ivermectin(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple Ivermectin interventions
             attached to a person if they have different Intervention_Name values.
+        broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
+            Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
 
     Returns:
         Nothing
@@ -149,6 +159,8 @@ def add_triggered_ivermectin(campaign,
                                insecticide=insecticide,
                                cost=cost,
                                intervention_name=intervention_name)
+    if broadcast_event:
+        intervention = [intervention, BroadcastEvent(camp=campaign, Event_Trigger=broadcast_event)]
 
     add_triggered_campaign_delay_event(campaign=campaign,
                                        start_day=start_day,

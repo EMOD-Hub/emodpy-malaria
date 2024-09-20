@@ -86,7 +86,7 @@ def build_campaign(scale_factor=1):
     import emod_api.campaign as campaign
     import emodpy_malaria.interventions.outbreak as outbreak
 
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
     outbreak.add_outbreak_individual(campaign,
                                      demographic_coverage=0.001 * scale_factor,
                                      repetitions=-1,

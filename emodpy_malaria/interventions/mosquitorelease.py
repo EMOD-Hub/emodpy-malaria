@@ -1,27 +1,23 @@
 from emod_api import schema_to_class as s2c
-from emod_api.interventions import utils
-import json
+from emodpy_malaria.interventions.common import add_campaign_event
 
-schema_path = None
 iv_name = "MosquitoRelease"
 
 
-def MosquitoRelease(
-        campaign,
-        start_day: int = 0,
-        released_number: int = None,
-        released_fraction: float = None,
-        released_infectious: float = 0,
-        released_species: str = "arabiensis",
-        released_genome: list = None,
-        node_ids: list = None
-):
+def _mosquito_release(campaign,
+                      intervention_name: str = iv_name,
+                      released_number: int = None,
+                      released_fraction: float = None,
+                      released_infectious: float = 0,
+                      released_species: str = "arabiensis",
+                      released_genome: list = None):
     """
-    Release mosquitoes of a given species and genome into each node.
-
+        Configures node-targeted MosquitoRelease intervention
     Args:
-        campaign:
-        start_day: The day to release the vectors.
+        campaign: A campaign builder that also contains schema_path parameters
+        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It’s possible to have multiple MosquitoRelease interventions
+            if they have different Intervention_Name values.
         released_number: The number of vectors to release, sets Released_Type = "FIXED_NUMBER"
         released_fraction: The fraction of the current population of mosquitoes to release.
             The 'population' will depend on the gender of the mosquitoes being
@@ -32,42 +28,22 @@ def MosquitoRelease(
         released_species: The case sensitive name of the species of vectors to be released.
         released_genome: This defines the alleles of the genome of the vectors to be released.
             It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
-        node_ids: The list of node IDs to receive a release of vectors.  The same 
-            number of vectors will be released to each node.
 
     Returns:
-    Formatted intervention
+        Configured MosquitoRelease intervention
     """
-    schema_path = campaign.schema_path
     if not released_genome:
         released_genome = [["X", "X"]]
     if (released_number and released_fraction) or (not released_number and not released_fraction):
         raise ValueError("Please define either released_number or released_fraction to determine how to release "
                          "mosquitoes, \n not both.\n")
 
-    # First, get the objects
-    event = s2c.get_class_with_defaults("CampaignEvent", schema_path)
-    coordinator = s2c.get_class_with_defaults("StandardEventCoordinator", schema_path)
-
-    coordinator.Node_Property_Restrictions = []
-    coordinator.Property_Restrictions_Within_Node = []
-    coordinator.Property_Restrictions = []
-
-    intervention = s2c.get_class_with_defaults("MosquitoRelease", schema_path)
-
-    # Second, hook them up
-    event.Event_Coordinator_Config = coordinator
-    coordinator.Intervention_Config = intervention
-    event.Start_Day = start_day
-
-    # Third, do the actual settings
-    intervention.Intervention_Name = iv_name
+    intervention = s2c.get_class_with_defaults("MosquitoRelease", campaign.schema_path)
+    intervention.Intervention_Name = intervention_name
 
     if released_number:
-        intervention.Released_Type = "FIXED_NUMBER"
         intervention.Released_Number = released_number
     else:
-        intervention.Released_Type = "FRACTION"
         intervention.Released_Fraction = released_fraction
 
     intervention.Released_Infectious = released_infectious
@@ -75,24 +51,89 @@ def MosquitoRelease(
     intervention.Released_Genome = released_genome
     intervention.Released_Wolbachia = "VECTOR_WOLBACHIA_FREE"
 
-    event.Nodeset_Config = utils.do_nodes(schema_path, node_ids)
-
-    return event
+    return intervention
 
 
-def new_intervention_as_file(camp, start_day: int = 1, filename: str = None):
+def add_scheduled_mosquito_release(
+        campaign,
+        start_day: int = 0,
+        node_ids: list = None,
+        repetitions: int = 1,
+        timesteps_between_repetitions: int = 365,
+        node_property_restrictions: list = None,
+        intervention_name: str = iv_name,
+        released_number: int = None,
+        released_fraction: float = None,
+        released_infectious: float = 0,
+        released_species: str = "arabiensis",
+        released_genome: list = None):
     """
+        Adds to the campaign a node-level MosquitoRelease intervention
 
     Args:
-        camp:
+        campaign: A campaign builder that also contains schema_path parameters
+        start_day: The day to release the vectors.
+        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention
+        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**
+        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**
+        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
+            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
+        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It’s possible to have multiple MosquitoRelease interventions
+            if they have different Intervention_Name values.
+        released_number: The number of vectors to release, sets Released_Type = "FIXED_NUMBER"
+        released_fraction: The fraction of the current population of mosquitoes to release.
+            The 'population' will depend on the gender of the mosquitoes being
+            released and it will be the population from the previous time step.
+            Sets Released_Type = "FRACTION"
+        released_infectious: The fraction of vectors released that are to be infectious.
+            One can only use this feature when 'Malaria_Model'!='MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'
+        released_species: The case sensitive name of the species of vectors to be released.
+        released_genome: This defines the alleles of the genome of the vectors to be released.
+            It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
+
+
+    Returns:
+        Formatted intervention
+    """
+
+    if not released_genome:
+        released_genome = [["X", "X"]]
+    if (released_number and released_fraction) or (not released_number and not released_fraction):
+        raise ValueError("Please define either released_number or released_fraction to determine how to release "
+                         "mosquitoes, \n not both.\n")
+
+    node_intervention = _mosquito_release(campaign=campaign,
+                                          intervention_name=intervention_name,
+                                          released_number=released_number,
+                                          released_fraction=released_fraction,
+                                          released_infectious=released_infectious,
+                                          released_species=released_species,
+                                          released_genome=released_genome)
+    add_campaign_event(campaign=campaign,
+                       start_day=start_day,
+                       node_ids=node_ids,
+                       repetitions=repetitions,
+                       timesteps_between_repetitions=timesteps_between_repetitions,
+                       node_property_restrictions=node_property_restrictions,
+                       node_intervention=node_intervention)
+
+
+def new_intervention_as_file(campaign, start_day: int = 1, filename: str = "MosquitoRelease.json"):
+    """
+        Creates a campaign file with a MosquitoRelease intervention
+        
+    Args:
+        campaign: A campaign builder that also contains schema_path parameters
         start_day: The day to release the vectors.
         filename: name of campaign filename to be created
 
     Returns:
         returns filename
     """
-    camp.add(MosquitoRelease(camp, start_day), first=True)
-    if not filename:
-        filename = "MosquitoRelease.json"
-    camp.save(filename)
+    add_scheduled_mosquito_release(campaign=campaign, start_day=start_day, released_number=1)
+    campaign.save(filename)
     return filename

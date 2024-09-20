@@ -1,14 +1,17 @@
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils
+from emodpy_malaria.interventions.common import add_campaign_event
+
+iv_name = "InputEIR"
 
 
-
-def new_intervention(
+def _input_eir(
         campaign,
         monthly_eir: list = None,
         daily_eir: list = None,
         age_dependence: str = "OFF",
-        scaling_factor: float = 1.0
+        scaling_factor: float = 1.0,
+        intervention_name: str = iv_name
 ):
     """
         Create the InputEIR intervention itself that will be nestled inside an event coordinator.
@@ -22,6 +25,9 @@ def new_intervention(
             age_dependence: Determines how InputEIR depends on the age of the target. Options are "OFF", "LINEAR",
                 "SURFACE_AREA_DEPENDENT"
             scaling_factor: A modifier that is multiplied by the EIR determined for the current day
+            intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
+                others that use the same class. It’s possible to have multiple InputEIR interventions
+                attached to a node if they have different Intervention_Name values.
 
         Returns:
             InputEIR intervention
@@ -51,57 +57,57 @@ def new_intervention(
         intervention.EIR_Type = "MONTHLY"
     intervention.Age_Dependence = age_dependence
     intervention.Scaling_Factor = scaling_factor
+    intervention.Intervention_Name = intervention_name
     return intervention
 
 
-def InputEIR(
+def add_scheduled_input_eir(
         campaign,
-        monthly_eir: list = None,
-        daily_eir: list = None,
         start_day: int = 1,
         node_ids: list = None,
+        node_property_restrictions: list = None,
+        monthly_eir: list = None,
+        daily_eir: list = None,
         age_dependence: str = "OFF",
-        scaling_factor: float = 1.0
+        scaling_factor: float = 1.0,
+        intervention_name: str = iv_name
 ):
     """
         Create a full CampaignEvent that distributes InputEIR to a population.
 
         Args:
             campaign: Passed in campaign (from emod_api.campaign)
+            start_day: The day on which the monthly_eir cycle starts
+            node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+                will get the intervention
+            node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
+                that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
             monthly_eir: An array of 12 elements that contain an entomological inoculation rate (EIR) for each month;
                 Each value should be between 0 and 1000
             daily_eir: An array of 365 values where each value is the mean number of infectious bites experienced
                 by an individual for that day of the year
             start_day: The day on which the monthly_eir cycle starts
-            node_ids: Nodes to which this intervention is applied
             age_dependence: Determines how InputEIR depends on the age of the target. Options are "OFF", "LINEAR",
                 "SURFACE_AREA_DEPENDENT"
             scaling_factor: A modifier that is multiplied by the EIR determined for the current day
+            intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
+                others that use the same class. It’s possible to have multiple InputEIR interventions
+                attached to a node if they have different Intervention_Name values.
 
         Returns:
-            Campaign event to be added to campaign (from emod_api.camapign)
+            Nothing
     """
 
-    # First, get the objects
-    event = s2c.get_class_with_defaults("CampaignEvent", campaign.schema_path)
-    coordinator = s2c.get_class_with_defaults("StandardEventCoordinator", campaign.schema_path)
-    if coordinator is None:
-        print("s2c.get_class_with_defaults returned None. Maybe no schema.json was provided.")
-        return ""
+    input_eir = _input_eir(campaign=campaign, monthly_eir=monthly_eir, daily_eir=daily_eir,
+                           age_dependence=age_dependence, scaling_factor=scaling_factor,
+                           intervention_name=intervention_name)
 
-    intervention = new_intervention(campaign, monthly_eir, daily_eir, age_dependence, scaling_factor)
-    coordinator.Intervention_Config = intervention
-    coordinator.pop("Node_Property_Restrictions")
-
-    # Second, hook them up
-    event.Event_Coordinator_Config = coordinator
-    event.Start_Day = float(start_day)
-    event.Nodeset_Config = utils.do_nodes(campaign.schema_path, node_ids)
-
-    return event
+    add_campaign_event(campaign=campaign, start_day=start_day, node_ids=node_ids,
+                       node_property_restrictions=node_property_restrictions, node_intervention=input_eir)
 
 
-def new_intervention_as_file(campaign, start_day: int = 0, monthly_eir: list = None, daily_eir: list = None, filename: str = None):
+def new_intervention_as_file(campaign, start_day: int = 0, monthly_eir: list = None, daily_eir: list = None,
+                             filename: str = "InputEIR.json"):
     """
         Create an InputEIR intervention as its own file.
 
@@ -117,42 +123,6 @@ def new_intervention_as_file(campaign, start_day: int = 0, monthly_eir: list = N
         Returns:
             The filename of the file created
     """
-    campaign.add(InputEIR(campaign=campaign, monthly_eir=monthly_eir, daily_eir=daily_eir, start_day=start_day), first=True)
-    if filename is None:
-        filename = "InputEIR.json"
+    add_scheduled_input_eir(campaign=campaign, start_day=start_day, monthly_eir=monthly_eir, daily_eir=daily_eir)
     campaign.save(filename)
     return filename
-
-
-def add_InputEIR(campaign,
-                 monthly_eir: list = None,
-                 daily_eir: list = None,
-                 start_day: int = 1,
-                 node_ids: list = None,
-                 age_dependence: str = "OFF",
-                 scaling_factor: float = 1.0
-                 ):
-    """
-    Wrapper that creates a full CampaignEvent that distributes InputEIR to a population AND adds it to the campaign.
-
-    Args:
-        campaign: Passed in campaign (from emod_api.campaign)
-        monthly_eir: An array of 12 elements that contain an entomological inoculation rate (EIR) for each month;
-            Each value should be between 0 and 1000
-        daily_eir: An array of 365 values where each value is the mean number of infectious bites experienced
-            by an individual for that day of the year
-        start_day: The day on which the monthly_eir cycle starts
-        node_ids: Nodes to which this intervention is applied
-        age_dependence: Determines how InputEIR depends on the age of the target. Options are "OFF", "LINEAR",
-            "SURFACE_AREA_DEPENDENT"
-        scaling_factor: A modifier that is multiplied by the EIR determined for the current day
-    """
-
-    campaign_event = InputEIR(campaign=campaign,
-                              monthly_eir=monthly_eir,
-                              daily_eir=daily_eir,
-                              start_day=start_day,
-                              node_ids=node_ids,
-                              age_dependence=age_dependence,
-                              scaling_factor=scaling_factor)
-    campaign.add(campaign_event)

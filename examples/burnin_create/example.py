@@ -47,12 +47,16 @@ def build_camp():
     Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
     """
     import emod_api.campaign as campaign
-    import emodpy_malaria.interventions.bednet as bednet
+    from emodpy_malaria.interventions.bednet import add_itn_scheduled
 
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
-    campaign.add(bednet.Bednet(campaign.schema_path, start_day=100, coverage=1.0, killing_eff=1.0, blocking_eff=1.0, usage_eff=1.0,
-                               node_ids=[]))
+    add_itn_scheduled(campaign,
+                      start_day=100,
+                      demographic_coverage=1.0,
+                      killing_initial_effect=1.0,
+                      blocking_initial_effect=1.0,
+                      usage_initial_effect=1.0)
     return campaign
 
 

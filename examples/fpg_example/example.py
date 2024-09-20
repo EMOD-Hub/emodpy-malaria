@@ -33,7 +33,7 @@ def build_campaign():
     import emodpy_malaria.interventions.spacespraying as space_spray
 
     # passing in schema file to verify that everything is correct.
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # set up outbreak
     allele_frequencies = [[1.00, 0.00, 0.00, 0.00], [0.00, 1.00, 0.00, 0.00], [0.00, 0.00, 1.00, 0.00],
@@ -52,8 +52,9 @@ def build_campaign():
                                   drug_resistant_allele_frequencies_per_genome_location=[
                                       [0.7, 0.3, 0, 0]])
 
-    campaign.add(space_spray.SpaceSpraying(campaign, start_day=20, spray_coverage=0.34,
-                                           killing_effect=0.88, box_duration=12, decay_rate=0.1))
+    space_spray.add_scheduled_space_spraying(campaign, start_day=20, spray_coverage=0.34,
+                                             killing_initial_effect=0.88, killing_box_duration=12,
+                                             killing_decay_time_constant=10)
 
     drug_campaign.add_drug_campaign(camp=campaign, campaign_type="MDA", drug_code="AL", start_days=[11],
                                     repetitions=3, tsteps_btwn_repetitions=3, coverage=0.3,
@@ -98,9 +99,8 @@ def set_config_parameters(config, habitat_scale_factor=1, seasonality_type='seas
     serialize_year = 1
     s_pop_filename = ""
 
-
     config.parameters.x_Base_Population = population_scale_factor
-    config.parameters.Simulation_Duration =  (years * 365) + 1
+    config.parameters.Simulation_Duration = (years * 365) + 1
 
     # -------SERIALIZATION-----
 
@@ -201,5 +201,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

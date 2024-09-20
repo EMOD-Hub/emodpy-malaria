@@ -36,7 +36,7 @@ def build_campaign():
     from emodpy_malaria.interventions.ivermectin import add_scheduled_ivermectin, add_triggered_ivermectin
 
     # passing in schema file to verify that everything is correct.
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     add_scheduled_ivermectin(campaign=campaign,
                              start_day=20,

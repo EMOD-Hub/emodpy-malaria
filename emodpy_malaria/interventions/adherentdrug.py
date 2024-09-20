@@ -1,10 +1,11 @@
-from emod_api import schema_to_class as s2c 
+from emod_api import schema_to_class as s2c
+
 
 def adherent_drug(campaign, cost: int = 1, doses: list = None, dose_interval: int = 1,
-                    adherence_values: list = None,
-                    non_adherence_options: list = None,
-                    non_adherence_distribution: list = None, max_dose_consideration_duration: int = 40,
-                    took_dose_event: str = "Took_Dose"):
+                  adherence_values: list = None,
+                  non_adherence_options: list = None,
+                  non_adherence_distribution: list = None, max_dose_consideration_duration: int = 40,
+                  took_dose_event: str = "Took_Dose"):
     """
         Configures adherent drug dictionary  using the **AdherentDrug** class, an individual-level
         intervention which extends the **AntimalarialDrug** class.

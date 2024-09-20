@@ -9,20 +9,20 @@ import random
 import pandas as pd
 
 from emodpy_malaria.interventions.ivermectin import add_scheduled_ivermectin, add_triggered_ivermectin
-from emodpy_malaria.interventions.bednet import Bednet, add_ITN_scheduled, BednetIntervention
-from emodpy_malaria.interventions.outdoorrestkill import add_OutdoorRestKill
+from emodpy_malaria.interventions.bednet import add_itn_scheduled, add_itn_triggered
+from emodpy_malaria.interventions.outdoorrestkill import add_outdoorrestkill
 from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_usage_dependent_bednet, \
     add_triggered_usage_dependent_bednet
 from emodpy_malaria.interventions import drug_campaign
 from emodpy_malaria.interventions import diag_survey
 from emodpy_malaria.interventions.common import *
-from emodpy_malaria.interventions.mosquitorelease import MosquitoRelease
-from emodpy_malaria.interventions.inputeir import InputEIR
+from emodpy_malaria.interventions.mosquitorelease import add_scheduled_mosquito_release
+from emodpy_malaria.interventions.inputeir import add_scheduled_input_eir
 from emodpy_malaria.interventions.outbreak import *
 from emodpy_malaria.interventions.vaccine import *
 from emodpy_malaria.interventions.irs import *
-from emodpy_malaria.interventions.spacespraying import SpaceSpraying
-from emodpy_malaria.interventions.sugartrap import SugarTrap
+from emodpy_malaria.interventions.spacespraying import add_scheduled_space_spraying
+from emodpy_malaria.interventions.sugartrap import add_scheduled_sugar_trap
 from emodpy_malaria.interventions.larvicide import add_larvicide
 from emodpy_malaria.interventions.community_health_worker import add_community_health_worker
 from emodpy_malaria.interventions.scale_larval_habitats import add_scale_larval_habitats
@@ -400,91 +400,31 @@ class TestMalariaInterventions(unittest.TestCase):
     # end region
 
     # region bednet
-    def bednet_build(self
-                     , start_day=1
-                     , coverage=1.0
-                     , blocking_eff=1.0
-                     , killing_eff=1.0
-                     , repelling_eff=1.0
-                     , usage_eff=1.0
-                     , blocking_decay_rate=0.0
-                     , blocking_predecay_duration=365
-                     , killing_decay_rate=0.0
-                     , killing_predecay_duration=365
-                     , repelling_decay_rate=0.0
-                     , repelling_predecay_duration=365
-                     , usage_decay_rate=0.0
-                     , usage_predecay_duration=365
-                     , node_ids=None
-                     , insecticide=None
-                     ):
-        if not self.tmp_intervention:
-            self.tmp_intervention = Bednet(
-                schema_path=self.schema_file.schema_path
-                , start_day=start_day
-                , coverage=coverage
-                , blocking_eff=blocking_eff
-                , killing_eff=killing_eff
-                , repelling_eff=repelling_eff
-                , usage_eff=usage_eff
-                , blocking_decay_rate=blocking_decay_rate
-                , blocking_predecay_duration=blocking_predecay_duration
-                , killing_decay_rate=killing_decay_rate
-                , killing_predecay_duration=killing_predecay_duration
-                , repelling_decay_rate=repelling_decay_rate
-                , repelling_predecay_duration=repelling_predecay_duration
-                , usage_decay_rate=usage_decay_rate
-                , usage_predecay_duration=usage_predecay_duration
-                , node_ids=node_ids
-                , insecticide=insecticide
-            )
-        self.parse_intervention_parts()
-        self.killing_config = self.intervention_config['Killing_Config']
-        self.blocking_config = self.intervention_config['Blocking_Config']
-        self.repelling_config = self.intervention_config['Repelling_Config']
-        self.usage_config = self.intervention_config['Usage_Config']
-        self.all_configs = [
-            self.killing_config
-            , self.blocking_config
-            , self.repelling_config
-            , self.usage_config
-        ]
-        return
-
-    # def test_bednet_default_throws_exception(self):
-    #     with self.assertRaises(TypeError) as context:
-    #         Bednet(campaign=schema_path_file)
-    #     self.assertIn("start_day", str(context.exception))
-    #     return
-
-    def test_bednet_needs_only_start_day(self):
+    def test_bednet_default(self):
+        camp.campaign_dict["Events"] = []
         self.is_debugging = False
-        specific_day = 39
-
-        # call emodpy-malaria code directly
-        self.tmp_intervention = Bednet(schema_path=schema_path_file.schema_file,
-                                       start_day=specific_day)
-
-        self.bednet_build()  # tmp_intervention already set
-        # self.bednet_build(start_day=specific_day)
-
+        add_itn_scheduled(campaign=camp)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
         self.assertEqual(self.event_coordinator['Demographic_Coverage'], 1.0)
-        self.assertEqual(self.start_day, specific_day)
+        self.assertEqual(self.start_day, 0)
 
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Killing_Config"]["Initial_Effect"], 1)
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Blocking_Config"]["Initial_Effect"], 1)
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Repelling_Config"]["Initial_Effect"], 1)
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Killing_Config"]["Initial_Effect"], 0.6)
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Blocking_Config"]["Initial_Effect"], 0.9)
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Repelling_Config"]["Initial_Effect"], 0)
         self.assertEqual(self.event_coordinator["Intervention_Config"]["Usage_Config"]["Initial_Effect"], 1)
 
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Killing_Config"]["Box_Duration"], 365)
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Blocking_Config"]["Box_Duration"], 365)
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Repelling_Config"]["Box_Duration"], 365)
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Usage_Config"]["Expected_Discard_Time"], 3650)
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Killing_Config"]["Box_Duration"], 0)
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Blocking_Config"]["Box_Duration"], 0)
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Repelling_Config"]["Box_Duration"], 0)
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Usage_Config"]["Box_Duration"], 0)
 
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Killing_Config"]["Decay_Time_Constant"], 0)
-        self.assertEqual(self.event_coordinator["Intervention_Config"]["Blocking_Config"]["Decay_Time_Constant"], 0)
+        self.assertAlmostEqual(self.event_coordinator["Intervention_Config"]["Killing_Config"]["Decay_Time_Constant"],
+                               7300)
+        self.assertAlmostEqual(self.event_coordinator["Intervention_Config"]["Blocking_Config"]["Decay_Time_Constant"],
+                               7300)
         self.assertEqual(self.event_coordinator["Intervention_Config"]["Repelling_Config"]["Decay_Time_Constant"], 0)
-
+        self.assertEqual(self.event_coordinator["Intervention_Config"]["Usage_Config"]["Decay_Time_Constant"], 0)
         self.assertEqual(self.event_coordinator["Intervention_Config"]["Killing_Config"]["class"],
                          "WaningEffectBoxExponential")
         self.assertEqual(self.event_coordinator["Intervention_Config"]["Blocking_Config"]["class"],
@@ -492,203 +432,203 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.event_coordinator["Intervention_Config"]["Repelling_Config"]["class"],
                          "WaningEffectBoxExponential")
         self.assertEqual(self.event_coordinator["Intervention_Config"]["Usage_Config"]["class"],
-                         "WaningEffectRandomBox")
-
-        self.assertEqual(self.event_coordinator['Individual_Selection_Type']
-                         , "DEMOGRAPHIC_COVERAGE")
+                         "WaningEffectBoxExponential")
+        self.assertEqual(self.event_coordinator['Individual_Selection_Type'] , "DEMOGRAPHIC_COVERAGE")
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
         return
 
-    def test_bednet_all_constant_waning(self):
-
-        self.bednet_build(start_day=13
-                          , blocking_predecay_duration=-1
-                          , killing_predecay_duration=-1
-                          , repelling_predecay_duration=-1
-                          , usage_predecay_duration=-1)
-        for wc in self.all_configs:
-            self.assertEqual(
-                wc[WaningParams.Class]
-                , WaningEffects.Constant)  # class is WaningEffectConstant
-        return
-
-    def test_bednet_all_waning_effectiveness(self):
+    def test_bednet_custom(self):
+        camp.campaign_dict["Events"] = []
         self.is_debugging = False
-        block_effect = 0.9
-        kill_effect = 0.8
-        repell_effect = 0.7
-        usage_effect = 0.6
-
-        self.bednet_build(blocking_eff=block_effect
-                          , killing_eff=kill_effect
-                          , repelling_eff=repell_effect
-                          , usage_eff=usage_effect)
-
-        self.assertEqual(self.killing_config[WaningParams.Initial], kill_effect)
-        self.assertEqual(self.blocking_config[WaningParams.Initial], block_effect)
-        self.assertEqual(self.repelling_config[WaningParams.Initial], repell_effect)
-        self.assertEqual(self.usage_config[WaningParams.Initial], usage_effect)
-        return
-
-    def test_bednet_all_exponential_waning(self):
-        self.bednet_build(blocking_decay_rate=0.2
-                          , blocking_predecay_duration=0
-                          , killing_decay_rate=0.1
-                          , killing_predecay_duration=0
-                          , usage_decay_rate=0.01
-                          , usage_predecay_duration=0
-                          , repelling_decay_rate=0.5
-                          , repelling_predecay_duration=0)
-
-        # All of these should have no box duration
-        # All of these should be box exponential
-        for wc in self.all_configs:
-            self.assertEqual(wc[WaningParams.Box_Duration], 0)
-            self.assertEqual(wc[WaningParams.Class], WaningEffects.BoxExp)
-
-        # Each of the Delay_Time_Constants is the reciprocal of the decay rate
-        self.assertEqual(self.blocking_config[WaningParams.Decay_Time], 5.0)
-        self.assertEqual(self.killing_config[WaningParams.Decay_Time], 10.0)
-        self.assertEqual(self.usage_config[WaningParams.Decay_Time], 100.0)
-        self.assertEqual(self.repelling_config[WaningParams.Decay_Time], 2.0)
-        return
-
-    def test_bednet_nodeset_custom(self):
-        specific_ids = [1, 12, 123, 1234]
-        self.bednet_build(node_ids=specific_ids
-                          , blocking_eff=0.3
-                          , killing_predecay_duration=730
-                          , repelling_predecay_duration=0
-                          , repelling_decay_rate=0.02
-                          , usage_decay_rate=0.01
-                          , usage_predecay_duration=50
-                          )
-
-        self.assertEqual(self.nodeset[NodesetParams.Class],
-                         NodesetParams.SetList)
-        self.assertEqual(self.nodeset[NodesetParams.Node_List],
-                         specific_ids)
-        self.assertEqual(self.blocking_config[WaningParams.Initial], 0.3)
-
-        self.assertEqual(self.killing_config[WaningParams.Box_Duration], 730)
-        self.assertEqual(self.killing_config[WaningParams.Decay_Time], 0)
-
-        self.assertEqual(self.repelling_config[WaningParams.Box_Duration], 0)
-        self.assertEqual(self.repelling_config[WaningParams.Decay_Time], 50)
-
-        self.assertEqual(self.usage_config[WaningParams.Decay_Time], 100)
-        self.assertEqual(self.usage_config[WaningParams.Box_Duration], 50)
-        return
-
-    def test_bednet_coverage_custom(self):
-        specific_coverage = 0.365
-        self.bednet_build(coverage=specific_coverage
-
-                          , killing_eff=0.3
-
-                          , repelling_predecay_duration=730
-
-                          , usage_predecay_duration=0
-                          , usage_decay_rate=0.02
-
-                          , blocking_decay_rate=0.01
-                          , blocking_predecay_duration=50
-                          )
-
-        self.assertEqual(self.nodeset[NodesetParams.Class],
-                         NodesetParams.SetAll)
-        self.assertEqual(self.event_coordinator['Demographic_Coverage'],
-                         specific_coverage)
-        self.assertEqual(self.killing_config[WaningParams.Initial], 0.3)
-
-        self.assertEqual(self.repelling_config[WaningParams.Box_Duration], 730)
-        self.assertEqual(self.repelling_config[WaningParams.Decay_Time], 0)
-
-        self.assertEqual(self.usage_config[WaningParams.Box_Duration], 0)
-        self.assertEqual(self.usage_config[WaningParams.Decay_Time], 50)
-
-        self.assertEqual(self.blocking_config[WaningParams.Decay_Time], 100)
-        self.assertEqual(self.blocking_config[WaningParams.Box_Duration], 50)
-        return
-
-    def test_add_itn_scheduled(self):
-        camp.reset()
-        start_day = 100
-        coverage = 0.56
-        target_age_min = 0
-        target_age_max = 500
+        start_day = 11
+        coverage_by_ages = [{"coverage": 0.55, "min": 1, "max": 10},
+                            {"coverage": 0.33, "min": 11, "max": 50}]
+        demographic_coverage = 0.4
+        node_ids = [3, 45, 3453453]
         repetitions = 3
-        tsteps_btwn_repetitions = 4
-        node_ids = [1, 2]
-        add_ITN_scheduled(camp, start_day, [{'min': target_age_min, 'max': target_age_max, 'coverage': coverage}],
-                          repetitions=repetitions, tsteps_btwn_repetitions=tsteps_btwn_repetitions,
-                          node_ids=node_ids)
+        timesteps_between_repetitions = 700
+        ind_property_restrictions = [{"Book": "Smart", "Hi": "There"}, {"Mellow": "Yellow"}]
+        node_property_restrictions = ["Urban:No"]
+        receiving_itn_broadcast_event = "GotMeANet"
+        blocking_initial_effect = 0.11
+        blocking_box_duration = 12
+        blocking_decay_time_constant = 13
+        killing_initial_effect = 0.22
+        killing_box_duration = 23
+        killing_decay_time_constant = 24
+        repelling_initial_effect = 0.33
+        repelling_box_duration = 34
+        repelling_decay_time_constant = 35
+        usage_initial_effect = 0.44
+        usage_box_duration = 45
+        usage_decay_time_constant = 46
+        insecticide = "NoMoreBugs"
+        cost = 1.23
+        intervention_name = "TestingBednet"
 
-        itn_event = camp.campaign_dict["Events"][0]
-        self.assertEqual(itn_event["class"], "CampaignEvent")
-        self.assertEqual(itn_event["Start_Day"], start_day)
+        add_itn_scheduled(campaign=camp,
+                          start_day=start_day,
+                          coverage_by_ages=coverage_by_ages,
+                          demographic_coverage=demographic_coverage,
+                          node_ids=node_ids,
+                          repetitions=repetitions,
+                          timesteps_between_repetitions=timesteps_between_repetitions,
+                          ind_property_restrictions=ind_property_restrictions,
+                          node_property_restrictions=node_property_restrictions,
+                          receiving_itn_broadcast_event=receiving_itn_broadcast_event,
+                          blocking_initial_effect=blocking_initial_effect,
+                          blocking_box_duration=blocking_box_duration,
+                          blocking_decay_time_constant=blocking_decay_time_constant,
+                          killing_initial_effect=killing_initial_effect,
+                          killing_box_duration=killing_box_duration,
+                          killing_decay_time_constant=killing_decay_time_constant,
+                          repelling_initial_effect=repelling_initial_effect,
+                          repelling_box_duration=repelling_box_duration,
+                          repelling_decay_time_constant=repelling_decay_time_constant,
+                          usage_initial_effect=usage_initial_effect,
+                          usage_box_duration=usage_box_duration,
+                          usage_decay_time_constant=usage_decay_time_constant,
+                          insecticide=insecticide,
+                          cost=cost,
+                          intervention_name=intervention_name)
+        for event in camp.campaign_dict["Events"]:
+            self.tmp_intervention = event
+            self.parse_intervention_parts()
+            self.assertEqual(event["Start_Day"], start_day)
+            intervention_list = self.tmp_intervention["Event_Coordinator_Config"]["Intervention_Config"]["Intervention_List"]
+            if intervention_list[0]["class"] == "SimpleBednet":
+                broadcast_intervention = intervention_list[1]
+                self.intervention_config = intervention_list[0]
+            else:
+                self.intervention_config = intervention_list[1]
+                broadcast_intervention = intervention_list[0]
+            self.killing_config = self.intervention_config['Killing_Config']
+            self.blocking_config = self.intervention_config['Blocking_Config']
+            self.repelling_config = self.intervention_config['Repelling_Config']
+            self.killing_config = self.intervention_config['Killing_Config']
+            self.assertEqual(self.killing_config[WaningParams.Initial], killing_initial_effect)
+            self.assertEqual(self.killing_config[WaningParams.Box_Duration], killing_box_duration)
+            self.assertEqual(self.killing_config[WaningParams.Decay_Time], killing_decay_time_constant)
+            self.assertEqual(self.blocking_config[WaningParams.Initial], blocking_initial_effect)
+            self.assertEqual(self.blocking_config[WaningParams.Box_Duration], blocking_box_duration)
+            self.assertEqual(self.blocking_config[WaningParams.Decay_Time], blocking_decay_time_constant)
+            self.assertEqual(self.repelling_config[WaningParams.Initial], repelling_initial_effect)
+            self.assertEqual(self.repelling_config[WaningParams.Box_Duration], repelling_box_duration)
+            self.assertEqual(self.repelling_config[WaningParams.Decay_Time], repelling_decay_time_constant)
+            self.assertEqual(self.usage_config[WaningParams.Initial], usage_initial_effect)
+            self.assertEqual(self.usage_config[WaningParams.Box_Duration], usage_box_duration)
+            self.assertEqual(self.usage_config[WaningParams.Decay_Time], usage_decay_time_constant)
+            self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
+            self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
+            self.assertEqual(self.event_coordinator['Number_Repetitions'], repetitions)
+            self.assertEqual(self.event_coordinator['Property_Restrictions_Within_Node'], ind_property_restrictions)
+            self.assertEqual(self.event_coordinator['Timesteps_Between_Repetitions'], timesteps_between_repetitions)
+            self.assertEqual(self.event_coordinator['Node_Property_Restrictions'], node_property_restrictions)
+            self.assertEqual(self.intervention_config['Intervention_Name'], intervention_name)
+            self.assertEqual(self.intervention_config['Insecticide_Name'], insecticide)
+            self.assertEqual(self.intervention_config['Cost_To_Consumer'], cost)
+            self.assertEqual(broadcast_intervention['Broadcast_Event'], receiving_itn_broadcast_event)
+            if self.event_coordinator['Target_Age_Min'] == 1:
+                self.assertEqual(self.event_coordinator['Target_Age_Max'], 10)
+                self.assertEqual(self.event_coordinator['Demographic_Coverage'], 0.55)
+            else:
+                self.assertEqual(self.event_coordinator['Target_Age_Max'], 50)
+                self.assertEqual(self.event_coordinator['Target_Age_Min'], 11)
+                self.assertEqual(self.event_coordinator['Demographic_Coverage'], 0.33)
+        return
 
-        event_coordinator_config = itn_event["Event_Coordinator_Config"]
-        self.assertEqual(event_coordinator_config["class"], "StandardInterventionDistributionEventCoordinator")
-        self.assertEqual(event_coordinator_config["Demographic_Coverage"], coverage)
-        self.assertEqual(event_coordinator_config["Target_Age_Max"], target_age_max)
-        self.assertEqual(event_coordinator_config["Target_Age_Min"], target_age_min)
-        self.assertEqual(event_coordinator_config["Number_Repetitions"], repetitions)
-        self.assertEqual(event_coordinator_config["Timesteps_Between_Repetitions"], tsteps_btwn_repetitions)
+    def test_bednet_triggered_custom(self):
+        camp.campaign_dict["Events"] = []
+        self.is_debugging = False
+        start_day = 11
+        triggers = ["HappyBirthday", "oops"]
+        delay = 88
+        duration = 444
+        demographic_coverage = 0.4
+        node_ids = [3, 45, 3453453]
+        repetitions = 3
+        timesteps_between_repetitions = 700
+        node_property_restrictions = [{"Urban": "No"}]
+        receiving_itn_broadcast_event = "GotMeANet"
+        blocking_initial_effect = 0.11
+        blocking_box_duration = 12
+        blocking_decay_time_constant = 13
+        killing_initial_effect = 0.22
+        killing_box_duration = 23
+        killing_decay_time_constant = 24
+        repelling_initial_effect = 0.33
+        repelling_box_duration = 34
+        repelling_decay_time_constant = 35
+        usage_initial_effect = 0.44
+        usage_box_duration = 45
+        usage_decay_time_constant = 46
+        insecticide = "NoMoreBugs"
+        cost = 1.23
+        intervention_name = "TestingBednet"
 
-        intervention_config = event_coordinator_config.get("Intervention_Config")
-        self.assertIsNone(intervention_config.get("Actual_IndividualIntervention_Config"))
-        self.assertEqual(intervention_config["class"], "MultiInterventionDistributor")
-
-        intervention_list_zero = intervention_config.get("Intervention_List")[0]
-        self.assertEqual(intervention_list_zero["class"], "SimpleBednet")
-
-        blocking_config = intervention_list_zero.get("Blocking_Config")
-        self.assertEqual(blocking_config["class"], "WaningEffectBoxExponential")
-
-        killing_config = intervention_list_zero.get("Killing_Config")
-        self.assertEqual(killing_config["class"], "WaningEffectBoxExponential")
-
-        usage_config = intervention_list_zero.get("Usage_Config")
-        self.assertEqual(usage_config["class"], "WaningEffectRandomBox")
-
-        nodeset_config = itn_event["Nodeset_Config"]
-        self.assertEqual(nodeset_config["class"], "NodeSetNodeList")
-        self.assertEqual(nodeset_config["Node_List"], node_ids)
-
-        camp.save("test_add_itn_scheduled.json")
-
-    def test_add_itn_scheduled_config(self):
-        camp.reset()
-        start_day = 100
-        coverage = 0.56
-        target_age_min = 0
-        target_age_max = 500
-        blocking_eff = 0.12
-        killing_eff = 0.34
-        repelling_eff = 0.56
-        usage_eff = 0.78
-
-        bednet = BednetIntervention(camp.schema_path, blocking_eff=blocking_eff, killing_eff=killing_eff,
-                                    repelling_eff=repelling_eff, usage_eff=usage_eff)
-        add_ITN_scheduled(camp, start_day, [{'min': target_age_min, 'max': target_age_max, 'coverage': coverage}],
-                          itn_bednet=bednet)
-
-        itn_event = camp.campaign_dict["Events"][0]
-        intervention_list_zero = itn_event["Event_Coordinator_Config"]["Intervention_Config"].get("Intervention_List")[
-            0]
-
-        blocking_config = intervention_list_zero.get("Blocking_Config")
-        self.assertEqual(blocking_config["Initial_Effect"], blocking_eff)
-
-        killing_config = intervention_list_zero.get("Killing_Config")
-        self.assertEqual(killing_config["Initial_Effect"], killing_eff)
-
-        usage_config = intervention_list_zero.get("Usage_Config")
-        self.assertEqual(usage_config["Initial_Effect"], usage_eff)
-
-        repelling_config = intervention_list_zero.get("Repelling_Config")
-        self.assertEqual(repelling_config["Initial_Effect"], repelling_eff)
+        add_itn_triggered(campaign=camp,
+                          start_day=start_day,
+                          trigger_condition_list=triggers,
+                          delay_period_constant=delay,
+                          listening_duration=duration,
+                          demographic_coverage=demographic_coverage,
+                          node_ids=node_ids,
+                          repetitions=repetitions,
+                          timesteps_between_repetitions=timesteps_between_repetitions,
+                          node_property_restrictions=node_property_restrictions,
+                          receiving_itn_broadcast_event=receiving_itn_broadcast_event,
+                          blocking_initial_effect=blocking_initial_effect,
+                          blocking_box_duration=blocking_box_duration,
+                          blocking_decay_time_constant=blocking_decay_time_constant,
+                          killing_initial_effect=killing_initial_effect,
+                          killing_box_duration=killing_box_duration,
+                          killing_decay_time_constant=killing_decay_time_constant,
+                          repelling_initial_effect=repelling_initial_effect,
+                          repelling_box_duration=repelling_box_duration,
+                          repelling_decay_time_constant=repelling_decay_time_constant,
+                          usage_initial_effect=usage_initial_effect,
+                          usage_box_duration=usage_box_duration,
+                          usage_decay_time_constant=usage_decay_time_constant,
+                          insecticide=insecticide,
+                          cost=cost,
+                          intervention_name=intervention_name)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.tmp_intervention["Start_Day"], start_day)
+        intervention_list = self.tmp_intervention["Event_Coordinator_Config"]["Intervention_Config"]["Actual_IndividualIntervention_Config"]["Actual_IndividualIntervention_Configs"]
+        if intervention_list[0]["class"] == "SimpleBednet":
+            broadcast_intervention = intervention_list[1]
+            self.intervention_config = intervention_list[0]
+        else:
+            self.intervention_config = intervention_list[1]
+            broadcast_intervention = intervention_list[0]
+        self.killing_config = self.intervention_config['Killing_Config']
+        self.blocking_config = self.intervention_config['Blocking_Config']
+        self.repelling_config = self.intervention_config['Repelling_Config']
+        self.usage_config = self.intervention_config['Usage_Config']
+        self.assertEqual(self.killing_config[WaningParams.Initial], killing_initial_effect)
+        self.assertEqual(self.killing_config[WaningParams.Box_Duration], killing_box_duration)
+        self.assertEqual(self.killing_config[WaningParams.Decay_Time], killing_decay_time_constant)
+        self.assertEqual(self.blocking_config[WaningParams.Initial], blocking_initial_effect)
+        self.assertEqual(self.blocking_config[WaningParams.Box_Duration], blocking_box_duration)
+        self.assertEqual(self.blocking_config[WaningParams.Decay_Time], blocking_decay_time_constant)
+        self.assertEqual(self.repelling_config[WaningParams.Initial], repelling_initial_effect)
+        self.assertEqual(self.repelling_config[WaningParams.Box_Duration], repelling_box_duration)
+        self.assertEqual(self.repelling_config[WaningParams.Decay_Time], repelling_decay_time_constant)
+        self.assertEqual(self.usage_config[WaningParams.Initial], usage_initial_effect)
+        self.assertEqual(self.usage_config[WaningParams.Box_Duration], usage_box_duration)
+        self.assertEqual(self.usage_config[WaningParams.Decay_Time], usage_decay_time_constant)
+        self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
+        self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
+        self.assertEqual(self.event_coordinator['Number_Repetitions'], repetitions)
+        self.assertEqual(self.event_coordinator['Timesteps_Between_Repetitions'], timesteps_between_repetitions)
+        # self.assertEqual(self.event_coordinator['Node_Property_Restrictions'], node_property_restrictions)
+        self.assertEqual(self.intervention_config['Intervention_Name'], intervention_name)
+        self.assertEqual(self.intervention_config['Insecticide_Name'], insecticide)
+        self.assertEqual(self.intervention_config['Cost_To_Consumer'], cost)
+        self.assertEqual(self.tmp_intervention["Event_Coordinator_Config"]["Intervention_Config"]["Demographic_Coverage"], demographic_coverage)
+        self.assertEqual(broadcast_intervention['Broadcast_Event'], receiving_itn_broadcast_event)
+        return
 
     # endregion
 
@@ -696,13 +636,15 @@ class TestMalariaInterventions(unittest.TestCase):
     def test_outdoorrestkill_default(self):
         # correct setting for WaningParams are tested elsewhere here
         camp.campaign_dict["Events"] = []  # resetting
-        add_OutdoorRestKill(camp)
+        add_outdoorrestkill(campaign=camp)
         self.tmp_intervention = camp.campaign_dict['Events'][0]
         self.parse_intervention_parts()
-        self.assertEqual(self.event_coordinator["Demographic_Coverage"], 1)
+        print(f"{self.killing_config}")
         self.assertEqual(self.start_day, 1)
         self.assertEqual(self.intervention_config["class"], "OutdoorRestKill")
-        self.assertEqual(self.killing_config["class"], WaningEffects.BoxExp)
+        self.assertEqual(self.killing_config["class"], WaningEffects.Constant)
+
+        camp.campaign_dict["Events"] = []  # resetting
         return
 
     def test_outdoorrestkill_all_custom(self):
@@ -711,24 +653,25 @@ class TestMalariaInterventions(unittest.TestCase):
         specific_insecticide_name = "Vinegar"
         specific_killing_effect = 0.15
         specific_box_duration = 100
-        specific_decay_rate = 0.05
+        specific_decay_time = 145
         specific_nodes = [1, 2, 3, 5, 8, 13, 21, 34]
-        add_OutdoorRestKill(camp,
+        add_outdoorrestkill(camp,
                             start_day=specific_start_day,
-                            insecticide_name=specific_insecticide_name,
+                            insecticide=specific_insecticide_name,
                             killing_initial_effect=specific_killing_effect,
                             killing_box_duration=specific_box_duration,
-                            killing_exponential_decay_rate=specific_decay_rate,
+                            killing_decay_time_constant=specific_decay_time,
                             node_ids=specific_nodes)
         self.tmp_intervention = camp.campaign_dict['Events'][0]
         self.parse_intervention_parts()
         self.assertEqual(self.intervention_config['Insecticide_Name'], specific_insecticide_name)
-        self.assertEqual(self.killing_config[WaningParams.Decay_Time], 1 / specific_decay_rate)
+        self.assertEqual(self.killing_config[WaningParams.Decay_Time], specific_decay_time)
         self.assertEqual(self.killing_config[WaningParams.Box_Duration], specific_box_duration)
         self.assertEqual(self.killing_config[WaningParams.Initial], specific_killing_effect)
         self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.BoxExp)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
         self.assertEqual(self.nodeset[NodesetParams.Node_List], specific_nodes)
+        camp.campaign_dict["Events"] = []  # resetting
         return
 
         # endregion
@@ -1482,79 +1425,13 @@ class TestMalariaInterventions(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             MalariaDiagnostic(camp, "TRUE_INFECTION_STATUS", 0, -1)
 
-    def mosquitorelease_build(self
-                              , start_day=1
-                              , number=10_000
-                              , fraction=None
-                              , infectious=0.0
-                              , species='arabiensis'
-                              , genome=None
-                              , node_ids=None):
-        camp.schema_path = os.path.join(file_dir, "./old_schemas/latest_schema.json")
-        if not genome:
-            genome = [['X', 'X']]
-        if not self.tmp_intervention:
-            self.tmp_intervention = MosquitoRelease(
-                campaign=self.schema_file
-                , start_day=start_day
-                , released_fraction=fraction
-                , released_number=number
-                , released_infectious=infectious
-                , released_species=species
-                , released_genome=genome
-                , node_ids=node_ids
-            )
-        self.parse_intervention_parts()
-        return
 
-    # def test_mosquitorelease_only_needs_startday(self):
-    #     specific_start_day = 125
-    #     self.tmp_intervention = MosquitoRelease(
-    #         campaign=schema_path_file
-    #         , released_number=100
-    #         , start_day=specific_start_day)
-    #     self.mosquitorelease_build() # parse intervention parts
-    #
-    #     self.assertIsNotNone(self.tmp_intervention)
-    #     self.assertEqual(self.start_day, specific_start_day)
-    #     self.assertEqual(self.intervention_config['class'], 'MosquitoRelease')
-    #     return
-
-    def test_mosquitorelease_default(self):
-        self.mosquitorelease_build()
-
-        self.assertEqual(self.start_day, 1)
-        self.assertEqual(self.nodeset[NodesetParams.Class]
-                         , NodesetParams.SetAll)  # default is nodesetall
-        self.assertEqual(self.intervention_config['Released_Type'],
-                         'FIXED_NUMBER')
-        self.assertEqual(self.intervention_config['Released_Number'],
-                         10_000)
-        self.assertEqual(self.intervention_config['Released_Infectious'],
-                         0)
-        self.assertEqual(self.intervention_config['Released_Species'],
-                         'arabiensis')
-        self.assertEqual(self.intervention_config['Released_Genome'],
-                         [['X', 'X']])
-        return
-
-    def test_mosquitorelease_custom(self):
-        specific_start_day = 13
-        specific_genome = [['X', 'Y']]
-        specific_fraction = 0.14
-        specific_infectious_fraction = 0.28
-        specific_species = 'SillySkeeter'
-        specific_nodes = [3, 5, 8, 13, 21]
-        self.mosquitorelease_build(
-            start_day=specific_start_day
-            , number=None
-            , fraction=specific_fraction
-            , infectious=specific_infectious_fraction
-        )
 
     def test_inputeir_default(self):
+        camp.campaign_dict["Events"] = []
         eir = [random.randint(0, 50) for x in range(12)]
-        self.tmp_intervention = InputEIR(camp, eir)
+        add_scheduled_input_eir(campaign=camp, monthly_eir=eir)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.intervention_config.Monthly_EIR, eir)
         self.assertEqual(self.intervention_config.Age_Dependence, "OFF")
@@ -1564,9 +1441,11 @@ class TestMalariaInterventions(unittest.TestCase):
         pass
 
     def test_inputeir(self):
+        camp.campaign_dict["Events"] = []
         eir = [random.randint(0, 50) for x in range(12)]
-        self.tmp_intervention = InputEIR(camp, monthly_eir=eir, start_day=2, node_ids=[2, 3],
-                                         age_dependence='LINEAR', scaling_factor=0.24)
+        add_scheduled_input_eir(camp, monthly_eir=eir, start_day=2, node_ids=[2, 3],
+                                age_dependence='LINEAR', scaling_factor=0.24)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.intervention_config.Monthly_EIR, eir)
         self.assertEqual(self.intervention_config.Age_Dependence, "LINEAR")
@@ -1574,15 +1453,15 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.start_day, 2)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
         self.assertEqual(self.nodeset[NodesetParams.Node_List], [2, 3])
-
         pass
 
     def test_daily_inputeir(self):
+        camp.campaign_dict["Events"] = []
         daily_eir = [random.randint(0, 50) for x in range(365)]
-        self.tmp_intervention = InputEIR(camp, daily_eir=daily_eir, start_day=2, node_ids=[2, 3],
-                                         age_dependence='SURFACE_AREA_DEPENDENT', scaling_factor=0.67)
+        add_scheduled_input_eir(camp, daily_eir=daily_eir, start_day=2, node_ids=[2, 3],
+                                age_dependence='SURFACE_AREA_DEPENDENT', scaling_factor=0.67)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
-
         self.assertEqual(self.intervention_config.Daily_EIR, daily_eir)
         self.assertEqual(self.intervention_config.EIR_Type, "DAILY")
         self.assertEqual(self.intervention_config.Age_Dependence, "SURFACE_AREA_DEPENDENT")
@@ -1590,8 +1469,73 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.start_day, 2)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
         self.assertEqual(self.nodeset[NodesetParams.Node_List], [2, 3])
-
         pass
+
+    def test_default_scheduled_mosquito_release(self):
+        camp.campaign_dict["Events"] = []
+        start_day = 0
+        repetitions = 1
+        timesteps_between_repetitions = 365
+        node_property_restrictions = []
+        intervention_name = "MosquitoRelease"
+        released_number = 203847
+        released_fraction = None
+        released_infectious = 0
+        released_species = "arabiensis"
+        released_genome = [["X", "X"]]
+        add_scheduled_mosquito_release(campaign=camp, released_number=203847)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.start_day, start_day)
+        self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
+        self.assertEqual(self.intervention_config["Released_Type"], "FIXED_NUMBER")
+        self.assertEqual(self.intervention_config["Released_Number"], released_number)
+        self.assertEqual(self.intervention_config["Released_Infectious"], released_infectious)
+        self.assertEqual(self.intervention_config["Released_Species"], released_species)
+        self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
+        self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
+        self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
+        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
+        self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
+        pass
+
+    def test_custom_scheduled_mosquito_release(self):
+        camp.campaign_dict["Events"] = []
+        start_day = 2098
+        repetitions = 978
+        timesteps_between_repetitions = 41
+        node_property_restrictions = [{"Trees": "Palms"}]
+        intervention_name = "MosquitoReleaseTesting"
+        released_fraction = 0.88
+        released_infectious = 0.33
+        released_species = "funestus"
+        released_genome = [["s", "S"]]
+        node_ids = [234, 4356, 54]
+        add_scheduled_mosquito_release(campaign=camp, start_day=start_day, repetitions=repetitions,
+                                       timesteps_between_repetitions=timesteps_between_repetitions,
+                                       node_property_restrictions=node_property_restrictions,
+                                       node_ids=node_ids,
+                                       intervention_name=intervention_name,
+                                       released_fraction=released_fraction,
+                                       released_infectious=released_infectious,
+                                       released_species=released_species,
+                                       released_genome=released_genome)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.start_day, start_day)
+        self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
+        self.assertEqual(self.intervention_config["Released_Type"], "FRACTION")
+        self.assertEqual(self.intervention_config["Released_Fraction"], released_fraction)
+        self.assertEqual(self.intervention_config["Released_Infectious"], released_infectious)
+        self.assertEqual(self.intervention_config["Released_Species"], released_species)
+        self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
+        self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
+        self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
+        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
+        self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
+        self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
+        pass
+
 
     def test_default_add_outbreak_individual(self):
         # resetting campaign
@@ -1919,7 +1863,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(campaign_event['Number_Repetitions'], 1)
         self.assertEqual(campaign_event['Timesteps_Between_Repetitions'], 365)
         intervention_0 = campaign_event['Intervention_Config']
-        #self.assertEqual(len(campaign_event['Intervention_Config']['Intervention_List']), 1)
         self.assertEqual(intervention_0['class'], "SimpleVaccine")
         self.assertEqual(intervention_0['Efficacy_Is_Multiplicative'], 1)
         self.assertEqual(intervention_0['Vaccine_Take'], 1)
@@ -1927,6 +1870,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(intervention_0['Waning_Config']["Box_Duration"], 365)
         self.assertEqual(intervention_0['Waning_Config']["Initial_Effect"], 1)
         self.assertEqual(intervention_0['Waning_Config']["class"], "WaningEffectBoxExponential")
+
 
     def test_triggered_vaccine_default(self):
         camp.campaign_dict["Events"] = []
@@ -2154,21 +2098,18 @@ class TestMalariaInterventions(unittest.TestCase):
         return
 
     def test_default_space_spraying(self):
+        camp.campaign_dict["Events"] = []
         start_day = 1
         spray_coverage = 1
         killing_effect = 1
-        insecticide = None
         box_duration = 0
-        decay_rate = 0
-        self.tmp_intervention = SpaceSpraying(camp)
+        add_scheduled_space_spraying(campaign=camp)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.intervention_config.Spray_Coverage, spray_coverage)
         self.assertEqual(self.start_day, start_day)
-        self.assertNotIn("Insecticide_Name", self.intervention_config)
-        self.assertEqual(self.killing_config[WaningParams.Decay_Time], 0)
-        self.assertEqual(self.killing_config[WaningParams.Box_Duration], box_duration)
         self.assertEqual(self.killing_config[WaningParams.Initial], killing_effect)
-        self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.BoxExp)
+        self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.Constant)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
         pass
 
@@ -2179,16 +2120,35 @@ class TestMalariaInterventions(unittest.TestCase):
         killing_effect = 0.52
         insecticide = "KillVectors"
         box_duration = 51
-        decay_rate = 0.02
+        decay_constant = 2324
+        repetitions = 3
+        intervention_name = "TestingSpaceSpraying"
+        timesteps_between_repetitions = 32
         node_ids = [2, 3, 6]
-        self.tmp_intervention = SpaceSpraying(camp, start_day=start_day, spray_coverage=spray_coverage,
-                                              killing_effect=killing_effect, insecticide=insecticide,
-                                              box_duration=box_duration, decay_rate=decay_rate, node_ids=node_ids)
+        cost = 22
+        node_property_restrictions = [{"Risk": "High", "Location": "Rural"}, {"Risk": "Medium", "Location": "Urban"}]
+        add_scheduled_space_spraying(campaign=camp, start_day=start_day,
+                                     node_ids=node_ids, repetitions=repetitions,
+                                     timesteps_between_repetitions=timesteps_between_repetitions,
+                                     node_property_restrictions=node_property_restrictions,
+                                     spray_coverage=spray_coverage,
+                                     insecticide=insecticide,
+                                     intervention_name=intervention_name,
+                                     killing_initial_effect=killing_effect,
+                                     killing_box_duration=box_duration,
+                                     killing_decay_time_constant=decay_constant,
+                                     cost_to_consumer=cost)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
+        self.assertEqual(self.event_coordinator.Number_Repetitions, repetitions)
+        self.assertEqual(self.event_coordinator.Node_Property_Restrictions, node_property_restrictions)
+        self.assertEqual(self.event_coordinator.Timesteps_Between_Repetitions, timesteps_between_repetitions)
         self.assertEqual(self.intervention_config.Spray_Coverage, spray_coverage)
         self.assertEqual(self.start_day, start_day)
         self.assertEqual(self.intervention_config.Insecticide_Name, insecticide)
-        self.assertEqual(self.killing_config[WaningParams.Decay_Time], 1 / decay_rate)
+        self.assertEqual(self.intervention_config.Intervention_Name, intervention_name)
+        self.assertEqual(self.intervention_config.Cost_To_Consumer, cost)
+        self.assertEqual(self.killing_config[WaningParams.Decay_Time], decay_constant)
         self.assertEqual(self.killing_config[WaningParams.Box_Duration], box_duration)
         self.assertEqual(self.killing_config[WaningParams.Initial], killing_effect)
         self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.BoxExp)
@@ -2196,39 +2156,75 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
         pass
 
-    def test_default_sugar_trap(self):
+    def test_default_scheduled_sugar_trap(self):
+        camp.campaign_dict["Events"] = []
         start_day = 0
-        killing_effect = 1
-        box_duration = 100
-        self.tmp_intervention = SugarTrap(camp)
+        repetitions = 1
+        timesteps_between_repetitions = 365
+        node_property_restrictions = []
+        cost_to_consumer = 0
+        expiration_constant = 30
+        insecticide = ""
+        intervention_name = "SugarTrap"
+        killing_initial_effect = 1
+        add_scheduled_sugar_trap(campaign=camp)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.start_day, start_day)
-        self.assertNotIn("Insecticide_Name", self.intervention_config)
-        self.assertEqual(self.killing_config[WaningParams.Decay_Time], 0)
-        self.assertEqual(self.killing_config[WaningParams.Box_Duration], box_duration)
-        self.assertEqual(self.killing_config[WaningParams.Initial], killing_effect)
-        self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.BoxExp)
+        self.assertEqual(self.intervention_config["Expiration_Constant"], expiration_constant)
+        self.assertEqual(self.intervention_config["Expiration_Distribution"], "CONSTANT_DISTRIBUTION")
+        self.assertEqual(self.intervention_config["Cost_To_Consumer"], cost_to_consumer)
+        self.assertEqual(self.intervention_config["Insecticide_Name"], insecticide)
+        self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
+        self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
+        self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
+        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
+        self.assertEqual(self.killing_config[WaningParams.Initial], killing_initial_effect)
+        self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.Constant)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
         pass
 
-    def test_custom_sugar_trap(self):
+    def test_custom_scheduled_sugar_trap(self):
         camp.campaign_dict["Events"] = []
-        start_day = 235
-        killing_effect = 0.52
-        insecticide = "KillVectors"
-        box_duration = 51
-        decay_rate = 0.02
-        node_ids = [2, 3, 6]
-        self.tmp_intervention = SugarTrap(camp, start_day=start_day,
-                                          killing_effect=killing_effect, insecticide=insecticide,
-                                          box_duration=box_duration, decay_rate=decay_rate, node_ids=node_ids)
+        start_day = 345
+        node_ids = [234, 11, 42]
+        repetitions = 8
+        timesteps_between_repetitions = 3
+        node_property_restrictions = [{"Place": "Urban"}]
+        cost_to_consumer = 1.15
+        expiration_config = {"Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
+                             "Expiration_Gaussian_Mean": 20, "Expiration_Gaussian_Std_Dev": 10}
+        expiration_constant = 33
+        insecticide = "EatMe"
+        intervention_name = "SugarTrapEatMe"
+        killing_initial_effect = 0.89
+        killing_box_duration = 256
+        killing_decay_time_constant = 500
+        add_scheduled_sugar_trap(campaign=camp, start_day=start_day,
+                                 node_ids=node_ids, repetitions=repetitions,
+                                 timesteps_between_repetitions=timesteps_between_repetitions,
+                                 node_property_restrictions=node_property_restrictions,
+                                 cost_to_consumer=cost_to_consumer, expiration_config=expiration_config,
+                                 expiration_constant=expiration_constant, insecticide=insecticide,
+                                 intervention_name=intervention_name, killing_initial_effect=killing_initial_effect,
+                                 killing_box_duration=killing_box_duration,
+                                 killing_decay_time_constant=killing_decay_time_constant)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
-        self.assertEqual(self.start_day, start_day)
-        self.assertEqual(self.intervention_config.Insecticide_Name, insecticide)
-        self.assertEqual(self.killing_config[WaningParams.Decay_Time], 1 / decay_rate)
-        self.assertEqual(self.killing_config[WaningParams.Box_Duration], box_duration)
-        self.assertEqual(self.killing_config[WaningParams.Initial], killing_effect)
+        self.assertEqual(self.tmp_intervention["Start_Day"], start_day)
+        self.assertEqual(self.intervention_config["Expiration_Gaussian_Mean"], 20)
+        self.assertEqual(self.intervention_config["Expiration_Distribution"], "GAUSSIAN_DISTRIBUTION")
+        self.assertEqual(self.intervention_config["Expiration_Gaussian_Std_Dev"], 10)
+        self.assertEqual(self.intervention_config["Cost_To_Consumer"], cost_to_consumer)
+        self.assertEqual(self.intervention_config["Insecticide_Name"], insecticide)
+        self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
+        self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
+        self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
+        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
+        self.assertEqual(self.killing_config[WaningParams.Initial], killing_initial_effect)
         self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.BoxExp)
+        self.assertEqual(self.killing_config[WaningParams.Decay_Time], killing_decay_time_constant)
+        self.assertEqual(self.killing_config[WaningParams.Box_Duration], killing_box_duration)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
         self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
         pass

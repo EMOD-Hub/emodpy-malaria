@@ -110,7 +110,7 @@ def add_scale_larval_habitats(campaign, df=None,
                                                        "Factor": float(y)})
 
             if by_node:
-                node_ids = [float(x) for x in gdf['NodeID']]
+                node_ids = [int(x) for x in gdf['NodeID']]
             else:
                 node_ids = None
 

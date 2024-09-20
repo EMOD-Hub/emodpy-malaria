@@ -5,15 +5,20 @@ from emod_api import schema_to_class as s2c
 import emod_api.interventions.utils as utils
 
 
-def add_report_vector_genetics(task, manifest, start_day: int = 0, duration_days: int = 365000,
-                               nodes: list = None,
-                               species: str = None, gender: str = "VECTOR_FEMALE",
-                               include_vector_state: int = 1, stratify_by: str = "GENOME",
+def add_report_vector_genetics(task, manifest,
+                               start_day: int = 0,
+                               end_day: int = 365000,
+                               node_ids: list = None,
+                               species: str = None,
+                               gender: str = "VECTOR_FEMALE",
+                               include_vector_state: int = 1,
+                               include_death_state: int = 0,
+                               stratify_by: str = "GENOME",
                                combine_similar_genomes: int = 0,
                                specific_genome_combinations_for_stratification: list = None,
                                allele_combinations_for_stratification: list = None,
                                alleles_for_stratification: list = None,
-                               report_description: str = ""):
+                               filename_suffix: str = ""):
     """
     Adds ReportVectorGenetics to the simulation. See class definition for description of the report.
 
@@ -21,12 +26,15 @@ def add_report_vector_genetics(task, manifest, start_day: int = 0, duration_days
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
         start_day: the day of the simulation to start reporting data
-        duration_days: number of days over which to report data
-        nodes: the list of nodes in which to collect data, empty or None means all nodes
+        end_day: the day of the simulation to stop reporting data
+        node_ids: the list of nodes in which to collect data, empty or None means all nodes
         species: the species to include information on
         gender: gender of species to include information on. Default: "VECTOR_FEMALE",
             other options: "VECTOR_MALE", "VECTOR_BOTH_GENDERS"
         include_vector_state: if 1(true), adds the columns for vectors in the different states (i.e Eggs, Larva, etc)
+        include_death_state: if 1(true), adds columns for the number of vectors that died in this state during this
+            time step as well as the average age.  It adds two columns for each of the following states: ADULT,
+            INFECTED, INFECTIOUS, and MALE
         stratify_by: the way to stratify data. Default: "GENOME",
             other options: "SPECIFIC_GENOME", "ALLELE", "ALLELE_FREQ"
         combine_similar_genomes: if 1(true), genomes are combined if for each locus (ignoring gender) the set of allele
@@ -36,7 +44,8 @@ def add_report_vector_genetics(task, manifest, start_day: int = 0, duration_days
 
                 [{"Allele_Combination": [[ "a0",  "*" ], [ "b1", "b0" ]]},
                 {"Allele_Combination": [[ "a1", "a0" ], [ "b0",  "*" ]]}]
-
+        specific_genome_combinations_for_stratification: ff stratifying by "SPECIFIC_GENOME", then use these genomes
+            to stratify by. '*' = list all entries at that location, '?' = combine all entries at that location
         allele_combinations_for_stratification: if stratifying by "ALLELE", then also add these allele name
             combos to the stratification, Example::
 
@@ -46,10 +55,11 @@ def add_report_vector_genetics(task, manifest, start_day: int = 0, duration_days
 
             [ "a0", "a1", "b0", "b1" ]
 
-        report_description: adds the description to the filename of the report to differentiate it from others
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
     # verifying that there are alleles to report on
     if task and not task.config.parameters.Vector_Species_Params:  # else assume we're in unittest
@@ -60,11 +70,12 @@ def add_report_vector_genetics(task, manifest, start_day: int = 0, duration_days
 
     def rec_config_builder(params):
         params.Start_Day = start_day
-        params.Duration_Days = duration_days
-        params.Nodeset_Config = utils.do_nodes(manifest.schema_file, nodes)
+        params.End_Day = end_day
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
         params.Species = species
         params.Gender = gender
         params.Include_Vector_State_Columns = include_vector_state
+        params.Include_Death_By_State_Columns = include_death_state
         params.Stratify_By = stratify_by
         if stratify_by == "GENOME" or stratify_by == "SPECIFIC_GENOME":
             params.Combine_Similar_Genomes = combine_similar_genomes
@@ -74,7 +85,7 @@ def add_report_vector_genetics(task, manifest, start_day: int = 0, duration_days
             params.Allele_Combinations_For_Stratification = allele_combinations_for_stratification if allele_combinations_for_stratification else []
         elif stratify_by == "ALLELE_FREQ":
             params.Alleles_For_Stratification = alleles_for_stratification if alleles_for_stratification else []
-        params.Report_Description = report_description
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -87,29 +98,35 @@ def add_report_vector_genetics(task, manifest, start_day: int = 0, duration_days
 def add_report_vector_stats(task, manifest,
                             species_list: list = None,
                             stratify_by_species: int = 0,
+                            include_death_state: int = 0,
                             include_wolbachia: int = 0,
                             include_gestation: int = 0):
     """
     Adds ReportVectorStats report to the simulation. See class definition for description of the report.
+
     Args:
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
         species_list: a list of species to include information on
         stratify_by_species: if 1(true), data will break out each the species for each node
+        include_death_state: if 1(true), adds columns for the number of vectors that died in this state during this
+            time step as well as the average age.  It adds two columns for each of the following states: ADULT,
+            INFECTED, INFECTIOUS, and MALE
         include_wolbachia: if 1(true), add a column for each type of Wolbachia
         include_gestation: if 1(true), adds columns for feeding and gestation
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if task and not task.config.parameters.Vector_Species_Params:
         raise ValueError(f"No Vector_Species_Params defined. You need to define at least one to "
                          f"use ReportVectorStats.\n")
     reporter = ReportVectorStats()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Species_List = species_list if species_list else []
         params.Stratify_By_Species = stratify_by_species
+        params.Include_Death_By_State_Columns = include_death_state
         params.Include_Wolbachia_Columns = include_wolbachia
         params.Include_Gestation_Columns = include_gestation
         return params
@@ -121,13 +138,19 @@ def add_report_vector_stats(task, manifest,
         return reporter
 
 
-def add_malaria_summary_report(task, manifest, start_day: int = 0, duration_days: int = 365000,
-                               nodes: list = None, reporting_interval: float = 1,
-                               age_bins: list = None, individual_property_filter: str = "",
-                               infectiousness_bins: list = None, max_number_reports: int = 100,
+def add_malaria_summary_report(task, manifest,
+                               start_day: int = 0,
+                               end_day: int = 365000,
+                               node_ids: list = None,
+                               reporting_interval: float = 1,
+                               must_have_ip_key_value: str = "",
+                               must_have_intervention: str = "",
+                               age_bins: list = None,
+                               infectiousness_bins: list = None,
+                               max_number_reports: int = 100,
                                parasitemia_bins: list = None,
                                pretty_format: int = 0,
-                               report_description: str = ""):
+                               filename_suffix: str = ""):
     """
     Adds MalariaSummaryReport to the simulation. See class definition for description of the report.
 
@@ -135,41 +158,44 @@ def add_malaria_summary_report(task, manifest, start_day: int = 0, duration_days
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
         start_day: the day of the simulation to starts collecting data for the report
-        duration_days: The duration of simulation days over which to report events. The report will stop collecting
-            data when the simulation day is greater than Start_Day + Duration_Days.
-        nodes: a list of nodes from which to collect data for the report
+        end_day: the day of the simulation to stop reporting data
+        node_ids: a list of nodes from which to collect data for the report
         reporting_interval: Defines the cadence of the report by specifying how many time steps to collect data
             before writing to the file
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
         age_bins: The max age in years per bin, listed in ascending order. Use a large value for the last bin,
             to collect all remaining individuals
-        individual_property_filter: the individual 'property:value' to filter on. The default of an empty string
-            means the report is not filtered.  Example: "Risk:HIGH"
         infectiousness_bins: infectiousness Bins to aggregate within for the report
         max_number_reports: the maximum number of report output files that will be produced for a given simulation
         parasitemia_bins: Parasitemia bins on which to aggregate. A value <= 0 in the first bin indicates that
             uninfected individuals are added to this bin. You must sort your input data from low to high.
         pretty_format: if 1(true) sets pretty JSON formatting, which includes carriage returns, line feeds, and spaces
             for easier readability. The default, 0 (false), saves space where everything is on one line.
-        report_description:  adds the description to the filename of the report to differentiate it from others
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = MalariaSummaryReport()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
-        params.Duration_Days = duration_days
-        params.Nodeset_Config = utils.do_nodes(manifest.schema_file, nodes)
+        params.End_Day = end_day
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
         params.Age_Bins = age_bins if age_bins else []
-        params.Individual_Property_Filter = individual_property_filter
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
         params.Infectiousness_Bins = infectiousness_bins if infectiousness_bins else []
         params.Max_Number_Reports = max_number_reports
         params.Parasitemia_Bins = parasitemia_bins if infectiousness_bins else []
         params.Pretty_Format = pretty_format
         params.Reporting_Interval = reporting_interval
-        params.Report_Description = report_description
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -179,21 +205,48 @@ def add_malaria_summary_report(task, manifest, start_day: int = 0, duration_days
         return reporter
 
 
-def add_malaria_patient_json_report(task, manifest):
+def add_malaria_patient_json_report(task, manifest,
+                                    start_day: int = 0,
+                                    end_day: int = 365000,
+                                    node_ids: list = None,
+                                    min_age_years: float = 0,
+                                    max_age_years: float = 125,
+                                    must_have_ip_key_value: str = "",
+                                    must_have_intervention: str = "",
+                                    filename_suffix: str = ""):
     """
     Adds MalariaPatientJSONReport report to the simulation. See class definition for description of the report.
-    You do not need to configure any data parameters to generate this report.
+
     Args:
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
+        start_day: the day of the simulation to starts collecting data for the report
+        end_day: the day of the simulation to stop reporting data
+        node_ids: a list of nodes from which to collect data for the report
+        min_age_years: minimum age in years of people to collect data on
+        max_age_years: maximum age in years of people to collect data on
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = MalariaPatientJSONReport()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
+        params.Start_Day = start_day
+        params.End_Day = end_day
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -205,10 +258,15 @@ def add_malaria_patient_json_report(task, manifest):
 
 def add_malaria_transmission_report(task, manifest,
                                     start_day: int = 0,
-                                    duration_days: int = 365000,
-                                    nodes: list = None,
+                                    end_day: int = 365000,
+                                    node_ids: list = None,
+                                    min_age_years: float = 0,
+                                    max_age_years: float = 125,
+                                    must_have_ip_key_value: str = "",
+                                    must_have_intervention: str = "",
+                                    include_human_to_vector: int = 0,
                                     pretty_format: int = 0,
-                                    report_description: str = ""):
+                                    filename_suffix: str = ""):
     """
     Adds ReportSimpleMalariaTransmissionJSON report to the simulation.
     See class definition for description of the report.
@@ -217,25 +275,39 @@ def add_malaria_transmission_report(task, manifest,
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
         start_day: the day to start collecting data for the report.
-        duration_days: The duration of simulation days over which to report events. The report will stop
-            collecting data when the simulation day is greater than Start_Day + Duration_Days
-        nodes: list of nodes for which to collect data for the report
+        end_day: the day of the simulation to stop reporting data
+        node_ids: list of nodes for which to collect data for the report
+        min_age_years: minimum age in years of people to collect data on
+        max_age_years: maximum age in years of people to collect data on
+        include_human_to_vector: ff set to 1, Human-to-Vector transmission events will be included.  One can identify
+            these events because the 'acquireIndividualId'=0 and transmitTime=acquireTime.
+            WARNING:  This can make the file size quite large
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
         pretty_format: if 1(true) sets pretty JSON formatting, which includes carriage returns, line feeds, and spaces
             for easier readability. The default, 0 (false), saves space where everything is on one line.
-        report_description: adds the description to the filename of the report to differentiate it from others
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportSimpleMalariaTransmissionJSON()  # Create the reporter
 
     def rec_config_builder(params):  # not used yet
         params.Start_Day = start_day
-        params.Duration_Days = duration_days
-        params.Nodeset_Config = utils.do_nodes(manifest.schema_file, nodes)
+        params.End_Day = end_day
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        params.Include_Human_To_Vector_Transmission = include_human_to_vector
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
         params.Pretty_Format = pretty_format
-        params.Report_Description = report_description
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -248,12 +320,14 @@ def add_malaria_transmission_report(task, manifest,
 def add_report_malaria_filtered(task, manifest,
                                 start_day: int = 0,
                                 end_day: int = 365000,
-                                nodes: list = None,
-                                report_filename: str = "ReportMalariaFiltered.json",
+                                node_ids: list = None,
                                 min_age_years: float = 0,
                                 max_age_years: float = 125,
+                                must_have_ip_key_value: str = "",
+                                must_have_intervention: str = "",
                                 has_interventions: list = None,
-                                include_30day_avg_infection_duration: bool = True):
+                                include_30day_avg_infection_duration: int = 1,
+                                filename_suffix: str = ""):
     """
     Adds ReportMalariaFiltered report to the simulation.
     See class definition for description of the report.
@@ -263,28 +337,96 @@ def add_report_malaria_filtered(task, manifest,
         manifest: schema path file
         start_day:  the day of the simulation to start collecting data
         end_day: the day of simulation to stop collecting data
-        nodes: list of nodes for which to collect the data, None or [] collects all the nodes
-        report_filename: name of the file to be written
+        node_ids: list of nodes for which to collect the data, None or [] collects all the nodes
         min_age_years: Minimum age in years of people to collect data on
         max_age_years: Maximum age in years of people to collect data on
-        has_interventions: A channel is added to the report for each InterventionName provided.  The channel name
-            will be Has_<InterventionName> and will be the fraction of the population that has that intervention.
-            The **Intervention_Name** in the campaign should be the values in this parameter
-        include_30day_avg_infection_duration: If set to True (1), the 30-Day Avg Infection channel is included in the
-            report
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
+        has_interventions: a list of intervention names, a channel is added to the report for each InterventionName
+            provided.  The channel name will be Has_<InterventionName> and will be the fraction of the population
+            that has that intervention. The **Intervention_Name** in the campaign should be the values in this parameter
+        include_30day_avg_infection_duration: if (1) true the '30-Day Avg Infection Duration' channel is included
+            in the report
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportMalariaFiltered()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
         params.End_Day = end_day
-        params.Node_IDs_Of_Interest = nodes if nodes else []
-        params.Report_File_Name = report_filename
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Filename_Suffix = filename_suffix
         params.Has_Interventions = has_interventions if has_interventions else []
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Include_30Day_Avg_Infection_Duration = 1 if include_30day_avg_infection_duration else 0
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        return params
+
+    reporter.config(rec_config_builder, manifest)
+    if task:
+        task.reporters.add_reporter(reporter)
+    else:  # assume we're running a unittest
+        return reporter
+
+
+def add_report_malaria_filtered_intrahost(task, manifest,
+                                          start_day: int = 0,
+                                          end_day: int = 365000,
+                                          node_ids: list = None,
+                                          min_age_years: float = 0,
+                                          max_age_years: float = 125,
+                                          must_have_ip_key_value: str = "",
+                                          must_have_intervention: str = "",
+                                          has_interventions: list = None,
+                                          include_30day_avg_infection_duration: int = 1,
+                                          filename_suffix: str = ""):
+    """
+    Adds ReportMalariaFilteredIntraHost report to the simulation.
+    See class definition for description of the report.
+
+    Args:
+        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest: schema path file
+        start_day:  the day of the simulation to start collecting data
+        end_day: the day of simulation to stop collecting data
+        node_ids: list of nodes for which to collect the data, None or [] collects all the nodes
+        min_age_years: Minimum age in years of people to collect data on
+        max_age_years: Maximum age in years of people to collect data on
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
+        has_interventions: a list of intervention names, a channel is added to the report for each InterventionName
+            provided.  The channel name will be Has_<InterventionName> and will be the fraction of the population
+            that has that intervention. The **Intervention_Name** in the campaign should be the values in this parameter
+        include_30day_avg_infection_duration: if (1) true the '30-Day Avg Infection Duration' channel is included
+            in the report
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
+
+    Returns:
+        if task is not set, returns the configured reporter, otherwise returns nothing
+    """
+
+    reporter = ReportMalariaFilteredIntraHost()  # Create the reporter
+
+    def rec_config_builder(params):
+        params.Start_Day = start_day
+        params.End_Day = end_day
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Filename_Suffix = filename_suffix
+        params.Has_Interventions = has_interventions if has_interventions else []
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
         params.Include_30Day_Avg_Infection_Duration = 1 if include_30day_avg_infection_duration else 0
         params.Max_Age_Years = max_age_years
         params.Min_Age_Years = min_age_years
@@ -301,9 +443,13 @@ def add_spatial_report_malaria_filtered(task, manifest,
                                         start_day: int = 0,
                                         end_day: int = 365000,
                                         reporting_interval: int = 1,
-                                        nodes: list = None,
-                                        report_filename: str = "SpatialReportMalariaFiltered",
-                                        spatial_output_channels: list = None):
+                                        node_ids: list = None,
+                                        min_age_years: float = 0,
+                                        max_age_years: float = 125,
+                                        must_have_ip_key_value: str = "",
+                                        must_have_intervention: str = "",
+                                        spatial_output_channels: list = None,
+                                        filename_suffix: str = ""):
     """
     Adds SpatialReportMalariaFiltered report to the simulation.
     See class definition for description of the report.
@@ -315,8 +461,13 @@ def add_spatial_report_malaria_filtered(task, manifest,
         end_day: the day of simulation to stop collecting data
         reporting_interval: defines the cadence of the report by specifying how many time steps to collect data before
             writing to the file.
-        nodes: list of nodes for which to collect the data
-        report_filename: name of the file to be written
+        node_ids: list of nodes for which to collect the data, None or [] collects all the nodes
+        min_age_years: Minimum age in years of people to collect data on
+        max_age_years: Maximum age in years of people to collect data on
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
         spatial_output_channels: list of names of channels you want to have output for. Available channels are:
             "Adult_Vectors", "Air_Temperature", "Births", "Blood_Smear_Gametocyte_Prevalence",
             "Blood_Smear_Parasite_Prevalence", "Campaign_Cost", "Daily_Bites_Per_Human", "Daily_EIR", "Disease_Deaths",
@@ -325,22 +476,29 @@ def add_spatial_report_malaria_filtered(task, manifest,
             "PCR_Gametocyte_Prevalence", "PCR_Parasite_Prevalence", "PfHRP2_Prevalence", "Population", "Prevalence",
             "Rainfall", "Relative_Humidity", "True_Prevalence"
             Defaults: ["Blood_Smear_Parasite_Prevalence", "New_Clinical_Cases", "Population"]
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
+
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = SpatialReportMalariaFiltered()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
         params.End_Day = end_day
         params.Reporting_Interval = reporting_interval
-        params.Node_IDs_Of_Interest = nodes if nodes else []
-        params.Report_File_Name = report_filename
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
         params.Spatial_Output_Channels = spatial_output_channels if spatial_output_channels else [
             "Blood_Smear_Parasite_Prevalence",
             "New_Clinical_Cases",
             "Population"]
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -352,33 +510,50 @@ def add_spatial_report_malaria_filtered(task, manifest,
 
 def add_report_event_counter(task, manifest,
                              start_day: int = 0,
-                             duration_days: int = 365000,
+                             end_day: int = 365000,
+                             node_ids: list = None,
                              event_trigger_list: list = None,
-                             nodes: list = None,
-                             report_description: str = ""):
+                             min_age_years: float = 0,
+                             max_age_years: float = 125,
+                             must_have_ip_key_value: str = "",
+                             must_have_intervention: str = "",
+                             filename_suffix: str = ""):
     """
     Adds ReportEventCounter report to the simulation.
     See class definition for description of the report.
+
     Args:
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
         start_day: the day of the simulation to start counting events
-        duration_days: number of days for which to count events
+        end_day: the day of simulation to stop collecting data
+        node_ids: list of nodes in which to count the events
         event_trigger_list: list of events which to count
-        nodes: list of nodes in which to count the events
-        report_description: used by reports and custom reports. Augments the filename of the report.
+        min_age_years: Minimum age in years of people to collect data on
+        max_age_years: Maximum age in years of people to collect data on
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
+
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportEventCounter()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
-        params.Duration_Days = duration_days
+        params.End_Day = end_day
         params.Event_Trigger_List = event_trigger_list if event_trigger_list else []
-        params.Nodeset_Config = utils.do_nodes(manifest.schema_file, nodes)
-        params.Report_Description = report_description
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -406,15 +581,15 @@ def add_malaria_sql_report(task, manifest,
         include_infection_table: if 1(true), include the table that provides data at each time step for each active
             infection
         include_health_table: if 1(true), include the table that provides data at each time step for a person's health
-        include_drug_status: if 1(true), include the table that provides data at each time step for each drug used
+        include_drug_table: if 1(true), include the table that provides data at each time step for each drug used
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = MalariaSqlReport()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
         params.End_Day = end_day
         params.Include_Infection_Data_Table = include_infection_table
@@ -439,7 +614,7 @@ def add_vector_habitat_report(task, manifest):
         manifest: schema path file
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     if task and not task.config.parameters.Vector_Species_Params:  # else assume we're in unittest
@@ -448,7 +623,7 @@ def add_vector_habitat_report(task, manifest):
 
     reporter = VectorHabitatReport()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -460,13 +635,15 @@ def add_vector_habitat_report(task, manifest):
 
 def add_malaria_immunity_report(task, manifest,
                                 start_day: int = 0,
-                                duration_days: int = 365000,
+                                end_day: int = 365000,
+                                node_ids: list = None,
                                 reporting_interval: int = 1,
                                 max_number_reports: int = 365000,
-                                nodes: list = None,
                                 age_bins: list = None,
+                                must_have_ip_key_value: str = "",
+                                must_have_intervention: str = "",
                                 pretty_format: int = 0,
-                                report_description: str = ""):
+                                filename_suffix: str = ""):
     """
     Adds MalariaImmunityReport report to the simulation.
     See class definition for description of the report.
@@ -475,32 +652,39 @@ def add_malaria_immunity_report(task, manifest,
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
         start_day: the day of the simulation to start collecting data
-        duration_days: number of days over which to report data
+        end_day: the day of simulation to stop collecting data
+        node_ids: list of nodes for which to collect data
         reporting_interval: defines the cadence of the report by specifying how many time steps to collect data before
             writing to the file.
         max_number_reports: the maximum number of report output files that will be produced for a given simulation
-        nodes: list of nodes for which to collect data
         age_bins: The max age in years per bin, listed in ascending order. Use a large value for the last bin,
             to collect all remaining individuals
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
         pretty_format: if 1(true) sets pretty JSON formatting, which includes carriage returns, line feeds, and spaces
             for easier readability. The default, 0 (false), saves space where everything is on one line.
-        report_description: adds the description to the filename of the report to differentiate it from others
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = MalariaImmunityReport()  # Create the reporter
 
     def rec_config_builder(params):  # not used yet
         params.Start_Day = start_day
-        params.Duration_Days = duration_days
+        params.End_Day = end_day
         params.Reporting_Interval = reporting_interval
         params.Max_Number_Reports = max_number_reports
         params.Age_Bins = age_bins if age_bins else []
-        params.Nodeset_Config = utils.do_nodes(manifest.schema_file, nodes)
         params.Pretty_Format = pretty_format
-        params.Report_Description = report_description
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
 
         return params
 
@@ -513,14 +697,16 @@ def add_malaria_immunity_report(task, manifest,
 
 def add_malaria_survey_analyzer(task, manifest,
                                 start_day: int = 0,
-                                duration_days: int = 365000,
+                                end_day: int = 365000,
+                                node_ids: list = None,
                                 event_trigger_list: list = None,
                                 reporting_interval: float = 1,
                                 max_number_reports: int = 365000,
-                                nodes: list = None,
-                                individual_property_to_collect: str = "",
+                                ip_key_to_collect: str = "",
+                                must_have_ip_key_value: str = "",
+                                must_have_intervention: str = "",
                                 pretty_format: int = 0,
-                                report_description: str = ""):
+                                filename_suffix: str = ""):
     """
     Adds MalariaSurveyJSONAnalyzer report to the simulation.
     See class definition for description of the report.
@@ -529,20 +715,25 @@ def add_malaria_survey_analyzer(task, manifest,
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
         start_day: the day of the simulation to start collecting data
-        duration_days: number of days over which to report data
+        end_day: the day of simulation to stop collecting data
         reporting_interval: defines the cadence of the report by specifying how many time steps to collect data
             before writing to the file
         event_trigger_list: list of individual events to include into the report
         max_number_reports: the maximum number of report output files that will be produced for a given simulation
-        nodes: list of nodes for which to collect data
-        individual_property_to_collect: name of the Individual Property Key whose value to collect.  Empty string means
+        node_ids: list of nodes for which to collect data
+        ip_key_to_collect: name of the Individual Property Key whose value to collect.  Empty string means
             collect values for all Individual Properties
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
         pretty_format: if 1(true) sets pretty JSON formatting, which includes carriage returns, line feeds, and spaces
-            for easier readability. The default, 0 (false), saves space where everything is on one line
-        report_description: adds the description to the filename of the report to differentiate it from others
+            for easier readability. The default, 0 (false), saves space where everything is on one line.
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
+            this allows you to distinguish among the multiple reports
 
     Returns:
-
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if not event_trigger_list:
         raise ValueError("event_trigger_list cannot be empty, please define individual"
@@ -550,16 +741,18 @@ def add_malaria_survey_analyzer(task, manifest,
 
     reporter = MalariaSurveyJSONAnalyzer()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
-        params.Duration_Days = duration_days
+        params.End_Day = end_day
         params.Max_Number_Reports = max_number_reports
         params.Event_Trigger_List = event_trigger_list if event_trigger_list else []
-        params.IP_Key_To_Collect = individual_property_to_collect
-        params.Nodeset_Config = utils.do_nodes(manifest.schema_file, nodes)
+        params.IP_Key_To_Collect = ip_key_to_collect
         params.Pretty_Format = pretty_format
         params.Reporting_Interval = reporting_interval
-        params.Report_Description = report_description
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
 
         return params
 
@@ -584,12 +777,44 @@ def add_drug_status_report(task, manifest,
         end_day: the day of the simulation to stop collecting data
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportDrugStatus()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
+        params.Start_Day = start_day
+        params.End_Day = end_day
+
+        return params
+
+    reporter.config(rec_config_builder, manifest)
+    if task:
+        task.reporters.add_reporter(reporter)
+    else:  # assume we're running a unittest
+        return reporter
+
+
+def add_report_infection_stats_malaria(task, manifest,
+                                       start_day: int = 0,
+                                       end_day: int = 365000):
+    """
+    Adds ReportInfectionStatsMalaria report to the simulation.
+    See class definition for description of the report.
+
+    Args:
+        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest: schema path file
+        start_day: the day of the simulation to start collecting data
+        end_day: the day of the simulation to stop collecting data
+
+    Returns:
+        if task is not set, returns the configured reporter, otherwise returns nothing
+    """
+
+    reporter = ReportInfectionStatsMalaria()  # Create the reporter
+
+    def rec_config_builder(params):
         params.Start_Day = start_day
         params.End_Day = end_day
 
@@ -613,7 +838,7 @@ def add_human_migration_tracking(task, manifest):
         manifest: schema path file
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportHumanMigrationTracking()  # Create the reporter
@@ -630,7 +855,7 @@ def add_human_migration_tracking(task, manifest):
 
 def add_report_node_demographics(task, manifest,
                                  age_bins: list = None,
-                                 individual_property_to_collect: str = "",
+                                 ip_key_to_collect: str = "",
                                  stratify_by_gender: int = 1):
     """
     Adds ReportNodeDemographics report to the simulation.
@@ -641,18 +866,18 @@ def add_report_node_demographics(task, manifest,
         manifest: schema path file
         age_bins: the age bins (in years) to aggregate within and report. An empty array does not stratify by age. You
             must sort your input data from low to high.
-        individual_property_to_collect: The name of theIndividualProperties key by which to stratify the report.
+        ip_key_to_collect: The name of the Individual Properties Key by which to stratify the report.
             An empty string does not stratify by Individual Properties
         stratify_by_gender: if 1(true), to stratify by gender. Set to false (0) to not stratify by gender.
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportNodeDemographics()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
-        params.IP_Key_To_Collect = individual_property_to_collect
+    def rec_config_builder(params):
+        params.IP_Key_To_Collect = ip_key_to_collect
         params.Age_Bins = age_bins if age_bins else []
         params.Stratify_By_Gender = stratify_by_gender
         return params
@@ -666,8 +891,9 @@ def add_report_node_demographics(task, manifest,
 
 def add_report_node_demographics_malaria(task, manifest,
                                          age_bins: list = None,
-                                         individual_property_to_collect: str = "",
-                                         stratify_by_gender: int = 1):
+                                         ip_key_to_collect: str = "",
+                                         stratify_by_gender: int = 1,
+                                         stratify_by_clinical_symptoms: int = 0):
     """
     Adds ReportNodeDemographicsMalaria report to the simulation.
     See class definition for description of the report.
@@ -677,20 +903,22 @@ def add_report_node_demographics_malaria(task, manifest,
         manifest: schema path file
         age_bins: the age bins (in years) to aggregate within and report. An empty array does not stratify by age. You
             must sort your input data from low to high.
-        individual_property_to_collect: The name of theIndividualProperties key by which to stratify the report.
+        ip_key_to_collect: The name of theIndividualProperties key by which to stratify the report.
             An empty string does not stratify by Individual Properties
         stratify_by_gender: if 1(true), to stratify by gender. Set to false (0) to not stratify by gender.
-
+        stratify_by_clinical_symptoms: if set to 1, the data will have an extra stratification for people who have
+            clinical symptoms and those that do not.  Default is 0 or no extra stratification
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportNodeDemographicsMalaria()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
-        params.IP_Key_To_Collect = individual_property_to_collect
+    def rec_config_builder(params):
+        params.IP_Key_To_Collect = ip_key_to_collect
         params.Age_Bins = age_bins if age_bins else []
         params.Stratify_By_Gender = stratify_by_gender
+        params.Stratify_By_Has_Clinical_Symptoms = stratify_by_clinical_symptoms
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -705,7 +933,7 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
                                                   drug_resistant_strings: list = None,
                                                   drug_resistant_statistic_type: str = "NUM_PEOPLE_WITH_RESISTANT_INFECTION",
                                                   age_bins: list = None,
-                                                  individual_property_to_collect: str = "",
+                                                  ip_key_to_collect: str = "",
                                                   stratify_by_gender: int = 1):
     """
     Adds ReportNodeDemographicsMalariaGenetics report to the simulation.
@@ -727,18 +955,18 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
             NUM_INFECTIONS = The total number of infections with that marker.
         age_bins: the age bins (in years) to aggregate within and report. An empty array does not stratify by age. You
             must sort your input data from low to high.
-        individual_property_to_collect: The name of theIndividualProperties key by which to stratify the report.
+        ip_key_to_collect: The name of theIndividualProperties key by which to stratify the report.
             An empty string does not stratify by Individual Properties
         stratify_by_gender: if 1(true), to stratify by gender. Set to false (0) to not stratify by gender.
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportNodeDemographicsMalariaGenetics()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
-        params.IP_Key_To_Collect = individual_property_to_collect
+    def rec_config_builder(params):
+        params.IP_Key_To_Collect = ip_key_to_collect
         params.Age_Bins = age_bins if age_bins else []
         params.Stratify_By_Gender = stratify_by_gender
         params.Barcodes = barcodes if barcodes else []
@@ -766,7 +994,7 @@ def add_report_vector_migration(task, manifest,
         end_day: the day of the simulation to stop collecting data
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     if task and not task.config.parameters.Vector_Species_Params:  # else assume we're in unittest
@@ -774,7 +1002,7 @@ def add_report_vector_migration(task, manifest,
 
     reporter = ReportVectorMigration()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
         params.End_Day = end_day
         return params
@@ -789,6 +1017,7 @@ def add_report_vector_migration(task, manifest,
 def add_report_vector_stats_malaria_genetics(task, manifest,
                                              species_list: list = None,
                                              stratify_by_species: int = 0,
+                                             include_death_state: int = 0,
                                              include_wolbachia: int = 0,
                                              include_gestation: int = 0,
                                              barcodes: list = None):
@@ -800,6 +1029,9 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
         manifest: schema path file
         species_list: a list of species to include information on
         stratify_by_species: if 1(true), data will break out each the species for each node
+        include_death_state: if 1(true), adds columns for the number of vectors that died in this state during this
+            time step as well as the average age.  It adds two columns for each of the following states: ADULT,
+            INFECTED, INFECTIOUS, and MALE
         include_wolbachia: if 1(true), add a column for each type of Wolbachia
         include_gestation: if 1(true), adds columns for feeding and gestation
         barcodes: a list of barcode strings. The report contains the number of human infections with each barcode.
@@ -807,7 +1039,7 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
             ACT, AGT, and ATT. The report contains a BarcodeOther column for barcodes that are not defined.
             Note: There is no validation that the barcode strings are valid barcodes for the scenario.
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     if task and not task.config.parameters.Vector_Species_Params:  # else assume we're in unittest
@@ -818,6 +1050,7 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
     def rec_config_builder(params):  # not used yet
         params.Species_List = species_list if species_list else []
         params.Stratify_By_Species = stratify_by_species
+        params.Include_Death_By_State_Columns = include_death_state
         params.Include_Wolbachia_Columns = include_wolbachia
         params.Include_Gestation_Columns = include_gestation
         params.Barcodes = barcodes if barcodes else []
@@ -830,10 +1063,15 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
         return reporter
 
 
-def add_event_recorder(task, event_list: list = None, only_include_events_in_list: bool = True,
+def add_event_recorder(task, event_list: list = None,
+                       only_include_events_in_list: bool = True,
                        ips_to_record: list = None,
-                       start_day: int = 0, end_day: int = 365000, node_ids: list = None, min_age_years: float = 0,
-                       max_age_years: float = 365000, must_have_ip_key_value: str = "",
+                       start_day: int = 0,
+                       end_day: int = 365000,
+                       node_ids: list = None,
+                       min_age_years: float = 0,
+                       max_age_years: float = 365000,
+                       must_have_ip_key_value: str = "",
                        must_have_intervention: str = "",
                        property_change_ip_to_record: str = ""):
     """
@@ -884,31 +1122,47 @@ def add_event_recorder(task, event_list: list = None, only_include_events_in_lis
 
 def add_report_intervention_pop_avg(task, manifest,
                                     start_day: int = 0,
-                                    duration_days: int = 36500000,
-                                    report_description: str = "",
-                                    nodes: list = None):
+                                    end_day: int = 36500000,
+                                    node_ids: list = None,
+                                    min_age_years: float = 0,
+                                    max_age_years: float = 365000,
+                                    must_have_ip_key_value: str = "",
+                                    must_have_intervention: str = "",
+                                    filename_suffix: str = ""):
     """
     Adds ReportInterventionPopAvg reporter. See class definition for description of the report.
 
     Args:
         task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: Schema path file
-        start_day: The day of the simulation to start collecting data
-        duration_days: The number of days over which to collect report data
-        report_description: Augments the filename of the report. If multiple CSV reports are being generated,
+        start_day: the day of the simulation to start collecting data
+        end_day: the day of the simulation to stop collecting data
+        node_ids: List of nodes for which to collect data
+        min_age_years: Minimum age in years of people to collect data on
+        max_age_years: Maximum age in years of people to collect data on
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
+        filename_suffix: augments the filename of the report. If multiple reports are being generated,
             this allows you to distinguish among the multiple reports
-        nodes: List of nodes for which to collect data
 
     Returns:
-        Nothing
+        if task is not set, returns the configured reporter, otherwise returns nothing
     """
     reporter = ReportInterventionPopAvg()  # Create the reporter
 
     def rec_config_builder(params):  # not used yet
         params.Start_Day = start_day
-        params.Duration_Days = duration_days
-        params.Report_Description = report_description
-        params.Nodeset_Config = utils.do_nodes(manifest.schema_file, nodes)
+        params.End_Day = end_day
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
+
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -929,6 +1183,21 @@ class ReportVectorGenetics(BuiltInReporter):
     def config(self, config_builder, manifest):
         self.class_name = "ReportVectorGenetics"  # OK to hardcode? config["class"]
         rvg_params = s2c.get_class_with_defaults("ReportVectorGenetics", manifest.schema_file)
+        rvg_params = config_builder(rvg_params)
+        rvg_params.finalize()
+        rvg_params.pop("Sim_Types")  # maybe that should be in finalize
+        self.parameters.update(dict(rvg_params))
+
+
+@dataclass
+class ReportInfectionStatsMalaria(BuiltInReporter):
+    """
+        ReportInfectionStatsMalaria
+    """
+
+    def config(self, config_builder, manifest):
+        self.class_name = "ReportInfectionStatsMalaria"  # OK to hardcode? config["class"]
+        rvg_params = s2c.get_class_with_defaults("ReportInfectionStatsMalaria", manifest.schema_file)
         rvg_params = config_builder(rvg_params)
         rvg_params.finalize()
         rvg_params.pop("Sim_Types")  # maybe that should be in finalize
@@ -1034,6 +1303,21 @@ class SpatialReportMalariaFiltered(BuiltInReporter):
     def config(self, config_builder, manifest):
         self.class_name = "SpatialReportMalariaFiltered"
         report_params = s2c.get_class_with_defaults("SpatialReportMalariaFiltered", manifest.schema_file)
+        report_params = config_builder(report_params)
+        report_params.finalize()
+        report_params.pop("Sim_Types")  # maybe that should be in finalize
+        self.parameters.update(dict(report_params))
+
+
+@dataclass
+class ReportMalariaFilteredIntraHost(BuiltInReporter):
+    """
+        The filtered malaria spatial report (ReportMalariaFilteredIntraHost.bin) provides TBD
+    """
+
+    def config(self, config_builder, manifest):
+        self.class_name = "ReportMalariaFilteredIntraHost"
+        report_params = s2c.get_class_with_defaults("ReportMalariaFilteredIntraHost", manifest.schema_file)
         report_params = config_builder(report_params)
         report_params.finalize()
         report_params.pop("Sim_Types")  # maybe that should be in finalize

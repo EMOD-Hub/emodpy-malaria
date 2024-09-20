@@ -37,12 +37,11 @@ def build_campaign(start_day=1, coverage=1.0, killing_effect=0):
     import emod_api.campaign as campaign
     import emodpy_malaria.interventions.spacespraying as spray
 
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # adding SpaceSpraying from emodpy_malaria.interventions.spacespraying
-    campaign.add(spray.SpaceSpraying(campaign, start_day=start_day, spray_coverage=coverage,
-                                      killing_effect=killing_effect, box_duration=73),
-                 first=True)
+    spray.add_scheduled_space_spraying(campaign, start_day=start_day, spray_coverage=coverage,
+                                       killing_initial_effect=killing_effect, killing_box_duration=73)
     return campaign
 
 
@@ -165,5 +164,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

@@ -13,8 +13,8 @@ import emodpy.emod_task as emod_task
 from emodpy.utils import EradicationBambooBuilds
 from emodpy.bamboo import get_model_files
 
-
 import manifest
+
 
 # ****************************************************************
 # This is an example template with the most basic functions
@@ -33,22 +33,20 @@ def build_campaign():
     """
 
     import emod_api.campaign as campaign
-    import emodpy_malaria.interventions.inputeir as inputeir
+    from emodpy_malaria.interventions.inputeir import add_scheduled_input_eir
 
     # we need to give the campaign the schema path, so it can check our campaign format
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # this creates a scheduled campaign with InputEIR intervention and adds it, after creating, to campaign.json file
     monthly_eir = [21, 234, 535, 687, 874, 761, 513, 459, 371, 51, 45, 3]
-    campaign.add(inputeir.InputEIR(campaign=campaign, start_day=33, monthly_eir=monthly_eir, age_dependence="SURFACE_AREA_DEPENDENT",
-                                   node_ids=None))
+    add_scheduled_input_eir(campaign=campaign, start_day=33, monthly_eir=monthly_eir,
+                            age_dependence="SURFACE_AREA_DEPENDENT",
+                            node_ids=None)
     # using Daily_EIR parameter. You can use monthly or daily, not both
     daily_eir = [x for x in range(365)]
-    campaign.add(inputeir.InputEIR(campaign=campaign, start_day=3, daily_eir=daily_eir, age_dependence="OFF",
-                                   node_ids=None))
-
-    # creates a campaign.json wtih an InputEIR campaign
-    # inputeir.new_intervention_as_file(campaign=campaign, start_day=11, monthly_eir=monthly_eir)
+    add_scheduled_input_eir(campaign=campaign, start_day=3, daily_eir=daily_eir, age_dependence="OFF",
+                            node_ids=None)
 
     return campaign
 
@@ -130,5 +128,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

@@ -27,7 +27,7 @@ import manifest
 """
 
 
-def build_campaign():
+def build_campaign(start_day=2):
     """
     Build a campaign input file for the DTK using emod_api.
     Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
@@ -36,12 +36,12 @@ def build_campaign():
     from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_usage_dependent_bednet
 
     # This isn't desirable. Need to think about right way to provide schema (once)
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
     nodes = [1402941398, 1402941399, 1402941400, 1402941401, 1402941404, 1402941410, 1403072469, 1403072470, 1403072471,
              1403072472]
-    add_scheduled_usage_dependent_bednet(campaign, start_day=10,
+    add_scheduled_usage_dependent_bednet(campaign, start_day=start_day,
                                          demographic_coverage=0.5,
                                          killing_initial_effect=0.5,
                                          blocking_initial_effect=0.5,

@@ -184,10 +184,12 @@ def irs_configuration(campaign,
                                              box_duration=repelling_box_duration,
                                              decay_rate=1.0 / repelling_decay_time_constant if repelling_decay_time_constant else 0)
 
+
     killing = utils.get_waning_from_params(schema_path=schema_path,
                                            initial=killing_initial_effect,
                                            box_duration=killing_box_duration,
                                            decay_rate=1.0 / killing_decay_time_constant if killing_decay_time_constant else 0)
+
 
     intervention.Killing_Config = killing
     intervention.Repelling_Config = repelling
