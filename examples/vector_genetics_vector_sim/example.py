@@ -82,6 +82,10 @@ def build_campaign():
     mr.add_scheduled_mosquito_release(campaign, start_day=1, released_number=20000, released_infectious=0.2,
                                       released_species="gambiae",
                                       released_genome=[["X1", "X1"], ["one", "two"], ["b", "b"]])
+    mr.add_scheduled_mosquito_release(campaign, start_day=1, released_number=20000, released_infectious=0.2,
+                                      released_species="gambiae",
+                                      released_genome=[["X1", "X1"], ["one", "two"], ["b", "b"]],
+                                      released_mate_genome=[["X1", "Y1"], ["one", "two"], ["b", "b"]])
 
     return campaign
 

@@ -83,6 +83,13 @@ rule burnin_create_infections:
     run:
         shell(get_command("burnin_create_infections", python_version=config['python_version']))
 
+rule serialization_support_example:
+    input: rules.burnin_create_infections.output.out_050
+    output: Path("burnin_create_infections", "humans_data.json")
+    run:
+        shell(get_command("burnin_create_infections", script="serialization_support_example.py",
+         python_version=config['python_version']))
+
 rule burnin_create_parasite_genetics:
     input:
     output: Path("burnin_create_parasite_genetics", "experiment_id"),
@@ -95,6 +102,7 @@ rule burnin_use:
     output: Path("burnin_use", "experiment_id")
     run:
         shell(get_command("burnin_use", python_version=config['python_version']))
+
 
 rule serialization_remove_infections:
     input:  rules.burnin_create_infections.output.out_050
@@ -293,6 +301,12 @@ rule microsporidia:
     output: Path("microsporidia", "experiment_id")
     run:
         shell(get_command("microsporidia", python_version=config['python_version']))
+
+rule vector_surveillance:
+    input:
+    output: Path("vector_surveillance", "experiment_id")
+    run:
+        shell(get_command("vector_surveillance", python_version=config['python_version']))
 
 rule clean:
     input: 

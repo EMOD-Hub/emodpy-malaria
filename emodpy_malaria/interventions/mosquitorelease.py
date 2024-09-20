@@ -10,11 +10,16 @@ def _mosquito_release(campaign,
                       released_fraction: float = None,
                       released_infectious: float = None,
                       released_species: str = "arabiensis",
-                      released_genome: list = None,
-                      released_microsporidia: any = ""
+                      released_genome: list[list[str]] = None,
+                      released_mate_genome: list[list[str]] = None,
+                      released_microsporidia: str = ""
                       ):
     """
-        Configures node-targeted MosquitoRelease intervention
+        Configures node-targeted MosquitoRelease class intervention. The MosquitoRelease intervention class adds
+        mosquito release vector control programs to the simulation. Mosquito release is a key vector control mechanism
+        that allows the release of sterile males, genetically modified mosquitoes, or even Microsporidia-infected
+        mosquitoes.
+
     Args:
         campaign: A campaign builder that also contains schema_path parameters
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
@@ -22,14 +27,20 @@ def _mosquito_release(campaign,
             if they have different Intervention_Name values.
         released_number: The number of vectors to release, sets Released_Type = "FIXED_NUMBER"
         released_fraction: The fraction of the current population of mosquitoes to release.
-            The 'population' will depend on the gender of the mosquitoes being
-            released and it will be the population from the previous time step.
+            The 'population' will depend on the sex and species of the mosquitoes being released, and it will be the
+            population count from the previous time step.
             Sets Released_Type = "FRACTION"
         released_infectious: The fraction of vectors released that are to be infectious.
             One can only use this feature when 'Malaria_Model'!='MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'
-        released_species: The case sensitive name of the species of vectors to be released.
+        released_species: The case-sensitive name of the species of vectors to be released.
         released_genome: This defines the alleles of the genome of the vectors to be released.
             It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
+            Default is  [["X", "X"]]. This only works for vectors that have no genes defined.
+        released_mate_genome: This defines the alleles of the mate genome of the vectors to be released.
+            The Released_Mate_Genome must be male, and Released_Genome must be female. It must define all of the alleles
+            including the gender 'gene'. '*' is not allowed. When this parameter is defined, the released female vectors
+            will be fully gestated and ready to lay eggs, which will be the product of Released_Genome and
+            Released_Mate_Genome.
         released_microsporidia: String indicating the Strain_Name of the microsporidia strain being released.
 
     Returns:
@@ -37,21 +48,21 @@ def _mosquito_release(campaign,
     """
     if not released_genome:
         released_genome = [["X", "X"]]
-    if (released_number and released_fraction) or (not released_number and not released_fraction):
+    # setting released_fraction or released_number to 0 is valid
+    if ((released_number is not None and released_fraction is not None) or
+            (released_number is None and released_fraction is None)):
         raise ValueError("Please define either released_number or released_fraction to determine how to release "
                          "mosquitoes, \n not both.\n")
+
     if isinstance(released_microsporidia, bool):
-        if released_microsporidia:  # True, they wanted microsporidia
-            released_microsporidia = "Strain_A"
-            print("WARNING: add_scheduled_mosquito_release()'s released_microsporidia is now a string, "
+        if released_microsporidia:  # to take care of old code
+            raise ValueError("ERROR: _mosquito_release's released_microsporidia is now a string, "
                   "which is the Strain_Name for microsporidia strain defined in config.\n")
-        else:  # False, no microsporidia
-            released_microsporidia = ""
 
     intervention = s2c.get_class_with_defaults("MosquitoRelease", campaign.schema_path)
     intervention.Intervention_Name = intervention_name
 
-    if released_number:
+    if released_number is not None:
         intervention.Released_Number = released_number
     else:
         intervention.Released_Fraction = released_fraction
@@ -59,6 +70,8 @@ def _mosquito_release(campaign,
     intervention.Released_Infectious = released_infectious if released_infectious else 0
     intervention.Released_Species = released_species
     intervention.Released_Genome = released_genome
+    if released_mate_genome:
+        intervention.Released_Mate_Genome = released_mate_genome
     intervention.Released_Wolbachia = "VECTOR_WOLBACHIA_FREE"
     intervention.Released_Microsporidia_Strain = released_microsporidia
     return intervention
@@ -75,10 +88,14 @@ def add_scheduled_mosquito_release(
         released_fraction: float = None,
         released_infectious: float = None,
         released_species: str = "arabiensis",
-        released_genome: list = None,
+        released_genome: list[list[str]] = None,
+        released_mate_genome: list[list[str]] = None,
         released_microsporidia: any = None):
     """
-        Adds to the campaign a node-level MosquitoRelease intervention
+        Adds a node-targeted MosquitoRelease class intervention to the campaign. The MosquitoRelease intervention class
+        adds mosquito release vector control programs to the simulation. Mosquito release is a key vector control
+        mechanism that allows the release of sterile males, genetically modified mosquitoes, or even
+        Microsporidia-infected mosquitoes.
 
     Args:
         campaign: A campaign builder that also contains schema_path parameters
@@ -94,26 +111,26 @@ def add_scheduled_mosquito_release(
             if they have different Intervention_Name values.
         released_number: The number of vectors to release, sets Released_Type = "FIXED_NUMBER"
         released_fraction: The fraction of the current population of mosquitoes to release.
-            The 'population' will depend on the gender of the mosquitoes being
-            released and it will be the population from the previous time step.
+            The 'population' will depend on the sex and species of the mosquitoes being released, and it will be the
+            population count from the previous time step.
             Sets Released_Type = "FRACTION"
         released_infectious: The fraction of vectors released that are to be infectious.
             One can only use this feature when 'Malaria_Model'!='MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'
-        released_species: The case sensitive name of the species of vectors to be released.
+        released_species: The case-sensitive name of the species of vectors to be released.
         released_genome: This defines the alleles of the genome of the vectors to be released.
             It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
+            Default is  [["X", "X"]]. This only works for vectors that have no genes defined.
+        released_mate_genome: This defines the alleles of the mate genome of the vectors to be released.
+            The Released_Mate_Genome must be male, and Released_Genome must be female. It must define all of the alleles
+            including the gender 'gene'. '*' is not allowed. When this parameter is defined, the released female vectors
+            will be fully gestated and ready to lay eggs, which will be the product of Released_Genome and
+            Released_Mate_Genome.
         released_microsporidia: The Strain_Name from the Microsporidia list defined for this species.
             Each species has its own strains. Empty String means no microsporidia.
 
     Returns:
         Formatted intervention
     """
-
-    if not released_genome:
-        released_genome = [["X", "X"]]
-    if (released_number and released_fraction) or (not released_number and not released_fraction):
-        raise ValueError("Please define either released_number or released_fraction to determine how to release "
-                         "mosquitoes, \n not both.\n")
 
     node_intervention = _mosquito_release(campaign=campaign,
                                           intervention_name=intervention_name,
@@ -122,6 +139,7 @@ def add_scheduled_mosquito_release(
                                           released_infectious=released_infectious,
                                           released_species=released_species,
                                           released_genome=released_genome,
+                                          released_mate_genome=released_mate_genome,
                                           released_microsporidia=released_microsporidia)
     add_campaign_event(campaign=campaign,
                        start_day=start_day,

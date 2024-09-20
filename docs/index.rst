@@ -15,6 +15,9 @@ See :doc:`idmtools:index` for a diagram showing how |IT_s| and each of the
 related packages are used in an end-to-end workflow using |EMOD_s| as the
 disease transmission model.
 
+Contents
+--------
+
 .. toctree::
    :maxdepth: 3
    :titlesonly:
@@ -28,7 +31,6 @@ disease transmission model.
    :titlesonly:
    :caption: Related documentation
 
-   emodpy Jupyter notebooks <https://docs.idmod.org/projects/jupyter-notebooks-emodpy/en/latest/>
    EMOD malaria <https://docs.idmod.org/projects/emod-malaria/en/latest/>
    emod-api <https://docs.idmod.org/projects/emod-api/en/latest/>
    emodpy <https://docs.idmod.org/projects/emodpy/en/latest/>

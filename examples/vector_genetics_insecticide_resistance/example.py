@@ -88,7 +88,6 @@ def build_campaign():
     # This isn't desirable. Need to think about right way to provide schema (once)
     campaign.set_schema(manifest.schema_file)
 
-    # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
     bednet.add_itn_scheduled(campaign,
                              start_day=1,
                              demographic_coverage=0.5,

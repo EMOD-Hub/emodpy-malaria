@@ -1,9 +1,8 @@
-import unittest
 import json
-import os, sys
+import os
+import sys
+import unittest
 
-file_dir = os.path.dirname(__file__)
-sys.path.append(file_dir)
 import schema_path_file
 import random
 import pandas as pd
@@ -29,9 +28,11 @@ from emodpy_malaria.interventions.community_health_worker import add_community_h
 from emodpy_malaria.interventions.scale_larval_habitats import add_scale_larval_habitats
 from emodpy_malaria.interventions.malaria_challenge import add_challenge_trial
 from emodpy_malaria.interventions.treatment_seeking import add_treatment_seeking
-
+from emod_api.utils import Distributions
 import emod_api.campaign as camp
 
+file_dir = os.path.dirname(__file__)
+sys.path.append(file_dir)
 camp.unsafe = True
 
 drug_codes = ["ALP", "AL", "ASA", "DP", "DPP", "PPQ", "DHA_PQ", "DHA", "PMQ", "DA", "CQ", "SP", "SPP", "SPA"]
@@ -58,15 +59,6 @@ class NodesetParams:
     Node_List = "Node_List"
 
 
-# Uncomment below to also run through tests with 10 Jan schema (default is latest)
-# class schema_17Dec20:
-#     schema_path = schema_path_file.schema_file_17Dec20
-
-# Uncomment below to also run through tests with 10 Jan schema (default is latest)
-# class schema_10Jan21:
-#     schema_path = schema_path_file.schema_file_10Jan21
-
-
 class TestMalariaInterventions(unittest.TestCase):
     # region helper methods
     def setUp(self) -> None:
@@ -80,8 +72,8 @@ class TestMalariaInterventions(unittest.TestCase):
         self.blocking_config = None
         self.repelling_config = None
         self.usage_config = None
-        self.schema_file = schema_path_file
-        camp.schema_path = schema_path_file.schema_file
+        self.schema_file = schema_path_file.schema_file
+        camp.set_schema(self.schema_file)
         return
 
     def write_debug_files(self):
@@ -108,6 +100,7 @@ class TestMalariaInterventions(unittest.TestCase):
             self.usage_config = self.intervention_config["Usage_Config"]
 
     def tearDown(self) -> None:
+        camp.reset()
         if self.is_debugging:
             self.write_debug_files()
         return
@@ -1261,7 +1254,6 @@ class TestMalariaInterventions(unittest.TestCase):
                     campaign_event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"],
                     ["NewInfectionEvent"])
                 all_found += 1
-                print(actual_config)
         self.assertEqual(custom_trigger_broadcast, custom_trigger_listen)
         self.assertEqual(all_found, 2)
 
@@ -1380,6 +1372,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Released_Infectious"], released_infectious)
         self.assertEqual(self.intervention_config["Released_Species"], released_species)
         self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
+        self.assertEqual(self.intervention_config["Released_Mate_Genome"], [])
         self.assertEqual(self.intervention_config["Released_Microsporidia_Strain"], released_microsporidia_strain)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
@@ -1397,6 +1390,7 @@ class TestMalariaInterventions(unittest.TestCase):
         released_microsporidia_strain = 'tEst_strain'
         released_species = "funestus"
         released_genome = [["s", "S"]]
+        released_mate_genome = [["m", "M"]]
         node_ids = [234, 4356, 54]
         add_scheduled_mosquito_release(campaign=camp, start_day=start_day, repetitions=repetitions,
                                        timesteps_between_repetitions=timesteps_between_repetitions,
@@ -1406,6 +1400,7 @@ class TestMalariaInterventions(unittest.TestCase):
                                        released_infectious=released_infectious,
                                        released_species=released_species,
                                        released_genome=released_genome,
+                                       released_mate_genome=released_mate_genome,
                                        released_microsporidia=released_microsporidia_strain)
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
@@ -1416,6 +1411,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Released_Infectious"], 1)
         self.assertEqual(self.intervention_config["Released_Species"], released_species)
         self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
+        self.assertEqual(self.intervention_config["Released_Mate_Genome"], released_mate_genome)
         self.assertEqual(self.intervention_config["Released_Microsporidia_Strain"], released_microsporidia_strain)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
@@ -1769,8 +1765,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(campaign_event['Intervention_Config']['Property_Restrictions'], [])
         self.assertEqual(campaign_event['Number_Repetitions'], 1)
         self.assertEqual(campaign_event['Timesteps_Between_Repetitions'], 365)
-        intervention_0 = campaign_event['Intervention_Config']['Actual_IndividualIntervention_Config'][
-            "Actual_IndividualIntervention_Configs"][0]
+        intervention_0 = campaign_event['Intervention_Config']['Actual_IndividualIntervention_Config']
         self.assertEqual(intervention_0['class'], "SimpleVaccine")
         self.assertEqual(intervention_0['Efficacy_Is_Multiplicative'], 1)
         self.assertEqual(intervention_0['Vaccine_Take'], 1)
@@ -2176,14 +2171,15 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertNotIn('Property_Restrictions_Within_Node', triggered_config)
         self.assertEqual(triggered_config['Trigger_Condition_List'], triggers)
         self.assertEqual(triggered_config['Duration'], -1)
-        self.assertEqual(triggered_config['Actual_IndividualIntervention_Config']["Delay_Period_Constant"], 0)
+        self.assertEqual(triggered_config['Actual_IndividualIntervention_Config']["class"],
+                         "MultiInterventionDistributor")
         self.assertEqual(campaign_event['Event_Coordinator_Config']['Number_Repetitions'], repetitions)
         self.assertEqual(campaign_event['Event_Coordinator_Config']['Timesteps_Between_Repetitions'],
                          timesteps_between_repetitions)
         intervention_1 = \
-            triggered_config['Actual_IndividualIntervention_Config']['Actual_IndividualIntervention_Configs'][1]
+            triggered_config['Actual_IndividualIntervention_Config']['Intervention_List'][1]
         intervention_0 = \
-            triggered_config['Actual_IndividualIntervention_Config']['Actual_IndividualIntervention_Configs'][0]
+            triggered_config['Actual_IndividualIntervention_Config']['Intervention_List'][0]
         if intervention_0['class'] == "BroadcastEvent":
             self.assertEqual(intervention_0["Broadcast_Event"], broadcast_event)
             self.assertEqual(intervention_1['class'], "IRSHousingModification")
@@ -2308,7 +2304,6 @@ class TestMalariaInterventions(unittest.TestCase):
         pass
 
     def test_malaria_challenge_exceptions(self):
-        camp.set_schema(schema_path_file.schema_file)
         with self.assertRaisesRegex(Exception,
                                     "Please enter a positive value for either 'infectious_bites' or 'sporozoites', "
                                     "but not both.\n"):
@@ -2701,7 +2696,6 @@ class TestMalariaInterventions(unittest.TestCase):
 
     def test_adherent_drug(self):
         import emodpy_malaria.interventions.adherentdrug as ad
-        camp.set_schema(schema_path_file.schema_file)
         doses = [["Sulfadoxine", "Pyrimethamine", 'Amodiaquine'], ['Amodiaquine'], ['Amodiaquine'],
                  ['Pyrimethamine']]  # use doses value that is different from the default
         dose_interval = 2
@@ -2729,7 +2723,6 @@ class TestMalariaInterventions(unittest.TestCase):
 
     def test_adherent_drug_defaults(self):
         import emodpy_malaria.interventions.adherentdrug as ad
-        camp.set_schema(schema_path_file.schema_file)
         adherent_drug = ad.adherent_drug(camp
                                          # doses=doses,
                                          # dose_interval=dose_interval,
@@ -2754,7 +2747,6 @@ class TestMalariaInterventions(unittest.TestCase):
 
     def test_drug_campaign_exceptions(self):
         import emodpy_malaria.interventions.adherentdrug as ad
-        camp.set_schema(schema_path_file.schema_file)
         with self.assertRaisesRegex(Exception,
                                     r"You have to pass in  drug_code\(AL, DP, etc; allowable "
                                     r"types defined in malaria_drugs.py\) or"
@@ -2886,7 +2878,8 @@ class TestMalariaInterventions(unittest.TestCase):
         target1_found = False
         target2_found = False
         for campaign_event in camp.campaign_dict["Events"]:
-            if campaign_event["Event_Coordinator_Config"]['Intervention_Config']['Trigger_Condition_List'][0] == "NewClinicalCase":
+            if campaign_event["Event_Coordinator_Config"]['Intervention_Config']['Trigger_Condition_List'][
+                0] == "NewClinicalCase":
                 self.assertEqual(campaign_event['Start_Day'], start_day)
                 self.assertEqual(campaign_event['Nodeset_Config']['class'], "NodeSetNodeList")
                 self.assertEqual(campaign_event['Nodeset_Config']['Node_List'], node_ids)
@@ -2942,7 +2935,8 @@ class TestMalariaInterventions(unittest.TestCase):
                             self.assertEqual(intervention["Target_Property_Key"], "DrugStatus")
                             self.assertEqual(intervention["Target_Property_Value"], "RecentDrug")
                     self.assertTrue(testdrug_found and testdrug2_found and broadcast_found and property_changer_found)
-            elif campaign_event["Event_Coordinator_Config"]['Intervention_Config']['Trigger_Condition_List'][0] == "HappyBirthday":
+            elif campaign_event["Event_Coordinator_Config"]['Intervention_Config']['Trigger_Condition_List'][
+                0] == "HappyBirthday":
                 target2_found = True
                 event_config = campaign_event['Event_Coordinator_Config']
                 self.assertEqual(event_config['Number_Repetitions'], 1)
@@ -2995,7 +2989,6 @@ class TestMalariaInterventions(unittest.TestCase):
 
     def test_treatment_seeking_exceptions(self):
         import emodpy_malaria.interventions.adherentdrug as ad
-        camp.set_schema(schema_path_file.schema_file)
         with self.assertRaisesRegex(ValueError,
                                     "Please define targets for treatment seeking. It is a list of dictionaries:\n"
                                     " ex: \[\{\"trigger\":\"NewClinicalCase\", \"coverage\":0.8, \"agemin\":15, \"agemax\":70, \"rate\":0.3\}\]\n"):
@@ -3012,6 +3005,77 @@ class TestMalariaInterventions(unittest.TestCase):
                                     "directly to attain a different coverage for the intervention. Previously, "
                                     "\"Demographic_Coverage\" was \"coverage\"x\"seek\". It is now just \"coverage\".\n"):
             add_treatment_seeking(camp, targets=seek_target)
+
+    def test_vector_surveillance_defaults(self):
+        from emodpy_malaria.interventions.vector_surveillance import (add_vector_surveillance_event_coordinator,
+                                                                      VectorGender, CountType)
+        start_triggers = ["testing"]
+        update_period = 4
+        sample_size_distribution = Distributions.poisson(update_period)
+        species = "gambiae"
+        gender = VectorGender.VECTOR_BOTH_GENDERS
+        count_type = CountType.ALLELE_FREQ
+        coord_name = "TESsdfashodfuasy"
+        add_vector_surveillance_event_coordinator(campaign=camp, start_trigger_condition_list=start_triggers,
+                                                  update_period=update_period,
+                                                  sample_size=sample_size_distribution, coordinator_name=coord_name,
+                                                  species=species, gender=gender, count_type=count_type)
+        campaign_event = camp.campaign_dict['Events'][0]
+        self.assertEqual(campaign_event['Start_Day'], 0)
+        self.assertEqual(campaign_event['Nodeset_Config']['class'], "NodeSetAll")
+        coordinator_config = campaign_event['Event_Coordinator_Config']
+        self.assertEqual(coordinator_config['class'], "VectorSurveillanceEventCoordinator")
+        self.assertEqual(coordinator_config['Duration'], -1)
+        self.assertEqual(coordinator_config['Coordinator_Name'], coord_name)
+        self.assertEqual(coordinator_config['Start_Trigger_Condition_List'], start_triggers)
+        self.assertEqual(coordinator_config['Stop_Trigger_Condition_List'], [])
+        vector_counter = coordinator_config['Counter']
+        self.assertEqual(vector_counter['Count_Type'], count_type.name)
+        self.assertEqual(vector_counter['Gender'], gender.name)
+        self.assertEqual(vector_counter['Sample_Size_Distribution'], "POISSON_DISTRIBUTION")
+        self.assertEqual(vector_counter['Sample_Size_Poisson_Mean'], update_period)
+        self.assertEqual(vector_counter['Species'], species)
+        self.assertEqual(vector_counter['Update_Period'], update_period)
+        self.assertEqual(coordinator_config['Responder']['Survey_Completed_Event'], "")
+
+    def test_vector_surveillance_custom(self):
+        from emodpy_malaria.interventions.vector_surveillance import (add_vector_surveillance_event_coordinator,
+                                                                      VectorGender, CountType)
+
+        start_triggers = ["testing"]
+        stop_triggers = ["stop", "staaahp"]
+        update_period = 4
+        sample_size_distribution = Distributions.poisson(update_period)
+        species = "gambiae"
+        gender = VectorGender.VECTOR_BOTH_GENDERS
+        start = 33
+        nodelist = [23, 2323, 22]
+        count_type = CountType.GENOME_FRACTION
+        coord_name = "TESsdfashodfuasy"
+        add_vector_surveillance_event_coordinator(campaign=camp, start_trigger_condition_list=start_triggers,
+                                                  update_period=update_period, start_day=start,
+                                                  stop_trigger_condition_list=stop_triggers,
+                                                  coordinator_name=coord_name,
+                                                  sample_size=sample_size_distribution, count_type=count_type,
+                                                  species=species, gender=gender, node_ids=nodelist,
+                                                  survey_completed_event=coord_name)
+        campaign_event = camp.campaign_dict['Events'][0]
+        self.assertEqual(campaign_event['Start_Day'], start)
+        self.assertEqual(campaign_event['Nodeset_Config']['class'], "NodeSetNodeList")
+        self.assertEqual(campaign_event['Nodeset_Config']['Node_List'], nodelist)
+        coordinator_config = campaign_event['Event_Coordinator_Config']
+        self.assertEqual(coordinator_config['class'], "VectorSurveillanceEventCoordinator")
+        self.assertEqual(coordinator_config['Duration'], -1)
+        self.assertEqual(coordinator_config['Start_Trigger_Condition_List'], start_triggers)
+        self.assertEqual(coordinator_config['Stop_Trigger_Condition_List'], stop_triggers)
+        vector_counter = coordinator_config['Counter']
+        self.assertEqual(vector_counter['Count_Type'], count_type.name)  # not optional to set for
+        self.assertEqual(vector_counter['Gender'], gender.name)
+        self.assertEqual(vector_counter['Sample_Size_Distribution'], "POISSON_DISTRIBUTION")
+        self.assertEqual(vector_counter['Sample_Size_Poisson_Mean'], update_period)
+        self.assertEqual(vector_counter['Species'], species)
+        self.assertEqual(vector_counter['Update_Period'], update_period)
+        self.assertEqual(coordinator_config['Responder']['Survey_Completed_Event'], coord_name)
 
 
 if __name__ == '__main__':

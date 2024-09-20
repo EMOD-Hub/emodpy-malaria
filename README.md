@@ -59,4 +59,22 @@ If you have feature requests, issues, or new code, please see our
 'CONTRIBUTING <https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/CONTRIBUTING.rst>' page
 for how to provide your feedback.
 
-## Package Architecture
+### Developer Installation
+There are several options if you are modifying the code locally.
+
+Option 1:
+Create a hard link to package\_setup.py available to pip:
+```
+ln package_setup.py setup.py
+```
+and then install in the `emodpy-malaria` directory:
+```
+pip install -e .
+```
+
+Option 2:
+Each time you make a change you want to use:
+```
+python package_setup.py bdist_wheel
+pip install dist\emodpy_malaria-XXX.whl 
+```

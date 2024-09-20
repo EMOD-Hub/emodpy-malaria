@@ -1,6 +1,6 @@
 sphinxext.remoteliteralinclude~=0.4.0
 sphinx~=6.2.1
-sphinx-rtd-theme~=1.2.2
+pydata-sphinx-theme
 sphinxcontrib-napoleon~=0.7
 plantweb~=1.2.1
 sphinxcontrib-programoutput~=0.17
@@ -10,3 +10,4 @@ myst-parser~=2.0.0
 readthedocs-sphinx-search~=0.3.1
 sphinx-copybutton~=0.5.2
 pygithub~=1.57
+sphinxcontrib-jquery~=4.1

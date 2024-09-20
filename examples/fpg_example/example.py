@@ -151,7 +151,7 @@ def general_sim():
 
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", node_group="idm_48cores")
+    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
     report_year = 0.5
     years_to_report = 1
 

@@ -3,7 +3,7 @@
 """
 Walk through weather scenarios: generating weather files, convert to csv and back to weather, update and save to file.
 """
-
+from datetime import datetime, timedelta
 from emodpy_malaria.weather import *
 
 weather_dir1 = "output/demo1"           # both string and Path
@@ -13,10 +13,12 @@ csv_file = Path(weather_dir1).joinpath("weather.csv")
 print("\n---=| WEATHER REQUEST |=---\n")
 
 # Request weather files
+startdate = (datetime.today() - timedelta(180+365)).replace(day=1).strftime('%Y%j')
+enddate= (datetime.today() - timedelta(180)).replace(day=1).strftime('%Y%j')
 wr = generate_weather(platform="Calculon",
                       site_file="input/site_details.csv",
-                      start_date=2020001,
-                      end_date=2021001,
+                      start_date=startdate,
+                      end_date=enddate,
                       node_column="id",
                       id_reference="Custom user",
                       local_dir=weather_dir1)

@@ -1,6 +1,6 @@
-=============================
-|EMODPY_malaria| installation
-=============================
+=======
+Install
+=======
 
 Follow the steps below to install |EMODPY_malaria|.
 
@@ -15,24 +15,14 @@ Follow the steps below to install |EMODPY_malaria|.
 
 #.  Activate the virtual environment:
 
-    .. container:: os-code-block
+    * For Windows, enter the following::
 
-        .. container:: choices
+        v-emodpy-malaria\Scripts\activate
 
-            * Windows
-            * Linux
+    * For Linux, enter the following:: 
 
-        .. container:: windows
+        source v-emodpy-malaria/bin/activate
 
-            Enter the following::
-
-                v-emodpy-malaria\Scripts\activate
-
-        .. container:: linux
-
-            Enter the following::
-
-                source v-emodpy-malaria/bin/activate
 
 #.  Install |EMODPY_malaria| packages::
 

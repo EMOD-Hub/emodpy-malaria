@@ -43,7 +43,7 @@ def build_campaign(microsporidia=True):
     campaign.set_schema(manifest.schema_file)
 
     add_scheduled_mosquito_release(campaign, 50, released_number=1000, released_species="gambiae",
-                                   released_microsporidia=True, released_genome=[['X', 'Y']])
+                                   released_microsporidia="Strain_A", released_genome=[['X', 'Y']])
     add_scheduled_mosquito_release(campaign, 50, released_number=1000, released_species="gambiae",
                                    released_microsporidia="Strain_B", released_genome=[['X', 'Y']])
 

@@ -1,6 +1,6 @@
-==========================
-Installation prerequisites
-==========================
+=====================
+Install prerequisites
+=====================
 
 First, ensure the following prerequisites are met before following the install 
 instructions in :doc:`installation-basic`.

@@ -1,6 +1,6 @@
-==========================
-Frequently asked questions
-==========================
+===
+FAQ
+===
 
 As you get started with |EMODPY_malaria|, you may have questions. The most common
 questions are answered below. The most common questions are answered below. 

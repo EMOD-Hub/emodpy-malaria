@@ -1,7 +1,7 @@
 podTemplate(
     //idleMinutes : 30,
     podRetention : onFailure(),
-    activeDeadlineSeconds : 3600,
+    activeDeadlineSeconds : 7200,
     containers: [
         containerTemplate(
             name: 'dtk-rpm-builder', 
@@ -108,6 +108,8 @@ podTemplate(
 			echo "Running examples"
 				dir('examples') {
 					sh 'pip3 install snakemake'
+					// pulp workaround for https://github.com/snakemake/snakemake/issues/2607
+                    sh 'pip3 install pulp==2.7.0'
 					sh 'snakemake --cores=10 --config python_version=python3'
 				}
 			}

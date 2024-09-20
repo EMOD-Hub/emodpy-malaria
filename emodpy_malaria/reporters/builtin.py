@@ -6,7 +6,6 @@ from idmtools.assets import Asset
 import json
 import urllib.request
 
-
 vis_url = "https://bryanressler-idmod.github.io/vis.json"
 
 
@@ -1258,11 +1257,11 @@ def add_event_recorder(task, event_list: list = None,
         max_age_years: Maximum age in years of people to collect data on
         must_have_ip_key_value: A Key:Value pair that the individual must have in order to be included. Empty string
             means don't look at IndividualProperties
-        must_have_intervention: The name of the an intervention that the person must have in order to be included.
+        must_have_intervention: The name of the intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
-        property_change_ip_to_record:If the string is not empty, then the recorder will add the PropertyChange event to the
-            list of events that the report is listening to. However, it will only record the events where the property
-            changed the value of the given key
+        property_change_ip_to_record:If the string is not empty, then the recorder will add the PropertyChange event to
+            the list of events that the report is listening to. However, it will only record the events where the
+            property changed the value of the given key
 
     Returns:
         Nothing
@@ -1286,6 +1285,70 @@ def add_event_recorder(task, event_list: list = None,
     task.config.parameters.Report_Event_Recorder_Must_Have_Intervention = must_have_intervention
     task.config.parameters.Report_Event_Recorder_PropertyChange_IP_Key_Of_Interest = property_change_ip_to_record
     task.config.parameters.Report_Event_Recorder_Ignore_Events_In_List = 0 if only_include_events_in_list else 1
+
+
+def add_node_event_recorder(task, event_list: list = None,
+                            only_include_events_in_list: bool = True,
+                            stats_by_node_properties: list = None,
+                            stats_by_individual_properties: str = ""):
+    """
+    Adds ReportEventRecorderNode report to the simulation.
+
+    Args:
+        task: task to which to add the reporter
+        event_list: A list of node-level events to record or exclude, depending on value of
+            only_include_node_events_in_list
+        only_include_events_in_list: If True, only record node-level events listed.  if False, record ALL
+            node-level events EXCEPT for the ones listed
+        stats_by_node_properties: Specifies an array of (optional) node property keys, as defined in
+            NodeProperties in the demographics file, to be added as additional columns to the
+            ReportNodeEventRecorder.csv output report.  An empty array equals no additional columns added.
+        stats_by_individual_properties: Specifies an array of (optional) individual property keys, as defined in
+            IndividualProperties in the demographics file, to be added to the ReportNodeEventRecorder.csv output
+            report. An empty array equals no additional columns added
+
+    Returns:
+        Nothing
+    """
+
+    if not event_list:
+        if only_include_node_events_in_list:
+            raise ValueError("Please define event_list parameter.\n")
+        else:
+            event_list = []
+
+    task.config.parameters.Report_Node_Event_Recorder = 1
+    task.config.parameters.Report_Node_Event_Recorder_Events = event_list
+    task.config.parameters.Report_Node_Event_Recorder_Ignore_Events_In_List = 0 if only_include_events_in_list else 1
+    task.config.parameters.Report_Node_Event_Recorder_Node_Properties = stats_by_node_properties if stats_by_node_properties else []
+    task.config.parameters.Report_Node_Event_Recorder_Stats_By_IPs = stats_by_individual_properties if stats_by_individual_properties else []
+
+
+def add_coordinator_event_recorder(task, event_list: list = None,
+                                   only_include_events_in_list: bool = True):
+    """
+    Adds ReportEventRecorderCoordinator report to the simulation.
+
+    Args:
+        task: task to which to add the reporter
+        event_list: A list of coordinator-level events to record or exclude, depending on value of
+            only_include_coordinator_events_in_list
+        only_include_events_in_list: If True, only record node-level events listed.  if False, record ALL
+            node-level events EXCEPT for the ones listed
+
+    Returns:
+        Nothing
+    """
+
+    if not event_list:
+        if only_include_coordinator_events_in_list:
+            raise ValueError("Please define event_list parameter.\n")
+        else:
+            event_list = []
+
+    task.config.parameters.Report_Coordinator_Event_Recorder = 1
+    task.config.parameters.Report_Coordinator_Event_Recorder_Events = event_list
+    task.config.parameters.Report_Coordinator_Event_Recorder_Ignore_Events_In_List = 0 if only_include_events_in_list else 1
 
 
 def add_report_intervention_pop_avg(task, manifest,
