@@ -1,93 +1,16 @@
-"""
-This module contains functionality common to many interventions.
-"""
 
 from typing import List
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import common, utils
 
-schema_path = None
 
-
-###
-### Malaria
-###
-
-def MalariaDiagnostic(
-        camp,
-        Diagnostic_Type="BLOOD_SMEAR_PARASITES",
-        Measurement_Sensitivity=0,
-        Detection_Threshold=0
-):
-    """
-    Add a malaria diagnostic intervention to your campaign. This is equivalent
-    to :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`. 
-
-    Args:
-        camp: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention 
-            will be added. 
-        Measurement_Sensitivity: The setting for **Measurement_Sensitivity**
-            in :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
-        Detection_Threshold: The setting for **Detection_Threshold** in 
-            :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`. 
-        Diagnostic_Type: The setting for **Diagnostic_Type** in 
-            :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
-            In addition to the accepted values listed there, you may also set
-            TRUE_INFECTION_STATUS, which calls 
-            :doc:`emod-malaria:parameter-campaign-individual-standarddiagnostic`
-            instead.
-    Returns:
-      The diagnostic intervention event.
-    """
-    # Shares lots of code with Standard. Not obvious if code minimization maximizes readability.
-    global schema_path
-    schema_path = camp.schema_path if camp is not None else schema_path
-    # First, get the objects
-
-    if Diagnostic_Type == "TRUE_INFECTION_STATUS":
-        if Measurement_Sensitivity != 0 or Detection_Threshold != 0:
-            raise ValueError(
-                f"MalariaDiagnostic invoked with 'TRUE_INFECTION_STATUS' and non-default values of either sensitivity or threshold params (or both). Those params are not used for TRUE_INFECTION_STATUS.")
-        intervention = common.StandardDiagnostic(camp)
-    else:
-        intervention = s2c.get_class_with_defaults("MalariaDiagnostic", schema_path)
-        intervention.Measurement_Sensitivity = Measurement_Sensitivity
-        intervention.Detection_Threshold = Detection_Threshold
-        intervention.Diagnostic_Type = Diagnostic_Type
-
-    return intervention
-
-
-def AntimalarialDrug(camp, Drug_Type, ctc=1.0):
-    """
-    Add an antimalarial drug intervention to your campaign. This is equivalent to
-    :doc:`emod-malaria:parameter-campaign-individual-antimalarialdrug`.
-
-    Args:
-        camp: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added. 
-        Drug_Type: The name of the drug to distribute in a drugs intervention.
-            Possible values are contained in **Malaria_Drug_Params**. 
-        ctc: The cost to consumer.
-
-    Returns:
-      The antimalarial drug intervention event.
-    """
-    global schema_path
-    schema_path = camp.schema_path if camp is not None else schema_path
-    intervention = s2c.get_class_with_defaults("AntimalarialDrug", schema_path)
-    intervention.Drug_Type = Drug_Type
-    intervention.Cost_To_Consumer = ctc
-    return intervention
-
-
-def malaria_diagnostic(
+def _malaria_diagnostic(
         campaign,
         diagnostic_type: str = "BLOOD_SMEAR_PARASITES",
         measurement_sensitivity: float = 0,
         detection_threshold: float = 0):
     """
-    Add a malaria diagnostic intervention to your campaign. This is equivalent
-    to :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
+        Configures individual-targeted MalariaDiagnostic intervention
 
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
@@ -104,12 +27,11 @@ def malaria_diagnostic(
             :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
 
     Returns:
-      The diagnostic intervention event.
+      Configured individual-targeted MalariaDiagnostic intervention
     """
     # Shares lots of code with Standard. Not obvious if code minimization maximizes readability.
     import emod_api.interventions.common as emodapi_com
-    global schema_path
-    schema_path = campaign.schema_path if campaign else schema_path
+    schema_path = campaign.schema_path
     # First, get the objects
 
     if diagnostic_type == "TRUE_INFECTION_STATUS":
@@ -137,10 +59,9 @@ def add_triggered_campaign_delay_event(campaign,
                                        repetitions: int = 1,
                                        timesteps_between_repetitions: int = 365,
                                        ind_property_restrictions: list = None,
-                                       node_property_restrictions: list = None,
                                        disqualifying_properties: list = None,
-                                       target_age_min: int = 0,
-                                       target_age_max: int = 125,
+                                       target_age_min: float = 0,
+                                       target_age_max: float = 125,
                                        target_gender: str = "All",
                                        blackout_event_trigger: str = None,
                                        blackout_period: float = 0,
@@ -168,9 +89,6 @@ def add_triggered_campaign_delay_event(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
-            this triggered intervention to be aborted earlier than listening_duration time.
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -198,7 +116,6 @@ def add_triggered_campaign_delay_event(campaign,
                                           Intervention_List=individual_intervention if isinstance(
                                               individual_intervention, list) else [individual_intervention],
                                           Node_Ids=node_ids,
-                                          Node_Property_Restrictions=node_property_restrictions,
                                           Timesteps_Between_Repetitions=timesteps_between_repetitions,
                                           Number_Repetitions=repetitions,
                                           Target_Gender=target_gender,
@@ -213,13 +130,13 @@ def add_triggered_campaign_delay_event(campaign,
                                           Blackout_On_First_Occurrence=blackout_on_first_occurrence
                                           )
     triggered_event = event.Event_Coordinator_Config.Intervention_Config
-    triggered_event.Node_Property_Restrictions = node_property_restrictions
     individual_restrictions = utils._convert_prs(ind_property_restrictions)
     if len(individual_restrictions) > 0 and type(individual_restrictions[0]) is dict:
         triggered_event["Property_Restrictions_Within_Node"] = individual_restrictions
     else:
         triggered_event.Property_Restrictions = individual_restrictions
     campaign.add(event)
+
 
 def add_campaign_event(campaign,
                        start_day: int = 1,
@@ -229,9 +146,8 @@ def add_campaign_event(campaign,
                        repetitions: int = 1,
                        timesteps_between_repetitions: int = 365,
                        ind_property_restrictions: list = None,
-                       node_property_restrictions: list = None,
-                       target_age_min: int = 0,
-                       target_age_max: int = 125,
+                       target_age_min: float = 0,
+                       target_age_max: float = 125,
                        target_gender: str = "All",
                        individual_intervention: any = None,
                        node_intervention: any = None):
@@ -254,8 +170,6 @@ def add_campaign_event(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -287,7 +201,6 @@ def add_campaign_event(campaign,
                                                   individual_intervention,
                                                   list) else [
                                                   individual_intervention])
-        event.Event_Coordinator_Config.Node_Property_Restrictions = node_property_restrictions
         event.Event_Coordinator_Config.Target_Num_Individuals = target_num_individuals
         campaign.add(event)
     else:
@@ -311,7 +224,6 @@ def add_campaign_event(campaign,
             coordinator.Demographic_Coverage = demographic_coverage
         coordinator.Number_Repetitions = repetitions
         coordinator.Timesteps_Between_Repetitions = timesteps_between_repetitions
-        coordinator.Node_Property_Restrictions = node_property_restrictions if node_property_restrictions else []
         coordinator.Property_Restrictions_Within_Node = ind_property_restrictions if ind_property_restrictions else []
         coordinator.Property_Restrictions = []  # not using; Property_Restrictions_Within_Node are more flexible
 

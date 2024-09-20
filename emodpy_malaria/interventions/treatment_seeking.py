@@ -1,10 +1,9 @@
 from emod_api.interventions.common import *
-import emod_api.interventions.utils as utils
-from emodpy_malaria.interventions.common import AntimalarialDrug
+from emodpy_malaria.interventions.drug import _antimalarial_drug
 
 
 def _get_events(
-        camp,
+        campaign,
         start_day: int = 1,
         targets: list = None,
         drug: list = None,
@@ -13,7 +12,7 @@ def _get_events(
         drug_ineligibility_duration: float = 0,
         duration: int = -1,
         broadcast_event_name: str = 'ReceivedTreatment'):
-    if drug is None:
+    if not drug:
         drug = ['Artemether', 'Lumefantrine']
 
     if not targets:
@@ -21,15 +20,13 @@ def _get_events(
             {'trigger': 'NewClinicalCase', 'coverage': 0.1, 'agemin': 15, 'agemax': 70, 'seek': 0.4, 'rate': 0.3},
             {'trigger': 'NewSevereCase', 'coverage': 0.8, 'seek': 0.6, 'rate': 0.5}]
 
-    drugs = [AntimalarialDrug(camp, Drug_Type=d) for d in drug]
-    drugs.append(BroadcastEvent(camp, Event_Trigger=broadcast_event_name))
-    drug_config = MultiInterventionDistributor(camp, Intervention_List=drugs)
+    drugs = [_antimalarial_drug(campaign, drug_type=d) for d in drug]
+    drugs.append(BroadcastEvent(campaign, Event_Trigger=broadcast_event_name))
+    drug_config = MultiInterventionDistributor(campaign, Intervention_List=drugs)
 
     expire_recent_drug = None
-
-    # cannot be used due to https://github.com/InstituteforDiseaseModeling/emod-api/issues/329
     if drug_ineligibility_duration > 0:
-        expire_recent_drug = PropertyValueChanger(camp,
+        expire_recent_drug = PropertyValueChanger(campaign,
                                                   Target_Property_Key="DrugStatus",
                                                   Target_Property_Value="RecentDrug",
                                                   Revert=drug_ineligibility_duration)
@@ -39,7 +36,7 @@ def _get_events(
     for t in targets:
         if t['rate'] > 0:
             actual_config = DelayedIntervention(
-                camp,
+                campaign,
                 Delay_Dict={"Delay_Period_Exponential": 1.0 / t['rate']},
                 Configs=drugs)
         else:
@@ -52,7 +49,7 @@ def _get_events(
             target_age_max = t['agemax']
 
         health_seeking_event = TriggeredCampaignEvent(
-            camp,
+            campaign,
             Event_Name="Treatment_Seeking_Behaviour",
             Start_Day=start_day,
             Node_Ids=node_ids,
@@ -69,7 +66,7 @@ def _get_events(
     return ret_events
 
 
-def add_treatment_seeking(camp,
+def add_treatment_seeking(campaign,
                           start_day: int = 1,
                           targets: list = None,
                           drug: list = None,
@@ -84,7 +81,7 @@ def add_treatment_seeking(camp,
     to targeted individuals within the node.
         
     Args:
-        camp: object for building, modifying, and writing campaign configuration files.
+        campaign: object for building, modifying, and writing campaign configuration files.
         start_day: Start day of intervention.
         targets: List of dictionaries defining the trigger event and coverage for and 
         properties of individuals to target with the intervention. Default is
@@ -119,9 +116,9 @@ def add_treatment_seeking(camp,
     
     """
 
-    camp_events = _get_events(camp=camp, start_day=start_day, targets=targets, drug=drug, node_ids=node_ids,
+    camp_events = _get_events(campaign=campaign, start_day=start_day, targets=targets, drug=drug, node_ids=node_ids,
                               ind_property_restrictions=ind_property_restrictions,
                               drug_ineligibility_duration=drug_ineligibility_duration, duration=duration,
                               broadcast_event_name=broadcast_event_name)
     for event in camp_events:
-        camp.add(event)
+        campaign.add(event)

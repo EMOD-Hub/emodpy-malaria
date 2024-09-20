@@ -15,6 +15,8 @@ from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_us
     add_triggered_usage_dependent_bednet
 from emodpy_malaria.interventions import drug_campaign
 from emodpy_malaria.interventions import diag_survey
+from emodpy_malaria.interventions.drug import _antimalarial_drug, add_scheduled_antimalarial_drug
+from emodpy_malaria.interventions.common import _malaria_diagnostic, add_campaign_event, add_triggered_campaign_delay_event
 from emodpy_malaria.interventions.common import *
 from emodpy_malaria.interventions.mosquitorelease import add_scheduled_mosquito_release
 from emodpy_malaria.interventions.inputeir import add_scheduled_input_eir
@@ -118,7 +120,6 @@ class TestMalariaInterventions(unittest.TestCase):
                          target_num_individuals=None,
                          node_ids=None,
                          ind_property_restrictions=None,
-                         node_property_restrictions=None,
                          killing_initial_effect=1.0,
                          killing_duration_box=0,
                          killing_decay_time_constant=0.0,
@@ -132,7 +133,6 @@ class TestMalariaInterventions(unittest.TestCase):
                                  target_num_individuals=target_num_individuals,
                                  node_ids=node_ids,
                                  ind_property_restrictions=ind_property_restrictions,
-                                 node_property_restrictions=node_property_restrictions,
                                  killing_initial_effect=killing_initial_effect,
                                  killing_box_duration=killing_duration_box,
                                  killing_decay_time_constant=killing_decay_time_constant,
@@ -242,7 +242,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(triggered_intervention['Duration'], duration)
         self.assertEqual(triggered_intervention['Trigger_Condition_List'], triggers)
         self.assertEqual(triggered_intervention['Property_Restrictions'], ind_prop)
-        self.assertEqual(triggered_intervention['Node_Property_Restrictions'], [])
         delayed_intervention = triggered_intervention["Actual_IndividualIntervention_Config"]
         self.assertEqual(delayed_intervention['Delay_Period_Constant'], delay)
         self.assertEqual(delayed_intervention['Delay_Period_Distribution'], "CONSTANT_DISTRIBUTION")
@@ -266,7 +265,7 @@ class TestMalariaInterventions(unittest.TestCase):
         # self.test_drug_campaign(campaign_type)
         drug_codes = ["AL"]
         for drug_code in drug_codes:
-            drug_campaign.add_drug_campaign(camp=camp, campaign_type=campaign_type,
+            drug_campaign.add_drug_campaign(campaign=camp, campaign_type=campaign_type,
                                             drug_code=drug_code, repetitions=3, tsteps_btwn_repetitions=100,
                                             coverage=coverage)
         # camp.save("campaign_mda.json") # can be used for debugging, writes out a file
@@ -278,7 +277,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(
             camp.campaign_dict['Events'][0]['Event_Coordinator_Config']['Intervention_Config']['Intervention_List'][0][
                 'Intervention_Name'],
-            "AntimalarialDrug")
+            "AntimalarialDrug_Artemether")
 
     def test_drug_campaign_MSAT(self):
         camp.campaign_dict["Events"] = []
@@ -286,8 +285,9 @@ class TestMalariaInterventions(unittest.TestCase):
         # self.test_drug_campaign(campaign_type)
         coverage = 0.89
         drug_codes = ["AL"]
+
         for drug_code in drug_codes:
-            drug_campaign.add_drug_campaign(camp=camp, campaign_type=campaign_type,
+            drug_campaign.add_drug_campaign(campaign=camp, campaign_type=campaign_type,
                                             drug_code=drug_code, repetitions=3, tsteps_btwn_repetitions=100,
                                             coverage=coverage)
 
@@ -302,7 +302,7 @@ class TestMalariaInterventions(unittest.TestCase):
                 'Intervention_Name'] == "NodeLevelHealthTriggeredIV":
                 self.assertEqual(
                     event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
-                        'Intervention_Name'], "AntimalarialDrug")
+                        'Intervention_Name'], "AntimalarialDrug_Artemether")
             else:
                 self.assertTrue(False, "Unexpected intervention in campaign.")
 
@@ -312,7 +312,7 @@ class TestMalariaInterventions(unittest.TestCase):
         coverage = 0.89
         drug_codes = ["AL"]
         for drug_code in drug_codes:
-            drug_campaign.add_drug_campaign(camp=camp, campaign_type=campaign_type,
+            drug_campaign.add_drug_campaign(campaign=camp, campaign_type=campaign_type,
                                             drug_code=drug_code,
                                             coverage=coverage)
 
@@ -327,7 +327,7 @@ class TestMalariaInterventions(unittest.TestCase):
                     event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
                         'Intervention_List']), 2)
             elif event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
-                'Intervention_Name'] == "AntimalarialDrug":
+                'Intervention_Name'] == "AntimalarialDrug_Artemether":
                 self.assertEqual(len(
                     event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
                         'Intervention_List']), 3)
@@ -340,7 +340,7 @@ class TestMalariaInterventions(unittest.TestCase):
         coverage = 0.89
         drug_codes = ["AL"]
         for drug_code in drug_codes:
-            drug_campaign.add_drug_campaign(camp=camp, campaign_type=campaign_type,
+            drug_campaign.add_drug_campaign(campaign=camp, campaign_type=campaign_type,
                                             drug_code=drug_code, fmda_radius=6,
                                             coverage=coverage)
 
@@ -356,7 +356,7 @@ class TestMalariaInterventions(unittest.TestCase):
                     event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
                         'Actual_IndividualIntervention_Configs'][0]['Max_Distance_To_Other_Nodes_Km'], 6)
             elif event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
-                'Intervention_Name'] == "AntimalarialDrug":
+                'Intervention_Name'] == "AntimalarialDrug_Artemether":
                 self.assertEqual(len(
                     event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
                         'Intervention_List']), 3)
@@ -369,7 +369,7 @@ class TestMalariaInterventions(unittest.TestCase):
         coverage = 0.89
         drug_codes = ["AL"]
         for drug_code in drug_codes:
-            drug_campaign.add_drug_campaign(camp=camp, campaign_type=campaign_type,
+            drug_campaign.add_drug_campaign(campaign=camp, campaign_type=campaign_type,
                                             drug_code=drug_code, fmda_radius=6,
                                             coverage=coverage)
 
@@ -385,7 +385,7 @@ class TestMalariaInterventions(unittest.TestCase):
                     event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
                         'Actual_IndividualIntervention_Configs'][0]['Max_Distance_To_Other_Nodes_Km'], 6)
             elif event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
-                'Intervention_Name'] == "AntimalarialDrug":
+                'Intervention_Name'] == "AntimalarialDrug_Artemether":
                 self.assertEqual(len(
                     event['Event_Coordinator_Config']['Intervention_Config']['Actual_IndividualIntervention_Config'][
                         'Intervention_List']), 3)
@@ -448,7 +448,6 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 3
         timesteps_between_repetitions = 700
         ind_property_restrictions = [{"Book": "Smart", "Hi": "There"}, {"Mellow": "Yellow"}]
-        node_property_restrictions = ["Urban:No"]
         receiving_itn_broadcast_event = "GotMeANet"
         blocking_initial_effect = 0.11
         blocking_box_duration = 12
@@ -474,7 +473,6 @@ class TestMalariaInterventions(unittest.TestCase):
                           repetitions=repetitions,
                           timesteps_between_repetitions=timesteps_between_repetitions,
                           ind_property_restrictions=ind_property_restrictions,
-                          node_property_restrictions=node_property_restrictions,
                           receiving_itn_broadcast_event=receiving_itn_broadcast_event,
                           blocking_initial_effect=blocking_initial_effect,
                           blocking_box_duration=blocking_box_duration,
@@ -523,7 +521,6 @@ class TestMalariaInterventions(unittest.TestCase):
             self.assertEqual(self.event_coordinator['Number_Repetitions'], repetitions)
             self.assertEqual(self.event_coordinator['Property_Restrictions_Within_Node'], ind_property_restrictions)
             self.assertEqual(self.event_coordinator['Timesteps_Between_Repetitions'], timesteps_between_repetitions)
-            self.assertEqual(self.event_coordinator['Node_Property_Restrictions'], node_property_restrictions)
             self.assertEqual(self.intervention_config['Intervention_Name'], intervention_name)
             self.assertEqual(self.intervention_config['Insecticide_Name'], insecticide)
             self.assertEqual(self.intervention_config['Cost_To_Consumer'], cost)
@@ -548,7 +545,6 @@ class TestMalariaInterventions(unittest.TestCase):
         node_ids = [3, 45, 3453453]
         repetitions = 3
         timesteps_between_repetitions = 700
-        node_property_restrictions = [{"Urban": "No"}]
         receiving_itn_broadcast_event = "GotMeANet"
         blocking_initial_effect = 0.11
         blocking_box_duration = 12
@@ -575,7 +571,6 @@ class TestMalariaInterventions(unittest.TestCase):
                           node_ids=node_ids,
                           repetitions=repetitions,
                           timesteps_between_repetitions=timesteps_between_repetitions,
-                          node_property_restrictions=node_property_restrictions,
                           receiving_itn_broadcast_event=receiving_itn_broadcast_event,
                           blocking_initial_effect=blocking_initial_effect,
                           blocking_box_duration=blocking_box_duration,
@@ -622,7 +617,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
         self.assertEqual(self.event_coordinator['Number_Repetitions'], repetitions)
         self.assertEqual(self.event_coordinator['Timesteps_Between_Repetitions'], timesteps_between_repetitions)
-        # self.assertEqual(self.event_coordinator['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(self.intervention_config['Intervention_Name'], intervention_name)
         self.assertEqual(self.intervention_config['Insecticide_Name'], insecticide)
         self.assertEqual(self.intervention_config['Cost_To_Consumer'], cost)
@@ -684,7 +678,6 @@ class TestMalariaInterventions(unittest.TestCase):
         target_num_individuals = None
         node_ids = None
         ind_property_restrictions = []
-        node_property_restrictions = []
         intervention_name = "UsageDependentBednet"
         expiration_period = 10 * 365
         discard_config = {"Expiration_Period_Exponential": expiration_period}
@@ -738,7 +731,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
         self.assertEqual(self.event_coordinator['Individual_Selection_Type'], "DEMOGRAPHIC_COVERAGE")
         self.assertEqual(self.event_coordinator['Demographic_Coverage'], demographic_coverage)
-        self.assertEqual(self.event_coordinator['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(self.event_coordinator['Property_Restrictions'], ind_property_restrictions)
         self.assertEqual(self.intervention_config['Discard_Event'], 'Bednet_Discarded')
         self.assertEqual(self.intervention_config['Using_Event'], 'Bednet_Using')
@@ -777,7 +769,6 @@ class TestMalariaInterventions(unittest.TestCase):
         delay = 0
         triggers = ["HappyBirthday"]
         ind_property_restrictions = []
-        node_property_restrictions = []
         intervention_name = "UsageDependentBednet"
         expiration_period = 10 * 365
         discard_config = {"Expiration_Period_Exponential": expiration_period}
@@ -830,7 +821,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.start_day, start_day)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
         self.assertEqual(node_level_triggered_intervention['Demographic_Coverage'], demographic_coverage)
-        self.assertEqual(node_level_triggered_intervention['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(node_level_triggered_intervention['Property_Restrictions'], ind_property_restrictions)
         self.assertEqual(node_level_triggered_intervention['Trigger_Condition_List'], triggers)
         self.assertEqual(node_level_triggered_intervention['Duration'], duration)
@@ -879,16 +869,6 @@ class TestMalariaInterventions(unittest.TestCase):
                 "Risk": "LOW"
             }
         ]
-        node_property_restrictions = [
-            {
-                "Place": "URBAN",
-                "Risk": "MED"
-            },
-            {
-                "Place": "RURAL",
-                "Risk": "LOW"
-            }
-        ]
         intervention_name = "TestingName"
         gaussian = "GAUSSIAN_DISTRIBUTION"
         g_mean = 22
@@ -921,7 +901,6 @@ class TestMalariaInterventions(unittest.TestCase):
                                              target_num_individuals=target_num_individuals,
                                              node_ids=node_ids,
                                              ind_property_restrictions=ind_property_restrictions,
-                                             node_property_restrictions=node_property_restrictions,
                                              intervention_name=intervention_name,
                                              discard_config=discard_config,
                                              insecticide=insecticide,
@@ -949,7 +928,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.event_coordinator['Individual_Selection_Type'], "TARGET_NUM_INDIVIDUALS")
         self.assertEqual(self.event_coordinator['Demographic_Coverage'], demographic_coverage)
         self.assertEqual(self.event_coordinator['Target_Num_Individuals'], target_num_individuals)
-        self.assertEqual(self.event_coordinator['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(self.event_coordinator['Property_Restrictions_Within_Node'], ind_property_restrictions)
         self.assertEqual(self.intervention_config['Discard_Event'], 'Bednet_Discarded')
         self.assertEqual(self.intervention_config['Using_Event'], 'Bednet_Using')
@@ -1027,16 +1005,6 @@ class TestMalariaInterventions(unittest.TestCase):
                 "Risk": "LOW"
             }
         ]
-        node_property_restrictions = [
-            {
-                "Place": "URBAN",
-                "Risk": "MED"
-            },
-            {
-                "Place": "RURAL",
-                "Risk": "LOW"
-            }
-        ]
         intervention_name = "TestingName"
         gaussian = "GAUSSIAN_DISTRIBUTION"
         g_mean = 22
@@ -1071,7 +1039,6 @@ class TestMalariaInterventions(unittest.TestCase):
                                              demographic_coverage=demographic_coverage,
                                              node_ids=node_ids,
                                              ind_property_restrictions=ind_property_restrictions,
-                                             node_property_restrictions=node_property_restrictions,
                                              intervention_name=intervention_name,
                                              discard_config=discard_config,
                                              insecticide=insecticide,
@@ -1100,7 +1067,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
         self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
         self.assertEqual(node_level_triggered_intervention['Demographic_Coverage'], demographic_coverage)
-        self.assertEqual(node_level_triggered_intervention['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(node_level_triggered_intervention['Property_Restrictions_Within_Node'],
                          ind_property_restrictions)
         self.assertEqual(node_level_triggered_intervention['Trigger_Condition_List'], triggers)
@@ -1170,7 +1136,6 @@ class TestMalariaInterventions(unittest.TestCase):
         start_day = 1
         demographic_coverage = 1
         ind_property_restrictions = []
-        node_property_restrictions = []
         intervention_name = "UsageDependentBednet"
         expiration_period = 10 * 365
         discard_config = {"Expiration_Period_Exponential": expiration_period}
@@ -1215,7 +1180,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
         self.assertEqual(self.event_coordinator['Individual_Selection_Type'], "DEMOGRAPHIC_COVERAGE")
         self.assertEqual(self.event_coordinator['Demographic_Coverage'], demographic_coverage)
-        self.assertEqual(self.event_coordinator['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(self.event_coordinator['Property_Restrictions'], ind_property_restrictions)
         self.assertEqual(self.intervention_config['Discard_Event'], 'Bednet_Discarded')
         self.assertEqual(self.intervention_config['Using_Event'], 'Bednet_Using')
@@ -1274,7 +1238,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(event_config['Timesteps_Between_Repetitions'], tsteps_btwn_repetitions)
         self.assertEqual(event_config['Number_Repetitions'], repetitions)
         self.assertEqual(event_config['Target_Demographic'], target)
-        self.assertEqual(event_config['Node_Property_Restrictions'], [])
         self.assertEqual(event_config['Property_Restrictions'], [])
         intervention_config = event_config['Intervention_Config']
         self.assertEqual(intervention_config['class'], "MultiInterventionDistributor")
@@ -1314,8 +1277,7 @@ class TestMalariaInterventions(unittest.TestCase):
         positive_diagnosis_configs = None
         negative_diagnosis_configs = None
         received_test_event = 'Received_Test_Test'
-        IP_restrictions = [{"IndividualProperty1": "PropertyValue1"}, {"IndividualProperty2": "PropertyValue2"}]
-        NP_restrictions = []
+        ind_property_restrictions = [{"IndividualProperty1": "PropertyValue1"}, {"IndividualProperty2": "PropertyValue2"}]
         disqualifying_properties = [{"IndividualProperty3": "PropertyValue2"}]
         trigger_condition_list = ["NewInfectionEvent"]
         listening_duration = 50
@@ -1331,7 +1293,7 @@ class TestMalariaInterventions(unittest.TestCase):
                                           positive_diagnosis_configs=positive_diagnosis_configs,
                                           negative_diagnosis_configs=negative_diagnosis_configs,
                                           received_test_event=received_test_event,
-                                          IP_restrictions=IP_restrictions, NP_restrictions=NP_restrictions,
+                                          ind_property_restrictions=ind_property_restrictions,
                                           disqualifying_properties=disqualifying_properties,
                                           trigger_condition_list=trigger_condition_list,
                                           listening_duration=listening_duration,
@@ -1349,9 +1311,8 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(campaign_event['Nodeset_Config']['Node_List'], node_ids)
         event_config = campaign_event['Event_Coordinator_Config']
         self.assertEqual(event_config['Individual_Selection_Type'], "DEMOGRAPHIC_COVERAGE")
-        self.assertEqual(event_config['Node_Property_Restrictions'], NP_restrictions)
         intervention_config = event_config['Intervention_Config']
-        self.assertEqual(intervention_config['Property_Restrictions_Within_Node'], IP_restrictions)
+        #self.assertEqual(intervention_config['Property_Restrictions_Within_Node'], ind_property_restrictions)
         self.assertEqual(intervention_config['Demographic_Coverage'], coverage)
         self.assertEqual(intervention_config['Duration'], listening_duration)
         self.assertEqual(intervention_config['class'], "NodeLevelHealthTriggeredIV")
@@ -1380,7 +1341,7 @@ class TestMalariaInterventions(unittest.TestCase):
 
     def test_malaria_diagnostic_custom(self):
         self.is_debugging = False
-        malaria_diagnostic = MalariaDiagnostic(camp, "PCR_PARASITES", 0.5, 1)
+        malaria_diagnostic = _malaria_diagnostic(camp, "PCR_PARASITES", 0.5, 1)
         measures = [malaria_diagnostic.Measurement_Sensitivity, malaria_diagnostic.Detection_Threshold]
 
         self.assertEqual(malaria_diagnostic.Detection_Threshold, 1, msg="Detection Threshold not set properly")
@@ -1388,42 +1349,45 @@ class TestMalariaInterventions(unittest.TestCase):
                          msg="Measurement Sensitivity not set properly")
         self.assertEqual("PCR_PARASITES", malaria_diagnostic.Diagnostic_Type)
 
-        antimalarial_drug = AntimalarialDrug(camp, "Malaria")
+        antimalarial_drug = _antimalarial_drug(camp, "Malaria")
         self.assertEqual(antimalarial_drug.Drug_Type, "Malaria")
-        self.assertEqual(antimalarial_drug.Cost_To_Consumer, 1.0)
+        self.assertEqual(antimalarial_drug.Cost_To_Consumer, 0)
+        self.assertEqual(antimalarial_drug.Intervention_Name, "AntimalarialDrug_Malaria")
+
 
     def test_malaria_diagnostic_default(self):
         self.is_debugging = False
-        malaria_diagnostic = MalariaDiagnostic(camp)
+        malaria_diagnostic = _malaria_diagnostic(camp)
         measures = [0.5, malaria_diagnostic.Detection_Threshold]
 
         self.assertFalse(any(item == 1 for item in measures), msg="Not all values are 0 when set to 0")
         self.assertEqual("BLOOD_SMEAR_PARASITES", malaria_diagnostic.Diagnostic_Type)
 
-        antimalarial_drug = AntimalarialDrug(camp, "Malaria")
+        antimalarial_drug = _antimalarial_drug(camp, "Malaria")
         self.assertEqual(antimalarial_drug.Drug_Type, "Malaria")
-        self.assertEqual(antimalarial_drug.Cost_To_Consumer, 1.0)
+        self.assertEqual(antimalarial_drug.Cost_To_Consumer, 0)
+        self.assertEqual(antimalarial_drug.Intervention_Name, "AntimalarialDrug_Malaria")
 
     def test_malaria_diagnostic_error(self):
         with self.assertRaises(ValueError) as context:
-            diag = MalariaDiagnostic(camp, "BANANA")
+            diag = _malaria_diagnostic(camp, "BANANA")
 
         with self.assertRaises(ValueError) as context:
-            MalariaDiagnostic(camp, "BLOOD_SMEAR_PARASITES", -1, 0)
+            _malaria_diagnostic(camp, "BLOOD_SMEAR_PARASITES", -1, 0)
 
         with self.assertRaises(ValueError) as context:
-            MalariaDiagnostic(camp, "BLOOD_SMEAR_PARASITES", 0, -1)
+            _malaria_diagnostic(camp, "BLOOD_SMEAR_PARASITES", 0, -1)
 
     def test_malaria_diagnostic_infection(self):
         self.is_debugging = False
-        malaria_diagnostic = MalariaDiagnostic(camp, "TRUE_INFECTION_STATUS")
+        malaria_diagnostic = _malaria_diagnostic(camp, "TRUE_INFECTION_STATUS")
 
         self.assertEqual("StandardDiagnostic", malaria_diagnostic.Intervention_Name)
 
         with self.assertRaises(ValueError) as context:
-            MalariaDiagnostic(camp, "TRUE_INFECTION_STATUS", -1, 0)
+            _malaria_diagnostic(camp, "TRUE_INFECTION_STATUS", -1, 0)
         with self.assertRaises(ValueError) as context:
-            MalariaDiagnostic(camp, "TRUE_INFECTION_STATUS", 0, -1)
+            _malaria_diagnostic(camp, "TRUE_INFECTION_STATUS", 0, -1)
 
 
 
@@ -1476,7 +1440,6 @@ class TestMalariaInterventions(unittest.TestCase):
         start_day = 0
         repetitions = 1
         timesteps_between_repetitions = 365
-        node_property_restrictions = []
         intervention_name = "MosquitoRelease"
         released_number = 203847
         released_fraction = None
@@ -1495,7 +1458,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
-        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
         pass
 
@@ -1504,7 +1466,6 @@ class TestMalariaInterventions(unittest.TestCase):
         start_day = 2098
         repetitions = 978
         timesteps_between_repetitions = 41
-        node_property_restrictions = [{"Trees": "Palms"}]
         intervention_name = "MosquitoReleaseTesting"
         released_fraction = 0.88
         released_infectious = 0.33
@@ -1513,7 +1474,6 @@ class TestMalariaInterventions(unittest.TestCase):
         node_ids = [234, 4356, 54]
         add_scheduled_mosquito_release(campaign=camp, start_day=start_day, repetitions=repetitions,
                                        timesteps_between_repetitions=timesteps_between_repetitions,
-                                       node_property_restrictions=node_property_restrictions,
                                        node_ids=node_ids,
                                        intervention_name=intervention_name,
                                        released_fraction=released_fraction,
@@ -1531,7 +1491,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
-        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
         self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
         pass
@@ -1777,7 +1736,6 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 5
         timesteps_between_repetitions = 30
         ind_property_restrictions = [{"Risk": "High", "Location": "Rural"}, {"Risk": "Medium", "Location": "Urban"}]
-        node_property_restrictions = ["Planet:Mars"]
         target_age_min = 3
         target_age_max = 35
         target_gender = "Female"
@@ -1786,7 +1744,7 @@ class TestMalariaInterventions(unittest.TestCase):
         vaccine_take = 0.95
         vaccine_initial_effect = 0.98
         vaccine_box_duration = 2000
-        vaccine_exponential_decay_rate = 0
+        vaccine_decay_time_constant = 135
         efficacy_is_multiplicative = False
 
         add_scheduled_vaccine(camp,
@@ -1796,7 +1754,6 @@ class TestMalariaInterventions(unittest.TestCase):
                               repetitions=repetitions,
                               timesteps_between_repetitions=timesteps_between_repetitions,
                               ind_property_restrictions=ind_property_restrictions,
-                              node_property_restrictions=node_property_restrictions,
                               target_age_min=target_age_min,
                               target_age_max=target_age_max,
                               target_gender=target_gender,
@@ -1805,7 +1762,7 @@ class TestMalariaInterventions(unittest.TestCase):
                               vaccine_take=vaccine_take,
                               vaccine_initial_effect=vaccine_initial_effect,
                               vaccine_box_duration=vaccine_box_duration,
-                              vaccine_exponential_decay_rate=vaccine_exponential_decay_rate,
+                              vaccine_decay_time_constant=vaccine_decay_time_constant,
                               efficacy_is_multiplicative=efficacy_is_multiplicative)
 
         self.assertEqual(len(camp.campaign_dict['Events']), 1)
@@ -1821,7 +1778,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(coordinator_config['Target_Gender'], target_gender)
         self.assertEqual(coordinator_config['Target_Demographic'], "ExplicitAgeRangesAndGender")
         self.assertEqual(coordinator_config['Property_Restrictions_Within_Node'], ind_property_restrictions)
-        self.assertEqual(coordinator_config['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(coordinator_config['Number_Repetitions'], repetitions)
         self.assertEqual(coordinator_config['Timesteps_Between_Repetitions'], timesteps_between_repetitions)
         self.assertEqual(len(coordinator_config['Intervention_Config']['Intervention_List']), 2)
@@ -1859,7 +1815,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(campaign_event['Target_Gender'], "All")
         self.assertEqual(campaign_event['Target_Demographic'], "ExplicitAgeRanges") # should be everyone, but there's a bug in emod_api.intervnetions.common
         self.assertEqual(campaign_event['Property_Restrictions'], [])
-        self.assertEqual(campaign_event['Node_Property_Restrictions'], [])
         self.assertEqual(campaign_event['Number_Repetitions'], 1)
         self.assertEqual(campaign_event['Timesteps_Between_Repetitions'], 365)
         intervention_0 = campaign_event['Intervention_Config']
@@ -1884,7 +1839,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(campaign_event['Target_Gender'], "All")
         self.assertEqual(campaign_event['Intervention_Config']['Target_Demographic'], "ExplicitAgeRanges") # should be everyone, but there's a bug in emod_api.intervnetions.common
         self.assertEqual(campaign_event['Intervention_Config']['Property_Restrictions'], [])
-        self.assertEqual(campaign_event['Intervention_Config']['Node_Property_Restrictions'], [])
         self.assertEqual(campaign_event['Number_Repetitions'], 1)
         self.assertEqual(campaign_event['Timesteps_Between_Repetitions'], 365)
         intervention_0 = campaign_event['Intervention_Config']['Actual_IndividualIntervention_Config']["Actual_IndividualIntervention_Configs"][0]
@@ -1907,7 +1861,6 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 5
         timesteps_between_repetitions = 30
         ind_property_restrictions = [{"Risk": "High", "Location": "Rural"}, {"Risk": "Medium", "Location": "Urban"}]
-        node_property_restrictions = [{"Planet": "Mars"}]
         target_age_min = 3
         target_age_max = 35
         target_gender = "Female"
@@ -1916,7 +1869,7 @@ class TestMalariaInterventions(unittest.TestCase):
         vaccine_take = 0.95
         vaccine_initial_effect = 0.98
         vaccine_box_duration = 2000
-        vaccine_exponential_decay_rate = 0
+        vaccine_decay_time_constant = 549
         efficacy_is_multiplicative = False
 
         add_triggered_vaccine(camp,
@@ -1929,7 +1882,6 @@ class TestMalariaInterventions(unittest.TestCase):
                               repetitions=repetitions,
                               timesteps_between_repetitions=timesteps_between_repetitions,
                               ind_property_restrictions=ind_property_restrictions,
-                              node_property_restrictions=node_property_restrictions,
                               target_age_min=target_age_min,
                               target_age_max=target_age_max,
                               target_gender=target_gender,
@@ -1938,7 +1890,7 @@ class TestMalariaInterventions(unittest.TestCase):
                               vaccine_take=vaccine_take,
                               vaccine_initial_effect=vaccine_initial_effect,
                               vaccine_box_duration=vaccine_box_duration,
-                              vaccine_exponential_decay_rate=vaccine_exponential_decay_rate,
+                              vaccine_decay_time_constant=vaccine_decay_time_constant,
                               efficacy_is_multiplicative=efficacy_is_multiplicative)
 
         self.assertEqual(len(camp.campaign_dict['Events']), 1)
@@ -1952,7 +1904,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(triggered_config['Target_Gender'], target_gender)
         self.assertEqual(triggered_config['Target_Demographic'], "ExplicitAgeRangesAndGender")
         self.assertEqual(triggered_config['Property_Restrictions_Within_Node'], ind_property_restrictions)
-        self.assertEqual(triggered_config['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(triggered_config['Trigger_Condition_List'], triggers)
         self.assertEqual(triggered_config['Duration'], duration)
         self.assertEqual(triggered_config['Actual_IndividualIntervention_Config']["Delay_Period_Constant"], delay)
@@ -2126,11 +2077,9 @@ class TestMalariaInterventions(unittest.TestCase):
         timesteps_between_repetitions = 32
         node_ids = [2, 3, 6]
         cost = 22
-        node_property_restrictions = [{"Risk": "High", "Location": "Rural"}, {"Risk": "Medium", "Location": "Urban"}]
         add_scheduled_space_spraying(campaign=camp, start_day=start_day,
                                      node_ids=node_ids, repetitions=repetitions,
                                      timesteps_between_repetitions=timesteps_between_repetitions,
-                                     node_property_restrictions=node_property_restrictions,
                                      spray_coverage=spray_coverage,
                                      insecticide=insecticide,
                                      intervention_name=intervention_name,
@@ -2141,7 +2090,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.event_coordinator.Number_Repetitions, repetitions)
-        self.assertEqual(self.event_coordinator.Node_Property_Restrictions, node_property_restrictions)
         self.assertEqual(self.event_coordinator.Timesteps_Between_Repetitions, timesteps_between_repetitions)
         self.assertEqual(self.intervention_config.Spray_Coverage, spray_coverage)
         self.assertEqual(self.start_day, start_day)
@@ -2161,7 +2109,6 @@ class TestMalariaInterventions(unittest.TestCase):
         start_day = 0
         repetitions = 1
         timesteps_between_repetitions = 365
-        node_property_restrictions = []
         cost_to_consumer = 0
         expiration_constant = 30
         insecticide = ""
@@ -2178,7 +2125,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
-        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
         self.assertEqual(self.killing_config[WaningParams.Initial], killing_initial_effect)
         self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.Constant)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
@@ -2190,7 +2136,6 @@ class TestMalariaInterventions(unittest.TestCase):
         node_ids = [234, 11, 42]
         repetitions = 8
         timesteps_between_repetitions = 3
-        node_property_restrictions = [{"Place": "Urban"}]
         cost_to_consumer = 1.15
         expiration_config = {"Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
                              "Expiration_Gaussian_Mean": 20, "Expiration_Gaussian_Std_Dev": 10}
@@ -2203,7 +2148,6 @@ class TestMalariaInterventions(unittest.TestCase):
         add_scheduled_sugar_trap(campaign=camp, start_day=start_day,
                                  node_ids=node_ids, repetitions=repetitions,
                                  timesteps_between_repetitions=timesteps_between_repetitions,
-                                 node_property_restrictions=node_property_restrictions,
                                  cost_to_consumer=cost_to_consumer, expiration_config=expiration_config,
                                  expiration_constant=expiration_constant, insecticide=insecticide,
                                  intervention_name=intervention_name, killing_initial_effect=killing_initial_effect,
@@ -2220,7 +2164,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
         self.assertEqual(self.event_coordinator["Number_Repetitions"], repetitions)
         self.assertEqual(self.event_coordinator["Timesteps_Between_Repetitions"], timesteps_between_repetitions)
-        self.assertEqual(self.event_coordinator["Node_Property_Restrictions"], node_property_restrictions)
         self.assertEqual(self.killing_config[WaningParams.Initial], killing_initial_effect)
         self.assertEqual(self.killing_config[WaningParams.Class], WaningEffects.BoxExp)
         self.assertEqual(self.killing_config[WaningParams.Decay_Time], killing_decay_time_constant)
@@ -2281,7 +2224,6 @@ class TestMalariaInterventions(unittest.TestCase):
         demographic_coverage = 0.63
         node_ids = [4, 6, 33]
         ind_property_restrictions = [{"Risk": "High", "Location": "Rural"}, {"Risk": "Medium", "Location": "Urban"}]
-        node_property_restrictions = ["Planet:Mars"]
         target_age_min = 3
         target_age_max = 35
         target_gender = "Female"
@@ -2289,7 +2231,9 @@ class TestMalariaInterventions(unittest.TestCase):
         amount_in_shipment = 30
         days_between_shipments = 14
         duration = 780
-        intervention_config = AntimalarialDrug(camp, "malaria_drug")
+        drug_type = "malaria_drug"
+        intervention_name = "fancy_new_drug"
+        intervention_config = _antimalarial_drug(camp, drug_type=drug_type, intervention_name=intervention_name)
         max_distributed_per_day = 3
         max_stock = 65
         waiting_period = 2
@@ -2298,7 +2242,6 @@ class TestMalariaInterventions(unittest.TestCase):
                                                             demographic_coverage=demographic_coverage,
                                                             node_ids=node_ids,
                                                             ind_property_restrictions=ind_property_restrictions,
-                                                            node_property_restrictions=node_property_restrictions,
                                                             target_age_min=target_age_min,
                                                             target_age_max=target_age_max,
                                                             target_gender=target_gender,
@@ -2321,7 +2264,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(coordinator_config['Target_Gender'], target_gender)
         self.assertEqual(coordinator_config['Target_Demographic'], "ExplicitAgeRangesAndGender")
         self.assertEqual(coordinator_config['Property_Restrictions_Within_Node'], ind_property_restrictions)
-        self.assertEqual(coordinator_config['Node_Property_Restrictions'], node_property_restrictions)
         self.assertEqual(coordinator_config['Demographic_Coverage'], demographic_coverage)
         self.assertEqual(coordinator_config['class'], "CommunityHealthWorkerEventCoordinator")
         self.assertEqual(coordinator_config['Amount_In_Shipment'], amount_in_shipment)
@@ -2335,6 +2277,8 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(coordinator_config['Initial_Amount_Distribution'], "CONSTANT_DISTRIBUTION")
         intervention_config = coordinator_config['Intervention_Config']
         self.assertEqual(intervention_config['class'], "AntimalarialDrug")
+        self.assertEqual(intervention_config['Intervention_Name'], intervention_name)
+        self.assertEqual(intervention_config['Drug_Type'], drug_type)
 
         pass
 
@@ -2347,7 +2291,8 @@ class TestMalariaInterventions(unittest.TestCase):
         amount_in_shipment = 2147480000
         days_between_shipments = 7
         duration = 3.40282e+38
-        intervention_config = AntimalarialDrug(camp, "malaria_drug")
+        drug_type = "malaria_drug"
+        intervention_config = _antimalarial_drug(camp, drug_type=drug_type)
         max_distributed_per_day = 2147480000
         max_stock = 2147480000
         waiting_period = 0
@@ -2360,7 +2305,6 @@ class TestMalariaInterventions(unittest.TestCase):
         coordinator_config = campaign_event['Event_Coordinator_Config']
         self.assertEqual(coordinator_config['Target_Demographic'], "Everyone")
         self.assertEqual(coordinator_config['Property_Restrictions_Within_Node'], [])
-        self.assertEqual(coordinator_config['Node_Property_Restrictions'], [])
         self.assertEqual(coordinator_config['Demographic_Coverage'], demographic_coverage)
         self.assertEqual(coordinator_config['class'], "CommunityHealthWorkerEventCoordinator")
         self.assertEqual(coordinator_config['Amount_In_Shipment'], amount_in_shipment)
@@ -2374,6 +2318,8 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(coordinator_config['Initial_Amount_Distribution'], "CONSTANT_DISTRIBUTION")
         intervention_config = coordinator_config['Intervention_Config']
         self.assertEqual(intervention_config['class'], "AntimalarialDrug")
+        self.assertEqual(intervention_config['Intervention_Name'], "AntimalarialDrug_malaria_drug")
+        self.assertEqual(intervention_config['Drug_Type'], drug_type)
         pass
 
     def test_scale_larval_habitat(self):
@@ -2385,10 +2331,8 @@ class TestMalariaInterventions(unittest.TestCase):
                            'CONSTANT.funestus': [1, 0, 1, 1, 1],
                            'WATER_VEGETATION': [1, 1, 0, 1, 0]
                            })
-        npr = [{"Test:Testing"}, {"Test:Checking"}]
         add_scale_larval_habitats(camp, df=df,
-                                  start_day=35, repetitions=3, timesteps_between_repetitions=36,
-                                  node_property_restrictions=npr)
+                                  start_day=35, repetitions=3, timesteps_between_repetitions=36)
         self.assertEqual(len(camp.campaign_dict['Events']), 3)
         for campaign_event in camp.campaign_dict['Events']:
             self.assertEqual(campaign_event['Start_Day'], 35)
@@ -2399,7 +2343,6 @@ class TestMalariaInterventions(unittest.TestCase):
             self.assertEqual(event_config['Demographic_Coverage'], 1)
             self.assertEqual(event_config['Individual_Selection_Type'], "DEMOGRAPHIC_COVERAGE")
             self.assertEqual(event_config['Target_Gender'], "All")
-            self.assertEqual(event_config['Node_Property_Restrictions'], npr)
             self.assertEqual(event_config['Intervention_Config']['class'], "ScaleLarvalHabitat")
             if campaign_event['Nodeset_Config']['Node_List'] == [1, 4]:
                 with open('14.json', 'w') as f:
@@ -2447,12 +2390,14 @@ class TestMalariaInterventions(unittest.TestCase):
         non_adherence_options = ['Stop']
         non_adherence_distribution = [1]
         values = [1, 0.6, 0.4, 0.1]
+        custom_intervention_name = "TryingNewDrugs"
         adherent_drug = ad.adherent_drug(camp,
                                          doses=doses,
                                          dose_interval=dose_interval,
                                          non_adherence_options=non_adherence_options,
                                          non_adherence_distribution=non_adherence_distribution,
-                                         adherence_values=values
+                                         adherence_values=values,
+                                         intervention_name=custom_intervention_name
                                          )
         times = [1.0, 2.0, 3.0, 4.0]
         self.assertEqual(adherent_drug["Adherence_Config"]["Durability_Map"]["Times"], times)
@@ -2461,6 +2406,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(adherent_drug["Dose_Interval"], dose_interval)
         self.assertEqual(adherent_drug["Non_Adherence_Distribution"], non_adherence_distribution)
         self.assertEqual(adherent_drug["Non_Adherence_Options"], non_adherence_options)
+        self.assertEqual(adherent_drug["Intervention_Name"], custom_intervention_name)
         pass
 
     def test_adherent_drug_defaults(self):
@@ -2485,6 +2431,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(adherent_drug["Dose_Interval"], default_dose_interval)
         self.assertEqual(adherent_drug["Non_Adherence_Distribution"], default_non_adherence_distribution)
         self.assertEqual(adherent_drug["Non_Adherence_Options"], default_non_adherence_options)
+        self.assertEqual(adherent_drug["Intervention_Name"], "AdherentDrug_Amodiaquine_Pyrimethamine_Sulfadoxine")
         pass
 
 

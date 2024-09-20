@@ -41,7 +41,7 @@ def build_campaign():
 
     # diagnostic survey scheduled for every 7 days, for 10 runs, checks on 89% of population if they have fever
     # sends out a "FEVER" event which can be used as a trigger for another intervention
-    diagnostic_survey.add_diagnostic_survey(camp=campaign, start_day=13, diagnostic_type="FEVER",
+    diagnostic_survey.add_diagnostic_survey(campaign=campaign, start_day=13, diagnostic_type="FEVER",
                                             diagnostic_threshold=37,
                                             repetitions=10, tsteps_btwn_repetitions=7, coverage=0.89, event_name="Test",
                                             positive_diagnosis_configs=[fever_detected],
@@ -50,7 +50,7 @@ def build_campaign():
     # diagnostic survey that is triggered on the person when it is their birthday,
     # it is checking for TRUE_PARASITE_DENSITY with a threshold of 20
     # send out "Ivermectin" event which can be used as a trigger for another intervention
-    diagnostic_survey.add_diagnostic_survey(camp=campaign, start_day=9, diagnostic_type="TRUE_PARASITE_DENSITY",
+    diagnostic_survey.add_diagnostic_survey(campaign=campaign, start_day=9, diagnostic_type="TRUE_PARASITE_DENSITY",
                                             diagnostic_threshold=20,
                                             trigger_condition_list=["HappyBirthday"],
                                             positive_diagnosis_configs=[broadcast_ivermectin],

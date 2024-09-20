@@ -73,7 +73,6 @@ def add_scheduled_usage_dependent_bednet(
         target_num_individuals: int = None,
         node_ids: list = None,
         ind_property_restrictions: list = None,
-        node_property_restrictions: list = None,
         intervention_name: str = "UsageDependentBednet",
         discard_config: dict = None,
         insecticide: str = "",
@@ -111,15 +110,10 @@ def add_scheduled_usage_dependent_bednet(
             intervention is distributed to all nodes.
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         ind_property_restrictions: The IndividualProperty key:value pairs
             that individuals must have to receive the intervention (
             **Property_Restrictions_Within_Node** parameter). In the format ``[{
             "BitingRisk":"High"}, {"IsCool":"Yes}]``.
-        node_property_restrictions: The NodeProperty key:value pairs that
-            nodes must have to receive the intervention (**Node_Property_Restrictions**
-            parameter). In the format ``[{"Place":"RURAL"}, {"ByALake":"Yes}]``
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
             attached to a person if they have different Intervention_Name values.
@@ -182,8 +176,7 @@ def add_scheduled_usage_dependent_bednet(
                 age_dependence = {"Times": [0, 4, 10, 60],
                            "Values": [1, 0.9, 0.8, 0.5]}
                 add_usage_dependent_bednet(campaign, start_day=12, demographic_coverage=0.25,
-                            age_dependence=age_dependence,
-                            node_property_restrictions=[{"Place": "Rural"]):
+                            age_dependence=age_dependence):
 
     """
 
@@ -209,7 +202,6 @@ def add_scheduled_usage_dependent_bednet(
                                       target_num_individuals=target_num_individuals,
                                       node_ids=node_ids,
                                       ind_property_restrictions=ind_property_restrictions,
-                                      node_property_restrictions=node_property_restrictions,
                                       individual_intervention=intervention)
 
 
@@ -218,7 +210,6 @@ def add_triggered_usage_dependent_bednet(campaign,
                                          demographic_coverage: float = 1,
                                          node_ids: list = None,
                                          ind_property_restrictions: list = None,
-                                         node_property_restrictions: list = None,
                                          trigger_condition_list: list = None,
                                          triggered_campaign_delay: float = None,
                                          listening_duration: int = -1,
@@ -257,8 +248,6 @@ def add_triggered_usage_dependent_bednet(campaign,
             intervention is distributed to all nodes.
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         trigger_condition_list: (Optional) A list of the events that will
             trigger the ITN intervention. If included, **start** is the day
             when monitoring for triggers begins.
@@ -271,9 +260,6 @@ def add_triggered_usage_dependent_bednet(campaign,
             that individuals must have to receive the intervention (
             **Property_Restrictions_Within_Node** parameter). In the format ``[{
             "BitingRisk":"High"}, {"IsCool":"Yes}]``.
-        node_property_restrictions: The NodeProperty key:value pairs that
-            nodes must have to receive the intervention (**Node_Property_Restrictions**
-            parameter). In the format ``[{"Place":"RURAL"}, {"ByALake":"Yes}]``
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
             attached to a person if they have different Intervention_Name values.
@@ -339,8 +325,7 @@ def add_triggered_usage_dependent_bednet(campaign,
             age_dependence = {"Times": [0, 4, 10, 60],
                        "Values": [1, 0.9, 0.8, 0.5]}
             add_usage_dependent_bednet(campaign, start=12, coverage=0.25,
-                        age_dependence=age_dependence,
-                        node_property_restrictions=[{"Place": "Rural"]):
+                        age_dependence=age_dependence):
 
     """
 
@@ -366,7 +351,6 @@ def add_triggered_usage_dependent_bednet(campaign,
                                                       listening_duration=listening_duration,
                                                       delay_period_constant=triggered_campaign_delay,
                                                       ind_property_restrictions=ind_property_restrictions,
-                                                      node_property_restrictions=node_property_restrictions,
                                                       node_ids=node_ids,
                                                       individual_intervention=intervention)
 
@@ -448,13 +432,13 @@ def _usage_dependent_bednet(campaign,
     schema_path = campaign.schema_path
     blocking = utils.get_waning_from_params(schema_path=schema_path, initial=blocking_initial_effect,
                                             box_duration=blocking_box_duration,
-                                            decay_rate=1 / blocking_decay_time_constant if blocking_decay_time_constant else 0)
+                                            decay_time_constant=blocking_decay_time_constant)
     killing = utils.get_waning_from_params(schema_path=schema_path, initial=killing_initial_effect,
                                            box_duration=killing_box_duration,
-                                           decay_rate=1 / killing_decay_time_constant if killing_decay_time_constant else 0)
+                                           decay_time_constant=killing_decay_time_constant)
     repelling = utils.get_waning_from_params(schema_path=schema_path, initial=repelling_initial_effect,
                                              box_duration=repelling_box_duration,
-                                             decay_rate=1 / repelling_decay_time_constant if repelling_decay_time_constant else 0)
+                                             decay_time_constant=repelling_decay_time_constant)
 
     intervention = s2c.get_class_with_defaults("UsageDependentBednet", schema_path)
 

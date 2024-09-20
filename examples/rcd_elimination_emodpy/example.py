@@ -75,7 +75,7 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
                  'seek': 1,
                  'rate': 0.5}]
 
-    add_treatment_seeking(camp=campaign,
+    add_treatment_seeking(campaign=campaign,
                           node_ids=nodeIDs,
                           start_day=1,
                           targets=create_target_list(u5_hs_rate, o5_hs_rate),
@@ -101,7 +101,7 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
 
     # response - no need to break them up, they are both triggered events, with AL drug code, the diagnostic-related
     # parameters will be either used or ignored based on the campaign_type
-    add_drug_campaign(camp=campaign, campaign_type=delivery_method, coverage=followup_sweep_coverage,
+    add_drug_campaign(campaign=campaign, campaign_type=delivery_method, coverage=followup_sweep_coverage,
                       diagnostic_threshold=0, start_days=[1], drug_code="AL", diagnostic_type="BLOOD_SMEAR_PARASITES",
                       measurement_sensitivity=1. / rdt_thresh, trigger_condition_list=['Diagnostic_Survey_0'],
                       listening_duration=-1,  # already default
@@ -116,7 +116,6 @@ def build_campaign(u5_hs_rate=0.02, days_between_followups=7, max_distance_to_ot
     add_outbreak_individual(campaign=campaign, demographic_coverage=outbreak_fraction, repetitions=repetitions,
                             timesteps_between_repetitions=tsteps_btwn,
                             antigen=strain[0], genome=strain[1], broadcast_event="InfectionDropped")
-
 
     return campaign
 

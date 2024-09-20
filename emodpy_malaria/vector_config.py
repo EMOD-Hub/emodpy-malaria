@@ -67,7 +67,6 @@ def set_team_defaults(config, manifest):
     config.parameters.Base_Relative_Humidity = 0.75
     config.parameters.Climate_Model = "CLIMATE_CONSTANT"
     config.parameters.Climate_Update_Resolution = "CLIMATE_UPDATE_DAY"  # not used with "CLIMATE_CONSTANT", nice to have
-    config.parameters.Inset_Chart_Reporting_Include_30Day_Avg_Infection_Duration = 0
     config.parameters.Enable_Climate_Stochasticity = 0
 
     config.parameters.Simulation_Duration = 365

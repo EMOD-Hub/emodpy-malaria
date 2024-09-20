@@ -37,8 +37,8 @@ def build_campaign():
 
     # passing in schema file to verify that everything is correct.
     campaign.set_schema(manifest.schema_file)
-    # creating an Ivermectin intervention inside the ivermectin, and adding it to campaign
-    campaign.add(ivermectin.Ivermectin(schema_path_container=campaign))
+    # adding a scheduled ivermectin intervention
+    ivermectin.add_scheduled_ivermectin(campaign=campaign, start_day=3)
 
     return campaign
 

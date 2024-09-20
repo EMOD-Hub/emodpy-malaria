@@ -10,7 +10,6 @@ def add_outbreak_individual(campaign,
                             repetitions: int = 1,
                             timesteps_between_repetitions: int = 365,
                             ind_property_restrictions: list = None,
-                            node_property_restrictions: list = None,
                             target_age_min: int = 0,
                             target_age_max: int = 125,
                             target_gender: str = "All",
@@ -38,8 +37,6 @@ def add_outbreak_individual(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -72,7 +69,6 @@ def add_outbreak_individual(campaign,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
                        ind_property_restrictions=ind_property_restrictions,
-                       node_property_restrictions=node_property_restrictions,
                        target_age_min=target_age_min, target_age_max=target_age_max, target_gender=target_gender,
                        target_num_individuals=target_num_individuals, node_ids=node_ids, intervention=intervention)
 
@@ -85,7 +81,6 @@ def add_outbreak_malaria_genetics(campaign,
                                   repetitions: int = 1,
                                   timesteps_between_repetitions: int = 365,
                                   ind_property_restrictions: list = None,
-                                  node_property_restrictions: list = None,
                                   target_age_min: int = 0,
                                   target_age_max: int = 125,
                                   target_gender: str = "All",
@@ -118,8 +113,6 @@ def add_outbreak_malaria_genetics(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -215,7 +208,6 @@ def add_outbreak_malaria_genetics(campaign,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
                        ind_property_restrictions=ind_property_restrictions,
-                       node_property_restrictions=node_property_restrictions,
                        target_age_min=target_age_min, target_age_max=target_age_max, target_gender=target_gender,
                        target_num_individuals=target_num_individuals, node_ids=node_ids, intervention=intervention)
 
@@ -228,7 +220,6 @@ def add_outbreak_malaria_var_genes(campaign,
                                    repetitions: int = 1,
                                    timesteps_between_repetitions: int = 365,
                                    ind_property_restrictions: list = None,
-                                   node_property_restrictions: list = None,
                                    target_age_min: int = 0,
                                    target_age_max: int = 125,
                                    target_gender: str = "All",
@@ -257,8 +248,6 @@ def add_outbreak_malaria_var_genes(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -298,7 +287,6 @@ def add_outbreak_malaria_var_genes(campaign,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
                        ind_property_restrictions=ind_property_restrictions,
-                       node_property_restrictions=node_property_restrictions,
                        target_age_min=target_age_min, target_age_max=target_age_max, target_gender=target_gender,
                        target_num_individuals=target_num_individuals, node_ids=node_ids, intervention=intervention)
 
@@ -311,7 +299,6 @@ def add_campaign_event(campaign,
                        repetitions: int = 1,
                        timesteps_between_repetitions: int = 365,
                        ind_property_restrictions: list = None,
-                       node_property_restrictions: list = None,
                        target_age_min: int = 0,
                        target_age_max: int = 125,
                        target_gender: str = "All",
@@ -335,8 +322,6 @@ def add_campaign_event(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -361,7 +346,6 @@ def add_campaign_event(campaign,
         coordinator.Demographic_Coverage = demographic_coverage
     coordinator.Number_Repetitions = repetitions
     coordinator.Timesteps_Between_Repetitions = timesteps_between_repetitions
-    coordinator.Node_Property_Restrictions = node_property_restrictions if node_property_restrictions else []
     coordinator.Property_Restrictions_Within_Node = ind_property_restrictions if ind_property_restrictions else []
     coordinator.Property_Restrictions = []  # not using; Property_Restrictions_Within_Node are more flexible
 

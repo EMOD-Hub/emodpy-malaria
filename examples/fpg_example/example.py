@@ -56,7 +56,7 @@ def build_campaign():
                                              killing_initial_effect=0.88, killing_box_duration=12,
                                              killing_decay_time_constant=10)
 
-    drug_campaign.add_drug_campaign(camp=campaign, campaign_type="MDA", drug_code="AL", start_days=[11],
+    drug_campaign.add_drug_campaign(campaign=campaign, campaign_type="MDA", drug_code="AL", start_days=[11],
                                     repetitions=3, tsteps_btwn_repetitions=3, coverage=0.3,
                                     receiving_drugs_event_name="MDA")
 

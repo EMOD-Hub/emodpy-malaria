@@ -4,8 +4,8 @@ from emodpy_malaria.interventions.outbreak import add_campaign_event
 
 
 def add_scale_larval_habitats(campaign, df=None,
-                              start_day: int = 0, repetitions: int = 1, timesteps_between_repetitions: int = 365,
-                              node_property_restrictions: list = None):
+                              start_day: int = 0, repetitions: int = 1,
+                              timesteps_between_repetitions: int = 365):
     """
     Reduce available larval habitat in a node-specific way.
 
@@ -50,9 +50,6 @@ def add_scale_larval_habitats(campaign, df=None,
         repetitions: The number of times to repeat the intervention.
         timesteps_between_repetitions: The number of time steps between
             repetitions.
-        node_property_restrictions: The node property values to target;
-            used with NodePropertyRestrictions. For example,
-            "[{ "NodeProperty1" : "PropertyValue1" }, {'NodeProperty2': "PropertyValue2"}, ...]".
 
     Returns:
         None
@@ -116,12 +113,11 @@ def add_scale_larval_habitats(campaign, df=None,
 
             add_habitat_reduction_event(campaign, start_day=start_day, node_ids=node_ids, habitat_scales=habitat_scales,
                                         repetitions=repetitions,
-                                        timesteps_between_repetitions=timesteps_between_repetitions,
-                                        node_property_restrictions=node_property_restrictions)
+                                        timesteps_between_repetitions=timesteps_between_repetitions)
 
 
 def add_habitat_reduction_event(campaign, start_day: int, node_ids: list, habitat_scales: list, repetitions: int,
-                                timesteps_between_repetitions: int, node_property_restrictions: list):
+                                timesteps_between_repetitions: int):
     """
         Add a campaign event to reduce vector's larval habitat(s).
 
@@ -140,22 +136,10 @@ def add_habitat_reduction_event(campaign, start_day: int, node_ids: list, habita
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
 
     Returns:
         Nothing
     """
-
-    # cannot be used because LarvalHabitatMultiplierSpec cannot befound
-    # larval_habitat_multiplier_list = []
-    #
-    # for scale in habitat_scales:
-    #     larval_habitat_multiplier = s2c.get_class_with_defaults("LarvalHabitatMultiplierSpec", campaign.schema_path)
-    #     larval_habitat_multiplier.Factor = scale["Factor"]
-    #     larval_habitat_multiplier.Habitat = scale["Habitat"]
-    #     larval_habitat_multiplier.Species = scale["Species"]
-    #     larval_habitat_multiplier_list.append(larval_habitat_multiplier)
 
     # configuring the intervention itself
     scale_larval_habitat_intervention = s2c.get_class_with_defaults("ScaleLarvalHabitat", campaign.schema_path)
@@ -164,5 +148,4 @@ def add_habitat_reduction_event(campaign, start_day: int, node_ids: list, habita
 
     add_campaign_event(campaign=campaign, start_day=start_day, node_ids=node_ids, repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
-                       node_property_restrictions=node_property_restrictions,
                        intervention=scale_larval_habitat_intervention)

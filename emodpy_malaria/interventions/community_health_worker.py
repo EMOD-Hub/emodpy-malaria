@@ -8,7 +8,6 @@ def add_community_health_worker(campaign,
                                 demographic_coverage: float = 1.0,
                                 node_ids: list = None,
                                 ind_property_restrictions: list = None,
-                                node_property_restrictions: list = None,
                                 target_age_min: int = 0,
                                 target_age_max: int = 125,
                                 target_gender: str = "All",
@@ -36,8 +35,6 @@ def add_community_health_worker(campaign,
             will get the intervention
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -74,7 +71,6 @@ def add_community_health_worker(campaign,
     coordinator.Intervention_Config = intervention_config
     coordinator.Max_Distributed_Per_Day = max_distributed_per_day
     coordinator.Max_Stock = max_stock
-    coordinator.Node_Property_Restrictions = node_property_restrictions if node_property_restrictions else []
     coordinator.Property_Restrictions_Within_Node = ind_property_restrictions if ind_property_restrictions else []
     coordinator.Trigger_Condition_List = [campaign.get_recv_trigger(trigger, old=True) for trigger in trigger_condition_list]
     coordinator.Waiting_Period = waiting_period

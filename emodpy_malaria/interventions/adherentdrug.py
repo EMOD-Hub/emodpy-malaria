@@ -5,7 +5,7 @@ def adherent_drug(campaign, cost: int = 1, doses: list = None, dose_interval: in
                   adherence_values: list = None,
                   non_adherence_options: list = None,
                   non_adherence_distribution: list = None, max_dose_consideration_duration: int = 40,
-                  took_dose_event: str = "Took_Dose"):
+                  took_dose_event: str = "Took_Dose", intervention_name: str = None):
     """
         Configures adherent drug dictionary  using the **AdherentDrug** class, an individual-level
         intervention which extends the **AntimalarialDrug** class.
@@ -31,6 +31,8 @@ def adherent_drug(campaign, cost: int = 1, doses: list = None, dose_interval: in
         max_dose_consideration_duration: Maximum number of days that an individual
             will consider taking the doses of the drug.
         took_dose_event: Event that gets sent out every time a dose is taken.
+        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. Default is AdeherentDrug_drug1_drug2 in alphabetical order.
 
     Returns:
     Configured **AdherentDrug** class dictionary
@@ -71,4 +73,14 @@ def adherent_drug(campaign, cost: int = 1, doses: list = None, dose_interval: in
     adherent_drug.Non_Adherence_Distribution = non_adherence_distribution
     adherent_drug.Max_Dose_Consideration_Duration = max_dose_consideration_duration
     adherent_drug.Took_Dose_Event = campaign.get_send_trigger(took_dose_event, old=True)
+    if not intervention_name:
+        all_drugs = []
+        for day in doses:
+            for drug in day:
+                all_drugs.append(drug)
+        all_drugs = sorted(list(set(all_drugs)))
+        intervention_name = "AdherentDrug"
+        for drug in all_drugs:
+            intervention_name = intervention_name + "_" + drug
+    adherent_drug.Intervention_Name = intervention_name
     return adherent_drug

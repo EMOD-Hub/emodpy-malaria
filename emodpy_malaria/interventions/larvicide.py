@@ -43,10 +43,9 @@ def _create_event(
 ):
     """
         Create a new Larvicides scheduled campaign intervention.
-        Note: for WaningEffect, Decay_Time_Constant = 1.0/decay_rate
-        box_duration = 0 + decay_rate > 0 => WaningEffectExponential
-        box_duration > 0 + decay_rate = 0 => WaningEffectBox/Constant (depending on duration)
-        box_duration > 0 + decay_rate > 0 => WaningEffectBoxExponential
+        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
         Args:
             campaign:
@@ -57,7 +56,7 @@ def _create_event(
             killing_effect: portion of vectors killed by the intervention (Initial_Effect in WaningEffect)
             habitat_target: E.g., (TBD)
             box_duration: Box_Duration of the WaningEffect
-            decay_time_constant: 1/decay_rate of the WaningEffect
+            decay_time_constant: decay_time_constant of the WaningEffect
             node_ids: list of node ids to which distribute the intervention
 
         Returns:
@@ -83,10 +82,9 @@ def add_larvicide(
     ):
     """
         Create a new Larvicides scheduled campaign intervention & add to campaign.
-        Note: for WaningEffect, Decay_Time_Constant = 1.0/decay_rate
-        box_duration = 0 + decay_rate > 0 => WaningEffectExponential
-        box_duration > 0 + decay_rate = 0 => WaningEffectBox/Constant (depending on duration)
-        box_duration > 0 + decay_rate > 0 => WaningEffectBoxExponential
+        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
         Inspired by: https://github.com/InstituteforDiseaseModeling/dtk-tools/blob/master/dtk/interventions/novel_vector_control.py#L279.
 
@@ -101,14 +99,17 @@ def add_larvicide(
                 "CONSTANT", "BRACKISH_SWAMP", "LINEAR_SPLINE", "ALL_HABITATS". The latter is the default.
             insecticide: insecticide name. Must be a value in the config but consistency is not checked at this time.
             box_duration: Box_Duration of the WaningEffect.
-            decay_time_constant: 1/decay_rate of the WaningEffect.
+            decay_time_constant: decay_time_constant of the WaningEffect.
             node_ids: list of node ids to which distribute the intervention.
 
         Returns:
             N/A.
     """
 
-    campaign.add(_create_event(campaign, start_day=start_day, spray_coverage=spray_coverage, killing_effect=killing_effect, habitat_target=habitat_target, insecticide=insecticide, box_duration=box_duration, decay_time_constant=decay_time_constant, node_ids=node_ids ) )
+    campaign.add(_create_event(campaign, start_day=start_day, spray_coverage=spray_coverage,
+                               killing_effect=killing_effect, habitat_target=habitat_target,
+                               insecticide=insecticide, box_duration=box_duration,
+                               decay_time_constant=decay_time_constant, node_ids=node_ids ) )
 
 
 def new_intervention_as_file(campaign, start_day: int = 1, filename: str = None):
@@ -124,7 +125,7 @@ def new_intervention_as_file(campaign, start_day: int = 1, filename: str = None)
     """
 
     campaign.reset()
-    add_larvicides( campaign )
+    add_larvicide( campaign )
     if filename is None:
         filename = "Larvicides.json"
     campaign.save(filename)

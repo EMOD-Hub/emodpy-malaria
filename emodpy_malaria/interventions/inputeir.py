@@ -65,7 +65,6 @@ def add_scheduled_input_eir(
         campaign,
         start_day: int = 1,
         node_ids: list = None,
-        node_property_restrictions: list = None,
         monthly_eir: list = None,
         daily_eir: list = None,
         age_dependence: str = "OFF",
@@ -80,8 +79,6 @@ def add_scheduled_input_eir(
             start_day: The day on which the monthly_eir cycle starts
             node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
                 will get the intervention
-            node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-                that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
             monthly_eir: An array of 12 elements that contain an entomological inoculation rate (EIR) for each month;
                 Each value should be between 0 and 1000
             daily_eir: An array of 365 values where each value is the mean number of infectious bites experienced
@@ -102,8 +99,7 @@ def add_scheduled_input_eir(
                            age_dependence=age_dependence, scaling_factor=scaling_factor,
                            intervention_name=intervention_name)
 
-    add_campaign_event(campaign=campaign, start_day=start_day, node_ids=node_ids,
-                       node_property_restrictions=node_property_restrictions, node_intervention=input_eir)
+    add_campaign_event(campaign=campaign, start_day=start_day, node_ids=node_ids, node_intervention=input_eir)
 
 
 def new_intervention_as_file(campaign, start_day: int = 0, monthly_eir: list = None, daily_eir: list = None,

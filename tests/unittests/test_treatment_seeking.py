@@ -8,7 +8,7 @@ from enum import Enum
 
 import emod_api.campaign as camp
 from emod_api.interventions.common import *
-from emodpy_malaria.interventions.common import AntimalarialDrug
+from emodpy_malaria.interventions.drug import _antimalarial_drug
 import emodpy_malaria.interventions.treatment_seeking as ts
 
 parent = Path(__file__).resolve().parent
@@ -164,7 +164,7 @@ class TreatmentSeekingTest(unittest.TestCase):
         events = camp.campaign_dict['Events']
         self.assertEqual(len(events), len(targets))
 
-        intervention_list = [AntimalarialDrug(camp, Drug_Type=d) for d in drug]
+        intervention_list = [_antimalarial_drug(camp, drug_type=d) for d in drug]
         intervention_list.append(BroadcastEvent(camp, Event_Trigger=broadcast_event_name))
         for i in range(len(events)):
             event = events[i]

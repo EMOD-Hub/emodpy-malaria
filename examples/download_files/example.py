@@ -53,12 +53,12 @@ def build_camp():
     # This isn't desirable. Need to think about right way to provide schema (once)
     camp.schema_path = manifest.schema_file
 
-    camp.add(ivermectin.Ivermectin(
-        schema_path_container=camp,
-        killing_initial_effect = 0.78, demographic_coverage = 0.63,
-        target_num_individuals = None, killing_box_duration = 20,
-        killing_exponential_decay_rate = 0.07
-    ))
+    ivermectin.add_scheduled_ivermectin(
+        campaign=camp,
+        killing_initial_effect=0.78, demographic_coverage=0.63,
+        target_num_individuals=None, killing_box_duration=20,
+        killing_decay_time_constant=14
+    )
 
     return camp
 
@@ -159,9 +159,9 @@ def general_sim():
     print(experiment.uid.hex)
 
 
-
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

@@ -41,7 +41,7 @@ class MalariaTestImports(unittest.TestCase):
         from emodpy_malaria.interventions import drug
 
         self.expected_items = [
-            "AntimalarialDrug", "utils"
+            "_antimalarial_drug", "add_scheduled_antimalarial_drug"
         ]
         self.verify_expected_items_present(namespace=drug)
         return

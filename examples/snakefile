@@ -79,6 +79,13 @@ rule burnin_create_infections:
             out_050 = Path("burnin_create_infections", "serialization_files", "output", "state-00050.dtk")
     run:
         shell(get_command("burnin_create_infections", python_version=config['python_version']))
+		
+rule burnin_create_parasite_genetics:
+    input: 
+    output: Path("burnin_create_parasite_genetics", "experiment_id"),
+            out_050 = Path("burnin_create_parasite_genetics", "serialization_files", "output", "state-00050.dtk")
+    run:
+        shell(get_command("burnin_create_parasite_genetics", python_version=config['python_version']))
 
 rule burnin_use:
     input: 
@@ -92,6 +99,13 @@ rule serialization_remove_infections:
             Path("serialization_remove_infections", "experiment_id")
     run:
         shell(get_command("serialization_remove_infections", python_version=config['python_version']))
+		
+rule serialization_replace_genomes:
+    input:  rules.burnin_create_parasite_genetics.output.out_050
+    output: Path("serialization_replace_genomes", "output", "state-00050_replaced_genomes.dtk"),
+            Path("serialization_replace_genomes", "experiment_id")
+    run:
+        shell(get_command("serialization_replace_genomes", python_version=config['python_version']))
         
 rule drug_campaign:
     input: 
@@ -241,6 +255,14 @@ rule embedded_python_post_processing:
     output: Path("embedded_python_post_processing", "experiment_id")
     run:        
         shell(get_command("embedded_python_post_processing", python_version=config['python_version']))
+
+rule create_demographics:
+    input: 
+    output: Path("create_demographics", "experiment_id")
+    run:        
+        shell(get_command("create_demographics", python_version=config['python_version']))
+
+
 
 rule clean:
     input: 

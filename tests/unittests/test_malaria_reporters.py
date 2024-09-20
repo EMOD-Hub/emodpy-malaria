@@ -172,7 +172,7 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Parasitemia_Bins'], empty_list)
         self.assertEqual(self.p_dict['Pretty_Format'], 0)
         self.assertEqual(self.p_dict['Filename_Suffix'], empty_string)
-        self.assertEqual(self.p_dict['Reporting_Interval'], 1)
+        self.assertEqual(self.p_dict['Reporting_Interval'], 365)
         self.assertEqual(self.p_dict['Start_Day'], 0)
         self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], empty_string)
         self.assertEqual(self.p_dict['Must_Have_Intervention'], empty_string)

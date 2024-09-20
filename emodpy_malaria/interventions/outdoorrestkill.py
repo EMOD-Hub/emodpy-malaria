@@ -4,7 +4,6 @@ from emodpy_malaria.interventions.common import *
 def add_outdoorrestkill(campaign,
                         start_day: int = 1,
                         node_ids: list = None,
-                        node_property_restrictions: list = None,
                         insecticide: str = None,
                         killing_initial_effect: float = 1,
                         killing_box_duration: int = -1,
@@ -16,8 +15,6 @@ def add_outdoorrestkill(campaign,
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container
         start_day: the day on which to distribute the intervention
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         insecticide :The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
@@ -41,7 +38,6 @@ def add_outdoorrestkill(campaign,
     add_campaign_event(campaign,
                        start_day=start_day,
                        node_ids=node_ids,
-                       node_property_restrictions=node_property_restrictions,
                        node_intervention=intervention)
 
     return campaign

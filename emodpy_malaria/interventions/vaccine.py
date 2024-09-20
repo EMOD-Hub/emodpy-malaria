@@ -12,7 +12,7 @@ def _simple_vaccine(campaign,
                     vaccine_take: float = 1,
                     vaccine_initial_effect: float = 1,
                     vaccine_box_duration: int = 365,
-                    vaccine_exponential_decay_rate: float = 1.0,
+                    vaccine_decay_time_constant: float = 100,
                     efficacy_is_multiplicative: bool = True):
     """
         Configures a SimpleVaccine intervention.
@@ -25,7 +25,7 @@ def _simple_vaccine(campaign,
             the desired efficacy.
         vaccine_initial_effect: Initial efficacy of the vaccine, before decay.
         vaccine_box_duration: Duration in days of initial efficacy of vaccine before it starts to decay.
-        vaccine_exponential_decay_rate: The exponential rate of vaccine efficacy after the box duration.
+        vaccine_decay_time_constant: Time over which vaccine efficacy wanes and the vaccine_box_duration.
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
@@ -42,10 +42,10 @@ def _simple_vaccine(campaign,
     intervention.Vaccine_Type = vaccine_type
     intervention.Vaccine_Take = vaccine_take
     intervention.Efficacy_Is_Multiplicative = 1 if efficacy_is_multiplicative else 0
-    intervention.Waning_Config = utils.get_waning_from_params(schema_path,
-                                                              vaccine_initial_effect,
-                                                              vaccine_box_duration,
-                                                              vaccine_exponential_decay_rate)
+    intervention.Waning_Config = utils.get_waning_from_params(schema_path=schema_path,
+                                                              initial=vaccine_initial_effect,
+                                                              box_duration=vaccine_box_duration,
+                                                              decay_time_constant=vaccine_decay_time_constant)
 
     return intervention
 
@@ -58,7 +58,6 @@ def add_scheduled_vaccine(campaign,
                           repetitions: int = 1,
                           timesteps_between_repetitions: int = 365,
                           ind_property_restrictions: list = None,
-                          node_property_restrictions: list = None,
                           target_age_min: int = 0,
                           target_age_max: int = 125,
                           target_gender: str = "All",
@@ -67,7 +66,7 @@ def add_scheduled_vaccine(campaign,
                           vaccine_take: float = 1,
                           vaccine_initial_effect: float = 1,
                           vaccine_box_duration: int = 365,
-                          vaccine_exponential_decay_rate: float = 1.0,
+                          vaccine_decay_time_constant: float = 100,
                           efficacy_is_multiplicative: bool = True):
     """
         Adds a scheduled SimpleVaccine event, with an optional BroadcastEvent, broadcast when vaccine is received.
@@ -88,8 +87,6 @@ def add_scheduled_vaccine(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -101,7 +98,7 @@ def add_scheduled_vaccine(campaign,
             the desired efficacy.
         vaccine_initial_effect: Initial efficacy of the vaccine, before decay.
         vaccine_box_duration: Duration in days of initial efficacy of vaccine before it starts to decay.
-        vaccine_exponential_decay_rate: The exponential rate of vaccine efficacy after the box duration.
+        vaccine_decay_time_constant: Time over which vaccine efficacy wanes and the vaccine_box_duration.
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
@@ -114,7 +111,7 @@ def add_scheduled_vaccine(campaign,
                                    vaccine_take=vaccine_take,
                                    vaccine_initial_effect=vaccine_initial_effect,
                                    vaccine_box_duration=vaccine_box_duration,
-                                   vaccine_exponential_decay_rate=vaccine_exponential_decay_rate,
+                                   vaccine_decay_time_constant=vaccine_decay_time_constant,
                                    efficacy_is_multiplicative=efficacy_is_multiplicative)
     if broadcast_event:
         intervention = [intervention, common.BroadcastEvent(campaign, Event_Trigger=broadcast_event)]
@@ -127,7 +124,6 @@ def add_scheduled_vaccine(campaign,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
                        ind_property_restrictions=ind_property_restrictions,
-                       node_property_restrictions=node_property_restrictions,
                        target_age_min=target_age_min,
                        target_age_max=target_age_max,
                        target_gender=target_gender,
@@ -144,7 +140,6 @@ def add_triggered_vaccine(campaign,
                           repetitions: int = 1,
                           timesteps_between_repetitions: int = 365,
                           ind_property_restrictions: list = None,
-                          node_property_restrictions: list = None,
                           target_age_min: int = 0,
                           target_age_max: int = 125,
                           target_gender: str = "All",
@@ -153,7 +148,7 @@ def add_triggered_vaccine(campaign,
                           vaccine_take: float = 1,
                           vaccine_initial_effect: float = 1,
                           vaccine_box_duration: int = 365,
-                          vaccine_exponential_decay_rate: float = 1.0,
+                          vaccine_decay_time_constant: float = 100,
                           efficacy_is_multiplicative: bool = True):
     """
         Adds an event-triggered SimpleVaccine event, with an optional BroadcastEvent, broadcast when vaccine is received.
@@ -177,8 +172,6 @@ def add_triggered_vaccine(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -190,7 +183,7 @@ def add_triggered_vaccine(campaign,
             the desired efficacy.
         vaccine_initial_effect: Initial efficacy of the vaccine, before decay.
         vaccine_box_duration: Duration in days of initial efficacy of vaccine before it starts to decay.
-        vaccine_exponential_decay_rate: The exponential rate of vaccine efficacy after the box duration.
+        vaccine_decay_time_constant: Time over which vaccine efficacy wanes and the vaccine_box_duration.
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
@@ -203,7 +196,7 @@ def add_triggered_vaccine(campaign,
                                    vaccine_take=vaccine_take,
                                    vaccine_initial_effect=vaccine_initial_effect,
                                    vaccine_box_duration=vaccine_box_duration,
-                                   vaccine_exponential_decay_rate=vaccine_exponential_decay_rate,
+                                   vaccine_decay_time_constant=vaccine_decay_time_constant,
                                    efficacy_is_multiplicative=efficacy_is_multiplicative)
     if broadcast_event:
         intervention = [intervention, common.BroadcastEvent(campaign, Event_Trigger=broadcast_event)]
@@ -218,7 +211,6 @@ def add_triggered_vaccine(campaign,
                                        repetitions=repetitions,
                                        timesteps_between_repetitions=timesteps_between_repetitions,
                                        ind_property_restrictions=ind_property_restrictions,
-                                       node_property_restrictions=node_property_restrictions,
                                        target_age_min=target_age_min,
                                        target_age_max=target_age_max,
                                        target_gender=target_gender,

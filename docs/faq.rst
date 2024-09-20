@@ -179,16 +179,16 @@ This does not require VPN. The value you pass to setup is the path where the mod
 Is there an example of creating a demographics file from scratch with the API?
 ==============================================================================
 
-The best examples are currently in emodpy-measles and emodpy-hiv. We are working to add some to emod_api.demographics. The basic idea is you use one of 3 node creators, and then use the Setter API to set up the node defaults for fertility, mortality, age structure, initial immunity, individual 'risk', and initial prevalance. The first node creator, from_template_node, is very basic and usually for quickstarts or toy models. It lets you create a single node demographics file with a given population. The second creator, from_csv, lets you create a multinode demographics using a csv file with population data as an input. The third creator, from_params, lets you create a multinode demographics without specific node data but instead with a few parameters that represent the overall population and the population heterogeneity.
-
-This is what it could look like to use option 2::
-
-    from emodpy_malaria.demographics import MalariaDemographics as Demographics
-    demog = Demographics.from_csv( input_csv_file )
-    demog.SetConstantRisk()
-    demog.SetInitialAgeLikeSubSaharanAfrica() 
-    demog.generate_file(out_filename)
-    return demog
+Yes, see examples/create_demographics, there are also examples in emodpy-measles and emodpy-hiv.
+We are working to add some to emod_api.demographics. The basic idea is you use one of 3 node creators,
+and then use the Setter API to set up the node defaults for fertility, mortality, age structure, initial immunity,
+individual 'risk', and initial prevalance.
+The first node creator, from_template_node, is very basic and usually for
+quickstarts or toy models. It lets you create a single node demographics file with a given population.
+The second creator, from_csv, lets you create a multinode demographics using a csv file with population data as
+an input.
+The third creator, from_params, lets you create a multinode demographics without specific node data but instead with
+a few parameters that represent the overall population and the population heterogeneity.
 
 
 I see a lot of MALARIA_SIM examples. Are there any VECTOR_SIM examples?

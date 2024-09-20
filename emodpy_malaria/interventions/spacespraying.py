@@ -11,7 +11,6 @@ def add_scheduled_space_spraying(
         node_ids: list = None,
         repetitions: int = 1,
         timesteps_between_repetitions: int = 365,
-        node_property_restrictions: list = None,
         spray_coverage: float = 1.0,
         insecticide: str = "",
         killing_initial_effect: float = 1,
@@ -31,8 +30,6 @@ def add_scheduled_space_spraying(
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         spray_coverage: The portion of the node that has been sprayed.  This value is multiplied by the current
             efficacy of the WaningEffect
         insecticide: The name of the insecticide defined in <config.Insecticides> for this intervention.
@@ -64,7 +61,6 @@ def add_scheduled_space_spraying(
                        node_ids=node_ids,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
-                       node_property_restrictions=node_property_restrictions,
                        node_intervention=node_intervention)
 
 

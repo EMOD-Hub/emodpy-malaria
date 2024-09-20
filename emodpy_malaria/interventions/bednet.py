@@ -114,7 +114,6 @@ def add_itn_scheduled(campaign,
                       repetitions: int = 1,
                       timesteps_between_repetitions: int = 365,
                       ind_property_restrictions: list = None,
-                      node_property_restrictions: list = None,
                       receiving_itn_broadcast_event: str = None,
                       blocking_initial_effect: float = 0.9,
                       blocking_box_duration: float = 0,
@@ -156,8 +155,6 @@ def add_itn_scheduled(campaign,
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**. In the format ``[{
             "BitingRisk":"High"}, {"IsCool":"Yes}]``
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         receiving_itn_broadcast_event: Optional. BroadcastEvent that's sent out when bednet is received.
             Default is to send out 'Received_ITN' event. To not send out event set to None.
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
@@ -219,7 +216,6 @@ def add_itn_scheduled(campaign,
                                repetitions=repetitions,
                                timesteps_between_repetitions=timesteps_between_repetitions,
                                ind_property_restrictions=ind_property_restrictions,
-                               node_property_restrictions=node_property_restrictions,
                                individual_intervention=intervention)
     else:
         add_campaign_event(campaign,
@@ -230,7 +226,6 @@ def add_itn_scheduled(campaign,
                            repetitions=repetitions,
                            timesteps_between_repetitions=timesteps_between_repetitions,
                            ind_property_restrictions=ind_property_restrictions,
-                           node_property_restrictions=node_property_restrictions,
                            individual_intervention=intervention)
 
 
@@ -244,7 +239,6 @@ def add_itn_triggered(campaign,
                       repetitions: int = 1,
                       timesteps_between_repetitions: int = 365,
                       ind_property_restrictions: list = None,
-                      node_property_restrictions: list = None,
                       receiving_itn_broadcast_event: str = None,
                       blocking_initial_effect: float = 0.9,
                       blocking_box_duration: float = 0,
@@ -285,8 +279,6 @@ def add_itn_triggered(campaign,
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**. In the format ``[{
             "BitingRisk":"High"}, {"IsCool":"Yes}]``
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         receiving_itn_broadcast_event: Optional. BroadcastEvent that's sent out when bednet is received.
             Default is to send out 'Received_ITN' event. To not send out event set to None.
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
@@ -344,6 +336,5 @@ def add_itn_triggered(campaign,
                                        node_ids=node_ids,
                                        repetitions=repetitions,
                                        timesteps_between_repetitions=timesteps_between_repetitions,
-                                       node_property_restrictions=node_property_restrictions,
                                        ind_property_restrictions=ind_property_restrictions,
                                        individual_intervention=intervention_list)

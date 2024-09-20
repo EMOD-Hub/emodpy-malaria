@@ -11,7 +11,6 @@ def add_scheduled_ivermectin(campaign,
                              repetitions: int = 1,
                              timesteps_between_repetitions: int = 365,
                              ind_property_restrictions: list = None,
-                             node_property_restrictions: list = None,
                              killing_initial_effect: float = 1,
                              killing_box_duration: float = 0,
                              killing_decay_time_constant: float = 0,
@@ -44,8 +43,6 @@ def add_scheduled_ivermectin(campaign,
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -83,7 +80,6 @@ def add_scheduled_ivermectin(campaign,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
                        ind_property_restrictions=ind_property_restrictions,
-                       node_property_restrictions=node_property_restrictions,
                        individual_intervention=intervention)
 
 
@@ -95,7 +91,6 @@ def add_triggered_ivermectin(campaign,
                              demographic_coverage: float = 1.0,
                              node_ids: list = None,
                              ind_property_restrictions: list = None,
-                             node_property_restrictions: list = None,
                              killing_initial_effect: float = 1,
                              killing_box_duration: float = 0,
                              killing_decay_time_constant: float = 0,
@@ -132,8 +127,6 @@ def add_triggered_ivermectin(campaign,
             will get the intervention
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -170,7 +163,6 @@ def add_triggered_ivermectin(campaign,
                                        demographic_coverage=demographic_coverage,
                                        node_ids=node_ids,
                                        ind_property_restrictions=ind_property_restrictions,
-                                       node_property_restrictions=node_property_restrictions,
                                        individual_intervention=intervention)
 
 
@@ -212,8 +204,7 @@ def _ivermectin(campaign,
     intervention.Killing_Config = utils.get_waning_from_params(schema_path,
                                                                initial=killing_initial_effect,
                                                                box_duration=killing_box_duration,
-                                                               decay_rate=1. / killing_decay_time_constant if
-                                                               killing_decay_time_constant else 0)
+                                                               decay_time_constant=killing_decay_time_constant)
     intervention.Insecticide_Name = insecticide
     intervention.Cost_To_Consumer = cost
     intervention.Intervention_Name = intervention_name

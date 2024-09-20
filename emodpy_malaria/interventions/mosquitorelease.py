@@ -60,7 +60,6 @@ def add_scheduled_mosquito_release(
         node_ids: list = None,
         repetitions: int = 1,
         timesteps_between_repetitions: int = 365,
-        node_property_restrictions: list = None,
         intervention_name: str = iv_name,
         released_number: int = None,
         released_fraction: float = None,
@@ -79,8 +78,6 @@ def add_scheduled_mosquito_release(
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple MosquitoRelease interventions
             if they have different Intervention_Name values.
@@ -118,7 +115,6 @@ def add_scheduled_mosquito_release(
                        node_ids=node_ids,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
-                       node_property_restrictions=node_property_restrictions,
                        node_intervention=node_intervention)
 
 

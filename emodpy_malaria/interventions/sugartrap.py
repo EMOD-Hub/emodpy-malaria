@@ -70,7 +70,7 @@ def _sugar_trap(campaign,
     intervention.Insecticide_Name = insecticide
     intervention.Killing_Config = utils.get_waning_from_params(schema_path=schema_path, initial=killing_initial_effect,
                                                                box_duration=killing_box_duration,
-                                                               decay_rate=1 / killing_decay_time_constant if killing_decay_time_constant else 0)
+                                                               decay_time_constant=killing_decay_time_constant)
     intervention.Cost_To_Consumer = cost_to_consumer
 
     return intervention
@@ -82,7 +82,6 @@ def add_scheduled_sugar_trap(
         node_ids: list = None,
         repetitions: int = 1,
         timesteps_between_repetitions: int = 365,
-        node_property_restrictions: list = None,
         cost_to_consumer: float = 0,
         expiration_config: dict = None,
         expiration_constant: float = 30,
@@ -108,8 +107,6 @@ def add_scheduled_sugar_trap(
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        node_property_restrictions: A list of the NodeProperty key:value pairs, as defined in the demographics file,
-            that nodes must have to receive the intervention. Sets **Node_Property_Restrictions**
         cost_to_consumer: Per unit cost when distributed
         expiration_config: (Optional) A dictionary of parameters that define a distribution from which a duration will be
             selected for when the trap expires. If the trap is distributed on day 1 and has a duration of 10,
@@ -157,7 +154,6 @@ def add_scheduled_sugar_trap(
                        node_ids=node_ids,
                        repetitions=repetitions,
                        timesteps_between_repetitions=timesteps_between_repetitions,
-                       node_property_restrictions=node_property_restrictions,
                        node_intervention=node_intervention)
 
 

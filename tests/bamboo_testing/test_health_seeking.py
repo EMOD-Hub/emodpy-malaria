@@ -81,7 +81,7 @@ class TestHealthSeeking(unittest.TestCase):
             demog_builder=self.build_demog,
             plugin_report=None
         )
-
+        task.set_sif('dtk_sif.id')
         builder = SimulationBuilder()
         builder.add_sweep_definition(self.update_sim_random_seed, range(1))
 
@@ -133,6 +133,7 @@ class TestHealthSeeking(unittest.TestCase):
             demog_builder=self.build_demog,
             plugin_report=None
         )
+        task.set_sif('dtk_sif.id')
 
         builder = SimulationBuilder()
         builder.add_sweep_definition(self.update_sim_random_seed, range(1))

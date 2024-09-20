@@ -32,7 +32,7 @@ def build_campaign():
     import emod_api.campaign as campaign
     import emodpy_malaria.interventions.drug_campaign as drug_campaign
     import emodpy_malaria.interventions.adherentdrug as ad
-    campaign.set_schema( manifest.schema_file )
+    campaign.set_schema(manifest.schema_file)
 
     # Please note: "add_MDA" and other specific campaigns cannot be added directly as there are
     # parameters configured for them inside the add_drug_campaign function
@@ -42,34 +42,34 @@ def build_campaign():
 
     # straighforward mda that run on day 11 and then repeats 2 more times (3 total) every three days, distributing
     # to 0.3 of population
-    drug_campaign.add_drug_campaign(camp=campaign, campaign_type="MDA", drug_code="DHA_PQ", start_days=[11],
+    drug_campaign.add_drug_campaign(campaign=campaign, campaign_type="MDA", drug_code="DHA_PQ", start_days=[11],
                                     repetitions=3, tsteps_btwn_repetitions=3, coverage=0.3,
                                     receiving_drugs_event_name="MDA")
 
     # this is msat (mass screening and treatment) which is triggered by a birthday, but only listens for the
     # trigger for 60 time steps(days) with treatment delayed by one time step (a day)
-    drug_campaign.add_drug_campaign(camp=campaign, campaign_type="MSAT", drug_code="SPP", start_days=[20],
+    drug_campaign.add_drug_campaign(campaign=campaign, campaign_type="MSAT", drug_code="SPP", start_days=[20],
                                     coverage=0.78, listening_duration=60,
                                     trigger_condition_list=["HappyBirthday"], treatment_delay=1,
                                     receiving_drugs_event_name="MSAT")
 
     adherent_drug = ad.adherent_drug(campaign=campaign,
-                                      doses=[["Sulfadoxine", "Pyrimethamine", 'Amodiaquine'],
-                                             ['Amodiaquine'],
-                                             ['Amodiaquine'],
-                                             ["Pyrimethamine"]],
-                                      dose_interval=1,
-                                      non_adherence_options=['Stop'],
-                                      non_adherence_distribution=[1],
-                                      adherence_values=[
-                                          1,  # for day 1
-                                          0.6,  # day 2
-                                          0.4,
-                                          0.4
-                                      ]
-                                                          )
+                                     doses=[["Sulfadoxine", "Pyrimethamine", 'Amodiaquine'],
+                                            ['Amodiaquine'],
+                                            ['Amodiaquine'],
+                                            ["Pyrimethamine"]],
+                                     dose_interval=1,
+                                     non_adherence_options=['Stop'],
+                                     non_adherence_distribution=[1],
+                                     adherence_values=[
+                                         1,  # for day 1
+                                         0.6,  # day 2
+                                         0.4,
+                                         0.4
+                                     ]
+                                     )
     # give everyone adherent_drug
-    drug_campaign.add_drug_campaign(camp=campaign, campaign_type="MDA", adherent_drug_configs=[adherent_drug],
+    drug_campaign.add_drug_campaign(campaign=campaign, campaign_type="MDA", adherent_drug_configs=[adherent_drug],
                                     start_days=[10],
                                     coverage=0.56)
     return campaign
@@ -147,7 +147,6 @@ def general_sim():
     report.config(fmr_config_builder, manifest)
     task.reporters.add_reporter(report)
 
-
     # The last step is to call run() on the ExperimentManager to run the simulations.
     experiment.run(wait_until_done=True, platform=platform)
 
@@ -166,5 +165,6 @@ def general_sim():
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()
