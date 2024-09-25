@@ -16,15 +16,15 @@ def _malaria_diagnostic(
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
             will be added.
         diagnostic_type: The setting for **Diagnostic_Type** in
-            :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
+            :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
             In addition to the accepted values listed there, you may also set
             TRUE_INFECTION_STATUS, which calls
-            :doc:`emod-malaria:parameter-campaign-individual-standarddiagnostic`
+            :doc:`emod/parameter-campaign-individual-standarddiagnostic`
             instead.
         measurement_sensitivity: The setting for **Measurement_Sensitivity**
-            in :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
+            in :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
         detection_threshold: The setting for **Detection_Threshold** in
-            :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
+            :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
 
     Returns:
       Configured individual-targeted MalariaDiagnostic intervention

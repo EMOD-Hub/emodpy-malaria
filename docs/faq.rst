@@ -299,10 +299,10 @@ dynamics, behavior, or treatment based on the assigned values. For example, you 
 properties to represent vitamin deficiencies, comorbidities, and more. For more information, see
 :doc:`emod/model-properties`.
 
-..    If individual and node properties cannot incorporate the functionality you need, |EMOD_s| is
-    open-source software that can be extended to meet your needs. For more information, see 
-    :doc:`dev-install-overview`.
-.. TODO: add links to developer docs when set up
+If individual and node properties cannot incorporate the functionality you need, |EMOD_s| is
+open-source software that can be extended to meet your needs. For more information, see 
+:doc:`emod:dev-install-overview`.
+
     
 Can I model regions, countries, provinces, or cities? 
 =====================================================

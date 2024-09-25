@@ -7,12 +7,9 @@ Install |EMOD_s|
 system, there are relatively few prerequisites required and the |exe_l| or |linux_binary| is 
 pre-built from the latest |EMOD_s| source code release. After completing installation, you can run
 simulations locally or on an HPC cluster using real-world data.
-
-
-
-.. TODO add link once dev docs set up    
-.. If you want to download and modify the |EMOD_s| source code and build the |exe_s| or |linux_binary|
-    yourself, see :doc:`dev-install-overview`.
+ 
+If you want to download and modify the |EMOD_s| source code and build the |exe_s| or |linux_binary|
+yourself, see :doc:`emod:dev-install-overview`.
 
 
 .. toctree::

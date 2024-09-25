@@ -97,7 +97,7 @@ WaningEffectMapCount
 ====================
 
 The **WaningEffectMapCount** class assigns a probability to a particular update of the effect. This
-typically used with :doc:`emod-malaria:parameter-campaign-individual-adherentdrug` so one can assign a
+typically used with :doc:`parameter-campaign-individual-adherentdrug` so one can assign a
 probability that a person takes a particular dose. The **Times** value should be integers starting
 from 1 and increasing.
 

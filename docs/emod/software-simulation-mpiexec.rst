@@ -14,7 +14,7 @@ often used to run complex simulations in parallel on an HPC cluster or several l
 Mpiexec is part of the |HPC_SDK_supp| installed as a prerequisite for building |exe_s| from the
 |EMOD_s| source code. 
 
-.. TODO add link to dev docs. Also see if this topic is relevant anymore. See :doc:`dev-install-overview` for more information.
+See :doc:`emod:dev-install-overview` for more information.
 
 .. note::
 

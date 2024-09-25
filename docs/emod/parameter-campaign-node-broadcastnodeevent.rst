@@ -11,7 +11,7 @@ configuraton parameters, **Report_Node_Event_Recorder** and **Report_Surveillanc
 which listen to events to be recorded. You must use this coordinator class with listeners that are
 operating on the same core. You can also use :doc:`parameter-campaign-node-nlhtivnode`.
 
-.. TODO add link once dev docs set up. For more information, see :doc:`dev-architecture-core`.
+For more information, see :doc:`emod:dev-architecture-core`.
 
 .. include:: ../reuse/warning-case.txt
 

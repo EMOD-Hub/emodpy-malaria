@@ -20,7 +20,7 @@ def add_scheduled_antimalarial_drug(
 ):
     """
     Add an antimalarial drug intervention to your campaign. This is equivalent to 
-    :doc:`emod-malaria:parameter-campaign-individual-antimalarialdrug`.
+    :doc:`emod/parameter-campaign-individual-antimalarialdrug`.
 
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
@@ -42,7 +42,7 @@ def add_scheduled_antimalarial_drug(
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
         drug_type: The name of the drug to distribute in a drug intervention. Possible values are
-            contained in **Malaria_Drug_Params** in :doc:`emod-malaria:parameter-configuration-drugs`.
+            contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
             Use :py:meth:`~emodpy_malaria.config.set_team_drug_params` to set those values
         cost_to_consumer: Per-unit cost when drug is distributed
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
@@ -73,7 +73,7 @@ def _antimalarial_drug(campaign,
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container
         drug_type: The name of the drug to distribute in a drug intervention. Possible values are
-            contained in **Malaria_Drug_Params** in :doc:`emod-malaria:parameter-configuration-drugs`.
+            contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
             Use :py:meth:`~emodpy_malaria.config.set_team_drug_params` to set those values
         cost_to_consumer: Per-unit cost when drug is distributed
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
@@ -93,7 +93,7 @@ def _antimalarial_drug(campaign,
 
 def new_intervention_as_file(campaign, start_day, drug_type="Chloroquine", filename="AntimalarialDrug.json"):
     """
-    Take an :doc:`emod-malaria:parameter-campaign-individual-antimalarialdrug`
+    Take an :doc:`emod/parameter-campaign-individual-antimalarialdrug`
     intervention from a JSON file and add it to your campaign.
 
     Args:
@@ -101,7 +101,7 @@ def new_intervention_as_file(campaign, start_day, drug_type="Chloroquine", filen
         start_day: The day of the simulation on which the drug is distributed. We recommend 
             aligning this with the start of the simulation.
         drug_type: The name of the drug to distribute in a drug intervention. Possible values are
-            contained in **Malaria_Drug_Params** in :doc:`emod-malaria:parameter-configuration-drugs`.
+            contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
             Use :py:meth:`~emodpy_malaria.config.set_team_drug_params` to set those values
         filename: The JSON file that contains the intervention.
 

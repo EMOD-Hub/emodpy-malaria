@@ -1,7 +1,7 @@
 """
 This module contains the classes and functions for creating demographics files
 for malaria simulations. For more information on |EMOD_s| demographics files,
-see :doc:`emod-malaria:software-demographics`. 
+see :doc:`emod/software-demographics`. 
 """
 import os
 import emod_api.demographics.Demographics as Demog
@@ -20,7 +20,7 @@ class MalariaDemographics(Demog.Demographics):
             for each of the nodes in a simulation. "Gridded world" values use a grid 
             overlaid across the globe at some arcsec resolution. You may also generate 
             the grid using another tool or coordinate system. For more information,
-            see :ref:`emod-malaria:demo-metadata`.
+            see :ref:`demo-metadata`.
         base_file: A basic demographics file used as a starting point for
             creating more complicated demographics files. For example,
             using a single node file to create a multi-node file for spatial
@@ -231,7 +231,7 @@ def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"
             for each of the nodes in a simulation. "Gridded world" values use a grid 
             overlaid across the globe at some arcsec resolution. You may also generate 
             the grid using another tool or coordinate system. For more information,
-            see :ref:`emod-malaria:demo-metadata`.
+            see :ref:`demo-metadata`.
 
     Returns:
         A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance.

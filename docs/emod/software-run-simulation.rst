@@ -43,8 +43,12 @@ You can run a simulation locally from Visual Studio using the built-in debugger.
 to put in breakpoints and step through the code while inspecting the values of different state
 variables throughout the simulation.
 
-.. TODO add link to dev docs when set up
-.. You can use regression_test.py in the GitHub Regression_ directory to run multiple simulations on a cluster, including running the suite of regression tests run by the |IDM_s| testing team. For more information, see :doc:`dev-regression`.  _Regression: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression
+You can use regression_test.py in the GitHub Regression_ directory to run
+multiple simulations on a cluster, including running the suite of regression
+tests run by the |IDM_s| testing team. For more information,
+see :doc:`emod:dev-regression`.  
+
+.. _Regression: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression
 
 
 Directory structure

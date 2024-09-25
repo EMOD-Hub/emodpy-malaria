@@ -35,12 +35,12 @@ def drug_configs_from_code(campaign, drug_code: str = None):
     """  
     Add a single or multiple drug regimen to the configuration file based
     on its code and add the corresponding 
-    :doc:`emod-malaria:parameter-campaign-individual-antimalarialdrug`
+    :doc:`emod/parameter-campaign-individual-antimalarialdrug`
     intervention to the return dictionary. For example, passing the ``ALP`` drug
     code will add the drug configuration for artemether, lumefantrine, and
     primaquine to the configuration file and will return a dictionary containing a
     full treatment course for those three drugs. For more information, see
-    **Malaria_Drug_Params** in :doc:`emod-malaria:parameter-configuration-drugs`.
+    **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
       
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
@@ -111,13 +111,13 @@ def add_drug_campaign(campaign,
     """ 
     Add a drug intervention campaign from a list of malaria campaign types.
     This intervention uses the
-    :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic` class
+    :doc:`emod/parameter-campaign-individual-malariadiagnostic` class
     to create either a scheduled or a triggered event to the campaign and the
-    :doc:`emod-malaria:parameter-campaign-individual-antimalarialdrug` class
+    :doc:`emod/parameter-campaign-individual-antimalarialdrug` class
     to configure drug interventions. You can also specify a delay period for a
     triggered event that broadcasts afterwards.  If the campaign is repeated
     or triggered, separate 
-    :doc:`emod-malaria:parameter-campaign-node-nodelevelhealthtriggerediv`
+    :doc:`emod/parameter-campaign-node-nodelevelhealthtriggerediv`
     interventions are created with a delay that sends an event to distribute
     drugs.
 
@@ -154,21 +154,21 @@ def add_drug_campaign(campaign,
         repetitions: The number of repetitions.
         tsteps_btwn_repetitions: The timesteps between the repetitions.
         diagnostic_type: The setting for **Diagnostic_Type** in 
-            :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
+            :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
             In addition to the accepted values listed there, you may also set
             TRUE_INFECTION_STATUS, which calls 
-            :doc:`emod-malaria:parameter-campaign-individual-standarddiagnostic`
+            :doc:`emod/parameter-campaign-individual-standarddiagnostic`
             instead.
         diagnostic_threshold: The setting for **Diagnostic_Threshold** in 
-            :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`. 
+            :doc:`emod/parameter-campaign-individual-malariadiagnostic`. 
         measurement_sensitivity: The setting for **Measurement_Sensitivity**
-            in :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
+            in :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
         fmda_radius: Radius (in km) of focal response upon finding infection. 
             Used in simulations with many small nodes to simulate 
             community health workers distributing drugs to surrounding houses.
             Used when **campaign_type** is set to fMDA.
         node_selection_type: The setting for **Node_Selection_Type** in
-          :doc:`emod-malaria:parameter-campaign-individual-broadcasteventtoothernodes`.
+          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
         trigger_coverage: The fraction of trigger events that will trigger reactive
             case detection (RCD). Used when **campaign_type** is set to rfMSAT or rfMDA. 
             To set the fraction of individuals reached during RCD response, use **coverage**.
@@ -197,7 +197,7 @@ def add_drug_campaign(campaign,
                 {"Delay_Period_Distribution":"GAUSSIAN_DISTRIBUTION",
                  "Delay_Period_Gaussian_Mean": triggered_campaign_delay, "Delay_Period_Gaussian_Std_Dev" 3}
 
-        node_ids: The setting for **Node_List** in :ref:`emod-malaria:campaign-nodeset-config`.
+        node_ids: The setting for **Node_List** in :ref:`campaign-nodeset-config`.
         target_group: A dictionary of ``{'agemin': x, 'agemax': y}`` to
             target MDA, SMC, MSAT, fMDA to individuals between x and y years
             of age. Default is Everyone.
@@ -205,9 +205,9 @@ def add_drug_campaign(campaign,
             individual property to **RecentDrug**, after which the property value
             is reverted. This property value prevents people from receiving drugs too
             frequently, but they can still receive diagnostics during this period.
-            For more information, see :doc:`emod-malaria:model-targeted-interventions`.
+            For more information, see :doc:`emod/model-targeted-interventions`.
         ind_property_restrictions: The setting for **Property_Restrictions_Within_Node**
-            in :doc:`emod-malaria:parameter-campaign-event-triggeredeventcoordinator`
+            in :doc:`emod/parameter-campaign-event-triggeredeventcoordinator`
             that individuals must have to receive the diagnostic intervention.
         ind_prop_restr_birthtrigger_event: List of IndividualProperty key:value pairs that
             individuals must have to create trigger event for the intervention.
@@ -215,16 +215,16 @@ def add_drug_campaign(campaign,
             {"IndividualProperty2":"PropertyValue2"}]``. Default is no restrictions.
             Used in triggered_campaign_delay_event that creates BroadcastEvent to trigger vaccine campaign.
         disqualifying_properties: The setting for **Disqualifying_Properties**
-            in :doc:`emod-malaria:parameter-campaign-individual-antimalarialdrug` or
-            in :doc:`emod-malaria:parameter-campaign-individual-malariadiagnostic`.
+            in :doc:`emod/parameter-campaign-individual-antimalarialdrug` or
+            in :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
         trigger_condition_list: The setting for **Start_Trigger_Condition_List** in
-            :doc:`emod-malaria:parameter-campaign-event-triggeredeventcoordinator`.
+            :doc:`emod/parameter-campaign-event-triggeredeventcoordinator`.
         listening_duration: The setting for **Duration** in
-            :doc:`emod-malaria:parameter-campaign-event-triggeredeventcoordinator`.
+            :doc:`emod/parameter-campaign-event-triggeredeventcoordinator`.
         adherent_drug_configs: List of adherent drug configurations, which are
             dictionaries from configure_adherent_drug.
         target_residents_only: The setting for **Target_Residents_Only** in
-            :doc:`emod-malaria:parameter-campaign-event-triggeredeventcoordinator`.
+            :doc:`emod/parameter-campaign-event-triggeredeventcoordinator`.
         check_eligibility_at_trigger: Set to True to check the individual or node's 
             eligibility at the initial trigger; set to False to check eligibility
             when the event is actually distributed after a delay.
@@ -789,14 +789,14 @@ def fmda_cfg(campaign, fmda_type: any = 0, node_selection_type: str = 'DISTANCE_
 
     Args:
         fmda_type: The setting for **Max_Distance_To_Other_Nodes_Km** in
-          :doc:`emod-malaria:parameter-campaign-individual-broadcasteventtoothernodes`.
+          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
         node_selection_type: The setting for **Node_Selection_Type** in
-          :doc:`emod-malaria:parameter-campaign-individual-broadcasteventtoothernodes`.
+          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
         event_trigger: The setting for **Event_Trigger** in
-          :doc:`emod-malaria:parameter-campaign-individual-broadcasteventtoothernodes`.
+          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
 
     Returns:
-        Configured :doc:`emod-malaria:parameter-campaign-individual-broadcasteventtoothernodes`
+        Configured :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`
         intervention.
     """
     if isinstance(fmda_type, str):

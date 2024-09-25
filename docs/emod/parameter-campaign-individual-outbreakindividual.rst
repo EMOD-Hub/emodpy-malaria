@@ -7,7 +7,7 @@ with the simulation type to existing individuals using the individual targeted f
 in the appropriate event coordinator. To instead add new infection individuals, use :doc:`parameter-campaign-node-outbreak`.
 
 Note, when using **Malaria_Model**: MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS, do not use
-this intervention class. Instead, use :doc:`emod-malaria:parameter-campaign-individual-outbreakindividualmalariagenetics`.
+this intervention class. Instead, use :doc:`parameter-campaign-individual-outbreakindividualmalariagenetics`.
 
 .. include:: ../reuse/warning-case.txt
 

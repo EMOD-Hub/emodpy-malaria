@@ -81,10 +81,7 @@ the files in use, as well as other initialization information, including the def
 and the logging levels set for particular modules. The file follows that information
 with log output using the following format: <timestep><HPC rank><log level><module><message>.
 
-By default, the logging level is set to "INFO". 
-
-.. TODO add a link once the dev docs are set up
-.. If you want to change the logging level, see :doc:`dev-logging`.
+By default, the logging level is set to "INFO". If you want to change the logging level, see :doc:`emod:dev-logging`.
 
 For example::
 

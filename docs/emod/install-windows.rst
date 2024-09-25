@@ -9,10 +9,8 @@ install Python virtual environments, software to plot the output of simulations,
 
 .. include:: ../reuse/testing-windows.txt
 
-.. If you want to download and modify the |EMOD_s| source code and build the |exe_s|
-    yourself, see :doc:`dev-install-overview`.
-
-.. TODO: add link to dev content when set up
+If you want to download and modify the |EMOD_s| source code and build the |exe_s|
+yourself, see :doc:`emod:dev-install-overview`.
 
 .. contents::
    :local:

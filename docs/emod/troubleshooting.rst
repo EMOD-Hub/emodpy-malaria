@@ -9,7 +9,7 @@ If you need assistance, you can contact support for help with solving issues. Yo
 |IDM_l| support at idmsupport@gatesfoundation.org. When submitting the issue, please include any error
 information. 
 
-.. TODO add link to dev docs when set up. See :doc:`dev-debugging-overview` for troubleshooting issues when attempting to build |exe_s| or |linux_binary|.
+See :doc:`emod:dev-debugging-overview` for troubleshooting issues when attempting to build |exe_s| or |linux_binary|.
 
 .. contents:: Contents
    :local:
