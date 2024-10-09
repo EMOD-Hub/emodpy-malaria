@@ -1,0 +1,482 @@
+{
+   "Defaults": {
+      "IndividualAttributes": {
+         "AgeDistribution1": 0,
+         "AgeDistribution2": 18250,
+         "AgeDistributionFlag": 1,
+         "InitialPrevalence": 0,
+         "PrevalenceDist_Description": "No initial prevalence",
+         "RiskDist_Description": "LogNormal distributed risk",
+         "RiskDistribution1": 0.0,
+         "RiskDistribution2": 1.6,
+         "RiskDistributionFlag": 5
+      },
+      "IndividualProperties": [],
+      "NodeAttributes": {
+         "Airport": 1,
+         "Altitude": 0,
+         "BirthRate": 9.602345281206754e-05,
+         "Region": 1,
+         "Seaport": 1
+      }
+   },
+   "Metadata": {
+      "Author": "stitova",
+      "DateCreated": "10/08/2024",
+      "IdReference": "from_params",
+      "NodeCount": 50,
+      "Tool": "emod-api"
+   },
+   "Nodes": [
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 9000,
+            "Latitude": 0,
+            "Longitude": 0
+         },
+         "NodeID": 1
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 7,
+            "Latitude": 1,
+            "Longitude": 0
+         },
+         "NodeID": 2
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 9,
+            "Latitude": 2,
+            "Longitude": 0
+         },
+         "NodeID": 3
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 25,
+            "Latitude": 3,
+            "Longitude": 0
+         },
+         "NodeID": 4
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 8,
+            "Latitude": 4,
+            "Longitude": 0
+         },
+         "NodeID": 5
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 9,
+            "Latitude": 5,
+            "Longitude": 0
+         },
+         "NodeID": 6
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 6,
+            "Latitude": 6,
+            "Longitude": 0
+         },
+         "NodeID": 7
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 6,
+            "Latitude": 7,
+            "Longitude": 0
+         },
+         "NodeID": 8
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 34,
+            "Latitude": 8,
+            "Longitude": 0
+         },
+         "NodeID": 9
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 11,
+            "Latitude": 9,
+            "Longitude": 0
+         },
+         "NodeID": 10
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 8,
+            "Latitude": 10,
+            "Longitude": 0
+         },
+         "NodeID": 11
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 7,
+            "Latitude": 11,
+            "Longitude": 0
+         },
+         "NodeID": 12
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 6,
+            "Latitude": 12,
+            "Longitude": 0
+         },
+         "NodeID": 13
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 16,
+            "Latitude": 13,
+            "Longitude": 0
+         },
+         "NodeID": 14
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 16,
+            "Latitude": 14,
+            "Longitude": 0
+         },
+         "NodeID": 15
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 54,
+            "Latitude": 15,
+            "Longitude": 0
+         },
+         "NodeID": 16
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 13,
+            "Latitude": 16,
+            "Longitude": 0
+         },
+         "NodeID": 17
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 6,
+            "Latitude": 17,
+            "Longitude": 0
+         },
+         "NodeID": 18
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 26,
+            "Latitude": 18,
+            "Longitude": 0
+         },
+         "NodeID": 19
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 7,
+            "Latitude": 19,
+            "Longitude": 0
+         },
+         "NodeID": 20
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 13,
+            "Latitude": 20,
+            "Longitude": 0
+         },
+         "NodeID": 21
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 10,
+            "Latitude": 21,
+            "Longitude": 0
+         },
+         "NodeID": 22
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 6,
+            "Latitude": 22,
+            "Longitude": 0
+         },
+         "NodeID": 23
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 44,
+            "Latitude": 23,
+            "Longitude": 0
+         },
+         "NodeID": 24
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 10,
+            "Latitude": 24,
+            "Longitude": 0
+         },
+         "NodeID": 25
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 63,
+            "Latitude": 25,
+            "Longitude": 0
+         },
+         "NodeID": 26
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 9,
+            "Latitude": 26,
+            "Longitude": 0
+         },
+         "NodeID": 27
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 6,
+            "Latitude": 27,
+            "Longitude": 0
+         },
+         "NodeID": 28
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 26,
+            "Latitude": 28,
+            "Longitude": 0
+         },
+         "NodeID": 29
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 10,
+            "Latitude": 29,
+            "Longitude": 0
+         },
+         "NodeID": 30
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 7,
+            "Latitude": 30,
+            "Longitude": 0
+         },
+         "NodeID": 31
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 8,
+            "Latitude": 31,
+            "Longitude": 0
+         },
+         "NodeID": 32
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 9,
+            "Latitude": 32,
+            "Longitude": 0
+         },
+         "NodeID": 33
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 18,
+            "Latitude": 33,
+            "Longitude": 0
+         },
+         "NodeID": 34
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 108,
+            "Latitude": 34,
+            "Longitude": 0
+         },
+         "NodeID": 35
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 7,
+            "Latitude": 35,
+            "Longitude": 0
+         },
+         "NodeID": 36
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 7,
+            "Latitude": 36,
+            "Longitude": 0
+         },
+         "NodeID": 37
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 14,
+            "Latitude": 37,
+            "Longitude": 0
+         },
+         "NodeID": 38
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 10,
+            "Latitude": 38,
+            "Longitude": 0
+         },
+         "NodeID": 39
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 55,
+            "Latitude": 39,
+            "Longitude": 0
+         },
+         "NodeID": 40
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 38,
+            "Latitude": 40,
+            "Longitude": 0
+         },
+         "NodeID": 41
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 11,
+            "Latitude": 41,
+            "Longitude": 0
+         },
+         "NodeID": 42
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 11,
+            "Latitude": 42,
+            "Longitude": 0
+         },
+         "NodeID": 43
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 12,
+            "Latitude": 43,
+            "Longitude": 0
+         },
+         "NodeID": 44
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 50,
+            "Latitude": 44,
+            "Longitude": 0
+         },
+         "NodeID": 45
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 70,
+            "Latitude": 45,
+            "Longitude": 0
+         },
+         "NodeID": 46
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 5,
+            "Latitude": 46,
+            "Longitude": 0
+         },
+         "NodeID": 47
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 6,
+            "Latitude": 47,
+            "Longitude": 0
+         },
+         "NodeID": 48
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 8,
+            "Latitude": 48,
+            "Longitude": 0
+         },
+         "NodeID": 49
+      },
+      {
+         "IndividualAttributes": {},
+         "NodeAttributes": {
+            "InitialPopulation": 74,
+            "Latitude": 49,
+            "Longitude": 0
+         },
+         "NodeID": 50
+      }
+   ]
+}

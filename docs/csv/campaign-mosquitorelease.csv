@@ -27,11 +27,11 @@
       ""New_Property_Value"": ""HasHealthCare:YES""
     }
 "
-"Released_Fraction","float","0","1","0","The fraction of the current population of mosquitoes to relEase (the population from the previous time step) The population depends on the gender of the mosquitoes being released. This depends on Released_Type being set to FRACTION.",".. code-block:: json
+"Released_Ratio","float","0","3.40E+038","0","The number of released mosquitoes is proportional to the mosquito population from the previous timestep, specifically considering mosquitoes of the same gender as those being released. This approach is used when on Released_Type is set to RATIO.",".. code-block:: json
 
     {
-      ""Released_type"": ""FRACTION"",
-      ""Released_Fraction"": 0.4
+      ""Released_type"": ""RATIO"",
+      ""Released_Ratio"": 0.4
     }
 "
 "Released_Genome","array of strings","NA","NA","[]","This defines the alleles of the genome of the vectors to be released. It must define all of the alleles including the gender gene. '*' is not allowed. See **Vector_Species_Params** for more information.",".. code-block:: json

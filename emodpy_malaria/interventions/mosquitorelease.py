@@ -7,7 +7,7 @@ iv_name = "MosquitoRelease"
 def _mosquito_release(campaign,
                       intervention_name: str = iv_name,
                       released_number: int = None,
-                      released_fraction: float = None,
+                      released_ratio: float = None,
                       released_infectious: float = None,
                       released_species: str = "arabiensis",
                       released_genome: list[list[str]] = None,
@@ -25,11 +25,11 @@ def _mosquito_release(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple MosquitoRelease interventions
             if they have different Intervention_Name values.
-        released_number: The number of vectors to release, sets Released_Type = "FIXED_NUMBER"
-        released_fraction: The fraction of the current population of mosquitoes to release.
-            The 'population' will depend on the sex and species of the mosquitoes being released, and it will be the
-            population count from the previous time step.
-            Sets Released_Type = "FRACTION"
+        released_number: The number of mosquitoes to release, this parameter sets Released_Type = "FIXED_NUMBER"
+            automatically.
+        released_ratio: The number of released mosquitoes is proportional to the mosquito population from the previous
+            timestep, specifically considering mosquitoes of the same gender as those being released. This approach is
+            used when on Released_Type is set to RATIO. This parameter sets Released_Type = "RATIO" automatically.
         released_infectious: The fraction of vectors released that are to be infectious.
             One can only use this feature when 'Malaria_Model'!='MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'
         released_species: The case-sensitive name of the species of vectors to be released.
@@ -48,10 +48,10 @@ def _mosquito_release(campaign,
     """
     if not released_genome:
         released_genome = [["X", "X"]]
-    # setting released_fraction or released_number to 0 is valid
-    if ((released_number is not None and released_fraction is not None) or
-            (released_number is None and released_fraction is None)):
-        raise ValueError("Please define either released_number or released_fraction to determine how to release "
+    # setting released_ratio or released_number to 0 is valid
+    if ((released_number is not None and released_ratio is not None) or
+            (released_number is None and released_ratio is None)):
+        raise ValueError("Please define either released_number or released_ratio to determine how to release "
                          "mosquitoes, \n not both.\n")
 
     if isinstance(released_microsporidia, bool):
@@ -65,7 +65,7 @@ def _mosquito_release(campaign,
     if released_number is not None:
         intervention.Released_Number = released_number
     else:
-        intervention.Released_Fraction = released_fraction
+        intervention.Released_Ratio = released_ratio
 
     intervention.Released_Infectious = released_infectious if released_infectious else 0
     intervention.Released_Species = released_species
@@ -85,7 +85,7 @@ def add_scheduled_mosquito_release(
         timesteps_between_repetitions: int = 365,
         intervention_name: str = iv_name,
         released_number: int = None,
-        released_fraction: float = None,
+        released_ratio: float = None,
         released_infectious: float = None,
         released_species: str = "arabiensis",
         released_genome: list[list[str]] = None,
@@ -109,11 +109,11 @@ def add_scheduled_mosquito_release(
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple MosquitoRelease interventions
             if they have different Intervention_Name values.
-        released_number: The number of vectors to release, sets Released_Type = "FIXED_NUMBER"
-        released_fraction: The fraction of the current population of mosquitoes to release.
-            The 'population' will depend on the sex and species of the mosquitoes being released, and it will be the
-            population count from the previous time step.
-            Sets Released_Type = "FRACTION"
+        released_number: The number of mosquitoes to release, this parameter sets Released_Type = "FIXED_NUMBER"
+            automatically.
+        released_ratio: The number of released mosquitoes is proportional to the mosquito population from the previous
+            timestep, specifically considering mosquitoes of the same gender as those being released. This approach is
+            used when on Released_Type is set to RATIO. This parameter sets Released_Type = "RATIO" automatically.
         released_infectious: The fraction of vectors released that are to be infectious.
             One can only use this feature when 'Malaria_Model'!='MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'
         released_species: The case-sensitive name of the species of vectors to be released.
@@ -135,7 +135,7 @@ def add_scheduled_mosquito_release(
     node_intervention = _mosquito_release(campaign=campaign,
                                           intervention_name=intervention_name,
                                           released_number=released_number,
-                                          released_fraction=released_fraction,
+                                          released_ratio=released_ratio,
                                           released_infectious=released_infectious,
                                           released_species=released_species,
                                           released_genome=released_genome,
