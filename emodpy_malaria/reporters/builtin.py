@@ -5,8 +5,26 @@ from emod_api import schema_to_class as s2c
 from idmtools.assets import Asset
 import json
 import urllib.request
+from enum import Enum
 
 vis_url = "https://bryanressler-idmod.github.io/vis.json"
+
+
+class VectorState(Enum):
+    STATE_INFECTIOUS = "STATE_INFECTIOUS"
+    STATE_INFECTED = "STATE_INFECTED"
+    STATE_ADULT = "STATE_ADULT"
+    STATE_MALE = "STATE_MALE"
+    STATE_IMMATURE = "STATE_IMMATURE"
+    STATE_LARVA = "STATE_LARVA"
+    STATE_EGG = "STATE_EGG"
+
+
+class DrugResistantAndHRPStatisticType(Enum):
+    NUM_PEOPLE_WITH_RESISTANT_INFECTION = "NUM_PEOPLE_WITH_RESISTANT_INFECTION"
+    NUM_INFECTIONS = "NUM_INFECTIONS"
+
+
 
 
 def check_vectors(task):
@@ -297,7 +315,7 @@ def add_malaria_patient_json_report(task, manifest,
         max_age_years: maximum age in years of people to collect data on
         must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
             means don't look at IPs (individual properties)
-        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+        must_have_intervention: the name of the intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
         filename_suffix: augments the filename of the report. If multiple reports are being generated,
             this allows you to distinguish among the multiple reports
@@ -354,7 +372,7 @@ def add_malaria_cotransmission_report(task, manifest,
             WARNING:  This can make the file size quite large
         must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
             means don't look at IPs (individual properties)
-        must_have_intervention: the name of the an intervention that the person must have in order to be included.
+        must_have_intervention: the name of the intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
         filename_suffix: augments the filename of the report. If multiple reports are being generated,
             this allows you to distinguish among the multiple reports
@@ -1087,7 +1105,7 @@ def add_report_node_demographics_malaria(task, manifest,
 def add_report_node_demographics_malaria_genetics(task, manifest,
                                                   barcodes: list = None,
                                                   drug_resistant_strings: list = None,
-                                                  drug_resistant_and_hrp_statistic_type: str = "NUM_PEOPLE_WITH_RESISTANT_INFECTION",
+                                                  drug_resistant_and_hrp_statistic_type: DrugResistantAndHRPStatisticType = DrugResistantAndHRPStatisticType.NUM_PEOPLE_WITH_RESISTANT_INFECTION,
                                                   hrp_strings: list = None,
                                                   age_bins: list = None,
                                                   ip_key_to_collect: str = "",
@@ -1134,6 +1152,8 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
         params.Barcodes = barcodes if barcodes else []
         params.Drug_Resistant_Strings = drug_resistant_strings if drug_resistant_strings else []
         params.HRP_Strings = hrp_strings if hrp_strings else []
+        if type(drug_resistant_and_hrp_statistic_type) is DrugResistantAndHRPStatisticType:
+            drug_resistant_and_hrp_statistic_type = drug_resistant_and_hrp_statistic_type.value
         params.Drug_Resistant_And_HRP_Statistic_Type = drug_resistant_and_hrp_statistic_type
         params.Include_Identity_By_XXX = 1 if include_identity_by_xxx else 0
         return params
@@ -1146,7 +1166,14 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
 
 
 def add_report_vector_migration(task, manifest,
-                                start_day: int = 0, end_day: int = 365000):
+                                start_day: int = 0,
+                                end_day: int = None,
+                                species_list: list[str] = None,
+                                must_be_in_state: list[VectorState] = None,
+                                must_be_from_node: list[int] = None,
+                                must_be_to_node: list[int] = None,
+                                include_genome_data: bool = False,
+                                filename_suffix: str = ""):
     """
     Adds ReportVectorMigration report to the simulation.
     See class definition for description of the report.
@@ -1156,6 +1183,17 @@ def add_report_vector_migration(task, manifest,
         manifest: schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
+        species_list: a list of species to include information on, default of None or [] means "all species".
+        must_be_in_state: A list of vector states for which you want to record the migration. Only STATE_MALE,
+            STATE_ADULT, STATE_INFECTED, STATE_INFECTIOUS migrate.
+        must_be_from_node: A list of node IDs. A vector must be travelling FROM one of these nodes to be recorded into
+            the report. Empty list means vectors traveling from any/all nodes will be recorded.
+        must_be_to_node: A list of node IDs. A vector must be travelling TO one of these nodes to be recorded into the
+            report. Empty list means vectors traveling to any/all nodes will be recorded.
+        include_genome_data: If set to True, adds a Genome column for migrating vectors. Vectors with no
+            custom alleles will still have their sex alleles listed.
+        filename_suffix: Augments the filename of the report. If multiple reports are being generated, this allows you
+            to distinguish among the multiple reports.
 
     Returns:
         if task is not set, returns the configured reporter, otherwise returns nothing
@@ -1165,8 +1203,27 @@ def add_report_vector_migration(task, manifest,
     reporter = ReportVectorMigration()  # Create the reporter
 
     def rec_config_builder(params):
-        params.Start_Day = start_day
-        params.End_Day = end_day
+        if start_day:
+            params.Start_Day = start_day
+        if end_day:
+            params.End_Day = end_day
+        if species_list:
+            params.Species_List = species_list
+        if must_be_in_state:
+            must_be_in_state_strings = []
+            for state in must_be_in_state:
+                if type(state) is VectorState:
+                    must_be_in_state_strings.append(state.value)
+                else:
+                    must_be_in_state_strings.append(state)
+            params.Must_Be_In_State = must_be_in_state_strings
+        if must_be_from_node:
+            params.Must_Be_From_Node = must_be_from_node
+        if must_be_to_node:
+            params.Must_Be_To_Node = must_be_to_node
+        params.Include_Genome_Data = 1 if include_genome_data else 0
+        if filename_suffix:
+            params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -1269,7 +1326,7 @@ def add_event_recorder(task, event_list: list = None,
     # Documentation: https://docs.idmod.org/projects/emod-malaria/en/latest/software-report-event-recorder.html
     if not event_list:
         if only_include_events_in_list:
-            raise ValueError("Please define event_list parameter.\n")
+            raise ValueError("Please define event_list parameter when setting only_include_events_in_list to True.\n")
         else:
             event_list = []
 
@@ -1312,8 +1369,8 @@ def add_node_event_recorder(task, event_list: list = None,
     """
 
     if not event_list:
-        if only_include_node_events_in_list:
-            raise ValueError("Please define event_list parameter.\n")
+        if only_include_events_in_list:
+            raise ValueError("Please define event_list parameter when setting only_include_events_in_list to True.\n")
         else:
             event_list = []
 
@@ -1341,7 +1398,7 @@ def add_coordinator_event_recorder(task, event_list: list = None,
     """
 
     if not event_list:
-        if only_include_coordinator_events_in_list:
+        if only_include_events_in_list:
             raise ValueError("Please define event_list parameter.\n")
         else:
             event_list = []
