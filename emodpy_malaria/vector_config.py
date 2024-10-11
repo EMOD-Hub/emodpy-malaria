@@ -2,6 +2,7 @@ import emod_api.config.default_from_schema_no_validation as dfs
 import csv
 import os
 from emodpy_malaria.malaria_vector_species_params import species_params
+from enum import Enum
 
 
 #
@@ -32,12 +33,6 @@ def set_team_defaults(config, manifest):
 
     config.parameters.Enable_Vector_Aging = 0
     config.parameters.Enable_Vector_Mortality = 1
-    config.parameters.Enable_Vector_Migration = 0
-    config.parameters.Enable_Vector_Migration_Local = 0
-    config.parameters.Enable_Vector_Migration_Regional = 0
-    config.parameters.Vector_Migration_Habitat_Modifier = 0
-    config.parameters.Vector_Migration_Food_Modifier = 0
-    config.parameters.Vector_Migration_Stay_Put_Modifier = 0
 
     config.parameters.Age_Dependent_Biting_Risk_Type = "SURFACE_AREA_DEPENDENT"
     config.parameters.Human_Feeding_Mortality = 0.1
@@ -824,3 +819,52 @@ def add_microsporidia(config, manifest, species_name: str = None,
     microsporidia.parameters.Male_To_Egg_Transmission_Probability = male_to_egg_probability
     microsporidia.parameters.Strain_Name = strain_name
     species_parameters.Microsporidia = species_parameters.Microsporidia.append(microsporidia.parameters)
+
+
+class ModifierEquationType(Enum):
+    EXPONENTIAL = "EXPONENTIAL"
+    LINEAR = "LINEAR"
+
+
+def add_vector_migration(config,
+                         species: str = None,
+                         vector_migration_filename: str = None,
+                         x_vector_migration: float = 1,
+                         vector_migration_modifier_equation: ModifierEquationType = ModifierEquationType.LINEAR,
+                         vector_migration_habitat_modifier: float = 0,
+                         vector_migration_food_modifier: float = 0,
+                         vector_migration_stay_put_modifier: float = 0):
+    """
+        Adds vector migration parameters to the named species' parameters.
+
+    Args:
+        config: schema-backed config dictionary, written to config.json
+        species: Species to target, **Name** parameter
+        vector_migration_filename: **Vector_Migration_Filename** The name of the file that contains the migration.
+        x_vector_migration: Scale factor for the rate of vector migration to other nodes.
+        vector_migration_modifier_equation: Functional form of vector migration modifiers.
+            This applies only to female migrating vectors. Default is ModifierEquationType.LINEAR.
+        vector_migration_habitat_modifier: Preference of a vector to migrate toward a node with more habitat. This
+            applies only to female migrating vectors.
+        vector_migration_food_modifier: Preference of a vector to migrate toward a node currently occupied by humans,
+            independent of the number of humans in the node. This only applies to female migrating vectors.
+        vector_migration_stay_put_modifier: Preference of a vector to remain in its current node rather than migrate
+            to another node. This applies only to female migrating vectors.
+
+
+    Returns:
+
+    """
+    if not species:
+        raise ValueError("Please define species_name.\n")
+    if not vector_migration_filename:
+        raise ValueError("Please define vector_migration_filename.\n")
+
+    params = get_species_params(config, species)
+    params.Vector_Migration_Filename = vector_migration_filename
+    params.x_Vector_Migration = x_vector_migration
+    params.Vector_Migration_Modifier_Equation = vector_migration_modifier_equation.value
+    params.Vector_Migration_Habitat_Modifier = vector_migration_habitat_modifier
+    params.Vector_Migration_Food_Modifier = vector_migration_food_modifier
+    params.Vector_Migration_Stay_Put_Modifier = vector_migration_stay_put_modifier
+
