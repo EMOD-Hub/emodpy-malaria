@@ -45,6 +45,15 @@ documentation will be output to the docs/_build/html directory.
 
 Frequently asked questions are answered in https://docs.idmod.org/projects/emodpy-malaria/en/latest/faq.html.
 
+##Community
+
+The EMOD Community is made up of researchers and software developers, primarily focused on malaria and HIV research.
+We value mutual respect, openness, and a collaborative spirit. If these values resonate with you, 
+we invite you to join our EMOD Slack Community by completing this form:
+
+https://forms.office.com/r/sjncGvBjvZ
+
+
 ## Support and Contributions
 
 The code in this repository was developed by IDM to support our research in disease
