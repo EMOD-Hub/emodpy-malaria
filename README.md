@@ -1,3 +1,5 @@
+We encourage you to join our EMOD Slack Community by filling out this form https://forms.office.com/r/sjncGvBjvZ
+
 # emodpy-malaria
 
 Python module for use as user-space front-end for doing research easily with EMOD (MALARIA_SIM) via idmtools.
