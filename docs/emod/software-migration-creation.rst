@@ -91,8 +91,11 @@ The following parameters are used in the JSON file for migration file generation
 
 
 
-Example file
-------------
+Example files
+-------------
 
 .. literalinclude:: ../json/migration-input-file.json
+   :language: json
+   
+.. literalinclude:: ../json/migration-input-file-both-genders.json
    :language: json
