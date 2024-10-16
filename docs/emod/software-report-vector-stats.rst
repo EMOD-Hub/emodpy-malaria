@@ -22,6 +22,7 @@ To generate this report, the following parameters must be configured in the cust
     Include_Wolbachia_Columns, boolean, NA, NA, 0, "If set to true (1), columns will be added for each type of Wolbachia. Summation of columns should be equal to VectorPopulation."
     Include_Gestation_Columns, boolean, NA, NA, 0, "If set to true (1), columns will be added for feeding and gestation."
     Include_Death_By_State_Columns, boolean, NA, NA, 0, "Adds columns for the number of vectors that died in this state during this time step as well as the average age at death.  It adds two columns for each of the following states: ADULT, INFECTED, INFECTIOUS, and MALE."
+    Include_Microsporidia_Columns, boolean, NA, NA, 0, "If set to true (1), columns will be added for each state and the value in the column will be the number of vectors that have microsporidia in that state during this time step."
 
 
 .. code-block:: json
@@ -29,19 +30,20 @@ To generate this report, the following parameters must be configured in the cust
     {
         "Reports": [
             {
-                "Species_List": [
+                "class": "ReportVectorStats",
+                "Species_List":  [
                     "arabiensis",
                     "funestus"
                 ],
                 "Stratify_By_Species": 1,
                 "Include_Wolbachia_Columns": 0,
                 "Include_Gestation_Columns": 1,
-                "class": "ReportVectorStats"
+                "Include_Microsporidia_Columns": 0,
+                "Include_Death_By_State_Columns": 1
             }
         ],
         "Use_Defaults": 1
     }
-
 
 
 
@@ -103,6 +105,7 @@ Data columns
     AvgAgeAtDeathInfected, float, "If **Include_Death_By_State_Columns** = 1, then this column contains the average age (in days) of the the infected, mature, female vectors that died during this time step."
     AvgAgeAtDeathAdults, float, "If **Include_Death_By_State_Columns** = 1, then this column contains the average age (in days) of the the mature, female vectors that are neither infected or infectious that died during this time step."
     AvgAgeAtDeathMale, float, "If **Include_Death_By_State_Columns** = 1, then this column contains the average age (in days) of the the mature male vectors that died during this time step."
+    AvgDurationLarvaeToImmature, float, "Average time, in days, it takes larva to become immature adults."
     NumGestatingOnDay_0, integer, "If **Include_Gestation_Columns** = 1, then this column contains the number of vectors that are gestating but with 0 more days before attempting to feed."
     NumGestatingOnDay_1, integer, "If **Include_Gestation_Columns** = 1, then this column contains the number of vectors that are gestating but with 1 more days before attempting to feed."
     NumGestatingOnDay_2, integer, "If **Include_Gestation_Columns** = 1, then this column contains the number of vectors that are gestating but with 2 more days before attempting to feed."
@@ -115,10 +118,11 @@ Data columns
     VECTOR_WOLBACHIA_A, integer, "If **Include_Wolbachia_Columns** = 1, then this column contains the number of adult female vectors that have Wolbachia A."
     VECTOR_WOLBACHIA_B, integer, "If **Include_Wolbachia_Columns** = 1, then this column contains the number of adult female vectors that have Wolbachia B."
     VECTOR_WOLBACHIA_AB, integer, "If **Include_Wolbachia_Columns** = 1, then this column contains the number of adult female vectors that have Wolbachia AB."
-    MigrationFromCountLocal, integer, "This is the number of adult female vectors that made a local migration trip away from this node."
-    MigrationFromCountRegiona, integer, "This is the number of adult female vectors that made a regional migration trip away from this node."
     XXX_AvailableHabitat, integer, "If **Stratify_By_Species** = 0, then this column title does not have the species name in it.  If **Stratify_By_Species** = 1, then there is a column for each species.  This column contains the number of larva that the habitat could add (e.g. number of spots open); equal to current capacity - current larval count."
     XXX_EggCrowdingCorrection, float, "If **Stratify_By_Species** = 0, then this column title does not have the species name in it.  If **Stratify_By_Species** = 1, then there is a column for each species.  This column contains the probability that eggs die due to overcrowding."
+    HasMicrosporidia-STATE_XXX, integer, "If **Include_Microsporidia_Columns** = 1, then the columns contain number of vectors in that state that have microsporidia."
+    NoMicrosporidia-STATE_XXX, integer, "If **Include_Microsporidia_Columns** = 1, then the columns contain number of vectors in that state that do not have microsporidia."
+
 
 
 Example
@@ -154,13 +158,31 @@ This example includes Wolbachia columns:
 This table includes gestation columns:
 
 .. csv-table::
-    :header: Time,NodeID,Population,VectorPopulation,STATE_INFECTIOUS,STATE_INFECTED,STATE_ADULT,STATE_MALE,STATE_IMMATURE,STATE_LARVA,STATE_EGG,NumLookingToFeed,NumFedCount,NumGestatingBegin,NumGestatingEnd,NumAttemptFeedIndoor,NumAttemptFeedOutdoor,NumAttemptButNotFeed,NewEggsCount,IndoorBitesCount,IndoorBitesCount-Infectious,OutdoorBitesCount,OutdoorBitesCount-Infectious,Unmated Adults,NewAdults,DiedBeforeFeeding,DiedDuringFeedingIndoor,DiedDuringFeedingOutdoor,NumGestatingOnDay_0,NumGestatingOnDay_1,NumGestatingOnDay_2,NumGestatingOnDay_3,NumGestatingOnDay_4,NumGestatingOnDay_5,NumGestatingOnDay_6,NumGestatingOnDay_7,MigrationFromCountLocal,MigrationFromCountRegional,arabiensis_AvailableHabitat,arabiensis_EggCrowdingCorrection
-    :widths: 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
+    :header: Time,NodeID,Population,VectorPopulation,STATE_INFECTIOUS,STATE_INFECTED,STATE_ADULT,STATE_MALE,STATE_IMMATURE,STATE_LARVA,STATE_EGG,NumLookingToFeed,NumFedCount,NumGestatingBegin,NumGestatingEnd,NumAttemptFeedIndoor,NumAttemptFeedOutdoor,NumAttemptButNotFeed,NewEggsCount,IndoorBitesCount,IndoorBitesCount-Infectious,OutdoorBitesCount,OutdoorBitesCount-Infectious,Unmated Adults,NewAdults,DiedBeforeFeeding,DiedDuringFeedingIndoor,DiedDuringFeedingOutdoor,NumGestatingOnDay_0,NumGestatingOnDay_1,NumGestatingOnDay_2,NumGestatingOnDay_3,NumGestatingOnDay_4,NumGestatingOnDay_5,NumGestatingOnDay_6,NumGestatingOnDay_7, arabiensis_AvailableHabitat,arabiensis_EggCrowdingCorrection
+    :widths: 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
 
-    350,1,1000,88760,2171,16352,70237,100715,124862,1699008,1647000,29944,16393 ,48447,64840,8098,8154,11915,823500,8,1,8,0,0,12005,10422,820,816,9823,11150,12887,14587,16393,0,0,0,0,0,0,0 
-    351,1,1000,88451,2127,16377,69947,100900,124843,1699680,1641840,29839,16278 ,48381,64659,8059,8021,11911,820920,8,0,8,1,0,11881,10540,848,802,9772,11285,12856,14468,16278,0,0,0,0,0,0,0 
-    352,1,1000,88312,2110,16283,69919,100936,125391,1697598,1619120,29630,16020 ,48388,64408,7970,7859,12004,809560,7,2,7,2,0,11900,10433,803,803,9901,11347,12790,14350,16020,0,0,0,0,0,0,0 
-    353,1,1000,88477,2117,16291,70069,101167,125234,1698069,1655960,29957,16285 ,48062,64347,8014,8127,12029,827980,8,1,8,0,0,12101,10293,807,836,9964,11265,12681,14152,16285,0,0,0,0,0,0,0 
-    354,1,1000,88617,2154,16232,70231,101057,125605,1697983,1669440,30280,16509 ,47938,64447,8045,8214,12183,834720,8,0,8,0,0,11987,10259,790,798,9889,11158,12502,14389,16509,0,0,0,0,0,0,0 
-    355,1,1000,88480,2154,16217,70109,101222,125573,1698350,1649840,30097,16393 ,47995,64388,8120,8083,12069,824920,8,0,8,1,0,12023,10525,813,822,9715,11030,12662,14588,16393,0,0,0,0,0,0,0 
+    350,1,1000,88760,2171,16352,70237,100715,124862,1699008,1647000,29944,16393 ,48447,64840,8098,8154,11915,823500,8,1,8,0,0,12005,10422,820,816,9823,11150,12887,14587,16393,0,0,0,0,0 
+    351,1,1000,88451,2127,16377,69947,100900,124843,1699680,1641840,29839,16278 ,48381,64659,8059,8021,11911,820920,8,0,8,1,0,11881,10540,848,802,9772,11285,12856,14468,16278,0,0,0,0,0 
+    352,1,1000,88312,2110,16283,69919,100936,125391,1697598,1619120,29630,16020 ,48388,64408,7970,7859,12004,809560,7,2,7,2,0,11900,10433,803,803,9901,11347,12790,14350,16020,0,0,0,0,0 
+    353,1,1000,88477,2117,16291,70069,101167,125234,1698069,1655960,29957,16285 ,48062,64347,8014,8127,12029,827980,8,1,8,0,0,12101,10293,807,836,9964,11265,12681,14152,16285,0,0,0,0,0 
+    354,1,1000,88617,2154,16232,70231,101057,125605,1697983,1669440,30280,16509 ,47938,64447,8045,8214,12183,834720,8,0,8,0,0,11987,10259,790,798,9889,11158,12502,14389,16509,0,0,0,0,0 
+    355,1,1000,88480,2154,16217,70109,101222,125573,1698350,1649840,30097,16393 ,47995,64388,8120,8083,12069,824920,8,0,8,1,0,12023,10525,813,822,9715,11030,12662,14588,16393,0,0,0,0,0 
+  
+    
+This table includes microsporidia columns:
+
+.. csv-table::
+    :header: Time,NodeID,Population,VectorPopulation,STATE_INFECTIOUS,STATE_INFECTED,STATE_ADULT,STATE_MALE,STATE_IMMATURE,STATE_LARVA,STATE_EGG,NewEggsCount,IndoorBitesCount,IndoorBitesCount-Infectious,OutdoorBitesCount,OutdoorBitesCount-Infectious,NewAdults,UnmatedAdults,DiedBeforeFeeding,DiedDuringFeedingIndoor,DiedDuringFeedingOutdoor,NumDiedInfectious,NumDiedInfected,NumDiedAdults,NumDiedMale,AvgAgeAtDeathInfectious,AvgAgeAtDeathInfected,AvgAgeAtDeathAdults,AvgAgeAtDeathMale,AvgDurationLarvaeToImmature,HasMicrosporidia-STATE_INFECTIOUS,HasMicrosporidia-STATE_INFECTED,HasMicrosporidia-STATE_ADULT,HasMicrosporidia-STATE_MALE,HasMicrosporidia-STATE_IMMATURE,HasMicrosporidia-STATE_LARVA,HasMicrosporidia-STATE_EGG,NoMicrosporidia-STATE_INFECTIOUS,NoMicrosporidia-STATE_INFECTED,NoMicrosporidia-STATE_ADULT,NoMicrosporidia-STATE_MALE,NoMicrosporidia-STATE_IMMATURE,NoMicrosporidia-STATE_LARVA,NoMicrosporidia-STATE_EGG,SillySkeeter_AvailableHabitat,SillySkeeter_EggCrowdingCorrection
+    :widths: 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
+    
+    34,340461476,1000,8595,12,209,8374,10936,12679,81106,302440,151220,2603,0,0,0,1227,0,873,264,0,0,18,1119,1048,0,8.44444,5.95085,7.46183,11,0,0,0,0,0,0,0,12,209,8374,10936,12679,81106,302440,11593.8,0.0357489
+    35,340461476,1000,8694,26,210,8458,11051,12616,81384,315720,157860,2713,1,0,0,1221,0,831,291,0,0,29,1093,1069,0,8.58621,6.36688,7.7521,11,0,0,0,0,0,0,0,26,210,8458,11051,12616,81384,315720,11437.7,0.0383342
+    36,340461476,1000,8802,38,211,8553,11286,13262,80529,344080,172040,2841,4,0,0,1196,0,796,292,0,5,30,1053,1040,12.2,9.4,6.24691,7.78462,11,0,0,0,0,0,0,0,38,211,8553,11286,13262,80529,344080,12400.3,0.0362274
+    37,340461476,1000,9000,46,215,8739,11420,13336,81294,337560,168780,2783,5,0,0,1246,0,761,287,0,4,26,1018,1109,14.5,10.3077,6.11002,8.17764,11,0,0,0,0,0,0,0,46,215,8739,11420,13336,81294,337560,11730.2,0.0360389
+    38,340461476,1000,9140,50,229,8861,11428,13306,81547,343280,171640,2853,4,0,0,1300,0,855,305,0,6,18,1136,1173,16.6667,7.33333,6.70158,8.22677,11,0,0,0,0,0,0,0,50,229,8861,11428,13306,81547,343280,11561,0.03475
+    39,340461476,1000,9177,58,226,8893,11535,13517,81669,359000,179500,2993,8,0,0,1186,0,846,303,0,4,30,1115,1068,14.75,10.3333,6.53453,8,11,0,0,0,0,0,0,0,58,226,8893,11535,13517,81669,359000,11512.9,0.0336779
+    40,340461476,1000,9428,67,221,9140,11866,13201,81574,355160,177580,2847,5,0,0,1425,0,871,303,0,6,26,1142,1128,12.8333,9.69231,6.50613,8.34486,11,0,0,0,0,0,0,0,67,221,9140,11866,13201,81574,355160,11673.1,0.0320693
+    41,340461476,1000,9510,73,224,9213,12055,13208,81606,365520,182760,3126,6,0,0,1260,0,876,302,0,8,26,1144,1143,15.875,8.76923,6.38112,8.55731,11,0,0,0,0,0,0,0,73,224,9213,12055,13208,81606,365520,11698.6,0.0328671
+
+
 

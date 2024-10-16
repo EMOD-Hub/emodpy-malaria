@@ -19,7 +19,7 @@ The following JSON example illustrates sweeping through configuration parameter 
     {
         "sweep" :
         {
-            "path": "43_Vector_Garki_MultiCore_VectorMigration",
+            "path": "Vector/22_Vector_Garki_MultiCore_VectorMigration",
             "param_name" : "Run_Number",
             "param_values" : [ 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144 ]
         }
