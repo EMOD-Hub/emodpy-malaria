@@ -22,8 +22,9 @@ You can also define different migration patterns, such as one-way or roundtrip. 
 only when all members are home or returning home after passing through several waypoints. For more
 detailed information, see :doc:`parameter-configuration-migration` parameters.
 
-For vector-borne diseases, you can also include vector migration. Vectors can migrate locally
-or regionally, and you can include additional rules based on the availability of food or habitat.
+For vector-borne diseases, you can also include vector migration. Both male and female vectors 
+migrate. Each vector species has their own migration file. You can include additional rules for 
+female vectors based on the availability of food or habitat.
 
 You must include a separate migration file for each mode of travel that describes the migration
 patterns for each node. It lists the migration rate for each node. Migration rate is defined as the
