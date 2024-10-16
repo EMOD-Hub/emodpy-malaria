@@ -48,6 +48,11 @@ To use the same average migration rate for every individual in a node, create th
 
 This will create both the metadata and binary file needed by |EMOD_s|. 
 
+Example file
+------------
+
+.. literalinclude:: ../csv/migration-input-file-simple.csv
+
 
 Create from JSON input
 ======================
@@ -80,9 +85,9 @@ The following parameters are used in the JSON file for migration file generation
     From_Node_ID, integer, The origin node for which to define migration rate. 
     Rate_Data, array, The structure that contains migration rate data for a single destination node.  
     To_Node_ID, integer, The destination node for which to define migration rate. 
-    Avg_Num_Trips_Per_Day_Both, array, The array that lists the average number of trips per day for each age bin  defined in **AgesYears** (male and female).
-    Avg_Num_Trips_Per_Day_Female, array, The array that lists the average number of trips per day for each female age bin defined in **AgesYears**.
-    Avg_Num_Trips_Per_Day_Male, array, The array that lists the average number of trips per day for each male age bin defined in **AgesYears**.
+    Avg_Num_Trips_Per_Day_Both, array, The array that lists the average number of trips per day for each age bin  defined in **Ages_Years** (male and female). Used when **Gender_Data_Type** is set to ONE_FOR_BOTH_GENDERS.
+    Avg_Num_Trips_Per_Day_Female, array, The array that lists the average number of trips per day for each female age bin defined in **Ages_Years**. Used when **Gender_Data_Type** is set to ONE_FOR_EACH_GENDER.
+    Avg_Num_Trips_Per_Day_Male, array, The array that lists the average number of trips per day for each male age bin defined in **Ages_Years**. Used when **Gender_Data_Type** is set to ONE_FOR_EACH_GENDER.
 
 
 
