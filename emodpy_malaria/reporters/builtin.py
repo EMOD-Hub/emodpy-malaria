@@ -1128,7 +1128,7 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
         hrp_strings: A list of strings representing the set of HRP markers.  A column will be created with the
             number of humans infections with that HRP string.  One can use '*' for a wild card.
             A 'OtherHRP' column will be created for HRP strings not defined.
-        drug_resistant_and_hrp_statistic_type: indicates the statistic in the Drug Resistant & HRP columns columns:
+        drug_resistant_and_hrp_statistic_type: indicates the statistic in the Drug Resistant & HRP columns:
             NUM_PEOPLE_WITH_RESISTANT_INFECTION = A person is counted if they have one infection with that drug
             resistant marker;  NUM_INFECTIONS = The total number of infections with that marker.
         age_bins: the age bins (in years) to aggregate within and report. An empty array does not stratify by age. You
@@ -1153,8 +1153,9 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
         params.Drug_Resistant_Strings = drug_resistant_strings if drug_resistant_strings else []
         params.HRP_Strings = hrp_strings if hrp_strings else []
         if type(drug_resistant_and_hrp_statistic_type) is DrugResistantAndHRPStatisticType:
-            drug_resistant_and_hrp_statistic_type = drug_resistant_and_hrp_statistic_type.value
-        params.Drug_Resistant_And_HRP_Statistic_Type = drug_resistant_and_hrp_statistic_type
+            params.Drug_Resistant_And_HRP_Statistic_Type = drug_resistant_and_hrp_statistic_type.value
+        else:  # assume they passed in a string directly
+            params.Drug_Resistant_And_HRP_Statistic_Type = drug_resistant_and_hrp_statistic_type
         params.Include_Identity_By_XXX = 1 if include_identity_by_xxx else 0
         return params
 

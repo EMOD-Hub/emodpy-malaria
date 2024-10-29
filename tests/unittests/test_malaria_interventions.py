@@ -1406,7 +1406,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.parse_intervention_parts()
         self.assertEqual(self.start_day, start_day)
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
-        self.assertEqual(self.intervention_config["Released_Type"], "FRACTION")
+        self.assertEqual(self.intervention_config["Released_Type"], "RATIO")
         self.assertEqual(self.intervention_config["Released_Ratio"], released_ratio)
         self.assertEqual(self.intervention_config["Released_Infectious"], 1)
         self.assertEqual(self.intervention_config["Released_Species"], released_species)
