@@ -2327,8 +2327,8 @@ class TestMalariaInterventions(unittest.TestCase):
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.start_day, start_day)
-        self.assertEqual(self.intervention_config["Expiration_Constant"], expiration_constant)
-        self.assertEqual(self.intervention_config["Expiration_Distribution"], "CONSTANT_DISTRIBUTION")
+        self.assertEqual(self.intervention_config["Expiration_Period_Constant"], expiration_constant)
+        self.assertEqual(self.intervention_config["Expiration_Period_Distribution"], "CONSTANT_DISTRIBUTION")
         self.assertEqual(self.intervention_config["Cost_To_Consumer"], cost_to_consumer)
         self.assertEqual(self.intervention_config["Insecticide_Name"], insecticide)
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
@@ -2346,8 +2346,9 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 8
         timesteps_between_repetitions = 3
         cost_to_consumer = 1.15
-        expiration_config = {"Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
-                             "Expiration_Gaussian_Mean": 20, "Expiration_Gaussian_Std_Dev": 10}
+        expiration_config = {"Expiration_Period_Distribution": "GAUSSIAN_DISTRIBUTION",
+                             "Expiration_Period_Gaussian_Mean": 20,
+                             "Expiration_Period_Gaussian_Std_Dev": 10}
         expiration_constant = 33
         insecticide = "EatMe"
         intervention_name = "SugarTrapEatMe"
@@ -2365,9 +2366,9 @@ class TestMalariaInterventions(unittest.TestCase):
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.tmp_intervention["Start_Day"], start_day)
-        self.assertEqual(self.intervention_config["Expiration_Gaussian_Mean"], 20)
-        self.assertEqual(self.intervention_config["Expiration_Distribution"], "GAUSSIAN_DISTRIBUTION")
-        self.assertEqual(self.intervention_config["Expiration_Gaussian_Std_Dev"], 10)
+        self.assertEqual(self.intervention_config["Expiration_Period_Gaussian_Mean"], 20)
+        self.assertEqual(self.intervention_config["Expiration_Period_Distribution"], "GAUSSIAN_DISTRIBUTION")
+        self.assertEqual(self.intervention_config["Expiration_Period_Gaussian_Std_Dev"], 10)
         self.assertEqual(self.intervention_config["Cost_To_Consumer"], cost_to_consumer)
         self.assertEqual(self.intervention_config["Insecticide_Name"], insecticide)
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
