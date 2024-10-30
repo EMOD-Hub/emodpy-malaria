@@ -713,7 +713,7 @@ def from_demog_and_param_gravity_webservice(demographics_file_path: str, params:
 # TODO: just use task to reload the demographics files into an object to use for this
 
 def from_demographics_and_gravity_params(task, demographics_object, gravity_params: list,
-                                         migration_type=VectorMigration.REGIONAL_MIGRATION,
+                                         migration_type=VectorMigration.LOCAL_MIGRATION,
                                          filename: str = None):
     """
         This function takes a demographics object, creates a vector migration file based on the populations and
