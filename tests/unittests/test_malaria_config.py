@@ -9,11 +9,10 @@ import schema_path_file
 from emodpy_malaria.malaria_vector_species_params import species_params
 from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_max_larval_capacity, \
     configure_linear_spline, set_species_param, add_microsporidia, add_insecticide_resistance, add_drug_resistance,\
-    set_drug_param, set_team_drug_params, set_parasite_genetics_params, get_drug_params
+    set_drug_param, set_team_drug_params, set_parasite_genetics_params, get_drug_params, add_blood_meal_mortality
 from emodpy_malaria.vector_config import \
     add_genes_and_alleles, \
     add_mutation, \
-    add_insecticide_resistance, \
     add_trait, add_species_drivers, create_trait
 
 file_dir = os.path.dirname(__file__)
@@ -27,7 +26,7 @@ class TestMalariaConfig(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.default_config = dfs.write_default_from_schema(schema_path_file.schema_file)  # default_config.json
+        cls.default_config = dfs.get_default_config_from_schema(schema_path_file.schema_file)  # default_config.json
 
     def setUp(self) -> None:
         self.is_debugging = False
@@ -79,7 +78,63 @@ class TestMalariaConfig(unittest.TestCase):
         self.assertIn('Artemether', found_drug_names)
         self.assertIn('Lumefantrine', found_drug_names)
 
+
+    def test_add_blood_meal_mortality(self):
+        add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
+        add_genes_and_alleles(self.config,
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("a0", 0.5), ("a1", 0.5)])
+        add_genes_and_alleles(self.config,
+                              schema_path_file,
+                              species="funestus",
+                              alleles=[("b0", 0.5), ("b1", 0.5)])
+        add_genes_and_alleles(self.config,
+                              schema_path_file,
+                              species="arabiensis",
+                              alleles=[("c0", 0.5), ("c1", 0.5)])
+        
+        add_blood_meal_mortality(self.config, schema_path_file,
+                                 default_probability_of_death=0.1,
+                                 species="funestus",
+                                 allele_combo=[["X", "X"], ["a1", "a1"]],
+                                 probability_of_death_for_allele_combo=1.0)
+        
+        add_blood_meal_mortality(self.config, schema_path_file,
+                                 default_probability_of_death=0.2,
+                                 species="funestus",
+                                 allele_combo=[["b0", "b1"]],
+                                 probability_of_death_for_allele_combo=0.8)
+        
+        add_blood_meal_mortality(self.config, schema_path_file,
+                                 default_probability_of_death=0.3,
+                                 species="arabiensis",
+                                 allele_combo=[["c1", "c1"]],
+                                 probability_of_death_for_allele_combo=0.6)
+
+        self.assertEqual( 2, len(self.config.parameters.Vector_Species_Params))
+        
+        vsp_f = self.config.parameters.Vector_Species_Params[0]
+        vsp_a = self.config.parameters.Vector_Species_Params[1]
+
+        self.assertEqual("funestus",   vsp_f.Name)
+        self.assertEqual("arabiensis", vsp_a.Name)
+
+        self.assertAlmostEqual(                       0.28,     vsp_f.Blood_Meal_Mortality.Default_Probability, delta=0.000001)
+        self.assertEqual(                                2, len(vsp_f.Blood_Meal_Mortality.Genetic_Probabilities))
+        self.assertEqual(       [["X", "X"], ["a1", "a1"]],     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[0].Allele_Combinations)
+        self.assertEqual(       [            ["b0", "b1"]],     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[1].Allele_Combinations)
+        self.assertAlmostEqual(                        1.0,     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[0].Probability, delta=0.000001)
+        self.assertAlmostEqual(                        0.8,     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[1].Probability, delta=0.000001)
+
+        self.assertAlmostEqual(            0.3,     vsp_a.Blood_Meal_Mortality.Default_Probability, delta=0.000001)
+        self.assertEqual(                    1, len(vsp_a.Blood_Meal_Mortality.Genetic_Probabilities))
+        self.assertEqual(       [["c1", "c1"]],     vsp_a.Blood_Meal_Mortality.Genetic_Probabilities[0].Allele_Combinations)
+        self.assertAlmostEqual(            0.6,     vsp_a.Blood_Meal_Mortality.Genetic_Probabilities[0].Probability, delta=0.000001)
+
+
     def test_add_resistance_new_insecticide(self):
+        add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
         add_insecticide_resistance(self.config,
                                    schema_path_file,
                                    insecticide_name='Honey',

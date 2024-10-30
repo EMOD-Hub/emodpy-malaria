@@ -418,6 +418,20 @@ def add_species(config, manifest, species_to_select):
     """
     vector_config.add_species(config, manifest, species_to_select)
 
+def add_blood_meal_mortality(config, manifest,
+                             default_probability_of_death: float = 0.0,
+                             species: str = "",
+                             allele_combo: list = None,
+                             probability_of_death_for_allele_combo: float = 0.0):
+    """
+        Pass through for vector version of function.
+    """
+    return vector_config.add_blood_meal_mortality(config, manifest,
+                                                  default_probability_of_death,
+                                                  species,
+                                                  allele_combo,
+                                                  probability_of_death_for_allele_combo)
+
 
 def add_insecticide_resistance(config, manifest, insecticide_name: str = "", species: str = "",
                                allele_combo: list = None, blocking: float = 1.0, killing: float = 1.0,
