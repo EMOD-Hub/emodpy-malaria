@@ -311,7 +311,7 @@ class WeatherRequest:
         try:
             # Run work item
             # Note: For simplicity reasons only synchronous scenario is supported (covers the majority of use cases).
-            work_item.run(wait_on_done=True)
+            work_item.run(wait_until_done=True)
             comps_wi = work_item.get_platform_object(force=True)
 
             # Get asset collection and set data id
