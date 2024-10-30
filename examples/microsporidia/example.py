@@ -12,8 +12,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 import emodpy.emod_task as emod_task
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 from emodpy_malaria.vector_migration.vector_migration import from_demographics_and_gravity_params
 
 import manifest
@@ -167,7 +165,6 @@ def general_sim(selected_platform):
         Nothing
     """
     experiment_name = "Microsporidia_example"
-
     # create EMODTask
     print("Creating EMODTask (from files)...")
     task = emod_task.EMODTask.from_default2(
@@ -184,21 +181,16 @@ def general_sim(selected_platform):
     if selected_platform == "COMPS":
         platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
         # set the singularity image to be used when running this experiment
-        # set the singularity image to be used when running this experiment
         task.set_sif(manifest.sif_path)
-        # need this for our bespoke Eradication to run on bespoke sif
-        emod_task.EMODTask.add_py_path(task, manifest.path_to_python_vm)
-
-    # CURRENTLY NOT SET UP TO RUN ON SLURM
-    # elif selected_platform.startswith("SLURM"):
-    #     # This is for native slurm cluster
-    #     # Quest slurm cluster. 'b1139' is guest partition for idm user. You may have different partition and acct
-    #     platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
-    #                         account='b1139', modules=['singularity'], max_running_jobs=10)
-    #     # set the singularity image to be used when running this experiment
-    #     # dtk_build_rocky_39.sif can be downloaded with command:
-    #     # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
-    #     task.set_sif(manifest.SIF_PATH, platform)
+    elif selected_platform.startswith("SLURM"):
+        # This is for native slurm cluster
+        # Quest slurm cluster. 'b1139' is guest partition for idm user. You may have different partition and acct
+        platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
+                            account='b1139', modules=['singularity'], max_running_jobs=10)
+        # set the singularity image to be used when running this experiment
+        # dtk_build_rocky_39.sif can be downloaded with command:
+        # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
+        task.set_sif(manifest.SIF_PATH, platform)
 
     # set up sweeps
     builder = SimulationBuilder()
@@ -250,6 +242,6 @@ if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
 
-    # dtk.setup(pathlib.Path(manifest.eradication_path).parent)
+    dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     selected_platform = "COMPS"
     general_sim(selected_platform)

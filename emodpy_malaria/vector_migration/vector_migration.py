@@ -817,13 +817,7 @@ def from_demographics_and_gravity_params(task, demographics_object, gravity_para
         filename = f"vector_migration_{migration_type}.bin"
     v_migration.to_file(Path(filename))
     # turn on migration knobs in config
-    task.config.parameters.Enable_Vector_Migration = 1
-    if migration_type == VectorMigration.REGIONAL_MIGRATION:
-        task.config.parameters.Enable_Vector_Migration_Regional = 1
-        task.config.parameters.Vector_Migration_Filename_Regional = filename
-    elif migration_type == VectorMigration.LOCAL_MIGRATION:
-        task.config.parameters.Enable_Vector_Migration_Local = 1
-        task.config.parameters.Vector_Migration_Filename_local = filename
+    task.config.parameters.Vector_Species_Params[0].Vector_Migration_Filename = filename
     # add migration file to experiment
     task.common_assets.add_asset(filename)
     task.common_assets.add_asset(f"{filename}.json")

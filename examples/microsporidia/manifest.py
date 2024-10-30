@@ -7,7 +7,7 @@ import os
 
 # ----- this is temporary until update MosquitoRelease code is in emod-malaria-------
 # the location of the file containing AssetCollection id for the dtk sif (singularity image)
-sif_path = 'dtk_sif.id'
+sif_path = os.path.join(os.pardir, 'dtk_sif.id')
 path_to_python_vm = "/py_env/lib/python3.9/site-packages"
 #------------------
 # The script is going to use this to store the downloaded schema file. Create 'download' directory or change to
@@ -24,7 +24,7 @@ ep4_path = "EP4"
 
 job_directory = os.path.join(os.path.expanduser('~'), "example_emodpy_malaria/microsporidia")
 os.makedirs(job_directory, exist_ok=True)
-#SIF_PATH = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')# python post- or pre-processing scripts directory
+SIF_PATH = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')# python post- or pre-processing scripts directory
 my_ep4_assets_dir = os.path.join(os.curdir, "ep4")
 experiment_id = "experiment_id"
 # requirements = "./requirements.txt"
