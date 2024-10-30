@@ -182,8 +182,10 @@ def set_team_drug_params(config, manifest):
             mdp.parameters.Bodyweight_Exponent = float(row[drug_bwexp_idx])
 
             try:
-                ages = [float(x) for x in row[drug_fracdos_key_idx].strip('[]').split(",")]
-                values = [float(x) for x in row[drug_fracdos_val_idx].strip('[]').split(",")]
+                key = row[drug_fracdos_key_idx].strip('[]').replace(' ','')
+                if len(key) > 0:
+                    ages = [float(x) for x in row[drug_fracdos_key_idx].strip('[]').split(",")]
+                    values = [float(x) for x in row[drug_fracdos_val_idx].strip('[]').split(",")]
             except Exception as ex:
                 print("For drug {}, {}".format(row[0], str(ex)))
                 ages = []

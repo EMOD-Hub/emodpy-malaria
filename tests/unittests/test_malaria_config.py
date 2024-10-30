@@ -435,6 +435,14 @@ class TestMalariaConfig(unittest.TestCase):
         self.assertEqual(drug_params.Resistances[0]["Max_IRBC_Kill_Modifier"], 0.01)
         self.assertEqual(drug_params.Resistances[0]["PKPD_C50_Modifier"], 0.4)
         self.assertEqual(drug_params.Drug_Cmax, 239487)
+        self.assertEqual(3, len(drug_params.Fractional_Dose_By_Upper_Age))
+        self.assertEqual( 3, drug_params.Fractional_Dose_By_Upper_Age[0]["Upper_Age_In_Years"])
+        self.assertEqual( 6, drug_params.Fractional_Dose_By_Upper_Age[1]["Upper_Age_In_Years"])
+        self.assertEqual(10, drug_params.Fractional_Dose_By_Upper_Age[2]["Upper_Age_In_Years"])
+        self.assertEqual(0.25, drug_params.Fractional_Dose_By_Upper_Age[0]["Fraction_Of_Adult_Dose"])
+        self.assertEqual(0.50, drug_params.Fractional_Dose_By_Upper_Age[1]["Fraction_Of_Adult_Dose"])
+        self.assertEqual(0.75, drug_params.Fractional_Dose_By_Upper_Age[2]["Fraction_Of_Adult_Dose"])
+
 
     def test_species_params(self):
         species_list = ["gambiae", "arabiensis", "funestus", "fpg_gambiae", "minimus", "dirus", "MYSTERIO"]
