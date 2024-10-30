@@ -41,7 +41,7 @@ class WeatherE2ECompsTests(unittest.TestCase):
                 # only available in Africa
                 site_csv = self.testfiles_dir.parent.joinpath("ssmt/sites_af.csv")
                 start_year, end_year = 2016365, 2017001
-            wr: WeatherRequest = generate_weather(platform="Bayesian",
+            wr: WeatherRequest = generate_weather(platform="Calculon",
                                                   site_file=site_csv,
                                                   start_date=start_year,
                                                   end_date=end_year,
@@ -74,7 +74,7 @@ class WeatherE2ECompsTests(unittest.TestCase):
         site_csv = self.testfiles_dir.parent.joinpath("ssmt/sites.csv")
         start_year, end_year = 2020365, 2021001
 
-        wr1 = generate_weather(platform="Bayesian",
+        wr1 = generate_weather(platform="Calculon",
                                site_file=site_csv,
                                start_date=start_year,
                                end_date=end_year,
@@ -88,7 +88,7 @@ class WeatherE2ECompsTests(unittest.TestCase):
         self.assertEqual(len(wr1.report.download["ok"]), 0)
         self.assertEqual(len(wr1.report.download["skip"]), 8)
 
-        wr2 = generate_weather(platform="Bayesian",
+        wr2 = generate_weather(platform="Calculon",
                                site_file=site_csv,
                                start_date=start_year,
                                end_date=end_year,
