@@ -26,7 +26,8 @@ class TestMalariaConfig(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.default_config = dfs.get_default_config_from_schema(schema_path_file.schema_file)  # default_config.json
+        cls.default_config = "default_config.json"
+        dfs.get_default_config_from_schema(schema_path_file.schema_file, output_filename="default_config.json")
 
     def setUp(self) -> None:
         self.is_debugging = False
