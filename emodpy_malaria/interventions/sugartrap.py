@@ -61,7 +61,7 @@ def _sugar_trap(campaign,
     schema_path = campaign.schema_path
     intervention = s2c.get_class_with_defaults("SugarTrap", schema_path)
     if not expiration_config:
-        intervention.Expiration_Constant = expiration_constant
+        intervention.Expiration_Period_Constant = expiration_constant
     else:
         for param in expiration_config:
             setattr(intervention, param, expiration_config[param])

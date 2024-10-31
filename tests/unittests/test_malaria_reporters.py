@@ -611,7 +611,7 @@ class TestMalariaReport(unittest.TestCase):
     def test_report_node_demographics_malaria_genetics_custom(self):
         barcodes = ["AGT", "GGG"]
         drug_resistant_strings = ["G"]
-        drug_resistant_statistic_type = "NUM_INFECTIONS"
+        drug_resistant_statistic_type = DrugResistantAndHRPStatisticType.NUM_INFECTIONS
         age_bins = [5, 45, 90]
         individual_property_to_collect = "Risk"
         self.tmp_reporter = add_report_node_demographics_malaria_genetics(None, schema_path_file,
@@ -629,7 +629,7 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Stratify_By_Gender'], 0)
         self.assertEqual(self.p_dict['Barcodes'], barcodes)
         self.assertEqual(self.p_dict['Drug_Resistant_Strings'], drug_resistant_strings)
-        self.assertEqual(self.p_dict['Drug_Resistant_And_HRP_Statistic_Type'], drug_resistant_statistic_type)
+        self.assertEqual(self.p_dict['Drug_Resistant_And_HRP_Statistic_Type'], drug_resistant_statistic_type.value)
         self.assertEqual(self.p_dict['Include_Identity_By_XXX'], 1)
 
     def test_report_node_demographics_malaria_genetics_default(self):
@@ -656,20 +656,45 @@ class TestMalariaReport(unittest.TestCase):
     def test_report_vector_migration_custom(self):
         start_day = 55
         end_day = 60
+        species_list = ["gambiae", "test"]
+        must_be_in_state = [VectorState.STATE_MALE]
+        must_be_from_node = [1, 2, 3]
+        must_be_to_node = [4, 5, 6]
+        include_genome_data = True
+        filename_suffix = "Testing"
         self.tmp_reporter = add_report_vector_migration(None, schema_path_file,
                                                         start_day=start_day,
-                                                        end_day=end_day)
+                                                        end_day=end_day,
+                                                        species_list=species_list,
+                                                        must_be_in_state=must_be_in_state,
+                                                        must_be_from_node=must_be_from_node,
+                                                        must_be_to_node=must_be_to_node,
+                                                        include_genome_data=True,
+                                                        filename_suffix=filename_suffix)
         self.p_dict = self.tmp_reporter.parameters
         self.assertIsNotNone(self.tmp_reporter)
         self.assertEqual(self.p_dict['Start_Day'], start_day)
         self.assertEqual(self.p_dict['End_Day'], end_day)
+        self.assertEqual(self.p_dict['Species_List'], species_list)
+        self.assertEqual(self.p_dict['Must_Be_In_State'], ["STATE_MALE"])
+        self.assertEqual(self.p_dict['Must_Be_From_Node'], must_be_from_node)
+        self.assertEqual(self.p_dict['Must_Be_To_Node'], must_be_to_node)
+        self.assertEqual(self.p_dict['Include_Genome_Data'], 1)
+        self.assertEqual(self.p_dict['Filename_Suffix'], filename_suffix)
 
     def test_report_vector_migration_default(self):
         self.tmp_reporter = add_report_vector_migration(None, schema_path_file)
         self.p_dict = self.tmp_reporter.parameters
         self.assertIsNotNone(self.tmp_reporter)
         self.assertEqual(self.p_dict['Start_Day'], default_start_day)
-        self.assertEqual(self.p_dict['End_Day'], default_end_day)
+        self.assertEqual(self.p_dict['End_Day'], 3.40282e+38)
+        self.assertEqual(self.p_dict['Species_List'], [])
+        self.assertEqual(self.p_dict['Must_Be_In_State'], [])
+        self.assertEqual(self.p_dict['Must_Be_From_Node'], [])
+        self.assertEqual(self.p_dict['Must_Be_To_Node'], [])
+        self.assertEqual(self.p_dict['Include_Genome_Data'], 0)
+        self.assertEqual(self.p_dict['Filename_Suffix'], "")
+
 
     # endregion
 

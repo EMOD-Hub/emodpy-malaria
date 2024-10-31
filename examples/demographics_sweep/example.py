@@ -156,16 +156,16 @@ def general_sim():
 
     # Check result
     if not experiment.succeeded:
-        print(f"Experiment {experiment.uid} failed.\n")
+        print(f"Experiment {experiment.id} failed.\n")
         exit()
 
-    print(f"Experiment {experiment.uid} succeeded.")
+    print(f"Experiment {experiment.id} succeeded.")
 
     # Save experiment id to file
     with open(manifest.experiment_id, "w") as fd:
-        fd.write(experiment.uid.hex)
+        fd.write(experiment.id)
     print()
-    print(experiment.uid.hex)
+    print(experiment.id)
 
 
 if __name__ == "__main__":

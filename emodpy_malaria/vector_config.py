@@ -2,6 +2,41 @@ import emod_api.config.default_from_schema_no_validation as dfs
 import csv
 import os
 from emodpy_malaria.malaria_vector_species_params import species_params
+from enum import Enum
+
+
+def _validate_allele_combo(species_params, allele_combo):
+    """
+    Internal method to validate that a user provided an acceptal allele_combo
+    where it is a two dimentional array of strings and the inner array has 
+    two elements where each element is an allele of the same gene.
+    """
+    if len(allele_combo) == 0:
+        raise ValueError("allele_combo must define some alleles to target")
+    
+    for combo in allele_combo:
+        if len(combo) != 2:
+            raise ValueError(
+                "Each combo in allele_combo must have two values - one for each chromosome, '*' is acceptable. \n")
+        
+    # Check that the alleles referenced here have been 'declared' previously
+    allele_names = []
+    allele_names_in_combo = []
+    for gene in species_params.Genes:
+        for allele in gene["Alleles"]:
+            allele_names.append(allele["Name"])
+
+    for combo in allele_combo:
+        for allele_name in combo:
+            if allele_name != "X" and allele_name != "Y" and allele_name != "*":
+                allele_names_in_combo.append(allele_name)
+
+    for alnic in allele_names_in_combo:
+        if alnic not in allele_names:
+            raise ValueError(f"Allele name {alnic} submitted in one of the allele_combos is not found"
+                             f" in the Genes parameter for {species_params.Name}.\n")
+        
+    return
 
 
 #
@@ -32,12 +67,6 @@ def set_team_defaults(config, manifest):
 
     config.parameters.Enable_Vector_Aging = 0
     config.parameters.Enable_Vector_Mortality = 1
-    config.parameters.Enable_Vector_Migration = 0
-    config.parameters.Enable_Vector_Migration_Local = 0
-    config.parameters.Enable_Vector_Migration_Regional = 0
-    config.parameters.Vector_Migration_Habitat_Modifier = 0
-    config.parameters.Vector_Migration_Food_Modifier = 0
-    config.parameters.Vector_Migration_Stay_Put_Modifier = 0
 
     config.parameters.Age_Dependent_Biting_Risk_Type = "SURFACE_AREA_DEPENDENT"
     config.parameters.Human_Feeding_Mortality = 0.1
@@ -87,6 +116,8 @@ def get_species_params(config, species: str = None):
     Returns:
         Dictionary of species parameters with the matching name
     """
+    if not species:
+        raise ValueError("Please define a species.")
     for vector_species in config.parameters.Vector_Species_Params:
         if vector_species.Name == species:
             return vector_species
@@ -403,38 +434,87 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
     Returns:
         configured config
     """
+    species_params = get_species_params(config, species)
+    _validate_allele_combo( species_params=species_params, allele_combo=allele_combo)
 
-    if len(allele_combo) == 0:
-        raise ValueError("allele_combo must define some alleles to target")
-    for combo in allele_combo:
-        if len(combo) != 2:
-            raise ValueError(
-                "Each combo in allele_combo must have two values - one for each chromosome, '*' is acceptable. \n")
     if not trait_modifiers or not isinstance(trait_modifiers, list):
         raise ValueError("Please make sure to pass in a list of trait modifiers created by create_trait() funciton.\n")
-
-    species_params = get_species_params(config, species)
-    # Check that the alleles referenced here have been 'declared' previously
-    allele_names = []
-    allele_names_in_combo = []
-    for gene in species_params.Genes:
-        for allele in gene["Alleles"]:
-            allele_names.append(allele["Name"])
-
-    for combo in allele_combo:
-        for allele_name in combo:
-            if allele_name != "X" and allele_name != "Y" and allele_name != "*":
-                allele_names_in_combo.append(allele_name)
-
-    for alnic in allele_names_in_combo:
-        if alnic not in allele_names:
-            raise ValueError(f"Allele name {alnic} submitted in one of the allele_combos is not found"
-                             f" in Genes parameterf for {species}.\n")
 
     trait = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:GeneToTraitModifierConfig"])
     trait.parameters.Allele_Combinations = allele_combo
     trait.parameters.Trait_Modifiers = trait_modifiers
     species_params.Gene_To_Trait_Modifiers.append(trait.parameters)
+
+    return config
+
+def add_blood_meal_mortality(config, manifest,
+                             default_probability_of_death: float = 0.0,
+                             species: str = "",
+                             allele_combo: list = None,
+                             probability_of_death_for_allele_combo: float = 0.0):
+    """
+    Add a probability of death after a mosquito has a blood meal.  There are some genetically
+    modified mosquitoes that have a fitness cost associated with the digestion of a blood meal.
+    This is a GeneticProbability such that the probability used can depend on the genetic make
+    up of the mosquito.  This probability will be included as a "die after feeding" possibility.
+    
+    If you need to add multiple allele combos for the same speices, call this method once for
+    each allele combo and associated probability.  If you do, please note that the default
+    probability will be combined by OR'ing the different values together [1-((1-p1)*(1-p2))].
+    Also note that the default probabilities for each species will be OR'd together.
+
+    The probability selected for given genome will depend on the "complexity" of the allele
+    combinations.  If an entry has more genes/loci positions than another, the combination with
+    more will be considered first.  If they have the same number of genes and one has fewer
+    possible genomes, the one with fewer possible genomes will be considered first.  For example,
+    if you add a1-a1 in one call and b1-b0 in a second call, EMOD will first check if the genome
+    has a1-a1.  If it has a1-a1, it will get that probability.  If it does not, it will check
+    if the genome has b1-b0 or b0-b1.  The entered values are not combined in anyway.  It is up
+    to the user to specify the probability for specific combinations.
+
+    Args:
+        config: schema-backed config smart dict
+        manifest: manifest module containing the schema path
+        default_probability_of_death: The probability used if the genome of the mosquito does not
+            match any of the defined allele combinations in Genetic_Probabilities.
+        species: Name of the species of vectors to give the specific probability to.
+        allele_combo: The combination of alleles that a mosquito's genome must have in order to 
+            apply associated Probability.  You do not need to specify alleles for every locus.
+            The ones not defined are not considered in the match  This should be a two dimensional
+            array where each internal array has two strings representing two alleles of the same
+            locus.  Each separate internal array represents locus and you can only have one entry
+            per locus.  You can use '*' for an allele to say any allele. For example,
+            [ ["a1", "a1"], ["b1, "*"] ] says any mosquito with a1-a1 in the first locus and
+            b1 in either chromosome of the second locus.
+        probability_of_death_for_allele_combo: The probability to use if the genome of the mosquito
+            has the matching Allele_Combinations.  The default is zero.
+
+    Returns:
+        configured config
+    """
+
+    # checks if species name is valid
+    species_params = get_species_params(config, species)
+    
+    if (default_probability_of_death < 0.0) or (1.0 < default_probability_of_death):
+        raise ValueError(f"Invalid value for 'default_probability_of_death'={default_probability_of_death}.\n"
+                         f"The value must be between 0 and 1.\n")
+    
+    _validate_allele_combo( species_params=species_params, allele_combo=allele_combo)
+
+    if (probability_of_death_for_allele_combo < 0.0) or (1.0 < probability_of_death_for_allele_combo):
+        raise ValueError(f"Invalid value for 'probability_of_death_for_allele_combo'={probability_of_death_for_allele_combo}.\n"
+                         f"The value must be between 0 and 1.\n")
+
+    acp = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:AlleleComboProbabilityConfig"])
+    acp.parameters.Allele_Combinations = allele_combo
+    acp.parameters.Probability = probability_of_death_for_allele_combo
+
+    species_params.Blood_Meal_Mortality.Genetic_Probabilities.append( acp.parameters )
+
+    default_prob = species_params.Blood_Meal_Mortality.Default_Probability
+    default_prob = 1.0 - ((1.0 - default_prob)*(1.0 - default_probability_of_death))
+    species_params.Blood_Meal_Mortality.Default_Probability = default_prob
 
     return config
 
@@ -482,8 +562,13 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
     Returns:
         configured config
     """
+
+    # checks if species name is valid
+    species_params = get_species_params(config, species)
+    _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
+
     resistance = dfs.schema_to_config_subnode(manifest.schema_file,
-                                              ["idmTypes", "idmType:AlleleComboProbabilityConfig"])
+                                              ["idmTypes", "idmType:ResistantAlleleComboProbabilityConfig"])
     resistance.parameters.Blocking_Modifier = blocking
     resistance.parameters.Killing_Modifier = killing
     resistance.parameters.Repelling_Modifier = repelling
@@ -795,15 +880,12 @@ def add_microsporidia(config, manifest, species_name: str = None,
     Returns:
         Nothing
     """
-    if not species_name:
-        raise ValueError("Please define species_name.\n")
     if not strain_name:
         raise ValueError("Please define strain_name.\n")
     if not duration_to_disease_acquisition_modification:
         duration_to_disease_acquisition_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.5, 0.0]}
     if not duration_to_disease_transmission_modification:
-        duration_to_disease_transmission_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.75, 0.5]
-            }
+        duration_to_disease_transmission_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.75, 0.5]}
 
     species_parameters = get_species_params(config, species_name)
     d_t_d_a_m = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
@@ -824,3 +906,58 @@ def add_microsporidia(config, manifest, species_name: str = None,
     microsporidia.parameters.Male_To_Egg_Transmission_Probability = male_to_egg_probability
     microsporidia.parameters.Strain_Name = strain_name
     species_parameters.Microsporidia = species_parameters.Microsporidia.append(microsporidia.parameters)
+
+
+class ModifierEquationType(Enum):
+    EXPONENTIAL = "EXPONENTIAL"
+    LINEAR = "LINEAR"
+
+
+def add_vector_migration(task,
+                         species: str = None,
+                         vector_migration_filename_path: str = None,
+                         x_vector_migration: float = 1,
+                         vector_migration_modifier_equation: ModifierEquationType = ModifierEquationType.LINEAR,
+                         vector_migration_habitat_modifier: float = 0,
+                         vector_migration_food_modifier: float = 0,
+                         vector_migration_stay_put_modifier: float = 0):
+    """
+        Adds vector migration parameters to the named species' parameters and adds the migration file to the
+        common_assets in task
+
+    Args:
+        task: contains config to edit and assets to add migration file to
+        species: Species to target, **Name** parameter
+        vector_migration_filename_path: Path with the filename of the migration file to use for
+            **Vector_Migration_Filename**
+        x_vector_migration: Scale factor for the rate of vector migration to other nodes.
+        vector_migration_modifier_equation: Functional form of vector migration modifiers.
+            This applies only to female migrating vectors. Default is ModifierEquationType.LINEAR.
+        vector_migration_habitat_modifier: Preference of a vector to migrate toward a node with more habitat. This
+            applies only to female migrating vectors.
+        vector_migration_food_modifier: Preference of a vector to migrate toward a node currently occupied by humans,
+            independent of the number of humans in the node. This only applies to female migrating vectors.
+        vector_migration_stay_put_modifier: Preference of a vector to remain in its current node rather than migrate
+            to another node. This applies only to female migrating vectors.
+
+
+    Returns:
+
+    """
+    if not vector_migration_filename_path:
+        raise ValueError("Please define vector_migration_filename.\n")
+    head, tail = os.path.split(vector_migration_filename_path)
+
+    params = get_species_params(task.config, species)
+    params.Vector_Migration_Filename = tail
+    params.x_Vector_Migration = x_vector_migration
+    params.Vector_Migration_Modifier_Equation = vector_migration_modifier_equation.value
+    params.Vector_Migration_Habitat_Modifier = vector_migration_habitat_modifier
+    params.Vector_Migration_Food_Modifier = vector_migration_food_modifier
+    params.Vector_Migration_Stay_Put_Modifier = vector_migration_stay_put_modifier
+    # checking if present in case added previously (ex: if using same migration file for different species)
+    if not task.common_assets.has_asset(vector_migration_filename_path):
+        task.common_assets.add_asset(vector_migration_filename_path)
+    if not task.common_assets.has_asset(vector_migration_filename_path + ".json"):
+        task.common_assets.add_asset(vector_migration_filename_path + ".json")
+

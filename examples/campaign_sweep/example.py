@@ -169,7 +169,7 @@ def general_sim(selected_platform):
         platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
                             account='b1139', modules=['singularity'], max_running_jobs=10)
         # set the singularity image to be used when running this experiment
-        task.set_sif(manifest.SIF_PATH, platform)
+        task.set_sif(manifest.sif_path_slurm, platform)
 
     # Create simulation sweep with builder
     # sweeping over start day AND killing effectiveness - this will be a cross product
@@ -195,16 +195,16 @@ def general_sim(selected_platform):
 
     # Check result
     if not experiment.succeeded:
-        print(f"Experiment {experiment.uid} failed.\n")
+        print(f"Experiment {experiment.id} failed.\n")
         exit()
 
-    print(f"Experiment {experiment.uid} succeeded.")
+    print(f"Experiment {experiment.id} succeeded.")
 
     # Save experiment id to file
     with open("experiment_id", "w") as fd:
-        fd.write(experiment.uid.hex)
+        fd.write(experiment.id)
     print()
-    print(experiment.uid.hex)
+    print(experiment.id)
 
 
 if __name__ == "__main__":

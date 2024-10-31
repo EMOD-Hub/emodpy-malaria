@@ -111,16 +111,16 @@ def general_sim():
 
     # Check result
     if not experiment.succeeded:
-        print(f"Experiment {experiment.uid} failed.\n")
+        print(f"Experiment {experiment.id} failed.\n")
         exit()
 
-    print(f"Experiment {experiment.uid} succeeded.")
+    print(f"Experiment {experiment.id} succeeded.")
 
     # Save experiment id to file
     with open("experiment_id", "w") as fd:
-        fd.write(experiment.uid.hex)
+        fd.write(experiment.id)
     print()
-    print(experiment.uid.hex)
+    print(experiment.id)
     
     # important bit
     # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
@@ -130,7 +130,7 @@ def general_sim():
     #    experiment_id = f.readline()
 
     dl_wi = DownloadWorkItem(
-                             related_experiments=[experiment.uid.hex],
+                             related_experiments=[experiment.id],
                              file_patterns=["output/*.dtk"],
                              simulation_prefix_format_str='serialization_files',
                              verbose=True,

@@ -1357,7 +1357,7 @@ class TestMalariaInterventions(unittest.TestCase):
         timesteps_between_repetitions = 365
         intervention_name = "MosquitoRelease"
         released_number = 203847
-        released_fraction = None
+        released_ratio = None
         released_infectious = 0
         released_microsporidia_strain = ''
         released_species = "arabiensis"
@@ -1385,7 +1385,7 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 978
         timesteps_between_repetitions = 41
         intervention_name = "MosquitoReleaseTesting"
-        released_fraction = 0.88
+        released_ratio = 1.88
         released_infectious = True
         released_microsporidia_strain = 'tEst_strain'
         released_species = "funestus"
@@ -1396,7 +1396,7 @@ class TestMalariaInterventions(unittest.TestCase):
                                        timesteps_between_repetitions=timesteps_between_repetitions,
                                        node_ids=node_ids,
                                        intervention_name=intervention_name,
-                                       released_fraction=released_fraction,
+                                       released_ratio=released_ratio,
                                        released_infectious=released_infectious,
                                        released_species=released_species,
                                        released_genome=released_genome,
@@ -1406,8 +1406,8 @@ class TestMalariaInterventions(unittest.TestCase):
         self.parse_intervention_parts()
         self.assertEqual(self.start_day, start_day)
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
-        self.assertEqual(self.intervention_config["Released_Type"], "FRACTION")
-        self.assertEqual(self.intervention_config["Released_Fraction"], released_fraction)
+        self.assertEqual(self.intervention_config["Released_Type"], "RATIO")
+        self.assertEqual(self.intervention_config["Released_Ratio"], released_ratio)
         self.assertEqual(self.intervention_config["Released_Infectious"], 1)
         self.assertEqual(self.intervention_config["Released_Species"], released_species)
         self.assertEqual(self.intervention_config["Released_Genome"], released_genome)
@@ -2327,8 +2327,8 @@ class TestMalariaInterventions(unittest.TestCase):
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.start_day, start_day)
-        self.assertEqual(self.intervention_config["Expiration_Constant"], expiration_constant)
-        self.assertEqual(self.intervention_config["Expiration_Distribution"], "CONSTANT_DISTRIBUTION")
+        self.assertEqual(self.intervention_config["Expiration_Period_Constant"], expiration_constant)
+        self.assertEqual(self.intervention_config["Expiration_Period_Distribution"], "CONSTANT_DISTRIBUTION")
         self.assertEqual(self.intervention_config["Cost_To_Consumer"], cost_to_consumer)
         self.assertEqual(self.intervention_config["Insecticide_Name"], insecticide)
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)
@@ -2346,8 +2346,9 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 8
         timesteps_between_repetitions = 3
         cost_to_consumer = 1.15
-        expiration_config = {"Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
-                             "Expiration_Gaussian_Mean": 20, "Expiration_Gaussian_Std_Dev": 10}
+        expiration_config = {"Expiration_Period_Distribution": "GAUSSIAN_DISTRIBUTION",
+                             "Expiration_Period_Gaussian_Mean": 20,
+                             "Expiration_Period_Gaussian_Std_Dev": 10}
         expiration_constant = 33
         insecticide = "EatMe"
         intervention_name = "SugarTrapEatMe"
@@ -2365,9 +2366,9 @@ class TestMalariaInterventions(unittest.TestCase):
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.tmp_intervention["Start_Day"], start_day)
-        self.assertEqual(self.intervention_config["Expiration_Gaussian_Mean"], 20)
-        self.assertEqual(self.intervention_config["Expiration_Distribution"], "GAUSSIAN_DISTRIBUTION")
-        self.assertEqual(self.intervention_config["Expiration_Gaussian_Std_Dev"], 10)
+        self.assertEqual(self.intervention_config["Expiration_Period_Gaussian_Mean"], 20)
+        self.assertEqual(self.intervention_config["Expiration_Period_Distribution"], "GAUSSIAN_DISTRIBUTION")
+        self.assertEqual(self.intervention_config["Expiration_Period_Gaussian_Std_Dev"], 10)
         self.assertEqual(self.intervention_config["Cost_To_Consumer"], cost_to_consumer)
         self.assertEqual(self.intervention_config["Insecticide_Name"], insecticide)
         self.assertEqual(self.intervention_config["Intervention_Name"], intervention_name)

@@ -105,7 +105,7 @@ def general_sim(selected_platform):
         # set the singularity image to be used when running this experiment
         # dtk_build_rocky_39.sif can be downloaded with command:
         # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
-        task.set_sif(manifest.SIF_PATH, platform)
+        task.set_sif(manifest.sif_path_slurm, platform)
     
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
@@ -131,7 +131,7 @@ def general_sim(selected_platform):
         # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
         from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
         dl_wi = DownloadWorkItem(
-                                 related_experiments=[experiment.uid.hex],
+                                 related_experiments=[experiment.id],
                                  file_patterns=["output/*.dtk"],
                                  simulation_prefix_format_str='serialization_files',
                                  verbose=True,

@@ -36,10 +36,33 @@ section. The **Metadata** section contains a JSON object with parameters, some o
 strictly  informational and some of which are used by |exe_s|. However, the informational ones may
 still be important to understand the provenance and meaning of the data.
 
-Parameters
-----------
+Simple Migration File Parameters
+--------------------------------
 
-The following parameters can be included in the migration metadata file:
+The following parameters can be included in the simple migration metadata file:
+
+.. csv-table::
+    :header: Parameter, Data type, Description
+    :widths: 10,5,20
+
+    Author, string, The author of the file.
+    DatavalueCount, integer, "(Used by |EMOD_s|.) The number of outbound data values per node (max 100). The number must be the same across every node in the binary file."
+    DateCreated, string, The day the file was created.
+    IdReference, string, "(Used by |EMOD_s|.) A unique, user-selected string that indicates the method used by |EMOD_s| for generating **NodeID** values in the input files. For more information, see :doc:`software-inputs`."
+    NodeCount, integer, (Used by |EMOD_s|.) The number of nodes to expect in this file.
+    NodeOffsets, string, "(Used by |EMOD_s|.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
+    Tool, string, The script used to create the file.
+
+Example
+-------
+
+.. literalinclude:: ../json/simple-migration-metadata.json
+   :language: json
+
+By Gender By Age Migration File Parameters
+------------------------------------------
+
+The following parameters can be included in the by-gender by-age migration metadata file:
 
 .. csv-table::
     :header: Parameter, Data type, Description

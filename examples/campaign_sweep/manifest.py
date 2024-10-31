@@ -18,4 +18,4 @@ ep4_path="python_scripts"
 
 job_directory = os.path.join(os.path.expanduser('~'), "example_emodpy_malaria/campaign_sweep")
 os.makedirs(job_directory, exist_ok=True)
-SIF_PATH = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')
+sif_path_slurm = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')

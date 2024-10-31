@@ -16,18 +16,17 @@ from emodpy.bamboo import get_model_files
 
 # emod_api
 import emod_api.migration as migration
-
-from emodpy_malaria import vector_config
-from emodpy_malaria import malaria_config as malaria_config
+import emodpy_malaria.malaria_config as malaria_config
 import manifest
 
 """
     In this example we create migration for a multi-node simulation and add spatial output.
     We are getting demographics files from a server, which is only reachable when you're on VPN
+    
 """
 
 
-def build_campaign(start_day=2):
+def build_campaign():
     """
     Build a campaign input file for the DTK using emod_api.
     Right now this function creates the file and returns the filename. If calling code just needs an asset that's fine.
@@ -41,7 +40,7 @@ def build_campaign(start_day=2):
     # print( f"Telling emod-api to use {manifest.schema_file} as schema." )
     nodes = [1402941398, 1402941399, 1402941400, 1402941401, 1402941404, 1402941410, 1403072469, 1403072470, 1403072471,
              1403072472]
-    add_scheduled_usage_dependent_bednet(campaign, start_day=start_day,
+    add_scheduled_usage_dependent_bednet(campaign, start_day=10,
                                          demographic_coverage=0.5,
                                          killing_initial_effect=0.5,
                                          blocking_linear_values=[1, 0.5, 0.3, 0.2, 0],
@@ -49,7 +48,6 @@ def build_campaign(start_day=2):
                                          blocking_linear_times=[0, 20, 40, 60, 80],
                                          blocking_expire_at_end=1,
                                          node_ids=nodes)
-
     return campaign
 
 
@@ -58,10 +56,10 @@ def set_config_parameters(config):
     This function is a callback that is passed to emod-api.config to set parameters The Right Way.
     """
     # You have to set simulation type explicitly before you set other parameters for the simulation
-
+    config.parameters.Simulation_Type = "MALARIA_SIM"
     # sets "default" malaria parameters as determined by the malaria team
-    config = vector_config.set_team_defaults(config, manifest)
-    vector_config.add_species(config, manifest, ["funestus"])
+    config = malaria_config.set_team_defaults(config, manifest)
+    malaria_config.add_species(config, manifest, ["gambiae"])
     config.parameters.Enable_Migration_Heterogeneity = 0
     config.parameters.Enable_Vector_Species_Report = 1
     config.parameters.Custom_Individual_Events = ["Bednet_Got_New_One", "Bednet_Using", "Bednet_Discarded"]
@@ -99,9 +97,9 @@ def general_sim():
 
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", node_group="idm_48cores")
+    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
 
-    experiment_name = "Migration and Spatial VECTOR_SIM example"
+    experiment_name = "Migration and Spatial example"
 
     # create EMODTask
     print("Creating EMODTask (from files)...")
@@ -130,19 +128,18 @@ def general_sim():
 
     # Check result
     if not experiment.succeeded:
-        print(f"Experiment {experiment.uid} failed.\n")
+        print(f"Experiment {experiment.id} failed.\n")
         exit()
 
-    print(f"Experiment {experiment.uid} succeeded.")
+    print(f"Experiment {experiment.id} succeeded.")
 
     # Save experiment id to file
-    with open(manifest.experiment_id, "w") as fd:
-        fd.write(experiment.uid.hex)
+    with open("experiment_id", "w") as fd:
+        fd.write(experiment.id)
 
 
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
-
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

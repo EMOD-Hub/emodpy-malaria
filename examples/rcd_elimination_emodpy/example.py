@@ -178,7 +178,7 @@ def general_sim(selected_platform):
         # set the singularity image to be used when running this experiment
         # dtk_build_rocky_39.sif can be downloaded with command:
         # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
-        task.set_sif(manifest.SIF_PATH, platform)
+        task.set_sif(manifest.sif_path_slurm, platform)
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
@@ -189,14 +189,14 @@ def general_sim(selected_platform):
 
     # Check result
     if not experiment.succeeded:
-        print(f"Experiment {experiment.uid} failed.\n")
+        print(f"Experiment {experiment.id} failed.\n")
         exit()
 
-    print(f"Experiment {experiment.uid} succeeded.")
+    print(f"Experiment {experiment.id} succeeded.")
 
     # Save experiment id to file
     with open("experiment_id", "w") as fd:
-        fd.write(experiment.uid.hex)
+        fd.write(experiment.id)
 
 
 if __name__ == "__main__":
