@@ -86,12 +86,12 @@ def build_campaign():
     sample_size = Distributions.uniform(30, 100)
 
     """    Setting Up the Vector Surveillance Event Coordinator - Frequency_Counter
-    distributed on day 0 of the simulation
-    starts running when it is triggered start_surveillance event
-    it runs every 3 days once triggered
-    it samples 30-100 vectors of the species gambiae, gender female
-    it has unique name of "Frequency_Counter" and it counts allele frequencies
-    When done counting, it sends out the frequency_counter_ran whether or not dtk_vector_surveillance.py 
+    - distributed on day 0 of the simulation
+    - starts running when it is triggered start_surveillance event
+    - it runs every 3 days once triggered
+    - it samples 30-100 vectors of the species gambiae, gender female
+    - it has unique name of "Frequency_Counter" and it counts allele frequencies
+    - When done counting, it sends out the frequency_counter_ran whether or not dtk_vector_surveillance.py 
     sends out any other events
     
     The coordinator sends the data to the responder() function in the dtk_vector_surveillance.py,
@@ -106,13 +106,13 @@ def build_campaign():
                                               coordinator_name="Frequency_Counter", count_type=CountType.ALLELE_FREQ)
 
     """  Setting Up the Vector Surveillance Event Coordinator - Genome_Counter    
-    distributed on day *2* of the simulation
-    the duration of 20 means the event coordinator will be removed from the simulation whether 
-    it's running or not on day (start_day + duration) 22
-    starts running when it is triggered start_surveillance event
-    it runs every *5* days once triggered
-    it samples 30-100 vectors of the species gambiae, *both genders*
-    it has unique name of "Genome_Counter" and it counts *GENOME_FRACTION*
+    - distributed on day *2* of the simulation
+    - the duration of 20 means the event coordinator will be removed from the simulation whether 
+    - it's running or not on day (start_day + duration) 22
+    - starts running when it is triggered start_surveillance event
+    - it runs every *5* days once triggered
+    - it samples 30-100 vectors of the species gambiae, *both genders*
+    - it has unique name of "Genome_Counter" and it counts *GENOME_FRACTION*
     When done counting, it sends out the *genome_counter_ran* whether or not dtk_vector_surveillance.py 
     sends out any other events
     

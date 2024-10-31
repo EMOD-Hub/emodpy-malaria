@@ -8,7 +8,6 @@ import os
 # ----- this is temporary until update MosquitoRelease code is in emod-malaria-------
 # the location of the file containing AssetCollection id for the dtk sif (singularity image)
 sif_path = os.path.join(os.pardir, 'dtk_sif.id')
-path_to_python_vm = "/py_env/lib/python3.9/site-packages"
 #------------------
 # The script is going to use this to store the downloaded schema file. Create 'download' directory or change to
 # your preferred (existing) location.
