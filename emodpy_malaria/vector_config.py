@@ -116,6 +116,8 @@ def get_species_params(config, species: str = None):
     Returns:
         Dictionary of species parameters with the matching name
     """
+    if not species:
+        raise ValueError("Please define a species.")
     for vector_species in config.parameters.Vector_Species_Params:
         if vector_species.Name == species:
             return vector_species
@@ -563,7 +565,7 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
 
     # checks if species name is valid
     species_params = get_species_params(config, species)
-    _validate_allele_combo( species_params=species_params, allele_combo=allele_combo)
+    _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
 
     resistance = dfs.schema_to_config_subnode(manifest.schema_file,
                                               ["idmTypes", "idmType:ResistantAlleleComboProbabilityConfig"])
@@ -878,15 +880,12 @@ def add_microsporidia(config, manifest, species_name: str = None,
     Returns:
         Nothing
     """
-    if not species_name:
-        raise ValueError("Please define species_name.\n")
     if not strain_name:
         raise ValueError("Please define strain_name.\n")
     if not duration_to_disease_acquisition_modification:
         duration_to_disease_acquisition_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.5, 0.0]}
     if not duration_to_disease_transmission_modification:
-        duration_to_disease_transmission_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.75, 0.5]
-            }
+        duration_to_disease_transmission_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.75, 0.5]}
 
     species_parameters = get_species_params(config, species_name)
     d_t_d_a_m = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
@@ -914,21 +913,23 @@ class ModifierEquationType(Enum):
     LINEAR = "LINEAR"
 
 
-def add_vector_migration(config,
+def add_vector_migration(task,
                          species: str = None,
-                         vector_migration_filename: str = None,
+                         vector_migration_filename_path: str = None,
                          x_vector_migration: float = 1,
                          vector_migration_modifier_equation: ModifierEquationType = ModifierEquationType.LINEAR,
                          vector_migration_habitat_modifier: float = 0,
                          vector_migration_food_modifier: float = 0,
                          vector_migration_stay_put_modifier: float = 0):
     """
-        Adds vector migration parameters to the named species' parameters.
+        Adds vector migration parameters to the named species' parameters and adds the migration file to the
+        common_assets in task
 
     Args:
-        config: schema-backed config dictionary, written to config.json
+        task: task to which to the migration file
         species: Species to target, **Name** parameter
-        vector_migration_filename: **Vector_Migration_Filename** The name of the file that contains the migration.
+        vector_migration_filename_path: Path with the filename of the migration file to use for
+            **Vector_Migration_Filename**
         x_vector_migration: Scale factor for the rate of vector migration to other nodes.
         vector_migration_modifier_equation: Functional form of vector migration modifiers.
             This applies only to female migrating vectors. Default is ModifierEquationType.LINEAR.
@@ -943,16 +944,20 @@ def add_vector_migration(config,
     Returns:
 
     """
-    if not species:
-        raise ValueError("Please define species_name.\n")
-    if not vector_migration_filename:
+    if not vector_migration_filename_path:
         raise ValueError("Please define vector_migration_filename.\n")
+    head, tail = os.path.split(vector_migration_filename_path)
 
-    params = get_species_params(config, species)
-    params.Vector_Migration_Filename = vector_migration_filename
+    params = get_species_params(task.config, species)
+    params.Vector_Migration_Filename = tail
     params.x_Vector_Migration = x_vector_migration
     params.Vector_Migration_Modifier_Equation = vector_migration_modifier_equation.value
     params.Vector_Migration_Habitat_Modifier = vector_migration_habitat_modifier
     params.Vector_Migration_Food_Modifier = vector_migration_food_modifier
     params.Vector_Migration_Stay_Put_Modifier = vector_migration_stay_put_modifier
+    # checking if present in case added previously (ex: if using same migration file for different species)
+    if not task.common_assets.has_asset(vector_migration_filename_path):
+        task.common_assets.add_asset(vector_migration_filename_path)
+    if not task.common_assets.has_asset(vector_migration_filename_path + ".json"):
+        task.common_assets.add_asset(vector_migration_filename_path + ".json")
 

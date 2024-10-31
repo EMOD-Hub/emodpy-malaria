@@ -31,8 +31,6 @@ skip_tests = ["download_files",
               "burnin_use",
               "filtered_report",
 			  "jonr_1", #431
-			  "migration_spatial_vector_sim", #432
-			  "migration_spatial_malaria_sim", #432
 			  "add_reports", #433
 			  "embedded_python_post_processing", #434
 			  "serialization_replace_genomes" #632
@@ -214,15 +212,10 @@ rule diagnostic_survey:
     run:        
         shell(get_command("diagnostic_survey", python_version=config['python_version']))
 
-rule migration_spatial_vector_sim:
-    input: 
-    output: Path("migration_spatial_vector_sim", "experiment_id")
-    run:        
-        shell(get_command("migration_spatial_vector_sim", python_version=config['python_version']))
 
 rule migration_spatial_malaria_sim:
     input: 
-    output: Path("migration_spatial_malaria_sim", "experiment_id")
+    output: Path("migration_human_spatial_malaria_sim", "experiment_id")
     run:        
         shell(get_command("migration_spatial_malaria_sim", python_version=config['python_version']))
 
@@ -296,9 +289,9 @@ rule weather_sim:
     run:
          shell(get_command("weather", python_version=config['python_version']))
 
-rule microsporidia:
+rule migration_vector_and_microsporidia:
     input:
-    output: Path("microsporidia", "experiment_id")
+    output: Path("migration_vector_and_microsporidia", "experiment_id")
     run:
         shell(get_command("microsporidia", python_version=config['python_version']))
 

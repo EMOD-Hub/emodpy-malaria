@@ -19,7 +19,7 @@ from emod_api.demographics import Demographics as Demog
 from geographiclib.geodesic import Geodesic
 
 from emod_api.migration.client import client
-
+from emodpy_malaria.vector_config import add_vector_migration
 
 class Layer(dict):
     """
@@ -712,28 +712,21 @@ def from_demog_and_param_gravity_webservice(demographics_file_path: str, params:
 
 # TODO: just use task to reload the demographics files into an object to use for this
 
-def from_demographics_and_gravity_params(task, demographics_object, gravity_params: list,
-                                         migration_type=VectorMigration.LOCAL_MIGRATION,
+def from_demographics_and_gravity_params(demographics_object, gravity_params: list,
                                          filename: str = None):
     """
         This function takes a demographics object, creates a vector migration file based on the populations and
-        distances of nodes, sets up the parameters for it to be used with the simulations, creates a vector migration
-        file (and the metadata file) and adds it to the simulations via task
+        distances of nodes and saves to be used by the sim
 
     Args:
-        task: task object that contains all the simulation data and files. It will be used to set parameters
-            and add vector_migration files to the simulation.
         demographics_object: demographics object created by Demographics class (use Demographics.from_file()
             to load a demographics file you already have and pass in the returned object)
         gravity_params: a list of four parameters that will affect the gravity model
             gravity_params[0] denoted as g[0], etc, and they are used in the following way:
             migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
             if rate >= 1, 1 is used.
-        migration_type: migration_type associated with migration file, you'll need to appropriately match up
-            the Vector_Migration_Filename_Regional with the file that has REGIONAL_MIGRATION setting for migration_type,
-            options are VectorMigration.REGIONAL_MIGRATION or VectorMigration.LOCAL_MIGRATION
         filename: name of migration file to be created and added to the experiment,
-            Default: vector_migration_(migration_type).bin
+            Default: vector_migration.bin
 
     Returns:
         VectorMigration object
@@ -811,17 +804,11 @@ def from_demographics_and_gravity_params(task, demographics_object, gravity_para
     nodes = [node.to_dict() for node in demographics_object.nodes]
     v_migration = _compute_migration_dict(nodes, gravity_params)
     v_migration.IdReference = demographics_object.idref
-    v_migration.MigrationType = migration_type
+    v_migration.MigrationType = "LOCAL_MIGRATION"
     # save migration object to file
     if not filename:
-        filename = f"vector_migration_{migration_type}.bin"
+        filename = f"vector_migration.bin"
     v_migration.to_file(Path(filename))
-    # turn on migration knobs in config
-    task.config.parameters.Vector_Species_Params[0].Vector_Migration_Filename = filename
-    # add migration file to experiment
-    task.common_assets.add_asset(filename)
-    task.common_assets.add_asset(f"{filename}.json")
-
 
 # by gender, by age
 _mapping_fns = {

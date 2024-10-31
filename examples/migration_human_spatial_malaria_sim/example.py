@@ -43,8 +43,10 @@ def build_campaign():
     add_scheduled_usage_dependent_bednet(campaign, start_day=10,
                                          demographic_coverage=0.5,
                                          killing_initial_effect=0.5,
-                                         blocking_linear_times=[0, 100, 200, 365],
-                                         blocking_linear_values=[1, 0.8, 0.5, 0.2],
+                                         blocking_linear_values=[1, 0.5, 0.3, 0.2, 0],
+                                         blocking_initial_effect=.93,
+                                         blocking_linear_times=[0, 20, 40, 60, 80],
+                                         blocking_expire_at_end=1,
                                          node_ids=nodes)
     return campaign
 

@@ -13,17 +13,20 @@ from idmtools.entities.experiment import Experiment
 # emodpy
 import emodpy.emod_task as emod_task
 from emodpy_malaria.vector_migration.vector_migration import from_demographics_and_gravity_params
+from emodpy_malaria.vector_config import add_vector_migration, ModifierEquationType
 
 import manifest
 
 
 # ****************************************************************
-# This is an example for Microsporidia-using sims.
+# This is an example for Vector Migration and Microsporidia-using sims.
 # This shows how to set up microsporidia in vectors (with sweeps over the configuration parameters)
 # The only way to introduce microsporidia is by the mosquito release intervention shown here
-# Mircosporidia-related data can be found in ReportVectorStats which is also used
+# Microsporidia-related data can be found in ReportVectorStats which is also used
 # The ReportVectorStats.csv is also converted to InsetChart-like time-step json so you can look at it in COMPS graphs
 # using EP4/dtk_post_process.py
+# Vector Migration file is generated using the gravity model with the created-in-sim demographics file.
+# look for "VECTOR MIGRATION" for details
 # ****************************************************************
 
 
@@ -149,6 +152,12 @@ def build_demographics():
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
 
     demographics = Demographics.from_params(tot_pop=10000, num_nodes=50, frac_rural=0.1)
+
+    # VECTOR MIGRATION
+    # creating vector migration file, we need a demographics object to pass to the function
+    grav_parm = [1, 0.3, 0.01, -1.3]
+    from_demographics_and_gravity_params(demographics_object=demographics, gravity_params=grav_parm)
+
     return demographics
 
 
@@ -164,7 +173,7 @@ def general_sim(selected_platform):
     Returns:
         Nothing
     """
-    experiment_name = "Microsporidia_example"
+    experiment_name = "migration_vector_and_microsporidia"
     # create EMODTask
     print("Creating EMODTask (from files)...")
     task = emod_task.EMODTask.from_default2(
@@ -176,6 +185,20 @@ def general_sim(selected_platform):
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
+    #  VECTOR MIGRATION
+    add_vector_migration(task, species="gambiae",
+                         vector_migration_filename_path="vector_migration.bin",
+                         x_vector_migration=1,
+                         vector_migration_modifier_equation=ModifierEquationType.EXPONENTIAL,
+                         vector_migration_habitat_modifier=0.01, vector_migration_food_modifier=0,
+                         vector_migration_stay_put_modifier=0.5)
+    add_vector_migration(task, species="funestus",
+                         vector_migration_filename_path="vector_migration.bin",
+                         x_vector_migration=0.5,
+                         vector_migration_modifier_equation=ModifierEquationType.LINEAR,
+                         vector_migration_habitat_modifier=0.3, vector_migration_food_modifier=0.1,
+                         vector_migration_stay_put_modifier=4)
+
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
     if selected_platform == "COMPS":
@@ -204,16 +227,13 @@ def general_sim(selected_platform):
     # builder.add_sweep_definition(sweep_female_mortality_modifier, [0, 0.5, 1,  5])
     # builder.add_sweep_definition(sweep_male_mortality_modifier, [0, 0.5, 1, 5])
 
-    # we need a demographics object to pass to
-    demog = build_demographics()
-    grav_parm = [1, 0.3, 0.01, -1.3]
-    from_demographics_and_gravity_params(task, demographics_object=demog, gravity_params=grav_parm,
-                                         migration_type="LOCAL_MIGRATION")
-
-    from emodpy_malaria.reporters.builtin import add_report_vector_stats, add_report_microsporidia, add_report_vector_migration
+    from emodpy_malaria.reporters.builtin import add_report_vector_stats, add_report_microsporidia, \
+        add_report_vector_migration
     # ReportVectorStats
     add_report_vector_stats(task, manifest, species_list=["gambiae"], include_gestation=True,
                             include_microsporidia=True)
+
+    #  VECTOR MIGRATION
     add_report_vector_migration(task, manifest)
 
     # ReportMicrosporidia
