@@ -122,14 +122,14 @@ def general_sim():
 
     # Check result
     if not experiment.succeeded:
-        print(f"Experiment {experiment.uid} failed.\n")
+        print(f"Experiment {experiment.id} failed.\n")
         exit()
 
-    print(f"Experiment {experiment.uid} succeeded.")
+    print(f"Experiment {experiment.id} succeeded.")
 
     # Save experiment id to file
     with open("experiment_id", "w") as fd:
-        fd.write(experiment.uid.hex)
+        fd.write(experiment.id)
 
     # THIS IS WHERE WE DOWNLOAD THE FILE
 
@@ -137,7 +137,7 @@ def general_sim():
 
     # navigating to the experiment_id file to retrieve experiment id
     dl_wi = DownloadWorkItem(
-        related_experiments=[experiment.uid],
+        related_experiments=[experiment.id],
         file_patterns=["output/*.json"],
         simulation_prefix_format_str='serialization_files',
         verbose=True,
@@ -150,16 +150,16 @@ def general_sim():
 
     # Check result
     if not experiment.succeeded:
-        print(f"Experiment {experiment.uid} failed.\n")
+        print(f"Experiment {experiment.id} failed.\n")
         exit()
 
-    print(f"Experiment {experiment.uid} succeeded.")
+    print(f"Experiment {experiment.id} succeeded.")
 
     # Save experiment id to file
     with open("experiment_id", "w") as fd:
-        fd.write(experiment.uid.hex)
+        fd.write(experiment.id)
     print()
-    print(experiment.uid.hex)
+    print(experiment.id)
 
 
 if __name__ == "__main__":

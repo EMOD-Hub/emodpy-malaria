@@ -139,7 +139,7 @@ def general_sim():
     # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
     from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
     dl_wi = DownloadWorkItem(
-                             related_experiments=[experiment.uid.hex],
+                             related_experiments=[experiment.id],
                              file_patterns=["output/*.dtk"],
                              simulation_prefix_format_str='serialization_files',
                              verbose=True,

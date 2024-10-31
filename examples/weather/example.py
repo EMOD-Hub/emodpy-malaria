@@ -22,4 +22,4 @@ if __name__ == "__main__":
     e.run(platform=platform, wait_until_done=True)
     assert (e.succeeded)
     with open('experiment_id', 'w') as f:
-        f.write(str(e.uid.hex))
+        f.write(str(e.id))
