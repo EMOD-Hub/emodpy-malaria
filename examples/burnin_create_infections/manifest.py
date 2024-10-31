@@ -22,4 +22,4 @@ job_directory = os.path.join(os.path.expanduser('~'), "example_emodpy_malaria/bu
 os.makedirs(job_directory, exist_ok=True)
 # dtk_run_rocky_py39.sif can be downloaded with command at user home dir:
 # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_run_rocky_py39.sif -o dtk_run_rocky_py39.sif
-SIF_PATH = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')
+sif_path_slurm = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')

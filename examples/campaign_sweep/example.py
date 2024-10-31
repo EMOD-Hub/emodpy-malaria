@@ -169,7 +169,7 @@ def general_sim(selected_platform):
         platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
                             account='b1139', modules=['singularity'], max_running_jobs=10)
         # set the singularity image to be used when running this experiment
-        task.set_sif(manifest.SIF_PATH, platform)
+        task.set_sif(manifest.sif_path_slurm, platform)
 
     # Create simulation sweep with builder
     # sweeping over start day AND killing effectiveness - this will be a cross product

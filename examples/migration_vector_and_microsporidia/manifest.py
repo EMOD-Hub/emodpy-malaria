@@ -24,7 +24,7 @@ ep4_path = "EP4"
 
 job_directory = os.path.join(os.path.expanduser('~'), "example_emodpy_malaria/microsporidia")
 os.makedirs(job_directory, exist_ok=True)
-SIF_PATH = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')# python post- or pre-processing scripts directory
+sif_path_slurm = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')# python post- or pre-processing scripts directory
 my_ep4_assets_dir = os.path.join(os.curdir, "ep4")
 experiment_id = "experiment_id"
 # requirements = "./requirements.txt"

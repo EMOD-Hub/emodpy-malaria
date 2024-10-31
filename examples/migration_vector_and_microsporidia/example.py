@@ -213,7 +213,7 @@ def general_sim(selected_platform):
         # set the singularity image to be used when running this experiment
         # dtk_build_rocky_39.sif can be downloaded with command:
         # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
-        task.set_sif(manifest.SIF_PATH, platform)
+        task.set_sif(manifest.sif_path_slurm, platform)
 
     # set up sweeps
     builder = SimulationBuilder()
