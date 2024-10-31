@@ -56,7 +56,7 @@ def generate_weather(platform: Union[str, COMPSPlatform],
     Generate weather files by submitting a request and downloading generated weather files to a specified dir.
 
     Args:
-        platform: Platform name (like "Bayesian") or COMPSPlatform object, where the work item will run.
+        platform: Platform name (like "Calculon") or COMPSPlatform object, where the work item will run.
         site_file: CSV (.csv) or demographics (.json) file containing a set of sites (points) defined with lat/lon.
                    CSV file must contain columns for: EMOD node ids (node), latitude (lat) and longitude (lon).
                    Demographics file must match EMOD demographics file schema.
@@ -73,7 +73,7 @@ def generate_weather(platform: Union[str, COMPSPlatform],
 
             **Example**::
 
-                wr: WeatherRequest = generate_weather(platform="Bayesian",
+                wr: WeatherRequest = generate_weather(platform="Calculon",
                                                       site_file="path/to/sites.csv",
                                                       start_date=2015,
                                                       end_date=2016,

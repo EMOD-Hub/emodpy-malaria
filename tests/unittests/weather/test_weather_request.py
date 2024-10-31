@@ -19,12 +19,13 @@ def ls_glob(local_dir: Union[str, Path]):
 class WeatherRequestTests(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.platform_name: str = "Bayesian"
+        self.platform_name: str = "Calculon"
         self.current_dir: Path = Path(__file__).parent
         self.sites_csv: Path = self.current_dir.joinpath("ssmt/sites.csv")
         self.demographics_json: Path = self.current_dir.joinpath("ssmt/demographics.json")
         self.test_dir: Path = Path(tempfile.mkdtemp(suffix="emodpy_malaria_unittests"))
-        self.asset_collection_id = "18124c48-1fa1-ec11-92e7-f0921c167864"
+        # we need asset collection that has files with dtk_15arcmin_ prefix
+        self.asset_collection_id = "67a0bb90-c796-ef11-aa19-b8830395dfc5"
         self.dtk_file_prefix = "dtk_15arcmin_"
 
     def tearDown(self) -> None:
@@ -36,7 +37,7 @@ class WeatherRequestTests(unittest.TestCase):
 
     @property
     def wr(self) -> WeatherRequest:
-        return WeatherRequest(platform=self.platform_name)
+        return WeatherRequest(platform=self.platform_name, is_staging=False)
 
     # WeatherArgs tests
 
@@ -50,7 +51,7 @@ class WeatherRequestTests(unittest.TestCase):
         self.assertEqual(wr._platform.environment, self.platform_name)
         self.assertTrue(Path(wr.local_dir).is_dir())
         self.assertEqual(wr._create_asset, True)
-        self.assertEqual(wr._image, "idm-docker-staging.packages.idmod.org/dse/weather-files")
+        self.assertEqual(wr._image, "idm-docker-production.packages.idmod.org/dse/weather-files")
 
     @unittest.skipIf(os.environ.get('ignore_comps', False), 'This is a comps dependent test')
     def test_weather_request_command(self):

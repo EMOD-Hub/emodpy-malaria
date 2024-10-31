@@ -129,7 +129,7 @@ def general_sim():
 
     # Save experiment id to file
     with open("experiment_id", "w") as fd:
-        fd.write(experiment.uid.hex)
+        fd.write(experiment.uid)
 
 
 if __name__ == "__main__":
