@@ -5,15 +5,16 @@ import os
 import sys
 
 from emod_api.config import default_from_schema_no_validation as dfs
+from emodpy.emod_task import EMODTask
 import schema_path_file
 from emodpy_malaria.malaria_vector_species_params import species_params
 from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_max_larval_capacity, \
-    configure_linear_spline, set_species_param, add_microsporidia, add_insecticide_resistance, add_drug_resistance,\
+    configure_linear_spline, set_species_param, add_microsporidia, add_insecticide_resistance, add_drug_resistance, \
     set_drug_param, set_team_drug_params, set_parasite_genetics_params, get_drug_params, add_blood_meal_mortality
 from emodpy_malaria.vector_config import \
     add_genes_and_alleles, \
     add_mutation, \
-    add_trait, add_species_drivers, create_trait
+    add_trait, add_species_drivers, create_trait, add_vector_migration, ModifierEquationType
 
 file_dir = os.path.dirname(__file__)
 sys.path.append(file_dir)
@@ -79,7 +80,6 @@ class TestMalariaConfig(unittest.TestCase):
         self.assertIn('Artemether', found_drug_names)
         self.assertIn('Lumefantrine', found_drug_names)
 
-
     def test_add_blood_meal_mortality(self):
         add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
         add_genes_and_alleles(self.config,
@@ -94,45 +94,45 @@ class TestMalariaConfig(unittest.TestCase):
                               schema_path_file,
                               species="arabiensis",
                               alleles=[("c0", 0.5), ("c1", 0.5)])
-        
+
         add_blood_meal_mortality(self.config, schema_path_file,
                                  default_probability_of_death=0.1,
                                  species="funestus",
                                  allele_combo=[["X", "X"], ["a1", "a1"]],
                                  probability_of_death_for_allele_combo=1.0)
-        
+
         add_blood_meal_mortality(self.config, schema_path_file,
                                  default_probability_of_death=0.2,
                                  species="funestus",
                                  allele_combo=[["b0", "b1"]],
                                  probability_of_death_for_allele_combo=0.8)
-        
+
         add_blood_meal_mortality(self.config, schema_path_file,
                                  default_probability_of_death=0.3,
                                  species="arabiensis",
                                  allele_combo=[["c1", "c1"]],
                                  probability_of_death_for_allele_combo=0.6)
 
-        self.assertEqual( 2, len(self.config.parameters.Vector_Species_Params))
-        
+        self.assertEqual(2, len(self.config.parameters.Vector_Species_Params))
+
         vsp_f = self.config.parameters.Vector_Species_Params[0]
         vsp_a = self.config.parameters.Vector_Species_Params[1]
 
-        self.assertEqual("funestus",   vsp_f.Name)
+        self.assertEqual("funestus", vsp_f.Name)
         self.assertEqual("arabiensis", vsp_a.Name)
 
-        self.assertAlmostEqual(                       0.28,     vsp_f.Blood_Meal_Mortality.Default_Probability, delta=0.000001)
-        self.assertEqual(                                2, len(vsp_f.Blood_Meal_Mortality.Genetic_Probabilities))
-        self.assertEqual(       [["X", "X"], ["a1", "a1"]],     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[0].Allele_Combinations)
-        self.assertEqual(       [            ["b0", "b1"]],     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[1].Allele_Combinations)
-        self.assertAlmostEqual(                        1.0,     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[0].Probability, delta=0.000001)
-        self.assertAlmostEqual(                        0.8,     vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[1].Probability, delta=0.000001)
+        self.assertAlmostEqual(0.28, vsp_f.Blood_Meal_Mortality.Default_Probability, delta=0.000001)
+        self.assertEqual(2, len(vsp_f.Blood_Meal_Mortality.Genetic_Probabilities))
+        self.assertEqual([["X", "X"], ["a1", "a1"]],
+                         vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[0].Allele_Combinations)
+        self.assertEqual([["b0", "b1"]], vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[1].Allele_Combinations)
+        self.assertAlmostEqual(1.0, vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[0].Probability, delta=0.000001)
+        self.assertAlmostEqual(0.8, vsp_f.Blood_Meal_Mortality.Genetic_Probabilities[1].Probability, delta=0.000001)
 
-        self.assertAlmostEqual(            0.3,     vsp_a.Blood_Meal_Mortality.Default_Probability, delta=0.000001)
-        self.assertEqual(                    1, len(vsp_a.Blood_Meal_Mortality.Genetic_Probabilities))
-        self.assertEqual(       [["c1", "c1"]],     vsp_a.Blood_Meal_Mortality.Genetic_Probabilities[0].Allele_Combinations)
-        self.assertAlmostEqual(            0.6,     vsp_a.Blood_Meal_Mortality.Genetic_Probabilities[0].Probability, delta=0.000001)
-
+        self.assertAlmostEqual(0.3, vsp_a.Blood_Meal_Mortality.Default_Probability, delta=0.000001)
+        self.assertEqual(1, len(vsp_a.Blood_Meal_Mortality.Genetic_Probabilities))
+        self.assertEqual([["c1", "c1"]], vsp_a.Blood_Meal_Mortality.Genetic_Probabilities[0].Allele_Combinations)
+        self.assertAlmostEqual(0.6, vsp_a.Blood_Meal_Mortality.Genetic_Probabilities[0].Probability, delta=0.000001)
 
     def test_add_resistance_new_insecticide(self):
         add_species(self.config, schema_path_file, ["funestus", "arabiensis"])
@@ -265,7 +265,8 @@ class TestMalariaConfig(unittest.TestCase):
                               schema_path_file,
                               species="funestus",
                               alleles=[("a0", 0.5, 1), ("a1", 0.35, 1), ("a2", 0.15)])
-        trait = create_trait(schema_path_file, trait="SPOROZOITE_MORTALITY", modifier=0.8, sporozoite_barcode_string="A")
+        trait = create_trait(schema_path_file, trait="SPOROZOITE_MORTALITY", modifier=0.8,
+                             sporozoite_barcode_string="A")
         add_trait(self.config, schema_path_file, species="funestus", allele_combo=[["X", "X"], ["a0", "a1"]],
                   trait_modifiers=[trait])
         for species in self.config.parameters.Vector_Species_Params:  # should only be one
@@ -465,8 +466,8 @@ class TestMalariaConfig(unittest.TestCase):
                 self.assertEqual(strain.Female_Mortality_Modifier, 0.87)
                 self.assertEqual(strain.Duration_To_Disease_Transmission_Modification.Times, [0, 6])
                 self.assertEqual(strain.Duration_To_Disease_Transmission_Modification.Values, [1, 0.5])
-                self.assertEqual(strain.Duration_To_Disease_Acquisition_Modification.Times,  [0, 3, 6, 9])
-                self.assertEqual(strain.Duration_To_Disease_Acquisition_Modification.Values,  [1, 1, 0.5, 0])
+                self.assertEqual(strain.Duration_To_Disease_Acquisition_Modification.Times, [0, 3, 6, 9])
+                self.assertEqual(strain.Duration_To_Disease_Acquisition_Modification.Values, [1, 1, 0.5, 0])
 
     def test_set_parasite_genetics_params(self):
         self.config = dfs.get_config_from_default_and_params(
@@ -492,13 +493,12 @@ class TestMalariaConfig(unittest.TestCase):
         self.assertEqual(drug_params.Resistances[0]["PKPD_C50_Modifier"], 0.4)
         self.assertEqual(drug_params.Drug_Cmax, 239487)
         self.assertEqual(3, len(drug_params.Fractional_Dose_By_Upper_Age))
-        self.assertEqual( 3, drug_params.Fractional_Dose_By_Upper_Age[0]["Upper_Age_In_Years"])
-        self.assertEqual( 6, drug_params.Fractional_Dose_By_Upper_Age[1]["Upper_Age_In_Years"])
+        self.assertEqual(3, drug_params.Fractional_Dose_By_Upper_Age[0]["Upper_Age_In_Years"])
+        self.assertEqual(6, drug_params.Fractional_Dose_By_Upper_Age[1]["Upper_Age_In_Years"])
         self.assertEqual(10, drug_params.Fractional_Dose_By_Upper_Age[2]["Upper_Age_In_Years"])
         self.assertEqual(0.25, drug_params.Fractional_Dose_By_Upper_Age[0]["Fraction_Of_Adult_Dose"])
         self.assertEqual(0.50, drug_params.Fractional_Dose_By_Upper_Age[1]["Fraction_Of_Adult_Dose"])
         self.assertEqual(0.75, drug_params.Fractional_Dose_By_Upper_Age[2]["Fraction_Of_Adult_Dose"])
-
 
     def test_species_params(self):
         species_list = ["gambiae", "arabiensis", "funestus", "fpg_gambiae", "minimus", "dirus", "MYSTERIO"]
@@ -531,6 +531,47 @@ class TestMalariaConfig(unittest.TestCase):
                 self.assertEqual(configuration_to_check.Name, species)
                 self.assertEqual(configuration_to_check.Indoor_Feeding_Fraction, 0.01)
                 self.assertEqual(configuration_to_check.Transmission_Rate, 0.8)
+
+    def test_add_vector_migration(self):
+        species = "gambiae"
+        add_species(self.config, schema_path_file, [species])
+        file = "vector_migration.bin"  # using file already present
+        filepath = "inputs/" + file
+        x_vector_migration = 0.3
+        vector_migration_modifier_equation = ModifierEquationType.EXPONENTIAL
+        vector_migration_habitat_modifier = 0.4
+        vector_migration_food_modifier = 0.5
+        vector_migration_stay_put_modifier = 0.14
+        task = EMODTask.from_default2( # creating dummy task to run the test
+            schema_path_file.current_directory,  # : str = None,
+            schema_path_file.schema_file,  # : str
+            param_custom_cb=None,
+            config_path="config.json",
+            campaign_builder=None,
+            ep4_custom_cb=None,
+            demog_builder=None,
+            plugin_report=None,
+            serial_pop_files=None,
+            write_default_config=None,
+            ep4_path=None)
+        task.config = self.config  # adding our config object
+        add_vector_migration(task,
+                             species=species,
+                             vector_migration_filename_path=filepath,
+                             x_vector_migration=x_vector_migration,
+                             vector_migration_modifier_equation=vector_migration_modifier_equation,
+                             vector_migration_habitat_modifier=vector_migration_habitat_modifier,
+                             vector_migration_food_modifier=vector_migration_food_modifier,
+                             vector_migration_stay_put_modifier=vector_migration_stay_put_modifier)
+
+        vectors = self.config.parameters.Vector_Species_Params[0]
+        self.assertEqual(vectors.Name, species)
+        self.assertEqual(vectors.Vector_Migration_Filename, file)
+        self.assertEqual(vectors.x_Vector_Migration, x_vector_migration)
+        self.assertEqual(vectors.Vector_Migration_Modifier_Equation, vector_migration_modifier_equation.name)
+        self.assertEqual(vectors.Vector_Migration_Habitat_Modifier, vector_migration_habitat_modifier)
+        self.assertEqual(vectors.Vector_Migration_Food_Modifier, vector_migration_food_modifier)
+        self.assertEqual(vectors.Vector_Migration_Stay_Put_Modifier, vector_migration_stay_put_modifier)
 
 
 if __name__ == '__main__':

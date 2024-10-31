@@ -926,7 +926,7 @@ def add_vector_migration(task,
         common_assets in task
 
     Args:
-        task: task to which to the migration file
+        task: contains config to edit and assets to add migration file to
         species: Species to target, **Name** parameter
         vector_migration_filename_path: Path with the filename of the migration file to use for
             **Vector_Migration_Filename**
