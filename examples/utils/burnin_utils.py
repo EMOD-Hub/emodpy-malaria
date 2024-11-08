@@ -28,13 +28,6 @@ def _get_core_counts(sim_id, platform):
         # print("num_cores:", num_cores) 
     return num_cores
 
-#def _get_core_counts(sim_id, platform):
-#    # TODO, get num_cores from simulation in slurm
-#    # sim = platform.get_item(sim_id, ItemType.SIMULATION, raw=True)
-#    # sim.refresh(QueryCriteria().select_children('hpc_jobs'))
-#    # num_cores = int(sim.hpc_jobs[-1].configuration.max_cores)
-#    num_cores = 1
-#    return num_cores
 
 def get_workdir_from_simulations(platform: 'IPlatform', comps_simulations: List[Simulation]) -> Dict[str, str]:
     """
