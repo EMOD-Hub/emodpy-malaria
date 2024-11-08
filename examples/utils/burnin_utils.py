@@ -74,7 +74,7 @@ def create_sim_directory_map(exp_id: str, platform: 'IPlatform'):
     simulations = exp.simulations
     dir_list = []
     for sim in simulations:
-        dir_dict = {"simid": str(sim.id), "serialized_file_path": platform._op_client.get_directory(sim)}
+        dir_dict = {"simid": str(sim.id), "serialized_file_path": platform.get_directory(sim)}
         dir_list.append(dir_dict)
 
     df_dir = pd.DataFrame(dir_list)
@@ -85,23 +85,21 @@ def create_sim_directory_map(exp_id: str, platform: 'IPlatform'):
 
 def build_burnin_df(exp_id: str, platform, serialize_days):
     """
-    return dataframe which contains serialized_file_path, serialized_population_filenames
+    return dataframe which contains outpath, serialized_population_filenames
     Args:
         exp_id:
         platform:
         serialize_days:
     Returns:
         dataframe:
-        Run_Number | Serialization_Time_Steps | task_type | sweep_tag | simid | serialized_file_path|Num_Cores|Serialized_Population_Filenames
+        Run_Number | Serialization_Time_Steps | task_type | sweep_tag | simid | outpath|Num_Cores|Serialized_Population_Filenames
     Note, Serialized_Population_Filenames depends on n_cores. if n_cores = 2, Serialized_Population_Filenames look
     like these: state-00050-000.dtk, state-00050-001.dtk
     """
 
-    df = create_sim_directory_map(exp_id, platform)
+    df = platform.create_sim_directory_df(exp_id)
     # add Num_Cores to df
     df["Num_Cores"] = df["simid"].apply(_get_core_counts, platform=platform)
-    #print(list(df.columns))
-    #print(df.head())
 
     #try:
     burnin_length_in_days = serialize_days #int(df["Serialization_Time_Steps"].iloc[0].strip('[]'))

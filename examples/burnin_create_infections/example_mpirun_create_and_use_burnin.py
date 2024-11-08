@@ -29,16 +29,16 @@ This example shows how to remove infected vectors and/or infected humans from a 
 num_seeds = 10
 sim_years = 5
 serialize = False  # If True, we will use serialized files
-burnin_exp_id = "9ce7245d-a99c-4d5b-b518-be3ba063afa1"  # set this when serialize=True
+burnin_exp_id = "df27b314-219e-ef11-aa19-b8830395dfc5"  # set this when serialize=True
 
 
 def sweep_burnin_simulations(simulation, df, x: int):
-    simulation.task.config.parameters.Serialized_Population_Path = os.path.join(df["serialized_file_path"][x], "output")
+    simulation.task.config.parameters.Serialized_Population_Path = os.path.join(df["outpath"][x], "output")
     simulation.task.config.parameters.Serialized_Population_Filenames = df["Serialized_Population_Filenames"][x]
     simulation.task.config.parameters["Num_Cores"] = int(df["Num_Cores"][x])
     simulation.task.config.parameters.Run_Number = int(df["Run_Number"][x])
     return {
-        "Serialized_Population_Path": os.path.join(df["serialized_file_path"][x], "output"),
+        "Serialized_Population_Path": os.path.join(df["outpath"][x], "output"),
         "Serialized_Population_Filenames": df["Serialized_Population_Filenames"][x],
         "Num_Cores": int(df["Num_Cores"][x]),
         "Run_Number": int(df["Run_Number"][x])
@@ -225,6 +225,6 @@ if __name__ == "__main__":
     import pathlib
 
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    selected_platform = "SLURM_LOCAL"
-    #selected_platform = "COMPS"
+    #selected_platform = "SLURM_LOCAL"
+    selected_platform = "COMPS"
     general_sim(selected_platform)

@@ -31,14 +31,14 @@ burnin_exp_id = "ff075366-58d0-4080-90ca-739867859848"  # set this value to burn
 This example shows how to remove infected vectors and/or infected humans from a serialized population.
 """
 def sweep_burnin_simulations(simulation, df, x: int):
-    simulation.task.config.parameters.Serialized_Population_Path = os.path.join(df["serialized_file_path"][x], "output")
+    simulation.task.config.parameters.Serialized_Population_Path = os.path.join(df["outpath"][x], "output")
     simulation.task.config.parameters.Serialized_Population_Filenames = df["Serialized_Population_Filenames"][x]
     simulation.task.config.parameters["Num_Cores"] = int(df["Num_Cores"][x])
     simulation.task.config.parameters.Run_Number = int(df["Run_Number"][x])
     simulation.task.config.parameters.x_Temporary_Larval_Habitat = float(df["x_Temporary_Larval_Habitat"][x])
 
     return {
-        "Serialized_Population_Path": os.path.join(df["serialized_file_path"][x], "output"),
+        "Serialized_Population_Path": os.path.join(df["outpath"][x], "output"),
         "Serialized_Population_Filenames": df["Serialized_Population_Filenames"][x],
         "Num_Cores": int(df["Num_Cores"][x]),
         "Run_Number": int(df["Run_Number"][x]),
