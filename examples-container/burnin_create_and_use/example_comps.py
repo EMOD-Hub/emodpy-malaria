@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import os
+import sys
 from functools import partial
 from typing import Any, Dict
-
+from pathlib import Path
 from idmtools.builders import SimulationBuilder
 # idmtools
 from idmtools.core.platform_factory import Platform
@@ -14,7 +15,11 @@ from idmtools.entities.simulation import Simulation
 from idmtools.entities.templated_simulation import TemplatedSimulations
 import params
 import manifest
-from utils import build_burnin_df
+# Get the examples directory as a Path object
+examples_directory = Path(__file__).resolve().parent.parent.parent
+utils_path = examples_directory / 'examples' / 'utils'
+sys.path.insert(0, str(utils_path))
+from burnin_utils import build_burnin_df
 
 """
 In this example we create serialization files from a multicore simulation.
@@ -134,7 +139,7 @@ def general_sim():
                                      [[100, 200]])
     else:
         experiment_name = "use_burnin"
-        burnin_exp_id = "744da7b5-d26f-ef11-aa17-9440c9be2c51"  # this is experiment id from burnin run
+        burnin_exp_id = "bbacf658-279e-ef11-aa19-b8830395dfc5"  # this is experiment id from burnin run
         serialize_days = 200
         burnin_df = build_burnin_df(burnin_exp_id, platform, serialize_days)
 
@@ -172,7 +177,6 @@ def general_sim():
     dl_wi = DownloadWorkItem(
                              related_experiments=[experiment.uid.hex],
                              file_patterns=["output/*.dtk"],
-                             simulation_prefix_format_str='serialization_files',
                              verbose=True,
                              output_path="",
                              delete_after_download=False,

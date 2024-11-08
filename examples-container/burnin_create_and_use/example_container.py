@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import os
+import sys
 from functools import partial
 from typing import Any, Dict
-
+from pathlib import Path
 from idmtools.builders import SimulationBuilder
 # idmtools
 from idmtools.core.platform_factory import Platform
@@ -14,15 +15,23 @@ from idmtools.entities.simulation import Simulation
 from idmtools.entities.templated_simulation import TemplatedSimulations
 import params
 import manifest
-from utils import build_burnin_df
+
+# Get the examples directory as a Path object
+examples_directory = Path(__file__).resolve().parent.parent.parent
+utils_path = examples_directory / 'examples' / 'utils'
+sys.path.insert(0, str(utils_path))
+from burnin_utils import build_burnin_df
 
 """
 In this example we create serialization files from a multicore simulation.
 The important bits are in set_param_fn function and in Platform class call
 
 """
+
+
 def set_param(simulation: Simulation, param: str, value: Any) -> Dict[str, Any]:
     return simulation.task.set_parameter(param, value)
+
 
 def sweep_burnin_simulations(simulation, df, x: int):
     simulation.task.config.parameters.Serialized_Population_Path = os.path.join(df["outpath"][x], "output")
@@ -35,6 +44,7 @@ def sweep_burnin_simulations(simulation, df, x: int):
         "Serialized_Population_Filenames": df["Serialized_Population_Filenames"][x],
         "Num_Cores": int(df["Num_Cores"][x]),
         "Run_Number": int(df["Run_Number"][x])}
+
 
 def set_param_fn(config):
     """
@@ -101,10 +111,11 @@ def general_sim():
         Nothing
     """
 
-    # Set platform
-    #platform = Platform("Container", job_directory="DEST", docker_image="idm-docker-staging.packages.idmod.org/idmtools/container-rocky-runtime:0.0.22")
-    platform = Platform("Container", job_directory="DEST")
-    # create EMODTask 
+    # Set platform to Container Platform
+    # ntasks=2 is triggering mpirun -n 2 for multiple process
+    # make sure you have at least more than 2 nodes in your demographics
+    platform = Platform("Container", job_directory="DEST", ntasks=2)
+    # create EMODTask
     print("Creating EMODTask (from files)...")
 
     task = EMODTask.from_default2(
@@ -128,7 +139,7 @@ def general_sim():
                                      [[100, 200]])
     else:
         experiment_name = "use_burnin"
-        burnin_exp_id = "dfd36b36-badf-4fb0-8be2-be334a3a78a1"  # this is experiment id from burnin run
+        burnin_exp_id = "e5aa5423-b288-43b1-810c-cb3ebdb80747"  # this is experiment id from burnin run
         serialize_days = 200
         burnin_df = build_burnin_df(burnin_exp_id, platform, serialize_days)
 
@@ -155,10 +166,11 @@ def general_sim():
         fd.write(experiment.id)
     print()
     print(experiment.id)
-    
+
 
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()
