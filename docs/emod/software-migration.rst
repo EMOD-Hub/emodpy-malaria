@@ -118,5 +118,6 @@ The following image shows how a binary file with a **DatavalueCount** value of 8
    :maxdepth: 3
    :titlesonly:
 
-   software-migration-vector
    software-migration-creation
+   software-migration-vector
+
