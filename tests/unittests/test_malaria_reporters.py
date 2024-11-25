@@ -271,6 +271,23 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Reporting_Interval'], test_float)
         self.assertEqual(self.p_dict['Start_Day'], test_start_day)
         pass
+
+    def test_malaria_summary_report_custom4(self):
+        self.tmp_reporter = add_malaria_summary_report(None, schema_path_file,
+                                                       must_have_ip_key_value="FavoriteCola:RC",
+                                                       infectiousness_bins=None,
+                                                       max_number_reports=63,
+                                                       parasitemia_bins=[100, 500, 1500, 2345],
+                                                       must_have_intervention="SimpleBednet")
+        self.p_dict = self.tmp_reporter.parameters
+        self.assertIsNotNone(self.tmp_reporter)
+        self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], "FavoriteCola:RC")
+        self.assertEqual(self.p_dict['Must_Have_Intervention'], "SimpleBednet")
+        self.assertEqual(self.p_dict['Infectiousness_Bins'], [-15, -5, 0, 3, 5, 8])
+        self.assertEqual(self.p_dict['Max_Number_Reports'], 63)
+        self.assertEqual(self.p_dict['Parasitemia_Bins'], [100, 500, 1500, 2345])
+        pass
+
     # endregion
 
     # SqlReportMalaria
