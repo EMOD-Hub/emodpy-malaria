@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-import argparse
 import os
+import sys
+
 from functools import partial
 from typing import Any, Dict
+from pathlib import Path
 
 from idmtools.builders import SimulationBuilder
 from idmtools.core.platform_factory import Platform
@@ -10,12 +12,21 @@ from idmtools.entities.experiment import Experiment
 
 from emodpy.emod_task import EMODTask
 from idmtools.entities.simulation import Simulation
-from idmtools.entities.templated_simulation import TemplatedSimulations
 from emodpy_malaria.reporters.builtin import add_report_vector_genetics
-import manifest
-import params
-from utils_slurm import build_burnin_df
 
+import manifest
+
+# Get the examples directory as a Path object
+examples_directory = Path(__file__).resolve().parent.parent
+utils_path = examples_directory / 'utils'
+sys.path.insert(0, str(utils_path))
+from burnin_utils import build_burnin_df
+
+serialized_day = 50
+
+serialize = False  # If True, we will use serialized files
+
+burnin_exp_id = "ff075366-58d0-4080-90ca-739867859848"  # set this value to burnin experiment id when serialize=True
 """
 This example shows how to remove infected vectors and/or infected humans from a serialized population.
 """
@@ -64,9 +75,9 @@ def set_param_fn(config):
     import emodpy_malaria.malaria_config as malaria_config
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, "gambiae")
-    if params.burnin_type == "burnin":
-        config.parameters.Simulation_Duration = 51
-        config.parameters.Serialization_Time_Steps = [50]
+    if not serialize:  # burnin
+        config.parameters.Simulation_Duration = serialized_day + 1
+        config.parameters.Serialization_Time_Steps = [serialized_day]
         config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
         config.parameters.Serialization_Mask_Node_Write = 0
         config.parameters.Serialization_Precision = "REDUCED"
@@ -102,7 +113,7 @@ def build_demog():
     return demog
 
 
-def general_sim(burnin_exp_id, selected_platform):
+def general_sim():
     """
         This example create 3 burnin simulations with sweeping on x_Temporary_Larval_Habitat = [0.1, 1, 10]
     Returns:
@@ -126,16 +137,16 @@ def general_sim(burnin_exp_id, selected_platform):
     )
 
     # Set platform
-    platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
+    platform = Platform("SLURM_LOCAL", job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
                         account='b1139', modules=['singularity'], max_running_jobs=10)
     # set the singularity image to be used when running this experiment
     task.set_sif(manifest.sif_path_slurm, platform)
 
-    if params.burnin_type != "burnin":
+    if serialize:
         add_report_vector_genetics(task, manifest, species="gambiae")
     builder = SimulationBuilder()
-    if params.burnin_type == "burnin":
 
+    if not serialize:  # Create new burnin simulations
         run_count = 1
         hab_vals = [0.1, 1, 10]
         builder.add_sweep_definition(partial(set_param, param='Run_Number'), range(run_count))
@@ -143,20 +154,15 @@ def general_sim(burnin_exp_id, selected_platform):
                                      [hab_val for hab_val in hab_vals])
         builder.add_sweep_definition(partial(set_param, param='Serialization_Time_Steps'),
                                      [[50]])
-    else:
-        burnin_df = build_burnin_df(burnin_exp_id, platform)
-
+        experiment_name = f"Create_burnin_simulations_larval_habitat"
+    else:  # Use serialized files
+        burnin_df = build_burnin_df(burnin_exp_id, platform, serialized_day)
         builder.add_sweep_definition(partial(sweep_burnin_simulations, df=burnin_df), burnin_df.index)
         run_count = 10
         builder.add_sweep_definition(partial(set_param, param='Run_Number'), range(run_count))
+        experiment_name = f"Use_burnin_simulations_larval_habitat"
 
-    # We are creating one-simulation experiment straight from task.
-    # If you are doing a sweep, please see sweep_* examples.
-    ts = TemplatedSimulations(base_task=task, builders=[builder])
-
-    experiment = Experiment.from_template(ts, name=experiment_name)
-
-    # The last step is to call run() on the ExperimentManager to run the simulations.
+    experiment = Experiment.from_builder(builder, task, name=experiment_name)
     experiment.run(wait_until_done=True, platform=platform)
 
     # Check result
@@ -173,22 +179,8 @@ def general_sim(burnin_exp_id, selected_platform):
     print(experiment.id)
 
 
-# Run command:
-# "python3 example_slurm.py" -- to run with SLURM_BRIDGED mode inside singularity container
-# "python3 example_slurm.py -l" -- to run in SLURM_LOCAL mode with virtual environment
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    burnin_exp_id = ""
-    if params.burnin_type != "burnin":
-        burnin_exp_id = "b53da726-97af-4a8b-b412-ae7076fcef02"
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--local', action='store_true', help='select slurm_local')
-    args = parser.parse_args()
-    if args.local:
-        selected_platform = "SLURM_LOCAL"
-    else:
-        selected_platform = "SLURM_BRIDGED"
-    general_sim(burnin_exp_id, selected_platform)
+    general_sim()
