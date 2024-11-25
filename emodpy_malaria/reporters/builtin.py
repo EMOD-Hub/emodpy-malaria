@@ -279,7 +279,7 @@ def add_malaria_summary_report(task, manifest,
         params.Must_Have_Intervention = must_have_intervention
         params.Infectiousness_Bins = infectiousness_bins if infectiousness_bins else []
         params.Max_Number_Reports = max_number_reports
-        params.Parasitemia_Bins = parasitemia_bins if infectiousness_bins else []
+        params.Parasitemia_Bins = parasitemia_bins if parasitemia_bins else []
         params.Pretty_Format = 1 if pretty_format else 0
         params.Reporting_Interval = reporting_interval
         params.Filename_Suffix = filename_suffix
