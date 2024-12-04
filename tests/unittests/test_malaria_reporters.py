@@ -221,6 +221,9 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Start_Day'], default_start_day)
         self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], empty_string)
         self.assertEqual(self.p_dict['Must_Have_Intervention'], empty_string)
+        self.assertEqual(self.p_dict['Use_True_Density_Vs_Threshold'], 0)
+        # not in the dict beccause Use_True_Density_Vs_Threshold is false
+        #self.assertEqual(self.p_dict['Detection_Threshold_True_Gametocyte_Density'], 0.0)
         pass
 
     def test_malaria_summary_report_nodelist(self):
@@ -245,6 +248,8 @@ class TestMalariaReport(unittest.TestCase):
     def test_malaria_summary_report_custom2(self):
         self.tmp_reporter = add_malaria_summary_report(None, schema_path_file,
                                                        must_have_ip_key_value="FavoriteCola:RC",
+                                                       use_true_density=True,
+                                                       gametocyte_detection_threshold=0.77,
                                                        infectiousness_bins=[-15, -5, 0, 3, 5, 8],
                                                        max_number_reports=63,
                                                        parasitemia_bins=[100, 500, 1500, 2345],
@@ -256,6 +261,8 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Infectiousness_Bins'], [-15, -5, 0, 3, 5, 8])
         self.assertEqual(self.p_dict['Max_Number_Reports'], 63)
         self.assertEqual(self.p_dict['Parasitemia_Bins'], [100, 500, 1500, 2345])
+        self.assertEqual(self.p_dict['Use_True_Density_Vs_Threshold'], 1)
+        self.assertEqual(self.p_dict['Detection_Threshold_True_Gametocyte_Density'], 0.77)
         pass
 
     def test_malaria_summary_report_custom3(self):
