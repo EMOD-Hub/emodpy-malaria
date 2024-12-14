@@ -15,7 +15,10 @@ and for female vectors when **Vector_Sampling_Type** is set to "VECTOR_COMPARTME
 "VECTOR_COMPARTMENTS_PERCENT", the rates in the file are used to calculate what fraction of the population
 is traveling out of the node on that day based on a total rate of travel out of that node and the traveling
 vectors are distributed to their destination nodes in proportion of rates to those nodes to the total
-outbound rate.
+outbound rate. total_fraction_traveling out of a node is 1.0 - exp( -1.0 * m_TotalRate ), where m_TotalRate is
+the sum of all rates out of this node. Then fraction of vectors traveling to each node is (rate to node) / m_TotalRate  * total_fraction_traveling
+Please see https://github.com/EMOD-Hub/EMOD/blob/529bd11b19b5b10d49fab445dea29ee4ebd65740/Eradication/MigrationInfoVector.cpp#L335 for further details.
+
 
 Note: If default geography is used (the configuration parameter **Enable_Demographics_Builtin** is set to 1,
 and **Default_Geography_Initial_Node_Population** and **Default_Geography_Torus_Size** are configured), 

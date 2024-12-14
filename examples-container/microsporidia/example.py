@@ -14,7 +14,7 @@ from idmtools.entities.experiment import Experiment
 import emodpy.emod_task as emod_task
 from emodpy.utils import EradicationBambooBuilds
 from emodpy.bamboo import get_model_files
-from emodpy_malaria.vector_migration.vector_migration import from_demographics_and_gravity_params
+from emodpy_malaria.migration.vector_migration import from_demographics_and_gravity_params
 
 import manifest
 

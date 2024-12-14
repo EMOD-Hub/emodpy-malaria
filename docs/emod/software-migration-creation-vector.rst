@@ -24,14 +24,31 @@ The CSV file can have several column configurations:
 
 1.  Header (optional):  FromNodeID, ToNodeID, Rate (Average # of Trips Per Day)
 If the csv/text file has three columns with no headers, this is the format we assume.
-This can be used for human and vector migration. The Rate is for any/all agents regardless of sex or age.
+
+.. csv-table::
+    :header: Parameter, Data type,  Min, Max, Default, Description
+    :widths: 10,5,5,5,5,20
+
+    FromNodeID, integer, 1, 2147480000, NA,"NodeID, matching NodeIDs in demographics file, from which the vector/human will travel."
+    ToNodeID, integer, 1, 2147480000, NA,"NodeID, matching NodeIDs in demographics file, to which the vector/human will travel."
+    Rate, float, 0, 3.40282e+38, NA, "Rate at which the all the vectors/humans will travel from the FromNodeID to ToNodeID."
+
 
 2.  Header (optional):  FromNodeID, ToNodeID, RateMales, RateFemales
 If the csv/text file has four columns with no headers, this is the format we assume.
-RateMales are rates for male migration, RateFemales for female migration and are Average # of Trips Per Day.
+
+.. csv-table::
+    :header: Parameter, Data type,  Min, Max, Default, Description
+    :widths: 10,5,5,5,5,20
+
+    FromNodeID, integer, 1, 2147480000, NA, "NodeID, matching NodeIDs in demographics file, from which the vector/human will travel."
+    ToNodeID, integer, 1, 2147480000, NA,"NodeID, matching NodeIDs in demographics file, to which the vector/human will travel."
+    RateMales, float,0, 3.40282e+38, NA,  "Rate at which the vector/human of male sex will travel from the FromNodeID to ToNodeID."
+    RateFemales, float, 0, 3.40282e+38, NA, "Rate at which the vector/human of female sex will travel from the FromNodeID to ToNodeID."
+
 
 3.  Header (required):  FromNodeID, ToNodeID, [], arrays denoting Allele_Combinations
-Allele_Combinations example: [["a1", "a1"], ["b1", "b1"]];  [["X1","Y2"]]; [["*", "a0"], ["X1", "Y1"]]
+Allele_Combinations example: [["a1", "a1"], ["b1", "b1"]] or  [["X1","Y2"]] or [["*", "a0"], ["X1", "Y1"]]
 Due to use of commas in headers, it is best to use Excel to create them (or look at a sample text csv).
 This is to support VECTOR_MIGRATION_BY_GENETICS. Headers are required for this csv file.
 The first (empty, []) array is used as a "default rate" if the vector's genetics doesn't match any of the
@@ -40,16 +57,19 @@ Allele_Combination listed. Vectors are checked against Allele_Combinations from 
 regardless of the order in the csv file. Allele_Combinations can, but don't have to, include sex-alleles. Without
 specified sex-alleles, any vector that matches the alleles regardless of sex will travel at that rate.
 
-The FromNodeIDs and ToNodeIDs are the external ID's found in the demographics file.
-Each node ID in the migration file must exist in the demographics file.
-One can have node ID's in the demographics that don't exist in the migration file.
+.. csv-table::
+    :header: Parameter, Data type, Min, Max, Default, Description
+    :widths: 10,5,5,5,5,20
 
-The CSV file does not have to have the same number of entries for each FromNodeID.
-The script will find the FromNodeID that has the most and use that for the
-DestinationsPerNode. The binary file will have DestinationsPerNode entries
-per node.
+    FromNodeID, integer, 1, 2147480000, NA, "NodeID, matching NodeIDs in demographics file, from which the vector/human will travel."
+    ToNodeID, integer, 1, 2147480000, NA, "NodeID, matching NodeIDs in demographics file, to which the vector/human will travel."
+    [], float, 0, 3.40282e+38, NA, "Default rate at which the vector that doesn't match any other allele combinations will travel from the FromNodeID to ToNodeID."
+    "[['a1', 'a1'], ['b1', 'b1']]", float, 0, 3.40282e+38, NA, "Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
+    "[['*', 'a0'], ['X1', 'Y1']]", float, 0, 3.40282e+38, NA,"Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
+    "[['X1','Y2']]", float, 0, 3.40282e+38, NA,"Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
 
-#.  Run the `convert_csv_to_bin_vector_migration.py <https://github.com/InstituteforDiseaseModeling/EMOD/blob/master/Scripts/MigrationTools/convert_csv_to_bin_vector_migration.py>`_ script using the command format below::
+
+#.  Run the `convert_csv_to_bin_vector_migration.py <https://github.com/EMOD-Hub/emodpy-malaria/blob/main/emodpy_malaria/migration/convert_csv_to_bin_vector_migration.py>`_ script using the format below:
 
         python convert_csv_to_bin_vector_migration.py [input-migration-csv]
 
@@ -67,31 +87,27 @@ JSON metadata file
 ==================
 
 The metadata file is a JSON-formatted file that includes a metadata section and a node offsets
-section. The **Metadata** section contains a JSON object with parameters, some of which are
-strictly informational and some of which are used by |exe_s|. However, the informational ones may
-still be important to understand the provenance and meaning of the data.
+section. The **Metadata** section contains a JSON object with parameters that help |EMOD_s| interpret the migration
+binary file. The users are encouraged to add their own parameters to the section to remind themselves about the source,
+reason, purpose of the binary file and the data it contains. Non-required parameters are ignored.
+
 
 Vector Migration Metadata File Parameters
 ------------------------------------------
-
-Vector migration does not do age-based migration and does not differentiate the migration type since there
-is only one migration file per species, therefore the parameters pertaining to those options are not included,
-and if included, are ignored. The omitted parameters are: MigrationType, AgesYears, InterpolationType.
-
-The following parameters can be included in the by-gender or by-genetics migration metadata file:
 
 .. csv-table::
     :header: Parameter, Data type, Description
     :widths: 10,5,20
 
-    IdReference, string, "(Used by |EMOD_s|.) A unique, user-selected string that indicates the method used by |EMOD_s| for generating **NodeID** values in the input files. For more information, see :doc:`software-inputs`."
-    DateCreated, string, Date and time the file was generated.
-    Tool, string, The script used to create the file.
-    DatavalueCount, integer, "(Used by |EMOD_s|.) The number of outbound data values per node (max 100). The number must be the same across every node in the binary file."
-    GenderDataType, enum, "Denotes whether data is provided for each gender separately, is the same for both, or depends on vector genetics. Accepted values are ONE_FOR_BOTH_GENDERS, ONE_FOR_EACH_GENDER, VECTOR_MIGRATION_BY_GENETICS."
-    AlleleCombinations, array, "An array of Allele_Combinations, starting with an emtpy array to mark the default migration rate."
-    NodeCount, integer, "(Used by |EMOD_s|.) The number of nodes to expect in this file."
-    NodeOffsets, string, "(Used by |EMOD_s|.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
+    IdReference, string, "Required. A unique id to match demographics, climate, and migration files that work together."
+    DatavalueCount, integer, "Required.The number of outbound data values per node (max 100). The number must be the same across every node in the binary file."
+    GenderDataType, enum, "Required. Denotes whether data is provided for each gender separately, is the same for both, or depends on vector genetics. Accepted values are ONE_FOR_BOTH_GENDERS, ONE_FOR_EACH_GENDER, VECTOR_MIGRATION_BY_GENETICS."
+    AlleleCombinations, array, "Required for GenderDataType: VECTOR_MIGRATION_BY_GENETICS. An array of Allele_Combinations, starting with an emtpy array to mark the default migration rate."
+    NodeCount, integer, "Required. The number of 'from' nodes in the data. Used to verify size NodeOffsets - 16*NodeCount = # chars in NodeOffsets."
+    NodeOffsets, string, "Required. The number of rates/'to' nodes for each 'from' node. Max of 100."
+    DateCreated, string, Date and time the file was generated by the script. Informational for user only.
+    Tool, string, The script used to create the file. Informational for user only.
+    Project, string, Example of a user-created parameter. Informational for user only.
 
 
 Example
