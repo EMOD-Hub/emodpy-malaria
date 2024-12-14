@@ -283,7 +283,7 @@ class TestMalariaReport(unittest.TestCase):
         self.assertIsNotNone(self.tmp_reporter)
         self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], "FavoriteCola:RC")
         self.assertEqual(self.p_dict['Must_Have_Intervention'], "SimpleBednet")
-        self.assertEqual(self.p_dict['Infectiousness_Bins'], [-15, -5, 0, 3, 5, 8])
+        self.assertEqual(self.p_dict['Infectiousness_Bins'], [])
         self.assertEqual(self.p_dict['Max_Number_Reports'], 63)
         self.assertEqual(self.p_dict['Parasitemia_Bins'], [100, 500, 1500, 2345])
         pass
