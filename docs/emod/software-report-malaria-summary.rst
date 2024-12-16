@@ -30,8 +30,13 @@ To generate this report, the following parameters must be configured in the cust
     **Parasitemia_Bins**, float, -3.40E+38, 3.40E+38, "[50,500,5000,50000,FLT_MAX]", "Parasitemia Bins to aggregate within and report.  A value greater than or equal to zero in the first bin indicates that the uninfected people should be added to this bin.  The values must be in ascending order."
     **Infectiousness_Bins**, float, -3.40E+38, 3.40E+38, "[20,40,60,80,100]", Infectiousness bins to aggregate within and report.
     **Individual_Property_Filter**, string, NA, NA, (empty string), "The individual 'property:value' to filter on. The default of an empty string means the report is not filtered. For example: 'Risk:High'."
-    **Use_True_Density_Vs_Threshold**, boolean, 0, 1, 0, "If set to true, the true parasite/gametocyte density will be used instead of the microscopy measurement for the following channels: 'PfPR_2to10', 'PfPR by Age Bin', 'Pf Gametocyte Prevalence by Age Bin', and 'Mean Log Parasite Density by Age Bin'.  The true density will be compared to thresholds: config.Report_Detection_Threshold_True_Parasite_Density and MalariaSummaryReport.Detection_Threshold_True_Gametocyte_Density.  If false, then BLOOD_SMEAR_PARASITES/BLOOD_SMEAR_GAMETOCYTES measurements are used (have uncertainty in the measurement).  The parasite measurement is compared against a threshold of zero and the gametocyte measurement a threshold of 0.02."
-    **Detection_Threshold_True_Gametocyte_Density**, float, 0, 3.40E+38, 0, "Used when 'Use_True_Density_Vs_Threshold' is true.  The true gametocyte density is compared against this threshold.  It impacts the 'Pf Gametocyte Prevalence by Age Bin' channel."
+    **Include_DataByTimeAndPfPRBinsAndAgeBins**, boolean, 0, 1, 1, "When set to true, the 'DataByTimeAndPfPRBinsAndAgeBins' element is included in the report.  Default is true.  You can save disk space by setting this to false."
+    **Include_DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins**, boolean, 0, 1, 0, "When set to true, the 'DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins' element is included in the report.  Default is true.  You can save disk space by setting this to false."
+    **Add_True_Density_Vs_Threshold**, boolean, 0, 1, 0, "If set to true, four new channels will be added to the report that use true density instead of measured.  These additional channels are: 'PfPR_2to10-True', 'PfPR by Age Bin-True', 'Pf Gametocyte Prevalence by Age Bin-True', and 'Mean Log Parasite Density by Age Bin-True'.  The true densities will be compared to thresholds: Detection_Threshold_True_Parasite_Density and Detection_Threshold_True_Gametocyte_Density."
+    **Detection_Threshold_True_Parasite_Density**, 0, 3.40282e+38, 0, "Used when 'Add_True_Density_Vs_Threshold' is true.  The true parasite density is compared against this threshold.  It impacts the 'PfPR_2to10-True', 'PfPR by Age Bin-True', and 'Mean Log Parasite Density by Age Bin-True' channels."
+    **Detection_Threshold_True_Gametocyte_Density**,0, 3.40282e+38, 0, "Used when 'Add_True_Density_Vs_Threshold' is true.  The true gametocyte density is compared against this threshold.  It impacts the 'Pf Gametocyte Prevalence by Age Bin-True' channel."
+    **Add_Prevalence_By_HRP2**, boolean, 0, 1, 0, "If true, the 'PfPR_2to10-HRP2' and the 'PfPR by Age Bin-HRP2' channels will be added.  These channels will use 'Detection_Threshold_True_HRP2' to determine if person's HRP2 level counts towards prevalence."
+    **Detection_Threshold_True_HRP2**, 0, 3.40282e+38, 0, "Used when 'Add_Prevalence_By_HRP2' is true.  If the true HRP2 value is greater than this threshold, the prevalence will be increased in the 'PfPR_2to10-HRP2' and the 'PfPR by Age Bin-HRP2' channels."
 
 
 .. code-block:: json
@@ -77,7 +82,14 @@ To generate this report, the following parameters must be configured in the cust
                     100
                 ],
                 "Individual_Property_Filter": "Risk:High"
-            }
+            },
+            "Include_DataByTimeAndPfPRBinsAndAgeBins": 0,
+            "Include_DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins": 0,
+            "Add_True_Density_Vs_Threshold": 1,
+            "Detection_Threshold_True_Parasite_Density": 40.0,
+            "Detection_Threshold_True_Gametocyte_Density":, 1.0,
+            "Add_Prevalence_By_HRP2": 1,
+            "Detection_Threshold_True_HRP2":, 1000000.0
         ],
         "Use_Defaults": 1
     }
@@ -129,7 +141,9 @@ The following statistics are collected:
 
     Time Of Report, "Each entry is the final day of the reporting interval, in days."
     Annual EIR, "The average Entomological Inoculation Rate (EIR) per year over the reporting interval."
-    PfPR_2to10, "The fraction of individuals whose age is 2 < age < 10 that would have been detected with the BLOOD_SMEAR_PARASITES diagnostic type of MalariaDiagnostic where the sensitivity is **Report_Parasites_Smear_Sensitivity** and the detection threshold is zero.  Please note that his measurement includes some random noise.  If **Use_True_Density_Vs_Threshold** is set to true (1), then true parasite density is compared against the **Report_Detection_Threshold_True_Parasite_Density** value."
+    PfPR_2to10, "The fraction of individuals whose age is 2 < age < 10 that would have been detected with the BLOOD_SMEAR_PARASITES diagnostic type of MalariaDiagnostic where the sensitivity is **Report_Parasites_Smear_Sensitivity** and the detection threshold is zero.  Please note that his measurement includes some random noise."
+    PfPR_2to10-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  It will contain the fraction of individuals whose age is 2 < age < 10 and whose true parasite density is greater than **Detection_Threshold_True_Parasite_Density**."
+    PfPR_2to10-HRP2, "If Add_Prevalence_By_HRP2 is true, this chanel is added.  It will contain the fraction of individuals whose age is 2 < age < 10 and whose true HRP2 density is greater than **Detection_Threshold_True_HRP2**."
     No Infection Streak, The maximum number of days without an infection during the interval.
     Fraction Days Under 1pct Infected, The percentage of days during the interval in which the percentage of infected individuals was less than 1%.
 
@@ -144,9 +158,13 @@ Age Bin.
     :header: Parameter, Description
     :widths: 8, 20
 
-    PfPR by Age Bin, "The fraction of individuals in this age bin that would have been detected using the BLOOD_SMEAR_PARASITES diagnostic type of the MalariaDiagnostic intervention where the sensitivity is **Report_Parasites_Smear_Sensitivity** and the detection threshold is zero.  Please note that his measurement includes some random noise.  If **Use_True_Density_Vs_Threshold** is set to true (1), then true parasite density is compared against the **Report_Detection_Threshold_True_Parasite_Density** value."    
-    pf Gametocyte Prevalence by Age Bin, "The fraction of individuals in this age bin that would have been detected using the BLOOD_SMEAR_GAMETOCYTES diagnostic type of the MalariaDiagnostic intervention where the sensitivity is **Report_Gametocyte_Smear_Sensitivity** and the detection threshold is 0.02.  Please note that his measurement includes some random noise.  If **Use_True_Density_Vs_Threshold** is set to true (1), then true gametocyte density is compared against the **Detection_Threshold_True_Gametocyte_Density** value."    
-    Mean Log Parasite Density by Age Bin, "The average Log10 parasite density of the population for that age bin based on the count of parasites using the BLOOD_SMEAR_PARASITES diagnostic type of MalariaDiagnostic where the sensitivity is **Report_Parasites_Smear_Sensitivity**.  Please note that his measurement includes some random noise.  If **Use_True_Density_Vs_Threshold** is set to true (1), then Log10 is taken of the true parasite density.
+    PfPR by Age Bin, "The fraction of individuals in this age bin that would have been detected using the BLOOD_SMEAR_PARASITES diagnostic type of the MalariaDiagnostic intervention where the sensitivity is **Report_Parasites_Smear_Sensitivity** and the detection threshold is zero.  Please note that his measurement includes some random noise."
+    PfPR by Age Bin-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  The fraction of individuals in this age bin whose true parasite density is greater than **Detection_Threshold_True_Parasite_Density**."
+    PfPR by Age Bin-HRP2, "If Add_Prevalence_By_HRP2 is true, this chanel is added.  The fraction of individuals in this age bin whose true HRP2 density is greater than **Detection_Threshold_True_HRP2**."
+    Pf Gametocyte Prevalence by Age Bin, "The fraction of individuals in this age bin that would have been detected using the BLOOD_SMEAR_GAMETOCYTES diagnostic type of the MalariaDiagnostic intervention where the sensitivity is **Report_Gametocyte_Smear_Sensitivity** and the detection threshold is 0.02.  Please note that his measurement includes some random noise."
+    Pf Gametocyte Prevalence by Age Bin-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  It will contain the fraction of individuals in this age bin whose true gametocyte density is greater than **Detection_Threshold_True_Gametocyte_Density**."    
+    Mean Log Parasite Density by Age Bin, "The average Log10 parasite density of the population for that age bin based on the count of parasites using the BLOOD_SMEAR_PARASITES diagnostic type of MalariaDiagnostic where the sensitivity is **Report_Parasites_Smear_Sensitivity**.  Please note that his measurement includes some random noise."
+    Mean Log Parasite Density by Age Bin-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  It will contain the average Log10 parasite density of the population for that age bin based on the count of true parasites."
     New Infections by Age Bin, "The number of new infections during the reporting interval for each age bin."
     Annual Clinical Incidence by Age Bin, "The number of new clinical symptoms per person per year.  This channel is controlled by the **Clinical_Fever_Threshold_Low** and **Clinical_Fever_Threshold_High** parameters.  The amount that an individual’s fever is above normal must be greater than both of these values to be considered clinical.  This can also be influenced by the **Min_Days_Between_Clinical_Incidents** parameter."
     Annual Severe Incidence by Age Bin, "The number of new severe symptoms per person per year.  An individual is considered to be a severe case if the combined probability of anemia, parasite density, and fever is greater than a uniform random number.  This combined probability is the combination of sigmoid using the following parameters: **Anemia_Severe_Threshold** and **Anemia_Severe_Inverse_Width**, **Parasite_Severe_Threshold** and **Parasite_Severe_Inverse_Width**, **Fever_Severe_Threshold** and **Fever_Severe_Inverse_Width**."
