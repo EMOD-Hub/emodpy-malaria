@@ -35,6 +35,26 @@ If the csv/text file has three columns with no headers, this is the format we as
     ToNodeID, integer, 1, 2147480000, NA,"NodeID, matching NodeIDs in demographics file, to which the vector/human will travel."
     Rate, float, 0, 3.40282e+38, NA, "Rate at which the all the vectors/humans will travel from the FromNodeID to ToNodeID."
 
+Example:
+
+.. csv-table::
+    :header: FromNodeID, ToNodeID, Rate
+    :widths: 5,5,5
+
+    5,1,0.1
+    5,2,0.1
+    5,3,0.1
+    5,4,0.1
+    5,6,0
+    5,7,0
+    5,8,0.1
+    5,9,0.1
+
+Actual csv:
+
+.. literalinclude:: ../csv/migration-input-file-simple.csv
+
+
 Different rates for male and female vectors
 -------------------------------------------
 
@@ -50,6 +70,23 @@ If the csv/text file has four columns with no headers, this is the format we ass
     RateMales, float,0, 3.40282e+38, NA,  "Rate at which the vector/human of male sex will travel from the FromNodeID to ToNodeID."
     RateFemales, float, 0, 3.40282e+38, NA, "Rate at which the vector/human of female sex will travel from the FromNodeID to ToNodeID."
 
+Example:
+
+.. csv-table::
+    :header: FromNodeID, ToNodeID, RateMales, RateFemales
+    :widths: 5,5,5,5
+
+    5,1,0.1,0.02
+    5,2,0.1,0.02
+    5,3,0.1,0.02
+    5,4,0.1,0.02
+    5,6,0,0.02
+    5,7,0,0.02
+    5,8,0.1,0
+    5,9,0.1,0
+
+Actual csv:
+
 .. literalinclude:: ../csv/vector-migration-by-sex-input.csv
 
 
@@ -64,7 +101,8 @@ The first (empty, []) array is used as a "default rate" if the vector's genetics
 Allele_Combinations. The other column headers denote the rate that the vector will travel at if it matches the
 Allele_Combination listed. Vectors are checked against Allele_Combinations from most-specific, to least-specific,
 regardless of the order in the csv file. Allele_Combinations can, but don't have to, include sex-alleles. Without
-specified sex-alleles, any vector that matches the alleles regardless of sex will travel at that rate.
+specified sex-alleles, any vector that matches the alleles regardless of sex will travel at that rate. Use '*' as a
+wildcard if the second allele does not matter and can be matched with anything.
 
 .. csv-table::
     :header: Parameter, Data type, Min, Max, Default, Description
@@ -73,10 +111,33 @@ specified sex-alleles, any vector that matches the alleles regardless of sex wil
     FromNodeID, integer, 1, 2147480000, NA, "NodeID, matching NodeIDs in demographics file, from which the vector/human will travel."
     ToNodeID, integer, 1, 2147480000, NA, "NodeID, matching NodeIDs in demographics file, to which the vector/human will travel."
     [], float, 0, 3.40282e+38, NA, "Default rate at which the vector that doesn't match any other allele combinations will travel from the FromNodeID to ToNodeID."
-    "[['a1', 'a1'], ['b1', 'b1']]", float, 0, 3.40282e+38, NA, "Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
-    "[['*', 'a0'], ['X1', 'Y1']]", float, 0, 3.40282e+38, NA,"Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
-    "[['X1','Y2']]", float, 0, 3.40282e+38, NA,"Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
+    User-defined Allele Combination, float, 0, 3.40282e+38, NA, "Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
 
+Example:
+
+.. csv-table::
+    :header: FromNodeID, ToNodeID, [], "[['a1', 'a1'], ['b1', 'b1']]", "[['*', 'a0'], ['X1', 'Y1']]", "[['X1','Y2']]"
+    :widths: 5,5,5,5,5,5
+
+    5,1,0.1,0,0,0
+    5,2,0,0.1,0,0
+    5,3,0,0,0.1,0
+    5,4,0,0,0,0.1
+    5,6,0,0,0,0
+    5,7,0.1,0.1,0,0
+    5,8,0.1,0,0.1,0.05
+    5,9,0,0.1,0,0
+    1,2,1,0,0,0
+    1,3,0,1,0,0
+    1,4,0,0,1,0
+    1,6,0,0,0,1
+    3,6,0,0,0,0
+    3,7,0,0.5,0,0
+    3,8,0.5,0,0,0.0
+    3,9,0,0.5,0,0
+
+
+Actual csv:
 
 .. literalinclude:: ../csv/vector-migration-by-genetics-input.csv
 
