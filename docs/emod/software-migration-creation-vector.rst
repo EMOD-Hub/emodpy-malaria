@@ -3,26 +3,28 @@ How to create vector migration files
 ====================================
 
 You can create the JSON metadata and binary migration files needed by |EMOD_s| to run simulations
-from CSV ata using Python scripts provided by |IDM_s|. You can assign the same
-probability of migration to each vector in a node or you can assign different migration rates based on gender or
-genetics of the vector.
+from CSV data using Python script below. You can assign the same probability of migration to
+each vector in a node or you can assign different migration rates based on gender or genetics of the vector.
+
+#.  Run the `convert_csv_to_bin_vector_migration.py <https://github.com/EMOD-Hub/emodpy-malaria/blob/main/emodpy_malaria/migration/convert_csv_to_bin_vector_migration.py>`_ script using the format below:
+
+        python convert_csv_to_bin_vector_migration.py [input-migration-csv]
+
 
 .. note:: 
 
-    The **IdReference** must match the value in the demographics file. Each node can be connected a
-    maximum of 100 destination nodes. The bin.json metadata file will be created without a valid
+    The **IdReference** must match the value in the demographics file. The bin.json metadata file will be created without a valid
     **IdReference** with expectations that the user will set it themselves.
 
 
-Create from CSV input
-=====================
+CSV Input Configurations
+========================
+Below are different csv file input configurations you can use to create vector migration.
 
-This script converts a CSV formatted txt file to an EMOD binary-formatted migration file.
-It also creates the required metadata file.
+One rate for all vectors
+------------------------
 
-The CSV file can have several column configurations:
-
-1.  Header (optional):  FromNodeID, ToNodeID, Rate (Average # of Trips Per Day)
+Header (optional):  FromNodeID, ToNodeID, Rate (Average # of Trips Per Day)
 If the csv/text file has three columns with no headers, this is the format we assume.
 
 .. csv-table::
@@ -33,8 +35,10 @@ If the csv/text file has three columns with no headers, this is the format we as
     ToNodeID, integer, 1, 2147480000, NA,"NodeID, matching NodeIDs in demographics file, to which the vector/human will travel."
     Rate, float, 0, 3.40282e+38, NA, "Rate at which the all the vectors/humans will travel from the FromNodeID to ToNodeID."
 
+Different rates for male and female vectors
+-------------------------------------------
 
-2.  Header (optional):  FromNodeID, ToNodeID, RateMales, RateFemales
+Header (optional):  FromNodeID, ToNodeID, RateMales, RateFemales
 If the csv/text file has four columns with no headers, this is the format we assume.
 
 .. csv-table::
@@ -46,8 +50,13 @@ If the csv/text file has four columns with no headers, this is the format we ass
     RateMales, float,0, 3.40282e+38, NA,  "Rate at which the vector/human of male sex will travel from the FromNodeID to ToNodeID."
     RateFemales, float, 0, 3.40282e+38, NA, "Rate at which the vector/human of female sex will travel from the FromNodeID to ToNodeID."
 
+.. literalinclude:: ../csv/vector-migration-by-sex-input.csv
 
-3.  Header (required):  FromNodeID, ToNodeID, [], arrays denoting Allele_Combinations
+
+Different rates depending on genetics of the vector
+---------------------------------------------------
+
+Header (required):  FromNodeID, ToNodeID, [], arrays denoting Allele_Combinations
 Allele_Combinations example: [["a1", "a1"], ["b1", "b1"]] or  [["X1","Y2"]] or [["*", "a0"], ["X1", "Y1"]]
 Due to use of commas in headers, it is best to use Excel to create them (or look at a sample text csv).
 This is to support VECTOR_MIGRATION_BY_GENETICS. Headers are required for this csv file.
@@ -69,18 +78,13 @@ specified sex-alleles, any vector that matches the alleles regardless of sex wil
     "[['X1','Y2']]", float, 0, 3.40282e+38, NA,"Rate at which the vector that matches this and not a more-specific allele combination will travel from the FromNodeID to ToNodeID."
 
 
-#.  Run the `convert_csv_to_bin_vector_migration.py <https://github.com/EMOD-Hub/emodpy-malaria/blob/main/emodpy_malaria/migration/convert_csv_to_bin_vector_migration.py>`_ script using the format below:
-
-        python convert_csv_to_bin_vector_migration.py [input-migration-csv]
-
-
-This will create both the metadata and binary file needed by |EMOD_s|. 
-
-Example Input files
--------------------
-
 .. literalinclude:: ../csv/vector-migration-by-genetics-input.csv
-.. literalinclude:: ../csv/vector-migration-by-sex-input.csv
+
+
+Migration binary file
+=====================
+
+For information, see :ref:`binary_migration_file`.
 
 
 JSON metadata file

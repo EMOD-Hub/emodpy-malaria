@@ -7,18 +7,7 @@ analogously to human migration (see :doc:`software-migration` for more informati
 model does not support migration by age and age-based migration in the migration file will cause an
 error. Vector migration does support migration by gender as well as migration based on genetics (see below).
 Vector migration is one way, such that each trip made by a vector is independent of previous trips made
-by the vector. For **Vector_Sampling_Type** set to "TRACK_ALL_VECTORS" or "SAMPLE_IND_VECTORS",
-the rates in the file are used to control whether or not a female vector will migrate: the rate specified
-is used to get a "time to leave on trip" value from an exponential distribution. If the value is less than
-one day, then the female vector will migrate. For male vectors (who are always in cohorts/compartments),
-and for female vectors when **Vector_Sampling_Type** is set to "VECTOR_COMPARTMENTS_NUMBER" or
-"VECTOR_COMPARTMENTS_PERCENT", the rates in the file are used to calculate what fraction of the population
-is traveling out of the node on that day based on a total rate of travel out of that node and the traveling
-vectors are distributed to their destination nodes in proportion of rates to those nodes to the total
-outbound rate. total_fraction_traveling out of a node is 1.0 - exp( -1.0 * m_TotalRate ), where m_TotalRate is
-the sum of all rates out of this node. Then fraction of vectors traveling to each node is (rate to node) / m_TotalRate  * total_fraction_traveling
-Please see https://github.com/EMOD-Hub/EMOD/blob/529bd11b19b5b10d49fab445dea29ee4ebd65740/Eradication/MigrationInfoVector.cpp#L335 for further details.
-
+by the vector.
 
 Note: If default geography is used (the configuration parameter **Enable_Demographics_Builtin** is set to 1,
 and **Default_Geography_Initial_Node_Population** and **Default_Geography_Torus_Size** are configured), 

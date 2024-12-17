@@ -98,6 +98,9 @@ Example
 .. literalinclude:: ../json/migration-metadata.json
    :language: json
 
+
+.. _binary_migration_file:
+
 Binary file
 ===========
 
