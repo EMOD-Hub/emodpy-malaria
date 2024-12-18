@@ -52,6 +52,7 @@ class GenderDataType(Enum):
     ONE_FOR_EACH_GENDER = "ONE_FOR_EACH_GENDER"
     VECTOR_MIGRATION_BY_GENETICS = "VECTOR_MIGRATION_BY_GENETICS"
 
+
 class MetaData:
     def __init__(self):
         self.node_count = 0
@@ -59,20 +60,16 @@ class MetaData:
         self.max_destinations_per_node = 0
         self.gender_data_type = None
         self.filename_out = ""
-        self.has_headers = False
         self.num_columns = 0
         self.allele_combinations = []
         self.data_df = None
         self.ref_id = None
 
-def ShowUsage():
-    print('\nUsage: %s [input-migration-csv] [idreference]' % os.path.basename(sys.argv[0]))
-
 
 # -----------------------------------------------------------------------------
 # WriteMetadataFile
 # -----------------------------------------------------------------------------
-def WriteMetadataFile(metadata):
+def write_metadata_file(metadata):
     output_json = collections.OrderedDict([])
 
     output_json["Metadata"] = {}
@@ -99,16 +96,16 @@ def is_number(value):
         return False
 
 
-def GetSummaryData(metadata):
+def get_summary_data(metadata):
     # ----------------------------
     # collect data from CSV file
     # ----------------------------
     data_df = metadata.data_df
     metadata.num_columns = len(data_df.iloc[0])
     if metadata.num_columns < 3:
-        raise ValueError(f"There are {metadata.num_columns} in the file, but we expect at least three. Please review comments"
-                         f" for expected column configurations and try again.")
-    if not metadata.has_headers:  # no column headers
+        raise ValueError(f"There are {metadata.num_columns} in the file, but we expect at least three. "
+                         f"Please review comments for expected column configurations and try again.")
+    if is_number(data_df.columns[0]):  # no column headers
         if metadata.num_columns == 3:
             print(f"File doesn't seem to have headers, and with {metadata.num_columns} columns, "
                   "we are assuming 'FromNodeID', 'ToNodeID', 'Rate' column configuration.")
@@ -122,6 +119,7 @@ def GetSummaryData(metadata):
                              f"obvious what the column configuration should be. If you are trying to create a "
                              f"VECTOR_MIGRATION_BY_GENETICS file, please add headers as shown in the comments.")
     else:  # has headers, force user to use one of the three formats
+        headers = data_df.columns
         if 'FromNodeID' not in headers[0] or 'ToNodeID' not in headers[1]:
             raise ValueError(f"With headers, we expect first two column headers to be 'FromNodeID', 'ToNodeID', but "
                              f"they are {headers[0]} and {headers[1]}.")
@@ -173,10 +171,11 @@ def GetSummaryData(metadata):
 
     # return metadata
 
+
 # -----------------------------------------------------------------------------
 # WriteBinFileGender
 # -----------------------------------------------------------------------------
-def WriteBinFile(metadata):
+def write_bin_file(metadata):
     bin_file = open(metadata.filename_out, 'wb')
     data_df = metadata.data_df
     from_node_id_list = data_df[data_df.columns[0]].unique().tolist()
@@ -206,30 +205,23 @@ def WriteBinFile(metadata):
     bin_file.close()
 
 
-
 if __name__ == "__main__":
     if not (len(sys.argv) == 2 or len(sys.argv) == 3):
-        ShowUsage()
+        print('\nUsage: %s [input-migration-csv] [idreference(optional)]' % os.path.basename(sys.argv[0]))
         exit(0)
 
     filename_in = sys.argv[1]
-    id_ref = "temp_ref_id"
+    id_ref = "temp_id_reference"
     if len(sys.argv) == 3:
-        id_ref = sys.argv[1]
+        id_ref = sys.argv[2]
 
     meta_data = MetaData()
     meta_data.ref_id = id_ref
     meta_data.data_df = pd.read_csv(filename_in)
-    headers = meta_data.data_df.columns.tolist()
-    if is_number(headers[0]):  # no headers
-        meta_data.data_df = pd.read_csv(filename_in, header=None)
-    else:
-        meta_data.has_headers = True  # False by default
     meta_data.filename_out = filename_in.split(".")[0] + ".bin"
-
-    GetSummaryData(meta_data)
-    WriteBinFile(meta_data)
-    WriteMetadataFile(meta_data)
+    get_summary_data(meta_data)
+    write_bin_file(meta_data)
+    write_metadata_file(meta_data)
 
     print(f"max_destinations_per_node = {meta_data.max_destinations_per_node}")
     print(f"Finished converting {filename_in} to {meta_data.filename_out} and +.json metadata file.")

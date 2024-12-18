@@ -6,15 +6,15 @@ You can create the JSON metadata and binary migration files needed by |EMOD_s| t
 from CSV data using Python script below. You can assign the same probability of migration to
 each vector in a node or you can assign different migration rates based on gender or genetics of the vector.
 
-#.  Run the `convert_csv_to_bin_vector_migration.py <https://github.com/EMOD-Hub/emodpy-malaria/blob/main/emodpy_malaria/migration/convert_csv_to_bin_vector_migration.py>`_ script using the format below:
+#.  Run the 'convert_csv_to_bin_vector_migration.py' script using the format below::
 
-        python convert_csv_to_bin_vector_migration.py [input-migration-csv]
+        python -m emodpy_malaria.migration.convert_csv_to_bin_vector_migration [input-migration-csv] [idreference(optional)]
 
 
 .. note:: 
 
     The **IdReference** must match the value in the demographics file. The bin.json metadata file will be created without a valid
-    **IdReference** with expectations that the user will set it themselves.
+    **IdReference** with expectations that the user will set it themselves if that argument is not passed in.
 
 
 CSV Input Configurations
