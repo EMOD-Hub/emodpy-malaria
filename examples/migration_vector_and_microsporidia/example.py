@@ -12,7 +12,7 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 import emodpy.emod_task as emod_task
-from emodpy_malaria.vector_migration.vector_migration import from_demographics_and_gravity_params
+from emodpy_malaria.migration.vector_migration import from_demographics_and_gravity_params
 from emodpy_malaria.vector_config import add_vector_migration, ModifierEquationType
 
 import manifest

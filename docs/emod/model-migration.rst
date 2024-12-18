@@ -9,7 +9,7 @@ nodes without disease and introduce disease transmission into that node. Nodes a
 can represent everything from individual households to entire countries or anything in between.
 Therefore, to include migration in a simulation, you must define multiple nodes.
 
-At each time step, individuals in each node have a defined probability of migrating out of their
+At each time step, individuals in each node have a defined rate of migration out of their
 current node to another. You can also define the average length of time individuals will stay in
 their destination node before migrating again. If you are using timesteps longer than one day and
 the time to next migration falls between timesteps, individuals will migrate at the following
