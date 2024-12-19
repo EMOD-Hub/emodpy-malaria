@@ -3,8 +3,8 @@ How to create vector migration files
 ====================================
 
 You can create the JSON metadata and binary migration files needed by |EMOD_s| to run simulations
-from CSV data using Python script below. You can assign the same probability of migration to
-each vector in a node or you can assign different migration rates based on gender or genetics of the vector.
+from CSV data using the Python script below. You can assign the same probability of migration to
+each vector in a :term:`node` or you can assign different migration rates based on gender or genetics of the vector.
 
 #.  Run the 'convert_csv_to_bin_vector_migration.py' script using the format below::
 
@@ -89,17 +89,16 @@ Actual csv:
 
 .. literalinclude:: ../csv/vector-migration-by-sex-input.csv
 
-
+.. _migration_vector_genetics:
 Different rates depending on genetics of the vector
 ---------------------------------------------------
 
 Header (required):  FromNodeID, ToNodeID, [], arrays denoting Allele_Combinations
-Allele_Combinations example: [["a1", "a1"], ["b1", "b1"]] or  [["X1","Y2"]] or [["*", "a0"], ["X1", "Y1"]]
-Due to use of commas in headers, it is best to use Excel to create them (or look at a sample text csv).
-This is to support VECTOR_MIGRATION_BY_GENETICS. Headers are required for this csv file.
+Allele_Combinations: [["a1", "a1"], ["b1", "b1"]] or  [["X1","Y2"]] or [["*", "a0"], ["X1", "Y1"]]
+Due to use of commas in headers, it is best to use Excel to create the csv input files.
 The first (empty, []) array is used as a "default rate" if the vector's genetics doesn't match any of the
 Allele_Combinations. The other column headers denote the rate that the vector will travel at if it matches the
-Allele_Combination listed. Vectors are checked against Allele_Combinations from most-specific, to least-specific,
+Allele_Combinations listed. Vectors are checked against Allele_Combinations from most-specific, to least-specific,
 regardless of the order in the csv file. Allele_Combinations can, but don't have to, include sex-alleles. Without
 specified sex-alleles, any vector that matches the alleles regardless of sex will travel at that rate. Use '*' as a
 wildcard if the second allele does not matter and can be matched with anything.
@@ -152,9 +151,10 @@ JSON metadata file
 ==================
 
 The metadata file is a JSON-formatted file that includes a metadata section and a node offsets
-section. The **Metadata** section contains a JSON object with parameters that help |EMOD_s| interpret the migration
-binary file. The users are encouraged to add their own parameters to the section to remind themselves about the source,
-reason, purpose of the binary file and the data it contains. Non-required parameters are ignored.
+section. The **Metadata** section contains a :term:`JSON (JavaScript Object Notation)` with parameters that help
+|EMOD_s| interpret the migration binary file. You are encouraged to add your own parameters to the section to remind
+your selves about the source, reason, and purpose of the binary file and the data it contains. Non-required parameters
+are ignored.
 
 
 Vector Migration Metadata File Parameters
