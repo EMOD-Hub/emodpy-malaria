@@ -232,6 +232,13 @@ def add_malaria_summary_report(task, manifest,
                                reporting_interval: float = 365,
                                must_have_ip_key_value: str = "",
                                must_have_intervention: str = "",
+                               include_time_age_pfpr_bins: bool = True,
+                               include_time_age_pfpr_infectious_bins: bool = True,
+                               add_true_density: bool = False,
+                               parasite_detection_threshold: float = 0.0,
+                               gametocyte_detection_threshold: float = 0.0,
+                               add_hrp2_prevalence: bool = False,
+                               hrp2_detection_threshold: float = 0.0,
                                age_bins: list = None,
                                infectiousness_bins: list = None,
                                max_number_reports: int = 100,
@@ -253,6 +260,31 @@ def add_malaria_summary_report(task, manifest,
             means don't look at IPs (individual properties)
         must_have_intervention: the name of the an intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
+        include_time_age_pfpr_bins: When set to true, the 'DataByTimeAndPfPRBinsAndAgeBins' element is included 
+            in the report.  Default is true.  You can save disk space by setting this to false.
+        include_time_age_pfpr_infectious_bins: When set to true, the 'DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins'
+            element is included in the report.  Default is true.  You can save disk space by setting this to false.
+        add_true_density: If set to true, four new channels will be added to the report that use true density instead 
+            of measured.  These additional channels are:
+            * 'PfPR_2to10-True', 
+            * 'PfPR by Age Bin-True', 
+            * 'Pf Gametocyte Prevalence by Age Bin-True', and 
+            * 'Mean Log Parasite Density by Age Bin-True'.
+            The true densities will be compared to thresholds 'parasite_detection_threshold' and
+            'gametocyte_detection_threshold'. The Default is False.
+        parasite_detection_threshold: Used when 'add_true_density' is true.  The true parasite density
+            is compared against this threshold.  It impacts the:
+            * 'PfPR_2to10-True', 
+            * 'PfPR by Age Bin-True', and 
+            * 'Mean Log Parasite Density by Age Bin-True'
+            channels.  Default is zero.
+        gametocyte_detection_threshold: Used when 'add_true_density' is true.  The true gametocyte 
+            density is compared against this threshold.  It impacts the 'Pf Gametocyte Prevalence by Age Bin-True' channel.
+            Default is zero.
+        add_hrp2_prevalence: If true, the 'PfPR_2to10-HRP2' and the 'PfPR by Age Bin-HRP2' channels will be added.
+            These channels will use 'Detection_Threshold_True_HRP2' to determine if person's HRP2 level counts towards prevalence.
+        hrp2_detection_threshold: Used when 'add_hrp2_prevalence' is true.  If the true HRP2 value is greater than this threshold,
+            the prevalence will be increased in the 'PfPR_2to10-HRP2' and the 'PfPR by Age Bin-HRP2' channels.
         age_bins: The max age in years per bin, listed in ascending order. Use a large value for the last bin,
             to collect all remaining individuals
         infectiousness_bins: infectiousness Bins to aggregate within for the report
@@ -274,6 +306,19 @@ def add_malaria_summary_report(task, manifest,
         params.Start_Day = start_day
         params.End_Day = end_day
         params.Node_IDs_Of_Interest = node_ids if node_ids else []
+
+        params.Include_DataByTimeAndPfPRBinsAndAgeBins = 1 if include_time_age_pfpr_bins else 0
+        params.Include_DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins = 1 if include_time_age_pfpr_infectious_bins else 0
+
+        params.Add_True_Density_Vs_Threshold = 1 if add_true_density else 0
+        if add_true_density:
+            params.Detection_Threshold_True_Parasite_Density = parasite_detection_threshold
+            params.Detection_Threshold_True_Gametocyte_Density = gametocyte_detection_threshold
+
+        params.Add_Prevalence_By_HRP2 = 1 if add_hrp2_prevalence else 0
+        if add_hrp2_prevalence:
+            params.Detection_Threshold_True_HRP2 = hrp2_detection_threshold
+
         params.Age_Bins = age_bins if age_bins else []
         params.Must_Have_IP_Key_Value = must_have_ip_key_value
         params.Must_Have_Intervention = must_have_intervention
