@@ -25,7 +25,7 @@ information on the parameters governing vector migration.
 Vector Migration Using Genetics
 ===============================
 
-Vectors have a type of migration not available to humans set with **GenderDataType**: VECTOR_MIGRATION_BY_GENETICS in the
+Vectors have a type of migration not available to humans set with **GenderDataType** = VECTOR_MIGRATION_BY_GENETICS in the
 migration metadata file (usually a .bin.json file).
 
 For information, see :ref:`migration_vector_genetics`.
