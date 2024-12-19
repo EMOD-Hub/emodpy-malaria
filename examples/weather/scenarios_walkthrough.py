@@ -13,15 +13,18 @@ csv_file = Path(weather_dir1).joinpath("weather.csv")
 print("\n---=| WEATHER REQUEST |=---\n")
 
 # Request weather files
-startdate = (datetime.today() - timedelta(180+365)).replace(day=1).strftime('%Y%j')
-enddate= (datetime.today() - timedelta(180)).replace(day=1).strftime('%Y%j')
+# using hardcoded dates because no new data is being generated is Jenkins failures
+# Weather data is now only available until April 2024 or 2024152 (year + day of the year)
+# startdate = (datetime.today() - timedelta(180+365)).replace(day=1).strftime('%Y%j')
+# enddate= (datetime.today() - timedelta(180)).replace(day=1).strftime('%Y%j')
 wr = generate_weather(platform="Calculon",
                       site_file="input/site_details.csv",
-                      start_date=startdate,
-                      end_date=enddate,
+                      start_date=2023152,  # see note above
+                      end_date=2024152,  # see note above
                       node_column="id",
                       id_reference="Custom user",
                       local_dir=weather_dir1)
+
 
 assert wr.files_exist
 print("Weather request files:")

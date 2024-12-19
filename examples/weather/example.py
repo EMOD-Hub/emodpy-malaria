@@ -10,8 +10,7 @@ if __name__ == "__main__":
     print(input_dir)
     cb = emod_task.EMODTask.from_files(config_path=str(Path(input_dir).joinpath('config.json')),
                                        campaign_path=str(Path(input_dir).joinpath('campaign.json')),
-                                       eradication_path=str(Path(input_dir).joinpath('Eradication')),
-                                       )
+                                       eradication_path=str(Path(input_dir).joinpath('Eradication')))
     cb.common_assets.add_asset(str(Path(__file__).parent.joinpath('input/demographics.json')))
     cb.common_assets.add_directory(str(Path(__file__).parent.joinpath('output/demo1')), relative_path="climate")
     cb.set_parameter('Simulation_Duration', 15)
