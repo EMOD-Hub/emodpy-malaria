@@ -185,6 +185,8 @@ def general_sim():
     add_report_fpg_output(task, manifest, start_day=30, end_day=80,
                           min_age_years=3, max_age_years=15, include_genome_ids=True,
                           minimum_parasite_density=3.3, sampling_period=5)
+    add_report_fpg_new_infections(task, manifest, start_day=30, end_day=80,
+                                  min_age_years=3, max_age_years=15)
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
