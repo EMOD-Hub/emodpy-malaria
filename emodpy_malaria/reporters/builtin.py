@@ -1599,7 +1599,8 @@ def add_report_fpg_new_infections(task, manifest,
                                   min_age_years: float = 0,
                                   max_age_years: float = 125,
                                   must_have_ip_key_value: str = "",
-                                  must_have_intervention: str = ""):
+                                  must_have_intervention: str = "",
+                                  filename_suffix: str = ""):
     """
     Adds ReportFpgNewInfections reporter. See class definition for description of the report.
 
@@ -1615,6 +1616,8 @@ def add_report_fpg_new_infections(task, manifest,
             means don't look at IPs (individual properties)
         must_have_intervention: the name of the intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
+        filename_suffix: Augments the filename of the report. If multiple reports of this class are being generated,
+            this allows you to distinguish among them.
 
     Returns:
         if task is not set, returns the configured reporter, otherwise returns nothing
@@ -1635,6 +1638,7 @@ def add_report_fpg_new_infections(task, manifest,
         params.Min_Age_Years = min_age_years
         params.Must_Have_IP_Key_Value = must_have_ip_key_value
         params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
         return params
 
     reporter.config(rec_config_builder, manifest)
