@@ -15,22 +15,21 @@ class StaticCredentialPrompt(CredentialPrompt):
         self.comps_url = comps_url
         self.username = username
         self.password = password
-
+    
     def prompt(self):
-        print("logging in with hardcoded user/pw")
+        print("logging in with user/pw")
         self._times_prompted = self._times_prompted + 1
         if self._times_prompted > 3:
             raise RuntimeError('Failure authenticating')
-        print("Hit here")
         return {'Username': self.username, 'Password': self.password}
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--comps_url', default='https://comps2.idmod.org', help='comps url')
-    parser.add_argument('--username', help='enter username')
-    parser.add_argument('--password', help='enter password')
+    parser.add_argument('-c', '--comps_url', default='https://comps2.idmod.org', help='comps url')
+    parser.add_argument('-u', '--username', help='enter username')
+    parser.add_argument('-p', '--password', help='enter password')
 
     args = parser.parse_args()
 

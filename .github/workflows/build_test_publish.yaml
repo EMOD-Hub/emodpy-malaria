@@ -1,24 +1,29 @@
-name: build test
+# This workflows will upload a Python Package using Twine when a release is created
+
+name: build test publish
+
 on:
-  pull_request:
-    branches:
-      - 'main'
   push:
-    branches-ignore:
+    branches:
+      # only run this on
       - 'main'
+    paths:
+      - 'emodpy_malaria/**'
+      - 'pyproject.toml'
 
 jobs:
-  build_test:
+  build_test_publish:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '***SKIPBUILD***')"
     strategy:
       max-parallel: 1
       matrix:
-        python-version: [ '3.9' ]
+        python-version: [3.9]
     steps:
-      - name: Checkout sources
+      - name: Checkout sources with LFS
         uses: actions/checkout@v4
         with:
+          lfs: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Config github user
         run: |
@@ -28,15 +33,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
-      - name: Build and install package
+      - id: build-install
+        name: Build and install package
         uses: ./.github/actions/build-install-package
         with:
           pyproject_file: 'pyproject.toml'
-      - name: run tests
-        env:
-          ignore_comps: True
+      - name: run unit tests
         run: python -m unittest discover .
-        working-directory: ./tests
+        working-directory: ./tests/unittests
       - name: cache comps login
         run: |
           python .dev_scripts/create_auth_token_args.py -c https://comps.idmod.org -u ${{ secrets.COMPS_USER }} -p ${{ secrets.COMPS_USER_PASSWORD }}
@@ -47,3 +51,16 @@ jobs:
           pip install pulp==2.7.0
           snakemake --cores all
         working-directory: ./examples
+      - name: Push version bump
+        run: git push
+      - name: twine upload
+        run: |
+            pip install twine
+            twine upload --verbose --repository-url https://packages.idmod.org/api/pypi/idm-pypi-staging/ --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_TOKEN }} dist/*.whl
+        working-directory: ./
+      - name: Add wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: emodpy-malaria.wheel
+          path: dist/*.whl
+

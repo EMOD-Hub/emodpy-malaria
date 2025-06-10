@@ -1,0 +1,70 @@
+# Made publicly available with the MIT license.
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "emodpy-malaria"
+version = "4.2.0"
+description = "IDM's malaria-specific EMOD-API binding code"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    {name = "Sharon Chen", email = "sharon.chen@gatesfoundation.org"},
+    {name = "Zhaowei Du", email = "zhaowei.du@gatesfoundation.org"},
+    {name = "Clark Kirkman IV", email = "clark.kirkmand@gatesfoundation.org"},
+    {name = "Daniel Bridenbecker", email = "daniel.bridenbecker@gatesfoundation.org"},
+    {name = "Svetlana Titova", email = "svetlana.titova@gatesfoundation.org"},
+    {name = "Ye Chen", email = "ye.chen@gatesfoundation.org"}]
+
+keywords=["modeling", "IDM"]
+
+dependencies = [
+    "emodpy~=1.16",
+    "requests==2.29.0",
+    "emod-malaria==0.0.74"]
+
+license = "MIT"
+
+classifiers=[
+        "Programming Language :: Python :: 3.9",
+        "Framework:: IDM-Tools :: models",
+        "Operating System :: OS Independent"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-xdist",
+    "pytest-runner",
+    "pytest-timeout",
+    "pytest-cache",
+    "flake8",
+    "coverage",
+    "py-make"]
+
+packaging = [
+    "build",
+    "flake8",
+    "coverage",
+    "py-make",
+    "bump2version",
+    "twine"]
+
+[project.urls]
+Repository="https://github.com/EMOD-Hub/emodpy-malaria"
+Issues="https://github.com/EMOD-Hub/emodpy-malaria/issues"
+
+
+[tool.setuptools.packages]
+find = {include = ["emodpy_malaria*"]}
+
+[tool.setuptools.package-data]
+emodpy_malaria = [
+    "*.csv",
+    "**/README.md"
+]
+
+[tool.pip]
+extra-index-url = "https://packages.idmod.org/api/pypi/pypi-production/simple"
+
