@@ -41,9 +41,9 @@ jobs:
       - name: run unit tests
         run: python -m unittest discover .
         working-directory: ./tests/unittests
-      - name: cache comps2 (staging) login
+      - name: cache comps login
         run: |
-          python .dev_scripts/create_auth_token_args.py -c https://comps2.idmod.org -u ${{ secrets.COMPS_USER }} -p ${{ secrets.COMPS_USER_PASSWORD }}
+          python .dev_scripts/create_auth_token_args.py -c https://comps.idmod.org -u ${{ secrets.COMPS_USER }} -p ${{ secrets.COMPS_USER_PASSWORD }}
         working-directory: ./
       - name: run examples with Eradication from pip install using snakemake
         run: |

@@ -75,9 +75,13 @@ pip install -e . --extra-index-url=https://packages.idmod.org/api/pypi/pypi-prod
 ```
 
 Option 2:
-Each time you make a change you want to use:
+Each time you make a change you want to install 'build':
 ```
-python setup.py bdist_wheel
+pip install build 
+```
+..and then run the following commands to build the package with latest code and install it:
+```
+python -m build --wheel
 pip install dist\emodpy_malaria-XXX.whl 
 ```
 
