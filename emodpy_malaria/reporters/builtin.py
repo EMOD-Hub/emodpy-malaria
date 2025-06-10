@@ -1602,7 +1602,14 @@ def add_report_fpg_new_infections(task, manifest,
                                   must_have_intervention: str = "",
                                   filename_suffix: str = ""):
     """
-    Adds ReportFpgNewInfections reporter. See class definition for description of the report.
+    Adds ReportFpgNewInfections reporter.
+
+    The report will give one line for each new infection object that gets created. That line will provide
+    information about the where the gametocytes came from to create the sporozoites that created the new
+    infection. This can allow the user to track where infections come from. This includes the idea of
+    parasites coming from other locations - i.e. importation.
+
+    This can only be used with the FPG model.
 
     Args:
         task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
