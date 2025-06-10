@@ -176,7 +176,6 @@ def add_report_vector_genetics(task, manifest,
     else:  # assume we're running a unittest
         return reporter
 
-
 def add_report_vector_stats(task, manifest,
                             species_list: list = None,
                             stratify_by_species: bool = False,
@@ -432,7 +431,7 @@ def add_malaria_cotransmission_report(task, manifest,
 
     reporter = ReportSimpleMalariaTransmission()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):  
         params.Start_Day = start_day
         params.End_Day = end_day
         params.Max_Age_Years = max_age_years
@@ -863,7 +862,7 @@ def add_malaria_immunity_report(task, manifest,
 
     reporter = MalariaImmunityReport()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Start_Day = start_day
         params.End_Day = end_day
         params.Reporting_Interval = reporting_interval
@@ -1062,7 +1061,7 @@ def add_human_migration_tracking(task, manifest):
 
     reporter = ReportHumanMigrationTracking()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -1316,7 +1315,7 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
 
     reporter = ReportVectorStatsMalariaGenetics()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         params.Species_List = species_list
         params.Stratify_By_Species = 1 if stratify_by_species else 0
         params.Include_Death_By_State_Columns = 1 if include_death_state else 0
@@ -1536,7 +1535,6 @@ def add_report_fpg_output(task, manifest,
                           max_age_years: float = 125,
                           must_have_ip_key_value: str = "",
                           must_have_intervention: str = "",
-                          filename_suffix: str = "",
                           include_genome_ids: bool = False,
                           minimum_parasite_density: float = 1,
                           sampling_period: float = 1):
@@ -1555,7 +1553,6 @@ def add_report_fpg_output(task, manifest,
             means don't look at IPs (individual properties)
         must_have_intervention: the name of the an intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
-        filename_suffix: NOT USED
         include_genome_ids: Add a column that has a list of Genome IDs (hashcode) for the person.
         minimum_parasite_density: The minimum density that the infection must have to be included in the list
             of infections. A value of zero implies include all infections. Number of asexual parasites
@@ -1571,8 +1568,6 @@ def add_report_fpg_output(task, manifest,
             raise ValueError(f"ERROR: This report only works with 'Malaria_Model' = "
                              f"'MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS', but you have "
                              f"'Malaria_Model' = '{task.config.parameters.Malaria_Model}' .\n")
-    if filename_suffix:
-        print("WARNING: add_report_fpg_output()'s filename_suffix is an unused parameter and will be ignored.\n")
 
     reporter = ReportFpgOutputForObservationalModel()  # Create the reporter
 
@@ -1597,6 +1592,68 @@ def add_report_fpg_output(task, manifest,
         return reporter
 
 
+def add_report_fpg_new_infections(task, manifest,
+                                  start_day: int = 0,
+                                  end_day: int = 365000,
+                                  node_ids: list = None,
+                                  min_age_years: float = 0,
+                                  max_age_years: float = 125,
+                                  must_have_ip_key_value: str = "",
+                                  must_have_intervention: str = "",
+                                  filename_suffix: str = ""):
+    """
+    Adds ReportFpgNewInfections reporter.
+
+    The report will give one line for each new infection object that gets created. That line will provide
+    information about the where the gametocytes came from to create the sporozoites that created the new
+    infection. This can allow the user to track where infections come from. This includes the idea of
+    parasites coming from other locations - i.e. importation.
+
+    This can only be used with the FPG model.
+
+    Args:
+        task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest: Schema path file
+        start_day: the day of the simulation to start collecting data
+        end_day: the day of the simulation to stop collecting data
+        node_ids: List of nodes for which to collect data
+        min_age_years: Minimum age in years of people to collect data on
+        max_age_years: Maximum age in years of people to collect data on
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties)
+        must_have_intervention: the name of the intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions
+        filename_suffix: Augments the filename of the report. If multiple reports of this class are being generated,
+            this allows you to distinguish among them.
+
+    Returns:
+        if task is not set, returns the configured reporter, otherwise returns nothing
+    """
+    if task:
+        if task.config.parameters.Malaria_Model != "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS":
+            raise ValueError(f"ERROR: This report only works with 'Malaria_Model' = "
+                             f"'MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS', but you have "
+                             f"'Malaria_Model' = '{task.config.parameters.Malaria_Model}' .\n")
+
+    reporter = ReportFpgNewInfections()  # Create the reporter
+
+    def rec_config_builder(params):
+        params.Start_Day = start_day
+        params.End_Day = end_day
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
+        return params
+
+    reporter.config(rec_config_builder, manifest)
+    if task:
+        task.reporters.add_reporter(reporter)
+    else:  # assume we're running a unittest
+        return reporter
+
 def add_report_simulation_stats(task, manifest):
     """
     Adds ReportSimulationStats to collect data on the computational performance of the model
@@ -1614,7 +1671,7 @@ def add_report_simulation_stats(task, manifest):
 
     reporter = ReportSimulationStats()  # Create the reporter
 
-    def rec_config_builder(params):  # not used yet
+    def rec_config_builder(params):
         return params
 
     reporter.config(rec_config_builder, manifest)
@@ -2077,3 +2134,18 @@ class ReportMicrosporidia(BuiltInReporter):
         report_params.finalize()
         report_params.pop("Sim_Types")
         self.parameters.update(dict(report_params))
+
+@dataclass
+class ReportFpgNewInfections(BuiltInReporter):
+    """
+    ReportFpgNewInfections generates a ReportFpgNewInfections.csv
+    """
+
+    def config(self, config_builder, manifest):
+        self.class_name = "ReportFpgNewInfections"
+        report_params = s2c.get_class_with_defaults("ReportFpgNewInfections", manifest.schema_file)
+        report_params = config_builder(report_params)
+        report_params.finalize()
+        report_params.pop("Sim_Types")
+        self.parameters.update(dict(report_params))
+

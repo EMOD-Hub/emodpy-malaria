@@ -969,6 +969,42 @@ class TestMalariaReport(unittest.TestCase):
         self.assertEqual(self.p_dict['Sampling_Period'], test_int)
     # endregion
 
+# region ReportFpgNewInfections
+    def test_report_fpg_new_infections_default(self):
+        self.tmp_reporter = add_report_fpg_new_infections(None, schema_path_file)
+        self.p_dict = self.tmp_reporter.parameters
+        self.assertIsNotNone(self.tmp_reporter)
+        self.assertEqual(self.p_dict['Start_Day'], default_start_day)
+        self.assertEqual(self.p_dict['End_Day'], default_end_day)
+        self.assertEqual(self.p_dict['Node_IDs_Of_Interest'], empty_list)
+        self.assertEqual(self.p_dict['Max_Age_Years'], default_max_age)
+        self.assertEqual(self.p_dict['Min_Age_Years'], default_min_age)
+        self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], empty_string)
+        self.assertEqual(self.p_dict['Must_Have_Intervention'], empty_string)
+        self.assertEqual(self.p_dict['Filename_Suffix'], empty_string)
+
+    def test_report_fpg_new_infections_custom(self):
+        self.tmp_reporter = add_report_fpg_new_infections(None, schema_path_file,
+                                                          start_day=test_start_day,
+                                                          end_day=test_end_day,
+                                                          node_ids=test_list,
+                                                          min_age_years=test_min_age,
+                                                          max_age_years=test_max_age,
+                                                          must_have_intervention=test_string,
+                                                          must_have_ip_key_value=test_string1,
+                                                          filename_suffix=test_string2)
+        self.p_dict = self.tmp_reporter.parameters
+        self.assertIsNotNone(self.tmp_reporter)
+        self.assertEqual(self.p_dict['Start_Day'], test_start_day)
+        self.assertEqual(self.p_dict['End_Day'], test_end_day)
+        self.assertEqual(self.p_dict['Node_IDs_Of_Interest'], test_list)
+        self.assertEqual(self.p_dict['Max_Age_Years'], test_max_age)
+        self.assertEqual(self.p_dict['Min_Age_Years'], test_min_age)
+        self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], test_string1)
+        self.assertEqual(self.p_dict['Must_Have_Intervention'], test_string)
+        self.assertEqual(self.p_dict['Filename_Suffix'], test_string2)
+
+    # endregion
 
 if __name__ == '__main__':
     unittest.main()
