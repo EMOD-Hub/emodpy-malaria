@@ -1,32 +1,23 @@
 name: 'Build and install package'
 description: 'Build and install python package'
 inputs:
-  package_file:
-    description: 'Path to package setup python script.'
-    required: false
-    default: 'setup.py'
-outputs:
-  wheel-file:
-    description: "Wheel filename"
-    value: ${{ steps.wheel.outputs.wheel-file }}
+  pyproject_file:
+    description: "toml file"
+    required: true
+    default: 'pyproject.toml'
 runs:
   using: "composite"
   steps:
     - name: Install python pre-reqs
       run: |
         python -m pip install --upgrade pip
-        pip install setuptools wheel twine dataclasses
+        pip install build bump2version wheel
       shell: bash
-    - name: Add IDM artifactory end-point to pip config
-      run: python ./.github/scripts/update_pip_conf.py
+    - name: bump2version
+      run: bump2version patch --commit
       shell: bash
-    - name: build wheel
-      run: python ${{ inputs.package_file }} bdist_wheel
+    - name: build wheel and install 
+      run: |
+        python -m build --wheel
+        pip install dist/* --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
       shell: bash
-    - id: wheel
-      run: python ./.github/scripts/get_wheel_filename.py --package-file ${{ inputs.package_file }} --set-gh-actions-var wheel-file
-      shell: bash
-    - name: install package
-      run: pip install ${{ steps.wheel.outputs.wheel-file }}
-      shell: bash
-    

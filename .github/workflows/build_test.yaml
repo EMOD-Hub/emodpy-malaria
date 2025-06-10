@@ -1,15 +1,12 @@
 name: build test
 on:
-  push:
-    branches:
-      - dev-*
-      - main
   pull_request:
     branches:
-      - dev-*
-      - release*
-      - master
-      - main
+      - 'main'
+  push:
+    branches-ignore:
+      - 'main'
+
 jobs:
   build_test:
     runs-on: ubuntu-latest
@@ -20,7 +17,7 @@ jobs:
         python-version: [ '3.9' ]
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Config github user
@@ -34,9 +31,19 @@ jobs:
       - name: Build and install package
         uses: ./.github/actions/build-install-package
         with:
-          package_file: 'setup.py'
+          pyproject_file: 'pyproject.toml'
       - name: run tests
         env:
           ignore_comps: True
         run: python -m unittest discover .
         working-directory: ./tests
+      - name: cache comps login
+        run: |
+          python .dev_scripts/create_auth_token_args.py -c https://comps.idmod.org -u ${{ secrets.COMPS_USER }} -p ${{ secrets.COMPS_USER_PASSWORD }}
+        working-directory: ./
+      - name: run examples with Eradication from pip install using snakemake
+        run: |
+          pip install snakemake
+          pip install pulp==2.7.0
+          snakemake --cores all
+        working-directory: ./examples

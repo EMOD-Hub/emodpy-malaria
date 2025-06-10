@@ -15,7 +15,7 @@ This package provides a Python scriptable interface for configuring EMOD for mal
 The `emodpy-malaria` package (and its supporting packages) is currently hosted on IDM's Python package repository.
 
 ```shell
-python3 -m pip install emodpy-malaria --index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
+python3 -m pip install emodpy-malaria --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
 ```
 
 Note: you may need to only use `python` on Windows machines rather than `python3`.
@@ -30,12 +30,9 @@ To build the documentation locally, do the following:
 2. Navigate to the root directory of the repo and enter the following:
 
     ```
-    pip install -r requirements.txt
+    pip install -e . --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
     cd docs
     pip install -r requirements.txt
-    cd ..
-    pip install -e .
-    cd docs
     make html
     ```
 You may need to open a new command prompt before running `make html`. The HTML 
@@ -74,7 +71,7 @@ There are several options if you are modifying the code locally.
 Option 1:
 install in the `emodpy-malaria` directory:
 ```
-pip install -e .
+pip install -e . --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
 ```
 
 Option 2:
