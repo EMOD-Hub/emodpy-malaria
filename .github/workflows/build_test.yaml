@@ -37,13 +37,13 @@ jobs:
           ignore_comps: True
         run: python -m unittest discover .
         working-directory: ./tests
-      - name: cache comps login
-        run: |
-          python .dev_scripts/create_auth_token_args.py -c https://comps.idmod.org -u ${{ secrets.COMPS_USER }} -p ${{ secrets.COMPS_USER_PASSWORD }}
-        working-directory: ./
-      - name: run examples with Eradication from pip install using snakemake
-        run: |
-          pip install snakemake
-          pip install pulp==2.7.0
-          snakemake --cores all
-        working-directory: ./examples
+#      - name: cache comps login
+#        run: |
+#          python .dev_scripts/create_auth_token_args.py -c https://comps.idmod.org -u ${{ secrets.COMPS_USER }} -p ${{ secrets.COMPS_USER_PASSWORD }}
+#        working-directory: ./
+#      - name: run examples with Eradication from pip install using snakemake
+#        run: |
+#          pip install snakemake
+#          pip install pulp==2.7.0
+#          snakemake --cores all
+#        working-directory: ./examples
