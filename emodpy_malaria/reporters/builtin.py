@@ -1344,7 +1344,11 @@ def add_event_recorder(task, event_list: list = None,
                        must_have_intervention: str = "",
                        property_change_ip_to_record: str = ""):
     """
-    Adds ReportEventRecorder report to the simulation. See class definition for description of the report.
+    Adds ReportEventRecorder report to the simulation.
+    The health events and interventions report (ReportEventRecorder.csv) provides information on each individual’s
+    demographics and health status at the time of an event. Additionally, it is possible to see the value of specific
+    IndividualProperties, as assigned in the demographics file (see NodeProperties and IndividualProperties for more
+    information).
 
     Args:
         task: task to which to add the reporter
