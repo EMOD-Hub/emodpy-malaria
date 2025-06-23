@@ -7,10 +7,9 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
 from emodpy_malaria.reporters.builtin import *
 
-from emodpy_malaria import vector_config as vector_config
+from emodpy_malaria import vector_config
 import manifest
 
 """
@@ -34,10 +33,6 @@ def set_param_fn(config):
     vector_config.set_team_defaults(config, manifest)  # team defaults
     vector_config.add_species(config, manifest, ["gambiae"])
 
-    # add gender alleles; they need to be first, per #4576
-    vector_config.add_genes_and_alleles(config, manifest, "gambiae",
-                                        [("X1", 0.25), ("X2", 0.25), ("Y1", 0.15, 1), ("Y2", 0.35, 1)])
-
     # Vector Genetics, the main purpose of this example.
     vector_config.add_genes_and_alleles(config, manifest, "gambiae", [("a", 0.5), ("b", 0.5), ("c", 0)])
     vector_config.add_mutation(config, manifest, "gambiae", mutate_from="a", mutate_to="b", probability=0.05)
@@ -46,24 +41,22 @@ def set_param_fn(config):
     vector_config.add_mutation(config, manifest, "gambiae", mutate_from="a", mutate_to="c", probability=0.03)
 
     # another set of alleles
-    vector_config.add_genes_and_alleles(config, manifest, "gambiae", [("one", 0.9), ("two", 0.05), ("three", 0.05)])
-    vector_config.add_mutation(config, manifest, "gambiae", mutate_from="one", mutate_to="three", probability=0.04)
+    vector_config.add_genes_and_alleles(config, manifest, "gambiae", [("one", 0.99), ("two", 0.01), ("three", 0)])
 
-    # these are the traits/benefits based on the alleles
-    # protects vectors from infection
-    trait1 = vector_config.create_trait(manifest, trait="INFECTED_BY_HUMAN", modifier=0)
-    vector_config.add_trait(config, manifest, "gambiae", [["X1", "X1"]], [trait1])
     # vectors make more eggs
     trait2 = vector_config.create_trait(manifest, trait="FECUNDITY", modifier=10)
     trait3 = vector_config.create_trait(manifest, trait="INFECTED_BY_HUMAN", modifier=0.37)
     vector_config.add_trait(config, manifest, "gambiae", [["b", "b"], ["one", "two"]], [trait2, trait3])
-    vector_config.add_species_drivers(config, manifest, species="gambiae", driver_type="X_SHRED", driving_allele="one",
-                                      to_copy="one",
-                                      to_replace="two", likelihood_list=[("one", 0.9), ("two", 0.1)],
-                                      shredding_allele_required="Y2", allele_to_shred="X2", allele_to_shred_to="X1",
-                                      allele_shredding_fraction=0.7, allele_to_shred_to_surviving_fraction=0.03)
+    vector_config.add_species_drivers(config, manifest, species="gambiae", driver_type="INTEGRAL_AUTONOMOUS",
+                                      driving_allele="two",
+                                      to_copy="two",
+                                      to_replace="one", likelihood_list=[("one", 0.9), ("two", 0.1)])
+    vector_config.add_maternal_deposition(config, manifest, species="gambiae",
+                                          cas9_grna_from="two",
+                                          allele_to_cut="one",
+                                          likelihood_list=[("one", 0.89), ("three", 0.11)])
 
-    config.parameters.Simulation_Duration = 10
+    config.parameters.Simulation_Duration = 100
 
     return config
 
@@ -78,14 +71,6 @@ def build_campaign():
 
     # This isn't desirable. Need to think about right way to provide schema (once)
     campaign.set_schema(manifest.schema_file)
-
-    mr.add_scheduled_mosquito_release(campaign, start_day=1, released_number=20000, released_infectious=0.2,
-                                      released_species="gambiae",
-                                      released_genome=[["X1", "X1"], ["one", "two"], ["b", "b"]])
-    mr.add_scheduled_mosquito_release(campaign, start_day=1, released_number=20000, released_infectious=0.2,
-                                      released_species="gambiae",
-                                      released_genome=[["X1", "X1"], ["one", "two"], ["b", "b"]],
-                                      released_mate_genome=[["X1", "Y1"], ["one", "two"], ["b", "b"]])
 
     return campaign
 
@@ -111,7 +96,7 @@ def general_sim():
     """
 
     # Set platform
-    # platform = Platform("SLURMStage") # to run on comps2.idmod.org for testing/dev work
+    #platform = Platform("SLURMStage") # to run on comps2.idmod.org for testing/dev work
     platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
     experiment_name = "Vector Genetics VECTOR_SIM example"
 
@@ -159,5 +144,5 @@ if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
 
-    dtk.setup(pathlib.Path(manifest.eradication_path).parent)
+    # dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

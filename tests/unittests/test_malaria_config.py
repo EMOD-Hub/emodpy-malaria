@@ -14,7 +14,7 @@ from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_ma
 from emodpy_malaria.vector_config import \
     add_genes_and_alleles, \
     add_mutation, \
-    add_trait, add_species_drivers, create_trait, add_vector_migration, ModifierEquationType
+    add_trait, add_species_drivers, create_trait, add_vector_migration, ModifierEquationType, add_maternal_deposition
 
 file_dir = os.path.dirname(__file__)
 sys.path.append(file_dir)
@@ -542,7 +542,7 @@ class TestMalariaConfig(unittest.TestCase):
         vector_migration_habitat_modifier = 0.4
         vector_migration_food_modifier = 0.5
         vector_migration_stay_put_modifier = 0.14
-        task = EMODTask.from_default2( # creating dummy task to run the test
+        task = EMODTask.from_default2(  # creating dummy task to run the test
             schema_path_file.current_directory,  # : str = None,
             schema_path_file.schema_file,  # : str
             param_custom_cb=None,
@@ -572,6 +572,101 @@ class TestMalariaConfig(unittest.TestCase):
         self.assertEqual(vectors.Vector_Migration_Habitat_Modifier, vector_migration_habitat_modifier)
         self.assertEqual(vectors.Vector_Migration_Food_Modifier, vector_migration_food_modifier)
         self.assertEqual(vectors.Vector_Migration_Stay_Put_Modifier, vector_migration_stay_put_modifier)
+
+    def test_add_maternal_deposition_default(self):
+        add_species(self.config, schema_path_file, ["gambiae"])
+        add_genes_and_alleles(self.config, schema_path_file, "gambiae",
+                              [("a", 0.9), ("b", 0.05), ("c", 0.05), ("d", 0)])
+        add_genes_and_alleles(self.config, schema_path_file, "gambiae",
+                              [("one", 0.9), ("two", 0.05), ("three", 0.05), ("four", 0)])
+        add_species_drivers(self.config, schema_path_file, "gambiae", driving_allele="c",
+                            driver_type="INTEGRAL_AUTONOMOUS", to_copy="two", to_replace="one",
+                            likelihood_list=[("one", 0.15), ("two", 0.85)])
+        add_species_drivers(self.config, schema_path_file, "gambiae", driving_allele="c",
+                            driver_type="INTEGRAL_AUTONOMOUS", to_copy="c", to_replace="a",
+                            likelihood_list=[("a", 0.15), ("c", 0.85)])
+        add_maternal_deposition(config=self.config, manifest=schema_path_file,
+                                species="gambiae", cas9_grna_from="c",
+                                allele_to_cut="one", likelihood_list=[("one", 0.9), ("four", 0.1)])
+        add_maternal_deposition(config=self.config, manifest=schema_path_file,
+                                species="gambiae", cas9_grna_from="c",
+                                allele_to_cut="a", likelihood_list=[("a", 0.9), ("b", 0.05), ("d", 0.05)])
+        for species in self.config.parameters.Vector_Species_Params:
+            if species.Name == "gambiae":
+                self.assertEqual(len(species.Maternal_Deposition), 2)
+                maternal_deposition = species.Maternal_Deposition[0]
+                self.assertEqual(maternal_deposition.Cas9_gRNA_From, "c")
+                self.assertEqual(maternal_deposition.Allele_To_Cut, "one")
+                self.assertEqual(len(maternal_deposition.Likelihood_Per_Cas9_gRNA_From), 2)
+                found = 0
+                for likelihood in maternal_deposition.Likelihood_Per_Cas9_gRNA_From:
+                    if likelihood.Cut_To_Allele == "one":
+                        self.assertEqual(likelihood.Likelihood, 0.9)
+                        found += 1
+                    elif likelihood.Cut_To_Allele == "four":
+                        self.assertEqual(likelihood.Likelihood, 0.1)
+                        found += 1
+                self.assertEqual(found, 2)
+                maternal_deposition = species.Maternal_Deposition[1]
+                self.assertEqual(maternal_deposition.Cas9_gRNA_From, "c")
+                self.assertEqual(maternal_deposition.Allele_To_Cut, "a")
+                self.assertEqual(len(maternal_deposition.Likelihood_Per_Cas9_gRNA_From), 3)
+                found = 0
+                for likelihood in maternal_deposition.Likelihood_Per_Cas9_gRNA_From:
+                    if likelihood.Cut_To_Allele == "a":
+                        self.assertEqual(likelihood.Likelihood, 0.9)
+                        found += 1
+                    elif likelihood.Cut_To_Allele == "b":
+                        self.assertEqual(likelihood.Likelihood, 0.05)
+                        found += 1
+                    elif likelihood.Cut_To_Allele == "d":
+                        self.assertEqual(likelihood.Likelihood, 0.05)
+                        found += 1
+                self.assertEqual(found, 3)
+
+    def test_add_maternal_deposition_error(self):
+        add_species(self.config, schema_path_file, ["gambiae"])
+        add_genes_and_alleles(self.config, schema_path_file, "gambiae",
+                              [("a", 0.9), ("b", 0.05), ("c", 0.05), ("d", 0)])
+        add_genes_and_alleles(self.config, schema_path_file, "gambiae",
+                              [("one", 0.9), ("two", 0.05), ("three", 0.05), ("four", 0)])
+        add_species_drivers(self.config, schema_path_file, "gambiae", driving_allele="c",
+                            driver_type="INTEGRAL_AUTONOMOUS", to_copy="two", to_replace="one",
+                            likelihood_list=[("one", 0.15), ("two", 0.85)])
+        with self.assertRaises(ValueError) as context:
+            add_maternal_deposition(config=self.config, manifest=schema_path_file,
+                                    species="gambiae", cas9_grna_from="a",
+                                    allele_to_cut="one", likelihood_list=[("one", 0.9), ("four", 0.1)])
+        self.assertTrue(f"Failed to find 'cas9_grna_from' = 'a' in the drivers for species 'gambiae'."
+                        f"\n'cas9_grna_from' must me one of the 'driving_alleles' defined in the "
+                        f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
+                        f"before the maternal deposition.\n" in str(context.exception),
+                        msg=str(context.exception))
+        with self.assertRaises(ValueError) as context:
+            add_maternal_deposition(config=self.config, manifest=schema_path_file,
+                                    species="gambiae", cas9_grna_from="c",
+                                    allele_to_cut="two", likelihood_list=[("one", 0.9), ("four", 0.1)])
+        self.assertTrue(f"Failed to find 'allele_to_cut' = 'two' in the drivers for species 'gambiae'.\n"
+                        f"'allele_to_cut' must me one of the 'to_replace' alleles defined for 'driving_allele'="
+                        f"'c' in the "
+                        f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
+                        f"before the maternal deposition.\n" in str(context.exception),
+                        msg=str(context.exception))
+        with self.assertRaises(ValueError) as context:
+            add_maternal_deposition(config=self.config, manifest=schema_path_file,
+                                    species="gambiae", cas9_grna_from="c",
+                                    allele_to_cut="one", likelihood_list=[("one", 0.9), ("two", 0.1)])
+        self.assertTrue(f"Element at index '1' in the 'likelihood_list' has allele 'two', but it "
+                        f"is also an 'allele_to_copy' for the 'driving_allele' = 'c' and cannot be"
+                        f" cut to in maternal deposition.\n" in str(context.exception),
+                        msg=str(context.exception))
+        with self.assertRaises(ValueError) as context:
+            add_maternal_deposition(config=self.config, manifest=schema_path_file,
+                                    species="gambiae", cas9_grna_from="c",
+                                    allele_to_cut="one", likelihood_list=[("one", 0.9), ("three", 0.12)])
+        self.assertTrue(f"The sum of likelihoods in the 'likelihood_list' must be equal to 1.0, but got 1.02.\n" in
+                        str(context.exception),
+                        msg=str(context.exception))
 
 
 if __name__ == '__main__':
