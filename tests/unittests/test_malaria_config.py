@@ -638,7 +638,7 @@ class TestMalariaConfig(unittest.TestCase):
                                     species="gambiae", cas9_grna_from="a",
                                     allele_to_cut="one", likelihood_list=[("one", 0.9), ("four", 0.1)])
         self.assertTrue(f"Failed to find 'cas9_grna_from' = 'a' in the drivers for species 'gambiae'."
-                        f"\n'cas9_grna_from' must me one of the 'driving_alleles' defined in the "
+                        f"\n'cas9_grna_from' must be one of the 'driving_alleles' defined in the "
                         f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
                         f"before the maternal deposition.\n" in str(context.exception),
                         msg=str(context.exception))
@@ -647,7 +647,7 @@ class TestMalariaConfig(unittest.TestCase):
                                     species="gambiae", cas9_grna_from="c",
                                     allele_to_cut="two", likelihood_list=[("one", 0.9), ("four", 0.1)])
         self.assertTrue(f"Failed to find 'allele_to_cut' = 'two' in the drivers for species 'gambiae'.\n"
-                        f"'allele_to_cut' must me one of the 'to_replace' alleles defined for 'driving_allele'="
+                        f"'allele_to_cut' must be one of the 'to_replace' alleles defined for 'driving_allele'="
                         f"'c' in the "
                         f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
                         f"before the maternal deposition.\n" in str(context.exception),

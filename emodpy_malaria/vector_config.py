@@ -1,5 +1,5 @@
 import emod_api.config.default_from_schema_no_validation as dfs
-import csv
+import math
 import os
 from emodpy_malaria.malaria_vector_species_params import species_params
 from enum import Enum
@@ -790,8 +790,8 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
     return config
 
 
-def add_maternal_deposition(config, manifest, species: str = None, cas9_grna_from: str = None,
-                            allele_to_cut: str = None, likelihood_list: list = None):
+def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
+                            allele_to_cut: str, likelihood_list: list):
     """
         Adds a maternal deposition element for the specified species.
         After meiosis and fertilization, maternal deposition of Cas9 and gRNA can form additional resistance alleles
@@ -814,6 +814,7 @@ def add_maternal_deposition(config, manifest, species: str = None, cas9_grna_fro
     Returns:
         Config object with maternal deposition parameters added for the specified species.
     """
+
     sp_params = get_species_params(config, species)
     found_driver = False
     found_allele_to_cut = False
@@ -828,12 +829,12 @@ def add_maternal_deposition(config, manifest, species: str = None, cas9_grna_fro
                     break
     if not found_driver:
         raise ValueError(f"Failed to find 'cas9_grna_from' = '{cas9_grna_from}' in the drivers for species '{species}'."
-                         f"\n'cas9_grna_from' must me one of the 'driving_alleles' defined in the "
+                         f"\n'cas9_grna_from' must be one of the 'driving_alleles' defined in the "
                          f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
                          f"before the maternal deposition.\n")
     if not found_allele_to_cut:
         raise ValueError(f"Failed to find 'allele_to_cut' = '{allele_to_cut}' in the drivers for species '{species}'.\n"
-                         f"'allele_to_cut' must me one of the 'to_replace' alleles defined for 'driving_allele'="
+                         f"'allele_to_cut' must be one of the 'to_replace' alleles defined for 'driving_allele'="
                          f"'{cas9_grna_from}' in the "
                          f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
                          f"before the maternal deposition.\n")
@@ -854,10 +855,13 @@ def add_maternal_deposition(config, manifest, species: str = None, cas9_grna_fro
         total += likely[1]
         c2likelyhood.parameters.Likelihood = likely[1]
         maternal_deposition.parameters.Likelihood_Per_Cas9_gRNA_From.append(c2likelyhood.parameters)
-    if total != 1.0:
+    if not math.isclose(total, 1.0, rel_tol=1e-6):
         raise ValueError(f"The sum of likelihoods in the 'likelihood_list' must be equal to 1.0, but got {total}.\n")
 
     sp_params.Maternal_Deposition.append(maternal_deposition.parameters)
+
+    return config
+
 
 
 def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity):
