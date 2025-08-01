@@ -1,5 +1,5 @@
 import emod_api.config.default_from_schema_no_validation as dfs
-import csv
+import math
 import os
 from emodpy_malaria.malaria_vector_species_params import species_params
 from enum import Enum
@@ -788,6 +788,80 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
     gene_driver.parameters.Driver_Type = driver_type  # to circumvent the implicit settings
     species_params.Drivers.append(gene_driver.parameters)
     return config
+
+
+def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
+                            allele_to_cut: str, likelihood_list: list):
+    """
+        Adds a maternal deposition element for the specified species.
+        After meiosis and fertilization, maternal deposition of Cas9 and gRNA can form additional resistance alleles
+        in the zygote or early embryo from wildtype alleles. These elements define the likelihoods of forming additional
+        resistance alleles.
+
+    Args:
+        config: schema-backed config smart dict
+        manifest: manifest file containing the schema path
+        species: Name of the species for which we're adding the maternal deposition element.
+        cas9_grna_from: This is an allele for presence of which in the mother we will be checking to see if additional
+            resistance alleles will be formed. This is the allele must be one of the 'driving_alleles' from
+            vector_config.add_species_drivers() function.
+        allele_to_cut: The allele from which resistance alleles might be formed due to maternal deposition. This must
+            be one of the 'to_replace' alleles defined in the vector_config.add_species_drivers() function.
+        likelihood_list: A list of tuples in format: [(<cut_to_allele>, <likelihood>),(),()] which will be converted
+            to an array of allele-to-likelihood dictionaries to be applied to the 'allele_to_cut' for each
+            'cas9_grna_from' present in the mother. The sum of likelihoods should be equal to 1.
+
+    Returns:
+        Config object with maternal deposition parameters added for the specified species.
+    """
+
+    sp_params = get_species_params(config, species)
+    found_driver = False
+    found_allele_to_cut = False
+    allele_to_copy = ""
+    for driver in sp_params.Drivers:
+        if cas9_grna_from == driver.Driving_Allele:
+            found_driver = True
+            for allele_driven in driver.Alleles_Driven:
+                if allele_to_cut == allele_driven.Allele_To_Replace:
+                    found_allele_to_cut = True
+                    allele_to_copy = allele_driven.Allele_To_Copy
+                    break
+    if not found_driver:
+        raise ValueError(f"Failed to find 'cas9_grna_from' = '{cas9_grna_from}' in the drivers for species '{species}'."
+                         f"\n'cas9_grna_from' must be one of the 'driving_alleles' defined in the "
+                         f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
+                         f"before the maternal deposition.\n")
+    if not found_allele_to_cut:
+        raise ValueError(f"Failed to find 'allele_to_cut' = '{allele_to_cut}' in the drivers for species '{species}'.\n"
+                         f"'allele_to_cut' must be one of the 'to_replace' alleles defined for 'driving_allele'="
+                         f"'{cas9_grna_from}' in the "
+                         f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
+                         f"before the maternal deposition.\n")
+
+    maternal_deposition = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:MaternalDeposition"])
+    maternal_deposition.parameters.Cas9_gRNA_From = cas9_grna_from
+    maternal_deposition.parameters.Allele_To_Cut = allele_to_cut
+
+    total = 0.0
+    for index, likely in enumerate(likelihood_list):
+        c2likelyhood = dfs.schema_to_config_subnode(manifest.schema_file,
+                                                    ["idmTypes", "idmType:CutToAlleleLikelihood"])
+        if likely[0] == allele_to_copy:
+            raise ValueError(f"Element at index '{index}' in the 'likelihood_list' has allele '{likely[0]}', but it "
+                             f"is also an 'allele_to_copy' for the 'driving_allele' = '{cas9_grna_from}' and cannot be"
+                             f" cut to in maternal deposition.\n")
+        c2likelyhood.parameters.Cut_To_Allele = likely[0]
+        total += likely[1]
+        c2likelyhood.parameters.Likelihood = likely[1]
+        maternal_deposition.parameters.Likelihood_Per_Cas9_gRNA_From.append(c2likelyhood.parameters)
+    if not math.isclose(total, 1.0, rel_tol=1e-6):
+        raise ValueError(f"The sum of likelihoods in the 'likelihood_list' must be equal to 1.0, but got {total}.\n")
+
+    sp_params.Maternal_Deposition.append(maternal_deposition.parameters)
+
+    return config
+
 
 
 def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity):
