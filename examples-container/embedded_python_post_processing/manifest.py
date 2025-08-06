@@ -11,6 +11,3 @@ plugins_folder="download"
 reporters="download/reporter_plugins"
 sif="dtk_centos.id"
 
-# Note: The overall simulation path (including all files under it) in Windows is limited by the maximum path length of
-# 255 characters. To avoid issues, it's recommended to keep the path as short as possible.
-job_directory = os.path.join(os.path.expanduser('~'), "embedded_python_post_processing")

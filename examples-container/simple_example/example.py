@@ -48,7 +48,7 @@ def build_demog():
 
 def general_sim():
     # Set platform
-    platform = Platform('Container', job_directory="destination_directory")
+    platform = Platform('Container', job_directory="../example_jobs")
 
     # create EMODTask
     print("Creating EMODTask (from files)...")
@@ -66,6 +66,15 @@ def general_sim():
 
     # run the experiment
     experiment.run(wait_until_done=True)
+
+    # Check result
+    print()
+    if not experiment.succeeded:
+        print(f"Experiment {experiment.id} failed.\n")
+    else:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id.txt", "w") as fd:
+            fd.write(experiment.id)
 
 
 if __name__ == "__main__":

@@ -15,6 +15,7 @@ from idmtools.entities.simulation import Simulation
 from idmtools.entities.templated_simulation import TemplatedSimulations
 import params
 import manifest
+
 # Get the examples directory as a Path object
 examples_directory = Path(__file__).resolve().parent.parent.parent
 utils_path = examples_directory / 'examples' / 'utils'
@@ -26,8 +27,11 @@ In this example we create serialization files from a multicore simulation.
 The important bits are in set_param_fn function and in Platform class call
 
 """
+
+
 def set_param(simulation: Simulation, param: str, value: Any) -> Dict[str, Any]:
     return simulation.task.set_parameter(param, value)
+
 
 def sweep_burnin_simulations(simulation, df, x: int):
     simulation.task.config.parameters.Serialized_Population_Path = os.path.join(df["outpath"][x], "output")
@@ -40,6 +44,7 @@ def sweep_burnin_simulations(simulation, df, x: int):
         "Serialized_Population_Filenames": df["Serialized_Population_Filenames"][x],
         "Num_Cores": int(df["Num_Cores"][x]),
         "Run_Number": int(df["Run_Number"][x])}
+
 
 def set_param_fn(config):
     """
@@ -106,11 +111,11 @@ def general_sim():
         Nothing
     """
 
-    # Set platform
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
-    experiment_name = "Create simulation from serialized files"
-    
-    # create EMODTask 
+    # Set platform to Container Platform
+    # ntasks=2 is triggering mpirun -n 2 for multiple process
+    # make sure you have at least more than 2 nodes in your demographics
+    platform = Platform("Container", job_directory="../example_jobs", ntasks=2)
+    # create EMODTask
     print("Creating EMODTask (from files)...")
 
     task = EMODTask.from_default2(
@@ -123,12 +128,7 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_id)
-    
-    # We are creating one-simulation experiment straight from task.
-    # If you are doing a sweep, please see sweep_* examples.
+
     builder = SimulationBuilder()
     ts = TemplatedSimulations(base_task=task)
     if params.burnin_type:
@@ -139,7 +139,7 @@ def general_sim():
                                      [[100, 200]])
     else:
         experiment_name = "use_burnin"
-        burnin_exp_id = "bbacf658-279e-ef11-aa19-b8830395dfc5"  # this is experiment id from burnin run
+        burnin_exp_id = "e5aa5423-b288-43b1-810c-cb3ebdb80747"  # this is experiment id from burnin run
         serialize_days = 200
         burnin_df = build_burnin_df(burnin_exp_id, platform, serialize_days)
 
@@ -155,40 +155,18 @@ def general_sim():
     experiment.run(wait_until_done=True)
 
     # Check result
+    print()
     if not experiment.succeeded:
         print(f"Experiment {experiment.id} failed.\n")
-        exit()
-
-    print(f"Experiment {experiment.id} succeeded.")
-
-    # Save experiment id to file
-    with open("experiment_id", "w") as fd:
-        fd.write(experiment.id)
-    print()
-    print(experiment.id)
-    
-    # important bit
-    # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
-    from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
-    # navigating to the experiment.id file to retrieve experiment id
-    # with open("../burnin_create/experiment.id") as f:
-    #    experiment_id = f.readline()
-
-    dl_wi = DownloadWorkItem(
-                             related_experiments=[experiment.uid.hex],
-                             file_patterns=["output/*.dtk"],
-                             verbose=True,
-                             output_path="",
-                             delete_after_download=False,
-                             include_assets=True,
-                             compress_type=CompressType.deflate)
-
-    dl_wi.run(wait_until_done=True, platform=platform)
-    print("SHOULD BE DOWNLOADED")
+    else:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id.txt", "w") as fd:
+            fd.write(experiment.id)
 
 
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk
     import pathlib
+
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     general_sim()

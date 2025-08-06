@@ -16,6 +16,4 @@ plugins_folder = "download/reporter_plugins"
 ep4_path="python_scripts"
 #requirements = "./requirements.txt"
 
-job_directory = os.path.join(os.path.expanduser('~'), "example_emodpy_malaria/campaign_sweep")
-os.makedirs(job_directory, exist_ok=True)
 SIF_PATH = os.path.join(os.path.expanduser('~'), 'dtk_run_rocky_py39.sif')

@@ -20,4 +20,3 @@ plugins_folder = "download/reporter_plugins"
 # python post- or pre-processing scripts directory
 my_ep4_assets_dir = os.path.join(os.curdir, "ep4")
 experiment_id = "experiment_id"
-job_directory = os.path.join(os.path.expanduser('~'), "vector_surveillance")

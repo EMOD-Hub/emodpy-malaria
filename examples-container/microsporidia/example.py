@@ -194,7 +194,7 @@ def general_sim(selected_platform):
         # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
         task.set_sif(manifest.SIF_PATH, platform)
     elif selected_platform.startswith("Container"):
-        platform = Platform("Container", job_directory=manifest.job_directory)
+        platform = Platform("Container", job_directory="../example_jobs")
     # set up sweeps
     builder = SimulationBuilder()
 
@@ -210,8 +210,7 @@ def general_sim(selected_platform):
     # we need a demographics object to pass to
     demog = build_demographics()
     grav_parm = [1, 0.3, 0.01, -1.3]
-    from_demographics_and_gravity_params(task, demographics_object=demog, gravity_params=grav_parm,
-                                         migration_type="LOCAL_MIGRATION")
+    from_demographics_and_gravity_params(demographics_object=demog, gravity_params=grav_parm)
 
     from emodpy_malaria.reporters.builtin import add_report_vector_stats, add_report_microsporidia, add_report_vector_migration
     # ReportVectorStats
@@ -230,15 +229,13 @@ def general_sim(selected_platform):
     experiment.run(wait_until_done=True, platform=platform)
 
     # Check result
+    print()
     if not experiment.succeeded:
         print(f"Experiment {experiment.id} failed.\n")
-        exit()
-
-    print(f"Experiment {experiment.id} succeeded.")
-
-    # Save experiment id to file
-    with open("experiment_id", "w") as fd:
-        fd.write(experiment.id)
+    else:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id.txt", "w") as fd:
+            fd.write(experiment.id)
 
 
 if __name__ == "__main__":
@@ -246,6 +243,6 @@ if __name__ == "__main__":
     import pathlib
 
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    selected_platform = "COMPS"
-    # selected_platform = "Container"
+    # selected_platform = "COMPS"
+    selected_platform = "Container"
     general_sim(selected_platform)

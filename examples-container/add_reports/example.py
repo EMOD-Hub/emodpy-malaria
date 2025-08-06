@@ -84,7 +84,7 @@ def general_sim():
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
     global add_report_event_counter
-    platform = Platform("Container", job_directory="DEST")
+    platform = Platform("Container", job_directory="../example_jobs")
 
     experiment_name = "all reports example"
 
@@ -175,15 +175,13 @@ def general_sim():
     experiment.run(wait_until_done=True, platform=platform)
 
     # Check result
+    print()
     if not experiment.succeeded:
         print(f"Experiment {experiment.id} failed.\n")
-        exit()
-
-    print(f"Experiment {experiment.id} succeeded.")
-
-    # Save experiment id to file
-    with open("experiment_id", "w") as fd:
-        fd.write(experiment.id)
+    else:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id.txt", "w") as fd:
+            fd.write(experiment.id)
 
 
 if __name__ == "__main__":
