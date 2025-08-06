@@ -74,8 +74,7 @@ def ep4_fn( task ):
 
 def general_sim():
     # Create a platform
-    #platform = Platform("CONTAINER", job_directory=manifest.job_directory, docker_image='idm-docker-staging.packages.idmod.org/idmtools/container-rocky-runtime:0.0.22', new_container=False, max_running_jobs=10)
-    platform = Platform("Container", job_directory=manifest.job_directory)
+    platform = Platform("Container", job_directory="../example_jobs")
     task = EMODTask.from_default2(eradication_path=manifest.eradication_path,
                                   campaign_builder=build_camp,
                                   demog_builder=build_demog,
@@ -98,17 +97,13 @@ def general_sim():
     experiment.run(wait_until_done=True)
 
     # Check result
+    print()
     if not experiment.succeeded:
         print(f"Experiment {experiment.id} failed.\n")
-        exit()
-
-    print(f"Experiment {experiment.id} succeeded.")
-
-    # Save experiment id to file
-    with open("COMPS_ID", "w") as fd:
-        fd.write(experiment.id)
-    print()
-    print(experiment.id)
+    else:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id.txt", "w") as fd:
+            fd.write(experiment.id)
     
 
 if __name__ == "__main__":

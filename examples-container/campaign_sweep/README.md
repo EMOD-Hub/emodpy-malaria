@@ -9,16 +9,12 @@
   ```pip install -r requirements_container.txt```
 - Check pip installation with pip list
 
-### Run example_comps.py in comps:
-
-    python example_comps.py
-
-### Run example_container.py in local computer with container platform: 
-   - Run example_container.py:
-    ```python example_container.py```
+### Run example.py in local computer with container platform: 
+   - Run example.py:
+    ```python example.py```
    - View running status:
      ```idmtools container status <experiment_id>```
-   - View the output in the local job directory which you can find in console output while running the example_container.py
+   - View the output in the local job directory which you can find in console output while running the example.py
      directory path: <job_directory>/<suite_dir>/<experiment_dir>/<simulation_dir>
      - View the output in the Docker container:
        User can find container ID from console output and use the following command to view the output:
@@ -27,7 +23,7 @@
         ls -la /home/container-data/<suite_dir>/<experiment_dir>/<simulation_dir>
      ```
    - Optionally you can also change your simulation directory path with or without experiment name as prefix:
-     Create idmtools.ini file in the same directory where example_container.py is located and add the following content:
+     Create idmtools.ini file in the same directory where example.py is located and add the following content:
      ```ini
      [COMMON]
      name_directory = True   # default value, if you want to add experiment name as prefix

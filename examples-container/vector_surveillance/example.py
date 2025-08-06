@@ -206,8 +206,7 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    platform = Platform("Container", job_directory="../example_jobs")
     experiment_name = "VectorSurveillance example"
 
     # create EMODTask 
@@ -222,9 +221,6 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_id)
 
     add_report_vector_genetics(task, manifest, species="gambiae")
     add_coordinator_event_recorder(task, event_list=[start_surveillance,
@@ -246,17 +242,13 @@ def general_sim():
     experiment.run(wait_until_done=True, platform=platform)
 
     # Check result
+    print()
     if not experiment.succeeded:
         print(f"Experiment {experiment.id} failed.\n")
-        exit()
-
-    print(f"Experiment {experiment.id} succeeded.")
-
-    # Save experiment id to file
-    with open(manifest.experiment_id, "w") as fd:
-        fd.write(experiment.id)
-    print()
-    print(experiment.id)
+    else:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id.txt", "w") as fd:
+            fd.write(experiment.id)
 
 
 if __name__ == "__main__":

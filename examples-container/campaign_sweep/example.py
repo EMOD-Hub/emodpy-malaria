@@ -158,14 +158,14 @@ def general_sim():
     )
 
     # Set platform
-    platform = Platform("Container", job_directory="DEST")
+    platform = Platform("Container", job_directory="../example_jobs")
 
     # Create simulation sweep with builder
     # sweeping over start day AND killing effectiveness - this will be a cross product
     builder = SimulationBuilder()
 
     # this will sweep over the entire parameter space in a cross-product fashion
-    # you will get 2x3x2 simulations
+    # you will get 2x3x3x2=36 simulations
     builder.add_multiple_parameter_sweep_definition(
         update_campaign_multiple_parameters,
         dict(
@@ -183,17 +183,13 @@ def general_sim():
     experiment.run(wait_until_done=True, platform=platform)
 
     # Check result
+    print()
     if not experiment.succeeded:
         print(f"Experiment {experiment.id} failed.\n")
-        exit()
-
-    print(f"Experiment {experiment.id} succeeded.")
-
-    # Save experiment id to file
-    with open("experiment_id", "w") as fd:
-        fd.write(experiment.id)
-    print()
-    print(experiment.id)
+    else:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id.txt", "w") as fd:
+            fd.write(experiment.id)
 
 
 if __name__ == "__main__":

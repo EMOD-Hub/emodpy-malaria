@@ -9,14 +9,11 @@
   ```pip install -r requirements_container.txt```
 - Check pip installation with pip list
 
-### Run example in COMPS:
-  - ```python example_comps.py```
-
 ### Run example in local with container platform: 
-  - ```python example_container.py```
+  - ```python example.py```
   - View running status:
     - idmtools container status <experiment_id>
-  - View the output in the local job directory which you can find in console output while running the example_container.py
+  - View the output in the local job directory which you can find in console output while running the example.py
   - Optionally view the same output in the Docker container:
     - User can find container ID from console output and use the following command to view the output:
     ```bash
