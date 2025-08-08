@@ -206,11 +206,11 @@ Infectiousness, Parasitemia Bins, and Age Bins.
     :header: Parameter, Description
     :widths: 8, 20
 
-    Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness, true gametocyte density, and age fall into these bins."
-    Age scaled Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is scaled by their age-dependent Surface Area Biting, true gametocyte density and age fall into these bins."
-    Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age fall into these bins."
-    Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins."
-    Age scaled Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is first scaled by Surface Area Biting and then smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins."
+    Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness, true gametocyte density, and age fall into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Age scaled Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is scaled by their age-dependent Surface Area Biting, true gametocyte density and age fall into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age fall into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Age scaled Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is first scaled by Surface Area Biting and then smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
 
 
 
