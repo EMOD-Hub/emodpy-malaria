@@ -3,7 +3,7 @@ MalariaSummaryReport
 ====================
 
 The malaria summary report (MalariaSummaryReport.json) is a JSON-formatted report that provides a
-population-level summary of malaria data grouped into different bins such as age, parasitemia, and
+population-level summary of malaria data grouped into different bins such as age, parasitemia, gametocyte density, and
 infectiousness.
 
 
@@ -142,8 +142,8 @@ The following statistics are collected:
     Time Of Report, "Each entry is the final day of the reporting interval, in days."
     Annual EIR, "The average Entomological Inoculation Rate (EIR) per year over the reporting interval."
     PfPR_2to10, "The fraction of individuals whose age is 2 < age < 10 that would have been detected with the BLOOD_SMEAR_PARASITES diagnostic type of MalariaDiagnostic where the sensitivity is **Report_Parasites_Smear_Sensitivity** and the detection threshold is zero.  Please note that his measurement includes some random noise."
-    PfPR_2to10-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  It will contain the fraction of individuals whose age is 2 < age < 10 and whose true parasite density is greater than **Detection_Threshold_True_Parasite_Density**."
-    PfPR_2to10-HRP2, "If Add_Prevalence_By_HRP2 is true, this chanel is added.  It will contain the fraction of individuals whose age is 2 < age < 10 and whose true HRP2 density is greater than **Detection_Threshold_True_HRP2**."
+    PfPR_2to10-True, "If **Add_True_Density_Vs_Threshold** is true, this chanel is added.  It will contain the fraction of individuals whose age is 2 < age < 10 and whose true parasite density is greater than **Detection_Threshold_True_Parasite_Density**."
+    PfPR_2to10-HRP2, "If **Add_Prevalence_By_HRP2** is true, this chanel is added.  It will contain the fraction of individuals whose age is 2 < age < 10 and whose true HRP2 density is greater than **Detection_Threshold_True_HRP2**."
     No Infection Streak, The maximum number of days without an infection during the interval.
     Fraction Days Under 1pct Infected, The percentage of days during the interval in which the percentage of infected individuals was less than 1%.
 
@@ -159,12 +159,12 @@ Age Bin.
     :widths: 8, 20
 
     PfPR by Age Bin, "The fraction of individuals in this age bin that would have been detected using the BLOOD_SMEAR_PARASITES diagnostic type of the MalariaDiagnostic intervention where the sensitivity is **Report_Parasites_Smear_Sensitivity** and the detection threshold is zero.  Please note that his measurement includes some random noise."
-    PfPR by Age Bin-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  The fraction of individuals in this age bin whose true parasite density is greater than **Detection_Threshold_True_Parasite_Density**."
-    PfPR by Age Bin-HRP2, "If Add_Prevalence_By_HRP2 is true, this chanel is added.  The fraction of individuals in this age bin whose true HRP2 density is greater than **Detection_Threshold_True_HRP2**."
+    PfPR by Age Bin-True, "If **Add_True_Density_Vs_Threshold** is true, this chanel is added.  The fraction of individuals in this age bin whose true parasite density is greater than **Detection_Threshold_True_Parasite_Density**."
+    PfPR by Age Bin-HRP2, "If **Add_Prevalence_By_HRP2** is true, this chanel is added.  The fraction of individuals in this age bin whose true HRP2 density is greater than **Detection_Threshold_True_HRP2**."
     Pf Gametocyte Prevalence by Age Bin, "The fraction of individuals in this age bin that would have been detected using the BLOOD_SMEAR_GAMETOCYTES diagnostic type of the MalariaDiagnostic intervention where the sensitivity is **Report_Gametocyte_Smear_Sensitivity** and the detection threshold is 0.02.  Please note that his measurement includes some random noise."
-    Pf Gametocyte Prevalence by Age Bin-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  It will contain the fraction of individuals in this age bin whose true gametocyte density is greater than **Detection_Threshold_True_Gametocyte_Density**."    
+    Pf Gametocyte Prevalence by Age Bin-True, "If **Add_True_Density_Vs_Threshold** is true, this chanel is added.  It will contain the fraction of individuals in this age bin whose true gametocyte density is greater than **Detection_Threshold_True_Gametocyte_Density**."
     Mean Log Parasite Density by Age Bin, "The average Log10 parasite density of the population for that age bin based on the count of parasites using the BLOOD_SMEAR_PARASITES diagnostic type of MalariaDiagnostic where the sensitivity is **Report_Parasites_Smear_Sensitivity**.  Please note that his measurement includes some random noise."
-    Mean Log Parasite Density by Age Bin-True, "If Add_True_Density_Vs_Threshold is true, this chanel is added.  It will contain the average Log10 parasite density of the population for that age bin based on the count of true parasites."
+    Mean Log Parasite Density by Age Bin-True, "If **Add_True_Density_Vs_Threshold** is true, this chanel is added.  It will contain the average Log10 parasite density of the population for that age bin based on the count of true parasites."
     New Infections by Age Bin, "The number of new infections during the reporting interval for each age bin."
     Annual Clinical Incidence by Age Bin, "The number of new clinical symptoms per person per year.  This channel is controlled by the **Clinical_Fever_Threshold_Low** and **Clinical_Fever_Threshold_High** parameters.  The amount that an individual’s fever is above normal must be greater than both of these values to be considered clinical.  This can also be influenced by the **Min_Days_Between_Clinical_Incidents** parameter."
     Annual Severe Incidence by Age Bin, "The number of new severe symptoms per person per year.  An individual is considered to be a severe case if the combined probability of anemia, parasite density, and fever is greater than a uniform random number.  This combined probability is the combination of sigmoid using the following parameters: **Anemia_Severe_Threshold** and **Anemia_Severe_Inverse_Width**, **Parasite_Severe_Threshold** and **Parasite_Severe_Inverse_Width**, **Fever_Severe_Threshold** and **Fever_Severe_Inverse_Width**."
@@ -187,12 +187,12 @@ Parasitemia Bins, and Age Bins.
     :header: Parameter, Description
     :widths: 8, 20
 
-    PfPR by Parasitemia and Age Bin, "The fraction of individuals whose parasite density and age fall into this bin. The sum of the people whose true parasite density in the PfPRBin and age bin divided by the total number of people in the age bin.  Please note that people with zero parasitemia (i.e. only gametocytes) are counted in the bin that includes zero."
-    PfPR by Gametocytemia and Age Bin, "The fraction of individuals whose gametocyte density and age fall into this gametocyte bin.  Please note that people with zero gametocytes are counted in the bin that includes zero."
-    Smeared PfPR by Parasitemia and Age Bin, "The fraction of individuals in this age bin whose true parasite density when smeared by CountPositiveSlideFields falls into this parasitemia bin."
-    Smeared PfPR by Gametocytemia and Age Bin, "The fraction of individuals in this age bin whose true gametocyte density when smeared by CountPositiveSlideFields falls into this gametocyte bin."
-    Smeared True PfPR by Parasitemia and Age Bin, "The fraction of individuals in this age bin whose true parasite density when smeared by NASBADensityWithUncertainty falls into this parasitemia bin."
-    Smeared True PfPR by Gametocytemia and Age Bin, "The fraction of individuals in this age bin whose true gametocyte density when smeared by  NASBADensityWithUncertainty falls into this parasitemia bin."
+    PfPR by Parasitemia and Age Bin, "The fraction of individuals whose true parasite density and age fall into this bin. The sum of the people whose true parasite density in the PfPRBin and age bin divided by the total number of people in the age bin.  Please note that people who are infected, but have zero parasitemia (i.e. only gametocytes) are counted in the bin that includes zero. This channel is not affected by **Detection_Threshold_True_Parasite_Density** threshold."
+    PfPR by Gametocytemia and Age Bin, "The fraction of individuals whose true gametocyte density and age fall into this gametocyte bin. Please note that people who are infected, but have zero gametocytes (i.e. only parasites) are counted in the bin that includes zero. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Smeared PfPR by Parasitemia and Age Bin, "The fraction of individuals in this age bin whose true parasite density when smeared by CountPositiveSlideFields falls into this parasitemia bin. This channel is not affected by **Detection_Threshold_True_Parasite_Density** threshold."
+    Smeared PfPR by Gametocytemia and Age Bin, "The fraction of individuals in this age bin whose true gametocyte density when smeared by CountPositiveSlideFields falls into this gametocyte bin. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Smeared True PfPR by Parasitemia and Age Bin, "The fraction of individuals in this age bin whose true parasite density when smeared by NASBADensityWithUncertainty falls into this parasitemia bin. This channel is not affected by **Detection_Threshold_True_Parasite_Density** threshold."
+    Smeared True PfPR by Gametocytemia and Age Bin, "The fraction of individuals in this age bin whose true gametocyte density when smeared by NASBADensityWithUncertainty falls into this parasitemia bin. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
 
 
 DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins
@@ -206,11 +206,11 @@ Infectiousness, Parasitemia Bins, and Age Bins.
     :header: Parameter, Description
     :widths: 8, 20
 
-    Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose infectiousness, gametocyte density, and age fall into these bins."
-    Age scaled Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is scaled by their age-dependent Surface Area Biting, gametocyte density and age fall into these bins."
-    Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age fall into these bins."
-    Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins."
-    Age scaled Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is first scaled by Surface Area Biting and then smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins."
+    Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness, true gametocyte density, and age fall into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Age scaled Infectiousness by Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is scaled by their age-dependent Surface Area Biting, true gametocyte density and age fall into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age fall into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
+    Age scaled Smeared Infectiousness by smeared Gametocytemia and Age Bin, "The fraction of individuals whose true infectiousness is first scaled by Surface Area Biting and then smeared by BinomialInfectiousness, gametocyte density smeared by NASBADensityWithUncertainty, and age falls into these bins. This channel is not affected by **Detection_Threshold_True_Gametocyte_Density** threshold."
 
 
 
