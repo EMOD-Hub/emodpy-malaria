@@ -14,6 +14,76 @@ import pylab
 from math import sqrt, ceil
 
 
+def get_filenames(dir_or_filename: str,
+                  file_prefix: str,
+                  file_extension: str = None):
+    """
+    Get a list of filenames from a directory or a single file.
+    If a directory is provided, it will list all files in that directory
+    and in any subdirectory.  If a file is provided, it will check if it
+    matches the prefix and extension.
+
+    This should handle the situation where the user provides a directory
+    that only contains a list of files, say from emodpy_workflow's download command.
+    This should also plot the files in a directory that contains subdirectories
+    created by the DownloadAnalyzer where each subdirectory contains the reports
+    from a simulation.  Finally, this should also handle getting all of the files
+    in a suite or experiment directory created when using SLURM or Container platform
+    for the running of EMOD - the actual directories where the simulations are run.
+
+    Args:
+        dir_or_filename (string, required):
+            Directory or filename to search.
+        file_prefix (string, required)
+            Prefix to filter files by.
+        file_extension (string, optional):
+            Extension to filter files by.
+    Returns:
+        List of filenames that match the criteria.
+    """
+
+    dir_filenames = []
+
+    # Check if the input is a directory or a file
+    if os.path.isdir(dir_or_filename):
+        # If it's a directory, list all files in the directory
+        for base_entry in os.listdir(dir_or_filename):
+            entry = os.path.join(dir_or_filename, base_entry)
+
+            if os.path.isdir(entry):
+                # If it's a subdirectory, recursively get filenames from it
+                sub_filenames = get_filenames(dir_or_filename=entry,
+                                              file_prefix=file_prefix,
+                                              file_extension=file_extension)
+                dir_filenames.extend(sub_filenames)
+                continue
+
+            if not os.path.isfile(entry):
+                continue
+            if file_prefix and not base_entry.startswith(file_prefix):
+                continue
+            if file_extension and not base_entry.endswith(file_extension):
+                continue
+            dir_filenames.append(entry)
+
+    elif os.path.isfile(dir_or_filename):
+        if (file_prefix and dir_or_filename.startswith(file_prefix)) or \
+           (file_extension and dir_or_filename.endswith(file_extension)):
+            dir_filenames.append(dir_or_filename)
+        elif file_prefix:
+            raise ValueError(f"'{dir_or_filename}' does not start with the specified prefix '{file_prefix}'.")
+        elif file_extension:
+            raise ValueError(f"'{dir_or_filename}' does not end with the specified extension '{file_extension}'.")
+        else:
+            dir_filenames.append(dir_or_filename)
+
+    else:
+        raise ValueError(f"'{dir_or_filename}' is neither a valid directory nor a file.")
+
+    dir_filenames = sorted(dir_filenames)
+    return dir_filenames
+
+
 def get_raw_color(idx: int):
     """
     When plotting the raw data as background, use a lighter color than the test data.
@@ -108,36 +178,6 @@ def create_title_string(reference: str, data_filenames: list[str]):
             title = title + "\n"
 
     return title
-
-
-def get_data_from_directory(directory: str):
-    """
-    Gets the JSON files from the input directory and return the names of the files
-    and the dictionaries of data.  The idea is to allow the user to put several
-    channel reports into one directory and plot them all by just giving the name
-    of the directory.
-
-    Args:
-        directory:
-            a path to a directory that contains only a collection of channel reports
-
-    Returns:
-        Return the list of file names in the directory AND the list of dictionaries
-        containing the data of those files
-    """
-    dir_data = []
-    dir_data_filenames = []
-    for file in os.listdir(directory):
-        file = os.path.join(directory, file)
-        if file.endswith(".json"):
-            dir_data_filenames.append(file)
-
-    dir_data_filenames = sorted(dir_data_filenames)
-    for file in dir_data_filenames:
-        with open(file) as dir_sim:
-            dir_data.append(json.loads(dir_sim.read()))
-
-    return dir_data_filenames, dir_data
 
 
 def plot_subplot(chan_title: str,
@@ -325,26 +365,26 @@ def plot_inset_chart(dir_name: str = None,
     test_filenames = []
     test_data = []
     if dir_name is not None:
-        test_filenames, test_data = get_data_from_directory(dir_name)
+        test_filenames = get_filenames(dir_or_filename=dir_name,
+                                       file_prefix="InsetChart",
+                                       file_extension="json")
 
     if comparison1 is not None:
         test_filenames.append(comparison1)
-        with open(comparison1) as test_sim:
-            test_data.append(json.loads(test_sim.read()))
 
     if comparison2 is not None:
         test_filenames.append(comparison2)
-        with open(comparison2) as test_sim:
-            test_data.append(json.loads(test_sim.read()))
 
     if comparison3 is not None:
         test_filenames.append(comparison3)
-        with open(comparison3) as test_sim:
-            test_data.append(json.loads(test_sim.read()))
+
+    for test_fn in test_filenames:
+        with open(test_fn, "r") as test_file:
+            test_data.append(json.loads(test_file.read()))
 
     ref_data = None
     if reference is not None:
-        with open(reference) as ref_file:
+        with open(reference, "r") as ref_file:
             ref_data = json.loads(ref_file.read())
 
     plot_name = title
@@ -376,7 +416,7 @@ if __name__ == "__main__":
     parser.add_argument('comparison1', default=None, nargs='?', help='Comparison1 InsetChart filename')
     parser.add_argument('comparison2', default=None, nargs='?', help='Comparison2 InsetChart filename')
     parser.add_argument('comparison3', default=None, nargs='?', help='Comparison3 InsetChart filename')
-    parser.add_argument('-d', '--dir', default=None, nargs='?', help='Directory of InsetChart.json files')
+    parser.add_argument('-d', '--dir', default=None, nargs='?', help='Directory, or parent directory that contains subdirectories, of InsetChart.json files')
     parser.add_argument('-t', '--title', default=None, nargs='?', help='Title of Plot')
     parser.add_argument('-o', '--output', default=None, help='If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.')
 
