@@ -127,6 +127,12 @@ def plot_results(output_path):
     """
     The following code uses a plotting script that is part of the examples.
     It will create an image and store it in the directory defined by "output_path".
+
+    The InsetChart.json report provides you with a collection of time-based statistics
+    that can be helpful for understanding what is going on in the simulation.  For example,
+    the "Infected" data shows you the percentage of people who are infected during each
+    timestep of the simulation.  There is also data about the vector population, number
+    of clinical cases, and so on.
     """
     pic.plot_inset_chart(dir_name=output_path,
                          title="Simple Example",
