@@ -53,3 +53,7 @@ https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
     ![](media/tutorial_5_pip_freeze.png)
 
     If you do, then are ready to go. If not, stop and delete the codespace.  Try starting it again.
+
+## Running EMOD
+
+Now that you have Codespaces up and running, you can [run a simple example simulation](tutorial_run_simple_example.md).

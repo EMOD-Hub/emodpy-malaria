@@ -10,7 +10,7 @@ The followign instructions assume you have Codespaces started on the
 emopdy-malaria repository.  To learn how to do this, please the
 [Starting Codespaces Tutorial](tutorial_starting_codespaces.md)
 
-## Run an EMOD
+## Run EMOD example
 
 1. Execute the following command in the “terminal” window
 
@@ -19,6 +19,8 @@ emopdy-malaria repository.  To learn how to do this, please the
     ```
 
     ![](media/tutorial_6_cd_examples_container.png)
+
+    Most of the following instructions are going to take place in this terminal window.
 
 2. See what examples there are by executing the following command:
     ```
@@ -51,7 +53,8 @@ emopdy-malaria repository.  To learn how to do this, please the
 
     ![](media/tutorial_10_python_example_start.png)
 
-    This step “Pulling image docker-production-public…”  may take a few minutes.
+    This step “Pulling image docker-production-public…”  may take a few minutes,
+    but will only happen once per codespace image.
 
     ![](media/tutorial_11_pull_image.png)
 
@@ -63,19 +66,18 @@ emopdy-malaria repository.  To learn how to do this, please the
 
 Now that we have run EMOD, lets look at some data to see what happend in the simulations.
 
-1. In the file browser on the left, click on the ">" next to the _examples-container_ folder.
+1. In the file browser on the left, click on the ">" next to the _examples-container_ folder
+and continue navigating to the folder:
 
-    ![](media/tutorial_13_open_examples_container.png)
+    ```
+    examples-container > simple_example > results
+    ```
 
-2. Next, click on the ">" next to the _simple_example_ folder.
-
-    ![](media/tutorial_14_open_simple_example.png)
-
-3. Next, click on the ">" next to the _results_ folder.
-
-    ![](media/tutorial_15_open_results.png)
-
-4. Select the file names **Simple_Example.png".
+2. Select the file name **Simple_Example.png".
 
     ![](media/tutorial_16_select_image.png)
+
+## Understand the results
+
+The [next "tutorial"](tutorial_interpret_results.md) explains what you are seeing in this image.
 
