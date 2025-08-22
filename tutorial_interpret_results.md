@@ -15,7 +15,7 @@ Codespaces or locally.
 
 EMOD's default report is called "InsetChart".  This report contains numerous statistics
 over time.  The purpose of the report is to give you a quick overview of what is happening
-in your simulation.  It is frequently helpful to this data all at once because it allows
+in your simulation.  It is frequently helpful to see this data all at once because it allows
 you to easily cross reference with other statistics.  For example, if you looked at the
 "Infected" data and saw no one is infected, you might also look at the "Statistical Population"
 data to verify there are people.  If there were no people, you could assume that is why
@@ -51,37 +51,44 @@ are in the simulation.  These are:
 - Daily EIR
 - Infectious Vectors
 
-These plots are much more interesting with Adult Vectors growing over time while Infectious Vectors and Daily EIR don't get started until day 40.  Why do the plots have the shapes that they do?
+These plots are much more interesting with Adult Vectors growing over time while Infectious Vectors
+and Daily EIR don't get started until day 40.  Why do the plots have the shapes that they do?
 
 EMOD is one of the only malaria models that includes the mosquitoes as its own set of agents.
 EMOD models the mosquito through its life cycle from eggs to larve to adult and back again.
-Please [EMOD Vector Biology](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/vector-model-overview.html) for more information.
+Please see [EMOD Vector Biology](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/vector-model-overview.html)
+for more information.
 
-**Adult Vectors** - These are the adult, female mosquitoes.  Our scenario has three species and so starts out with 10,000 each at day 0 (30,000 total).  You see a rapid decline until about day 18,
-because there are no new mosquitoes becoming adults.  We must wait for the eggs laid on day zero
-to mature and become adults.  If we were to run this simulation longer, we would likely see the
-number of mosquitoes leveling out once they have saturated the larval habitat.
+**Adult Vectors** - These are the adult female mosquitoes in the simulation. The scenario initializes with three species,
+each starting with 10,000 individuals at day 0 (30,000 total). The simulation is initialized without
+eggs or larva and, therefore, the adult population drops rapidly until day 18 because no new adults
+are emerging yet - we're waiting for the eggs laid on the first day to complete their development
+cycle and mature into adults. In longer simulations, the mosquito population would eventually
+stabilize once the larval habitats reach carrying capacity
 
-**Infectious Vectors** - This is the fraction of **Adult Vectors** that are _infectious_.  This
-means that these vectors bit a human, got gametocytes, the gametocytes became ocysts, and the ocysts
-produced sporozoites.  This also took time, possibly the 22 days between when the new adults
-started appearing on day 18 and the sporozoites developed.
+**Infectious Vectors** - This represents the proportion of **Adult Vectors** that are infectious to humans. These
+mosquitoes have completed the full parasite development cycle:
+- they fed on an infected human,
+- acquired gametocytes,
+- those gametocytes developed into oocysts, and
+- the oocysts matured into sporozoites.
 
-**Daily Bites per Human** - This statistic is interesting because it shows how it declines
-as the vector population declines and then suddenly takes off on day 18.  This is the same day
-that our first eggs have matured.  The biting starts out very jagged because this group of
-mosquitoes is biting every three days.  We see it because less jagged over time as number
-of mosquitoes feeding each day starts to equal out.
+**Daily Bites per Human** - This metric demonstrates the relationship between vector
+population dynamics and feeding behavior. It declines as the initial mosquito population
+dies off, then surges on day 1 when the first generation of new adults emerges. The pattern
+appears jagged initially because mosquitoes in this simulation feed every three days in
+synchronized cycles. Over time, the pattern smooths out as feeding events become more evenly
+distributed across days.
 
-**Daily EIR** - This statistic is showing the number of infectious bites delivered each day.
-It is jagged like **Daily Bites per Human** because these mosquitoes delivering infectious
-bites are probably from those first couple of initial new adults.
+**Daily EIR** - This shows the daily count of infectious bites delivered to humans. The jagged pattern
+mirrors **Daily Bites per Human** since infectious bites are a proportion of total bites.
 
 To avoid some of these vector start up issues as well as establish immunity in the population,
 users will do a simulation "burn-in".  This is where they will run the simulation for many
 years to let the vectors and immunity to stabilize.  When that simulation finishes, they have
 it create a "serialized population file".  This file is then used for new simulations.
-please see [Serializing Populaitons](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-serializing-pops.html) for more information.
+please see [Serializing Populaitons](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-serializing-pops.html) 
+or more information.
 
 ![](media/tutorial_19_vectors.png)
 
@@ -92,43 +99,46 @@ InsetChart includes three statistics on the demographics:
 - Births
 - Disease Deaths
 
-**Statistical Population** - This statistic shows the number of human agents in the simulation
-at each time step.  It changes as agents are born and die.  In our case, we see one of the
-simulations increase twice.  If we look at the **Births** statistic, we see those births for that
-simulation.
+**Statistical Population** - This tracks the total number of human agents in the
+simulation at each time point.  The population fluctuates as new agents are born
+and others die. In these results, you'll notice one of the simulations increase twice.
+If we look at the **Births** statistic, we see those births for that simulation.
 
-**Births** - This statistic shows the cumulative number of people born at each time step.
-As noted above, we see one simulation had two births and those people show up in the 
-**Statistical Population**.
+**Births** - This displays the cumulative count of births in the simulation. The
+step-wise increases visible in certain simulation runs directly correspond to the
+population growth seen in **Statistical Population**.
 
-**Disease Deaths** - This shows the number of people that died at each time step due to
-malaria.  Most users do not model disease death in EMOD due to the lack of data to calibrate
-to.  Hence, in this case, we see no disease deaths.
+**Disease Deaths** - This data shows deaths attributed directly to malaria at each
+time step. In these simulations, no disease deaths occur. Most users exclude malaria
+mortality from their models due to insufficient calibration data, focusing instead
+on infection dynamics and morbidity outcomes.
 
 ![](media/tutorial_20_demographics.png)
 
 ## Prevalence, incidence, and immunity
 
-Unlike the real world, simulation lets us know what is going on in the entire population.
-For example, the following statistics tell us about the prevalence and immunity status of
-the whole population.
+Simulation provides complete population visibility that's impossible in real-world
+studies. The following statistics reveal infection patterns and immune responses
+across the entire population:
 - Infected
 - New Infections
 - Variant Fraction - PfEMP1 Major
 
-**Infected** - This is the fraction of the total population that is infected (has parasites
-at any stage during their time within a human).  In this scenario, we see that about 20% of
-the population is infected at the beginning and at about day 40, it jumps up to close to 100%.
+**Infected** - This represents the fraction of the population currently harboring
+parasites at any stage of the infection cycle. The simulation begins with approximately
+20% prevalence, then dramatically increases to nearly 100% around day 40 as the vector
+population becomes infectious and spread.
 
-**New Infections** - This is the number of people receiving a new infection on that time step.
-In this plot, we see a bunch of new infections, a large spike around day 40, and then it declines.
-The first spike is our initial set of infections and the large spike is due that large group
-of infectious vectors biting most of our population.
+**New Infections** - This counts individuals acquiring new infections at each time step.
+The pattern shows an initial wave of infections from the simulation setup, followed by
+a major spike around day 40 when our vectors become infectious. The subsequent decline
+reflects the depletion of susceptible individuals as we are not allowing more than
+three concurrent infections in these simulations.
 
-**Variant Fraction - PfEMP1 Major** - This is more complicated to explain than we have room
-for here, but think of this statistic as showing you the amount of antibodies that the agents
-have developed against the parasite.  In our plot, we see that the people start off with no
-immunity, but it really takes off once people start getting infected.  See the section on
+**Variant Fraction - PfEMP1 Major** - This metric tracks the development of acquired
+immunity against specific parasite variants. Think of it as measuring the population's
+antibody levels against the parasite. Initially, the population has no immunity, but
+antibody development accelerates rapidly once infections begin spreading. See the section on
 [Malaria infection and immune model](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-infection-immunity.html)
 for more information.
 
@@ -136,23 +146,28 @@ for more information.
 
 ## Clinical and severe cases
 
-One measure of malaria is when people's symptoms become significant enough that something
-is done about it.  This requires EMOD to model fever for each infected agent.  The InsetChart
-plot has two statistics showing the number of cases detected each time step.
+Malaria's impact is measured by cases that prompt medical attention. EMOD models fever
+progression in each infected individual to capture these dynamics. The InsetChart displays
+two key metrics tracking case detection:
 - New Clinical Cases
 - New Severe Cases
 
-**New Clinical Cases** - People don't usually seek treatment for malaria until their fever
-has been high enough and long enough to cause concern.  This is what we call a "clinical case".
-In our plot, you will notice two peaks: one at about day 18 which is about 18 days after the
-initial round of infections.  You see a second peak at about day 58 which is about 18 days after
-the peak of new infections on day 40.
+**New Clinical Cases** - These represent infections that have progressed to requiring medical
+intervention. Clinical cases occur when fever intensity and duration reach levels that drive
+treatment-seeking behavior. The plot shows two distinct peaks: the first around day 18
+(approximately 18 days following the initial infections) and a larger second peak around day 58
+(roughly 18 days after the major infection surge on day 40). This 18-day delay reflects the
+typical incubation period from infection to clinical symptoms.
 
 **New Severe Cases** - Excessive fever or anemia can lead to severe cases and are rare in this
 short amount of time.  We had one simulation with one severe case.
 
-To learn more about how symptoms are modeled in EMOD, please see [Malaria symptoms and diagnostics](
-https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-symptoms-diagnosis.html).
+**New Severe Cases** - These are life-threatening cases characterized by severe fever, anemia,
+or other complications. Given the short 80-day simulation timeframe, severe cases remain rare - only
+one simulation run recorded a single severe case. Longer simulation periods would typically show
+more severe case development.  Please see [Malaria symptoms and diagnostics]
+(https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-symptoms-diagnosis.html)
+for more information.
 
 ![](media/tutorial_22_cases.png)
 

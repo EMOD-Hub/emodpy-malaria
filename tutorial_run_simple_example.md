@@ -18,14 +18,25 @@ emopdy-malaria repository.  To learn how to do this, please the
     cd examples-container
     ```
 
+    "cd" stands for _change directory_
+
     ![](media/tutorial_6_cd_examples_container.png)
 
+    Notice that the line after executing the command says what folder you are in.
+    In our case, the folder you are in should be:
+
+    ```
+    /workspaces/emodpy-malaria/examples-container
+    ```
+    
     Most of the following instructions are going to take place in this terminal window.
 
 2. See what examples there are by executing the following command:
     ```
     ls
     ```
+
+    "ls" stands for _list files/directories_
 
     ![](media/tutorial_7_ls.png)
 
