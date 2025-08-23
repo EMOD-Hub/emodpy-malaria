@@ -10,6 +10,11 @@ Python module for use as user-space front-end for doing research easily with EMO
 
 This package provides a Python scriptable interface for configuring EMOD for malaria modeling. This Python interface abstracts the process of creating JSON formatted files for parameter specification, demographics specification and intervention specification along as well as abstracting the process of creating binary climate and migration files.
 
+## Getting started
+
+Before installing `emodpy_malaria`, please see the [Getting Started page](getting_started.md).
+It can guide you through trying EMOD before you try it on your own machine.
+
 ## Get `emodpy-malaria`
 
 The `emodpy-malaria` package (and its supporting packages) is currently hosted on IDM's Python package repository.
