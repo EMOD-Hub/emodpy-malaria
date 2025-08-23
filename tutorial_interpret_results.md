@@ -17,7 +17,7 @@ EMOD's default report is called "InsetChart".  This report contains numerous sta
 over time.  The purpose of the report is to give you a quick overview of what is happening
 in your simulation.  It is frequently helpful to see this data all at once because it allows
 you to easily cross reference with other statistics.  For example, if you looked at the
-"Infected" data and saw no one is infected, you might also look at the "Statistical Population"
+**Infected** data and saw no one is infected, you might also look at the **Statistical Population**
 data to verify there are people.  If there were no people, you could assume that is why
 no one is infected.
 
@@ -51,8 +51,8 @@ are in the simulation.  These are:
 - Daily EIR
 - Infectious Vectors
 
-These plots are much more interesting with Adult Vectors growing over time while Infectious Vectors
-and Daily EIR don't get started until day 40.  Why do the plots have the shapes that they do?
+These plots are much more interesting with **Adult Vectors** growing over time while **Infectious Vectors**
+and **Daily EIR** don't get started until day 40.  Why do the plots have the shapes that they do?
 
 EMOD is one of the only malaria models that includes the mosquitoes as its own set of agents.
 EMOD models the mosquito through its life cycle from eggs to larve to adult and back again.
