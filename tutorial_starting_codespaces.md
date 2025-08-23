@@ -53,6 +53,12 @@ https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
     ![](media/tutorial_5_pip_freeze.png)
 
     If you do, then are ready to go. If not, stop and delete the codespace.  Try starting it again.
+    
+## Stopping and deleting a Codespace
+
+When you are done, you should stop and delete your Codespace so that you do not occur
+any added expenses.  When it is time, please follow these
+[instructions](https://github.com/EMOD-Hub/emodpy-malaria/blob/main/.devcontainer/README.md#stopping--deleting-a-codespace)
 
 ## Running EMOD
 

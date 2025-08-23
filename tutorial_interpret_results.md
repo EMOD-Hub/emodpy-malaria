@@ -165,8 +165,8 @@ short amount of time.  We had one simulation with one severe case.
 **New Severe Cases** - These are life-threatening cases characterized by severe fever, anemia,
 or other complications. Given the short 80-day simulation timeframe, severe cases remain rare - only
 one simulation run recorded a single severe case. Longer simulation periods would typically show
-more severe case development.  Please see [Malaria symptoms and diagnostics]
-(https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-symptoms-diagnosis.html)
+more severe case development.  Please see
+[Malaria symptoms and diagnostics](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-symptoms-diagnosis.html)
 for more information.
 
 ![](media/tutorial_22_cases.png)
@@ -188,5 +188,6 @@ infectious.
 
 ![](media/tutorial_23_diagnostics.png)
 
-For more on InsetChart, please our [documetation](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-report-inset-chart.html).
+For more on InsetChart, please our
+[documetation](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-report-inset-chart.html).
 
