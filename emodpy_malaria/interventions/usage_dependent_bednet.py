@@ -45,7 +45,7 @@ def _get_age_times_and_values(campaign, age_dependence):
     # Assign age-dependent net usage #
     # Times are ages in years (note difference from seasonal dependence)
     if not age_dependence:
-        age_times = [0, 125]  # Dan B has hard-coded an upper limit of 125, will return error for larger values
+        age_times = [0, 1000]
         age_values = [1, 1]
     elif all([k in age_dependence.keys() for k in ['Times', 'Values']]):
         age_times = age_dependence['Times']
@@ -74,7 +74,7 @@ def add_scheduled_usage_dependent_bednet(
         node_ids: list = None,
         ind_property_restrictions: list = None,
         target_age_min: float = 0,
-        target_age_max: float = 125,
+        target_age_max: float = 1000,
         target_gender: str = "All",
         intervention_name: str = "UsageDependentBednet",
         discard_config: dict = None,
@@ -237,7 +237,7 @@ def add_triggered_usage_dependent_bednet(campaign,
                                          triggered_campaign_delay: float = None,
                                          listening_duration: int = -1,
                                          target_age_min: float = 0,
-                                         target_age_max: float = 125,
+                                         target_age_max: float = 1000,
                                          target_gender: str = "All",
                                          intervention_name: str = "UsageDependentBednet",
                                          discard_config: dict = None,

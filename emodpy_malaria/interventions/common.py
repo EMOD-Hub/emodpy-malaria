@@ -61,7 +61,7 @@ def add_triggered_campaign_delay_event(campaign,
                                        ind_property_restrictions: list = None,
                                        disqualifying_properties: list = None,
                                        target_age_min: float = 0,
-                                       target_age_max: float = 125,
+                                       target_age_max: float = 1000,
                                        target_gender: str = "All",
                                        target_residents_only: bool = False,
                                        blackout_event_trigger: str = None,
@@ -154,7 +154,7 @@ def add_campaign_event(campaign,
                        timesteps_between_repetitions: int = 365,
                        ind_property_restrictions: list = None,
                        target_age_min: float = 0,
-                       target_age_max: float = 125,
+                       target_age_max: float = 1000,
                        target_gender: str = "All",
                        target_residents_only: bool = False,
                        individual_intervention: any = None,
@@ -238,7 +238,7 @@ def add_campaign_event(campaign,
         coordinator.Property_Restrictions_Within_Node = ind_property_restrictions if ind_property_restrictions else []
         coordinator.Property_Restrictions = []  # not using; Property_Restrictions_Within_Node are more flexible
 
-        if target_age_min > 0 or target_age_max < 125:
+        if target_age_min > 0 or target_age_max < 1000:
             coordinator.Target_Age_Min = target_age_min
             coordinator.Target_Age_Max = target_age_max
         if target_gender != "All":
