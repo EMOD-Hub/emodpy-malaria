@@ -9,7 +9,6 @@ def _input_eir(
         campaign,
         monthly_eir: list = None,
         daily_eir: list = None,
-        age_dependence: str = "OFF",
         scaling_factor: float = 1.0,
         intervention_name: str = iv_name
 ):
@@ -55,7 +54,6 @@ def _input_eir(
             raise ValueError(f"All monthly_eir array elements need to be positive.")
         intervention.Monthly_EIR = monthly_eir
         intervention.EIR_Type = "MONTHLY"
-    intervention.Age_Dependence = age_dependence
     intervention.Scaling_Factor = scaling_factor
     intervention.Intervention_Name = intervention_name
     return intervention
