@@ -13,7 +13,7 @@ At a glance:
 *  **Serialized:** Yes, if it has been distributed to a person.
 *  **Uses insecticides:** Yes. It can target specific species or other subgroups.
 *  **Time-based expiration:** No
-*  **Purge existing:** Yes. If  a new intervention is added to to the individual, the existing intervention of the same name is removed when the new one is added.
+*  **Purge existing:** Yes. If the Intervention_Name values are the same. Interventions of this class with different Intervention_Name values will co-exist in an individual.
 *  **Vector killing contributes to:** Indoor After Feeding
 *  **Vector effects:** Repelling and killing
 *  **Vector sexes affected:** Females only

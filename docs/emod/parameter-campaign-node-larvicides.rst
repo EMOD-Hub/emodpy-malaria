@@ -17,7 +17,7 @@ At a glance:
 *  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
 *  **Uses insecticides:** Yes. The vector genome can be used to target specific genders.
 *  **Time-based expiration:** No. It will continue to exist even if efficacy is zero.
-*  **Purge existing:** Yes. If a new intervention is added to to the node, the existing intervention of the same name is removed when the new one is added.
+*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite any existing intervention of the same class in a node. The Intervention_Name parameter does not change this behavior.
 *  **Vector killing contributes to:** Combines with competition and rainfall to kill larvae every time step.
 *  **Vector effects:** Killing
 *  **Vector sexes affected:** Both males and females

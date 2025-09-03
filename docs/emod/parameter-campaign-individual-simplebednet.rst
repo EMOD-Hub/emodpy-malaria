@@ -22,7 +22,7 @@ At a glance:
 *  **Serialized:** Yes, if it has been distributed to a person.
 *  **Uses insecticides:** Yes. Insecticides can be used to target specific species or other subgroups.
 *  **Time-based expiration:** No, but it will expire if the WaningEffect expires (WaningEffectRandomBox and WaningEffectMapLinear expire).
-*  **Purge existing:** Yes. If a new intervention is added to to the individual, the existing intervention of the same name is removed when the new one is added. It is possible to have multiple **SimpleBednet** interventions attached to an individual if they have different **Intervention_Name** values.
+*  **Purge existing:** Yes. If a new intervention is added to to the individual, the existing intervention with the same Intervention_Name is removed. It is possible to have multiple **SimpleBednet** interventions attached to an individual if they have different **Intervention_Name** values.
 *  **Vector killing contributes to:** Indoor Before/After Feeding
 *  **Vector effects:** Repelling, blocking, killing
 *  **Vector sexes affected:** Females only

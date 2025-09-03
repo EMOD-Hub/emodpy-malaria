@@ -11,7 +11,7 @@ At a glance:
 *  **Serialized:** No. It will need to be redistributed when starting from a serialized file.
 *  **Uses insecticides:** Yes. It can target sub-groups using genomes or specific sexes.
 *  **Time-based expiration:** No. It will continue to exist even if efficacy is zero.
-*  **Purge existing:** Yes. If a new intervention is added to to the node, the existing intervention of the same name is removed when the new one is added.
+*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite any existing intervention of the same class in a node. The Intervention_Name parameter does not change this behavior.
 *  **Vector killing contributes to:** Outdoor Die After Feeding. Note that it is a node-level intervention but does not impact the other node-level probabilities.
 *  **Vector effects:** Killing
 *  **Vector sexes affected:** Males and females

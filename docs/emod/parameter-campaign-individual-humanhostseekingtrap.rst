@@ -20,7 +20,7 @@ At a glance:
 *  **Serialized:** Yes, if it has been distributed to a person.
 *  **Uses insecticides:** No
 *  **Time-based expiration:** No
-*  **Purge existing:** Yes. If  a new intervention is added to to the individual, the existing intervention of the same name is removed when the new one is added.
+*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite any existing intervention of the same class in an individual. The Intervention_Name parameter does not change this behavior.
 *  **Vector killing contributes to:** Indoor Die Before Feeding
 *  **Vector effects:** Artificial Diet feed instead of Human or Animal Feed
 *  **Vector sexes affected:** Females only
