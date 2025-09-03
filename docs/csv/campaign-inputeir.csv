@@ -1,16 +1,3 @@
-"Age_Dependence","enum","NA","NA","OFF","Determines how **InputEIR** depends on the age of the target. Possible values are:
-
-OFF
-   Age has no effect.
-LINEAR
-    The biting risk for newborns is 20% of the adult exposure and rises linearly to 100% at age 20.
-SURFACE_AREA_DEPENDENT
-    The biting risk rises linearly from 7% to 23% over the first two years of life and then rises with a shallower linear slope to the adult value of 100% at age 20.",".. code-block:: json
-
-    {
-      ""Age_Dependence"": ""SURFACE_AREA_DEPENDENT""
-    }
-"
 "Daily_EIR","array of floats","0","1000","[]","An array of 365 values where each value is the mean number of infectious bites experienced by an individual for that day of the year. Used when **EIR_Type** is set to 'DAILY'.",".. code-block:: json
 
     {
