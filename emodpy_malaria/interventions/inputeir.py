@@ -84,7 +84,6 @@ def add_scheduled_input_eir(
                 Each value should be between 0 and 1000
             daily_eir: An array of 365 values where each value is the mean number of infectious bites experienced
                 by an individual for that day of the year
-            start_day: The day on which the monthly_eir cycle starts
             scaling_factor: A modifier that is multiplied by the EIR determined for the current day
             intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
                 others that use the same class. It’s possible to have multiple InputEIR interventions
