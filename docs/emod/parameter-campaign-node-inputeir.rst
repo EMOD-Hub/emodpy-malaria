@@ -8,8 +8,7 @@ infectious mosquito bites received in a night. This number is usually calculated
 bites received  per night and multiplying them by the proportion of those bites that are positive for sporozoites.
 
 This intervention class can be used instead of including vectors in the model as it will distribute
-infections to people, somewhat mimicking vector biting. An individual's probability of receiving an
-infection will be affected by is affected by **Age_Dependent_Biting_Risk_Type** and related parameters' settings,
+infection will be affected by **Age_Dependent_Biting_Risk_Type** and related parameters' settings,
 **Enable_Demographics_Risk** and related parameters' settings, and any **AcquisitionBlocking** vaccines that
 an individual may have received. Vector control interventions will not affect the EIR delivered by this intervention.
 
