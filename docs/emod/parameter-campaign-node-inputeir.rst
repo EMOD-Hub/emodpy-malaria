@@ -21,8 +21,7 @@ When distributing **InputEIR** to a node that already has an existing **InputEIR
 intervention will be purged and replaced with the new intervention.
 
 **Note**: **Age_Dependence** parameter has been removed from this intervention (EMOD v2.28, emod-malaria v0.77).
-Age dependent biting risk is now controlled by the **Age_Dependent_Biting_Risk_Type parameter** in the config file,
- same as for vector biting.
+Age dependent biting risk is now controlled by the **Age_Dependent_Biting_Risk_Type parameter** in the config file, same as for vector biting.
 
 .. include:: ../reuse/warning-case.txt
 
