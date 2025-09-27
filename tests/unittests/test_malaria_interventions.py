@@ -28,6 +28,9 @@ from emodpy_malaria.interventions.community_health_worker import add_community_h
 from emodpy_malaria.interventions.scale_larval_habitats import add_scale_larval_habitats
 from emodpy_malaria.interventions.malaria_challenge import add_challenge_trial
 from emodpy_malaria.interventions.treatment_seeking import add_treatment_seeking
+from emodpy_malaria.interventions.outdoor_node_emanator import add_outdoor_node_emanator_scheduled
+from emodpy_malaria.interventions.indoor_individual_emanator import (add_indoor_individual_emanator_triggered,
+                                                                     add_indoor_individual_emanator_scheduled)
 from emod_api.utils import Distributions
 import emod_api.campaign as camp
 
@@ -3078,6 +3081,89 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(vector_counter['Update_Period'], update_period)
         self.assertEqual(coordinator_config['Responder']['Survey_Completed_Event'], coord_name)
 
+    def test_indoor_individual_emanator(self):
+        start_day = 10
+        killing_effect = 1
+        box_duration = 100
+        deca_time = 14
+        repelling_effect = 0.3
+        box_duration2 = 10
+        decay_time=5
+        camp.campaign_dict["Events"] = []
+        add_indoor_individual_emanator_scheduled(camp, killing_initial_effect=killing_effect,
+                                                 killing_box_duration=box_duration,
+                                                 killing_decay_time_constant=deca_time,
+                                                 repelling_decay_time_constant=decay_time,
+                                                 repelling_initial_effect=repelling_effect,
+                                                 repelling_box_duration=box_duration2,
+                                                 start_day=start_day, demographic_coverage=0.7)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.start_day, start_day)
+        self.assertEqual(self.intervention_config['class'], "IndoorIndividualEmanator")
+        self.assertEqual(self.intervention_config['Killing_Config']['Box_Duration'], box_duration)
+        self.assertEqual(self.intervention_config['Killing_Config']['Decay_Time_Constant'], deca_time)
+        self.assertEqual(self.intervention_config['Killing_Config']['Initial_Effect'], killing_effect)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Box_Duration'], box_duration2)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Decay_Time_Constant'], decay_time)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Initial_Effect'], repelling_effect)
+
+    def test_triggered_indoor_individual_emanator(self):
+        start_day = 10
+        killing_effect = 1
+        box_duration = 100
+        deca_time = 14
+        repelling_effect = 0.3
+        box_duration2 = 10
+        decay_time = 5
+        camp.campaign_dict["Events"] = []
+        add_indoor_individual_emanator_triggered(camp, killing_initial_effect=killing_effect,
+                                                 killing_box_duration=box_duration,
+                                                 killing_decay_time_constant=deca_time,
+                                                 repelling_decay_time_constant=decay_time,
+                                                 repelling_initial_effect=repelling_effect,
+                                                 repelling_box_duration=box_duration2,
+                                                 start_day=start_day, trigger_condition_list=["HappyBirthday"])
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.start_day, start_day)
+        self.assertEqual(self.tmp_intervention["Trigger_Condition_List"], ["HappyBirthday"])
+        self.assertEqual(self.intervention_config['class'], "IndoorIndividualEmanator")
+        self.assertEqual(self.intervention_config['Killing_Config']['Box_Duration'], box_duration)
+        self.assertEqual(self.intervention_config['Killing_Config']['Decay_Time_Constant'], deca_time)
+        self.assertEqual(self.intervention_config['Killing_Config']['Initial_Effect'], killing_effect)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Box_Duration'], box_duration2)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Decay_Time_Constant'], decay_time)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Initial_Effect'], repelling_effect)
+
+    def test_triggered_indoor_individual_emanator(self):
+        start_day = 10
+        killing_effect = 1
+        box_duration = 100
+        deca_time = 14
+        repelling_effect = 0.3
+        box_duration2 = 10
+        decay_time = 5
+        camp.campaign_dict["Events"] = []
+        add_outdoor_node_emanator_scheduled(camp, killing_initial_effect=killing_effect,
+                                                 killing_box_duration=box_duration,
+                                                 killing_decay_time_constant=deca_time,
+                                                 repelling_decay_time_constant=decay_time,
+                                                 repelling_initial_effect=repelling_effect,
+                                                 repelling_box_duration=box_duration2,
+                                                 start_day=start_day,)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.start_day, start_day)
+        self.assertEqual(self.intervention_config['class'], "OutdoorNodeEmanator")
+        self.assertEqual(self.intervention_config['Killing_Config']['Box_Duration'], box_duration)
+        self.assertEqual(self.intervention_config['Killing_Config']['Decay_Time_Constant'], deca_time)
+        self.assertEqual(self.intervention_config['Killing_Config']['Initial_Effect'], killing_effect)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Box_Duration'], box_duration2)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Decay_Time_Constant'], decay_time)
+        self.assertEqual(self.intervention_config['Repelling_Config']['Initial_Effect'], repelling_effect)
+
+        pass
 
 if __name__ == '__main__':
     unittest.main()
