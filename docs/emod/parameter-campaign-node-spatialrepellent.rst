@@ -3,7 +3,7 @@ SpatialRepellent
 ================
 
 The **SpatialRepellent** intervention class implements node-level spatial repellents exclusively against
-outdoor-biting mosquitoes.
+vectors looking to feed that day.
 
 At a glance:
 

@@ -1,0 +1,63 @@
+"Cost_To_Consumer","float","0","999999","10","The unit cost per vector control (unamortized).",".. code-block:: json
+
+    {
+      ""Cost_To_Consumer"": 8
+    }
+"
+"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
+
+    {
+      ""Disqualifying_Properties"": [
+        ""InterventionStatus:LostForever""
+      ]
+    }
+"
+"Insecticide_Name","string","NA","NA","UNINITIALIZED STRING","The name of the insecticide defined in  <config.Insecticides>  for this intervention.  If insecticides are being used,  this must be defined as one of those values; if they are not being used this can be empty.  It cannot have a value if you did not configure <config.Insecticides>.",".. code-block:: json
+
+    {
+      ""Insecticide_Name"": ""carbamate""
+    }
+"
+"Intervention_Name","string","NA","NA","SpatialRepellent","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
+
+    {
+      ""Intervention_Config"": {
+        ""class"": ""OutdoorNodeEmanator"",
+        ""Intervention_Name"": ""Mosquito coil repellent""
+      }
+    }
+"
+"New_Property_Value","string","NA","NA","""""","An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.",".. code-block:: json
+
+    {
+      ""New_Property_Value"": ""HasHealthCare:YES""
+    }
+"
+"Repelling_Config","json object","NA","NA","NA","Defines the configuration of efficacy and waning for outdoor node emanator. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
+
+    {
+      ""Repelling_Config"": {
+        ""Box_Duration"": 100,
+        ""Decay_Time_Constant"": 150,
+        ""Initial_Effect"": 0.4,
+        ""class"": ""WaningEffectBoxExponential""
+      }
+    }
+"
+"Killing_Config","json object","NA","NA","NA","Defines the configuration of efficacy and waning for outdoor node emanator. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
+
+    {
+      ""Killing_Config"": {
+        ""Box_Duration"": 100,
+        ""Decay_Time_Constant"": 150,
+        ""Initial_Effect"": 0.4,
+        ""class"": ""WaningEffectBoxExponential""
+      }
+    }
+"
+"Spray_Coverage","float","0","1","1","The portion of the node that has been sprayed. This value is multiplied by the current efficacy of the **WaningEffect**.",".. code-block:: json
+
+    {
+      ""Spray_Coverage"": 0.6
+    }
+"
