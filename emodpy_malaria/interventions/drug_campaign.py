@@ -9,7 +9,7 @@ import random
 from emod_api.interventions.common import *
 from emodpy_malaria.interventions.drug import _antimalarial_drug
 from emodpy_malaria.interventions.diag_survey import add_diagnostic_survey
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event, MAX_AGE_YEARS
 
 # Different configurations of regimens and drugs
 drug_cfg = {

@@ -4,7 +4,7 @@ This module contains functionality for vaccine distribution.
 import math
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils, common
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event, MAX_AGE_YEARS
 
 
 def _simple_vaccine(campaign,
@@ -63,7 +63,7 @@ def add_scheduled_vaccine(campaign,
                           timesteps_between_repetitions: int = 365,
                           ind_property_restrictions: list = None,
                           target_age_min: float = 0,
-                          target_age_max: float = 1000,
+                          target_age_max: float = MAX_AGE_YEARS,
                           target_gender: str = "All",
                           target_residents_only: bool = False,
                           broadcast_event: str = None,
@@ -154,7 +154,7 @@ def add_triggered_vaccine(campaign,
                           timesteps_between_repetitions: int = 365,
                           ind_property_restrictions: list = None,
                           target_age_min: float = 0,
-                          target_age_max: float = 1000,
+                          target_age_max: float = MAX_AGE_YEARS,
                           target_gender: str = "All",
                           target_residents_only: bool = False,
                           broadcast_event: str = None,
@@ -206,9 +206,6 @@ def add_triggered_vaccine(campaign,
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
-        malaria_vaccine: Type of malaria vaccine, one of 'RTSS' (simple vaccine), 'PEV' (preerythrocytic vaccine),
-            'TBV' (sexual stage vaccine). Defaults is 'None'. Setting this parameter means you want pre-configured
-            malaria vaccine and any other vaccine configuration parameters will be ignored.
 
     Returns:
         Nothing
