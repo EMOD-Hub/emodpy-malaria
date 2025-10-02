@@ -13,10 +13,19 @@ infections to people (it does not model vector biting). However, if vectors are 
 class is implemented, it will add the EIR specified for that month in addition to the EIR provided
 by the vectors. Note that the Daily EIR channel in the :doc:`software-report-inset-chart` will not
 be impacted by this intervention. When distributing **InputEIR** to a node that already has an existing
-**InputEIR** intervention, the existing intervention of the same name will be purged and replaced
-by the new one.
+**InputEIR** intervention, the existing intervention will be replaced with the new one.
 
+At a glance:
 
+*  **Distributed to:** Nodes
+*  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
+*  **Uses insecticides:** Does Not Apply
+*  **Time-based expiration:** No.
+*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite an existing intervention of the same class.
+*  **Vector killing contributes to:** Does Not Apply
+*  **Vector effects:** Does Not Apply
+*  **Vector sexes affected:** Does Not Apply
+*  **Vector life stage affected:** Does Not Apply
 
 .. include:: ../reuse/warning-case.txt
 

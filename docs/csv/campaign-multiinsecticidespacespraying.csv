@@ -4,6 +4,20 @@
       ""Cost_To_Consumer"": 8
     }
 "
+"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
+
+    {
+      ""Disqualifying_Properties"": [
+        ""InterventionStatus:LostForever""
+      ]
+    }
+"
+"Dont_Allow_Duplicates","boolean","0","1","0","Prevents individual from receiving a new intervention with the same Intervetion_Name.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
+    }
+"
 "Insecticide_Name","string","NA","NA","Uninitialized string","The name of the insecticide defined in  <config.Insecticides>  for this intervention.  If insecticides are being used,  this must be defined as one of those values; if they are not being used this can be empty.  It cannot have a value if you did not configure <config.Insecticides>.",".. code-block:: json
 
     {
@@ -33,6 +47,15 @@
       ]
     }
 "
+"Intervention_Name","string","NA","NA","MultiInsecticideSpaceSpraying","The optional name used to refer to this intervention. If two interventions of this class have different Intervention_Name values, this allows them to co-exist in the node. Otherwise the new intervention replaces the existing one.",".. code-block:: json
+
+    {
+      ""Intervention_Config"": {
+        ""class"": ""MultiInsecticideSpaceSpraying"",
+        ""Intervention_Name"": ""spraying""
+      }
+    }
+"
 "Killing_Config","json object","NA","NA","NA","The configuration of killing efficacy and waning for space spaying. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
 
     {
@@ -41,6 +64,12 @@
         ""Initial_Effect"": 0.5,
         ""class"": ""WaningEffectBox""
       }
+    }
+"
+"New_Property_Value","string","NA","NA","""""","An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.",".. code-block:: json
+
+    {
+      ""New_Property_Value"": ""HasHealthCare:YES""
     }
 "
 "Spray_Coverage","float","0","1","0","The portion of the node that has been sprayed. This value is multiplied by the current efficacy of the WaningEffect.",".. code-block:: json

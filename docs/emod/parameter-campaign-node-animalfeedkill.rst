@@ -12,10 +12,10 @@ At a glance:
 *  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
 *  **Uses insecticides:** Yes, can be used to target sub-groups using genomes.
 *  **Time-based expiration:** No
-*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite any existing intervention of the same class in a node. The Intervention_Name parameter does not change this behavior.
+*  **Purge existing:** Yes and No. Uses PurgeExistingByName(). Adding a new intervention of this class will overwrite any existing intervention of the same class and Intervention_Name, however, if Intervention_Name is different, both interventions will coexist and their efficacies will combine.
 *  **Vector killing contributes to:** Die Before Attempting to Feed
 *  **Vector effects:** Killing
-*  **Vector sexes affected:** Females only
+*  **Vector sexes affected:** Females seeking non-human blood meals only.
 *  **Vector life stage affected:** Adult
 
 

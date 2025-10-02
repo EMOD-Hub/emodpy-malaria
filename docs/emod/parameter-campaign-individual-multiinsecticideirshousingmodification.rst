@@ -19,8 +19,8 @@ At a glance:
 *  **Serialized:** Yes, if it has been distributed to a person.
 *  **Uses insecticides:** Yes. It can target specific species or other subgroups.
 *  **Time-based expiration:** No
-*  **Purge existing:** Yes. If the Intervention_Name values are the same. Interventions of this class with different Intervention_Name values will co-exist in an individual.
-*  **Vector killing contributes to:** Indoor Die After Feeding
+*  **Purge existing:** No. Stacks by default, efficacies combine 1-(1-prob1)*(1-prob2)etc.
+*  **Vector killing contributes to:** Indoor Die After Feeding, Indoor Die Before Feeding (when combined with HostSeekingSugarTrap)
 *  **Vector effects:** Repelling and killing
 *  **Vector sexes affected:** Females only
 *  **Vector life stage affected:** Adult

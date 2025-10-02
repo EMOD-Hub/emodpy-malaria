@@ -2,7 +2,7 @@
 HumanHostSeekingTrap
 ====================
 
-The **HumanHostSeekingTrap** intervention class applies a trap that attracts and kills host-seeking
+The **HumanHostSeekingTrap** intervention class applies a trap that attracts and kills indoor host-seeking
 mosquitoes in the simulation. Human-host-seeking traps are individually-distributed interventions
 that have attraction and killing rates that decay in an analogous fashion to the blocking and
 killing rates of bednets.
@@ -20,7 +20,7 @@ At a glance:
 *  **Serialized:** Yes, if it has been distributed to a person.
 *  **Uses insecticides:** No
 *  **Time-based expiration:** No
-*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite any existing intervention of the same class in an individual. The Intervention_Name parameter does not change this behavior.
+*  **Purge existing:** Yes. Adding a new intervention of this class will replace an existing intervention of the same class in an individual. The Intervention_Name parameter does not change this behavior.
 *  **Vector killing contributes to:** Indoor Die Before Feeding
 *  **Vector effects:** Artificial Diet feed instead of Human or Animal Feed
 *  **Vector sexes affected:** Females only
