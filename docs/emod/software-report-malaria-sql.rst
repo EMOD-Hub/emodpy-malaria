@@ -107,7 +107,7 @@ integer value of ServerCaseTypeID to a text value.
     InvMicrolitersBlood, float, The inverse amount of blood the individual has in microliters.
     RedBloodCellCount, float, The actual number of red blood cells the individual has.
     Cytokines, float, The number of cytokines that have been stimulated by the presence of all malaria parasites.
-    HRP2, float, The amount of Histidine Rich Protein 2 in the individual's blood stream.
+    HRP2, float, The amount of Histidine Rich Protein 2 (HRP2) in person's blood per microliter. Value used to compare against HPR2 detection thresholds.
     PfEMP1VariantFraction, float, "The number of PfEMP1 antibodies that an individual has divided by the total number possible in the scenario (**Falciparum_PfEMP1_Variants**)."
 
 
