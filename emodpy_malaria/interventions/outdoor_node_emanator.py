@@ -118,7 +118,7 @@ def add_outdoor_node_emanator_scheduled(campaign,
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
         cost: Unit cost per OutdoorNodeEmanator
-        new_property_value: New IndividualProperty value to assign to individuals receiving this intervention. Must be
+        new_property_value: New NodeProperty value to assign to nodes receiving this intervention. Must be
             in format of "PropertyName:Value", e.g. "EmanatorNode:Yes".
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class.
