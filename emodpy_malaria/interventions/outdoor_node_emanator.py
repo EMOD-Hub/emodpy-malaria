@@ -1,5 +1,5 @@
 """
-This module contains functionality for IndoorIndividualEmanator intervention for malaria campaigns
+This module contains functionality for OutdoorNodeEmanator intervention for malaria campaigns
 """
 
 from emod_api import schema_to_class as s2c
