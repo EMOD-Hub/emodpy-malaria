@@ -3163,7 +3163,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config['Repelling_Config']['Decay_Time_Constant'], decay_time)
         self.assertEqual(self.intervention_config['Repelling_Config']['Initial_Effect'], repelling_effect)
 
-        pass
 
 if __name__ == '__main__':
     unittest.main()
