@@ -9,12 +9,14 @@ def _input_eir(
         campaign,
         monthly_eir: list = None,
         daily_eir: list = None,
-        age_dependence: str = "OFF",
         scaling_factor: float = 1.0,
         intervention_name: str = iv_name
 ):
     """
         Create the InputEIR intervention itself that will be nestled inside an event coordinator.
+        InputEIR is used to specify an entomological inoculation rate (EIR) for a node, the person's individual
+        risk of receiving the inoculation is affected by Age_Dependent_Biting_Risk_Type setting,
+        Enable_Demographics_Risk setting, and any AcquisitionBlocking vaccines that an individual may have received.
 
         Args:
             campaign:  Passed in campaign (from emod_api.campaign)
@@ -22,8 +24,6 @@ def _input_eir(
                 Each value should be between 0 and 1000
             daily_eir: An array of 365 values where each value is the mean number of infectious bites experienced
                 by an individual for that day of the year
-            age_dependence: Determines how InputEIR depends on the age of the target. Options are "OFF", "LINEAR",
-                "SURFACE_AREA_DEPENDENT"
             scaling_factor: A modifier that is multiplied by the EIR determined for the current day
             intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
                 others that use the same class. It’s possible to have multiple InputEIR interventions
@@ -55,7 +55,6 @@ def _input_eir(
             raise ValueError(f"All monthly_eir array elements need to be positive.")
         intervention.Monthly_EIR = monthly_eir
         intervention.EIR_Type = "MONTHLY"
-    intervention.Age_Dependence = age_dependence
     intervention.Scaling_Factor = scaling_factor
     intervention.Intervention_Name = intervention_name
     return intervention
@@ -67,12 +66,14 @@ def add_scheduled_input_eir(
         node_ids: list = None,
         monthly_eir: list = None,
         daily_eir: list = None,
-        age_dependence: str = "OFF",
         scaling_factor: float = 1.0,
         intervention_name: str = iv_name
 ):
     """
         Create a full CampaignEvent that distributes InputEIR to a population.
+        InputEIR is used to specify an entomological inoculation rate (EIR) for a node, the person's individual
+        risk of receiving the inoculation is affected by Age_Dependent_Biting_Risk_Type setting,
+        Enable_Demographics_Risk setting, and any AcquisitionBlocking vaccines that an individual may have received.
 
         Args:
             campaign: Passed in campaign (from emod_api.campaign)
@@ -83,9 +84,6 @@ def add_scheduled_input_eir(
                 Each value should be between 0 and 1000
             daily_eir: An array of 365 values where each value is the mean number of infectious bites experienced
                 by an individual for that day of the year
-            start_day: The day on which the monthly_eir cycle starts
-            age_dependence: Determines how InputEIR depends on the age of the target. Options are "OFF", "LINEAR",
-                "SURFACE_AREA_DEPENDENT"
             scaling_factor: A modifier that is multiplied by the EIR determined for the current day
             intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
                 others that use the same class. It’s possible to have multiple InputEIR interventions
@@ -96,7 +94,7 @@ def add_scheduled_input_eir(
     """
 
     input_eir = _input_eir(campaign=campaign, monthly_eir=monthly_eir, daily_eir=daily_eir,
-                           age_dependence=age_dependence, scaling_factor=scaling_factor,
+                           scaling_factor=scaling_factor,
                            intervention_name=intervention_name)
 
     add_campaign_event(campaign=campaign, start_day=start_day, node_ids=node_ids, node_intervention=input_eir)
