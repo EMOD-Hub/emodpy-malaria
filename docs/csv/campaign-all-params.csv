@@ -24,7 +24,7 @@
 "InputEIR","Malaria","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-inputeir.html"
 "InsectKillingFence","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-insectkillingfence.html"
 "InsectKillingFenceHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-insectkillingfencehousingmodification.html"
-"IRSHousingModification",""Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-irshousingmodification.html"
+"IRSHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-irshousingmodification.html"
 "IVCalendar","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-ivcalendar.html"
 "Ivermectin","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-ivermection.html"
 "Larvicides","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-larvicides.html"
