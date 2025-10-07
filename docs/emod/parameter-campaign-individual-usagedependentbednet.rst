@@ -5,7 +5,7 @@ UsageDependentBednet
 The **UsageDependentBednet** intervention class is similar to :doc:`parameter-campaign-individual-simplebednet`,
 as it distributes insecticide-treated nets to individuals in the simulation. However,
 bednet ownership and bednet usage are distinct in this intervention. As in **SimpleBednet**, net
-ownership is configured through the demographic coverage, and the repeling, blocking, and killing rates of
+ownership is configured through the demographic coverage, and the repelling, blocking, and killing rates of
 mosquitoes are time-dependent. Use of bednets is age-dependent and can vary seasonally. Once a net
 has been distributed to someone, the net usage is determined by the product of the seasonal and
 age-dependent usage probabilities until the net-retention counter runs out, and the net is discarded.
