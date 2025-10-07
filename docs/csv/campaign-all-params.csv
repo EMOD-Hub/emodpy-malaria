@@ -72,7 +72,7 @@
 "WaningEffectBoxExponential","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
 "WaningEffectCombo","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
 "WaningEffectConstant","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectExponential",""Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
+"WaningEffectExponential","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
 "WaningEffectMapLinear","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
 "WaningEffectMapLinearAge","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
 "WaningEffectMapLinearSeasonal","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
