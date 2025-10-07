@@ -51,7 +51,7 @@
 "OvipositionTrap","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-ovipositiontrap.html"
 "PropertyValueChanger","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-propertyvaluechanger.html"
 "RTSSVaccine","Malaria","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-rtssvaccine.html"
-"ScaleLarvalHabitat",""Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-scalelarvalhabitat.html"
+"ScaleLarvalHabitat","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-scalelarvalhabitat.html"
 "ScreeningHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-screeninghousingmodification.html"
 "SimpleBednet","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-simplebednet.html"
 "SimpleBoosterVaccine","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-simpleboostervaccine.html"
