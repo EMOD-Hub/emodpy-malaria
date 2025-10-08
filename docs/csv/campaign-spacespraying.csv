@@ -12,7 +12,7 @@
       ]
     }
 "
-"Dont_Allow_Duplicates","boolean","0","1","0","Prevents individual from receiving a new intervention with the same Intervetion_Name.",".. code-block:: json
+"Dont_Allow_Duplicates","boolean","0","1","0","Prevents individual from receiving a new intervention with the same Intervention_Name.",".. code-block:: json
 
     {
       ""Dont_Allow_Duplicates"": 0
