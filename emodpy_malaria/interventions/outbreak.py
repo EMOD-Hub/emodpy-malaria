@@ -1,6 +1,6 @@
 from emod_api import schema_to_class as s2c
 from emod_api.interventions.common import utils, BroadcastEvent, MultiInterventionDistributor
-
+from emodpy_malaria.utils import MAX_AGE_YEARS
 
 def add_outbreak_individual(campaign,
                             start_day: int = 1,
@@ -11,7 +11,7 @@ def add_outbreak_individual(campaign,
                             timesteps_between_repetitions: int = 365,
                             ind_property_restrictions: list = None,
                             target_age_min: int = 0,
-                            target_age_max: int = 125,
+                            target_age_max: int = MAX_AGE_YEARS,
                             target_gender: str = "All",
                             ignore_immunity: bool = True,
                             incubation_period_override: int = -1,
@@ -83,7 +83,7 @@ def add_outbreak_malaria_genetics(campaign,
                                   timesteps_between_repetitions: int = 365,
                                   ind_property_restrictions: list = None,
                                   target_age_min: int = 0,
-                                  target_age_max: int = 125,
+                                  target_age_max: int = MAX_AGE_YEARS,
                                   target_gender: str = "All",
                                   ignore_immunity: bool = True,
                                   incubation_period_override: int = -1,
@@ -245,7 +245,7 @@ def add_outbreak_malaria_var_genes(campaign,
                                    timesteps_between_repetitions: int = 365,
                                    ind_property_restrictions: list = None,
                                    target_age_min: int = 0,
-                                   target_age_max: int = 125,
+                                   target_age_max: int = MAX_AGE_YEARS,
                                    target_gender: str = "All",
                                    ignore_immunity: bool = True,
                                    incubation_period_override: int = -1,
@@ -324,7 +324,7 @@ def add_campaign_event(campaign,
                        timesteps_between_repetitions: int = 365,
                        ind_property_restrictions: list = None,
                        target_age_min: int = 0,
-                       target_age_max: int = 125,
+                       target_age_max: int = MAX_AGE_YEARS,
                        target_gender: str = "All",
                        intervention: any = None):
     """
@@ -376,7 +376,7 @@ def add_campaign_event(campaign,
     coordinator.Property_Restrictions_Within_Node = ind_property_restrictions if ind_property_restrictions else []
     coordinator.Property_Restrictions = []  # not using; Property_Restrictions_Within_Node are more flexible
 
-    if target_age_min > 0 or target_age_max < 125:
+    if target_age_min > 0 or target_age_max < MAX_AGE_YEARS:
         coordinator.Target_Age_Min = target_age_min
         coordinator.Target_Age_Max = target_age_max
     if target_gender != "All":

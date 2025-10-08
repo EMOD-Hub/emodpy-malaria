@@ -37,6 +37,7 @@ camp.unsafe = True
 
 drug_codes = ["ALP", "AL", "ASA", "DP", "DPP", "PPQ", "DHA_PQ", "DHA", "PMQ", "DA", "CQ", "SP", "SPP", "SPA"]
 
+DEFAULT_MAX_AGE = 1000
 
 class WaningEffects:
     Box = "WaningEffectBox"
@@ -673,7 +674,7 @@ class TestMalariaInterventions(unittest.TestCase):
         blocking_decay_time_constant = 730
         killing_initial_effect = 0
         killing_decay_time_constant = 1460
-        age_dependence_times = [0, 125]
+        age_dependence_times = [0, DEFAULT_MAX_AGE]
         age_dependence_values = [1, 1]
         specific_times = [0, 90, 180, 270]
         specific_values = [10, 50, 15, 75]
@@ -761,7 +762,7 @@ class TestMalariaInterventions(unittest.TestCase):
         killing_initial_effect = 0
         killing_box_duration = 0
         killing_decay_time_constant = 1460
-        age_dependence_times = [0, 125]
+        age_dependence_times = [0, DEFAULT_MAX_AGE]
         age_dependence_values = [1, 1]
         specific_times = [0, 90, 180, 270]
         specific_values = [10, 50, 15, 75]
@@ -1981,7 +1982,7 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 1
         timesteps_between_repetitions = 365
         target_age_min = 0
-        target_age_max = 125
+        target_age_max = DEFAULT_MAX_AGE
         target_gender = "All"
         broadcast_event = "Received_IRS"
         target_residents_only = 0
@@ -2140,7 +2141,7 @@ class TestMalariaInterventions(unittest.TestCase):
         timesteps_between_repetitions = 365
         ind_property_restrictions = []
         target_age_min = 0
-        target_age_max = 125
+        target_age_max = DEFAULT_MAX_AGE
         target_gender = "All"
         broadcast_event = "Received_IRS"
         killing_initial_effect = 1

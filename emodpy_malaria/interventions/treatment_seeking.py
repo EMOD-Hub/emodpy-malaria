@@ -1,6 +1,6 @@
 from emod_api.interventions.common import *
 from emodpy_malaria.interventions.drug import _antimalarial_drug
-from emodpy_malaria.interventions.common import add_triggered_campaign_delay_event
+from emodpy_malaria.interventions.common import add_triggered_campaign_delay_event, MAX_AGE_YEARS
 import random
 
 
@@ -53,7 +53,7 @@ def _get_events(
             actual_config = drug_config
 
         target_age_min = 0  # age is in years
-        target_age_max = 125  # setting defaults in case these are unused
+        target_age_max = MAX_AGE_YEARS  # setting defaults in case these are unused
         coverage = 1
         if 'agemin' in target:
             target_age_min = target['agemin']
@@ -100,7 +100,7 @@ def add_treatment_seeking(campaign,
     "rate" is the inverse of the average delay in time to treatment seeking from an exponential distribution
     "trigger" must be defined, but everything else has defaults:
     coverage = 1, affects all
-    agemin/agemax = 0/125, affects all
+    agemin/agemax = 0/MAX_AGE_YEARS, affects all
     rate = 0, no delay, seek treatment immediately
 
     Args:
@@ -108,7 +108,7 @@ def add_treatment_seeking(campaign,
         start_day: Start day of intervention.
         targets: List of dictionaries defining the trigger event and coverage for and 
             properties of individuals to target with the intervention. "trigger" must be defined, other defaults are as
-            follows - "coverage":1,"agemin":0,"agemax":125, "rate":0 (no delay)
+            follows - "coverage":1,"agemin":0,"agemax":1000, "rate":0 (no delay)
 
             Example::
 

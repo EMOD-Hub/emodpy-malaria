@@ -1,5 +1,5 @@
 from emod_api import schema_to_class as s2c
-from emodpy_malaria.interventions.common import add_campaign_event
+from emodpy_malaria.interventions.common import add_campaign_event, MAX_AGE_YEARS
 
 
 def add_scheduled_antimalarial_drug(
@@ -12,7 +12,7 @@ def add_scheduled_antimalarial_drug(
         timesteps_between_repetitions: int = 365,
         ind_property_restrictions: list = None,
         target_age_min: int = 0,
-        target_age_max: int = 125,
+        target_age_max: int = MAX_AGE_YEARS,
         target_gender: str = "All",
         drug_type: str = None,
         cost_to_consumer: float = 0,

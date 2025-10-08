@@ -5,7 +5,7 @@ This module contains functionality for bednet distribution.
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils
 from emod_api.interventions.common import BroadcastEvent
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event, MAX_AGE_YEARS
 
 
 def _simple_bednet(campaign,
@@ -278,7 +278,7 @@ def add_itn_triggered(campaign,
             Sets **Timesteps_Between_Repetitions**.
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**. In the format ``[{
-            "BitingRisk":"High"}, {"IsCool":"Yes}]``
+            "BitingRisk":"High"}, {"IsCool":"Yes"}]``
         receiving_itn_broadcast_event: Optional. BroadcastEvent that's sent out when bednet is received.
             Default is to send out 'Received_ITN' event. To not send out event set to None.
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
