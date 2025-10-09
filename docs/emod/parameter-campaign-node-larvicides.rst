@@ -12,7 +12,7 @@ At a glance:
 *  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
 *  **Uses insecticides:** Yes. The vector genome can be used to target specific genders.
 *  **Time-based expiration:** No. It will continue to exist even if efficacy is zero.
-*  **Purge existing:** No. Stacks by default, efficacies combine 1-(1-prob1)*(1-prob2)etc.
+*  **Purge existing:** No. Already existing intervention(s) of this class continue(s) to exist together with any new interventions of this class. Their efficacies combine 1-(1-prob1)*(1-prob2) etc.
 *  **Vector killing contributes to:** Combines with competition and rainfall to kill larvae every time step.
 *  **Vector effects:** Killing
 *  **Vector sexes affected:** Both males and female larva

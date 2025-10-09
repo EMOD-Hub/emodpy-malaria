@@ -23,7 +23,7 @@ At a glance:
 *  **Serialized:** No. It will need to be redistributed when starting from a serialized file.
 *  **Uses insecticides:** Yes. It can target sub-groups using genomes or specific sexes.
 *  **Time-based expiration:** Yes. Expiration time can be specified using specific distributions.
-*  **Purge existing:** Yes and No. Uses PurgeExistingByName(). Adding a new intervention of this class will overwrite any existing intervention of the same class and Intervention_Name, however, if Intervention_Name is different, both interventions will coexist and their efficacies will combine.
+*  **Purge existing:** Yes and No. Adding a new intervention of this class will overwrite any existing intervention of the same class with the same **Intervention_Name**. If **Intervention_Name** is different, both interventions will coexist and their efficacies will combine 1-(1-prob1)*(1-prob2) etc.
 *  **Vector killing contributes to:** Sugar Trap Killing
 *  **Vector effects:** Killing
 *  **Vector sexes affected:** Males and females

@@ -13,7 +13,7 @@ At a glance:
 *  **Serialized:** Yes, if it has been distributed to a person.
 *  **Uses insecticides:** Yes. It can target specific species or other subgroups.
 *  **Time-based expiration:** No
-*  **Purge existing:** Yes and No. Uses PurgeExistingByName(). Adding a new intervention of this class will overwrite any existing intervention of the same class and Intervention_Name, however, if Intervention_Name is different, both interventions will coexist and their efficacies will combine.
+*  **Purge existing:** Yes and No. Adding a new intervention of this class will overwrite any existing intervention of the same class with the same **Intervention_Name**. If **Intervention_Name** is different, both interventions will coexist and their efficacies will combine 1-(1-prob1)*(1-prob2) etc.
 *  **Vector killing contributes to:** Die Indoor After Feeding, Die Indoor Before Feeding
 *  **Vector effects:** Repelling and killing
 *  **Vector sexes affected:** Indoor meal-seeking females only

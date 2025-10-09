@@ -11,8 +11,8 @@ At a glance:
 *  **Serialized:** Yes, when it has been distributed to individuals.
 *  **Uses insecticides:** Yes. The vector genome can be used to target specific vectors.
 *  **Time-based expiration:** No. It will continue to exist even if efficacy is zero.
-*  **Purge existing:** Yes and No. Uses PurgeExistingByName(). Adding a new intervention of this class will overwrite any existing intervention of the same class and Intervention_Name, however, if Intervention_Name is different, both interventions will coexist and their efficacies will combine.
-*  **Vector killing contributes to:** No killing, HostNotAvailable
+*  **Purge existing:** Yes and No. Adding a new intervention of this class will overwrite any existing intervention of the same class with the same **Intervention_Name**. If **Intervention_Name** is different, both interventions will coexist and their efficacies will combine 1-(1-prob1)*(1-prob2) etc.
+*  **Vector killing contributes to:** No killing
 *  **Vector effects:** Repelling.
 *  **Vector sexes affected:** All meal-seeking females
 *  **Vector life stage affected:** Adult
