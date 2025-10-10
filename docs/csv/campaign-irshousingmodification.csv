@@ -12,7 +12,7 @@
       ]
     }
 "
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
+"Dont_Allow_Duplicates","boolean","0","1","0","Prevents individual from receiving a new intervention with the same Intervetion_Name.",".. code-block:: json
 
     {
       ""Dont_Allow_Duplicates"": 0
@@ -24,7 +24,7 @@
       ""Insecticide_Name"": ""carbamate""
     }
 "
-"Intervention_Name","string","NA","NA","IRSHousingModification","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
+"Intervention_Name","string","NA","NA","IRSHousingModification","An optional name assigned to this intervention to distinguish it from others of the same class.",".. code-block:: json
 
     {
       ""Intervention_Config"": {

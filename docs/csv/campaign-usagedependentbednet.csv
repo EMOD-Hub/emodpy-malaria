@@ -32,12 +32,7 @@
       ]
     }
 "
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
 
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
 "Expiration_Period_Constant","float","0","3.40282E+38","-1","The expiration period to use for all bednets, in days, when **Expiration_Period_Distribution** is set to CONSTANT_DISTRIBUTION.",".. code-block:: json
 
     {

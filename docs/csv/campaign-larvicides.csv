@@ -12,6 +12,12 @@
       ]
     }
 "
+"Dont_Allow_Duplicates","boolean","0","1","0","Prevents individual from receiving a new intervention with the same Intervetion_Name.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
+    }
+"
 "Habitat_Target","enum","NA","NA","NONE","The larval habitat type targeted for larvicide. This is a required parameter. NONE is the default to ensure the user selects it. If not ALL_HABITATS, then the type must be one of those configured in **Vector_Species_Params**, **Habitats**. See :doc:`parameter-configuration-larval` parameters for more information. Possible values are:
 
 * NONE - Default but not allowed; it must be defined.

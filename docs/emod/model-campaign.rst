@@ -35,7 +35,8 @@ intervention.
 
 By default, each individual in the simulation will have a 50% chance of receiving a bednet in both
 of the distributions and the two distributions will be independent. Therefore, each individual has a
-75% chance of receiving at least one bednet.
+75% chance of receiving at least one bednet. Please note, individuals can only have one bednet at a time,
+and receiving a second bednet will replace the first one, which is not necessarily true for other interventions.
 
 .. image:: ../images/general/howto-multiple.png
 

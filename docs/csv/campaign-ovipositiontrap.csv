@@ -12,6 +12,12 @@
       ]
     }
 "
+"Dont_Allow_Duplicates","boolean","0","1","0","Prevents individual from receiving a new intervention with the same Intervetion_Name.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
+    }
+"
 "Habitat_Target","enum","NA","NA","NONE","The oviposition habitat type targeted by oviposition traps. This is a required parameter. NONE is the default to ensure the user selects it. If not ALL_HABITATS, then the type must be one of those configured in **Vector_Species_Params**, **Habitats**. See :doc:`parameter-configuration-larval` parameters for more information. Possible values are:
 
 * NONE - Default but not allowed; it must be defined.
@@ -27,7 +33,7 @@
       ""Habitat_Target"": ""WATER_VEGETATION""
     }
 "
-"Intervention_Name","string","NA","NA","OvipositionTrap","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
+"Intervention_Name","string","NA","NA","OvipositionTrap","The optional name used to refer to this intervention. If two interventions of this class have different Intervention_Name values, this allows them to co-exist in the node. Otherwise the new intervention replaces the existing one.",".. code-block:: json
 
     {
       ""Intervention_Config"": {

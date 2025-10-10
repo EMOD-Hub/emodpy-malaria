@@ -23,6 +23,18 @@ intervention will be purged and replaced with the new intervention.
 **Note**: **Age_Dependence** parameter has been removed from this intervention (EMOD v2.28, emod-malaria v0.77).
 Age dependent biting risk is now controlled by the **Age_Dependent_Biting_Risk_Type parameter** in the config file, same as for vector biting.
 
+At a glance:
+
+*  **Distributed to:** Nodes
+*  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
+*  **Uses insecticides:** Does Not Apply
+*  **Time-based expiration:** No.
+*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite an existing intervention of the same class.
+*  **Vector killing contributes to:** Does Not Apply
+*  **Vector effects:** Does Not Apply
+*  **Vector sexes affected:** Does Not Apply
+*  **Vector life stage affected:** Does Not Apply
+
 .. include:: ../reuse/warning-case.txt
 
 .. include:: ../reuse/campaign-example-intro.txt
