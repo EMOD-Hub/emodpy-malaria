@@ -21,10 +21,10 @@ At a glance:
 *  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
 *  **Uses insecticides:** No
 *  **Time-based expiration:** No
-*  **Purge existing:** Yes. If  a new intervention is added to to the node, the existing intervention of the same name is removed when the new one is added.
+*  **Purge existing:** Yes and No. Adding a new intervention of this class will overwrite any existing intervention of the same class with the same **Intervention_Name**. If **Intervention_Name** is different, both interventions will coexist and their efficacies will combine 1-(1-prob1)*(1-prob2) etc.
 *  **Vector killing contributes to:** No killing
 *  **Vector effects:** Artificial Diet Feed instead of Human or Animal Feed
-*  **Vector sexes affected:** Females only
+*  **Vector sexes affected:** Meal-seeking females only.
 *  **Vector life stage affected:** Adult
 
 

@@ -40,6 +40,7 @@ camp.unsafe = True
 
 drug_codes = ["ALP", "AL", "ASA", "DP", "DPP", "PPQ", "DHA_PQ", "DHA", "PMQ", "DA", "CQ", "SP", "SPP", "SPA"]
 
+DEFAULT_MAX_AGE = 1000
 
 class WaningEffects:
     Box = "WaningEffectBox"
@@ -676,7 +677,7 @@ class TestMalariaInterventions(unittest.TestCase):
         blocking_decay_time_constant = 730
         killing_initial_effect = 0
         killing_decay_time_constant = 1460
-        age_dependence_times = [0, 125]
+        age_dependence_times = [0, DEFAULT_MAX_AGE]
         age_dependence_values = [1, 1]
         specific_times = [0, 90, 180, 270]
         specific_values = [10, 50, 15, 75]
@@ -764,7 +765,7 @@ class TestMalariaInterventions(unittest.TestCase):
         killing_initial_effect = 0
         killing_box_duration = 0
         killing_decay_time_constant = 1460
-        age_dependence_times = [0, 125]
+        age_dependence_times = [0, DEFAULT_MAX_AGE]
         age_dependence_values = [1, 1]
         specific_times = [0, 90, 180, 270]
         specific_values = [10, 50, 15, 75]
@@ -1316,7 +1317,6 @@ class TestMalariaInterventions(unittest.TestCase):
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.intervention_config.Monthly_EIR, eir)
-        self.assertEqual(self.intervention_config.Age_Dependence, "OFF")
         self.assertEqual(self.intervention_config.Scaling_Factor, 1)
         self.assertEqual(self.start_day, 1)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
@@ -1325,12 +1325,10 @@ class TestMalariaInterventions(unittest.TestCase):
     def test_inputeir(self):
         camp.campaign_dict["Events"] = []
         eir = [random.randint(0, 50) for x in range(12)]
-        add_scheduled_input_eir(camp, monthly_eir=eir, start_day=2, node_ids=[2, 3],
-                                age_dependence='LINEAR', scaling_factor=0.24)
+        add_scheduled_input_eir(camp, monthly_eir=eir, start_day=2, node_ids=[2, 3], scaling_factor=0.24)
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.intervention_config.Monthly_EIR, eir)
-        self.assertEqual(self.intervention_config.Age_Dependence, "LINEAR")
         self.assertEqual(self.intervention_config.Scaling_Factor, 0.24)
         self.assertEqual(self.start_day, 2)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
@@ -1340,13 +1338,11 @@ class TestMalariaInterventions(unittest.TestCase):
     def test_daily_inputeir(self):
         camp.campaign_dict["Events"] = []
         daily_eir = [random.randint(0, 50) for x in range(365)]
-        add_scheduled_input_eir(camp, daily_eir=daily_eir, start_day=2, node_ids=[2, 3],
-                                age_dependence='SURFACE_AREA_DEPENDENT', scaling_factor=0.67)
+        add_scheduled_input_eir(camp, daily_eir=daily_eir, start_day=2, node_ids=[2, 3], scaling_factor=0.67)
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.intervention_config.Daily_EIR, daily_eir)
         self.assertEqual(self.intervention_config.EIR_Type, "DAILY")
-        self.assertEqual(self.intervention_config.Age_Dependence, "SURFACE_AREA_DEPENDENT")
         self.assertEqual(self.intervention_config.Scaling_Factor, 0.67)
         self.assertEqual(self.start_day, 2)
         self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
@@ -1989,7 +1985,7 @@ class TestMalariaInterventions(unittest.TestCase):
         repetitions = 1
         timesteps_between_repetitions = 365
         target_age_min = 0
-        target_age_max = 125
+        target_age_max = DEFAULT_MAX_AGE
         target_gender = "All"
         broadcast_event = "Received_IRS"
         target_residents_only = 0
@@ -2148,7 +2144,7 @@ class TestMalariaInterventions(unittest.TestCase):
         timesteps_between_repetitions = 365
         ind_property_restrictions = []
         target_age_min = 0
-        target_age_max = 125
+        target_age_max = DEFAULT_MAX_AGE
         target_gender = "All"
         broadcast_event = "Received_IRS"
         killing_initial_effect = 1

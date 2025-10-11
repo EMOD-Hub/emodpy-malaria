@@ -2,7 +2,7 @@
 from typing import List
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import common, utils
-
+from emodpy_malaria.utils import MAX_AGE_YEARS
 
 def _malaria_diagnostic(
         campaign,
@@ -61,7 +61,7 @@ def add_triggered_campaign_delay_event(campaign,
                                        ind_property_restrictions: list = None,
                                        disqualifying_properties: list = None,
                                        target_age_min: float = 0,
-                                       target_age_max: float = 125,
+                                       target_age_max: float = MAX_AGE_YEARS,
                                        target_gender: str = "All",
                                        target_residents_only: bool = False,
                                        blackout_event_trigger: str = None,
@@ -154,7 +154,7 @@ def add_campaign_event(campaign,
                        timesteps_between_repetitions: int = 365,
                        ind_property_restrictions: list = None,
                        target_age_min: float = 0,
-                       target_age_max: float = 125,
+                       target_age_max: float = MAX_AGE_YEARS,
                        target_gender: str = "All",
                        target_residents_only: bool = False,
                        individual_intervention: any = None,

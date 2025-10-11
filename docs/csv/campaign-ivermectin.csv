@@ -24,7 +24,7 @@
       ""Insecticide_Name"": ""carbamate""
     }
 "
-"Intervention_Name","string","NA","NA","Ivermectin","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
+"Intervention_Name","string","NA","NA","Ivermectin","An optional name assigned to this intervention to distinguish it from others of the same class.",".. code-block:: json
 
     {
       ""Intervention_Config"": {

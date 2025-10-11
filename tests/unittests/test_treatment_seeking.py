@@ -16,6 +16,8 @@ sys.path.append(parent)
 import schema_path_file
 import json
 
+DEFAULT_MAX_AGE = 1000
+
 class TreatmentSeekingTest(unittest.TestCase):
     runInComps = False
     debug = False
@@ -119,19 +121,19 @@ class TreatmentSeekingTest(unittest.TestCase):
             if event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["NewInfectionEvent"]:
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.7 )
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
+                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], DEFAULT_MAX_AGE)
                 self.assertAlmostEqual(event['Event_Coordinator_Config']['Intervention_Config'][
                                  'Actual_IndividualIntervention_Config']["Delay_Period_Exponential"], 1/0.9)
             elif event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["Births"]:
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.3 )
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
+                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], DEFAULT_MAX_AGE)
                 self.assertAlmostEqual(event['Event_Coordinator_Config']['Intervention_Config'][
                                  'Actual_IndividualIntervention_Config']["Delay_Period_Exponential"], 1/1.6)
             elif event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"] == ["Births"]:
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 0.3 )
                 self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
-                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
+                self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], DEFAULT_MAX_AGE)
                 self.assertAlmostEqual(event['Event_Coordinator_Config']['Intervention_Config'][
                                  'Actual_IndividualIntervention_Config']["Delay_Period_Exponential"], 1/1.6)
 
@@ -162,7 +164,7 @@ class TreatmentSeekingTest(unittest.TestCase):
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Trigger_Condition_List"], ["HappyBirthday"])
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Demographic_Coverage"], 1)
             self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Min"], 0)
-            self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], 125)
+            self.assertEqual(event['Event_Coordinator_Config']['Intervention_Config']["Target_Age_Max"], DEFAULT_MAX_AGE)
 
 
 

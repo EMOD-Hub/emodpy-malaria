@@ -1,6 +1,6 @@
 from emod_api import schema_to_class as s2c
 from emod_api.interventions.common import utils, BroadcastEvent
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event, MAX_AGE_YEARS
 
 
 def add_scheduled_ivermectin(campaign,
@@ -9,6 +9,8 @@ def add_scheduled_ivermectin(campaign,
                              target_num_individuals: int = None,
                              node_ids: list = None,
                              repetitions: int = 1,
+                             target_age_min: float = 0,
+                             target_age_max: float = MAX_AGE_YEARS,
                              timesteps_between_repetitions: int = 365,
                              ind_property_restrictions: list = None,
                              killing_initial_effect: float = 1,
@@ -39,6 +41,8 @@ def add_scheduled_ivermectin(campaign,
             intervention is distributed to all nodes.
         repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
             the intervention repeats forever. Sets **Number_Repetitions**
+        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
@@ -78,6 +82,8 @@ def add_scheduled_ivermectin(campaign,
                        target_num_individuals=target_num_individuals,
                        node_ids=node_ids,
                        repetitions=repetitions,
+                       target_age_min=target_age_min,
+                       target_age_max=target_age_max,
                        timesteps_between_repetitions=timesteps_between_repetitions,
                        ind_property_restrictions=ind_property_restrictions,
                        individual_intervention=intervention)
@@ -89,6 +95,8 @@ def add_triggered_ivermectin(campaign,
                              listening_duration: int = -1,
                              delay_period_constant: float = 0,
                              demographic_coverage: float = 1.0,
+                             target_age_min: float = 0,
+                             target_age_max: float = MAX_AGE_YEARS,
                              node_ids: list = None,
                              ind_property_restrictions: list = None,
                              killing_initial_effect: float = 1,
@@ -123,6 +131,8 @@ def add_triggered_ivermectin(campaign,
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
             Demographic_Coverage receives the intervention.
+        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
@@ -161,6 +171,8 @@ def add_triggered_ivermectin(campaign,
                                        listening_duration=listening_duration,
                                        delay_period_constant=delay_period_constant,
                                        demographic_coverage=demographic_coverage,
+                                       target_age_min=target_age_min,
+                                       target_age_max=target_age_max,
                                        node_ids=node_ids,
                                        ind_property_restrictions=ind_property_restrictions,
                                        individual_intervention=intervention)

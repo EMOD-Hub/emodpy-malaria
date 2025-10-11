@@ -455,10 +455,13 @@ def add_blood_meal_mortality(config, manifest,
     """
     Add a probability of death after a mosquito has a blood meal.  There are some genetically
     modified mosquitoes that have a fitness cost associated with the digestion of a blood meal.
-    This is a GeneticProbability such that the probability used can depend on the genetic make
-    up of the mosquito.  This probability will be included as a "die after feeding" possibility.
+    This affects vectors whether this is a human or animal blood meal.
+    This is a GeneticProbability such that the probability used can depend on the genetic makeup
+    of the mosquito.  The deaths from this are added to the "die after feeding" numbers for
+    vectors that have fed on humans and "die before feeding on a human" for vectors that
+    die after animal blood meal.
     
-    If you need to add multiple allele combos for the same speices, call this method once for
+    If you need to add multiple allele combos for the same species, call this method once for
     each allele combo and associated probability.  If you do, please note that the default
     probability will be combined by OR'ing the different values together [1-((1-p1)*(1-p2))].
     Also note that the default probabilities for each species will be OR'd together.
@@ -469,7 +472,7 @@ def add_blood_meal_mortality(config, manifest,
     possible genomes, the one with fewer possible genomes will be considered first.  For example,
     if you add a1-a1 in one call and b1-b0 in a second call, EMOD will first check if the genome
     has a1-a1.  If it has a1-a1, it will get that probability.  If it does not, it will check
-    if the genome has b1-b0 or b0-b1.  The entered values are not combined in anyway.  It is up
+    if the genome has b1-b0 or b0-b1.  The entered values are not combined in any way.  It is up
     to the user to specify the probability for specific combinations.
 
     Args:
@@ -480,7 +483,7 @@ def add_blood_meal_mortality(config, manifest,
         species: Name of the species of vectors to give the specific probability to.
         allele_combo: The combination of alleles that a mosquito's genome must have in order to 
             apply associated Probability.  You do not need to specify alleles for every locus.
-            The ones not defined are not considered in the match  This should be a two dimensional
+            The ones not defined are not considered in the match  This should be a two-dimensional
             array where each internal array has two strings representing two alleles of the same
             locus.  Each separate internal array represents locus and you can only have one entry
             per locus.  You can use '*' for an allele to say any allele. For example,

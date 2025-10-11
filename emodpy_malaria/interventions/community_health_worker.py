@@ -1,6 +1,6 @@
 from emod_api import schema_to_class as s2c
 from emod_api.interventions.common import utils
-
+from emodpy_malaria.utils import MAX_AGE_YEARS
 
 def add_community_health_worker(campaign,
                                 start_day: int = 1,
@@ -9,7 +9,7 @@ def add_community_health_worker(campaign,
                                 node_ids: list = None,
                                 ind_property_restrictions: list = None,
                                 target_age_min: int = 0,
-                                target_age_max: int = 125,
+                                target_age_max: int = MAX_AGE_YEARS,
                                 target_gender: str = "All",
                                 initial_amount: int = 6,
                                 amount_in_shipment: int = 2147480000,
@@ -75,7 +75,7 @@ def add_community_health_worker(campaign,
     coordinator.Trigger_Condition_List = [campaign.get_recv_trigger(trigger, old=True) for trigger in trigger_condition_list]
     coordinator.Waiting_Period = waiting_period
 
-    if target_age_min > 0 or target_age_max < 125:
+    if target_age_min > 0 or target_age_max < MAX_AGE_YEARS:
         coordinator.Target_Age_Min = target_age_min
         coordinator.Target_Age_Max = target_age_max
     if target_gender != "All":
