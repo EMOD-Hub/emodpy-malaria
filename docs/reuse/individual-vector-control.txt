@@ -9,6 +9,7 @@ The following individual-level interventions are commonly used for vector contro
    :header: "Intervention", "Target life stage", "Target biting preference", "Target biting location", "Effect"
 
    :doc:`parameter-campaign-individual-humanhostseekingtrap`,feeding cycle,human,,killing
+   :doc:`parameter-campaign-individual-indoorindividualemanator`,feeding cycle,human,indoor,"killing, blocking"
    :doc:`parameter-campaign-individual-irshousingmodification`,feeding cycle,human,indoor,"killing, blocking"
    :doc:`parameter-campaign-individual-ivermectin`,feeding cycle,human,all,killing
    :doc:`parameter-campaign-individual-screeninghousingmodification`,feeding cycle,human,indoor,"killing, blocking"
