@@ -21,6 +21,8 @@ ImmunityBloodTest,"Generic, Malaria, Vector, STI, HIV",None,,https://institutefo
 ImportPressure,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-importpressure.html
 IncidenceEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-incidenceeventcoordinator.html
 IndividualImmunityChanger,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-individualimmunitychanger.html
+IndividualNonDiseaseDeathRateModifier,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-individualnondiseasedeathratemodifier.html
+IndoorIndividualEmanator,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-indoorindividualemanator.html
 InputEIR,Malaria,Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-inputeir.html
 InsectKillingFence,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-insectkillingfence.html
 InsectKillingFenceHousingModification,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-insectkillingfencehousingmodification.html
@@ -41,12 +43,13 @@ NChooserEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,
 NodeLevelHealthTriggeredIV,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodelevelhealthtriggerediv.html
 NodeLevelHealthTriggeredIVScaleUpSwitch,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodelevelhealthtriggeredivscaleupswitch.html
 NodePropertyValueChanger,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodepropertyvaluechanger.html
-NodeSetAll,,Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
-NodeSetNodeList,,Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
-NodeSetPolygon,,Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
+NodeSetAll,"Generic, Malaria, Vector, STI, HIV",Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
+NodeSetNodeList,"Generic, Malaria, Vector, STI, HIV",Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
+NodeSetPolygon,"Generic, Malaria, Vector, STI, HIV",Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
 Outbreak,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-outbreak.html
 OutbreakIndividual,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-outbreakindividual.html
 OutbreakIndividualMalaria,Malaria,Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-outbreakindividualmalaria.html
+OutdoorNodeEmanator,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-outdoornodeemanator.html
 OutdoorRestKill,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-outdoorrestkill.html
 OvipositionTrap,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-ovipositiontrap.html
 PropertyValueChanger,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-propertyvaluechanger.html
