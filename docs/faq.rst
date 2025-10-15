@@ -8,8 +8,8 @@ For questions related to functionality in related packages, see the
 following documentation:
 
 * :doc:`idmtools:faq` for |IT_s|
-* :doc:`emod_api:faq` for |emod_api|
-* :doc:`emodpy:faq` for |EMODPY_s|  
+* `FAQ <https://docs.idmod.org/projects/emod-api/en/latest/faq/>`__ for |emod_api|
+* :doc:`emodpy:faq` for |EMODPY_s|
 
 This section also includes topics on troubleshooting and some recommended tips and tricks
 when working with |EMOD_s| and |EMODPY_malaria|.
