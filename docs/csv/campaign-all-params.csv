@@ -1,80 +1,83 @@
-"AdherentDrug","Malaria","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-adherentdrug.html"
-"AnimalFeedKill","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-animalfeedkill.html"
-"AntiMalarialDrug","Malaria","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-antimalarialdrug.html"
-"ArtificialDiet","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-artificialdiet.html"
-"BirthTriggeredIV","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-birthtriggerediv.html"
-"BitingRisk","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-bitingrisk.html"
-"BroadcastCoordinatorEvent","Generic, HIV, Malaria, STI, Vector","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-broadcastcoordinatorevent.html"
-"BroadcastEvent","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-broadcastevent.html"
-"BroadcastEventToOtherNodes","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-broadcasteventtoothernodes.html"
-"BroadcastNodeEvent","Generic, Malaria, Vector, STI, HIV","None","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-broadcastnodeevent.html"
-"CalendarEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-calendareventcoordinator.html"
-"CampaignEvent","Generic, Malaria, Vector, STI, HIV","Campaign Event","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html"
-"CommunityHealthWorkerEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-communityhealthworkereventcoordinator.html"
-"ControlledVaccine","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-controlledvaccine.html"
-"CoverageByNodeEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-coveragebynodeeventcoordinator.html"
-"DelayedIntervention","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-delayedintervention.html"
-"DelayEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-delayeventcoordinator.html"
-"Drugs","Generic","Intervention","Individual",""
-"HumanHostSeekingTrap","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-humanhostseekingtrap.html"
-"ImmunityBloodTest","Generic, Malaria, Vector, STI, HIV","None","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-immunitybloodtest.html"
-"ImportPressure","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-importpressure.html"
-"IncidenceEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-incidenceeventcoordinator.html"
-"IndividualImmunityChanger","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-individualimmunitychanger.html"
-"InputEIR","Malaria","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-inputeir.html"
-"InsectKillingFence","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-insectkillingfence.html"
-"InsectKillingFenceHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-insectkillingfencehousingmodification.html"
-"IRSHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-irshousingmodification.html"
-"IVCalendar","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-ivcalendar.html"
-"Ivermectin","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-ivermection.html"
-"Larvicides","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-larvicides.html"
-"MalariaChallenge","Malaria","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-malariachallenge.html"
-"MalariaDiagnostic","Malaria","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-malariadiagnostic.html"
-"MigrateFamily","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-migratefamily.html"
-"MigrateIndividuals","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-migrateindividuals.html"
-"MosquitoRelease","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-mosquitorelease.html"
-"MultiEffectBoosterVaccine","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-multieffectboostervaccine.html"
-"MultiEffectVaccine","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-multieffectvaccine.html"
-"MultiInterventionDistributor","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-multiinterventiondistributor.html"
-"MultiNodeInterventionDistributor","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-multinodeinterventiondistributor.html"
-"NChooserEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-nchoosereventcoordinator.html"
-"NodeLevelHealthTriggeredIV","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodelevelhealthtriggerediv.html"
-"NodeLevelHealthTriggeredIVScaleUpSwitch","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodelevelhealthtriggeredivscaleupswitch.html"
-"NodePropertyValueChanger","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodepropertyvaluechanger.html"
-"NodeSetAll","","Campaign Event","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html"
-"NodeSetNodeList","","Campaign Event","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html"
-"NodeSetPolygon","","Campaign Event","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html"
-"Outbreak","Generic, Malaria, Vector, STI, HIV","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-outbreak.html"
-"OutbreakIndividual","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-outbreakindividual.html"
-"OutbreakIndividualMalaria","Malaria","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-outbreakindividualmalaria.html"
-"OutdoorRestKill","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-outdoorrestkill.html"
-"OvipositionTrap","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-ovipositiontrap.html"
-"PropertyValueChanger","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-propertyvaluechanger.html"
-"RTSSVaccine","Malaria","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-rtssvaccine.html"
-"ScaleLarvalHabitat","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-scalelarvalhabitat.html"
-"ScreeningHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-screeninghousingmodification.html"
-"SimpleBednet","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-simplebednet.html"
-"SimpleBoosterVaccine","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-simpleboostervaccine.html"
-"SimpleDiagnostic","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-simplediagnostic.html"
-"SimpleHealthSeekingBehavior","Generic, Malaria, Vector, STI, HIV","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-simplehealthseekingbehavior.html"
-"SimpleHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-simplehousingmodification.html"
-"SimpleIndividualRepellent","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-simpleindividual-repellent.html"
-"SimpleVaccine","Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-simplevaccine.html"
-"SpaceSpraying","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-spacespraying.html"
-"SpatialRepellent","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-spatialrepellent.html"
-"SpatialRepellentHousingModification","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-spatialrepellenthousingmodification.html"
-"StandardInterventionDistributionEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-standardinterventiondistributioneventcoordinator.html"
-"SugarTrap","Malaria, Vector","Intervention","Node","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-sugartrap.html"
-"SurveillanceEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-surveillanceeventcoordinator.html"
-"TriggeredEventCoordinator","Generic, Malaria, Vector, STI, HIV","Event Coordinator","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-triggeredeventcoordinator.html"
-"UsageDependentBednet","Malaria, Vector","Intervention","Individual","https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-usagedependentbednet.html"
-"WaningEffectBox","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectBoxExponential","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectCombo","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectConstant","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectExponential","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectMapLinear","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectMapLinearAge","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectMapLinearSeasonal","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectMapPiecewise","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
-"WaningEffectRandomBox","Generic, Malaria, Vector, STI, HIV","Intervention","","https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html"
+AdherentDrug,Malaria,Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-adherentdrug.html
+AnimalFeedKill,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-animalfeedkill.html
+AntiMalarialDrug,Malaria,Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-antimalarialdrug.html
+ArtificialDiet,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-artificialdiet.html
+BirthTriggeredIV,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-birthtriggerediv.html
+BitingRisk,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-bitingrisk.html
+BroadcastCoordinatorEvent,"Generic, HIV, Malaria, STI, Vector",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-broadcastcoordinatorevent.html
+BroadcastEvent,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-broadcastevent.html
+BroadcastEventToOtherNodes,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-broadcasteventtoothernodes.html
+BroadcastNodeEvent,"Generic, Malaria, Vector, STI, HIV",None,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-broadcastnodeevent.html
+CalendarEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-calendareventcoordinator.html
+CampaignEvent,"Generic, Malaria, Vector, STI, HIV",Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
+CommunityHealthWorkerEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-communityhealthworkereventcoordinator.html
+ControlledVaccine,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-controlledvaccine.html
+CoverageByNodeEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-coveragebynodeeventcoordinator.html
+DelayedIntervention,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-delayedintervention.html
+DelayEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-delayeventcoordinator.html
+Drugs,Generic,Intervention,Individual,
+HumanHostSeekingTrap,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-humanhostseekingtrap.html
+ImmunityBloodTest,"Generic, Malaria, Vector, STI, HIV",None,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-immunitybloodtest.html
+ImportPressure,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-importpressure.html
+IncidenceEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-incidenceeventcoordinator.html
+IndividualImmunityChanger,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-individualimmunitychanger.html
+IndividualNonDiseaseDeathRateModifier,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-individualnondiseasedeathratemodifier.html
+IndoorIndividualEmanator,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-indoorindividualemanator.html
+InputEIR,Malaria,Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-inputeir.html
+InsectKillingFence,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-insectkillingfence.html
+InsectKillingFenceHousingModification,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-insectkillingfencehousingmodification.html
+IRSHousingModification,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-irshousingmodification.html
+IVCalendar,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-ivcalendar.html
+Ivermectin,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-ivermection.html
+Larvicides,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-larvicides.html
+MalariaChallenge,Malaria,Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-malariachallenge.html
+MalariaDiagnostic,Malaria,Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-malariadiagnostic.html
+MigrateFamily,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-migratefamily.html
+MigrateIndividuals,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-migrateindividuals.html
+MosquitoRelease,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-mosquitorelease.html
+MultiEffectBoosterVaccine,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-multieffectboostervaccine.html
+MultiEffectVaccine,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-multieffectvaccine.html
+MultiInterventionDistributor,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-multiinterventiondistributor.html
+MultiNodeInterventionDistributor,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-multinodeinterventiondistributor.html
+NChooserEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-nchoosereventcoordinator.html
+NodeLevelHealthTriggeredIV,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodelevelhealthtriggerediv.html
+NodeLevelHealthTriggeredIVScaleUpSwitch,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodelevelhealthtriggeredivscaleupswitch.html
+NodePropertyValueChanger,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-nodepropertyvaluechanger.html
+NodeSetAll,"Generic, Malaria, Vector, STI, HIV",Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
+NodeSetNodeList,"Generic, Malaria, Vector, STI, HIV",Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
+NodeSetPolygon,"Generic, Malaria, Vector, STI, HIV",Campaign Event,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-campaignevent.html
+Outbreak,"Generic, Malaria, Vector, STI, HIV",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-outbreak.html
+OutbreakIndividual,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-outbreakindividual.html
+OutbreakIndividualMalaria,Malaria,Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-outbreakindividualmalaria.html
+OutdoorNodeEmanator,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-outdoornodeemanator.html
+OutdoorRestKill,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-outdoorrestkill.html
+OvipositionTrap,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-ovipositiontrap.html
+PropertyValueChanger,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-propertyvaluechanger.html
+RTSSVaccine,Malaria,Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-rtssvaccine.html
+ScaleLarvalHabitat,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-scalelarvalhabitat.html
+ScreeningHousingModification,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-screeninghousingmodification.html
+SimpleBednet,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-simplebednet.html
+SimpleBoosterVaccine,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-simpleboostervaccine.html
+SimpleDiagnostic,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-node-simplediagnostic.html
+SimpleHealthSeekingBehavior,"Generic, Malaria, Vector, STI, HIV",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-simplehealthseekingbehavior.html
+SimpleHousingModification,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-simplehousingmodification.html
+SimpleIndividualRepellent,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-simpleindividual-repellent.html
+SimpleVaccine,"Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-individual-simplevaccine.html
+SpaceSpraying,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-spacespraying.html
+SpatialRepellent,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-spatialrepellent.html
+SpatialRepellentHousingModification,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-spatialrepellenthousingmodification.html
+StandardInterventionDistributionEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-standardinterventiondistributioneventcoordinator.html
+SugarTrap,"Malaria, Vector",Intervention,Node,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-node-sugartrap.html
+SurveillanceEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-surveillanceeventcoordinator.html
+TriggeredEventCoordinator,"Generic, Malaria, Vector, STI, HIV",Event Coordinator,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-event-triggeredeventcoordinator.html
+UsageDependentBednet,"Malaria, Vector",Intervention,Individual,https://institutefordiseasemodeling.github.io/Documentation/malaria/parameter-campaign-individual-usagedependentbednet.html
+WaningEffectBox,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectBoxExponential,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectCombo,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectConstant,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectExponential,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectMapLinear,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectMapLinearAge,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectMapLinearSeasonal,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectMapPiecewise,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
+WaningEffectRandomBox,"Generic, Malaria, Vector, STI, HIV",Intervention,,https://institutefordiseasemodeling.github.io/Documentation/general/parameter-campaign-waningeffects.html
