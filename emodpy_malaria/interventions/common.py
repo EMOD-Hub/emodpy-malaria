@@ -177,8 +177,8 @@ def add_campaign_event(campaign,
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
+        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are required for the
+            individual to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -188,7 +188,7 @@ def add_campaign_event(campaign,
             by this event
         node_intervention: Node intervention or a list of node interventions to be distributed
             by this event
-        node_property_restrictions: A list of dictionaries of NodeProperties, which are needed for the node
+        node_property_restrictions: A list of dictionaries of NodeProperties, which are required for the node
             to receive the intervention. Sets the **Node_Property_Restrictions**
 
     Returns:

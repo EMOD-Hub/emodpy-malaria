@@ -3132,7 +3132,7 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config['Repelling_Config']['Decay_Time_Constant'], decay_time)
         self.assertEqual(self.intervention_config['Repelling_Config']['Initial_Effect'], repelling_effect)
 
-    def test_triggered_indoor_individual_emanator(self):
+    def test_triggered_outdoor_node_emanator(self):
         start_day = 10
         killing_effect = 1
         box_duration = 100

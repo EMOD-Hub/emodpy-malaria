@@ -98,9 +98,11 @@ def add_scheduled_usage_dependent_bednet(
     Add an insecticide-treated net (ITN) intervention with a seasonal usage
     pattern to the campaign using the **UsageDependentBednet** class.
 
-    Note: for WaningEffect,
+    Note: for killing, blocking, repelling effects - depending on the parameters you set,
+    different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
@@ -261,11 +263,13 @@ def add_triggered_usage_dependent_bednet(campaign,
     Add an insecticide-treated net (ITN) intervention with a seasonal usage
     pattern to the campaign using the **UsageDependentBednet** class.
 
-    Note: for WaningEffect,
+    Note: for killing, blocking, repelling effects - depending on the parameters you set,
+    different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
-        if any of the blocking_linear_* parameters are defined, only blocking_initial_effect is used.
+
 
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container

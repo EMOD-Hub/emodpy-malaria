@@ -23,9 +23,11 @@ def _outdoor_node_emanator(campaign,
     """
         Configures OutdoorNodeEmanator intervention.
 
-        Note: for WaningEffect,
+        Note: for killing and repelling effects - depending on the parameters you set,
+        different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
 
@@ -39,7 +41,7 @@ def _outdoor_node_emanator(campaign,
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial_Effect.
         spray_coverage: The proportion of the node affected. This value is multiplied by the current efficacy of the
             waning effects.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -95,10 +97,9 @@ def add_outdoor_node_emanator_scheduled(campaign,
 
     Args:
         campaign: object for building, modifying, and writing campaign configuration files.
-        start_day: Start day of intervention.
         start_day: The day the intervention is given out.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
+        node_ids: List of node ids representing nodes to target with the intervention. [] or None indicates all
+            nodes will be targeted.
         repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
@@ -113,7 +114,7 @@ def add_outdoor_node_emanator_scheduled(campaign,
         repelling_initial_effect: Initial strength of the Repelling effect. The effect may decay over time.
         repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial_Effect.
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial_Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.

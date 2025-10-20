@@ -7,9 +7,9 @@ vectors. This imitates the use of outdoor insecticide sprays. These intervention
 to repel or kill mosquitoes within the node. The intervention is distributed to nodes and affects all the
 meal-seeking vectors in the node.
 
-The intervention acts on vectors seeking a blood meal. Vectors are repelled at final_repelling = coverage*repelling rate 
-and final_killing = coverage * killing rate. The vectors that move to continue to seek the meal and are 
-not repelled or killed are calculated using the following formula: (1 - coverage*repelling)(1-coverage*killing).
+The following is how the intervetion acts on female vectors seeking a blood meal. Vectors are repelled at
+final_repelling = coverage*repelling rate and final_killing = coverage * killing rate. The vectors that move to
+continue to seek the meal and are not repelled or killed are calculated using the following formula: (1 - coverage*repelling)(1-coverage*killing).
 Please note that the killing affects all vectors that were not repelled by the intervention including those not affected by 
 repelling due to coverage. These vectors can proceed to try find a meal indoors or outdoors, human and non-human and will be subject to
 other interventions affecting meal-seeking vectors. After the vectors have successfully fed (indoor or outdoor,
@@ -21,7 +21,7 @@ If there are multiple OutdoorNodeEmanators in the node (see **Purge existing** b
 interventions are combined the following way: final_repelling = 1 - ( 1 - final_repelling)*(1-new_coverage*new_repelling)
 and final_killing =  1 - ( 1 - final_killing)*(1-new_coverage*new_killing).
 
-OutdoorNodeEmanator also affects entire male population of the node.
+OutdoorNodeEmanator also affects entire male population of the node at every time step, applying only the killing effect.
 
 
 

@@ -23,12 +23,14 @@ def add_scheduled_ivermectin(campaign,
                              ):
     """
         Adds a scheduled Ivermectin CampaignEvent to the campaign, which can be repeated any number of times.
-        It’s possible to have multiple Ivermectin interventions attached to a person if they have
-        different Intervention_Name values.
+        When a new Ivermectin intervention is given to an individual, if they already have an existing Ivermectin
+        intervention, both interventions will be active. The efficacies of the two interventions will not be combined.
+        There is no limit to how many Ivermectin interventions an individual can have active at one time.
 
-        Note: for WaningEffect,
+        Note: for killing effects - depending on the parameters you set, different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
@@ -50,14 +52,13 @@ def add_scheduled_ivermectin(campaign,
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
         cost: Unit cost per Ivermectin dosing (unamortized)
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple Ivermectin interventions
-            attached to a person if they have different Intervention_Name values.
+            others that use the same class.
         broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
             Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
 
@@ -114,11 +115,11 @@ def add_triggered_ivermectin(campaign,
         It’s possible to have multiple Ivermectin interventions attached to a person if they have
         different Intervention_Name values.
 
-        Note: for WaningEffect,
+        Note: for killing effects - depending on the parameters you set, different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
-
 
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container
@@ -140,14 +141,13 @@ def add_triggered_ivermectin(campaign,
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
         cost: Unit cost per Ivermectin dosing (unamortized)
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple Ivermectin interventions
-            attached to a person if they have different Intervention_Name values.
+            others that use the same class.
         broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
             Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
 
@@ -187,24 +187,24 @@ def _ivermectin(campaign,
                 intervention_name: str = "Ivermectin"):
     """
         Configures Ivermectin intervention.
-        Note: for WaningEffect,
-        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
-        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
+        Note: for killing effects - depending on the parameters you set, different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
+        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
+        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
     Args:
         campaign: A campaign builder that also contains schema_path parameters
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
         cost: Unit cost per Ivermectin dosing (unamortized)
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple Ivermectin interventions
-            attached to a person if they have different Intervention_Name values.
+            others that use the same class.
 
     Returns:
         configured Ivermectin intervention

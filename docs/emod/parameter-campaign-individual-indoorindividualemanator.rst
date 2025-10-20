@@ -8,7 +8,7 @@ interventions release insecticides into the air to repel or kill mosquitoes in t
 individual using the emanator. The intervention is distributed to individuals, allowing for
 targeting specific subgroups of the population.
 
-The intervention acts on vectors seeking a blood meal indoors. Once the vectors is indoors, it is first
+The intervention acts on female vectors seeking a blood meal indoors. Once the vectors is indoors, it is first
 repelled based on the repelling effect. Then, the vectors that are not repelled, are subjected to the
 killing effect. Vectors that are not repelled or killed can proceed to try to bite the individual and will
 be subject to other individual indoor interventions. After the vectors have successfully fed (human or non-human meal),

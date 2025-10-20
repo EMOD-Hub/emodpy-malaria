@@ -3,8 +3,7 @@ OutdoorRestKill
 ===============
 
 The **OutdoorRestKill** intervention class imposes node-targeted mortality to a vector that is at
-rest in an outdoor environment after a feed. This affects vectors that have fed indoors and outdoors.
-This also affects male vectors.
+rest in an outdoor environment after a feed. This affects female vectors that have fed indoors and outdoors and males.
 
 At a glance:
 

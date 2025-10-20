@@ -20,6 +20,12 @@ def add_scheduled_space_spraying(
         cost_to_consumer: float = 0
 ):
     """
+        Note: for killing effects - depending on the parameters you set,
+        different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
+        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
+        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container

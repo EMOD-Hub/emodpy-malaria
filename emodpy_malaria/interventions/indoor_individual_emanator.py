@@ -22,11 +22,12 @@ def _indoor_individual_emanator(campaign,
     """
         Configures IndoorIndividualEmanator intervention.
 
-        Note: for WaningEffect,
+        Note: for killing, repelling effects - depending on the parameters you set,
+        different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
-
 
     Args:
         campaign:
@@ -36,7 +37,7 @@ def _indoor_individual_emanator(campaign,
         repelling_initial_effect: Initial strength of the Repelling effect. The effect may decay over time.
         repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial_Effect.
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial_Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -92,6 +93,13 @@ def add_indoor_individual_emanator_scheduled(campaign,
     """
         Add a scheduled IndoorIndividualEmanator intervention.
 
+        Note: for killing, repelling effects - depending on the parameters you set,
+        different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
+        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
+        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+
     Args:
         campaign: object for building, modifying, and writing campaign configuration files.
         start_day: Start day of intervention.
@@ -120,7 +128,7 @@ def add_indoor_individual_emanator_scheduled(campaign,
         repelling_initial_effect: Initial strength of the Repelling effect. The effect may decay over time.
         repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial_Effect.
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial_Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -233,7 +241,7 @@ def add_indoor_individual_emanator_triggered(campaign,
         repelling_initial_effect: Initial strength of the Repelling effect. The effect may decay over time.
         repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial_Effect.
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial_Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
