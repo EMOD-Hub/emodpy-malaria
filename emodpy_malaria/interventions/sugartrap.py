@@ -18,9 +18,11 @@ def _sugar_trap(campaign,
     """
         Configures SugarTrap intervention
 
-        Note: for WaningEffect,
+        Note: for killing effects - depending on the parameters you set,
+        different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox or Constant if box_duration is -1
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
@@ -93,9 +95,11 @@ def add_scheduled_sugar_trap(
     """
         Creates and adds a scheduled intervention that distributes a SugarTrap (ATSB) to the campaign.
 
-        Note: for WaningEffect,
+        Note: for killing effects - depending on the parameters you set,
+        different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 or -1 + decay_time_constant = 0 => WaningEffectBox or Constant if box_duration is -1
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:

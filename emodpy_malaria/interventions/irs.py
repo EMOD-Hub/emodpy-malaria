@@ -68,7 +68,7 @@ def add_scheduled_irs_housing_modification(
         repelling_initial_effect: Initial strength of the Killing effect. The effect decays over time.
         repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial Effect.
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -173,7 +173,7 @@ def add_triggered_irs_housing_modification(
         repelling_initial_effect: Initial strength of the Killing effect. The effect decays over time.
         repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial Effect.
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -238,7 +238,7 @@ def irs_configuration(campaign,
         repelling_initial_effect: Initial strength of the Killing effect. The effect decays over time.
         repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial Effect.
         repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial Effect.
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.

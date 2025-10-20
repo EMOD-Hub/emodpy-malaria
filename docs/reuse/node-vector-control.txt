@@ -12,7 +12,9 @@ The following node-level interventions are commonly used for vector control.
    :doc:`parameter-campaign-node-artificialdiet`,feeding cycle,human,all,blocking
    :doc:`parameter-campaign-node-larvicides`,larva,all,all,"killing, reduction"
    :doc:`parameter-campaign-node-mosquitorelease`,,,,
-   :doc:`parameter-campaign-node-outdoorrestkill`,feeding cycle,human,outdoor,killing
+   :doc:`parameter-campaign-node-spatialrepellent`, feeding cycle,all ,all ,"blocking"
+   :doc:`parameter-campaign-node-outdoorrestkill`, "feeding cycle, males",human,all,killing
+   :doc:`parameter-campaign-node-outdoornodeemanator`,"feeding cycle, males", all,all, "repelling,killing"
    :doc:`parameter-campaign-node-ovipositiontrap`,feeding cycle,all,all,killing
    :doc:`parameter-campaign-node-scalelarvalhabitat`,larva,all,all,reduction
    :doc:`parameter-campaign-node-spacespraying`,feeding cycle,human ,outdoor ,killing
