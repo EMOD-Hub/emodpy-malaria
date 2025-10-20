@@ -100,10 +100,10 @@ def add_scheduled_usage_dependent_bednet(
 
     Note: for killing, blocking, repelling effects - depending on the parameters you set,
     different WaningEffect classes will be used:
-        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
+    box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
+    box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
+    box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
         campaign: campaign object to which the intervention will be added, and schema_path container
@@ -265,10 +265,10 @@ def add_triggered_usage_dependent_bednet(campaign,
 
     Note: for killing, blocking, repelling effects - depending on the parameters you set,
     different WaningEffect classes will be used:
-        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
+    box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
+    box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
+    box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
 
     Args:
