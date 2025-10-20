@@ -3123,16 +3123,16 @@ class TestMalariaInterventions(unittest.TestCase):
         self.tmp_intervention = camp.campaign_dict["Events"][0]
         self.parse_intervention_parts()
         self.assertEqual(self.start_day, start_day)
-        self.assertEqual(self.tmp_intervention["Trigger_Condition_List"], ["HappyBirthday"])
-        self.assertEqual(self.intervention_config['class'], "IndoorIndividualEmanator")
-        self.assertEqual(self.intervention_config['Killing_Config']['Box_Duration'], box_duration)
-        self.assertEqual(self.intervention_config['Killing_Config']['Decay_Time_Constant'], deca_time)
-        self.assertEqual(self.intervention_config['Killing_Config']['Initial_Effect'], killing_effect)
-        self.assertEqual(self.intervention_config['Repelling_Config']['Box_Duration'], box_duration2)
-        self.assertEqual(self.intervention_config['Repelling_Config']['Decay_Time_Constant'], decay_time)
-        self.assertEqual(self.intervention_config['Repelling_Config']['Initial_Effect'], repelling_effect)
+        self.assertEqual(self.intervention_config["Trigger_Condition_List"], ["HappyBirthday"])
+        intervention = self.intervention_config["Actual_IndividualIntervention_Config"]
+        self.assertEqual(intervention['Killing_Config']['Box_Duration'], box_duration)
+        self.assertEqual(intervention['Killing_Config']['Decay_Time_Constant'], deca_time)
+        self.assertEqual(intervention['Killing_Config']['Initial_Effect'], killing_effect)
+        self.assertEqual(intervention['Repelling_Config']['Box_Duration'], box_duration2)
+        self.assertEqual(intervention['Repelling_Config']['Decay_Time_Constant'], decay_time)
+        self.assertEqual(intervention['Repelling_Config']['Initial_Effect'], repelling_effect)
 
-    def test_triggered_outdoor_node_emanator(self):
+    def test_outdoor_node_emanator(self):
         start_day = 10
         killing_effect = 1
         box_duration = 100
