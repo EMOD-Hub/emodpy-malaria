@@ -158,8 +158,7 @@ def add_campaign_event(campaign,
                        target_gender: str = "All",
                        target_residents_only: bool = False,
                        individual_intervention: any = None,
-                       node_intervention: any = None,
-                       node_property_restrictions: list = None):
+                       node_intervention: any = None):
     """
         Adds a campaign event to the campaign with a passed in intervention.
 
@@ -177,8 +176,8 @@ def add_campaign_event(campaign,
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are required for the
-            individual to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
         target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
@@ -188,9 +187,6 @@ def add_campaign_event(campaign,
             by this event
         node_intervention: Node intervention or a list of node interventions to be distributed
             by this event
-        node_property_restrictions: A list of dictionaries of NodeProperties, which are required for the node
-            to receive the intervention. Sets the **Node_Property_Restrictions**
-
     Returns:
         Nothing
     """
@@ -200,8 +196,6 @@ def add_campaign_event(campaign,
         raise ValueError(f"Please pass in either individual_intervention or node_intervention.\n")
 
     if individual_intervention:
-        if node_property_restrictions:
-            raise ValueError(f"node_property_restrictions are not available when using individual_intervention.\n")
         event = common.ScheduledCampaignEvent(camp=campaign,
                                               Start_Day=start_day,
                                               Node_Ids=node_ids,
@@ -235,9 +229,21 @@ def add_campaign_event(campaign,
 
         # configuring the coordinator
         coordinator = s2c.get_class_with_defaults("StandardEventCoordinator", schema_path)
+        if target_num_individuals is not None:
+            coordinator.Target_Num_Individuals = target_num_individuals
+        else:
+            coordinator.Demographic_Coverage = demographic_coverage
         coordinator.Number_Repetitions = repetitions
         coordinator.Timesteps_Between_Repetitions = timesteps_between_repetitions
-        coordinator.Node_Property_Restrictions = node_property_restrictions
+        coordinator.Property_Restrictions_Within_Node = ind_property_restrictions if ind_property_restrictions else []
+        coordinator.Property_Restrictions = []  # not using; Property_Restrictions_Within_Node are more flexible
+
+        if target_age_min > 0 or target_age_max < MAX_AGE_YEARS:
+            coordinator.Target_Age_Min = target_age_min
+            coordinator.Target_Age_Max = target_age_max
+        if target_gender != "All":
+            coordinator.Target_Gender = target_gender
+            coordinator.Target_Demographic = "ExplicitAgeRangesAndGender"
 
         event.Event_Coordinator_Config = coordinator
         coordinator.Intervention_Config = intervention

@@ -32,7 +32,6 @@ Node-level interventions
    parameter-campaign-node-nodepropertyvaluechanger
    parameter-campaign-node-outbreak
    parameter-campaign-node-outdoorrestkill
-   parameter-campaign-node-outdoornodeemanator
    parameter-campaign-node-ovipositiontrap
    parameter-campaign-node-scalelarvalhabitat
    parameter-campaign-node-spacespraying

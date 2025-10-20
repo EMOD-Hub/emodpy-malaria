@@ -21,7 +21,6 @@ Individual-level interventions
    parameter-campaign-individual-delayedintervention
    parameter-campaign-individual-humanhostseekingtrap
    parameter-campaign-individual-immunitybloodtest
-   parameter-campaign-individual-indoorindividualemanator
    parameter-campaign-individual-individualimmunitychanger
    parameter-campaign-individual-individualnondiseasedeathratemodifier
    parameter-campaign-individual-irshousingmodification
