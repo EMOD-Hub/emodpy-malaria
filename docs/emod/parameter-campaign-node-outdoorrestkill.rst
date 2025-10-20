@@ -3,7 +3,7 @@ OutdoorRestKill
 ===============
 
 The **OutdoorRestKill** intervention class imposes node-targeted mortality to a vector that is at
-rest in an outdoor environment after an outdoor feed on a human.
+rest in an outdoor environment after a feed. This affects female vectors that have fed indoors and outdoors and males.
 
 At a glance:
 
@@ -14,7 +14,7 @@ At a glance:
 *  **Purge existing:** Yes and No. Adding a new intervention of this class will overwrite any existing intervention of the same class with the same **Intervention_Name**. If **Intervention_Name** is different, both interventions will coexist and their efficacies will combine 1-(1-prob1)*(1-prob2) etc.
 *  **Vector killing contributes to:** Outdoor Die After Feeding. Note that it is a node-level intervention but does not impact the other node-level probabilities.
 *  **Vector effects:** Killing
-*  **Vector sexes affected:** Males and females
+*  **Vector sexes affected:** Males and meal-seeking females
 *  **Vector life stage affected:** Adults
 
 

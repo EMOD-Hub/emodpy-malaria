@@ -26,9 +26,12 @@ def _simple_bednet(campaign,
                    intervention_name: str = "SimpleBednet"):
     """
         Configures SimpleBednet intervention.
-        Note: for WaningEffect,
+
+        Note: for killing, blocking, repelling effects - depending on the parameters you set,
+        different WaningEffect classes will be used:
+        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
         box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox/Constant (depending on duration)
+        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
 todo: how to describe usage_ effects? how to make usage default WaningEffectConstant
@@ -47,7 +50,7 @@ todo: how to describe usage_ effects? how to make usage default WaningEffectCons
         usage_initial_effect: Determines when and if an individual is using a bed net.
         usage_box_duration: ?
         usage_decay_time_constant: ?
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -169,7 +172,7 @@ def add_itn_scheduled(campaign,
         usage_initial_effect: Determines when and if an individual is using a bed net.
         usage_box_duration: ?
         usage_decay_time_constant: ?
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -293,7 +296,7 @@ def add_itn_triggered(campaign,
         usage_initial_effect: Determines when and if an individual is using a bed net.
         usage_box_duration: ?
         usage_decay_time_constant: ?
-        insecticide:The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
