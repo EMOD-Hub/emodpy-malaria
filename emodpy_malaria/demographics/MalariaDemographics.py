@@ -6,7 +6,7 @@ see :doc:`emod/software-demographics`.
 import os
 import emod_api.demographics.Demographics as Demog
 from emod_api.demographics import DemographicsTemplates as DT
-import emod_api.config.default_from_schema_no_validation as dfs
+import emod_api.schema_to_class as s2c
 
 
 class MalariaDemographics(Demog.Demographics):
@@ -72,11 +72,11 @@ class MalariaDemographics(Demog.Demographics):
 
         """
 
-        lhm = dfs.schema_to_config_subnode(schema, ["idmTypes", "idmType:LarvalHabitatMultiplierSpec"])
-        lhm.parameters.Factor = multiplier
-        lhm.parameters.Habitat = hab_type
-        lhm.parameters.Species = species
-        lhm.parameters.finalize()
+        lhm = s2c.get_class_with_defaults("idmType:LarvalHabitatMultiplierSpec", schema_path=schema)
+        lhm.Factor = multiplier
+        lhm.Habitat = hab_type
+        lhm.Species = species
+        lhm.finalize()
 
         # set params
         if node_id == 0:
@@ -84,14 +84,14 @@ class MalariaDemographics(Demog.Demographics):
                 lhm_dict = self.raw['Defaults']['NodeAttributes']["LarvalHabitatMultiplier"]
             else:
                 lhm_dict = []
-            lhm_dict.append(lhm.parameters)
+            lhm_dict.append(lhm)
             self.SetNodeDefaultFromTemplate({"LarvalHabitatMultiplier": lhm_dict}, setter_fn=None)
         else:
             if self.get_node(node_id).node_attributes.larval_habitat_multiplier:
                 lhm_dict = self.get_node(node_id).node_attributes.larval_habitat_multiplier
             else:
                 lhm_dict = []
-            lhm_dict.append(lhm.parameters)
+            lhm_dict.append(lhm)
             self.get_node(node_id).node_attributes.larval_habitat_multiplier = lhm_dict
 
     def add_initial_vectors_per_species(self, init_vector_species, node_ids=None):
