@@ -6,7 +6,6 @@ see :doc:`emod/software-demographics`.
 import os
 import emod_api.demographics.Demographics as Demog
 from emod_api.demographics import DemographicsTemplates as DT
-import emod_api.config.default_from_schema_no_validation as dfs
 
 
 class MalariaDemographics(Demog.Demographics):
@@ -39,109 +38,72 @@ class MalariaDemographics(Demog.Demographics):
         if init_prev > 0:
             # Do constant intial prevalence as uniform with same min and max.
             super().SetInitPrevFromUniformDraw(init_prev, init_prev, f"Constant Initial Prevalence ({init_prev})")
-        if include_biting_heterogeneity:
-            self.set_risk_lowmedium()  # lognormal, default=1.6
+        # if include_biting_heterogeneity:
+        #     self.set_risk_lowmedium()  # lognormal, default=1.6
 
-    def set_risk_lowmedium(self):
-        """
-            Set initial risk for low-medium transmission settings per: 
-            https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
-        """
-        super().SetHeteroRiskLognormalDist(mean=0.0, sigma=1.6)
+    # def set_risk_lowmedium(self):
+    #     """
+    #         Set initial risk for low-medium transmission settings per:
+    #         https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
+    #     """
+    #     super().SetHeteroRiskLognormalDist(mean=0.0, sigma=1.6)
+    #
+    # def set_risk_high(self):
+    #     """
+    #         Set initial risk for high transmission settings per:
+    #         https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
+    #     """
+    #     super().SetHeteroRiskExponDist(mean=1.0)  # 1.0 is placeholder
 
-    def set_risk_high(self):
-        """
-            Set initial risk for high transmission settings per: 
-            https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
-        """
-        super().SetHeteroRiskExponDist(mean=1.0)  # 1.0 is placeholder
 
-    def add_larval_habitat_multiplier(self, schema, hab_type, multiplier, species="ALL_SPECIES", node_id=0):
-        """
-            Add LarvalHabitatMultiplier to node(s).
-
-            Args:
-                schema: Path to schema.json.
-                hab_type: Habitat type.
-                multiplier: Multiplier or Factor.
-                species: Specific species (defaults to ALL).
-                node_id: Nodes for this LHM. Defaults to all.
-
-            Returns:
-                Nothing.
-
-        """
-
-        lhm = dfs.schema_to_config_subnode(schema, ["idmTypes", "idmType:LarvalHabitatMultiplierSpec"])
-        lhm.parameters.Factor = multiplier
-        lhm.parameters.Habitat = hab_type
-        lhm.parameters.Species = species
-        lhm.parameters.finalize()
-
-        # set params
-        if node_id == 0:
-            if "LarvalHabitatMultiplier" in self.raw['Defaults']['NodeAttributes']:
-                lhm_dict = self.raw['Defaults']['NodeAttributes']["LarvalHabitatMultiplier"]
-            else:
-                lhm_dict = []
-            lhm_dict.append(lhm.parameters)
-            self.SetNodeDefaultFromTemplate({"LarvalHabitatMultiplier": lhm_dict}, setter_fn=None)
-        else:
-            if self.get_node(node_id).node_attributes.larval_habitat_multiplier:
-                lhm_dict = self.get_node(node_id).node_attributes.larval_habitat_multiplier
-            else:
-                lhm_dict = []
-            lhm_dict.append(lhm.parameters)
-            self.get_node(node_id).node_attributes.larval_habitat_multiplier = lhm_dict
-
-    def add_initial_vectors_per_species(self, init_vector_species, node_ids=None):
-        """
-        Add an InitialVectorsForSpecies configuration for all nodes or just a set of nodes.
-
-        Args:
-            init_vector_species: Dictionary of vector species (strings) to initial populations. There is no 
-                checking for coherence of species named in other input settings.
-            node_ids: Array of node ids. Defaults to None for all nodes.
-
-        Returns:
-            N/A.
-
-        """
-        if node_ids is None:
-            ivs_dict = dict()
-            ivs_dict["InitialVectorsPerSpecies"] = init_vector_species
-            self.SetNodeDefaultFromTemplate(ivs_dict, setter_fn=None)
-        else:
-            for node_id in node_ids:
-                self.get_node(node_id).node_attributes.add_parameter("InitialVectorsPerSpecies", init_vector_species)
-
-        # no implicits
-
-    def add_initial_vectors_per_species_from_csv(self, csv_path):
-        """
-            Add initial vector species population to 'demographics' nodes from a csv file.
-
-        Args:
-            csv_path: Path to CSV file with the initial vector species populations for each node.
-
-        Returns:
-            N/A.
-
-        """
-        import csv
-        if not os.path.exists(csv_path):
-            raise ValueError(f"File not found at {csv_path}.")
-
-        with open(csv_path) as csv_file:
-            reader = csv.DictReader(csv_file)
-            for line in reader:
-                # collect all the initial vector species values for a given node.
-                node = int(line["node_id"])
-                ivps = dict()
-                for species in line:
-                    if species != "node_id":
-                        ivps[species] = int(line[species])
-                self.add_initial_vectors_per_species(ivps, [node])
+    # def add_initial_vectors_per_species(self, init_vector_species, node_ids=None):
+    #     """
+    #     Add an InitialVectorsForSpecies configuration for all nodes or just a set of nodes.
+    #
+    #     Args:
+    #         init_vector_species: Dictionary of vector species (strings) to initial populations. There is no
+    #             checking for coherence of species named in other input settings.
+    #         node_ids: Array of node ids. Defaults to None for all nodes.
+    #
+    #     Returns:
+    #         N/A.
+    #
+    #     """
+    #     if node_ids is None:
+    #         ivs_dict = dict()
+    #         ivs_dict["InitialVectorsPerSpecies"] = init_vector_species
+    #         self.SetNodeDefaultFromTemplate(ivs_dict, setter_fn=None)
+    #     else:
+    #         for node_id in node_ids:
+    #             self.get_node(node_id).node_attributes.add_parameter("InitialVectorsPerSpecies", init_vector_species)
+    #
+    #     # no implicits
+    #
+    # def add_initial_vectors_per_species_from_csv(self, csv_path):
+    #     """
+    #         Add initial vector species population to 'demographics' nodes from a csv file.
+    #
+    #     Args:
+    #         csv_path: Path to CSV file with the initial vector species populations for each node.
+    #
+    #     Returns:
+    #         N/A.
+    #
+    #     """
+    #     import csv
+    #     if not os.path.exists(csv_path):
+    #         raise ValueError(f"File not found at {csv_path}.")
+    #
+    #     with open(csv_path) as csv_file:
+    #         reader = csv.DictReader(csv_file)
+    #         for line in reader:
+    #             # collect all the initial vector species values for a given node.
+    #             node = int(line["node_id"])
+    #             ivps = dict()
+    #             for species in line:
+    #                 if species != "node_id":
+    #                     ivps[species] = int(line[species])
+    #             self.add_initial_vectors_per_species(ivps, [node])
 
 
 def from_template_node(lat=0, lon=0, pop=1e6, name=1, forced_id=1, init_prev=0.2, include_biting_heterogeneity=True):

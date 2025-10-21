@@ -1,4 +1,4 @@
-import emod_api.config.default_from_schema_no_validation as dfs
+import emod_api.schema_to_class as s2c
 import csv
 import os
 from . import vector_config
@@ -163,23 +163,23 @@ def set_team_drug_params(config, manifest):
 
         # for each
         for row in my_reader:
-            mdp = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:MalariaDrugTypeParameters"])
-            mdp.parameters.Drug_Cmax = float(row[drug_cmax_idx])
-            mdp.parameters.Drug_Decay_T1 = float(row[drug_decayt1_idx])
-            mdp.parameters.Drug_Decay_T2 = float(row[drug_decayt2_idx])
-            mdp.parameters.Drug_Vd = float(row[drug_vd_idx])
-            mdp.parameters.Drug_PKPD_C50 = float(row[drug_pkpdc50_idx])
-            mdp.parameters.Drug_Fulltreatment_Doses = float(row[drug_ftdoses_idx])
-            mdp.parameters.Drug_Dose_Interval = float(row[drug_dose_interval_idx])
-            mdp.parameters.Drug_Gametocyte02_Killrate = float(row[drug_gam02_idx])
-            mdp.parameters.Drug_Gametocyte34_Killrate = float(row[drug_gam34_idx])
-            mdp.parameters.Drug_GametocyteM_Killrate = float(row[drug_gamM_idx])
-            mdp.parameters.Drug_Hepatocyte_Killrate = float(row[drug_hep_idx])
-            mdp.parameters.Max_Drug_IRBC_Kill = float(row[drug_maxirbc_idx])
-            mdp.parameters.PKPD_Model = row[drug_pkpd_model_idx]
-            mdp.parameters.Name = row[drug_name_idx]
-            # mdp.parameters.Drug_Adherence_Rate = float(row[ drug_adher_idx ])
-            mdp.parameters.Bodyweight_Exponent = float(row[drug_bwexp_idx])
+            mdp = s2c.get_class_with_defaults("idmType:MalariaDrugTypeParameters", schema_path=manifest.schema_file)
+            mdp.Drug_Cmax = float(row[drug_cmax_idx])
+            mdp.Drug_Decay_T1 = float(row[drug_decayt1_idx])
+            mdp.Drug_Decay_T2 = float(row[drug_decayt2_idx])
+            mdp.Drug_Vd = float(row[drug_vd_idx])
+            mdp.Drug_PKPD_C50 = float(row[drug_pkpdc50_idx])
+            mdp.Drug_Fulltreatment_Doses = float(row[drug_ftdoses_idx])
+            mdp.Drug_Dose_Interval = float(row[drug_dose_interval_idx])
+            mdp.Drug_Gametocyte02_Killrate = float(row[drug_gam02_idx])
+            mdp.Drug_Gametocyte34_Killrate = float(row[drug_gam34_idx])
+            mdp.Drug_GametocyteM_Killrate = float(row[drug_gamM_idx])
+            mdp.Drug_Hepatocyte_Killrate = float(row[drug_hep_idx])
+            mdp.Max_Drug_IRBC_Kill = float(row[drug_maxirbc_idx])
+            mdp.PKPD_Model = row[drug_pkpd_model_idx]
+            mdp.Name = row[drug_name_idx]
+            # mdp.Drug_Adherence_Rate = float(row[ drug_adher_idx ])
+            mdp.Bodyweight_Exponent = float(row[drug_bwexp_idx])
 
             try:
                 key = row[drug_fracdos_key_idx].strip('[]').replace(' ','')
@@ -199,9 +199,9 @@ def set_team_drug_params(config, manifest):
                 fdbua["Upper_Age_In_Years"] = ages[idx]
                 fdbua["Fraction_Of_Adult_Dose"] = values[idx]
                 # fdbua.finalize()
-                mdp.parameters.Fractional_Dose_By_Upper_Age.append(fdbua)
+                mdp.Fractional_Dose_By_Upper_Age.append(fdbua)
 
-            config.parameters.Malaria_Drug_Params.append(mdp.parameters)
+            config.parameters.Malaria_Drug_Params.append(mdp)
     # end
 
     return config
@@ -230,20 +230,20 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
     config.parameters.Vector_Sampling_Type = "TRACK_ALL_VECTORS"
     config.parameters.Max_Individual_Infections = 10
     # setting up Parasite_Genetics parameteres
-    fpg = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:ParasiteGenetics"])
-    fpg.parameters.Var_Gene_Randomness_Type = var_gene_randomness_type
-    fpg.parameters.Sporozoite_Life_Expectancy = 25
-    fpg.parameters.Num_Sporozoites_In_Bite_Fail = 12
-    fpg.parameters.Probability_Sporozoite_In_Bite_Fails = 0.5
-    fpg.parameters.Num_Oocyst_From_Bite_Fail = 3
-    fpg.parameters.Probability_Oocyst_From_Bite_Fails = 0.5
-    fpg.parameters.Sporozoites_Per_Oocyst_Distribution = "GAUSSIAN_DISTRIBUTION"
-    fpg.parameters.Sporozoites_Per_Oocyst_Gaussian_Mean = 10000
-    fpg.parameters.Sporozoites_Per_Oocyst_Gaussian_Std_Dev = 1000
-    fpg.parameters.Crossover_Gamma_K = 2
-    fpg.parameters.Crossover_Gamma_Theta = 0.38
-    fpg.parameters.Drug_Resistant_Genome_Locations = []
-    fpg.parameters.Barcode_Genome_Locations = [
+    fpg = s2c.get_class_with_defaults("idmType:ParasiteGenetics", schema_path=manifest.schema_file)
+    fpg.Var_Gene_Randomness_Type = var_gene_randomness_type
+    fpg.Sporozoite_Life_Expectancy = 25
+    fpg.Num_Sporozoites_In_Bite_Fail = 12
+    fpg.Probability_Sporozoite_In_Bite_Fails = 0.5
+    fpg.Num_Oocyst_From_Bite_Fail = 3
+    fpg.Probability_Oocyst_From_Bite_Fails = 0.5
+    fpg.Sporozoites_Per_Oocyst_Distribution = "GAUSSIAN_DISTRIBUTION"
+    fpg.Sporozoites_Per_Oocyst_Gaussian_Mean = 10000
+    fpg.Sporozoites_Per_Oocyst_Gaussian_Std_Dev = 1000
+    fpg.Crossover_Gamma_K = 2
+    fpg.Crossover_Gamma_Theta = 0.38
+    fpg.Drug_Resistant_Genome_Locations = []
+    fpg.Barcode_Genome_Locations = [
         311500,
         1116500,
         2140000,
@@ -270,10 +270,10 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
         21690000
     ]
     if var_gene_randomness_type == "FIXED_NEIGHBORHOOD" or var_gene_randomness_type == "FIXED_MSP":
-        fpg.parameters.MSP_Genome_Location = 200000
-        fpg.parameters.Neighborhood_Size_MSP = 4
+        fpg.MSP_Genome_Location = 200000
+        fpg.Neighborhood_Size_MSP = 4
         if var_gene_randomness_type == "FIXED_NEIGHBORHOOD":
-            fpg.parameters.PfEMP1_Variants_Genome_Locations = [
+            fpg.PfEMP1_Variants_Genome_Locations = [
                 214333,
                 428667,
                 958667,
@@ -325,7 +325,7 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
                 21470000,
                 22130000
             ]
-            fpg.parameters.Neighborhood_Size_PfEMP1 = 10
+            fpg.Neighborhood_Size_PfEMP1 = 10
     config.parameters.Parasite_Genetics = fpg.parameters
     # setting up gambiae parameters for parasite genetics
     fpg_gambiae_params = species_params(manifest, "fpg_gambiae")
@@ -335,9 +335,9 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
 
 
 def get_drug_params(cb, drug_name):
-    for idx, drug_params in enumerate(cb.parameters.Malaria_Drug_Params):
+    for idx, drug_params in enumerate(cb.Malaria_Drug_Params):
         if drug_params.Name == drug_name:
-            return cb.parameters.Malaria_Drug_Params[idx]
+            return cb.Malaria_Drug_Params[idx]
     raise ValueError(f"{drug_name} not found.")
 
 
@@ -391,15 +391,14 @@ def add_drug_resistance(config, manifest, drugname: str = None, drug_resistant_s
     Returns:
         configured config
     """
-
-    drugmod = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:DrugModifier"])
-    drugmod.parameters.Drug_Resistant_String = drug_resistant_string
-    drugmod.parameters.Max_IRBC_Kill_Modifier = max_irbc_kill_modifier
-    drugmod.parameters.PKPD_C50_Modifier = pkpd_c50_modifier
+    drugmod = s2c.get_class_with_defaults("idmType:DrugModifier", schema_path=manifest.schema_file)
+    drugmod.Drug_Resistant_String = drug_resistant_string
+    drugmod.Max_IRBC_Kill_Modifier = max_irbc_kill_modifier
+    drugmod.PKPD_C50_Modifier = pkpd_c50_modifier
 
     for drug_param in config.parameters.Malaria_Drug_Params:
         if drug_param.Name == drugname:
-            drug_param.Resistances.append(drugmod.parameters)
+            drug_param.Resistances.append(drugmod)
             return config
 
     raise ValueError(f"Drug name {drugname} not found.\n")
@@ -485,7 +484,7 @@ def add_microsporidia(config, manifest, species_name: str = None,
         Adds microsporidia parameters to the named species' parameters.
 
     Args:
-        config: schema-backed config dictionary, written to config.json
+        config: schema-backed config dictionary, written to config.parameters.json
         manifest: file that contains path to the schema file
         species_name: Species to target, **Name** parameter
         strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
