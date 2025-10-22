@@ -1,12 +1,12 @@
 import emod_api.schema_to_class as s2c
 
-def species_params(manifest, species: str = None):
+
+def species_params(schema_json, species: str = None):
     """
         Returns configured species parameters based on species name
 
     Args:
-
-        manifest: file that contains path to the schema file
+        schema_json: json object that is the schema file
         species: species, configuration for which, we will be adding to the simulation.
 
     Returns:
@@ -15,7 +15,7 @@ def species_params(manifest, species: str = None):
     """
 
     # generic
-    vsp = s2c.get_class_with_defaults( "idmType:VectorSpeciesParameters", schema_path=manifest.schema_file)
+    vsp = s2c.get_class_with_defaults( "idmType:VectorSpeciesParameters",  schema_json=schema_json)
     vsp.Anthropophily = 0.65
     vsp.Name = "gambiae"
     vsp.Acquire_Modifier = 0.8
@@ -35,7 +35,7 @@ def species_params(manifest, species: str = None):
     vsp.Transmission_Rate = 0.9
     vsp.Vector_Sugar_Feeding_Frequency = "VECTOR_SUGAR_FEEDING_NONE"
     # adding habitats
-    lht = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+    lht = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
     lht.Habitat_Type = "WATER_VEGETATION"
     lht.Max_Larval_Capacity = 20000000
     # end adding larval capacity
@@ -47,12 +47,13 @@ def species_params(manifest, species: str = None):
     elif species == "arabiensis":
         # default arabiensis
         vsp.Name = "arabiensis"
+        vsp.Anthropophily = 0.81
         vsp.Indoor_Feeding_Fraction = 0.5
         # replacing habitats
-        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht1.Habitat_Type = "TEMPORARY_RAINFALL"
         lht1.Max_Larval_Capacity = 800000000
-        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht2.Habitat_Type = "CONSTANT"
         lht2.Max_Larval_Capacity = 80000000
         # end adding larval capacity
@@ -61,10 +62,10 @@ def species_params(manifest, species: str = None):
     elif species == "funestus":
         vsp.Name = "funestus"
         # replacing habitats
-        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht1.Habitat_Type = "TEMPORARY_RAINFALL"
         lht1.Max_Larval_Capacity = 800000000
-        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht2.Habitat_Type = "CONSTANT"
         lht2.Max_Larval_Capacity = 80000000
         # end adding larval capacity
@@ -75,12 +76,12 @@ def species_params(manifest, species: str = None):
         vsp.Indoor_Feeding_Fraction = 0.5
         vsp.Vector_Sugar_Feeding_Frequency = "VECTOR_SUGAR_FEEDING_EVERY_DAY"
         # replacing habitats
-        lht = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht.Habitat_Type = "LINEAR_SPLINE"
         lht.Max_Larval_Capacity = 316227766.01683795
         lht.Capacity_Distribution_Number_Of_Years = 1
         # adding larval capacity
-        cdot = s2c.get_class_with_defaults( "idmType:InterpolatedValueMap", schema_path=manifest.schema_file)
+        cdot = s2c.get_class_with_defaults( "idmType:InterpolatedValueMap",  schema_json=schema_json)
         cdot.Times = [0, 30.417, 60.833, 91.25, 121.667, 152.083, 182.5, 212.917, 243.333, 273.75, 304.167,
                                  334.583]
         cdot.Values = [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8, 6.5, 2.6, 2.1]
@@ -97,15 +98,15 @@ def species_params(manifest, species: str = None):
         vsp.Indoor_Feeding_Fraction = 0.6
         vsp.Transmission_Rate = 0.8
         # adding habitats
-        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht1.Habitat_Type = "WATER_VEGETATION"
         lht1.Max_Larval_Capacity = 2e7
-        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht2.Habitat_Type = "LINEAR_SPLINE"
         lht2.Max_Larval_Capacity = 3e7
         lht2.Capacity_Distribution_Number_Of_Years = 1
         # adding larval capacity
-        cdot = s2c.get_class_with_defaults( "idmType:InterpolatedValueMap", schema_path=manifest.schema_file)
+        cdot = s2c.get_class_with_defaults( "idmType:InterpolatedValueMap",  schema_json=schema_json)
         cdot.Times = [0, 1, 245, 275, 364]
         cdot.Values = [0.2, 0.2, 0.7, 3, 3]
         lht2.Capacity_Distribution_Over_Time = cdot
@@ -120,10 +121,10 @@ def species_params(manifest, species: str = None):
         vsp.Indoor_Feeding_Fraction = 0.01
         vsp.Transmission_Rate = 0.8
         # adding habitats
-        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht1 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht1.Habitat_Type = "CONSTANT"
         lht1.Max_Larval_Capacity = 1e7
-        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat", schema_path=manifest.schema_file)
+        lht2 = s2c.get_class_with_defaults( "idmType:VectorHabitat",  schema_json=schema_json)
         lht2.Habitat_Type = "TEMPORARY_RAINFALL"
         lht2.Max_Larval_Capacity = 7e7
         # end adding larval capacity

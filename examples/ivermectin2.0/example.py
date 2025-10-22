@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import json
 import pathlib  # for a join
 from functools import \
     partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
@@ -12,7 +12,7 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy_malaria.campaign.individual_intervention import (OutbreakIndividual, ControlledVaccine, BroadcastEvent, 
+from emodpy_malaria.campaign.individual_intervention import (OutbreakIndividual, ControlledVaccine, BroadcastEvent,
                                                              Ivermectin)
 from emodpy_malaria.campaign.distributor import add_intervention_scheduled, add_intervention_triggered
 from emodpy_malaria.campaign.common import TargetDemographicsConfig as TDC, TargetGender
@@ -22,6 +22,7 @@ from emodpy_malaria.reporters.reporters import ReportVectorStats
 
 import manifest
 
+schema_json = json.loads(open(manifest.schema_file).read())
 
 
 # ****************************************************************
@@ -43,7 +44,8 @@ def build_campaign(campaign, coverage=1.0):
     new_iv_signal = BroadcastEvent(campaign, broadcast_event="Ivermectin_Distribution_Event")
     new_iv = Ivermectin(campaign,
                         insecticide="Example",
-                        killing_waning_config=BoxExponential(initial_effect=0.7, box_duration=2, decay_time_constant=30))
+                        killing_waning_config=BoxExponential(initial_effect=0.7, box_duration=2,
+                                                             decay_time_constant=30))
     add_intervention_triggered(campaign, intervention_list=[new_iv, new_iv_signal],
                                triggers_list=['NewInfectionEvent'],
                                target_demographics_config=TDC(target_gender=TargetGender.ALL,
@@ -82,22 +84,33 @@ def build_config(config):
     # You have to set simulation type explicitly before you set other parameters for the simulation
     # sets "default" malaria parameters as determined by the malaria team
     import emodpy_malaria.malaria_config as malaria_config
-    import emodpy_malaria.vector_config as vector_config
-    config = malaria_config.set_team_defaults(config, manifest)
-    malaria_config.add_species(config, manifest, ["gambiae"])
-    vector_config.add_genes_and_alleles(config, manifest, "gambiae", [("a", 0.5), ("b", 0.5), ("c", 0)])
-    malaria_config.add_insecticide_resistance(config, manifest, insecticide_name="Example",
+    config = malaria_config.set_team_defaults(config, schema_json)
+    malaria_config.add_species(config, schema_json, ["gambiae", "arabiensis", "funestus"])
+    malaria_config.add_genes_and_alleles(config,
+                                         schema_json,
+                                         species="funestus",
+                                         alleles=[("a0", 0.5), ("a1", 0.35), ("a2", 0.15)])
+    malaria_config.add_genes_and_alleles(config,
+                                         schema_json,
+                                         species="funestus",
+                                         alleles=[("b0", 0.90), ("b1", 0.1)])
+    malaria_config.add_genes_and_alleles(config,
+                                         schema_json,
+                                         species="arabiensis",
+                                         alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
+    malaria_config.add_genes_and_alleles(config, schema_json, "gambiae", [("a", 0.5), ("b", 0.5), ("c", 0)])
+    malaria_config.add_insecticide_resistance(config, schema_json, insecticide_name="Example",
                                               allele_combo=[["a", "a"]],
                                               species="gambiae", blocking=0.2, killing=0.3, repelling=0)
-    linear_spline_habitat = vector_config.configure_linear_spline(manifest, max_larval_capacity=234000000,
-                                                                  capacity_distribution_number_of_years=1,
-                                                                  capacity_distribution_over_time={
-                                                                      "Times": [0, 30, 60, 91, 122, 152, 182, 213, 243,
-                                                                                274, 304, 334, 365],
-                                                                      "Values": [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8,
-                                                                                 6.5, 2.6, 2.1, 3]
-                                                                  }
-                                                                  )
+    linear_spline_habitat = malaria_config.configure_linear_spline(schema_json, max_larval_capacity=234000000,
+                                                                   capacity_distribution_number_of_years=1,
+                                                                   capacity_distribution_over_time={
+                                                                       "Times": [0, 30, 60, 91, 122, 152, 182, 213, 243,
+                                                                                 274, 304, 334, 365],
+                                                                       "Values": [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8,
+                                                                                  6.5, 2.6, 2.1, 3]
+                                                                   }
+                                                                   )
     malaria_config.set_species_param(config, "gambiae", "Habitats", linear_spline_habitat)
 
     return config
@@ -118,6 +131,7 @@ def build_demographics():
 
     demographics = Demographics.from_template_node(lat=0, lon=0, pop=100, name=1, forced_id=1)
     return demographics
+
 
 def add_reports(reporters):
     """
@@ -157,7 +171,7 @@ def general_sim():
 
     # Create simulation sweep with builder
     builder = SimulationBuilder()
-    builder.add_sweep_definition(update_campaign, coverage=[0.1, 0.5, 1], run_number=list(range(5)))
+    builder.add_sweep_definition(update_campaign, coverage=[1], run_number=list(range(1)))
 
     # create experiment from builder
     experiment = Experiment.from_builder(builder, task, name=experiment_name)
