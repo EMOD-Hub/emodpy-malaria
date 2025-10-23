@@ -76,12 +76,10 @@ def set_team_defaults_vector(config):
     config.parameters.Wolbachia_Mortality_Modification = 1.0
 
     config.parameters.x_Temporary_Larval_Habitat = 1
-    config.parameters.Vector_Species_Params = []
     config.parameters.Egg_Hatch_Density_Dependence = "NO_DENSITY_DEPENDENCE"
     config.parameters.Enable_Temperature_Dependent_Egg_Hatching = 0
     config.parameters.Enable_Egg_Mortality = 0
     config.parameters.Enable_Drought_Egg_Hatch_Delay = 0
-    config.parameters.Insecticides = []
 
     # Other defaults from dtk-tools transition  #fixme very likely needs pruning
     config.parameters.Egg_Saturation_At_Oviposition = "SATURATION_AT_OVIPOSITION"
@@ -106,7 +104,7 @@ def set_team_defaults_vector(config):
     return config
 
 
-def get_species_params(config, species: str = None):
+def get_species_params(config, species: str):
     """
     Returns the species parameters dictionary with the matching species **Name**
 
@@ -213,7 +211,7 @@ def configure_linear_spline(schema_json, max_larval_capacity: float = pow(10, 8)
     return habitat
 
 
-def add_species(config, schema_json,species_to_select):
+def add_species(config, schema_json, species_to_select):
     """
     Adds species with preset parameters from 'malaria_vector_species_params.py', if species
     name not found - "gambiae" parameters are added and the new species name assigned.
@@ -297,32 +295,32 @@ def add_genes_and_alleles(config, schema_json, species: str, alleles: list):
         configured config
     """
 
-    gene_class = s2c.get_class_with_defaults("idmType:VectorGene", schema_json=schema_json)
-    gene = copy.deepcopy(gene_class)
+    gene = s2c.get_class_with_defaults("idmType:VectorGene", schema_json=schema_json)
+    new_alleles_list = []
     for allele in alleles:
-        vector_allele_class = s2c.get_class_with_defaults("idmType:VectorAllele", schema_json=schema_json)
-        vector_allele = copy.deepcopy(vector_allele_class)
+        vector_allele = s2c.get_class_with_defaults("idmType:VectorAllele", schema_json=schema_json)
         vector_allele.Name = allele[0]
         vector_allele.Initial_Allele_Frequency = allele[1]
         if len(allele) == 3:
             if allele[2]:
                 gene.Is_Gender_Gene = 1
                 vector_allele.Is_Y_Chromosome = 1
-        gene.Alleles.append(vector_allele)
+        new_alleles_list.append(vector_allele)
 
+    gene.Alleles = new_alleles_list
     species_block = get_species_params(config, species)
     species_block.Genes.append(gene)
 
     return config
 
 
-def add_mutation(config, schema_json, species, mutate_from, mutate_to, probability):
+def add_mutation(config, schema_json, species: str, mutate_from: str, mutate_to: str, probability: float):
     """
     Adds to **Mutations** parameter in a Gene which has the matching **Alleles**
 
     Args:
         config: schema-backed config smart dict
-         schema_json: json object that is the schema file
+        schema_json: json object that is the schema file
         species: Name of vector species to which we're adding mutations
         mutate_from: The allele in the gamete that could mutate
         mutate_to: The allele that this locus will change to during gamete generation
@@ -341,7 +339,7 @@ def add_mutation(config, schema_json, species, mutate_from, mutate_to, probabili
             allele_names.append(allele["Name"])
         if mutate_from in allele_names and mutate_to in allele_names:
             found = True
-            mutations =s2c.get_class_with_defaults("idmType:VectorAlleleMutation", schema_json=schema_json)
+            mutations = s2c.get_class_with_defaults("idmType:VectorAlleleMutation", schema_json=schema_json)
             mutations.Mutate_From = mutate_from
             mutations.Mutate_To = mutate_to
             mutations.Probability_Of_Mutation = probability
@@ -498,7 +496,6 @@ def add_blood_meal_mortality(config, schema_json,
 
     # checks if species name is valid
     species_params = get_species_params(config, species)
-    
     if (default_probability_of_death < 0.0) or (1.0 < default_probability_of_death):
         raise ValueError(f"Invalid value for 'default_probability_of_death'={default_probability_of_death}.\n"
                          f"The value must be between 0 and 1.\n")
@@ -509,11 +506,11 @@ def add_blood_meal_mortality(config, schema_json,
         raise ValueError(f"Invalid value for 'probability_of_death_for_allele_combo'={probability_of_death_for_allele_combo}.\n"
                          f"The value must be between 0 and 1.\n")
 
-    acp =s2c.get_class_with_defaults("idmType:AlleleComboProbabilityConfig", schema_json=schema_json)
+    acp = s2c.get_class_with_defaults("idmType:AlleleComboProbabilityConfig", schema_json=schema_json)
     acp.Allele_Combinations = allele_combo
     acp.Probability = probability_of_death_for_allele_combo
 
-    species_params.Blood_Meal_Mortality.Genetic_Probabilities.append( acp)
+    species_params.Blood_Meal_Mortality.Genetic_Probabilities.append(acp)
 
     default_prob = species_params.Blood_Meal_Mortality.Default_Probability
     default_prob = 1.0 - ((1.0 - default_prob)*(1.0 - default_probability_of_death))
@@ -584,7 +581,7 @@ def add_insecticide_resistance(config, schema_json, insecticide_name: str = "", 
             an_insecticide.Resistances.append(resistance)
             return config
 
-    new_insecticide =s2c.get_class_with_defaults("idmType:Insecticide", schema_json=schema_json)
+    new_insecticide = s2c.get_class_with_defaults("idmType:Insecticide", schema_json=schema_json)
     new_insecticide.Name = insecticide_name
     new_insecticide.Resistances.append(resistance)
     config.parameters.Insecticides.append(new_insecticide)
@@ -718,6 +715,7 @@ def add_species_drivers(config, schema_json, species: str, driving_allele: str, 
     gene_driver = s2c.get_class_with_defaults("idmType:VectorGeneDriver", schema_json=schema_json)
     gene_driver.Driving_Allele = driving_allele
     gene_driver.Driver_Type = driver_type
+    gene_driver.Alleles_Driven = []
 
     if driver_type == "X_SHRED" or driver_type == "Y_SHRED":
         if not allele_to_shred or not allele_to_shred_to or not shredding_allele_required:
@@ -761,16 +759,17 @@ def add_species_drivers(config, schema_json, species: str, driving_allele: str, 
         shredding_alleles.Allele_To_Shred = allele_to_shred
         shredding_alleles.Allele_To_Shred_To = allele_to_shred_to
         shredding_alleles.Allele_To_Shred_To_Surviving_Fraction = allele_to_shred_to_surviving_fraction
-        gene_driver.Shredding_Alleles = shredding_alleles.finalize()
+        gene_driver.Shredding_Alleles = shredding_alleles
 
     allele_driven = s2c.get_class_with_defaults(classname="idmType:AlleleDriven", schema_json=schema_json)
+    allele_driven.Copy_To_Likelihood = []
     allele_driven.Allele_To_Copy = to_copy
     allele_driven.Allele_To_Replace = to_replace
     for index, likely in enumerate(likelihood_list):
         c2likelyhood = s2c.get_class_with_defaults( classname="idmType:CopyToAlleleLikelihood", schema_json=schema_json)
         c2likelyhood.Copy_To_Allele = likely[0]
         c2likelyhood.Likelihood = likely[1]
-        allele_driven.Copy_To_Likelihood.append(c2likelyhood.finalize())
+        allele_driven.Copy_To_Likelihood.append(c2likelyhood)
 
     # check if the Driving_Allele already exists
     if "Drivers" in species_parameters:
@@ -790,7 +789,7 @@ def add_species_drivers(config, schema_json, species: str, driving_allele: str, 
         gene_driver.Alleles_Driven = [allele_driven]
 
     gene_driver.Driver_Type = driver_type  # to circumvent the implicit settings
-    species_parameters.Drivers.append(gene_driver.finalize())
+    species_parameters.Drivers.append(gene_driver)
     print(species_parameters)
     return config
 
@@ -847,6 +846,7 @@ def add_maternal_deposition(config, schema_json, species: str, cas9_grna_from: s
     maternal_deposition = s2c.get_class_with_defaults("idmType:MaternalDeposition", schema_json=schema_json)
     maternal_deposition.Cas9_gRNA_From = cas9_grna_from
     maternal_deposition.Allele_To_Cut = allele_to_cut
+    maternal_deposition.Likelihood_Per_Cas9_gRNA_From = []
 
     total = 0.0
     for index, likely in enumerate(likelihood_list):

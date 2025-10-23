@@ -200,19 +200,18 @@ class TestMalariaConfig(unittest.TestCase):
                               species="arabiensis",
                               alleles=[("c0", 0.66), ("c1", 0.1), ("c2", 0.24)])
         for species in self.config.parameters.Vector_Species_Params:
-            print(f"\nvector species '{species.Name}' params = {len(species.Genes)} genes")
-            # if species.Name == "funestus":
-            #     self.assertEqual(len(species.Genes), 2)
-            #     for gene in species.Genes:
-            #         for allele in gene.Alleles:
-            #             if allele.Name == "a2":
-            #                 self.assertEqual(allele.Initial_Allele_Frequency, 0.15)
-            # elif species.Name == "arabiensis":
-            #     self.assertEqual(len(species.Genes), 1)
-            #     for gene in species.Genes:
-            #         for allele in gene.Alleles:
-            #             if allele.Name == "c0":
-            #                 self.assertEqual(allele.Initial_Allele_Frequency, 0.66)
+            if species.Name == "funestus":
+                self.assertEqual(len(species.Genes), 2)
+                for gene in species.Genes:
+                    for allele in gene.Alleles:
+                        if allele.Name == "a2":
+                            self.assertEqual(allele.Initial_Allele_Frequency, 0.15)
+            elif species.Name == "arabiensis":
+                self.assertEqual(len(species.Genes), 1)
+                for gene in species.Genes:
+                    for allele in gene.Alleles:
+                        if allele.Name == "c0":
+                            self.assertEqual(allele.Initial_Allele_Frequency, 0.66)
 
     def test_add_genes_and_alleles_gender_gene(self):
         add_species(self.config, schema_json, ["funestus", "arabiensis"])
@@ -282,17 +281,29 @@ class TestMalariaConfig(unittest.TestCase):
                               schema_json,
                               species="funestus",
                               alleles=[("a0", 0.5, 1), ("a1", 0.35, 1), ("a2", 0.15)])
+        add_genes_and_alleles(self.config,
+                              schema_json,
+                              species="funestus",
+                              alleles=[("b0", 0.5, 1), ("b1", 0.35, 1), ("b2", 0.15)])
         trait = create_trait(schema_json, trait="OOCYST_PROGRESSION", modifier=0.8,
                              gametocyte_a_barcode_string="A*", gametocyte_b_barcode_string="GG")
+        trait2 = create_trait(schema_json, trait="FECUNDITY", modifier=0.2,
+                             gametocyte_a_barcode_string="A*", gametocyte_b_barcode_string="AG")
         add_trait(self.config, schema_json, species="funestus", allele_combo=[["X", "X"], ["a0", "a1"]],
-                  trait_modifiers=[trait])
-        for species in self.config.parameters.Vector_Species_Params:  # should only be one
-            for gene_to_trait_modifier in species.Gene_To_Trait_Modifiers:  # should only be one
-                self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Trait"], "OOCYST_PROGRESSION")
-                self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Modifier"], 0.80)
-                self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Gametocyte_A_Barcode_String"], "A*")
-                self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Gametocyte_B_Barcode_String"], "GG")
-                self.assertEqual(gene_to_trait_modifier.Allele_Combinations, [["X", "X"], ["a0", "a1"]])
+                  trait_modifiers=[trait, trait2])
+        for species in self.config.parameters.Vector_Species_Params:
+            if species.Name == "funestus":
+                self.assertEqual(1, len(species.Gene_To_Trait_Modifiers))
+                self.assertEqual(2, len(species.Gene_To_Trait_Modifiers[0].Trait_Modifiers))
+                for gene_to_trait_modifier in species.Gene_To_Trait_Modifiers:
+                    self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Trait"], "OOCYST_PROGRESSION")
+                    self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Modifier"], 0.80)
+                    self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Gametocyte_A_Barcode_String"], "A*")
+                    self.assertEqual(gene_to_trait_modifier.Trait_Modifiers[0]["Gametocyte_B_Barcode_String"], "GG")
+                    self.assertEqual(gene_to_trait_modifier.Allele_Combinations, [["X", "X"], ["a0", "a1"]])
+            else:
+                self.assertEqual(0, len(species.Gene_To_Trait_Modifiers))
+
 
     def test_add_mutation(self):
         add_species(self.config, schema_json, ["funestus", "arabiensis"])
@@ -319,9 +330,9 @@ class TestMalariaConfig(unittest.TestCase):
                 for gene in species.Genes:
                     for allele in gene.Alleles:
                         if allele.Name == "a2":
-                            self.assertEqual(gene.Mutations[0].Mutate_From, "a0")
-                            self.assertEqual(gene.Mutations[0].Mutate_To, "a1")
-                            self.assertEqual(gene.Mutations[0].Probability_Of_Mutation, 0.023)
+                            self.assertEqual("a0", gene.Mutations[0].Mutate_From)
+                            self.assertEqual("a1", gene.Mutations[0].Mutate_To)
+                            self.assertEqual(0.023, gene.Mutations[0].Probability_Of_Mutation)
             elif species.Name == "arabiensis":
                 for gene in species.Genes:
                     for allele in gene.Alleles:
@@ -329,11 +340,11 @@ class TestMalariaConfig(unittest.TestCase):
                             self.assertEqual(len(gene.Mutations), 2)
                             for mutation in gene.Mutations:
                                 if mutation.Mutate_From == "c0":
-                                    self.assertEqual(mutation.Mutate_To, "c1")
-                                    self.assertEqual(mutation.Probability_Of_Mutation, 0.02)
+                                    self.assertEqual("c1", mutation.Mutate_To)
+                                    self.assertEqual(0.02, mutation.Probability_Of_Mutation)
                                 elif mutation.Mutate_From == "c1":
-                                    self.assertEqual(mutation.Mutate_To, "c2")
-                                    self.assertEqual(mutation.Probability_Of_Mutation, 0.04)
+                                    self.assertEqual("c2", mutation.Mutate_To)
+                                    self.assertEqual(0.04, mutation.Probability_Of_Mutation)
 
     def test_set_max_larval_capacity(self):
         add_species(self.config, schema_json, ["funestus", "arabiensis"])
@@ -372,8 +383,7 @@ class TestMalariaConfig(unittest.TestCase):
                 self.assertEqual(species.Days_Between_Feeds, 5)
 
     def test_add_species_drivers(self):
-        print(self.config.parameters.Vector_Species_Params)
-        add_species(self.config, schema_json, ["gambiae"])
+        add_species(self.config, schema_json, ["gambiae", "funestus"])
         #print(self.config.parameters.Vector_Species_Params)
         add_genes_and_alleles(self.config, schema_json, "gambiae",
                               [("one", 0.9), ("two", 0.05), ("three", 0.05)])
@@ -547,18 +557,8 @@ class TestMalariaConfig(unittest.TestCase):
         vector_migration_habitat_modifier = 0.4
         vector_migration_food_modifier = 0.5
         vector_migration_stay_put_modifier = 0.14
-        task = EMODTask.from_default2(  # creating dummy task to run the test
-            schema_json.current_directory,  # : str = None,
-            schema_json.schema_file,  # : str
-            param_custom_cb=None,
-            config_path="config.json",
-            campaign_builder=None,
-            ep4_custom_cb=None,
-            demog_builder=None,
-            plugin_report=None,
-            serial_pop_files=None,
-            write_default_config=None,
-            ep4_path=None)
+        task = EMODTask.from_defaults(  # creating dummy task to run the test
+            schema_path=schema_path_file.schema_file)
         task.config = self.config  # adding our config object
         add_vector_migration(task,
                              species=species,
@@ -590,10 +590,10 @@ class TestMalariaConfig(unittest.TestCase):
         add_species_drivers(self.config, schema_json, "gambiae", driving_allele="c",
                             driver_type="INTEGRAL_AUTONOMOUS", to_copy="c", to_replace="a",
                             likelihood_list=[("a", 0.15), ("c", 0.85)])
-        add_maternal_deposition(config=self.config, manifest=schema_json,
+        add_maternal_deposition(config=self.config, schema_json=schema_json,
                                 species="gambiae", cas9_grna_from="c",
                                 allele_to_cut="one", likelihood_list=[("one", 0.9), ("four", 0.1)])
-        add_maternal_deposition(config=self.config, manifest=schema_json,
+        add_maternal_deposition(config=self.config, schema_json=schema_json,
                                 species="gambiae", cas9_grna_from="c",
                                 allele_to_cut="a", likelihood_list=[("a", 0.9), ("b", 0.05), ("d", 0.05)])
         for species in self.config.parameters.Vector_Species_Params:
@@ -639,7 +639,7 @@ class TestMalariaConfig(unittest.TestCase):
                             driver_type="INTEGRAL_AUTONOMOUS", to_copy="two", to_replace="one",
                             likelihood_list=[("one", 0.15), ("two", 0.85)])
         with self.assertRaises(ValueError) as context:
-            add_maternal_deposition(config=self.config, manifest=schema_json,
+            add_maternal_deposition(config=self.config, schema_json=schema_json,
                                     species="gambiae", cas9_grna_from="a",
                                     allele_to_cut="one", likelihood_list=[("one", 0.9), ("four", 0.1)])
         self.assertTrue(f"Failed to find 'cas9_grna_from' = 'a' in the drivers for species 'gambiae'."
@@ -648,7 +648,7 @@ class TestMalariaConfig(unittest.TestCase):
                         f"before the maternal deposition.\n" in str(context.exception),
                         msg=str(context.exception))
         with self.assertRaises(ValueError) as context:
-            add_maternal_deposition(config=self.config, manifest=schema_json,
+            add_maternal_deposition(config=self.config, schema_json=schema_json,
                                     species="gambiae", cas9_grna_from="c",
                                     allele_to_cut="two", likelihood_list=[("one", 0.9), ("four", 0.1)])
         self.assertTrue(f"Failed to find 'allele_to_cut' = 'two' in the drivers for species 'gambiae'.\n"
@@ -658,7 +658,7 @@ class TestMalariaConfig(unittest.TestCase):
                         f"before the maternal deposition.\n" in str(context.exception),
                         msg=str(context.exception))
         with self.assertRaises(ValueError) as context:
-            add_maternal_deposition(config=self.config, manifest=schema_json,
+            add_maternal_deposition(config=self.config, schema_json=schema_json,
                                     species="gambiae", cas9_grna_from="c",
                                     allele_to_cut="one", likelihood_list=[("one", 0.9), ("two", 0.1)])
         self.assertTrue(f"Element at index '1' in the 'likelihood_list' has allele 'two', but it "
@@ -666,7 +666,7 @@ class TestMalariaConfig(unittest.TestCase):
                         f" cut to in maternal deposition.\n" in str(context.exception),
                         msg=str(context.exception))
         with self.assertRaises(ValueError) as context:
-            add_maternal_deposition(config=self.config, manifest=schema_json,
+            add_maternal_deposition(config=self.config, schema_json=schema_json,
                                     species="gambiae", cas9_grna_from="c",
                                     allele_to_cut="one", likelihood_list=[("one", 0.9), ("three", 0.12)])
         self.assertTrue(f"The sum of likelihoods in the 'likelihood_list' must be equal to 1.0, but got 1.02.\n" in

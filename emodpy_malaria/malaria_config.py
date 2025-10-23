@@ -44,6 +44,7 @@ def set_team_defaults(config, schema_json):
     # removing Infectious_Period parameteres because not allowed in MALARIA_SIM, but need in VECTOR SIM
     config.parameters.pop("Infectious_Period_Constant")
     config.parameters.pop("Infectious_Period_Distribution")
+    config.parameters.Malaria_Drug_Params = []
     config.parameters.Malaria_Strain_Model = "FALCIPARUM_RANDOM_STRAIN"
     config.parameters.Enable_Disease_Mortality = 0
     # config.parameters.Enable_Malaria_CoTransmission = 0
@@ -176,8 +177,8 @@ def set_team_drug_params(config, schema_json):
 
         # for each
         for row in my_reader:
-            mdp_class = s2c.get_class_with_defaults(classname="idmType:MalariaDrugTypeParameters", schema_json=schema_json)
-            mdp = copy.deepcopy(mdp_class)
+            mdp = s2c.get_class_with_defaults(classname="idmType:MalariaDrugTypeParameters", schema_json=schema_json)
+            mdp.Fractional_Dose_By_Upper_Age = []
             mdp.Drug_Cmax = float(row[drug_cmax_idx])
             mdp.Drug_Decay_T1 = float(row[drug_decayt1_idx])
             mdp.Drug_Decay_T2 = float(row[drug_decayt2_idx])
@@ -206,10 +207,6 @@ def set_team_drug_params(config, schema_json):
                 values = []
             for idx in range(len(ages)):
                 fdbua = dict()
-                # this is what we want but not ready yet 
-                # fdbua = dfs.schema_to_config_subnode(mani.schema_file, ["idmTypes","idmType:DoseMap"] )
-                # fdbua.Upper_Age_In_Years = ages[idx]
-                # fdbua.Fraction_Of_Adult_Dose = values[idx]
                 fdbua["Upper_Age_In_Years"] = ages[idx]
                 fdbua["Fraction_Of_Adult_Dose"] = values[idx]
                 # fdbua.finalize()
@@ -411,8 +408,7 @@ def add_drug_resistance(config, schema_json, drugname: str = None, drug_resistan
     drugmod.PKPD_C50_Modifier = pkpd_c50_modifier
 
     for drug_param in config.parameters.Malaria_Drug_Params:
-        if drug_param.Name == drugname:
-            drug_param.Resistances.append(drugmod.finalize())
+            drug_param.Resistances.append(drugmod)
             return config
 
     raise ValueError(f"Drug name {drugname} not found.\n")

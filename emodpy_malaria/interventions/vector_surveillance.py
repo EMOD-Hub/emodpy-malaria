@@ -1,4 +1,4 @@
-import emod_api.config.default_from_schema_no_validation as dfs
+import emod_api.schema_to_class as s2c
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils
 from enum import Enum
@@ -94,7 +94,7 @@ def add_vector_surveillance_event_coordinator(
         configured VectorSurveillanceEventCoordinator intervention
     """
     schema_path = campaign.schema_path
-    vector_counter = dfs.schema_to_config_subnode(schema_path, ["idmTypes", "idmType:VectorCounter"]).parameters
+    vector_counter = s2c.get_class_with_defaults( "idmType:VectorCounter", schema_json=schema_json)
     vector_counter.Count_Type = count_type.name
     vector_counter.Gender = gender.name
     vector_counter.Species = species
@@ -102,7 +102,7 @@ def add_vector_surveillance_event_coordinator(
     prefix = "Sample_Size_"
     Distributions.set_distribution_parameters(vector_counter, sample_size, prefix)
 
-    v_s_e_c = s2c.get_class_with_defaults("VectorSurveillanceEventCoordinator", schema_path)
+    v_s_e_c = s2c.get_class_with_defaults("VectorSurveillanceEventCoordinator", schema_json=schema_json)
     v_s_e_c.Start_Trigger_Condition_List = start_trigger_condition_list
     campaign.custom_coordinator_events.extend(start_trigger_condition_list)
     if coordinator_name:
@@ -114,7 +114,7 @@ def add_vector_surveillance_event_coordinator(
     if duration:
         v_s_e_c.Duration = duration
     if survey_completed_event:
-        responder = dfs.schema_to_config_subnode(schema_path, ["idmTypes", "idmType:VectorResponder"]).parameters
+        responder = s2c.get_class_with_defaults(  "idmType:VectorResponder", schema_json=schema_json)
         responder.Survey_Completed_Event = survey_completed_event
         campaign.custom_coordinator_events.append(survey_completed_event)
         v_s_e_c.Responder = responder

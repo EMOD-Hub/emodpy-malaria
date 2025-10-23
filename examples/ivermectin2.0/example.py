@@ -85,6 +85,7 @@ def build_config(config):
     # sets "default" malaria parameters as determined by the malaria team
     import emodpy_malaria.malaria_config as malaria_config
     config = malaria_config.set_team_defaults(config, schema_json)
+    config.parameters.Simulation_Duration = 12
     malaria_config.add_species(config, schema_json, ["gambiae", "arabiensis", "funestus"])
     malaria_config.add_genes_and_alleles(config,
                                          schema_json,
@@ -171,7 +172,7 @@ def general_sim():
 
     # Create simulation sweep with builder
     builder = SimulationBuilder()
-    builder.add_sweep_definition(update_campaign, coverage=[1], run_number=list(range(1)))
+    builder.add_sweep_definition(update_campaign, coverage=[1], run_number=list(range(3)))
 
     # create experiment from builder
     experiment = Experiment.from_builder(builder, task, name=experiment_name)
