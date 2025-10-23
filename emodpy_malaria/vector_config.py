@@ -1,8 +1,9 @@
-import emod_api.config.default_from_schema_no_validation as dfs
+import emod_api.schema_to_class as s2c
 import math
 import os
 from emodpy_malaria.malaria_vector_species_params import species_params
 from enum import Enum
+import copy
 
 
 def _validate_allele_combo(species_params, allele_combo):
@@ -42,13 +43,13 @@ def _validate_allele_combo(species_params, allele_combo):
 #
 # PUBLIC API section
 #
-def set_team_defaults(config, manifest):
+def set_team_defaults_vector(config):
     """
     Set configuration defaults using team-wide values, including drugs and vector species.
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
 
     Returns:
         configured config
@@ -75,12 +76,10 @@ def set_team_defaults(config, manifest):
     config.parameters.Wolbachia_Mortality_Modification = 1.0
 
     config.parameters.x_Temporary_Larval_Habitat = 1
-    config.parameters.Vector_Species_Params = []
     config.parameters.Egg_Hatch_Density_Dependence = "NO_DENSITY_DEPENDENCE"
     config.parameters.Enable_Temperature_Dependent_Egg_Hatching = 0
     config.parameters.Enable_Egg_Mortality = 0
     config.parameters.Enable_Drought_Egg_Hatch_Delay = 0
-    config.parameters.Insecticides = []
 
     # Other defaults from dtk-tools transition  #fixme very likely needs pruning
     config.parameters.Egg_Saturation_At_Oviposition = "SATURATION_AT_OVIPOSITION"
@@ -105,7 +104,7 @@ def set_team_defaults(config, manifest):
     return config
 
 
-def get_species_params(config, species: str = None):
+def get_species_params(config, species: str):
     """
     Returns the species parameters dictionary with the matching species **Name**
 
@@ -161,14 +160,14 @@ def set_species_param(config, species, parameter, value, overwrite=False):
         vector_species[parameter] = value
 
 
-def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
+def configure_linear_spline(schema_json, max_larval_capacity: float = pow(10, 8),
                             capacity_distribution_number_of_years: int = 1,
                             capacity_distribution_over_time: dict = None):
     """
         Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters
 
     Args:
-        manifest:  manifest file containing the schema path
+        schema_json: json object that is the schema file
         max_larval_capacity:  The maximum larval capacity. Sets **Max_Larval_Capacity**
         capacity_distribution_number_of_years:  The total length of time in
             years for the scaling.  If the simulation goes longer than this time, the pattern will repeat.  Ideally,
@@ -188,7 +187,7 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
                 }
 
     Returns:
-        Configured Habitat_Type: "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
+        Configured Habitat_Type: "LINEAR_SPLINE" parameters to be passed directly to "set_species_param" function
     """
     if not capacity_distribution_over_time or "Times" not in capacity_distribution_over_time or "Values" not in capacity_distribution_over_time:
         raise ValueError("Please define capacity_distribution_over_time as a dictionary: {'Times':[], 'Values':[]}.\n")
@@ -199,27 +198,27 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
                          f"dictionary are of equal lengths. Currently 'Times' is {times_length} "
                          f"entrees and 'Values' is {values_length} entrees long.\n")
 
-    habitat = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-    habitat.parameters.Habitat_Type = "LINEAR_SPLINE"
-    habitat.parameters.Max_Larval_Capacity = max_larval_capacity
-    habitat.parameters.Capacity_Distribution_Number_Of_Years = capacity_distribution_number_of_years
+    habitat = s2c.get_class_with_defaults("idmType:VectorHabitat", schema_json=schema_json)
+    habitat.Habitat_Type = "LINEAR_SPLINE"
+    habitat.Max_Larval_Capacity = max_larval_capacity
+    habitat.Capacity_Distribution_Number_Of_Years = capacity_distribution_number_of_years
     # adding larval capacity
-    capacity_distribution = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
-    capacity_distribution.parameters.Times = capacity_distribution_over_time["Times"]
-    capacity_distribution.parameters.Values = capacity_distribution_over_time["Values"]
-    habitat.parameters.Capacity_Distribution_Over_Time = capacity_distribution.parameters
+    capacity_distribution =s2c.get_class_with_defaults("idmType:InterpolatedValueMap", schema_json=schema_json)
+    capacity_distribution.Times = capacity_distribution_over_time["Times"]
+    capacity_distribution.Values = capacity_distribution_over_time["Values"]
+    habitat.Capacity_Distribution_Over_Time = capacity_distribution
 
-    return habitat.parameters
+    return habitat
 
 
-def add_species(config, manifest, species_to_select):
+def add_species(config, schema_json, species_to_select):
     """
     Adds species with preset parameters from 'malaria_vector_species_params.py', if species
     name not found - "gambiae" parameters are added and the new species name assigned.
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         species_to_select: a list of species or a name of a single species you'd like to set from
             malaria_vector_species_params.py
 
@@ -231,12 +230,12 @@ def add_species(config, manifest, species_to_select):
         species_to_select = [species_to_select]
 
     for species in species_to_select:
-        vector_species_parameters = species_params(manifest, species)
+        vector_species_parameters = species_params(schema_json, species)
         if isinstance(vector_species_parameters, list):
             raise ValueError(
                 f"'{species}' species not found in list, available species are: {vector_species_parameters}. "
                 f"We suggest adding 'gambiae' species and changing "
-                f"the name and relevant parameters with set_species_params() or "
+                f"the name and relevant parameters with set_species_param() or "
                 f"adding your species to malaria_vector_species_params.py.\n")
         else:
             config.parameters.Vector_Species_Params.append(vector_species_parameters)
@@ -244,7 +243,7 @@ def add_species(config, manifest, species_to_select):
     return config
 
 
-def add_genes_and_alleles(config, manifest, species: str = None, alleles: list = None):
+def add_genes_and_alleles(config, schema_json, species: str, alleles: list):
     """
         Adds alleles to a species
 
@@ -281,7 +280,7 @@ def add_genes_and_alleles(config, manifest, species: str = None, alleles: list =
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         species: species to which to assign the alleles
         alleles: List of tuples of (**Name**, **Initial_Allele_Frequency**, **Is_Y_Chromosome**) for a set of alleles
             or (**Name**, **Initial_Allele_Frequency**), 1/0 or True/False can be used for Is_Y_Chromosome,
@@ -296,33 +295,32 @@ def add_genes_and_alleles(config, manifest, species: str = None, alleles: list =
         configured config
     """
 
-    if not species or not alleles or not config or not manifest:
-        raise ValueError("Please set all parameters, 'alleles' needs to be a list of tuples.\n")
-
-    gene = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorGene"])
+    gene = s2c.get_class_with_defaults("idmType:VectorGene", schema_json=schema_json)
+    new_alleles_list = []
     for allele in alleles:
-        vector_allele = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorAllele"])
-        vector_allele.parameters.Name = allele[0]
-        vector_allele.parameters.Initial_Allele_Frequency = allele[1]
+        vector_allele = s2c.get_class_with_defaults("idmType:VectorAllele", schema_json=schema_json)
+        vector_allele.Name = allele[0]
+        vector_allele.Initial_Allele_Frequency = allele[1]
         if len(allele) == 3:
             if allele[2]:
-                gene.parameters.Is_Gender_Gene = 1
-                vector_allele.parameters.Is_Y_Chromosome = 1
-        gene.parameters.Alleles.append(vector_allele.parameters)
+                gene.Is_Gender_Gene = 1
+                vector_allele.Is_Y_Chromosome = 1
+        new_alleles_list.append(vector_allele)
 
-    species_params = get_species_params(config, species)
-    species_params.Genes.append(gene.parameters)
+    gene.Alleles = new_alleles_list
+    species_block = get_species_params(config, species)
+    species_block.Genes.append(gene)
 
     return config
 
 
-def add_mutation(config, manifest, species, mutate_from, mutate_to, probability):
+def add_mutation(config, schema_json, species: str, mutate_from: str, mutate_to: str, probability: float):
     """
     Adds to **Mutations** parameter in a Gene which has the matching **Alleles**
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         species: Name of vector species to which we're adding mutations
         mutate_from: The allele in the gamete that could mutate
         mutate_to: The allele that this locus will change to during gamete generation
@@ -333,19 +331,19 @@ def add_mutation(config, manifest, species, mutate_from, mutate_to, probability)
         configured config
     """
 
-    species_params = get_species_params(config, species)
+    these_species = get_species_params(config, species)
     found = False
-    for gene in species_params["Genes"]:
+    for gene in these_species["Genes"]:
         allele_names = []
         for allele in gene["Alleles"]:
             allele_names.append(allele["Name"])
         if mutate_from in allele_names and mutate_to in allele_names:
             found = True
-            mutations = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorAlleleMutation"])
-            mutations.parameters.Mutate_From = mutate_from
-            mutations.parameters.Mutate_To = mutate_to
-            mutations.parameters.Probability_Of_Mutation = probability
-            gene.Mutations.append(mutations.parameters)
+            mutations = s2c.get_class_with_defaults("idmType:VectorAlleleMutation", schema_json=schema_json)
+            mutations.Mutate_From = mutate_from
+            mutations.Mutate_To = mutate_to
+            mutations.Probability_Of_Mutation = probability
+            gene.Mutations.append(mutations)
 
     if not found:
         raise ValueError(f"Allele name(s) '{mutate_from}' and/or '{mutate_to}' were not found for {species}.\n")
@@ -353,14 +351,14 @@ def add_mutation(config, manifest, species, mutate_from, mutate_to, probability)
     return config
 
 
-def create_trait(manifest, trait: str = None, modifier: float = None,
+def create_trait(schema_json, trait: str = None, modifier: float = None,
                  sporozoite_barcode_string: str = None, gametocyte_a_barcode_string: str = None,
                  gametocyte_b_barcode_string: str = None):
     """
         Configures and returns a modifier trait.
 
     Args:
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         trait: The trait to be modified of vectors with the given allele combination.
             Available traits are: "INFECTED_BY_HUMAN", "FECUNDITY", "FEMALE_EGG_RATIO", "STERILITY",
             "TRANSMISSION_TO_HUMAN", "ADJUST_FERTILE_EGGS", "MORTALITY", "INFECTED_PROGRESS", "OOCYST_PROGRESSION",
@@ -387,19 +385,19 @@ def create_trait(manifest, trait: str = None, modifier: float = None,
         raise ValueError(f"Can't find trait '{trait}' in available traits. Traits available for use "
                          f"are {traits_available}")
 
-    trait_modifier = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:TraitModifier"])
-    trait_modifier.parameters.Trait = trait
-    trait_modifier.parameters.Modifier = modifier
+    trait_modifier =s2c.get_class_with_defaults("idmType:TraitModifier", schema_json=schema_json)
+    trait_modifier.Trait = trait
+    trait_modifier.Modifier = modifier
     if trait == "SPOROZOITE_MORTALITY":
-        trait_modifier.parameters.Sporozoite_Barcode_String = sporozoite_barcode_string
+        trait_modifier.Sporozoite_Barcode_String = sporozoite_barcode_string
     if trait == "OOCYST_PROGRESSION":
-        trait_modifier.parameters.Gametocyte_A_Barcode_String = gametocyte_a_barcode_string
-        trait_modifier.parameters.Gametocyte_B_Barcode_String = gametocyte_b_barcode_string
+        trait_modifier.Gametocyte_A_Barcode_String = gametocyte_a_barcode_string
+        trait_modifier.Gametocyte_B_Barcode_String = gametocyte_b_barcode_string
 
-    return trait_modifier.parameters
+    return trait_modifier
 
 
-def add_trait(config, manifest, species, allele_combo: list = None, trait_modifiers: list = None):
+def add_trait(config, schema_json, species, allele_combo: list = None, trait_modifiers: list = None):
     """
     Use this function to add traits as part of vector genetics configuration, the trait is assigned to the
     species' **Gene_To_Trait_Modifiers** parameter
@@ -420,7 +418,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         species: **Name** of species for which to add this  **Gene_To_Trait_Modifiers**
         allele_combo: List of lists, This defines a possible subset of allele pairs that a vector could have.
             Each pair are alleles from one gene.  If the vector has this subset, then the associated traits will
@@ -440,14 +438,14 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
     if not trait_modifiers or not isinstance(trait_modifiers, list):
         raise ValueError("Please make sure to pass in a list of trait modifiers created by create_trait() funciton.\n")
 
-    trait = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:GeneToTraitModifierConfig"])
-    trait.parameters.Allele_Combinations = allele_combo
-    trait.parameters.Trait_Modifiers = trait_modifiers
-    species_params.Gene_To_Trait_Modifiers.append(trait.parameters)
+    trait =s2c.get_class_with_defaults("idmType:GeneToTraitModifierConfig", schema_json=schema_json)
+    trait.Allele_Combinations = allele_combo
+    trait.Trait_Modifiers = trait_modifiers
+    species_params.Gene_To_Trait_Modifiers.append(trait)
 
     return config
 
-def add_blood_meal_mortality(config, manifest,
+def add_blood_meal_mortality(config, schema_json,
                              default_probability_of_death: float = 0.0,
                              species: str = "",
                              allele_combo: list = None,
@@ -477,7 +475,7 @@ def add_blood_meal_mortality(config, manifest,
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest module containing the schema path
+        schema_json: json object that is the schema file
         default_probability_of_death: The probability used if the genome of the mosquito does not
             match any of the defined allele combinations in Genetic_Probabilities.
         species: Name of the species of vectors to give the specific probability to.
@@ -498,7 +496,6 @@ def add_blood_meal_mortality(config, manifest,
 
     # checks if species name is valid
     species_params = get_species_params(config, species)
-    
     if (default_probability_of_death < 0.0) or (1.0 < default_probability_of_death):
         raise ValueError(f"Invalid value for 'default_probability_of_death'={default_probability_of_death}.\n"
                          f"The value must be between 0 and 1.\n")
@@ -509,11 +506,11 @@ def add_blood_meal_mortality(config, manifest,
         raise ValueError(f"Invalid value for 'probability_of_death_for_allele_combo'={probability_of_death_for_allele_combo}.\n"
                          f"The value must be between 0 and 1.\n")
 
-    acp = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:AlleleComboProbabilityConfig"])
-    acp.parameters.Allele_Combinations = allele_combo
-    acp.parameters.Probability = probability_of_death_for_allele_combo
+    acp = s2c.get_class_with_defaults("idmType:AlleleComboProbabilityConfig", schema_json=schema_json)
+    acp.Allele_Combinations = allele_combo
+    acp.Probability = probability_of_death_for_allele_combo
 
-    species_params.Blood_Meal_Mortality.Genetic_Probabilities.append( acp.parameters )
+    species_params.Blood_Meal_Mortality.Genetic_Probabilities.append(acp)
 
     default_prob = species_params.Blood_Meal_Mortality.Default_Probability
     default_prob = 1.0 - ((1.0 - default_prob)*(1.0 - default_probability_of_death))
@@ -522,7 +519,7 @@ def add_blood_meal_mortality(config, manifest,
     return config
 
 
-def add_insecticide_resistance(config, manifest, insecticide_name: str = "", species: str = "",
+def add_insecticide_resistance(config, schema_json, insecticide_name: str = "", species: str = "",
                                allele_combo: list = None, blocking: float = 1.0, killing: float = 1.0,
                                repelling: float = 1.0, larval_killing: float = 1.0):
     """
@@ -553,7 +550,7 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         insecticide_name: The name of the insecticide to which attach the resistance.
         species: Name of the species of vectors.
         allele_combo: List of combination of alleles that vectors must have in order to be resistant.
@@ -570,31 +567,30 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
     species_params = get_species_params(config, species)
     _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
 
-    resistance = dfs.schema_to_config_subnode(manifest.schema_file,
-                                              ["idmTypes", "idmType:ResistantAlleleComboProbabilityConfig"])
-    resistance.parameters.Blocking_Modifier = blocking
-    resistance.parameters.Killing_Modifier = killing
-    resistance.parameters.Repelling_Modifier = repelling
-    resistance.parameters.Larval_Killing_Modifier = larval_killing
-    resistance.parameters.Species = species
-    resistance.parameters.Allele_Combinations = allele_combo
+    resistance = s2c.get_class_with_defaults("idmType:ResistantAlleleComboProbabilityConfig", schema_json=schema_json)
+    resistance.Blocking_Modifier = blocking
+    resistance.Killing_Modifier = killing
+    resistance.Repelling_Modifier = repelling
+    resistance.Larval_Killing_Modifier = larval_killing
+    resistance.Species = species
+    resistance.Allele_Combinations = allele_combo
 
     insecticides = config.parameters.Insecticides
     for an_insecticide in insecticides:
         if an_insecticide.Name == insecticide_name:
-            an_insecticide.Resistances.append(resistance.parameters)
+            an_insecticide.Resistances.append(resistance)
             return config
 
-    new_insecticide = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:Insecticide"])
-    new_insecticide.parameters.Name = insecticide_name
-    new_insecticide.parameters.Resistances.append(resistance.parameters)
-    config.parameters.Insecticides.append(new_insecticide.parameters)
+    new_insecticide = s2c.get_class_with_defaults("idmType:Insecticide", schema_json=schema_json)
+    new_insecticide.Name = insecticide_name
+    new_insecticide.Resistances.append(resistance)
+    config.parameters.Insecticides.append(new_insecticide)
 
     return config
 
 
-def add_species_drivers(config, manifest, species: str = None, driving_allele: str = None, driver_type: str = "CLASSIC",
-                        to_copy: str = None, to_replace: str = None, likelihood_list: list = None,
+def add_species_drivers(config, schema_json, species: str, driving_allele: str, to_copy: str, to_replace: str,
+                        likelihood_list: list, driver_type: str = "CLASSIC",
                         shredding_allele_required: str = None, allele_to_shred: str = None,
                         allele_to_shred_to: str = None, allele_shredding_fraction: float = None,
                         allele_to_shred_to_surviving_fraction: float = None):
@@ -656,7 +652,7 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         species: Name of the species for which we're setting the drivers
         driving_allele: This is the allele that is known as the driver
         driver_type: This indicates the type of driver.
@@ -693,9 +689,13 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
     Returns:
         configured config
     """
-    if not config or not manifest or not species or not driving_allele or not to_copy or not to_replace or not likelihood_list:
-        raise ValueError(f"Please define all the parameters for this function (except shredding,"
-                         f"unless you're using them).\n")
+
+    # add_species_drivers(self.config, schema_path_file, "gambiae", driving_allele="one",
+    #                     driver_type="X_SHRED", to_copy="one", to_replace="one",
+    #                     likelihood_list=[("one", 0.15), ("two", 0.85)], shredding_allele_required="b",
+    #                     allele_shredding_fraction=0.3, allele_to_shred="a",
+    #                     allele_to_shred_to_surviving_fraction=0.1, allele_to_shred_to='c')
+
     if (driver_type != "X_SHRED" and driver_type != "Y_SHRED") and (shredding_allele_required or allele_to_shred
                                                                     or allele_to_shred_to or allele_shredding_fraction or allele_to_shred_to_surviving_fraction):
         raise ValueError(f"Please do not define any shredding parameters if you're not using 'driver_type' = X_SHRED or"
@@ -707,19 +707,20 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
                                  f"= '{driving_allele}' be the same as any of the Copy_To_Allele (in likelihood_list) = "
                                  f"'({copy_to_allele}, {likelihood})'.\n")
 
-    species_params = get_species_params(config, species)
+    species_parameters = get_species_params(config, species)
     gender_allele_required = False
     gender_allele_to_shred = False
     gender_allele_to_shred_to = False
 
-    gene_driver = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorGeneDriver"])
-    gene_driver.parameters.Driving_Allele = driving_allele
-    gene_driver.parameters.Driver_Type = driver_type
+    gene_driver = s2c.get_class_with_defaults("idmType:VectorGeneDriver", schema_json=schema_json)
+    gene_driver.Driving_Allele = driving_allele
+    gene_driver.Driver_Type = driver_type
+    gene_driver.Alleles_Driven = []
 
     if driver_type == "X_SHRED" or driver_type == "Y_SHRED":
         if not allele_to_shred or not allele_to_shred_to or not shredding_allele_required:
             raise ValueError(f"For 'driver_type'= X_SHRED or Y_SHRED, please define all the shredding parameters.\n")
-        for gene in species_params.Genes:
+        for gene in species_parameters.Genes:
             if gene["Is_Gender_Gene"] == 1:
                 for allele in gene["Alleles"]:
                     if allele["Name"] == shredding_allele_required:
@@ -752,31 +753,30 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
                              f"on a gender gene, "
                              f"but they all should be. Please verify your settings.\n")
 
-        shredding_alleles = dfs.schema_to_config_subnode(manifest.schema_file,
-                                                         ["idmTypes", "idmType:ShreddingAlleles"])
-        shredding_alleles.parameters.Allele_Required = shredding_allele_required
-        shredding_alleles.parameters.Allele_Shredding_Fraction = allele_shredding_fraction
-        shredding_alleles.parameters.Allele_To_Shred = allele_to_shred
-        shredding_alleles.parameters.Allele_To_Shred_To = allele_to_shred_to
-        shredding_alleles.parameters.Allele_To_Shred_To_Surviving_Fraction = allele_to_shred_to_surviving_fraction
-        gene_driver.parameters.Shredding_Alleles = shredding_alleles.parameters
+        shredding_alleles = s2c.get_class_with_defaults( classname="idmType:ShreddingAlleles", schema_json=schema_json)
+        shredding_alleles.Allele_Required = shredding_allele_required
+        shredding_alleles.Allele_Shredding_Fraction = allele_shredding_fraction
+        shredding_alleles.Allele_To_Shred = allele_to_shred
+        shredding_alleles.Allele_To_Shred_To = allele_to_shred_to
+        shredding_alleles.Allele_To_Shred_To_Surviving_Fraction = allele_to_shred_to_surviving_fraction
+        gene_driver.Shredding_Alleles = shredding_alleles
 
-    allele_driven = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:AlleleDriven"])
-    allele_driven.parameters.Allele_To_Copy = to_copy
-    allele_driven.parameters.Allele_To_Replace = to_replace
+    allele_driven = s2c.get_class_with_defaults(classname="idmType:AlleleDriven", schema_json=schema_json)
+    allele_driven.Copy_To_Likelihood = []
+    allele_driven.Allele_To_Copy = to_copy
+    allele_driven.Allele_To_Replace = to_replace
     for index, likely in enumerate(likelihood_list):
-        c2likelyhood = dfs.schema_to_config_subnode(manifest.schema_file,
-                                                    ["idmTypes", "idmType:CopyToAlleleLikelihood"])
-        c2likelyhood.parameters.Copy_To_Allele = likely[0]
-        c2likelyhood.parameters.Likelihood = likely[1]
-        allele_driven.parameters.Copy_To_Likelihood.append(c2likelyhood.parameters)
+        c2likelyhood = s2c.get_class_with_defaults( classname="idmType:CopyToAlleleLikelihood", schema_json=schema_json)
+        c2likelyhood.Copy_To_Allele = likely[0]
+        c2likelyhood.Likelihood = likely[1]
+        allele_driven.Copy_To_Likelihood.append(c2likelyhood)
 
     # check if the Driving_Allele already exists
-    if "Drivers" in species_params:
-        for driver in species_params.Drivers:
+    if "Drivers" in species_parameters:
+        for driver in species_parameters.Drivers:
             if driving_allele == driver["Driving_Allele"]:
                 if driver_type == driver["Driver_Type"]:
-                    driver["Alleles_Driven"].append(allele_driven.parameters)
+                    driver["Alleles_Driven"].append(allele_driven)
                     return config
                 else:
                     raise ValueError(f"The gene driver with 'driving_allele'={driving_allele} must have exactly one "
@@ -784,16 +784,17 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
                                      f"multiple 'driver_type's.\n")
 
     if driver_type == "X_SHRED" or driver_type == "Y_SHRED":
-        gene_driver.parameters.Driving_Allele_Params = allele_driven.parameters
+        gene_driver.Driving_Allele_Params = allele_driven
     else:
-        gene_driver.parameters.Alleles_Driven = [allele_driven.parameters]
+        gene_driver.Alleles_Driven = [allele_driven]
 
-    gene_driver.parameters.Driver_Type = driver_type  # to circumvent the implicit settings
-    species_params.Drivers.append(gene_driver.parameters)
+    gene_driver.Driver_Type = driver_type  # to circumvent the implicit settings
+    species_parameters.Drivers.append(gene_driver)
+    print(species_parameters)
     return config
 
 
-def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
+def add_maternal_deposition(config, schema_json, species: str, cas9_grna_from: str,
                             allele_to_cut: str, likelihood_list: list):
     """
         Adds a maternal deposition element for the specified species.
@@ -803,7 +804,7 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
 
     Args:
         config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        schema_json: json object that is the schema file
         species: Name of the species for which we're adding the maternal deposition element.
         cas9_grna_from: This is an allele for presence of which in the mother we will be checking to see if additional
             resistance alleles will be formed. This is the allele must be one of the 'driving_alleles' from
@@ -842,26 +843,26 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
                          f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
                          f"before the maternal deposition.\n")
 
-    maternal_deposition = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:MaternalDeposition"])
-    maternal_deposition.parameters.Cas9_gRNA_From = cas9_grna_from
-    maternal_deposition.parameters.Allele_To_Cut = allele_to_cut
+    maternal_deposition = s2c.get_class_with_defaults("idmType:MaternalDeposition", schema_json=schema_json)
+    maternal_deposition.Cas9_gRNA_From = cas9_grna_from
+    maternal_deposition.Allele_To_Cut = allele_to_cut
+    maternal_deposition.Likelihood_Per_Cas9_gRNA_From = []
 
     total = 0.0
     for index, likely in enumerate(likelihood_list):
-        c2likelyhood = dfs.schema_to_config_subnode(manifest.schema_file,
-                                                    ["idmTypes", "idmType:CutToAlleleLikelihood"])
+        c2likelyhood = s2c.get_class_with_defaults( "idmType:CutToAlleleLikelihood", schema_json=schema_json)
         if likely[0] == allele_to_copy:
             raise ValueError(f"Element at index '{index}' in the 'likelihood_list' has allele '{likely[0]}', but it "
                              f"is also an 'allele_to_copy' for the 'driving_allele' = '{cas9_grna_from}' and cannot be"
                              f" cut to in maternal deposition.\n")
-        c2likelyhood.parameters.Cut_To_Allele = likely[0]
+        c2likelyhood.Cut_To_Allele = likely[0]
         total += likely[1]
-        c2likelyhood.parameters.Likelihood = likely[1]
-        maternal_deposition.parameters.Likelihood_Per_Cas9_gRNA_From.append(c2likelyhood.parameters)
+        c2likelyhood.Likelihood = likely[1]
+        maternal_deposition.Likelihood_Per_Cas9_gRNA_From.append(c2likelyhood)
     if not math.isclose(total, 1.0, rel_tol=1e-6):
         raise ValueError(f"The sum of likelihoods in the 'likelihood_list' must be equal to 1.0, but got {total}.\n")
 
-    sp_params.Maternal_Deposition.append(maternal_deposition.parameters)
+    sp_params.Maternal_Deposition.append(maternal_deposition)
 
     return config
 
@@ -894,7 +895,7 @@ def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capac
     raise ValueError(f"Failed to find habitat_type {habitat_type} for species {species_name}.")
 
 
-def add_microsporidia(config, manifest, species_name: str = None,
+def add_microsporidia(config, schema_json, species_name: str = None,
                       strain_name: str = "Strain_A",
                       female_to_male_probability: float = 0,
                       female_to_egg_probability: float = 0,
@@ -910,7 +911,7 @@ def add_microsporidia(config, manifest, species_name: str = None,
 
     Args:
         config: schema-backed config dictionary, written to config.json
-        manifest: file that contains path to the schema file
+        schema_json: json object that is the schema file
         species_name: Species to target, **Name** parameter
         strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
             Cannot be empty string
@@ -965,24 +966,24 @@ def add_microsporidia(config, manifest, species_name: str = None,
         duration_to_disease_transmission_modification = {"Times": [0, 3, 6, 9], "Values": [1.0, 1.0, 0.75, 0.5]}
 
     species_parameters = get_species_params(config, species_name)
-    d_t_d_a_m = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
-    d_t_d_a_m.parameters.Times = duration_to_disease_acquisition_modification["Times"]
-    d_t_d_a_m.parameters.Values = duration_to_disease_acquisition_modification["Values"]
-    d_t_d_t_m = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
-    d_t_d_t_m.parameters.Times = duration_to_disease_transmission_modification["Times"]
-    d_t_d_t_m.parameters.Values = duration_to_disease_transmission_modification["Values"]
-    microsporidia = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:MicrosporidiaParameters"])
-    microsporidia.parameters.Duration_To_Disease_Acquisition_Modification = d_t_d_a_m.parameters
-    microsporidia.parameters.Duration_To_Disease_Transmission_Modification = d_t_d_t_m.parameters
-    microsporidia.parameters.Female_To_Male_Transmission_Probability = female_to_male_probability
-    microsporidia.parameters.Male_To_Female_Transmission_Probability = male_to_female_probability
-    microsporidia.parameters.Larval_Growth_Modifier = larval_growth_modifier
-    microsporidia.parameters.Female_To_Egg_Transmission_Probability = female_to_egg_probability
-    microsporidia.parameters.Female_Mortality_Modifier = female_mortality_modifier
-    microsporidia.parameters.Male_Mortality_Modifier = male_mortality_modifier
-    microsporidia.parameters.Male_To_Egg_Transmission_Probability = male_to_egg_probability
-    microsporidia.parameters.Strain_Name = strain_name
-    species_parameters.Microsporidia = species_parameters.Microsporidia.append(microsporidia.parameters)
+    d_t_d_a_m =s2c.get_class_with_defaults("idmType:InterpolatedValueMap", schema_json=schema_json)
+    d_t_d_a_m.Times = duration_to_disease_acquisition_modification["Times"]
+    d_t_d_a_m.Values = duration_to_disease_acquisition_modification["Values"]
+    d_t_d_t_m =s2c.get_class_with_defaults("idmType:InterpolatedValueMap", schema_json=schema_json)
+    d_t_d_t_m.Times = duration_to_disease_transmission_modification["Times"]
+    d_t_d_t_m.Values = duration_to_disease_transmission_modification["Values"]
+    microsporidia =s2c.get_class_with_defaults("idmType:MicrosporidiaParameters", schema_json=schema_json)
+    microsporidia.Duration_To_Disease_Acquisition_Modification = d_t_d_a_m
+    microsporidia.Duration_To_Disease_Transmission_Modification = d_t_d_t_m
+    microsporidia.Female_To_Male_Transmission_Probability = female_to_male_probability
+    microsporidia.Male_To_Female_Transmission_Probability = male_to_female_probability
+    microsporidia.Larval_Growth_Modifier = larval_growth_modifier
+    microsporidia.Female_To_Egg_Transmission_Probability = female_to_egg_probability
+    microsporidia.Female_Mortality_Modifier = female_mortality_modifier
+    microsporidia.Male_Mortality_Modifier = male_mortality_modifier
+    microsporidia.Male_To_Egg_Transmission_Probability = male_to_egg_probability
+    microsporidia.Strain_Name = strain_name
+    species_parameters.Microsporidia = species_parameters.Microsporidia.append(microsporidia)
 
 
 class ModifierEquationType(Enum):
@@ -1038,3 +1039,37 @@ def add_vector_migration(task,
     if not task.common_assets.has_asset(vector_migration_filename_path + ".json"):
         task.common_assets.add_asset(vector_migration_filename_path + ".json")
 
+
+# __all_exports: A list of classes that are intended to be exported from this module.
+# the private classes are commented out until we have time to review and test them.
+__all_exports = [
+    set_species_param,
+    set_team_defaults_vector,
+    add_species,
+    add_genes_and_alleles,
+    add_blood_meal_mortality,
+    add_insecticide_resistance,
+    add_species_drivers,
+    add_maternal_deposition,
+    set_max_larval_capacity,
+    add_microsporidia,
+    ModifierEquationType,
+    add_vector_migration,
+    configure_linear_spline
+]
+
+# The following loop sets the __module__ attribute of each class in __all_exports to the name of the current module.
+# This is done to ensure that when these classes are imported from this module, their __module__ attribute correctly
+# reflects their source module.
+
+for _ in __all_exports:
+    _.__module__ = __name__
+
+# __all__: A list that defines the public interface of this module.
+# This is essential to ensure that Sphinx builds documentation for these classes, including those that are imported
+# from emodpy.
+# It contains the names of all the classes that should be accessible when this module is imported using the syntax
+# 'from module import *'.
+# Here, it is set to the names of all classes in __all_exports.
+
+__all__ = [_.__name__ for _ in __all_exports]
