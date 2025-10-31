@@ -1,4 +1,4 @@
-"Age_Bin_Edges_In_Years","Airborne, Dengue, Environmental, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector","array","NA","NA","NA","An array of integers that represents the ages, in years, at which to demarcate the age groups for individuals. Used only with the **Age_Bin** property type. The first number must be 0, the last must be -1, and they must be listed in ascending order. Cannot be used with **NodeProperties**.
+Age_Bin_Edges_In_Years,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector",array,NA,NA,NA,"An array of integers that represents the ages, in years, at which to demarcate the age groups for individuals. Used only with the **Age_Bin** property type. The first number must be 0, the last must be -1, and they must be listed in ascending order. Cannot be used with **NodeProperties**.
 
 |EMOD_s| automatically create the individual property **Age_Bin** with values based on the bin edges using the format **Age_Bin_Property_From_X_To_Y**. These appear in the property reports and can be used to target campaign interventions using **Property_Restrictions_Within_Node**. See :doc:`model-targeted-interventions` for more information.","The following example creates three age groups: 0 to 5, older than 5 to 13, and older than 13 to the maximum age.
 
@@ -20,7 +20,7 @@
         }
     }
 "
-"AgeDistribution","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The structure defining a complex age distribution. **Age_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.","The following example shows at age distribution in which 25% of individuals are under age 5, 50% are between 5 and 20, and 25% are between 20 and 35.
+AgeDistribution,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,The structure defining a complex age distribution. **Age_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.,"The following example shows at age distribution in which 25% of individuals are under age 5, 50% are between 5 and 20, and 25% are between 20 and 35.
 
 .. code-block:: json
 
@@ -45,7 +45,7 @@
         }
     }
 "
-"AgeDistribution1","Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector","float","-3.40282e+038","3.40282e+038","0.000118","The first value in the age distribution, the meaning of which depends upon the value set in **AgeDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+AgeDistribution1,"Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector",float,-3.40E+38,3.40E+38,0.000118,"The first value in the age distribution, the meaning of which depends upon the value set in **AgeDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: AgeDistributionFlag, AgeDistribution1
@@ -70,7 +70,7 @@
         }
     }
 "
-"AgeDistribution2","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The second value in the age distribution, the meaning of which depends upon the value set in **AgeDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+AgeDistribution2,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The second value in the age distribution, the meaning of which depends upon the value set in **AgeDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: AgeDistributionFlag, AgeDistribution2
@@ -95,7 +95,7 @@
         }
     }
 "
-"AgeDistributionFlag","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","0","7","3","The type of distribution to use for age. Possible values are:
+AgeDistributionFlag,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,0,7,3,"The type of distribution to use for age. Possible values are:
 
 * 0 (Constant, everyone in the population is the same age.)
 * 1 (Uniform, ages are randomly drawn between a minimum and maximum value.)
@@ -116,7 +116,7 @@
         }
     }
 "
-"Age_of_First_Bin_Edge_Female","HIV, STI","integer","0","100","1","The maximum age for the first age bin when dividing the female population into age bins for pair formation.",".. code-block:: json
+Age_of_First_Bin_Edge_Female,"HIV, STI",integer,0,100,1,The maximum age for the first age bin when dividing the female population into age bins for pair formation.,".. code-block:: json
 
     {
         ""Society"": {
@@ -131,7 +131,7 @@
         }
     }
 "
-"Age_of_First_Bin_Edge_Male","HIV, STI","integer","0","100","1","The maximum age for the first age bin when dividing the male population into age bins for pair formation.",".. code-block:: json
+Age_of_First_Bin_Edge_Male,"HIV, STI",integer,0,100,1,The maximum age for the first age bin when dividing the male population into age bins for pair formation.,".. code-block:: json
 
     {
         ""Society"": {
@@ -146,7 +146,7 @@
         }
     }
 "
-"Airport","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","boolean","0","1","0","Indicates whether or not the node has an airport for air migration from (not to) the node. If set to 1, **Enable_Air_Migration** in the configuration file must be set to 1 or migration will not occur (see :doc:`parameter-configuration-migration` parameters). Primarily used to turn off migration in a particular node.",".. code-block:: json
+Airport,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",boolean,0,1,0,"Indicates whether or not the node has an airport for air migration from (not to) the node. If set to 1, **Enable_Air_Migration** in the configuration file must be set to 1 or migration will not occur (see :doc:`parameter-configuration-migration` parameters). Primarily used to turn off migration in a particular node.",".. code-block:: json
 
     {
         ""Defaults"": {
@@ -156,7 +156,7 @@
         }
     }
 "
-"Altitude","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The altitude, in meters, for the node. Required, but only used when **Climate_Model** is set to CLIMATE_KOPPEN. ",".. code-block:: json
+Altitude,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The altitude, in meters, for the node. Required, but only used when **Climate_Model** is set to CLIMATE_KOPPEN. ",".. code-block:: json
 
     {
         ""Defaults"": {
@@ -166,7 +166,7 @@
         }
     }
 "
-"Assortivity","HIV, STI","JSON object","NA","NA","NA","The object that defines how people will preferentially form pairs based on their membership in different groups.",".. code-block:: json
+Assortivity,"HIV, STI",JSON object,NA,NA,NA,The object that defines how people will preferentially form pairs based on their membership in different groups.,".. code-block:: json
 
     {
         ""Society"": {
@@ -195,7 +195,7 @@
         }
     }
 "
-"Author","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector","string","NA","NA","NA","The person who created the demographics file. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
+Author,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector",string,NA,NA,NA,"The person who created the demographics file. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
 
     {
         ""Metadata"": {
@@ -207,7 +207,7 @@
         }
     }
 "
-"Axes","HIV, STI","array of strings","NA","NA","NA","The axes defined in **Group** to use for the weighting matrix for pair formation. The order of the array defines the order of the weighting matrix.
+Axes,"HIV, STI",array of strings,NA,NA,NA,"The axes defined in **Group** to use for the weighting matrix for pair formation. The order of the array defines the order of the weighting matrix.
 ",".. code-block:: json
 
     {
@@ -237,7 +237,7 @@
         }
     }
 "
-"AxisNames","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of strings","NA","NA","NA","An array of the names used for each axis of a complex distribution. The list below shows the axis names to use (in the order given) for each of the distribution types:
+AxisNames,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of strings,NA,NA,NA,"An array of the names used for each axis of a complex distribution. The list below shows the axis names to use (in the order given) for each of the distribution types:
 
 MortalityDistribution
     [""gender"", ""age""] **Death_Rate_Dependence** in the configuration file must be set to NONDISEASE_MORTALITY_BY_AGE_AND_GENDER (see :doc:`parameter-configuration-mortality` parameters). 
@@ -317,7 +317,7 @@ AgeDistribution
         }
     }
 "
-"AxisScaleFactors","Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector","array of floats","3.40282e+038","-3.40282e+038","1","A list of the scale factors used to convert axis units to data measurements in a complex distribution. For example, 365 to convert daily mortality to annual mortality. The array must contain one factor for each axis.",".. code-block:: json
+AxisScaleFactors,"Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector",array of floats,3.40E+38,-3.40E+38,1,"A list of the scale factors used to convert axis units to data measurements in a complex distribution. For example, 365 to convert daily mortality to annual mortality. The array must contain one factor for each axis.",".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -361,7 +361,7 @@ AgeDistribution
         }
     }
 "
-"AxisUnits","Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector","array of strings","NA","NA","NA","An array that describes the scale factors used to convert the units for the axes into the units expected by |EMOD_s|. For example, when age is provided in years but must be scaled to days. |EMOD_s| does not use this value; it is only informational.",".. code-block:: json
+AxisUnits,"Dengue, Generic, HIV, Malaria, STI, TBHIV, Typhoid, Vector",array of strings,NA,NA,NA,"An array that describes the scale factors used to convert the units for the axes into the units expected by |EMOD_s|. For example, when age is provided in years but must be scaled to days. |EMOD_s| does not use this value; it is only informational.",".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -382,7 +382,7 @@ AgeDistribution
         }
     }
 "
-"BirthRate","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","double","0","1","0.00008715","The birth rate, in births per person per day. In the configuration file, **Enable_Birth** must be set to 1 and **Birth_Rate_Dependence** will affect how this rate is used (see :doc:`parameter-configuration-population` parameters).",".. code-block:: json
+BirthRate,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",double,0,1,0.00008715,"The birth rate, in births per person per day. In the configuration file, **Enable_Birth** must be set to 1 and **Birth_Rate_Dependence** will affect how this rate is used (see :doc:`parameter-configuration-population` parameters).",".. code-block:: json
 
     {
         ""Nodes"": [
@@ -395,7 +395,7 @@ AgeDistribution
         ]
     }
 "
-"Coital_Act_Rate","HIV, STI","float","FLT_EPSILON","20","0.33","The probability of a coital act occurring at each time step.",".. code-block:: json
+Coital_Act_Rate,"HIV, STI",float,FLT_EPSILON,20,0.33,The probability of a coital act occurring at each time step.,".. code-block:: json
 
     {
         ""Society"": {
@@ -407,7 +407,7 @@ AgeDistribution
         }
     }
 "
-"COMMERCIAL","HIV, STI","JSON object","NA","NA","NA","The structure that defines basic relationship, pair formation, and concurrency parameters for transactional relationships involving commercial sex work (CSW).",".. code-block:: json
+COMMERCIAL,"HIV, STI",JSON object,NA,NA,NA,"The structure that defines basic relationship, pair formation, and concurrency parameters for transactional relationships involving commercial sex work (CSW).",".. code-block:: json
 
     {
         ""Society"": {
@@ -433,7 +433,7 @@ AgeDistribution
         }
     }
 "
-"Concurrency_Configuration","HIV, STI","JSON object","NA","NA","NA","The structure that determines how concurrent relationships are formed, for *all* relationship types. To apply to all individuals regardless of individual property values, nest parameters under NONE. To apply only to individuals with certain property values, nest parameters under the property value.","The following example sets extra-relational flags independently to everyone regardless of individual properties.
+Concurrency_Configuration,"HIV, STI",JSON object,NA,NA,NA,"The structure that determines how concurrent relationships are formed, for *all* relationship types. To apply to all individuals regardless of individual property values, nest parameters under NONE. To apply only to individuals with certain property values, nest parameters under the property value.","The following example sets extra-relational flags independently to everyone regardless of individual properties.
 
 .. code-block:: json
 
@@ -467,7 +467,7 @@ The following example sets different extra-relational flag types to low-risk and
         }
     }
 "
-"Concurrency_Parameters","HIV, STI","JSON object","NA","NA","NA","The structure that determines how concurrent relationships are formed, for a *specific* relationship type. This parameter is nested under a parameter for one of the supported relationship types. To apply to all individuals regardless of individual property values, nest parameters under NONE. To apply only to individuals with certain property values, nest parameters under the property value as set in **Concurrency_Configuration**.","The following example sets concurrency for transitory relationships regardless of individual properties.
+Concurrency_Parameters,"HIV, STI",JSON object,NA,NA,NA,"The structure that determines how concurrent relationships are formed, for a *specific* relationship type. This parameter is nested under a parameter for one of the supported relationship types. To apply to all individuals regardless of individual property values, nest parameters under NONE. To apply only to individuals with certain property values, nest parameters under the property value as set in **Concurrency_Configuration**.","The following example sets concurrency for transitory relationships regardless of individual properties.
 
 .. code-block:: json
 
@@ -520,7 +520,7 @@ The following example sets different concurrency parameters for low-risk and hig
         }
     }
 "
-"Condom_Usage_Probability","HIV, STI","JSON object","NA","NA","NA","The structure that determines the probability of condom usage over time in a relationship type. The probability follows a sigmoidal curve, as defined by the following parameters:
+Condom_Usage_Probability,"HIV, STI",JSON object,NA,NA,NA,"The structure that determines the probability of condom usage over time in a relationship type. The probability follows a sigmoidal curve, as defined by the following parameters:
 
 Min
    The minimum asymptote (0 to 1, default 1).
@@ -546,7 +546,7 @@ Rate
         }
     }
 "
-"Correlated_Relationship_Type_Order","HIV, STI","array of strings","NA","NA","NA","The relationship types listed in order of the correlated probabilities. The array must contain all relationship types and **Extra_Relational_Flag_Type** must be set to Correlated.",".. code-block:: json
+Correlated_Relationship_Type_Order,"HIV, STI",array of strings,NA,NA,NA,The relationship types listed in order of the correlated probabilities. The array must contain all relationship types and **Extra_Relational_Flag_Type** must be set to Correlated.,".. code-block:: json
 
     {
         ""Society"": {
@@ -564,7 +564,7 @@ Rate
         }
     }
 "
-"DateCreated","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","string","NA","NA","NA","The date the demographics file was created. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
+DateCreated,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",string,NA,NA,NA,"The date the demographics file was created. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
 
     {
         ""Metadata"": {
@@ -574,7 +574,7 @@ Rate
         }
     }
 "
-"Defaults","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The structure that contains parameter settings that will be applied to all nodes in a simulation. ",".. code-block:: json
+Defaults,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,The structure that contains parameter settings that will be applied to all nodes in a simulation. ,".. code-block:: json
 
     {
         ""Defaults"": {
@@ -585,7 +585,7 @@ Rate
         }
     }
 "
-"DistributionValues","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of floats","0","1","1","An array of values between 0 and 1 listed in ascending order that defines a complex age distribution. Each value represents the proportion of the population below that age and the difference between two successive values is the proportion of the population in the age bin defined in **ResultValues**. **Age_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX (see :doc:`parameter-configuration-population` parameters).
+DistributionValues,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of floats,0,1,1,"An array of values between 0 and 1 listed in ascending order that defines a complex age distribution. Each value represents the proportion of the population below that age and the difference between two successive values is the proportion of the population in the age bin defined in **ResultValues**. **Age_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX (see :doc:`parameter-configuration-population` parameters).
 ","The following example shows at age distribution in which 25% of individuals are under age 5, 50% are between 5 and 20, and 25% are between 20 and 35.
 
 .. code-block:: json
@@ -612,7 +612,7 @@ Rate
         }
     }
 "
-"Duration_Weibull_Heterogeneity","HIV, STI","float","0","100","1","Inverse of the Weibull shape (1/kappa) parameter of relationship duration in years.",".. code-block:: json
+Duration_Weibull_Heterogeneity,"HIV, STI",float,0,100,1,Inverse of the Weibull shape (1/kappa) parameter of relationship duration in years.,".. code-block:: json
 
     {
         ""Society"": {
@@ -625,7 +625,7 @@ Rate
         }
     }
 "
-"Duration_Weibull_Scale","HIV, STI","float","0","3.40282e+038","1","Weibull scale parameter of relationship duration in years.",".. code-block:: json
+Duration_Weibull_Scale,"HIV, STI",float,0,3.40E+38,1,Weibull scale parameter of relationship duration in years.,".. code-block:: json
 
     {
         ""Society"": {
@@ -638,7 +638,7 @@ Rate
         }
     }
 "
-"Extra_Relational_Flag_Type","HIV, STI","enum","NA","NA","Independent","The manner in which extra-relational flags are distributed. Individuals cannot seek additional concurrent relationships unless they have a flag for the relationship type they are currently in. Possible values are Correlated or Independent.
+Extra_Relational_Flag_Type,"HIV, STI",enum,NA,NA,Independent,"The manner in which extra-relational flags are distributed. Individuals cannot seek additional concurrent relationships unless they have a flag for the relationship type they are currently in. Possible values are Correlated or Independent.
 
 When independent flags are enabled, all flags are distributed randomly and an individual is unlikely to receive all extra-relational flags. When correlated flags are enabled, flags are distributed for each relationship type in the order listed, with the first flags distributed randomly and each subsequent flag distributed only among individuals who have the prior flag. 
 
@@ -662,7 +662,7 @@ The probability of receiving a flag is defined in **Prob_Extra_Relationship_Male
         }
     }
 "
-"Extra_Relational_Rate_Ratio_Female","HIV, STI","integer","1","3.40282e+038","1","For women, the rate ratio for having extra-relational sex for this relationship type, where the ratio is the event over the period of time defined in **Update_Period**.",".. code-block:: json
+Extra_Relational_Rate_Ratio_Female,"HIV, STI",integer,1,3.40E+38,1,"For women, the rate ratio for having extra-relational sex for this relationship type, where the ratio is the event over the period of time defined in **Update_Period**.",".. code-block:: json
 
     {
         ""Society"": {
@@ -676,7 +676,7 @@ The probability of receiving a flag is defined in **Prob_Extra_Relationship_Male
         }
     }
 "
-"Extra_Relational_Rate_Ratio_Male","HIV, STI","integer","1","3.40282e+038","1","For males, the rate ratio for having extra-relational sex for this relationship type, where the ratio is the event over the period of time defined in **Update_Period**. ",".. code-block:: json
+Extra_Relational_Rate_Ratio_Male,"HIV, STI",integer,1,3.40E+38,1,"For males, the rate ratio for having extra-relational sex for this relationship type, where the ratio is the event over the period of time defined in **Update_Period**. ",".. code-block:: json
 
     {
         ""Society"": {
@@ -690,7 +690,7 @@ The probability of receiving a flag is defined in **Prob_Extra_Relationship_Male
         }
     }
 "
-"FertilityDistribution","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The distribution of the fertility rate in the population. **Enable_Birth** in the configuration file must be set to 1 (see :doc:`parameter-configuration-population` parameters).",".. code-block:: json
+FertilityDistribution,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,The distribution of the fertility rate in the population. **Enable_Birth** in the configuration file must be set to 1 (see :doc:`parameter-configuration-population` parameters).,".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -759,7 +759,7 @@ The probability of receiving a flag is defined in **Prob_Extra_Relationship_Male
         }
     }
 "
-"Formation_Rate_Constant","HIV, STI","float","0","1","0.001","If **Formation_Rate_Type** is set to CONSTANT, the number of new relationships per day for this relationship type.",".. code-block:: json
+Formation_Rate_Constant,"HIV, STI",float,0,1,0.001,"If **Formation_Rate_Type** is set to CONSTANT, the number of new relationships per day for this relationship type.",".. code-block:: json
 
     {
         ""Society"": {
@@ -774,7 +774,7 @@ The probability of receiving a flag is defined in **Prob_Extra_Relationship_Male
         }
     }
 "
-"Formation_Rate_Interpolated_Values","HIV, STI","JSON object","NA","NA","NA","The structure that contains two arrays of floats specifying **Times** and **Values** arrays that will be interpolated to provide the formation rate when **Formation_Rate_Type** is set to INTERPOLATED_VALUES. The years listed in **Times** must be in ascending order; the first year must be prior to the current year and if the last year is prior to the current year, the last value in **Values** will be used for the formation rate.",".. code-block:: json
+Formation_Rate_Interpolated_Values,"HIV, STI",JSON object,NA,NA,NA,"The structure that contains two arrays of floats specifying **Times** and **Values** arrays that will be interpolated to provide the formation rate when **Formation_Rate_Type** is set to INTERPOLATED_VALUES. The years listed in **Times** must be in ascending order; the first year must be prior to the current year and if the last year is prior to the current year, the last value in **Values** will be used for the formation rate.",".. code-block:: json
 
     {
         ""Society"": {
@@ -798,7 +798,7 @@ The probability of receiving a flag is defined in **Prob_Extra_Relationship_Male
         }
     }
 "
-"Formation_Rate_Sigmoid","HIV, STI","JSON object","NA","NA","NA","The structure that determines the shape of the sigmoidal curve for pair formation when **Formation_Rate_Type** is set to SIGMOID_VARIABLE_WIDTH_HEIGHT. Include the following parameters:
+Formation_Rate_Sigmoid,"HIV, STI",JSON object,NA,NA,NA,"The structure that determines the shape of the sigmoidal curve for pair formation when **Formation_Rate_Type** is set to SIGMOID_VARIABLE_WIDTH_HEIGHT. Include the following parameters:
 
 Min
    The minimum asymptote (0 to 1, default 1).
@@ -825,7 +825,7 @@ Rate
         }
     }
 "
-"Formation_Rate_Type","HIV, STI","enum","NA","NA","CONSTANT","The type of functional form that describes that pair formation rate. Possible values are:
+Formation_Rate_Type,"HIV, STI",enum,NA,NA,CONSTANT,"The type of functional form that describes that pair formation rate. Possible values are:
 
 CONSTANT
    The rate is a constant value.
@@ -846,7 +846,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"Group","HIV, STI","enum","NA","NA","NO_GROUP","The group that individuals may belong to that is used for weighting assortivity for pair formation. Possible values are:
+Group,"HIV, STI",enum,NA,NA,NO_GROUP,"The group that individuals may belong to that is used for weighting assortivity for pair formation. Possible values are:
 
 .. only:: sti or hiv
 
@@ -895,7 +895,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"HIVCoinfectionDistribution","TBHIV","JSON object","NA","NA","NA","The structure defining a complex distribution for HIV coinfection. In the configuration file, **Enable_Coinfection_Incidence** must be set to 1.",".. code-block:: json
+HIVCoinfectionDistribution,TBHIV,JSON object,NA,NA,NA,"The structure defining a complex distribution for HIV coinfection. In the configuration file, **Enable_Coinfection_Incidence** must be set to 1.",".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -1010,7 +1010,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"HIVMortalityDistribution","TBHIV","JSON object","NA","NA","NA","The structure defining a complex distribution for HIV mortality. In the configuration file, **Enable_Coinfection_Incidence** must be set to 1.",".. code-block:: json
+HIVMortalityDistribution,TBHIV,JSON object,NA,NA,NA,"The structure defining a complex distribution for HIV mortality. In the configuration file, **Enable_Coinfection_Incidence** must be set to 1.",".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -1166,7 +1166,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"IdReference","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","string","NA","NA","NA","The identifier for a simulation; all input files (except configuration and campaign files) used in a simulation must have the same **IdReference** value. The value must be greater than 0. If the input files are generated using |COMPS_s|, this indicates the method used for generating the **NodeID**, the identifier used for each node in the simulation.
+IdReference,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",string,NA,NA,NA,"The identifier for a simulation; all input files (except configuration and campaign files) used in a simulation must have the same **IdReference** value. The value must be greater than 0. If the input files are generated using |COMPS_s|, this indicates the method used for generating the **NodeID**, the identifier used for each node in the simulation.
  
 ",".. code-block:: json
 
@@ -1176,7 +1176,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"ImmunityDistribution","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The structure defining a complex immunity distribution. **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX (see :doc:`parameter-configuration-immunity` parameters).",".. code-block:: json
+ImmunityDistribution,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,The structure defining a complex immunity distribution. **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX (see :doc:`parameter-configuration-immunity` parameters).,".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -1208,7 +1208,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"IndividualAttributes","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The structure that contains parameters that add or modify the distribution of attributes across individuals in a simulation. For example, the age or immunity distribution. An initial value for an individual is a randomly selected value from a distribution. For example, if you use a uniform distribution to initialize age, the initial ages of individuals in the simulation will be evenly distributed between some minimum and maximum value. These distributions can be set using :ref:`demo-simpledistro` or :ref:`demo-complexdistro`.",".. code-block:: json
+IndividualAttributes,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,"The structure that contains parameters that add or modify the distribution of attributes across individuals in a simulation. For example, the age or immunity distribution. An initial value for an individual is a randomly selected value from a distribution. For example, if you use a uniform distribution to initialize age, the initial ages of individuals in the simulation will be evenly distributed between some minimum and maximum value. These distributions can be set using :ref:`demo-simpledistro` or :ref:`demo-complexdistro`.",".. code-block:: json
 
     {
         ""Defaults"": {
@@ -1220,7 +1220,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"IndividualProperties","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of objects","NA","NA","NA","An array that contains parameters that add properties to individuals in a simulation. For example, you can define values for accessibility, age, geography, risk, and other properties and assign values to different individuals. alues.",".. code-block:: json
+IndividualProperties,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of objects,NA,NA,NA,"An array that contains parameters that add properties to individuals in a simulation. For example, you can define values for accessibility, age, geography, risk, and other properties and assign values to different individuals. alues.",".. code-block:: json
 
     {
         ""Defaults"": {
@@ -1253,7 +1253,7 @@ INTERPOLATED_VALUES
         }
     }
 "
-"Individual_Property_Name","HIV, STI","string","NA","NA","NA","The individual property used to create groups of people for configuring relationship concurrency settings. The property name must be defined in the **IndividualProperties** section. If the concurrency settings do not vary based on individual properties, set to NONE.","The following example configures different concurrency settings for high and low risk individuals.
+Individual_Property_Name,"HIV, STI",string,NA,NA,NA,"The individual property used to create groups of people for configuring relationship concurrency settings. The property name must be defined in the **IndividualProperties** section. If the concurrency settings do not vary based on individual properties, set to NONE.","The following example configures different concurrency settings for high and low risk individuals.
 
 .. code-block:: json
 
@@ -1290,7 +1290,7 @@ The following example configures the same concurrency settings for all individua
         }
     }
 "
-"InfectivityReservoirEndTime","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","InfectivityReservoirStartTime","3.40282e+038","3.40282e+038","The ending of the exogeneous reservoir of infectivity. This parameter is conditional upon the configuration parameter, **Enable_Infectivity_Reservoir**, being enabled (set to 1).",".. code-block:: json
+InfectivityReservoirEndTime,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,InfectivityReservoirStartTime,3.40E+38,3.40E+38,"The ending of the exogeneous reservoir of infectivity. This parameter is conditional upon the configuration parameter, **Enable_Infectivity_Reservoir**, being enabled (set to 1).",".. code-block:: json
 
     {
         ""NodeAttributes"": {
@@ -1300,7 +1300,7 @@ The following example configures the same concurrency settings for all individua
         }
     }
 "
-"InfectivityReservoirSize","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","0","3.40282e+038","0","The quantity-per-timestep added to the total infectivity present in a node; it is equivalent to the expected number of additional infections in a node, per timestep. For example, if timestep is equal to a day, then setting **InfectivityReservoirSize** to a value of 0.1 would introduce an infection every 10 days from the exogenous reservoir. This parameter is conditional upon the configuration parameter, **Enable_Infectivity_Reservoir**, being enabled (set to 1).",".. code-block:: json
+InfectivityReservoirSize,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,0,3.40E+38,0,"The quantity-per-timestep added to the total infectivity present in a node; it is equivalent to the expected number of additional infections in a node, per timestep. For example, if timestep is equal to a day, then setting **InfectivityReservoirSize** to a value of 0.1 would introduce an infection every 10 days from the exogenous reservoir. This parameter is conditional upon the configuration parameter, **Enable_Infectivity_Reservoir**, being enabled (set to 1).",".. code-block:: json
 
     {
         ""NodeAttributes"": {
@@ -1310,7 +1310,7 @@ The following example configures the same concurrency settings for all individua
         }
     }
 "
-"InfectivityReservoirStartTime","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","0","3.40282e+038","0","The beginning of the exogeneous reservoir of infectivity. This parameter is conditional upon the configuration parameter, **Enable_Infectivity_Reservoir**, being enabled (set to 1).",".. code-block:: json
+InfectivityReservoirStartTime,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,0,3.40E+38,0,"The beginning of the exogeneous reservoir of infectivity. This parameter is conditional upon the configuration parameter, **Enable_Infectivity_Reservoir**, being enabled (set to 1).",".. code-block:: json
 
     {
         ""NodeAttributes"": {
@@ -1320,7 +1320,7 @@ The following example configures the same concurrency settings for all individua
         }
     }
 "
-"INFORMAL","HIV, STI","JSON object","NA","NA","NA","The structure that defines basic relationship, pair formation, and concurrency parameters for longer-term non-marital relationships.",".. code-block:: json
+INFORMAL,"HIV, STI",JSON object,NA,NA,NA,"The structure that defines basic relationship, pair formation, and concurrency parameters for longer-term non-marital relationships.",".. code-block:: json
 
     {
         ""Society"": {
@@ -1346,7 +1346,7 @@ The following example configures the same concurrency settings for all individua
         }
     }
 "
-"Initial_Distribution","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of floats","0","1","1","An array of floats that define the proportion of property values to assign to individuals or nodes at the beginning of the simulation and when new individuals are born. Their sum must equal 1 and the number of members in this array must match the number of members in **Values**. For Age_Bin property types, omit this parameter as the demographics file controls the age distribution.",".. code-block:: json
+Initial_Distribution,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of floats,0,1,1,"An array of floats that define the proportion of property values to assign to individuals or nodes at the beginning of the simulation and when new individuals are born. Their sum must equal 1 and the number of members in this array must match the number of members in **Values**. For Age_Bin property types, omit this parameter as the demographics file controls the age distribution.",".. code-block:: json
 
     {
         ""NodeProperties"": [
@@ -1382,7 +1382,7 @@ The following example configures the same concurrency settings for all individua
         ]
     }
 "
-"InitialPopulation","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","0","2147480000.0","1000","The number of people that will be populated into the node at the beginning of the simulation. You can scale this number using **Base_Population_Scale_Factor** in the configuration file (see :doc:`parameter-configuration-population` parameters).",".. code-block:: json
+InitialPopulation,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,0,2147480000,1000,The number of people that will be populated into the node at the beginning of the simulation. You can scale this number using **Base_Population_Scale_Factor** in the configuration file (see :doc:`parameter-configuration-population` parameters).,".. code-block:: json
 
     {
         ""Nodes"": [
@@ -1395,7 +1395,7 @@ The following example configures the same concurrency settings for all individua
         ]
     }
 "
-"InitialVectorsPerSpecies","Dengue, Malaria, Vector","JSON object","0","2.15e+09","10,000","The number of vectors per species that will be populated into the node at the beginning of the simulation. Population responds to habitat availability that can be scaled by **LarvalHabitatMultiplier**. **Vector_Sampling_Type** in the configuration file must be set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS.",".. code-block:: json
+InitialVectorsPerSpecies,"Dengue, Malaria, Vector",JSON object,0,2.15E+09,"10,000",The number of vectors per species that will be populated into the node at the beginning of the simulation. Population responds to habitat availability that can be scaled by **LarvalHabitatMultiplier**. **Vector_Sampling_Type** in the configuration file must be set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS.,".. code-block:: json
 
     {
         ""Nodes"": [
@@ -1412,7 +1412,77 @@ The following example configures the same concurrency settings for all individua
         ]
     }
 "
-"Joint_Probabilities","HIV, STI","matrix of floats","0","3.40282e+038, ","0","The relative preference of members of one age bin to form relationships with members of another age bin. The columns represent female bins and rows represent male bins.",".. code-block:: json
+InnateImmuneDistribution1,Malaria,float,-3.40E+38,3.40E+38,0,"The first value in the innate immune coefficient distribution, the meaning of which depends upon the value set in **InnateImmuneDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+
+.. csv-table::
+   :header: InnateImmuneDistributionFlag, InnateImmuneDistribution1
+   :widths: 1, 3
+
+   0, Innate immune coefficient value to assign.
+   1, Minimum innate immune coefficient for a uniform distribution.
+   2, Mean innate immune coefficient for a Gaussian distribution.
+   3, Exponential decay rate.
+   4, Mean innate immune coefficient for a Poisson distribution.
+   5, Mu (the mean of the natural log) for a log normal distribution.
+   6, ""Proportion of individuals in the second, user-defined innate immune coefficient bin vs. the first innate immune coefficient bin (value of 1) for a bimodal distribution. Must be between 0 and 1.""
+   7, Scale parameter for a Weibull distribution.
+
+",".. code-block:: json
+
+    {
+        ""IndividualAttributes"": {
+            ""InnateImmuneDistributionFlag"": 0,
+            ""InnateImmuneDistribution1"": 0,
+            ""InnateImmuneDistribution2"": 0
+        }
+    }
+"
+InnateImmuneDistribution2,Malaria,float,-3.40E+38,3.40E+38,0,"The second value in the distribution, the meaning of which depends upon the value set in **InnateImmuneDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+
+.. csv-table::
+   :header: InnateImmuneDistributionFlag, InnateImmuneDistribution2
+   :widths: 1, 3
+
+   0, ""NA, set to 0.""
+   1, Maximum innate immune coefficient for a uniform distribution.
+   2, Standard deviation in innate immune coefficient for a Gaussian distribution.
+   3, ""NA, set to 0.""
+   4, ""NA, set to 0.""
+   5, Sigma (the standard deviation of the natural log) for a log normal distribution.
+   6, ""The innate immune coefficient for individuals in the second innate immune coefficient bin for a bimodal distribution.""
+   7, Shape parameter for a Weibull distribution.
+
+",".. code-block:: json
+
+    {
+        ""IndividualAttributes"": {
+            ""InnateImmuneDistributionFlag"": 0,
+            ""InnateImmuneDistribution1"": 0,
+            ""InnateImmuneDistribution2"": 0
+        }
+    }
+"
+InnateImmuneDistributionFlag,Malaria,integer,0,7.00E+00,0,"The type of distribution to use for innate immune coefficient.  Possible values are:
+
+* 0 (Constant, everyone in the population has the same innate immune coefficient.)
+* 1 (Uniform, innate immune coefficient is randomly drawn between a minimum and maximum value.)
+* 2 (Gaussian)
+* 3 (Exponential)
+* 4 (Poisson)
+* 5 (Log normal)
+* 6 (Bimodal, non-continuous with some individuals having a innate immune coefficient of 1 and others a user-defined innate immune coefficient.)
+* 7 (Weibull)
+",".. code-block:: json
+
+    {
+        ""IndividualAttributes"": {
+            ""InnateImmuneDistributionFlag"": 0,
+            ""InnateImmuneDistribution1"": 0,
+            ""InnateImmuneDistribution2"": 0
+        }
+    }
+"
+Joint_Probabilities,"HIV, STI",matrix of floats,0,"3.40282e+038, ",0,The relative preference of members of one age bin to form relationships with members of another age bin. The columns represent female bins and rows represent male bins.,".. code-block:: json
 
     {
         ""Society"": {
@@ -1441,7 +1511,7 @@ The following example configures the same concurrency settings for all individua
         }
     }
 "
-"LarvalHabitatMultiplier","Malaria","float or nested JSON object","NA","NA","NA","The value by which to scale the larval habitat availability specified in the configuration file with **Habitats** across all habitat types, for specific habitat types, or for specific mosquito species within each habitat type.","The following example scales the larval habitat equally across all habitat types and mosquito species.
+LarvalHabitatMultiplier,Malaria,float or nested JSON object,NA,NA,NA,"The value by which to scale the larval habitat availability specified in the configuration file with **Habitats** across all habitat types, for specific habitat types, or for specific mosquito species within each habitat type.","The following example scales the larval habitat equally across all habitat types and mosquito species.
 
 .. code-block:: json
 
@@ -1488,7 +1558,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         ]
     }
 "
-"Latitude","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","3.40282e+038","-3.40282e+038","-1","Latitude of the node in decimal degrees. This can be used for several things, including determining infectiousness by latitude and defining the size of grid cells.",".. code-block:: json
+Latitude,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,3.40E+38,-3.40E+38,-1,"Latitude of the node in decimal degrees. This can be used for several things, including determining infectiousness by latitude and defining the size of grid cells.",".. code-block:: json
 
     {
         ""Nodes"": [
@@ -1502,7 +1572,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         ]
     }
 "
-"Longitude","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+38","3.40282e+38","-1","Longitude of the node in decimal degrees. This can be used for several things, including defining the size of grid cells.",".. code-block:: json
+Longitude,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,-1,"Longitude of the node in decimal degrees. This can be used for several things, including defining the size of grid cells.",".. code-block:: json
 
     {
         ""Nodes"": [
@@ -1516,7 +1586,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         ]
     }
 "
-"MARITAL","HIV, STI","JSON object","NA","NA","NA","The structure that defines basic relationship, pair formation, and concurrency parameters for marital relationships.",".. code-block:: json
+MARITAL,"HIV, STI",JSON object,NA,NA,NA,"The structure that defines basic relationship, pair formation, and concurrency parameters for marital relationships.",".. code-block:: json
 
     {
         ""Society"": {
@@ -1542,7 +1612,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         }
     }
 "
-"Max","HIV","float","0","1","1","The maximum asymptote (unit of probability) for sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
+Max,HIV,float,0,1,1,"The maximum asymptote (unit of probability) for sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
 
     {
         ""Max"": 0.3,
@@ -1551,7 +1621,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         ""Rate"": 1.5
     }
 "
-"Max_Simultaneous_Relationships_Female","HIV, STI","integer","0","63","1","For females, the maximum number of concurrent relationships. The individual sets the value at initialization and whenever they change relationship type.",".. code-block:: json
+Max_Simultaneous_Relationships_Female,"HIV, STI",integer,0,63,1,"For females, the maximum number of concurrent relationships. The individual sets the value at initialization and whenever they change relationship type.",".. code-block:: json
 
     {
         ""Society"": {
@@ -1568,7 +1638,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         }
     }
 "
-"Max_Simultaneous_Relationships_Male","HIV, STI","integer","0","63","1","For males, the maximum number of concurrent relationships.",".. code-block:: json
+Max_Simultaneous_Relationships_Male,"HIV, STI",integer,0,63,1,"For males, the maximum number of concurrent relationships.",".. code-block:: json
 
     {
         ""Society"": {
@@ -1585,7 +1655,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         }
     }
 "
-"Metadata","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The structure that contains the metadata for the demographics file.",".. code-block:: json
+Metadata,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,The structure that contains the metadata for the demographics file.,".. code-block:: json
 
     {
         ""Metadata"": {
@@ -1594,7 +1664,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         }
     }
 "
-"Mid","HIV","float","0","3.40282e+038","2000","The year of the inflection point for sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
+Mid,HIV,float,0,3.40E+38,2000,"The year of the inflection point for sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
 
     {
         ""Min"": 0.0125,
@@ -1603,7 +1673,7 @@ The following example scales the larval habitat independently for *A. gambiae* i
         ""Rate"": 1.5
     }
 "
-"Migration_Actions","HIV, STI","array of enums","NA","NA","NA","A list of what relationship action to take when one member of the relationship migrates to another node. The order in which they are listed corresponds to the probability values in **Migration_Actions_Distributions**. **Migration_Model** in the configuration file must be set to FIXED_RATE_MIGRATION. Possible values are:
+Migration_Actions,"HIV, STI",array of enums,NA,NA,NA,"A list of what relationship action to take when one member of the relationship migrates to another node. The order in which they are listed corresponds to the probability values in **Migration_Actions_Distributions**. **Migration_Model** in the configuration file must be set to FIXED_RATE_MIGRATION. Possible values are:
 
 
 Terminate
@@ -1632,7 +1702,7 @@ Migrate
         }
     }
 "
-"Migration_Actions_Distribution","HIV, STI","array of floats","0","1","NA","A list of the proportion of relationships that take a given action when one member of the relationship migrates. The sum of all values must be 1 and the order of the list corresponds to the order in **Migration_Actions**. **Migration_Model** in the configuration file must be set to FIXED_RATE_MIGRATION.",".. code-block:: json
+Migration_Actions_Distribution,"HIV, STI",array of floats,0,1,NA,A list of the proportion of relationships that take a given action when one member of the relationship migrates. The sum of all values must be 1 and the order of the list corresponds to the order in **Migration_Actions**. **Migration_Model** in the configuration file must be set to FIXED_RATE_MIGRATION.,".. code-block:: json
 
     {
         ""Society"": {
@@ -1653,7 +1723,7 @@ Migrate
         }
     }
 "
-"MigrationHeterogeneityDistribution1","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+38","3.40282e+38","1","The first value in the migration heterogeneity distribution, the meaning of which depends upon the value set in **MigrationHeterogeneityFlag**. The table below shows the flag value and corresponding distribution value. 
+MigrationHeterogeneityDistribution1,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,1,"The first value in the migration heterogeneity distribution, the meaning of which depends upon the value set in **MigrationHeterogeneityFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: MigrationHeterogeneityDistributionFlag, MigrationHeterogeneityDistribution1
@@ -1678,7 +1748,7 @@ Migrate
         }
     }
 "
-"MigrationHeterogeneityDistribution2","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The second value in the distribution, the meaning of which depends upon the value set in **MigrationHeterogeneityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+MigrationHeterogeneityDistribution2,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The second value in the distribution, the meaning of which depends upon the value set in **MigrationHeterogeneityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: MigrationHeterogeneityDistributionFlag, MigrationHeterogeneityDistribution2
@@ -1703,7 +1773,7 @@ Migrate
         }
     }
 "
-"MigrationHeterogeneityDistributionFlag","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","0","7","0","The type of distribution to use for migration heterogeneity. Possible values are:
+MigrationHeterogeneityDistributionFlag,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,0,7,0,"The type of distribution to use for migration heterogeneity. Possible values are:
 
 * 0 (Constant, everyone in the population has the same migration value.)
 * 1 (Uniform, migration values are randomly drawn between a minimum and maximum value.)
@@ -1724,7 +1794,7 @@ Migrate
         }
     }
 "
-"Min","HIV","float","0","1","1","The minimum asymptote (unit of probability) for sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
+Min,HIV,float,0,1,1,"The minimum asymptote (unit of probability) for sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
 
     {
         ""Min"": 0.0125,
@@ -1733,7 +1803,7 @@ Migrate
         ""Rate"": 1.5
     }
 "
-"MortalityDistribution","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The distribution of non-disease mortality for a population. **Death_Rate_Dependence** in the configuration file must be set to NONDISEASE_MORTALITY_BY_AGE_AND_GENDER or NONDISEASE_MORTALITY_BY_YEAR_AND_AGE_FOR_EACH_GENDER (see :doc:`parameter-configuration-mortality` parameters).
+MortalityDistribution,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,"The distribution of non-disease mortality for a population. **Death_Rate_Dependence** in the configuration file must be set to NONDISEASE_MORTALITY_BY_AGE_AND_GENDER or NONDISEASE_MORTALITY_BY_YEAR_AND_AGE_FOR_EACH_GENDER (see :doc:`parameter-configuration-mortality` parameters).
 
 .. warning::
 
@@ -1786,7 +1856,7 @@ Migrate
         }
     }
 "
-"MSP_mean_antibody_distribution","Malaria","JSON object","NA","NA","NA","The mean of the fraction of the antigenic variants of the anti-MSP antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
+MSP_mean_antibody_distribution,Malaria,JSON object,NA,NA,NA,"The mean of the fraction of the antigenic variants of the anti-MSP antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
 ",".. code-block:: json
 
     {
@@ -1838,7 +1908,7 @@ Migrate
         }
     }
 "
-"MSP_variance_antibody_distribution","Malaria","JSON object","NA","NA","NA","The variance of the fraction of the antigenic variants of the anti-MSP antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
+MSP_variance_antibody_distribution,Malaria,JSON object,NA,NA,NA,"The variance of the fraction of the antigenic variants of the anti-MSP antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
 ",".. code-block:: json
 
     {
@@ -1890,7 +1960,7 @@ Migrate
         }
     }
 "
-"NodeAttributes","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The structure that contains parameters that add or modify information regarding the location, migration, habitat, and population of a simulation. Some **NodeAttributes** depend on values set in the configuration parameters.",".. code-block:: json
+NodeAttributes,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,"The structure that contains parameters that add or modify information regarding the location, migration, habitat, and population of a simulation. Some **NodeAttributes** depend on values set in the configuration parameters.",".. code-block:: json
 
     {
         ""Nodes"": [
@@ -1904,7 +1974,7 @@ Migrate
         ]
     }
 "
-"NodeCount","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","1","Depends on available memory","NA","The number of nodes to expect in the input files. This parameter is required.",".. code-block:: json
+NodeCount,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,1,Depends on available memory,NA,The number of nodes to expect in the input files. This parameter is required.,".. code-block:: json
 
     {
         ""Metadata"": {
@@ -1912,7 +1982,7 @@ Migrate
         }
     }
 "
-"NodeID","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","NA","NA","NA","The identifier for a particular node. ",".. code-block:: json
+NodeID,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,NA,NA,NA,The identifier for a particular node. ,".. code-block:: json
 
     {
         ""Nodes"": [
@@ -1923,7 +1993,7 @@ Migrate
         ]
     }
 "
-"NodeProperties","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of objects","NA","NA","NA","An array that contains parameters that add properties to nodes in a simulation. Defined in the demographics file at the same level as **Nodes** and **Defaults**. For example, you can define values for intervention status, risk, and other properties and assign values to different nodes.",".. code-block:: json
+NodeProperties,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of objects,NA,NA,NA,"An array that contains parameters that add properties to nodes in a simulation. Defined in the demographics file at the same level as **Nodes** and **Defaults**. For example, you can define values for intervention status, risk, and other properties and assign values to different nodes.",".. code-block:: json
 
     {
         ""NodeProperties"": [
@@ -1974,7 +2044,7 @@ Migrate
         ]
     }
 "
-"Nodes","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of JSON objects","NA","NA","NA","The structure that contains parameters settings that will be applied to specific nodes. ",".. code-block:: json
+Nodes,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of JSON objects,NA,NA,NA,The structure that contains parameters settings that will be applied to specific nodes. ,".. code-block:: json
 
     {
         ""Nodes"": [
@@ -1989,7 +2059,7 @@ Migrate
         ]
     }
 "
-"nonspec_mean_antibody_distribution","Malaria","JSON object","NA","NA","NA","The mean of the fraction of the antigenic variants of non-specific malaria antibodies that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
+nonspec_mean_antibody_distribution,Malaria,JSON object,NA,NA,NA,"The mean of the fraction of the antigenic variants of non-specific malaria antibodies that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
 ",".. code-block:: json
 
     {
@@ -2041,7 +2111,7 @@ Migrate
         }
     }
 "
-"nonspec_variance_antibody_distribution","Malaria","JSON object","NA","NA","NA","The variance of the fraction of the antigenic variants of non-specific malaria antibodies that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.",".. code-block:: json
+nonspec_variance_antibody_distribution,Malaria,JSON object,NA,NA,NA,"The variance of the fraction of the antigenic variants of non-specific malaria antibodies that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.",".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -2092,7 +2162,7 @@ Migrate
         }
     }
 "
-"Number_Age_Bins_Female","HIV, STI","integer","1","1000","1","The number of age bins to divide the female population into for pair formation.",".. code-block:: json
+Number_Age_Bins_Female,"HIV, STI",integer,1,1000,1,The number of age bins to divide the female population into for pair formation.,".. code-block:: json
 
     {
         ""Society"": {
@@ -2121,7 +2191,7 @@ Migrate
         }
     }
 "
-"Number_Age_Bins_Male","HIV, STI","integer","1","1000","1","The number of age bins to divide the male population into for pair formation.",".. code-block:: json
+Number_Age_Bins_Male,"HIV, STI",integer,1,1000,1,The number of age bins to divide the male population into for pair formation.,".. code-block:: json
 
     {
         ""Society"": {
@@ -2150,7 +2220,7 @@ Migrate
         }
     }
 "
-"NumDistributionAxes","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","1","NA","NA","The number of axes to use for a complex distribution. |EMOD_s| does not use this value; it is only informational.",".. code-block:: json
+NumDistributionAxes,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,1,NA,NA,The number of axes to use for a complex distribution. |EMOD_s| does not use this value; it is only informational.,".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -2168,7 +2238,7 @@ Migrate
         }
     }
 "
-"NumPopulationGroups","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of integers","NA","NA","NA","An array of population groupings for each independent variable for a complex distribution. This variable defines the number of columns for each row in the population group table. The number of values in the array is often two, representing the values for gender and number of age bins. |EMOD_s| does not use this value; it is only informational.",".. code-block:: json
+NumPopulationGroups,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of integers,NA,NA,NA,"An array of population groupings for each independent variable for a complex distribution. This variable defines the number of columns for each row in the population group table. The number of values in the array is often two, representing the values for gender and number of age bins. |EMOD_s| does not use this value; it is only informational.",".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -2212,7 +2282,7 @@ Migrate
         }
     }
 "
-"Pair_Formation_Parameters","HIV, STI","JSON object","NA","NA","NA","Structure that defines all relationship formation parameters for the relationship type specified.",".. code-block:: json
+Pair_Formation_Parameters,"HIV, STI",JSON object,NA,NA,NA,Structure that defines all relationship formation parameters for the relationship type specified.,".. code-block:: json
 
     {
         ""Society"": {
@@ -2225,7 +2295,7 @@ Migrate
         }
     }
 "
-"PercentageChildren","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","0","1","NA","The percentage of individuals in the node that are children. Set **Minimum_Adult_Age_Years** to determine the age at which individuals transition to adults. ",".. code-block:: json
+PercentageChildren,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,0,1,NA,The percentage of individuals in the node that are children. Set **Minimum_Adult_Age_Years** to determine the age at which individuals transition to adults. ,".. code-block:: json
 
     {
         ""Nodes"": {
@@ -2236,7 +2306,7 @@ Migrate
         }
     }
 "
-"PercentageVectorsBySpecies","Dengue, Malaria, Vector","JSON object","NA","NA","NA","A list of key-value pairs of the vector species and percentage of the total they each make up.",".. code-block:: json
+PercentageVectorsBySpecies,"Dengue, Malaria, Vector",JSON object,NA,NA,NA,A list of key-value pairs of the vector species and percentage of the total they each make up.,".. code-block:: json
 
     {
         ""Defaults"": {
@@ -2250,7 +2320,7 @@ Migrate
         }
     }
 "
-"PfEMP1_mean_antibody_distribution","Malaria","JSON object","NA","NA","NA","The mean of the fraction of the antigenic variants of the PfEMP1 antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
+PfEMP1_mean_antibody_distribution,Malaria,JSON object,NA,NA,NA,"The mean of the fraction of the antigenic variants of the PfEMP1 antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
 ",".. code-block:: json
 
     {
@@ -2303,7 +2373,7 @@ Migrate
         }
     }
 "
-"PfEMP1_variance_antibody_distribution","Malaria","JSON object","NA","NA","NA","The variance of the fraction of the antigenic variants of the PfEMP1 antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
+PfEMP1_variance_antibody_distribution,Malaria,JSON object,NA,NA,NA,"The variance of the fraction of the antigenic variants of the PfEMP1 antibody that the immune system has been exposed to, binned by age using **PopulationGroups**. **ResultValues** are bounded between 0 and 1, typically increasing with age.  **Immunity_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX.
 ",".. code-block:: json
 
     {
@@ -2355,7 +2425,7 @@ Migrate
         }
     }
 "
-"PopulationGroups","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","matrix of integers","NA","NA","NA","An array in which each row represents one of the distribution axes and contains the values that the independent variable can take. The values must be listed in ascending order and each defines the left edge of the bin.
+PopulationGroups,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",matrix of integers,NA,NA,NA,"An array in which each row represents one of the distribution axes and contains the values that the independent variable can take. The values must be listed in ascending order and each defines the left edge of the bin.
 
 .. warning::
 
@@ -2414,7 +2484,7 @@ Migrate
         }
     }
 "
-"PrevalenceDistribution1","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","1","The first value in the prevalence distribution, the meaning of which depends upon the value set in **PrevalenceDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+PrevalenceDistribution1,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,1,"The first value in the prevalence distribution, the meaning of which depends upon the value set in **PrevalenceDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: PrevalenceDistributionFlag, PrevalenceDistribution1
@@ -2439,7 +2509,7 @@ Migrate
         }
     }
 "
-"PrevalenceDistribution2","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The second value in the distribution, the meaning of which depends upon the value set in **PrevalenceDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+PrevalenceDistribution2,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The second value in the distribution, the meaning of which depends upon the value set in **PrevalenceDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: PrevalenceDistributionFlag, PrevalenceDistribution2
@@ -2464,7 +2534,7 @@ Migrate
         }
     }
 "
-"PrevalenceDistributionFlag","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","0","7","0","The type of distribution to use for prevalence.  Possible values are:
+PrevalenceDistributionFlag,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,0,7,0,"The type of distribution to use for prevalence.  Possible values are:
 
 * 0 (Constant, everyone in the population has the same prevalence.)
 * 1 (Uniform, prevalence is randomly drawn between a minimum and maximum value.)
@@ -2484,7 +2554,7 @@ Migrate
         }
     }
 "
-"Probability_Person_Is_Behavioral_Super_Spreader","HIV, STI","float","0","1","0.001","The probability that an individual is a behavioral super spreader, where they are allowed multiple relationships of all types.",".. code-block:: json
+Probability_Person_Is_Behavioral_Super_Spreader,"HIV, STI",float,0,1,0.001,"The probability that an individual is a behavioral super spreader, where they are allowed multiple relationships of all types.",".. code-block:: json
 
     {
         ""Social"": {
@@ -2498,7 +2568,7 @@ Migrate
         }
     }
 "
-"Prob_Extra_Relationship_Female","HIV, STI","float","0","1","0","The probability of a female receiving a flag that allows her to seek additional relationships while currently in another relationship. ",".. code-block:: json
+Prob_Extra_Relationship_Female,"HIV, STI",float,0,1,0,The probability of a female receiving a flag that allows her to seek additional relationships while currently in another relationship. ,".. code-block:: json
 
     {
         ""Society"": {
@@ -2515,7 +2585,7 @@ Migrate
         }
     }
 "
-"Prob_Extra_Relationship_Male","HIV, STI","float","0","1","0","The probability of a male receiving a flag that allows him to seek additional relationships while currently in another relationship. ",".. code-block:: json
+Prob_Extra_Relationship_Male,"HIV, STI",float,0,1,0,The probability of a male receiving a flag that allows him to seek additional relationships while currently in another relationship. ,".. code-block:: json
 
     {
         ""Society"": {
@@ -2532,7 +2602,7 @@ Migrate
         }
     }
 "
-"Property","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","enum","NA","NA","NA","The individual or node property type for which you will assign values to create groups. You can then update the property values assigned to individuals or nodes or target interventions to particular groups. Note that these types, with the exception of Age_Bin, are merely labels that do not affect the simulation unless specified to do so. Possible values are:
+Property,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",enum,NA,NA,NA,"The individual or node property type for which you will assign values to create groups. You can then update the property values assigned to individuals or nodes or target interventions to particular groups. Note that these types, with the exception of Age_Bin, are merely labels that do not affect the simulation unless specified to do so. Possible values are:
 
 Age_Bin
    Assign individuals to age bins. Use with **Age_Bin_Edges_In_Years**. Cannot be used with **NodeProperties**.
@@ -2586,7 +2656,7 @@ QualityofCare
         }
     }
 "
-"Property_Name","HIV, STI","string","NA","NA","NA","If **Group** is set to INDIVIDUAL_PROPERTY, the name of the individual property as defined in the **IndividualProperties** section.",".. code-block:: json
+Property_Name,"HIV, STI",string,NA,NA,NA,"If **Group** is set to INDIVIDUAL_PROPERTY, the name of the individual property as defined in the **IndividualProperties** section.",".. code-block:: json
 
     {
         ""Society"": {
@@ -2615,7 +2685,7 @@ QualityofCare
         }
     }
 "
-"Rate","HIV","float","-100","100","1","The rate (probability/year) proportional to the slope at the inflection point of sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
+Rate,HIV,float,-100,100,1,"The rate (probability/year) proportional to the slope at the inflection point of sigmoidal curve. This parameter is included in the sigmoid utility class, which is currently used with the HIV sim type for the Formation_Rate_Sigmoid and Condom_Usage_Probability parameters.",".. code-block:: json
 
     {
         ""Max"": 0.3,
@@ -2624,7 +2694,7 @@ QualityofCare
         ""Rate"": 1.5
     }
 "
-"Region","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","boolean","0","1","0","Indicates whether or not the node has a road network for regional migration from (not to) the node. If set to 1, **Enable_Regional_Migration** in the configuration file must be set to 1 or migration will not occur (see :doc:`parameter-configuration-migration` parameters). Primarily used to turn off migration in particular nodes. ",".. code-block:: json
+Region,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",boolean,0,1,0,"Indicates whether or not the node has a road network for regional migration from (not to) the node. If set to 1, **Enable_Regional_Migration** in the configuration file must be set to 1 or migration will not occur (see :doc:`parameter-configuration-migration` parameters). Primarily used to turn off migration in particular nodes. ",".. code-block:: json
 
     {
         ""Nodes"": [
@@ -2637,7 +2707,7 @@ QualityofCare
         ]
     }
 "
-"Relationship_Parameters","HIV, STI","JSON object","NA","NA","NA","The structure that determines basic aspects of the relationship, such as duration, condom usage, or how to handle migration. ",".. code-block:: json
+Relationship_Parameters,"HIV, STI",JSON object,NA,NA,NA,"The structure that determines basic aspects of the relationship, such as duration, condom usage, or how to handle migration. ",".. code-block:: json
 
     {
         ""Society"": {
@@ -2658,7 +2728,7 @@ QualityofCare
         }
     }
 "
-"Resolution","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","NA","NA","NA","The spatial resolution of the demographics file. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
+Resolution,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,NA,NA,NA,"The spatial resolution of the demographics file. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
 
     {
         ""Metadata"": {
@@ -2666,7 +2736,7 @@ QualityofCare
         }
     }
 "
-"ResultScaleFactor","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","1","The scale factor used to convert **ResultUnits** to number of births, deaths, or another variable per individual per day. ",".. code-block:: json
+ResultScaleFactor,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,1,"The scale factor used to convert **ResultUnits** to number of births, deaths, or another variable per individual per day. ",".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -2686,7 +2756,7 @@ QualityofCare
         }
     }
 "
-"ResultUnits","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","string","NA","NA","NA","A string that indicates the units used for the **ResultValues** parameter of a complex distribution. |EMOD_s| does not use this value; it is only informational. The values here are scaled by the value in **ResultScaleFactor** before being passed to |EMOD_s| as a daily rate.",".. code-block:: json
+ResultUnits,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",string,NA,NA,NA,A string that indicates the units used for the **ResultValues** parameter of a complex distribution. |EMOD_s| does not use this value; it is only informational. The values here are scaled by the value in **ResultScaleFactor** before being passed to |EMOD_s| as a daily rate.,".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -2718,7 +2788,7 @@ QualityofCare
         }
     }
 "
-"ResultValues","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","array of floats","NA","NA","NA","An array in which each row represents one of the distribution axes and contains the dependent variable values. The units are configurable; the values are scaled by the value in **ResultScaleFactor** before being passed to |EMOD_s| in units of days.
+ResultValues,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",array of floats,NA,NA,NA,"An array in which each row represents one of the distribution axes and contains the dependent variable values. The units are configurable; the values are scaled by the value in **ResultScaleFactor** before being passed to |EMOD_s| in units of days.
 
 For age distributions, it lists in ascending order the ages at which to bin the population. The corresponding values in **DistributionValues** represent the proportion of the population that is below that age. If the first member of the array is non-zero, the first bin is defined as those with that exact value (|EMOD_s| does not assume the bins start at zero).
 
@@ -2803,7 +2873,7 @@ The following example configures relatively high infant mortality and lower mort
         }
     }
 "
-"RiskDistribution1","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The first value in the risk distribution, the meaning of which depends upon the value set in **RiskDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+RiskDistribution1,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The first value in the risk distribution, the meaning of which depends upon the value set in **RiskDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: RiskDistributionFlag, RiskDistribution1
@@ -2827,7 +2897,7 @@ The following example configures relatively high infant mortality and lower mort
         }
     }
 "
-"RiskDistribution2","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The second value in the distribution, the meaning of which depends upon the value set in **RiskDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+RiskDistribution2,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The second value in the distribution, the meaning of which depends upon the value set in **RiskDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: RiskDistributionFlag, RiskDistribution2
@@ -2852,7 +2922,7 @@ The following example configures relatively high infant mortality and lower mort
         }
     }
 "
-"RiskDistributionFlag","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","0","7","0","The type of distribution to use for risk.  Possible values are:
+RiskDistributionFlag,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,0,7,0,"The type of distribution to use for risk.  Possible values are:
 
 * 0 (Constant, everyone in the population has the same risk.)
 * 1 (Uniform, risk is randomly drawn between a minimum and maximum value.)
@@ -2873,7 +2943,7 @@ The following example configures relatively high infant mortality and lower mort
         }
     }
 "
-"Seaport","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","boolean","0","1","0","Indicates whether or not the node is connected by sea migration from (not to) the node. If set to 1, **Enable_Sea_Migration** in the configuration file must be set to 1 or migration will not occur (see :doc:`parameter-configuration-migration` parameters). Primarily used to turn off migration in particular nodes.",".. code-block:: json
+Seaport,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",boolean,0,1,0,"Indicates whether or not the node is connected by sea migration from (not to) the node. If set to 1, **Enable_Sea_Migration** in the configuration file must be set to 1 or migration will not occur (see :doc:`parameter-configuration-migration` parameters). Primarily used to turn off migration in particular nodes.",".. code-block:: json
 
     {
         ""Nodes"": [
@@ -2886,7 +2956,7 @@ The following example configures relatively high infant mortality and lower mort
         ]
     }
 "
-"Society","HIV, STI","JSON object","NA","NA","NA","The structure that defines the behavioral-based parameters of a relationship type. Under this structure, include the following and assign JSON objects to each:
+Society,"HIV, STI",JSON object,NA,NA,NA,"The structure that defines the behavioral-based parameters of a relationship type. Under this structure, include the following and assign JSON objects to each:
 
 Concurrency_Configuration
     Defines how the simultaneous relationship parameters are used across all relationship types.
@@ -2940,7 +3010,7 @@ COMMERCIAL
         }
     }
 "
-"Start_Year","HIV, STI","float","1900","2200","1900","The year to start using the assortivity weighting matrix. The value must be prior to the current year or **Group** will be set to NO_GROUP. Used only when the **Group** value is one of the following:
+Start_Year,"HIV, STI",float,1900,2200,1900,"The year to start using the assortivity weighting matrix. The value must be prior to the current year or **Group** will be set to NO_GROUP. Used only when the **Group** value is one of the following:
 
 * STI_COINFECTION_STATUS
 * HIV_INFECTION_STATUS
@@ -2974,7 +3044,7 @@ COMMERCIAL
         }
     }
 "
-"SusceptibilityDistribution","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","JSON object","NA","NA","NA","The structure defining a complex immunity/susceptibility distribution. **Susceptibility_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX (see :doc:`parameter-configuration-immunity` parameters).",".. code-block:: json
+SusceptibilityDistribution,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",JSON object,NA,NA,NA,The structure defining a complex immunity/susceptibility distribution. **Susceptibility_Initialization_Distribution_Type** in the configuration file must be set to DISTRIBUTION_COMPLEX (see :doc:`parameter-configuration-immunity` parameters).,".. code-block:: json
 
     {
         ""IndividualAttributes"": {
@@ -3006,7 +3076,7 @@ COMMERCIAL
         }
     }
 "
-"SusceptibilityDistribution1","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The first value in the susceptibility distribution, the meaning of which depends upon the value set in **SusceptibilityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+SusceptibilityDistribution1,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The first value in the susceptibility distribution, the meaning of which depends upon the value set in **SusceptibilityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: SusceptibilityDistributionFlag, SusceptibilityDistribution1
@@ -3026,7 +3096,7 @@ In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibi
         }
     }
 "
-"SusceptibilityDistribution2","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","float","-3.40282e+038","3.40282e+038","0","The second value in the susceptibility distribution, the meaning of which depends upon the value set in **SusceptibilityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+SusceptibilityDistribution2,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",float,-3.40E+38,3.40E+38,0,"The second value in the susceptibility distribution, the meaning of which depends upon the value set in **SusceptibilityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
 
 .. csv-table::
    :header: SusceptibilityDistributionFlag, SusceptibilityDistribution2
@@ -3046,7 +3116,7 @@ In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibi
         }
     }
 "
-"SusceptibilityDistributionFlag","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","integer","0","7","0","The type of distribution to use for determining an individual's probability of full susceptibility. Possible values are:
+SusceptibilityDistributionFlag,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",integer,0,7,0,"The type of distribution to use for determining an individual's probability of full susceptibility. Possible values are:
 
 * 0 (Constant, everyone in the population has the same probability of susceptibility.)
 * 1 (Uniform, the probability of susceptibility is randomly drawn between a minimum and maximum value.)
@@ -3062,7 +3132,7 @@ In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibi
         }
     }
 "
-"Tool","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim","string","NA","NA","NA","The software tool used to create the demographics file. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
+Tool,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector, py_sim",string,NA,NA,NA,"The software tool used to create the demographics file. Files generated by |COMPS_s| will include this value, but it is not used by |EMOD_s| simulations.",".. code-block:: json
 
     {
         ""Metadata"": {
@@ -3074,7 +3144,7 @@ In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibi
         }
     }
 "
-"TRANSITORY","HIV, STI","JSON object","NA","NA","NA","The structure that defines basic relationship, pair formation, and concurrency parameters for brief relationships lasting one night, weekend, or week.",".. code-block:: json
+TRANSITORY,"HIV, STI",JSON object,NA,NA,NA,"The structure that defines basic relationship, pair formation, and concurrency parameters for brief relationships lasting one night, weekend, or week.",".. code-block:: json
 
     {
         ""Society"": {
@@ -3100,7 +3170,7 @@ In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibi
         }
     }
 "
-"TransmissionMatrix","Environmental, Generic, Typhoid","JSON object","NA","NA","NA","An object that contains **Route** and **Matrix** parameters that define how to scale the base infectivity from individuals with one property value to individuals with another. **Route** can be set to ""Contact"" or ""Environmental"" and **Matrix** contains a :term:`WAIFW matrix` of the disease transmission multipliers. The rows and columns are in the same order that the property values were defined in **Value**.
+TransmissionMatrix,"Environmental, Generic, Typhoid",JSON object,NA,NA,NA,"An object that contains **Route** and **Matrix** parameters that define how to scale the base infectivity from individuals with one property value to individuals with another. **Route** can be set to ""Contact"" or ""Environmental"" and **Matrix** contains a :term:`WAIFW matrix` of the disease transmission multipliers. The rows and columns are in the same order that the property values were defined in **Value**.
 The rows represent the infectious individuals (the ""whom""); the columns represent the susceptible individuals (the ""who"").
 
 This implements the |HINT_s| feature, which is available only in the generic, environmental, and typhoid simulation types. For more information, see :doc:`model-hint`.
@@ -3128,7 +3198,7 @@ This implements the |HINT_s| feature, which is available only in the generic, en
         }
     }
 "
-"Update_Period","HIV, STI","float","0","3.40282e+38","0","The period, in days, to wait before an individual is eligible to seek out new relationships. ",".. code-block:: json
+Update_Period,"HIV, STI",float,0,3.40E+38,0,"The period, in days, to wait before an individual is eligible to seek out new relationships. ",".. code-block:: json
 
     {
         ""Society"": {
@@ -3143,7 +3213,7 @@ This implements the |HINT_s| feature, which is available only in the generic, en
         }
     }
 "
-"Values","Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector","array of strings","NA","NA","NA","An array of the user-defined values that can be assigned to individuals or nodes for this property. The order of the values corresponds to the order of the **Initial_Distribution** array.
+Values,"Airborne, Dengue, Environmental, Generic, HIV, Malaria, Polio, STI, TBHIV, Typhoid, Vector",array of strings,NA,NA,NA,"An array of the user-defined values that can be assigned to individuals or nodes for this property. The order of the values corresponds to the order of the **Initial_Distribution** array.
 
 You can have up to 125 values for the Geographic and InterventionStatus property types and up to 5 values for all other types. For Age_Bin property types, omit this parameter and use **Age_Bin_Edges_In_Years** instead.",".. code-block:: json
 
@@ -3178,7 +3248,7 @@ You can have up to 125 values for the Geographic and InterventionStatus property
         }
     }
 "
-"Weighting_Matrix_RowMale_ColumnFemale","HIV, STI","matrix of floats","0","1","0","The weights to apply to pair formation rates for individuals belonging to the groups defined in **Axes**. Rows are indexed by the male attribute and columns by the female attribute as defined in **Axes**. A single row or column cannot be all zeros. The matrix must be square with the number of dimensions defined by the number of entries in **Axes**.","The following example shows that males who are negative for STI coinfection are 3 times more likely to form relationships with females who are negative and, likewise, individuals positive for STI coinfection are more likely to form relationships with others of the same status.
+Weighting_Matrix_RowMale_ColumnFemale,"HIV, STI",matrix of floats,0,1,0,The weights to apply to pair formation rates for individuals belonging to the groups defined in **Axes**. Rows are indexed by the male attribute and columns by the female attribute as defined in **Axes**. A single row or column cannot be all zeros. The matrix must be square with the number of dimensions defined by the number of entries in **Axes**.,"The following example shows that males who are negative for STI coinfection are 3 times more likely to form relationships with females who are negative and, likewise, individuals positive for STI coinfection are more likely to form relationships with others of the same status.
 
 .. code-block:: json
 
@@ -3209,7 +3279,7 @@ You can have up to 125 values for the Geographic and InterventionStatus property
         }
     }
 "
-"Years_Between_Bin_Edges_Female","HIV, STI","float","0.1","100","1","For the female population, the number of years covered in each age bin.",".. code-block:: json
+Years_Between_Bin_Edges_Female,"HIV, STI",float,0.1,100,1,"For the female population, the number of years covered in each age bin.",".. code-block:: json
 
     {
         ""Society"": {
@@ -3238,7 +3308,7 @@ You can have up to 125 values for the Geographic and InterventionStatus property
         }
     }
 "
-"Years_Between_Bin_Edges_Male","HIV, STI","integer","0.1","100","1","For the male population, the number of years covered in each age bin.",".. code-block:: json
+Years_Between_Bin_Edges_Male,"HIV, STI",integer,0.1,100,1,"For the male population, the number of years covered in each age bin.",".. code-block:: json
 
     {
         ""Society"": {

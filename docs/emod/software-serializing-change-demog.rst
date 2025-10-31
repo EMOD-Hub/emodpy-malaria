@@ -20,7 +20,6 @@ Cannot be changed
 * **Birth_Rate_Sinusoidal**
 * **Death_Rate_Dependence**
 * **Enable_Birth**
-* **Enable_Demographics_Birth**
 * **Enable_Demographics_Risk**
 * **Enable_Initial_Prevalence**
 * **Enable_Natural_Mortality**
@@ -74,9 +73,9 @@ Can be changed (with dependencies)
 ----------------------------------
 
 * **FertilityDistribution**: If **Birth_Rate_Dependence** was serialized with the value INDIVIDUAL_PREGNANCIES_BY_AGE_AND_YEAR, then you can change this distribution.
-* **MigrationHeterogeneityDistributionFlag**, **MigrationHeterogeneityDistribution1**, **MigrationHeterogeneityDistribution2**: These values can be can be changed if **Enable_Migration_Heterogeneity** is set to 1 in config.json and **Enable_Demographics_Birth** was serialized true/on.  Existing individuals will get new migration modifiers. For newborns to get it **Enable_Demographics_Birth** needed to be serialized with a value of 1.
+* **MigrationHeterogeneityDistributionFlag**, **MigrationHeterogeneityDistribution1**, **MigrationHeterogeneityDistribution2**: These values can be can be changed if **Enable_Migration_Heterogeneity** is set to 1 in config.json.
 * **MortalityDistributionFlag, MortalityDistribution1, MortalityDistribution2**: These can be changed if **Enable_Natural_Mortality** was serialized as true/on.  Which distribution is used depends on the serialized value of **Death_Rate_Dependence**.
-* **RiskDistributionFlag, RiskDistribution1, RiskDistribution2**: These can be changed if **Enable_Demographics_Risk** & **Enable_Demographics_Birth** were serialized as true/on. However, it will only impact newborns.  If you had serialized **Enable_Demographics_Risk** and not **Enable_Demographics_Birth**, these parameters will do nothing.
+* **RiskDistributionFlag, RiskDistribution1, RiskDistribution2**: These can be changed if **Enable_Demographics_Risk** was serialized as true/on, however - the new parameters will only be applied to newborns.  Existing individuals will retain their risk values from the serialized file.
 
 
 IndividualProperties

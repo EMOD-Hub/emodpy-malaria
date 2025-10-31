@@ -65,14 +65,16 @@
       ""Cytokine_Gametocyte_Inactivation"": 0.0167
     }
 "
-"Enable_Immunity","boolean","0","1","1","Controls whether or not an individual has protective immunity after an infection clears.
+"Enable_Immunity","boolean","0","1","1","Controls whether or not an individual has protective immunity after an infection clears. Note: MALARIA_SIM - always on to allow for malaria infection immunity dynamics.
 ",".. code-block:: json
 
     {
       ""Enable_Immunity"": 1
     }
 "
-"Enable_Initial_Susceptibility_Distribution","boolean","0","1","0","Controls whether or not individuals in the population have immunity at the beginning of the simulation. If set to 0, individuals are not initialized with immunity but may acquire immunity. If set to 1, you must indicate the type of distribution to use for immunity in the configuration parameter **Susceptibility_Initialization_Distribution_Type** and the distribution values in the demographics file. **Enable_Immunity** must be set to 1.",".. code-block:: json
+"Enable_Initial_Susceptibility_Distribution","boolean","0","1","0","[Note: Not used in MALARIA_SIM] Controls whether or not individuals in the population have immunity at the beginning of the simulation. If set to 0, individuals are not initialized with immunity but may acquire immunity. If set to 1, you must indicate the type of distribution to use for immunity in the configuration parameter **Susceptibility_Initialization_Distribution_Type** and the distribution values in the demographics file. **Enable_Immunity** must be set to 1.
+
+Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as individuals acquire immunity through malarial infection dynamics.",".. code-block:: json
 
     {
       ""Enable_Immunity"": 1,
@@ -141,14 +143,21 @@ Possible values are:
 NONE
     No variation in innate immunity between individuals.  
 PYROGENIC_THRESHOLD
-    Applies individual variation using the susceptibility distribution values set in **SusceptibilityDistributionFlag**, **SusceptibilityDistribution1**, and **SusceptibilityDistribution2** in the demographics file to the average threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.  
+    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the average threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.
 PYROGENIC_THRESHOLD_VS_AGE
     Ignores the demographic file settings and applies an age-dependent threshold for infected red blood cells resulting in fever.
 CYTOKINE_KILLING
-    Applies individual variation using the susceptibility distribution values set in **SusceptibilityDistributionFlag**, **SusceptibilityDistribution1**, and **SusceptibilityDistribution2** in the demographics file to the effectiveness of cytokines in killing infected red blood cells, as set in **Fever_IRBC_Kill_Rate**.",".. code-block:: json
+    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the effectiveness of cytokines in killing infected red blood cells, as set in **Fever_IRBC_Kill_Rate**.
+PYROGENIC_THRESHOLD_VS_AGE_IIV
+    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the age-dependent transformation of the threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.
+PYROGENIC_THRESHOLD_VS_AGE_INC
+    Applies age-dependent transformation of the threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.
+PYROGENIC_THRESHOLD_CK_DUAL
+    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the age-dependent transformation of the threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**, and to the effectiveness of cytokines in killing infected red blood cells, as set in **Fever_IRBC_Kill_Rate**.
+",".. code-block:: json
 
     {
-      ""Innate_Immune_Variation_Type"": ""PYROGENIC_THRESHOLD""
+      ""Innate_Immune_Variation_Type"": ""PYROGENIC_THRESHOLD_VS_AGE_IIV""
     }
 "
 "Maternal_Antibodies_Type","enum","NA","NA","OFF","The type of maternal antibody protection.  **Enable_Maternal_Antibodies_Transmission** must be set to 1 (true).
@@ -312,7 +321,7 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""RBC_Destruction_Multiplier"": 3.291048711
     }
 "
-"Susceptibility_Initialization_Distribution_Type","enum","NA","NA","DISTRIBUTION_OFF","The method for initializing the susceptibility distribution in the simulated population. **Enable_Initial_Susceptibility_Distribution** must be set to 1 (true). Possible values are: 
+"Susceptibility_Initialization_Distribution_Type","enum","NA","NA","DISTRIBUTION_OFF","[Note: Not used in MALARIA_SIM] The method for initializing the susceptibility distribution in the simulated population. **Enable_Initial_Susceptibility_Distribution** must be set to 1 (true). Possible values are:
 
 DISTRIBUTION_OFF
     All individuals default to no susceptibility. 
