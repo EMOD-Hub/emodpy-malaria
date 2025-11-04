@@ -130,24 +130,25 @@ the corresponding antigenic variant is cleared. At this time, the capacity will 
 memory level. The mechanism by which the antibody capacity evolves captures the time delay of
 specific antibody response on re-infection.
 
+After a predefined numbers of days since the antibody has been active, we start "long term" decay
+of the concentration.
+
 .. figure:: ../images/vector-malaria/Malaria_Infection_immunity_adaptive_response_to_variable_epitopes.png
 
    Adaptive immune response to PfEMP1 and minor epitopes
 
 
 
-
 .. figure:: ../images/vector-malaria/Malaria_Infection_immunity_anti_MSP_immunity.png
 
-   Adaptive immune response to PfEMP1 and minor epitopesAdaptive immune response to MSP antigens
-
-
+   Adaptive immune response to MSP antigens
 
 
 
 .. figure:: ../images/vector-malaria/Malaria_Infection_immunity_anti_CSP_immunity.png
 
    Adaptive immune response to CSP
+
 
 
 

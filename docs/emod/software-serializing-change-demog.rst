@@ -76,6 +76,7 @@ Can be changed (with dependencies)
 * **MigrationHeterogeneityDistributionFlag**, **MigrationHeterogeneityDistribution1**, **MigrationHeterogeneityDistribution2**: These values can be can be changed if **Enable_Migration_Heterogeneity** is set to 1 in config.json.
 * **MortalityDistributionFlag, MortalityDistribution1, MortalityDistribution2**: These can be changed if **Enable_Natural_Mortality** was serialized as true/on.  Which distribution is used depends on the serialized value of **Death_Rate_Dependence**.
 * **RiskDistributionFlag, RiskDistribution1, RiskDistribution2**: These can be changed if **Enable_Demographics_Risk** was serialized as true/on, however - the new parameters will only be applied to newborns.  Existing individuals will retain their risk values from the serialized file.
+* **InnateImmuneDistributionFlag, InnateImmuneDistribution1, InnateImmuneDistribution2**: These can be changed if **Enable_Demographics_Risk** was serialized as true/on, however - the new parameters will only be applied to newborns.  Existing individuals will retain their risk values from the serialized file.
 
 
 IndividualProperties

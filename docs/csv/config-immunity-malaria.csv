@@ -1,10 +1,10 @@
-"Acquisition_Blocking_Immunity_Decay_Rate","float","0","1","0.001","The rate at which acquisition-blocking immunity decays after the initial period indicated by the base acquisition-blocking immunity offset. Only used when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
+"Acquisition_Blocking_Immunity_Decay_Rate","float","0","1","0.001","[Note: Not used in MALARIA_SIM]The rate at which acquisition-blocking immunity decays after the initial period indicated by the base acquisition-blocking immunity offset. Only used when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
 
     {
       ""Acquisition_Blocking_Immunity_Decay_Rate"": 0.05
     }
 "
-"Acquisition_Blocking_Immunity_Duration_Before_Decay","float","0","45000","0","The number of days after infection until acquisition-blocking immunity begins to decay. **Enable_Immunity** and **Enable_Immune_Decay** must be set to true (1).",".. code-block:: json
+"Acquisition_Blocking_Immunity_Duration_Before_Decay","float","0","45000","0","[Note: Not used in MALARIA_SIM]The number of days after infection until acquisition-blocking immunity begins to decay. **Enable_Immunity** and **Enable_Immune_Decay** must be set to true (1).",".. code-block:: json
 
     {
       ""Acquisition_Blocking_Immunity_Duration_Before_Decay"": 10
@@ -34,10 +34,23 @@
       ""Antibody_CSP_Killing_Threshold"": 20
     }
 "
+"Antibody_Days_To_Long_Term_Decay","float","1","3.40E+38","3.40E+38","The number of days since the antibody (MSP & EMP1) was last active to start the long term decay of the concentration.",".. code-block:: json
+
+    {
+      ""Antibody_Days_To_Long_Term_Decay"": 80
+    }
+"
 "Antibody_IRBC_Kill_Rate","double","NA","NA","2","The scale factor multiplied by antibody level to produce the rate of clearance of the infected red blood cell (IRBC) population.",".. code-block:: json
 
     {
       ""Antibody_IRBC_Kill_Rate"": 1.595
+    }
+"
+"Antibody_Long_Term_Decay_Days","float","1","3.40E+38","3650","The exponential decay time for an antibody (MSP & EMP1) concentration (in days) after the time since the antibody was last active exceeds **Antibody_Days_To_Long_Term_Decay**.",".. code-block:: json
+
+    {
+      ""Antibody_Days_To_Long_Term_Decay"": 1000,
+      ""Antibody_Long_Term_Decay_Days"": 4000
     }
 "
 "Antibody_Memory_Level","float","0","0.35","0.2","The limiting level of antibody capacity that remains after a prolonged absence of a specific antigen. The antibody capacity decays to this level gradually after infection is cleared. The decay rate in antibody capacity is set so that hyperimmunity is lost within 4 months, and capacity continues to decay to this level. The antibody memory level is relevant for year-scale dynamics, but not for long-term dynamics (10-20 years).",".. code-block:: json
@@ -91,7 +104,7 @@ Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as indiv
       ""Maternal_Antibody_Decay_Rate"": 0.03
     }
 "
-"Enable_Maternal_Protection","boolean","0","1","0","Controls whether or not mothers pass immunity on to their infants. Setting to 1 (true) enables maternal protection as defined by **Maternal_Protection_Type**. **Enable_Birth** must be set to 1 (true).",".. code-block:: json
+"Enable_Maternal_Protection","boolean","0","1","0","[Note: Not used in MALARIA_SIM]Controls whether or not mothers pass immunity on to their infants. Setting to 1 (true) enables maternal protection as defined by **Maternal_Protection_Type**. **Enable_Birth** must be set to 1 (true).",".. code-block:: json
 
     {
       ""Enable_Maternal_Protection"": 1,
@@ -146,14 +159,6 @@ PYROGENIC_THRESHOLD
     Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the average threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.
 PYROGENIC_THRESHOLD_VS_AGE
     Ignores the demographic file settings and applies an age-dependent threshold for infected red blood cells resulting in fever.
-CYTOKINE_KILLING
-    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the effectiveness of cytokines in killing infected red blood cells, as set in **Fever_IRBC_Kill_Rate**.
-PYROGENIC_THRESHOLD_VS_AGE_IIV
-    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the age-dependent transformation of the threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.
-PYROGENIC_THRESHOLD_VS_AGE_INC
-    Applies age-dependent transformation of the threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.
-PYROGENIC_THRESHOLD_CK_DUAL
-    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the age-dependent transformation of the threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**, and to the effectiveness of cytokines in killing infected red blood cells, as set in **Fever_IRBC_Kill_Rate**.
 ",".. code-block:: json
 
     {
@@ -190,7 +195,7 @@ CONSTANT_INITIAL_IMMUNITY
       ""Maternal_Antibody_Protection"": 0.1327
     }
 "
-"Maternal_Linear_Slope","float","0.0001","1","0.01","Slope parameter describing the rate of waning for maternal protection, must be positive. The per-day increase in susceptibility. **Maternal_Protection_Type** must be set to LINEAR_FRACTIONAL or LINEAR_BINARY.",".. code-block:: json
+"Maternal_Linear_Slope","float","0.0001","1","0.01","[Note: Not used in MALARIA_SIM]Slope parameter describing the rate of waning for maternal protection, must be positive. The per-day increase in susceptibility. **Maternal_Protection_Type** must be set to LINEAR_FRACTIONAL or LINEAR_BINARY.",".. code-block:: json
 
     {
       ""Maternal_Protection_Type"": ""LINEAR_FRACTIONAL"",
@@ -198,7 +203,7 @@ CONSTANT_INITIAL_IMMUNITY
       ""Maternal_Linear_Slope"": 0.02
     }
 "
-"Maternal_Linear_SusZero","float","0","1","0.2","The initial level of maternal protection at age 0, given as susceptibility. A value of 0.0 implies total protection, a value of 1.0 implies no protection. **Maternal_Protection_Type** must be set to LINEAR_FRACTIONAL or LINEAR_BINARY.",".. code-block:: json
+"Maternal_Linear_SusZero","float","0","1","0.2","[Note: Not used in MALARIA_SIM]The initial level of maternal protection at age 0, given as susceptibility. A value of 0.0 implies total protection, a value of 1.0 implies no protection. **Maternal_Protection_Type** must be set to LINEAR_FRACTIONAL or LINEAR_BINARY.",".. code-block:: json
 
     {
       ""Maternal_Protection_Type"": ""LINEAR_FRACTIONAL"",
@@ -206,7 +211,7 @@ CONSTANT_INITIAL_IMMUNITY
       ""Maternal_Linear_Slope"": 0.02
     }
 "
-"Maternal_Protection_Type","enum","NA","NA","NONE","The type of maternal protection afforded to infants. **Enable_Maternal_Protection** must be set to 1 (true). Possible values are:
+"Maternal_Protection_Type","enum","NA","NA","NONE","[Note: Not used in MALARIA_SIM]The type of maternal protection afforded to infants. **Enable_Maternal_Protection** must be set to 1 (true). Possible values are:
 
 NONE 
     No immune protection is passed on to infants.
@@ -222,7 +227,7 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Maternal_Protection_Type"": ""LINEAR_FRACTIONAL""
     }
 "
-"Maternal_Sigmoid_HalfMaxAge","float","-270","3650","180","The age in days that the level of maternal protection is half of its initial value. **Maternal_Protection_Type** must be set to SIGMOID_FRACTIONAL or SIGMOID_BINARY.",".. code-block:: json
+"Maternal_Sigmoid_HalfMaxAge","float","-270","3650","180","[Note: Not used in MALARIA_SIM]The age in days that the level of maternal protection is half of its initial value. **Maternal_Protection_Type** must be set to SIGMOID_FRACTIONAL or SIGMOID_BINARY.",".. code-block:: json
 
     {
       ""Maternal_Protection_Type"": ""SIGMOID_BINARY"",
@@ -231,7 +236,7 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Maternal_Sigmoid_SusInit"": 0.0002
     }
 "
-"Maternal_Sigmoid_SteepFac","float","0.1","1000","30","The steepness factor describing the rate of waning for maternal protection, must be positive. Small values imply rapid waning.**Maternal_Protection_Type** must be set to SIGMOID_FRACTIONAL or SIGMOID_BINARY.",".. code-block:: json
+"Maternal_Sigmoid_SteepFac","float","0.1","1000","30","[Note: Not used in MALARIA_SIM]The steepness factor describing the rate of waning for maternal protection, must be positive. Small values imply rapid waning.**Maternal_Protection_Type** must be set to SIGMOID_FRACTIONAL or SIGMOID_BINARY.",".. code-block:: json
 
     {
       ""Maternal_Protection_Type"": ""SIGMOID_BINARY"",
@@ -240,7 +245,7 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Maternal_Sigmoid_SusInit"": 0.0002
     }
 "
-"Maternal_Sigmoid_SusInit","float","0","1","0","The initial level of maternal protection at age -INF, given as susceptibility. A value of 0.0 implies total protection, a value of 1.0 implies no protection. **Maternal_Protection_Type** must be set to SIGMOID_FRACTIONAL or SIGMOID_BINARY.",".. code-block:: json
+"Maternal_Sigmoid_SusInit","float","0","1","0","[Note: Not used in MALARIA_SIM]The initial level of maternal protection at age -INF, given as susceptibility. A value of 0.0 implies total protection, a value of 1.0 implies no protection. **Maternal_Protection_Type** must be set to SIGMOID_FRACTIONAL or SIGMOID_BINARY.",".. code-block:: json
 
     {
       ""Maternal_Protection_Type"": ""SIGMOID_BINARY"",
@@ -261,13 +266,13 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Min_Adapted_Response"": 0.01
     }
 "
-"Mortality_Blocking_Immunity_Decay_Rate","float","0","1","0.001","The rate at which mortality-blocking immunity decays after the mortality-blocking immunity offset period. **Enable_Immune_Decay** must be set to 1.",".. code-block:: json
+"Mortality_Blocking_Immunity_Decay_Rate","float","0","1","0.001","[Note: Not used in MALARIA_SIM] The rate at which mortality-blocking immunity decays after the mortality-blocking immunity offset period. **Enable_Immune_Decay** must be set to 1.",".. code-block:: json
 
     {
       ""Mortality_Blocking_Immunity_Decay_Rate"": 0.1
     }
 "
-"Mortality_Blocking_Immunity_Duration_Before_Decay","float","0","45000","0","The number of days after infection until mortality-blocking immunity begins to decay. **Enable_Immunity** and **Enable_Immune_Decay** must be set to 1.",".. code-block:: json
+"Mortality_Blocking_Immunity_Duration_Before_Decay","float","0","45000","0","[Note: Not used in MALARIA_SIM] The number of days after infection until mortality-blocking immunity begins to decay. **Enable_Immunity** and **Enable_Immune_Decay** must be set to 1.",".. code-block:: json
 
     {
       ""Mortality_Blocking_Immunity_Duration_Before_Decay"": 270
@@ -291,7 +296,7 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Nonspecific_Antigenicity_Factor"": 0.39192559432597257
     }
 "
-"Post_Infection_Acquisition_Multiplier","float","0","1","0","The multiplicative reduction in the probability of reacquiring disease. At the time of recovery, the immunity against acquisition is multiplied by **Acquisition_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Acquisition_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
+"Post_Infection_Acquisition_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of reacquiring disease. At the time of recovery, the immunity against acquisition is multiplied by **Acquisition_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Acquisition_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
 
     {
       ""Enable_Immunity"": 1,
@@ -299,7 +304,7 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Post_Infection_Acquisition_Multiplier"": 0.9
     }
 "
-"Post_Infection_Mortality_Multiplier","float","0","1","0","The multiplicative reduction in the probability of dying from infection after getting reinfected. At the time of recovery, the immunity against mortality is multiplied by **Mortality_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Mortality_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
+"Post_Infection_Mortality_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of dying from infection after getting reinfected. At the time of recovery, the immunity against mortality is multiplied by **Mortality_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Mortality_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
 
     {
       ""Enable_Immunity"": 1,
@@ -307,7 +312,7 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Post_Infection_Mortality_Multiplier"": 0.5
     }
 "
-"Post_Infection_Transmission_Multiplier","float","0","1","0","The multiplicative reduction in the probability of transmitting infection after getting reinfected. At the time of recovery, the immunity against transmission is multiplied by **Transmission_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Transmission_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
+"Post_Infection_Transmission_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of transmitting infection after getting reinfected. At the time of recovery, the immunity against transmission is multiplied by **Transmission_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Transmission_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
 
     {
       ""Enable_Immunity"": 1,
@@ -336,7 +341,7 @@ DISTRIBUTION_COMPLEX
       ""Susceptibility_Initialization_Distribution_Type"": ""DISTRIBUTION_COMPLEX""
     }
 "
-"Susceptibility_Type","enum","NA","NA","FRACTIONAL","Controls implementation of an individual's susceptibility. Currently only relevant to **Maternal_Protection_Type** parameter. Possible values are:
+"Susceptibility_Type","enum","NA","NA","FRACTIONAL","[Note: Not used in MALARIA_SIM]Controls implementation of an individual's susceptibility. Currently only relevant to **Maternal_Protection_Type** parameter. Possible values are:
 
 FRACTIONAL
     All agents are assigned equal values between 0 and 1 according to a governing equation as specified by **Maternal_Protection_Type**.
@@ -349,13 +354,13 @@ BINARY
       ""Maternal_Protection_Type"": ""LINEAR_FRACTIONAL""
     }
 "
-"Transmission_Blocking_Immunity_Decay_Rate","float","0","1000","0.001","The rate at which transmission-blocking immunity decays after the base transmission-blocking immunity offset period. Used only when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
+"Transmission_Blocking_Immunity_Decay_Rate","float","0","1000","0.001","[Note: Not used in MALARIA_SIM] The rate at which transmission-blocking immunity decays after the base transmission-blocking immunity offset period. Used only when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
 
     {
       ""Transmission_Blocking_Immunity_Decay_Rate"": 0.01
     }
 "
-"Transmission_Blocking_Immunity_Duration_Before_Decay","float","0","45000","0","The number of days after infection until transmission-blocking immunity begins to decay. Only used when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
+"Transmission_Blocking_Immunity_Duration_Before_Decay","float","0","45000","0","[Note: Not used in MALARIA_SIM] The number of days after infection until transmission-blocking immunity begins to decay. Only used when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
 
     {
       ""Transmission_Blocking_Immunity_Duration_Before_Decay"": 90
