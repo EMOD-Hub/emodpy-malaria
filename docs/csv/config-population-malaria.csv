@@ -136,15 +136,6 @@ Properties, rates, and bin sizes can be set for non-disease mortality for each g
       ""Enable_Birth"": 1
     }
 "
-"Enable_Demographics_Birth","boolean","0","1","0","Controls whether or not newborns have disease risk drawn from a distribution; uniform disease risk if false. **Enable_Birth**, **Enable_Demographics_Risk**, and **Enable_Vital_Dynamics** must be set to true (1).
-",".. code-block:: json
-
-    {
-      ""Enable_Birth"": 1,
-      ""Enable_Demographics_Birth"": 1,
-      ""Enable_Vital_Dynamics"": 1
-    }
-"
 "Enable_Demographics_Builtin","boolean","0","1","0","Controls whether or not built-in demographics for default geography will be used. Note that the built-in demographics feature does not represent a real geographical location and is mostly used for testing. Set to true (1) to define the initial population and number of nodes using **Default_Geography_Initial_Node_Population** and **Default_Geography_Torus_Size**. Set to false (0) to use demographics input files defined in **Demographics_Filenames**.",".. code-block:: json
 
     {

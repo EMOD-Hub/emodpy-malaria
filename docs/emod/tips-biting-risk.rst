@@ -76,15 +76,14 @@ Where is it specified?
 ----------------------
 
 The distribution of relative biting risks across the entire population is specified in the
-demographics file using the **RiskDistributionFlag** (which provides the type of distribution used)
+demographics file under **IndividualAttributes** using the **RiskDistributionFlag** (which provides the type of distribution used)
 along with **RiskDistribution1** and **RiskDistribution2** parameters (which specify the shape of the
 distribution). Details on the values for these parameters can be found in :doc:`parameter-demographics`.
 
 .. note::
 
     It is necessary to also set **Enable_Demographics_Risk** to 1 in the configuration file,
-    otherwise the demographics risks will be ignored in the simulation.  You must also set
-    **Enable_Demographics_Birth** to 1 if you want newborns to get different relative biting risks.
+    otherwise the demographics risks will be ignored in the simulation.
 
 
 Who does it apply to?
@@ -99,8 +98,8 @@ How does serialization affect it?
 ---------------------------------
 
 An individual that is deserialized from the file will have whatever relative biting risk they had
-when they were deserialized.  However, if **Enable_Demographics_Risk** and **Enable_Demographics_Birth**
-were serialized on, then newborns will get new relative biting risk values based on the
+when they were deserialized.  However, if **Enable_Demographics_Risk** were serialized on, then
+newborns will get new relative biting risk values based on the
 **RiskDistributionFlag**, **RiskDistribution1**, and **RiskDistribution2** parameters in the demographics file.
 
 Individual’s risks do not change at serialization.
