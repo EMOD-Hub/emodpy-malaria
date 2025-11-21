@@ -162,7 +162,7 @@ PYROGENIC_THRESHOLD_VS_AGE
 ",".. code-block:: json
 
     {
-      ""Innate_Immune_Variation_Type"": ""PYROGENIC_THRESHOLD_VS_AGE_IIV""
+      ""Innate_Immune_Variation_Type"": ""PYROGENIC_THRESHOLD_VS_AGE""
     }
 "
 "Maternal_Antibodies_Type","enum","NA","NA","OFF","The type of maternal antibody protection.  **Enable_Maternal_Antibodies_Transmission** must be set to 1 (true).
