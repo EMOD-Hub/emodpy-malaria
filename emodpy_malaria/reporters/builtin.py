@@ -1662,8 +1662,16 @@ def add_report_fpg_new_infections(task, manifest,
 def add_report_antibodies(task, manifest,
                           start_day: int = 0,
                           end_day: int = 365000,
-                          reporting_interval: int = 30,
-                          contain_capacity_data: bool = False):
+                          node_ids: list = None,
+                          min_age_years: float = 0,
+                          max_age_years: float = MAX_AGE_YEARS,
+                          must_have_ip_key_value: str = "",
+                          must_have_intervention: str = "",
+                          filename_suffix: str = "",
+                          reporting_interval: int = 1,
+                          contain_capacity_data: bool = False,
+                          infected_only: bool = False
+                          ):
     """
     Adds ReportAntibodies reporter.
 
@@ -1672,9 +1680,20 @@ def add_report_antibodies(task, manifest,
         manifest: Schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
-        reporting_interval: interval (in days) at which to report antibody data
+        node_ids: List of nodes for which to collect data
+        min_age_years: Minimum age in years of people to collect data on.
+        max_age_years: Maximum age in years of people to collect data on.
+        must_have_ip_key_value: a "Key:Value" pair that the individual must have in order to be included. Empty string
+            means don't look at IPs (individual properties).
+        must_have_intervention: the name of the intervention that the person must have in order to be included.
+            Empty string means don't look at the interventions.
+        filename_suffix: Augments the filename of the report. If multiple reports of this class are being generated,
+            this allows you to distinguish among them.
+        reporting_interval: interval (in days) at which to report antibody data.
         contain_capacity_data: If true, the data for each antibody is the capacity of the antibody,
-            otherwise it's the current concentration.
+            otherwise it's the current concentration. Changes default name of the report from
+            ReportAntibodiesConcentration.csv to ReportAntibodiesCapacity.csv
+        infected_only: If true, only individuals who are currently infected will have their antibody data recorded.
 
     Returns:
         if task is not set, returns the configured reporter, otherwise returns nothing
@@ -1686,6 +1705,13 @@ def add_report_antibodies(task, manifest,
         params.End_Day = end_day
         params.Reporting_Interval = reporting_interval
         params.Contain_Capacity_Data = 1 if contain_capacity_data else 0
+        params.Infected_Only = 1 if infected_only else 0
+        params.Node_IDs_Of_Interest = node_ids if node_ids else []
+        params.Max_Age_Years = max_age_years
+        params.Min_Age_Years = min_age_years
+        params.Must_Have_IP_Key_Value = must_have_ip_key_value
+        params.Must_Have_Intervention = must_have_intervention
+        params.Filename_Suffix = filename_suffix
 
         return params
 

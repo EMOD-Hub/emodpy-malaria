@@ -142,6 +142,28 @@ Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as indiv
       ""Fever_IRBC_Kill_Rate"": 1.4
     }
 "
+
+"Pyrogenic_Threshold","float","0.1","100000","1000","Level of bloodstream infection, measured in IRBC per microliter, at which stimulation of the innate inflammatory immune response is half its maximum value.
+",".. code-block:: json
+
+    {
+      ""Pyrogenic_Threshold"": 15000
+    }
+"
+"Pyrogenic_Threshold_Min","float","0.1","100000","0.1","Minimum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped from the bottom, so if a threshold is calcualted to be lower, it will be reset to this value.
+",".. code-block:: json
+
+    {
+      ""Pyrogenic_Threshold_Min"": 100
+    }
+"
+"Pyrogenic_Threshold_Max","Maximum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped, so if a threshold is calcualted to be higher, it will be reset to this value.
+",".. code-block:: json
+
+    {
+      ""Pyrogenic_Threshold_Max"": 50000
+    }
+"
 "Immune_Threshold_For_Downsampling","float","0","1","0","The threshold on acquisition immunity at which to apply immunity-dependent downsampling; individuals who are more immune than this this threshold are downsampled. A value of 1 is equivalent to full susceptibility and 0 is equivalent to full immunity. If the acquisition immunity modifier is larger than the threshold, no downsampling occurs. **Individual_Sampling_Type** must set to ADAPTED_SAMPLING_BY_IMMUNE_STATE.",".. code-block:: json
 
     {
@@ -152,7 +174,7 @@ Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as indiv
 "
 "Innate_Immune_Variation_Type","enum","NA","NA","NONE","The type of innate immunity on which to apply individual-level variation. The individual-level variation is generated from a simple distribution defined in demographics using **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** parameters. If the pyrogenic threshold is bounded by **Pyrogenic_Threshold_Min** and **Pyrogenic_Threshold_Max**, those bounds are applied after pyrogenic threshold is calculated.
 
-Possible values are: 
+Possible values are:
 
 NONE
     No individual-level variation applied to the defined **Pyrogenic_Threshold** or **Fever_IRBC_Kill_Rate**.
@@ -168,12 +190,14 @@ PYROGENIC_THRESHOLD_VS_AGE_CONCAVE
     If calculated pyrogenic threshold is below **Pyrogenic_Threshold_Min**, it is set to **Pyrogenic_Threshold_Min**.
     The threshold is updated every 3 months of a person's age.
 PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE
+    For this option, both pyrogenic threshold and cytokine killing rate are modified based on individual-level variation.
+    Because of how the cytokine killing rate is calculated, individual-level variation is fixed to be drawn from a Uniform distribution between 0 and 1.
     Pyrogenic threshold is calculated using individual's age, set **Pyrogenic_Threshold** and individual-level variation.
     m_ind_pyrogenic_threshold = individual-level variation * **Pyrogenic_Threshold**
     For individuals whose pyrogenic threshold is less than **Pyrogenic_Threshold_Max**, the formula to calculate their new pyrogenic threshold is:
     m_ind_pyrogenic_threshold * pow( 10, ( 0.132 * age_in_years) )
     When that calculation exceeds **Pyrogenic_Threshold_Max**, the pyrogenic threshold is set to **Pyrogenic_Threshold_Max**.
-    The individual's cytokine kill rate is then set to:
+    The individual's cytokine kill rate is then set to: **Fever_IRBC_Kill_Rate** * ( 2 - individual-level variation)
 
 ",".. code-block:: json
 
