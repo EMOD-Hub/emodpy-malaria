@@ -3,8 +3,8 @@ import csv
 import os
 from . import vector_config
 from emodpy_malaria.malaria_vector_species_params import species_params
-
-
+from utils import InnateImmuneVariationType
+import math
 #
 # PUBLIC API section
 #
@@ -36,8 +36,6 @@ def set_team_defaults(config, manifest):
     # config.parameters.Enable_Malaria_CoTransmission = 0
 
     # INFECTION
-    config.parameters.Max_MSP1_Antibody_Growthrate = 0
-    config.parameters.Min_Adapted_Response = 0
     config.parameters.Infection_Updates_Per_Timestep = 8
     config.parameters.Enable_Superinfection = 1
     config.parameters.Incubation_Period_Distribution = "CONSTANT_DISTRIBUTION"
@@ -46,37 +44,12 @@ def set_team_defaults(config, manifest):
     config.parameters.RBC_Destruction_Multiplier = 3.29
     config.parameters.Parasite_Switch_Type = "RATE_PER_PARASITE_7VARS"
 
-    # 150305 calibration by JG to Burkina data + 6 of Kevin's sites
-    # N.B: severe disease re-calibration not done
-    # 'Base_Gametocyte_Production_Rate': 0.044,
-    # config.parameters.Gametocyte_Stage_Survival_Rate = 0.82,
-    # 'Antigen_Switch_Rate': 2.96e-9,
-    # 'Falciparum_PfEMP1_Variants': 1112,
-    # 'Falciparum_MSP_Variants': 7,
-    # 'MSP1_Merozoite_Kill_Fraction': 0.43,
-    # 'Falciparum_Nonspecific_Types': 90,
-    # 'Nonspecific_Antigenicity_Factor': 0.42,
-    # 'Base_Gametocyte_Mosquito_Survival_Rate': 0.00088,
-    # config.parameters.Max_Individual_Infections = 5,
-
-    # 180824 Prashanth parameters [description?]
-    import math
-    config.parameters.Antigen_Switch_Rate = math.pow(10, -9.116590124)
-    config.parameters.Base_Gametocyte_Production_Rate = 0.06150582
-    config.parameters.Base_Gametocyte_Mosquito_Survival_Rate = 0.002011099
-    config.parameters.Falciparum_MSP_Variants = 32
-    config.parameters.Falciparum_Nonspecific_Types = 76
-    config.parameters.Falciparum_PfEMP1_Variants = 1070
-    config.parameters.Gametocyte_Stage_Survival_Rate = 0.588569307
-    config.parameters.MSP1_Merozoite_Kill_Fraction = 0.511735322
-    config.parameters.Max_Individual_Infections = 3
-    config.parameters.Nonspecific_Antigenicity_Factor = 0.415111634
-
     # IMMUNITY; these are NOT schema defaults
     config.parameters.Antibody_CSP_Killing_Threshold = 20
     config.parameters.Antigen_Switch_Rate = math.pow(10, -9.116590124)
     config.parameters.Base_Gametocyte_Production_Rate = 0.06150582
     config.parameters.Base_Gametocyte_Mosquito_Survival_Rate = 0.002011099
+    config.parameters.Innate_Immune_Variation_Type = InnateImmuneVariationType.NONE.value  # passing the string value
     config.parameters.Pyrogenic_Threshold = 1.5e4
     config.parameters.Falciparum_MSP_Variants = 32
     config.parameters.Falciparum_Nonspecific_Types = 76

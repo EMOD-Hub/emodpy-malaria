@@ -69,7 +69,7 @@ Stratification columns
     NodeID, integer, "The External ID of the node that the data is being collected for."
     IndividualID, integer, The ID of the individual who received the drug.
     Gender, enum, "The gender of the individual. Possible values are M or F."
-    AgeYears, integer, The max age in years of the age bin for the individual.
+    AgeYears, float, "The age of the individual, in years."
     Infected, boolean, "A true value (1) indicates the individual is infected and a false value (0) indicates the individual is not infected."
 
 
