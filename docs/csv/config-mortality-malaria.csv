@@ -93,7 +93,7 @@ This parameter configures the fever mortality threshold, in units of degrees Cel
         ""Fever_Mortality_Threshold"": 10
     }
 "
-"Mortality_Blocking_Immunity_Decay_Rate","float","0","1","0.001","The rate at which mortality-blocking immunity decays after the mortality-blocking immunity offset period. **Enable_Immune_Decay** must be set to 1.",".. code-block:: json
+"Mortality_Blocking_Immunity_Decay_Rate","float","0","1","0.001","[Note: Not used in MALARIA_SIM]The rate at which mortality-blocking immunity decays after the mortality-blocking immunity offset period. **Enable_Immune_Decay** must be set to 1.",".. code-block:: json
 
     {
         ""Mortality_Blocking_Immunity_Decay_Rate"": 0.1
