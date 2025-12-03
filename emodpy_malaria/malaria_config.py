@@ -51,6 +51,8 @@ def set_team_defaults(config, manifest):
     config.parameters.Base_Gametocyte_Mosquito_Survival_Rate = 0.002011099
     config.parameters.Innate_Immune_Variation_Type = InnateImmuneVariationType.NONE.value  # passing the string value
     config.parameters.Pyrogenic_Threshold = 1.5e4
+    config.parameters.Pyrogenic_Threshold_Min = 100
+    config.parameters.Pyrogenic_Threshold_Max = 50000
     config.parameters.Falciparum_MSP_Variants = 32
     config.parameters.Falciparum_Nonspecific_Types = 76
     config.parameters.Falciparum_PfEMP1_Variants = 1070
