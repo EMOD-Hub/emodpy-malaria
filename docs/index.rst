@@ -40,7 +40,7 @@ parameters, output reports, and other components of the model that are available
 
 |EMODPY_malaria| is a collection of Python scripts and utilities created to
 streamline user interactions with |EMOD_s| and |IT_s| for modeling malaria.
-Much of the functionality is inherited from `emod-api <https://docs.idmod.org/projects/emod-api/en/latest/>`__ and :doc:`emodpy:emodpy`.
+Much of the functionality is inherited from `emod-api <https://emod-hub.github.io/emod-api/>`__ and `emodpy <https://emod-hub.github.io/emodpy/>`__.
 
 Additional information about how to use |IT_s| can be found in
 :doc:`idmtools:index`.  Additional information about |EMOD_s| malaria
@@ -68,7 +68,7 @@ disease transmission model.
    :titlesonly:
    :caption: Related documentation
 
-   emod-api <https://docs.idmod.org/projects/emod-api/en/latest/>
-   emodpy <https://docs.idmod.org/projects/emodpy/en/latest/>
+   emod-api <https://emod-hub.github.io/emod-api/>
+   emodpy <https://emod-hub.github.io/emodpy/>
    idmtools <https://docs.idmod.org/projects/idmtools/en/latest/>
    idmtools-calibra <https://docs.idmod.org/projects/idmtools_calibra/en/latest/>
