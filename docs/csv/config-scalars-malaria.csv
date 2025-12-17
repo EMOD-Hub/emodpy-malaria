@@ -180,7 +180,7 @@ FIXED_SCALING
         ""Population_Scale_Type"": ""FIXED_SCALING""
     }
 "
-"Post_Infection_Acquisition_Multiplier","float","0","1","0","The multiplicative reduction in the probability of reacquiring disease. At the time of recovery, the immunity against acquisition is multiplied by **Acquisition_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Acquisition_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
+"Post_Infection_Acquisition_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of reacquiring disease. At the time of recovery, the immunity against acquisition is multiplied by **Acquisition_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Acquisition_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
 
     {
         ""Enable_Immunity"": 1,
@@ -188,7 +188,7 @@ FIXED_SCALING
         ""Post_Infection_Acquisition_Multiplier"": 0.9
     }
 "
-"Post_Infection_Mortality_Multiplier","float","0","1","0","The multiplicative reduction in the probability of dying from infection after getting reinfected. At the time of recovery, the immunity against mortality is multiplied by **Mortality_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Mortality_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
+"Post_Infection_Mortality_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of dying from infection after getting reinfected. At the time of recovery, the immunity against mortality is multiplied by **Mortality_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Mortality_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
 
     {
         ""Enable_Immunity"": 1,
@@ -196,7 +196,7 @@ FIXED_SCALING
         ""Post_Infection_Mortality_Multiplier"": 0.5
     }
 "
-"Post_Infection_Transmission_Multiplier","float","0","1","0","The multiplicative reduction in the probability of transmitting infection after getting reinfected. At the time of recovery, the immunity against transmission is multiplied by **Transmission_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Transmission_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
+"Post_Infection_Transmission_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of transmitting infection after getting reinfected. At the time of recovery, the immunity against transmission is multiplied by **Transmission_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Transmission_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
 
     {
         ""Enable_Immunity"": 1,

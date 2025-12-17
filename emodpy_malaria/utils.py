@@ -1,1 +1,13 @@
+from enum import Enum
+
+# Constants
 MAX_AGE_YEARS = 1000
+
+
+# Enums
+class InnateImmuneVariationType(Enum):
+    NONE = "NONE"
+    PYROGENIC_THRESHOLD = "PYROGENIC_THRESHOLD"
+    CYTOKINE_KILLING = "CYTOKINE_KILLING"
+    PYROGENIC_THRESHOLD_VS_AGE = "PYROGENIC_THRESHOLD_VS_AGE"
+

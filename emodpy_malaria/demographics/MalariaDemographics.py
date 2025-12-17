@@ -143,6 +143,47 @@ class MalariaDemographics(Demog.Demographics):
                         ivps[species] = int(line[species])
                 self.add_initial_vectors_per_species(ivps, [node])
 
+    def set_innate_immune_distribution(self, distribution_flag: int = 0, param1: float = 0.0, param2: float = 0.0):
+        """
+        Set the innate immune distribution for individuals in all nodes.
+
+        Args:
+            distribution_flag: Integer flag to select the distribution type.
+                0 (Constant, everyone in the population has the same innate immune coefficient.)
+                1 (Uniform, innate immune coefficient is randomly drawn between a minimum and maximum value.)
+                2 (Gaussian)
+                3 (Exponential)
+                4 (Poisson)
+                5 (Log normal)
+                6 (Bimodal, non-continuous with some individuals having a innate immune coefficient of 1 and others a user-defined innate immune coefficient.)
+                7 (Weibull)
+            param1: First parameter for the distribution (meaning depends on distribution type).
+                0, Innate immune coefficient value to assign.
+                1, Minimum innate immune coefficient for a uniform distribution.
+                2, Mean innate immune coefficient for a Gaussian distribution.
+                3, Exponential decay rate.
+                4, Mean innate immune coefficient for a Poisson distribution.
+                5, Mu (the mean of the natural log) for a log normal distribution.
+                6, ""Proportion of individuals in the second, user-defined innate immune coefficient bin vs. the first innate immune coefficient bin (value of 1) for a bimodal distribution. Must be between 0 and 1.""
+                7, Scale parameter for a Weibull distribution.
+            param2: Second parameter for the distribution (meaning depends on distribution type).
+                0, NA, set to 0.
+                1, Maximum innate immune coefficient for a uniform distribution.
+                2, Standard deviation in innate immune coefficient for a Gaussian distribution.
+                3, NA, set to 0.
+                4, NA, set to 0.
+                5, Sigma (the standard deviation of the natural log) for a log normal distribution.
+                6, The innate immune coefficient for individuals in the second innate immune coefficient bin for a bimodal distribution.
+                7, Shape parameter for a Weibull distribution.
+
+        Returns:
+            Nothing
+        """
+        innate_immune_distribution = {"InnateImmuneDistributionFlag": distribution_flag,
+                                      "InnateImmuneDistribution1": param1,
+                                      "InnateImmuneDistribution2": param2}
+        self.SetDefaultFromTemplate(template=innate_immune_distribution, setter_fn=None)
+
 
 def from_template_node(lat=0, lon=0, pop=1e6, name=1, forced_id=1, init_prev=0.2, include_biting_heterogeneity=True):
     """

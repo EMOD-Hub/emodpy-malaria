@@ -37,15 +37,6 @@
       ""Enable_Default_Reporting"": 1
     }
 "
-"Enable_Demographics_Birth","boolean","0","1","0","Controls whether or not newborns have disease risk drawn from a distribution; uniform disease risk if false. **Enable_Birth**, **Enable_Demographics_Risk**, and **Enable_Vital_Dynamics** must be set to true (1).
-",".. code-block:: json
-
-    {
-      ""Enable_Birth"": 1,
-      ""Enable_Demographics_Birth"": 1,
-      ""Enable_Vital_Dynamics"": 1
-    }
-"
 "Enable_Demographics_Builtin","boolean","0","1","0","Controls whether or not built-in demographics for default geography will be used. Note that the built-in demographics feature does not represent a real geographical location and is mostly used for testing. Set to true (1) to define the initial population and number of nodes using **Default_Geography_Initial_Node_Population** and **Default_Geography_Torus_Size**. Set to false (0) to use demographics input files defined in **Demographics_Filenames**.",".. code-block:: json
 
     {
@@ -126,7 +117,7 @@ This is used only in generic, environmental, and typhoid simulations, but must b
       ""Enable_Initial_Prevalence"": 1
     }
 "
-"Enable_Initial_Susceptibility_Distribution","boolean","0","1","0","Controls whether or not individuals in the population have immunity at the beginning of the simulation. If set to 0, individuals are not initialized with immunity but may acquire immunity. If set to 1, you must indicate the type of distribution to use for immunity in the configuration parameter **Susceptibility_Initialization_Distribution_Type** and the distribution values in the demographics file. **Enable_Immunity** must be set to 1.",".. code-block:: json
+"Enable_Initial_Susceptibility_Distribution","boolean","0","1","0","[Note: Not used in MALARIA_SIM] Controls whether or not individuals in the population have immunity at the beginning of the simulation. If set to 0, individuals are not initialized with immunity but may acquire immunity. If set to 1, you must indicate the type of distribution to use for immunity in the configuration parameter **Susceptibility_Initialization_Distribution_Type** and the distribution values in the demographics file. **Enable_Immunity** must be set to 1.",".. code-block:: json
 
     {
       ""Enable_Immunity"": 1,

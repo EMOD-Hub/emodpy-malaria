@@ -147,7 +147,7 @@ class MalariaTestImports(unittest.TestCase):
         import emodpy_malaria.malaria_config as conf
 
         self.expected_items = [
-            "get_file_from_http", "set_team_defaults",
+            "set_team_defaults",
             "set_team_drug_params", "set_parasite_genetics_params",
             "get_drug_params", "set_drug_param", "add_drug_resistance",
             "set_species_param", "add_insecticide_resistance"
