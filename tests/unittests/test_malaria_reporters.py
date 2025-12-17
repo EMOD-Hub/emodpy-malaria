@@ -1006,5 +1006,52 @@ class TestMalariaReport(unittest.TestCase):
 
     # endregion
 
+# region ReportAntibodies
+    def test_report_antibodies_default(self):
+        self.tmp_reporter = add_report_antibodies(None, schema_path_file)
+        self.p_dict = self.tmp_reporter.parameters
+        self.assertIsNotNone(self.tmp_reporter)
+        self.assertEqual(self.p_dict['Start_Day'], default_start_day)
+        self.assertEqual(self.p_dict['End_Day'], default_end_day)
+        self.assertEqual(self.p_dict['Node_IDs_Of_Interest'], empty_list)
+        self.assertEqual(self.p_dict['Max_Age_Years'], default_max_age)
+        self.assertEqual(self.p_dict['Min_Age_Years'], default_min_age)
+        self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], empty_string)
+        self.assertEqual(self.p_dict['Must_Have_Intervention'], empty_string)
+        self.assertEqual(self.p_dict['Filename_Suffix'], empty_string)
+        self.assertEqual(self.p_dict['Contain_Capacity_Data'], 0)
+        self.assertEqual(self.p_dict['Infected_Only'], 0)
+        self.assertEqual(self.p_dict['Reporting_Interval'], 1)
+
+    def test_report_antibodies_custom(self):
+        self.tmp_reporter = add_report_antibodies(None, schema_path_file,
+                                                          start_day=test_start_day,
+                                                          end_day=test_end_day,
+                                                          node_ids=test_list,
+                                                          min_age_years=test_min_age,
+                                                          max_age_years=test_max_age,
+                                                          must_have_intervention=test_string,
+                                                          must_have_ip_key_value=test_string1,
+                                                          filename_suffix=test_string2,
+                                                          contain_capacity_data=True,
+                                                          infected_only=True,
+                                                          reporting_interval=test_int)
+        self.p_dict = self.tmp_reporter.parameters
+        self.assertIsNotNone(self.tmp_reporter)
+        self.assertEqual(self.p_dict['Start_Day'], test_start_day)
+        self.assertEqual(self.p_dict['End_Day'], test_end_day)
+        self.assertEqual(self.p_dict['Node_IDs_Of_Interest'], test_list)
+        self.assertEqual(self.p_dict['Max_Age_Years'], test_max_age)
+        self.assertEqual(self.p_dict['Min_Age_Years'], test_min_age)
+        self.assertEqual(self.p_dict['Must_Have_IP_Key_Value'], test_string1)
+        self.assertEqual(self.p_dict['Must_Have_Intervention'], test_string)
+        self.assertEqual(self.p_dict['Filename_Suffix'], test_string2)
+        self.assertEqual(self.p_dict['Contain_Capacity_Data'], 1)
+        self.assertEqual(self.p_dict['Infected_Only'], 1)
+        self.assertEqual(self.p_dict['Reporting_Interval'], test_int)
+
+    # endregion
+
+
 if __name__ == '__main__':
     unittest.main()

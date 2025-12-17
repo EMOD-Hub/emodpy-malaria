@@ -41,11 +41,10 @@ def build_campaign():
     # this creates a scheduled campaign with InputEIR intervention and adds it, after creating, to campaign.json file
     monthly_eir = [21, 234, 535, 687, 874, 761, 513, 459, 371, 51, 45, 3]
     add_scheduled_input_eir(campaign=campaign, start_day=33, monthly_eir=monthly_eir,
-                            age_dependence="SURFACE_AREA_DEPENDENT",
                             node_ids=None)
     # using Daily_EIR parameter. You can use monthly or daily, not both
     daily_eir = [x for x in range(365)]
-    add_scheduled_input_eir(campaign=campaign, start_day=3, daily_eir=daily_eir, age_dependence="OFF",
+    add_scheduled_input_eir(campaign=campaign, start_day=3, daily_eir=daily_eir,
                             node_ids=None)
 
     return campaign

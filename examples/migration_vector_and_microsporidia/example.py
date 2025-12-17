@@ -12,7 +12,8 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 import emodpy.emod_task as emod_task
-from emodpy_malaria.migration.vector_migration import from_demographics_and_gravity_params
+from emodpy_malaria.migration import vector_migration
+import emod_api.migration as human_migration
 from emodpy_malaria.vector_config import add_vector_migration, ModifierEquationType
 
 import manifest
@@ -156,10 +157,13 @@ def build_demographics():
     # VECTOR MIGRATION
     # creating vector migration file, we need a demographics object to pass to the function
     grav_parm = [1, 0.3, 0.01, -1.3]
-    from_demographics_and_gravity_params(demographics_object=demographics, gravity_params=grav_parm)
+    vector_migration.from_demographics_and_gravity_params(demographics_object=demographics, gravity_params=grav_parm)
 
-    return demographics
+    migration_partial = partial(human_migration.from_demog_and_param_gravity,
+                                gravity_params=[7.50395776e-06, 9.65648371e-01, 9.65648371e-01, -1.10305489e+00],
+                                id_ref='from_params', migration_type=human_migration.Migration.REGIONAL)
 
+    return demographics, migration_partial
 
 def ep4_fn(task):
     task = emod_task.add_ep4_from_path(task, manifest.ep4_path)
@@ -199,6 +203,7 @@ def general_sim(selected_platform):
                          vector_migration_habitat_modifier=0.3, vector_migration_food_modifier=0.1,
                          vector_migration_stay_put_modifier=4)
 
+
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
     if selected_platform.upper().startswith("COMPS"):
@@ -228,7 +233,7 @@ def general_sim(selected_platform):
     # builder.add_sweep_definition(sweep_male_mortality_modifier, [0, 0.5, 1, 5])
 
     from emodpy_malaria.reporters.builtin import add_report_vector_stats, add_report_microsporidia, \
-        add_report_vector_migration
+        add_report_vector_migration, add_human_migration_tracking
     # ReportVectorStats
     add_report_vector_stats(task, manifest, species_list=["gambiae"], include_gestation=True,
                             include_microsporidia=True)
@@ -238,6 +243,9 @@ def general_sim(selected_platform):
 
     # ReportMicrosporidia
     add_report_microsporidia(task, manifest)
+
+    #human migration report
+    add_human_migration_tracking(task, manifest)
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.

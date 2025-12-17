@@ -7,9 +7,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 import emodpy.emod_task as emod_task
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
-
 # importing all the reports functions, they all start with add_
 from emodpy_malaria.reporters.builtin import *
 
@@ -69,7 +66,7 @@ def build_demographics():
     """
     import emodpy_malaria.demographics.MalariaDemographics as Demographics  # OK to call into emod-api
 
-    demographics = Demographics.from_template_node(lat=0, lon=0, pop=10000, name=1, forced_id=1)
+    demographics = Demographics.from_template_node(lat=0, lon=0, pop=1000, name=1, forced_id=1)
     return demographics
 
 
@@ -169,6 +166,12 @@ def general_sim():
 
     # ReportSimulationStats
     add_report_simulation_stats(task, manifest)
+    # concentration data
+    add_report_antibodies(task, manifest, start_day=10, end_day=20, reporting_interval=5, min_age_years=2,
+                          max_age_years=6, contain_capacity_data=True)
+    # capacity data
+    add_report_antibodies(task, manifest, start_day=10, end_day=20, reporting_interval=5, min_age_years=2,
+                          max_age_years=6, contain_capacity_data=False)
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
