@@ -45,7 +45,7 @@ def _get_age_times_and_values(campaign, age_dependence):
     # Assign age-dependent net usage #
     # Times are ages in years (note difference from seasonal dependence)
     if not age_dependence:
-        age_times = [0, malaria_common.MAX_AGE_YEARS]
+        age_times = [0, 125]
         age_values = [1, 1]
     elif all([k in age_dependence.keys() for k in ['Times', 'Values']]):
         age_times = age_dependence['Times']

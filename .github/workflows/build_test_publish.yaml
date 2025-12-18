@@ -10,6 +10,10 @@ on:
     paths:
       - 'emodpy_malaria/**'
       - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+    contents: write # Allow writing to the repository (e.g., commits, pushes)
 
 jobs:
   build_test_publish:

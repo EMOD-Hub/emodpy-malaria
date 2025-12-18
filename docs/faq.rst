@@ -8,8 +8,6 @@ For questions related to functionality in related packages, see the
 following documentation:
 
 * :doc:`idmtools:faq` for |IT_s|
-* `FAQ <https://docs.idmod.org/projects/emod-api/en/latest/faq/>`__ for |emod_api|
-* :doc:`emodpy:faq` for |EMODPY_s|
 
 This section also includes topics on troubleshooting and some recommended tips and tricks
 when working with |EMOD_s| and |EMODPY_malaria|.
@@ -125,7 +123,7 @@ How do I set configuration parameters?
 ======================================
 
 Define your own parameter-setting function such as ``set_param_fn`` and pass
-that function to the |EMODPY_s| task creator as the ``param_custom_cb``
+that function to the task creator as the ``param_custom_cb``
 parameter. In that function, you can set the parameters directly. For
 example:
 
@@ -162,11 +160,6 @@ examples/start_here/example.py.
 A helper function to make this task even easier may be coming shortly.
 
 
-Where else should I search for functions?
-=========================================
-Yes, `emod-api <https://docs.idmod.org/projects/emod-api/en/latest/>`_. Any functionality that is not malaria-specific (or disease-specific) will be found in emod-api. In particular you'll probably find very useful functions for crafting campaigns in `emod-api.interventions.common <https://docs.idmod.org/projects/emod-api/en/latest/emod_api.interventions.common.html>`_, such as the `ScheduledCampaignEvent <https://docs.idmod.org/projects/emod-api/en/latest/emod_api.interventions.common.html#emod_api.interventions.common.ScheduledCampaignEvent>`_ function and the `TriggeredCampaignEvent <https://docs.idmod.org/projects/emod-api/en/latest/emod_api.interventions.common.html#emod_api.interventions.common.TriggeredCampaignEvent>`_ function.
-
-
 Do I need to be connected to the VPN?
 =====================================
 The original way of procuring the model binary itself was via a call to get_model_files(). This required you to be VPN-ed in. This is no longer the preferred approach. Instead you will want to use the 'bootstrap' approach. This involves installing the emod_malaria package, which should happen automatically, and using code like::
@@ -180,7 +173,7 @@ This does not require VPN. The value you pass to setup is the path where the mod
 Is there an example of creating a demographics file from scratch with the API?
 ==============================================================================
 
-Yes, see examples/create_demographics, there are also examples in emodpy-measles and emodpy-hiv.
+Yes, see examples/create_demographics, there are also examples in emodpy-hiv.
 We are working to add some to emod_api.demographics. The basic idea is you use one of 3 node creators,
 and then use the Setter API to set up the node defaults for fertility, mortality, age structure, initial immunity,
 individual 'risk', and initial prevalance.

@@ -34,11 +34,7 @@ skip_tests = ["download_files",
 			  "add_reports", #433
 			  "embedded_python_post_processing", #434
 			  "serialization_replace_genomes", #632
-              "migration_human_spatial_malaria_sim"
               ]
-
-# "migration_human_spatial_malaria_sim",	# needs vpn connection
-
 
 for dir in dirs:
     if os.path.isdir( dir ) and str( dir ).startswith( "." ) == False and os.path.exists( dir + "/example.py" ):
@@ -212,13 +208,6 @@ rule diagnostic_survey:
     output: Path("diagnostic_survey", "experiment_id")
     run:        
         shell(get_command("diagnostic_survey", python_version=config['python_version']))
-
-
-rule migration_human_spatial_malaria_sim:
-    input: 
-    output: Path("migration_human_spatial_malaria_sim", "experiment_id")
-    run:        
-        shell(get_command("migration_human_spatial_malaria_sim", python_version=config['python_version']))
 
 rule add_reports:
     input: 

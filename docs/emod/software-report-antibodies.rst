@@ -2,7 +2,7 @@
 ReportAntibodies
 ================
 
-The antibodies report (ReportAntibodies.csv)  is a csv-formatted report that
+The antibodies report (ReportAntibodiesCapacity.csv or ReportAntibodiesConcentration.csv)  is a csv-formatted report that
 provides antibodies data for each qualifying individual on user-determined days of simulation. For example,
 individuals between ages 5 and 10 years old, living in node 1, who have the intervention "UsageDependentBednet" and
 have the individual property "Risk:LOW" will be documented from day 365 to day 465 of the simulation at 10 day intervals.
@@ -23,11 +23,10 @@ To generate this report, the following parameters must be configured in the cust
     :widths: 8, 5, 5, 5, 5, 20
 
     Reporting_Interval,"float","1.0","1000000.0","1.0","Defines the cadence of the report in days (not timesteps). Data will be recorded every **Reporting_Interval** days starting with the **Start_Day**. This will limit system memory usage and is advised when large output files are expected."
-    Contain_Capacity_Data,"boolean","0","1","0","If true (1), the data for each antibody is the capacity of the antibody, otherwise it's the concentration."
+    Contain_Capacity_Data,"boolean","0","1","0","If true (1), the data for each antibody is the capacity of the antibody, otherwise it's the concentration. Report name will reflect this setting being either ReportAntibodiesCapacity.csv or ReportAntibodiesConcentration.csv"
     Infected_Only,"boolean","0","1","0","If true (1), only individuals who are currently infected will be included in the report."
     Start_Day,"float","0","3.40282e+38","0","The day of the simulation to start collecting data."
     Filename_Suffix, string, NA, NA, (empty string), "Augments the filename of the report. If multiple reports are being generated, this allows you to distinguish among the multiple reports."
-    Start_Day,"float","0","3.40282e+38","0","The day of the simulation to start collecting data."
     End_Day,"float","0","3.40282e+38","3.40282e+38","The day of the simulation to stop collecting data."
     Node_IDs_Of_Interest,"array of integers","0","2.14748e+09","[]","Data will be collected for the nodes in this list.  Empty list implies all nodes."
     Min_Age_Years,"float","0","9.3228e+35","0","Minimum age in years of people to collect data on."
@@ -69,8 +68,10 @@ Stratification columns
     NodeID, integer, "The External ID of the node that the data is being collected for."
     IndividualID, integer, The ID of the individual who received the drug.
     Gender, enum, "The gender of the individual. Possible values are M or F."
-    AgeYears, float, "The age of the individual, in years."
-    Infected, boolean, "A true value (1) indicates the individual is infected and a false value (0) indicates the individual is not infected."
+    AgeYears, integer, The max age in years of the age bin for the individual.
+    Infected, boolean, "A true value (1) indicates the individual is currently infected and a false value (0) indicates the individual is not currently infected."
+    PyrogenicThreshold, float, "The pyrogenic threshold of the individual at the time of the report collection."
+    FeverKillingRate, float, "The fever infected red blood cells kill rate of the individual at the time of the report collection."
 
 
 Data columns
