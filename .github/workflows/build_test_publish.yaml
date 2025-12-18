@@ -10,6 +10,7 @@ on:
     paths:
       - 'emodpy_malaria/**'
       - 'pyproject.toml'
+  workflow_dispatch:
 
 jobs:
   build_test_publish:
