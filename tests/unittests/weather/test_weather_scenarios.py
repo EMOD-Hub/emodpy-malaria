@@ -6,7 +6,7 @@ from emodpy_malaria.weather import *
 from test_weather_data import read_df
 from test_weather_set import WeatherSetTests
 
-
+@unittest.skip("disabled to avoid comps")
 class WeatherScenariosTests(unittest.TestCase):
 
     def setUp(self) -> None:

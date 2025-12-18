@@ -12,7 +12,7 @@ from pathlib import Path
 import pandas as pd
 from emodpy_malaria.weather import *
 
-
+@unittest.skip("disabled to avoid comps")
 class WeatherE2ECompsTests(unittest.TestCase):
     testfiles_dir = Path(__file__).parent.joinpath("scenarios")
 

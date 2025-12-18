@@ -15,7 +15,7 @@ _FILE_COUNT = 8
 def ls_glob(local_dir: Union[str, Path]):
     return list(Path(local_dir).glob("*.bin*"))
 
-
+@unittest.skip("disabled to avoid comps")
 class WeatherRequestTests(unittest.TestCase):
 
     def setUp(self) -> None:
