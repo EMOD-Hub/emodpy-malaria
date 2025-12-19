@@ -23,7 +23,7 @@ keywords=["modeling", "IDM"]
 dependencies = [
     "emodpy~=1.16",
     "requests==2.29.0",
-    "emod-malaria==2.30.0"]
+    "emod-malaria==2.30.4.dev1"]
 
 license = "MIT"
 
