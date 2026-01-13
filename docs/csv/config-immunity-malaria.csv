@@ -318,6 +318,12 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Mortality_Blocking_Immunity_Duration_Before_Decay"": 270
     }
 "
+"MSP1_Growth_Aligned","boolean","0","1","0","Controls whether to use the old code for MSP1 antibody growth or new code, which is aligned with how other antibodies grow. See for code details https://github.com/EMOD-Hub/EMOD/blob/20c038b54c436e930858e2ccf3e6a575fcc88bf4/Eradication/MalariaAntibody.cpp#L115",".. code-block:: json
+
+    {
+      ""MSP1_Growth_Aligned"": 1
+    }
+"
 "MSP1_Merozoite_Kill_Fraction","double","NA","NA","0.5","The fraction of merozoites inhibited from invading new erythrocytes when MSP1-specific antibody level is 1.",".. code-block:: json
 
     {
