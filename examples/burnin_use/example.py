@@ -12,8 +12,6 @@ from idmtools.builders import SimulationBuilder
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 from emodpy_malaria.reporters.builtin import *
 
 import manifest

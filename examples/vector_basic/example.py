@@ -7,7 +7,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
 
 from emodpy_malaria import vector_config as vector_config
 import manifest
