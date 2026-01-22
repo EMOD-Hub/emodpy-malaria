@@ -12,8 +12,6 @@ import manifest
 import sys
 
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 
 sys.path.append('../../emodpy_malaria/serialization')
 import zero_infections

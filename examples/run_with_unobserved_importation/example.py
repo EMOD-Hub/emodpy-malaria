@@ -14,8 +14,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 import emodpy.emod_task as emod_task
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 import emodpy_malaria.malaria_config as malaria_config
 from emodpy_malaria.reporters.builtin import *
 import itertools

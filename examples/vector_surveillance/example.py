@@ -12,7 +12,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
 from emodpy_malaria.reporters.builtin import *
 from emodpy_malaria.interventions.vector_surveillance import *
 

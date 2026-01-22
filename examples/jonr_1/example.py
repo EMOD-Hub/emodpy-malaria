@@ -14,8 +14,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 import emod_api.config.default_from_schema_no_validation as dfs
 from emodpy_malaria.reporters.builtin import *
 

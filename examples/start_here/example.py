@@ -14,8 +14,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 import emod_api.config.default_from_schema_no_validation as dfs
 from emodpy_malaria.reporters.builtin import *
 
@@ -158,13 +156,7 @@ def run():
 
 
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "--bamboo":  # yes, one can use ArgParse but seems unnecessary.
-        plan = EradicationBambooBuilds.MALARIA_LINUX
-        print("Retrieving Eradication and schema.json from Bamboo...")
-        get_model_files(plan, manifest)
-        print("...done.")
-    else:
-        import emod_malaria.bootstrap as dtk
-        dtk.setup(pathlib.Path(manifest.eradication_path).parent)
+
+    import emod_malaria.bootstrap as dtk
+    dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run()
