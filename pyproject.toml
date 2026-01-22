@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "emodpy-malaria"
-version = "4.3.1"
+version = "4.3.2"
 description = "IDM's malaria-specific EMOD-API binding code"
 readme = "README.md"
 requires-python = ">=3.9"
