@@ -15,6 +15,10 @@ import manifest
 
 """
     This is an example that (somewhat) replicates Jon Russel's workflow with emodpy_malaria tools
+    This example focuses on the Full Parasite Genetics (FPG) model and the associated reports and how to use 
+    dtk_post_process.py to process the outputs with Observational Model within a singularity container that has the 
+    fpg_observational_model package installed.
+    The singularity image used is specified in manifest.sif_path and the official image has both emod-api and fpg_observational_model pre-installed.
 """
 
 
@@ -148,10 +152,7 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
     platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-    report_year = 0.5
-    years_to_report = 1
 
     experiment_name = "Malaria Parasite Genetics example"
 
@@ -162,17 +163,17 @@ def general_sim():
         eradication_path=manifest.eradication_path,
         campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
-        ep4_custom_cb=None,
+        ep4_path=manifest.ep4_path,  # Set ep4_path to a directory containing embedded python scripts like dtk_post_process.py
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
     
-    # set the singularity image to be used when running this experiment
+    # set the singularity image(fpg_observational_model pre-installed) to be used when running this experiment
     task.set_sif(manifest.sif_path)
     
     # set up sweeps
     builder = SimulationBuilder()
-    builder.add_sweep_definition(sweep_run_number, [1, 4])
+    builder.add_sweep_definition(sweep_run_number, [3, 4])
     builder.add_sweep_definition(update_larval_habitats, [0.3, 0.4])
 
     """THIS IS WHERE WE ADD THE REPORTS"""
@@ -180,11 +181,15 @@ def general_sim():
     add_sql_report_malaria_genetics(task, manifest, start_day=13, end_day=92, include_infection_table=True,
                                     include_health_table=True,
                                     include_drug_table=True, include_individual_properties=False)
+    # Use add_report_fpg_output() to generate FPG reports required by the Observational Model in dtk_post_process.py.
+    # Since age_bins is enabled in dtk_post_process.py, ensure min_age_years < 5 and max_age_years > 15,
+    # matching the Observational Model's default age bins: '0-5yrs', '5-15yrs', and '15+yrs'.
     add_report_fpg_output(task, manifest, start_day=300, end_day=380,
-                          min_age_years=3, max_age_years=15, include_genome_ids=True,
+                          min_age_years=3, max_age_years=20, include_genome_ids=True,
                           minimum_parasite_density=3.3, sampling_period=5)
+
     add_report_fpg_new_infections(task, manifest, start_day=300, end_day=380,
-                                  min_age_years=3, max_age_years=15, filename_suffix="NewInfections")
+                                  min_age_years=3, max_age_years=20, filename_suffix="NewInfections")
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
