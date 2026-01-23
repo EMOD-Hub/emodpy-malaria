@@ -1,10 +1,12 @@
 import os
 
 from fpg_observational_model.run_observational_model import run_observational_model
+# fpg_observational_model documentation: https://emod-hub.github.io/FPGObservationalModel/
+# fpg_observational_model source code: https://github.com/EMOD-Hub/FPGObservationalModel
 
 
 def application( output_path="output" ):
-    # Example of a config dict that overrides defaults, please see all_config_dict above for all options
+    # Example of a config dict that overrides defaults from the observational model
     overlay_config_dict = {
         'sampling_configs': {
             'random': {

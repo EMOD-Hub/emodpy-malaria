@@ -163,7 +163,7 @@ def general_sim():
         eradication_path=manifest.eradication_path,
         campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
-        ep4_path=manifest.ep4_path,  # Use dtk_post_process.py in the ep4_path to enable post processing
+        ep4_path=manifest.ep4_path,  # Set ep4_path to a directory containing embedded python scripts like dtk_post_process.py
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
