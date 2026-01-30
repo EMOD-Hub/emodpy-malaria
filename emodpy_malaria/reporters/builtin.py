@@ -1604,7 +1604,8 @@ def add_report_fpg_new_infections(task, manifest,
                                   max_age_years: float = MAX_AGE_YEARS,
                                   must_have_ip_key_value: str = "",
                                   must_have_intervention: str = "",
-                                  filename_suffix: str = ""):
+                                  filename_suffix: str = "",
+                                  report_crossover_data_instead: bool = False):
     """
     Adds ReportFpgNewInfections reporter.
 
@@ -1629,6 +1630,8 @@ def add_report_fpg_new_infections(task, manifest,
             Empty string means don't look at the interventions
         filename_suffix: Augments the filename of the report. If multiple reports of this class are being generated,
             this allows you to distinguish among them.
+        report_crossover_data_instead: If True, instead of reporting new infections in detail, the report will contain
+            basic new infection information, but with an array of genome crossover locations that created this genome.
 
     Returns:
         if task is not set, returns the configured reporter, otherwise returns nothing
@@ -1650,6 +1653,7 @@ def add_report_fpg_new_infections(task, manifest,
         params.Must_Have_IP_Key_Value = must_have_ip_key_value
         params.Must_Have_Intervention = must_have_intervention
         params.Filename_Suffix = filename_suffix
+        params.Report_Crossover_Data_Instead = 1 if report_crossover_data_instead else 0
         return params
 
     reporter.config(rec_config_builder, manifest)
