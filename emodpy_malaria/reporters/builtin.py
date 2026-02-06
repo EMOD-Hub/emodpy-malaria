@@ -1658,7 +1658,7 @@ def add_report_fpg_new_infections(task, manifest,
                 params.Report_Crossover_Data_Instead = 1
             else:
                 raise ValueError("Report_Crossover_Data_Instead not present in ReportFpgNewInfections, please make sure"
-                                 " you are using emod-malaria v2.31 or higher.")
+                                 " you are using emod-malaria v2.32 or higher.")
         return params
 
     reporter.config(rec_config_builder, manifest)
