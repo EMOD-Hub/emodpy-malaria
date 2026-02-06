@@ -1653,7 +1653,12 @@ def add_report_fpg_new_infections(task, manifest,
         params.Must_Have_IP_Key_Value = must_have_ip_key_value
         params.Must_Have_Intervention = must_have_intervention
         params.Filename_Suffix = filename_suffix
-        params.Report_Crossover_Data_Instead = 1 if report_crossover_data_instead else 0
+        if report_crossover_data_instead:
+            if "Report_Crossover_Data_Instead" in params:
+                params.Report_Crossover_Data_Instead = 1
+            else:
+                raise ValueError("Report_Crossover_Data_Instead not present in ReportFpgNewInfections, please make sure"
+                                 " you are using emod-malaria v2.31 or higher.")
         return params
 
     reporter.config(rec_config_builder, manifest)

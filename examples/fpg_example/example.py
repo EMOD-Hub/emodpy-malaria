@@ -189,7 +189,8 @@ def general_sim():
                           minimum_parasite_density=3.3, sampling_period=5)
 
     add_report_fpg_new_infections(task, manifest, start_day=300, end_day=380,
-                                  min_age_years=3, max_age_years=20, filename_suffix="NewInfections")
+                                  min_age_years=3, max_age_years=20, filename_suffix="Crossovers",
+                                  report_crossover_data_instead=True)
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
