@@ -4,7 +4,8 @@ Python module for use as user-space front-end for doing research easily with EMO
 
 ![mosquito](media/jorussell-mosquito.png)
 
-![status](https://github.com/clorton/emodpy-malaria-singlebranch/workflows/Rebuild%20Malaria%20Docs/badge.svg) ![docs](https://readthedocs.org/projects/emodpy-malaria/badge/?version=latest) ![license](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+![docs](https://docs.idmod.org/projects/emodpy-malaria/en/latest/#emodpy-malaria)) 
+![license](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 
 ## Description
 
@@ -63,7 +64,7 @@ requests. You are welcome to create your own fork and modify the code to suit yo
 modeling needs as contemplated under the MIT License.
 
 If you have feature requests, issues, or new code, please see our
-'CONTRIBUTING <https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/CONTRIBUTING.rst>' page
+[CONTRIBUTING](https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/CONTRIBUTING.rst) page
 for how to provide your feedback.
 
 ### Developer Installation
