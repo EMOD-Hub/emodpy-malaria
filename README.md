@@ -4,7 +4,6 @@ Python module for use as user-space front-end for doing research easily with EMO
 
 ![mosquito](media/jorussell-mosquito.png)
 
-![docs](https://docs.idmod.org/projects/emodpy-malaria/en/latest/#emodpy-malaria)) 
 ![license](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 
 ## Description
