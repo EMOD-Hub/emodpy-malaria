@@ -24,12 +24,18 @@ included in the following README files:
 
    -  `Project README <https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/README.md>`__: Setup and project overview.
 
+Discussions
+===========
+
+Have a comment or a question? Check out our `Discussions <https://github.com/orgs/EMOD-Hub/discussions>`__ space.
+
 Contribution types
 ===================
 
 We welcome the following types of contributions:
 
-1. Issues:
+1. `Issues: <https://github.com/EMOD-Hub/issues-and-discussions/issues>`__
+
 
     * Bug reports.
     * Feature requests.
@@ -61,8 +67,7 @@ If you notice unexpected behavior or a limitation in emodpy-malaria, follow the 
 
 .. _documentation: https://docs.idmod.org/projects/emodpy-malaria/en/latest/
 
-.. _issues: https://github.com/InstituteforDiseaseModeling/emodpy-malaria/issues
-
+.. _issues: https://github.com/EMOD-Hub/issues-and-discussions/issues
 
 Open a feature request
 ----------------------
