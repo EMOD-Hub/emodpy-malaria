@@ -350,3 +350,59 @@ InnateImmuneDistributionFlag,integer,0,7,0,"The type of distribution to use for 
         }
     }
 "
+SusceptibilityDistribution1,float,-3.40E+38,3.40282e+038,0,"The first value in the susceptibility distribution, the meaning of which depends upon the value set in **SusceptibilityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+
+.. csv-table::
+   :header: SusceptibilityDistributionFlag, SusceptibilityDistribution1
+   :widths: 1, 3
+
+   0, Probability of full susceptibility.
+   1, Minimum probability of susceptibility for a uniform distribution.
+   6, ""Proportion of individuals in the second, user-defined susceptibility bin vs. the first susceptibility bin (value of 1) for a bimodal distribution. Must be between 0 and 1.""
+
+In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibility_Initialization_Distribution_Type** must be set to DISTRIBUTION_SIMPLE (see :doc:`parameter-configuration-immunity` parameters). ",".. code-block:: json
+
+    {
+        ""IndividualAttributes"": {
+            ""SusceptibilityDistributionFlag"": 0,
+            ""SusceptibilityDistribution1"": 1,
+            ""SusceptibilityDistribution2"": 0
+        }
+    }
+"
+SusceptibilityDistribution2,float,-3.40E+38,3.40282e+038,0,"The second value in the susceptibility distribution, the meaning of which depends upon the value set in **SusceptibilityDistributionFlag**. The table below shows the flag value and corresponding distribution value. 
+
+.. csv-table::
+   :header: SusceptibilityDistributionFlag, SusceptibilityDistribution2
+   :widths: 1, 3
+
+   0, ""NA, set to 0.""
+   1, Maximum susceptibility for a uniform distribution.
+   6, ""The susceptibility values of individuals in the second susceptibility bin for a bimodal distribution.""
+
+In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibility_Initialization_Distribution_Type** must be set to DISTRIBUTION_SIMPLE (see :doc:`parameter-configuration-immunity` parameters). ",".. code-block:: json
+
+    {
+        ""IndividualAttributes"": {
+            ""SusceptibilityDistributionFlag"": 0,
+            ""SusceptibilityDistribution1"": 1,
+            ""SusceptibilityDistribution2"": 0
+        }
+    }
+"
+SusceptibilityDistributionFlag,integer,0,7,0,"The type of distribution to use for determining an individual's probability of full susceptibility. Possible values are:
+
+* 0 (Constant, everyone in the population has the same probability of susceptibility.)
+* 1 (Uniform, the probability of susceptibility is randomly drawn between a minimum and maximum value.)
+* 6 (Bimodal, non-continuous with some individuals' probability of susceptibility at 1 and others with a user-defined probability.)
+
+In the configuration file, **Enable_Immunity** must be set to 1 and **Susceptibility_Initialization_Distribution_Type** must be set to DISTRIBUTION_SIMPLE (see :doc:`parameter-configuration-immunity` parameters). ",".. code-block:: json
+
+    {
+        ""IndividualAttributes"": {
+            ""SusceptibilityDistributionFlag"": 0,
+            ""SusceptibilityDistribution1"": 1,
+            ""SusceptibilityDistribution2"": 0
+        }
+    }
+"
