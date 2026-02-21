@@ -28,7 +28,7 @@ dependencies = [
 license = "MIT"
 
 classifiers=[
-        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.13",
         "Framework:: IDM-Tools :: models",
         "Operating System :: OS Independent"]
 
@@ -41,19 +41,16 @@ test = [
     "pytest-cache",
     "flake8",
     "coverage",
-    "py-make"]
-
-packaging = [
-    "build",
-    "flake8",
-    "coverage",
     "py-make",
-    "bump2version",
-    "twine"]
+    "snakemake~=8.30"]
+
+lint = [
+    "flake8",
+]
 
 [project.urls]
 Repository="https://github.com/EMOD-Hub/emodpy-malaria"
-Issues="https://github.com/EMOD-Hub/emodpy-malaria/issues"
+Issues="https://github.com/EMOD-Hub/issues-and-discussions/issues"
 
 
 [tool.setuptools.packages]
@@ -65,6 +62,12 @@ emodpy_malaria = [
     "**/README.md"
 ]
 
-[tool.pip]
-extra-index-url = "https://packages.idmod.org/api/pypi/pypi-production/simple"
+[tool.bumpversion]
+current_version = "4.3.3"
+commit = true
 
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+
+[[tool.bumpversion.files]]
+filename = "emodpy_malaria/__init__.py"
