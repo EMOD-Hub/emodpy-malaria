@@ -10,7 +10,7 @@ folders = [Path(__file__).parents[2].joinpath('emodpy_malaria/weather')]
 def setup():
     tests = []
     for f in folders:
-        subfolder = str(f.parts[len(f.parts)-1])
+        subfolder = str(f.parts[-1])
         subfolder = re.sub('[^A-Za-z0-9]+', '', subfolder)
         test_name = f.joinpath(f'test_readme_{subfolder}.py')
         with open(test_name, 'w') as out, open(f.joinpath('README.md')) as readme:

@@ -136,7 +136,7 @@ def general_sim():
                              include_assets=True,
                              compress_type=CompressType.deflate)
 
-    dl_wi.run(wait_on_done=True, platform=platform)
+    dl_wi.run(wait_until_done=True, platform=platform)
     print("SHOULD BE DOWNLOADED")
 
 
