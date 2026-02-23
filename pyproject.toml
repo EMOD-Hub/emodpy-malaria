@@ -42,7 +42,7 @@ test = [
     "flake8",
     "coverage",
     "py-make",
-    "snakemake~=8.30"]
+    "snakemake~=8.30.0"]
 
 lint = [
     "flake8",
