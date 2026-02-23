@@ -71,3 +71,4 @@ filename = "pyproject.toml"
 
 [[tool.bumpversion.files]]
 filename = "emodpy_malaria/__init__.py"
+
