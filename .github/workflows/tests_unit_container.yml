@@ -34,7 +34,7 @@ jobs:
       - name: Run unit tests
         run: |
           cd tests
-          python -m pytest --dist loadfile -v --junitxml="test_results.xml" -m unit
+          python -m pytest --dist loadfile -v --junitxml="test_results.xml"
       - name: Run container tests
         if: runner.os == 'Linux'
         run: |
