@@ -25,7 +25,7 @@ jobs:
           python3 -m pip install .[docs] --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
       - name: Build static files
         run: |
-          mkdocs build -d site
+          python -m sphinx -T --keep-going -b html ./docs ./site
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v4

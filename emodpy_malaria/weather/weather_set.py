@@ -132,7 +132,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
             attributes: (Optional) Weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
@@ -159,7 +159,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
             attributes: (Optional) The weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
@@ -187,7 +187,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps". The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
             attributes: (Optional) The weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
@@ -220,7 +220,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         Returns:
             Dataframe containing node ids and weather time series.
         """
@@ -258,7 +258,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
 
         Returns:
             Dataframe containing node ids and weather time series, used to create the csv file.
@@ -302,7 +302,7 @@ class WeatherSet:
 
         Args:
             dir_path: Directory path containing weather files.
-            prefix: Weather files prefix, e.g. "dtk_15arcmin\_"
+            prefix: Weather files prefix, e.g. "dtk_15arcmin"
             file_names: Dictionary of weather variables (keys) and weather .bin file names (values).
 
         Returns:
@@ -338,7 +338,7 @@ class WeatherSet:
 
         Args:
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         Returns:
             Dictionary of weather variables (keys) to weather column names (values).
         """
@@ -364,7 +364,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         Returns:
             Tuple of two dictionaries mapping weather variables to dataframe info and weather columns.
         """
@@ -388,24 +388,24 @@ class WeatherSet:
         The logic of this method is the same as of "Path.glob" method, with two adjustments, added to make its use more
         convenient for working with weather files:
         - if prefix/suffix are not specified, defaults are used (see method arguments).
-        - if suffix doesn't end with ".bin" or "\*", "\*.bin" is added (since, otherwise, no matches can be found).
+        - if suffix doesn't end with ".bin" or "*", "*.bin" is added (since, otherwise, no matches can be found).
 
         Used for two scenarios:
         1. Get expected weather file patsh.
-        2. Select weather files from a dir, when exact names are not known, e.g. Path.glob("dtk_\*{tag}\*.bin").
+        2. Select weather files from a dir, when exact names are not known, e.g. Path.glob("dtk_*{tag}*.bin").
 
         Args:
-            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk\_".
-            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\*{tag}\*.bin").
+            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
+            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "*{tag}*.bin").
             weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
             weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
-                In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
+            In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
         Returns:
             Dictionary of weather variables (keys) and weather file name templates.
                 For example, air temperature could be represented as:
-                - exact name:   WeatherVariable.AIR_TEMPERATURE: "dtk\_15arcmin\_air\_temperature\_daily.bin" or
-                - name pattern: WeatherVariable.AIR_TEMPERATURE: "dtk\_\*air_temperature\*.bin"
+                - exact name:   WeatherVariable.AIR_TEMPERATURE: "dtk_15arcmin_air_temperature_daily.bin" or
+                - name pattern: WeatherVariable.AIR_TEMPERATURE: "dtk_air_temperature.bin"
         """
         # Validate arguments
         if prefix is None:
@@ -449,15 +449,15 @@ class WeatherSet:
         The logic of this method is the same as of "Path.glob" method, with two adjustments, added to make its use more
         convenient for working with weather files:
         - if prefix/suffix are not specified, defaults are used (see method arguments).
-        - if suffix doesn't end with ".bin" or "\*", "\*.bin" is added (since, otherwise, no matches can be found).
+        - if suffix doesn't end with ".bin" or "\\*", "\\*.bin" is added (since, otherwise, no matches can be found).
 
         Args:
             dir_path: (Optional) Directory path containing weather files.
-            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk\_".
-            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\*{tag}\*.bin").
+            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
+            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\\*{tag}\\*.bin").
             weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
             weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
-                In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
+            In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
         Returns:
             Dictionary of weather variables (keys) and weather file paths.
@@ -486,19 +486,19 @@ class WeatherSet:
         The logic of this method is the same as of "Path.glob" method, with two adjustments, added to make its use more
         convenient for working with weather files:
         - if prefix/suffix are not specified, defaults are used (see method arguments).
-        - if suffix doesn't end with ".bin" or "\*", "\*.bin" is added (since, otherwise, no matches can be found).
+        - if suffix doesn't end with ".bin" or "\\*", "\\*.bin" is added (since, otherwise, no matches can be found).
 
         Args:
             dir_path: (Optional) Directory path containing weather files.
-            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk\_".
-            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\*{tag}\*.bin").
+            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
+            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\\*{tag}\\*.bin").
             weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
             weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
-                In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
+            In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
          Returns:
              Dictionary of weather variables (keys) and weather file names.
-             For example, WeatherVariable.AIR_TEMPERATURE\: "dtk_15arcmin_air_temperature_daily.bin"
+             For example, WeatherVariable.AIR_TEMPERATURE: "dtk_15arcmin_air_temperature_daily.bin"
          """
         assert dir_path is not None, f"Directory path cannot be None."
         templates = cls._make_file_templates(prefix=prefix,
