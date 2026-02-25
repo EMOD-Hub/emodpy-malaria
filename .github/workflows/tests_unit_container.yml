@@ -35,14 +35,14 @@ jobs:
         run: |
           cd tests
           python -m pytest --dist loadfile -v --junitxml="test_results.xml"
-      - name: Run container tests
+      - name: Run examples-container as tests when on Linux
         if: runner.os == 'Linux'
         run: |
-          cd tests
-          python -m pytest --dist loadfile -v --junitxml="test_results.xml" -m container 
+          cd examples-container
+          snakemake --cores all
       - name: Upload emodpy test results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: emodpy_test_results
-          path: tests/test_results.xml
+          path: examples-container/.snakemake/log/*snakemake.log

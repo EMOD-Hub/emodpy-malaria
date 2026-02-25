@@ -12,7 +12,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 from emodpy.emod_task import EMODTask
-from emodpy.utils import EradicationBambooBuilds
 from emodpy_malaria.reporters.builtin import *
 from emodpy_malaria.interventions.vector_surveillance import *
 
@@ -207,7 +206,7 @@ def general_sim():
 
     # Set platform
     platform = Platform("Container", job_directory="../example_jobs")
-    experiment_name = "VectorSurveillance example"
+    experiment_name = "vector_surveillance"
 
     # create EMODTask 
     print("Creating EMODTask (from files)...")
@@ -247,7 +246,7 @@ def general_sim():
         print(f"Experiment {experiment.id} failed.\n")
     else:
         print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id.txt", "w") as fd:
+        with open("experiment_id", "w") as fd:
             fd.write(experiment.id)
 
 

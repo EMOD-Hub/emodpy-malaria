@@ -133,7 +133,7 @@ def general_sim():
     ts = TemplatedSimulations(base_task=task)
     if params.burnin_type:
         experiment_name = "burnin"
-        run_count = 2
+        run_count = 1
         builder.add_sweep_definition(partial(set_param, param='Run_Number'), range(run_count))
         builder.add_sweep_definition(partial(set_param, param='Serialization_Time_Steps'),
                                      [[100, 200]])
@@ -150,18 +150,13 @@ def general_sim():
     # If you are doing a sweep, please see sweep_* examples.
     ts.add_builder(builder)
     experiment = Experiment.from_template(ts, name=experiment_name)
-
     # The last step is to call run() on the ExperimentManager to run the simulations.
     experiment.run(wait_until_done=True)
+    simulation = experiment.get_simulations()[0] #there should be only one
 
-    # Check result
-    print()
-    if not experiment.succeeded:
-        print(f"Experiment {experiment.id} failed.\n")
-    else:
-        print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id.txt", "w") as fd:
-            fd.write(experiment.id)
+    if experiment.succeeded:
+        with open("experiment_id", "w") as fd:
+            fd.write(str(simulation.directory))
 
 
 if __name__ == "__main__":

@@ -1,4 +1,0 @@
-idmtools~=2.0
-idmtools-cli~=2.0
-idmtools-platform-container~=2.0
-idmtools-platform-general~=2.0

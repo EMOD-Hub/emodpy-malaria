@@ -12,8 +12,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 import emodpy.emod_task as emod_task
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 from emodpy_malaria.migration.vector_migration import from_demographics_and_gravity_params
 
 import manifest
@@ -166,7 +164,7 @@ def general_sim(selected_platform):
     Returns:
         Nothing
     """
-    experiment_name = "Microsporidia_example"
+    experiment_name = "microsporidia"
 
     # create EMODTask
     print("Creating EMODTask (from files)...")
@@ -234,7 +232,7 @@ def general_sim(selected_platform):
         print(f"Experiment {experiment.id} failed.\n")
     else:
         print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id.txt", "w") as fd:
+        with open("experiment_id", "w") as fd:
             fd.write(experiment.id)
 
 
