@@ -1,4 +1,4 @@
-name: Run local tests
+name: Run unit and Container tests
 
 on:
   pull_request:

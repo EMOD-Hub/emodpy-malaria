@@ -1,4 +1,4 @@
-name: Run COMPS tests
+name: Run unit and COMPS tests
 
 on:
   pull_request:

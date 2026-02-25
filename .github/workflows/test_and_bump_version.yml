@@ -1,4 +1,4 @@
-name: Test and update version
+name: Test and Update Version
 
 on:
   push:
