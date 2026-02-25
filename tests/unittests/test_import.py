@@ -1,5 +1,6 @@
 import unittest
 
+
 class MalariaTestImports(unittest.TestCase):
     def setUp(self) -> None:
         self.expected_items = None

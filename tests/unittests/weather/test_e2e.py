@@ -1,13 +1,16 @@
 import os
 import shutil
-import subprocess
+
 import unittest
 import numpy as np
 import pandas as pd
 
 from pathlib import Path
 
-from emodpy_malaria.weather import *
+from emodpy_malaria.weather.weather_variable import WeatherVariable
+from emodpy_malaria.weather.weather_metadata import WeatherMetadata, WeatherAttributes
+from emodpy_malaria.weather.weather_data import WeatherData, DataFrameInfo
+from emodpy_malaria.weather.weather_set import WeatherSet
 
 
 class WeatherE2ETests(unittest.TestCase):
@@ -18,7 +21,7 @@ class WeatherE2ETests(unittest.TestCase):
         shutil.rmtree(self.testfiles_dir.joinpath("output_data"), ignore_errors=True)
         os.makedirs(self.testfiles_dir.joinpath("output_data"))
         self.series = []
-        self.nodeids = [i +100 for i in list(range(1,11,1))]
+        self.nodeids = [i + 100 for i in list(range(1, 11, 1))]
         # generate 10 data points for 10 nodes
         for i in range(1, 11, 1):
             self.series.append(np.sin(np.linspace(0, 2 * np.pi, 10)) + i)
@@ -29,20 +32,20 @@ class WeatherE2ETests(unittest.TestCase):
         # generate metadata
         wm = WeatherMetadata(node_ids=self.nodeids,
                              series_len=10,
-                             attributes={'IdReference':'Xsin', 'custom':'numpy'})
+                             attributes={'IdReference': 'Xsin', 'custom': 'numpy'})
         wd = WeatherData(data=data, metadata=wm)
         wd.to_file(filename)
 
         # try load it
-        wd2 = WeatherData.from_file(filename)
-        assert np.all(np.round(wd.data - data, 5)==0), 'data should be the same'
+        WeatherData.from_file(filename)
+        assert np.all(np.round(wd.data - data, 5) == 0), 'data should be the same'
         assert wd.metadata.id_reference == 'Xsin', 'IdReference should be set'
         assert wd.metadata.attributes_dict['custom'] == 'numpy', 'Custom attributes should be set'
 
     def test_generate_weather_from_dict(self):
         filename = self.testfiles_dir.joinpath("output_data/test_dict.bin")
         data = dict(zip(self.nodeids, self.series))
-        attr = WeatherAttributes({'custom':'dict'})
+        attr = WeatherAttributes({'custom': 'dict'})
         wd = WeatherData.from_dict(node_series=data, attributes=attr)
         wd.to_file(filename)
         # try load it
@@ -61,7 +64,7 @@ class WeatherE2ETests(unittest.TestCase):
         wd = WeatherData.from_dict(node_series=data, same_nodes=same_nodes, attributes=attr)
         df = wd.to_dataframe()
         for n in same_nodes[101]:
-            assert list(df[df.nodes==101]['values']) == list(df[df.nodes==n]['values']), 'same nodes should duplicate values as node 101'
+            assert list(df[df.nodes == 101]['values']) == list(df[df.nodes == n]['values']), 'same nodes should duplicate values as node 101'
         info = DataFrameInfo(node_column="my_id",
                              step_column="timestep",
                              value_column="sin(x)")
@@ -76,16 +79,16 @@ class WeatherE2ETests(unittest.TestCase):
             WeatherVariable.RELATIVE_HUMIDITY: "Basel Relative Humidity [2 m]"
         }
         with self.assertRaises(expected_exception=ValueError) as exc:
-            ws = WeatherSet.from_csv(file_path=filename,
-                                 node_column="location",
-                                 step_column="timestep",
-                                 weather_columns=weather_columns)
+            WeatherSet.from_csv(file_path=filename,
+                                node_column="location",
+                                step_column="timestep",
+                                weather_columns=weather_columns)
         expected_message = 'Node values must be integers in (0, 4294967295] interval'
-        assert(expected_message in str(exc.exception))
+        assert (expected_message in str(exc.exception))
 
     def test_generate_weather_from_csv(self):
         # test both single and multiple nodes
-        testfiles = [self.testfiles_dir.joinpath("input_data",f) for f in os.listdir(self.testfiles_dir.joinpath("input_data")) if 'mytestdata' in f]
+        testfiles = [self.testfiles_dir.joinpath("input_data", f) for f in os.listdir(self.testfiles_dir.joinpath("input_data")) if 'mytestdata' in f]
         for filename in testfiles:
             output_filename = str(filename).replace('input_data', 'output_data')
             weather_columns = {
@@ -102,10 +105,10 @@ class WeatherE2ETests(unittest.TestCase):
                                      weather_columns=weather_columns, attributes=meta)
             # Modify individual weather files
             wd = ws[WeatherVariable.AIR_TEMPERATURE]
-            wd.data[0][0] +=1
+            wd.data[0][0] += 1
             wd.to_csv(file_path=output_filename)
-            wd2 =  WeatherData.from_csv(output_filename)
-            assert (np.all(abs(wd.data-wd2.data)<1e-5))
+            wd2 = WeatherData.from_csv(output_filename)
+            assert (np.all(abs(wd.data - wd2.data) < 1e-5))
 
     def test_existing_bin_files(self):
         ws = WeatherSet.from_files(dir_path=self.testfiles_dir.joinpath("input_data"), prefix="mewu_")
@@ -120,7 +123,7 @@ class WeatherE2ETests(unittest.TestCase):
 
         # Create all three weather files
         ws.to_files(dir_path=self.testfiles_dir.joinpath('output_data/my_weather'))
-        ws2 = WeatherSet.from_files(dir_path=self.testfiles_dir.joinpath('output_data/my_weather'), file_names={WeatherVariable.RAINFALL:"dtk_15arcmin_rainfall_daily.bin"})
+        ws2 = WeatherSet.from_files(dir_path=self.testfiles_dir.joinpath('output_data/my_weather'), file_names={WeatherVariable.RAINFALL: "dtk_15arcmin_rainfall_daily.bin"})
         wd2 = ws2[WeatherVariable.RAINFALL]
         assert np.all(wd2.data == wd.data), 'Data should be the same after saved'
         attributes_dict = wd.metadata.attributes_dict
@@ -135,7 +138,5 @@ class WeatherE2ETests(unittest.TestCase):
         }
 
         with self.assertRaises(ValueError):
-            ws = WeatherSet.from_csv(file_path=self.testfiles_dir.joinpath('input_data/data_null.csv'),
-                                     node_column="ids",
-                                     step_column="time",
-                                     weather_columns=weather_columns)
+            WeatherSet.from_csv(file_path=self.testfiles_dir.joinpath('input_data/data_null.csv'),
+                                node_column="ids", step_column="time", weather_columns=weather_columns)
