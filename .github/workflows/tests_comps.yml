@@ -1,0 +1,61 @@
+name: Run unit and COMPS tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  # Allows manual run from the Actions tab
+  workflow_dispatch:
+
+  # Allows re-use in other workflows
+  workflow_call:
+    secrets:
+      COMPS_USER:
+        required: true
+      COMPS_PASSWORD:
+        required: true
+
+jobs:
+  run-comps-tests:
+    name: Run tests
+    runs-on: ${{ matrix.os }}
+    # Run only if PR from branch in EMOD-Hub or after push to main
+    if: >
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.head.repo.full_name, 'EMOD-Hub/emodpy-malaria')) ||
+      (github.event_name == 'push' && github.repository == 'EMOD-Hub/emodpy-malaria')
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.14']
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v6
+      - name: Setup python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install .[test] --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
+      - name: Login to COMPS2
+        run: |
+          python .dev_scripts/create_auth_token_args.py --username ${{ secrets.COMPS_USER }} --password ${{ secrets.COMPS_PASSWORD }}
+        env:
+          COMPS_USER: ${{ secrets.COMPS_USER }}
+          COMPS_PASSWORD: ${{ secrets.COMPS_PASSWORD }}
+      - name: Run unit tests
+        run: |
+          cd tests
+          python -m pytest --dist loadfile -v --junitxml="test_results.xml"
+      - name: Run examples on COMPS as tests
+        run: |
+          cd examples
+          snakemake --cores all
+      - name: Upload emodpy test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: emodpy_test_results
+          path: examples/.snakemake/log/*snakemake.log

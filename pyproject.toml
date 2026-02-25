@@ -1,15 +1,13 @@
-# Made publicly available with the MIT license.
-
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "emodpy-malaria"
-version = "4.3.3"
+version = "5.0.0"
 description = "IDM's malaria-specific EMOD-API binding code"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 authors = [
     {name = "Sharon Chen", email = "sharon.chen@gatesfoundation.org"},
     {name = "Zhaowei Du", email = "zhaowei.du@gatesfoundation.org"},
@@ -18,21 +16,38 @@ authors = [
     {name = "Svetlana Titova", email = "svetlana.titova@gatesfoundation.org"},
     {name = "Ye Chen", email = "ye.chen@gatesfoundation.org"}]
 
-keywords=["modeling", "IDM"]
-
+keywords = ["modeling", "IDM"]
 dependencies = [
     "emodpy~=1.16",
-    "requests==2.29.0",
-    "emod-malaria==2.32.*"]
-
+    "chardet<6.0.0",
+    "emod-malaria==2.32.*",
+]
 license = "MIT"
-
 classifiers=[
-        "Programming Language :: Python :: 3.9",
-        "Framework:: IDM-Tools :: models",
-        "Operating System :: OS Independent"]
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent"
+]
 
 [project.optional-dependencies]
+docs = [
+    "sphinxext.remoteliteralinclude~=0.4",
+    "sphinx",
+    "pydata-sphinx-theme",
+    "plantweb~=1.2",
+    "sphinxcontrib-programoutput~=0.17",
+    "nbsphinx~=0.9",
+    "jupyterlab~=4.0",
+    "myst-parser~=2.0",
+    "readthedocs-sphinx-search~=0.3",
+    "sphinx-copybutton~=0.5",
+    "pygithub~=1.57",
+    "sphinxcontrib-jquery~=4.1",
+]
+lint = [
+    "flake8",
+]
 test = [
     "pytest",
     "pytest-xdist",
@@ -41,20 +56,13 @@ test = [
     "pytest-cache",
     "flake8",
     "coverage",
-    "py-make"]
-
-packaging = [
-    "build",
-    "flake8",
-    "coverage",
     "py-make",
-    "bump2version",
-    "twine"]
+    "snakemake~=8.30"
+]
 
 [project.urls]
 Repository="https://github.com/EMOD-Hub/emodpy-malaria"
-Issues="https://github.com/EMOD-Hub/emodpy-malaria/issues"
-
+Issues="https://github.com/EMOD-Hub/issues-and-discussions/issues"
 
 [tool.setuptools.packages]
 find = {include = ["emodpy_malaria*"]}
@@ -62,9 +70,15 @@ find = {include = ["emodpy_malaria*"]}
 [tool.setuptools.package-data]
 emodpy_malaria = [
     "*.csv",
-    "**/README.md"
+    "**/README.md",
 ]
 
-[tool.pip]
-extra-index-url = "https://packages.idmod.org/api/pypi/pypi-production/simple"
+[tool.bumpversion]
+current_version = "5.0.0"
+commit = true
 
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+
+[[tool.bumpversion.files]]
+filename = "emodpy_malaria/__init__.py"

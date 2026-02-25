@@ -6,9 +6,7 @@ import emod_api.campaign as campaign
 from pathlib import Path
 import sys
 
-parent = Path(__file__).resolve().parent
-sys.path.append(str(parent))
-import schema_path_file
+from . import schema_path_file
 
 campaign.set_schema(schema_path_file.schema_file)
 schema_path = schema_path_file.schema_file

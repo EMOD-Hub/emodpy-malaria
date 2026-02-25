@@ -1,0 +1,109 @@
+import os
+import pathlib
+from sys import platform
+from pathlib import Path
+
+from emodpy_malaria.weather.weather_variable import WeatherVariable
+
+dirs = os.listdir()
+input_files = list()
+sim_path = ""
+
+configfile: "./snake_config.json"
+
+def get_command(path: Path=None, script="example.py", python_version: str=None):
+    # using pushd (i.e. cd into directory) to use script location as base dir, otherwise relative
+    # paths in script use snakemake dir as base
+    if python_version:
+        command = "pushd " + path + " && " + python_version + " " + script
+    elif platform == "linux":
+        command = "pushd " + path + " && python3 " + script
+    elif platform == "win32":
+        command = "pushd " + path + " && python " + script
+    else:
+        print("Unknown OS")
+        raise Exception  
+    return command
+    
+
+skip_tests = [ ]
+
+for dir in dirs:
+    if os.path.isdir( dir ) and str( dir ).startswith( "." ) == False and os.path.exists( dir + "/example.py" ):
+        if dir in skip_tests:
+            continue
+        input_files.append(str(pathlib.PurePath(dir, "experiment_id")))
+
+input_files.append(str(pathlib.PurePath("burnin_create_and_use", "burnin_outputs.done"))) # adding manually
+print( input_files )
+
+rule all:
+    input:
+        Path("burnin_create_and_use", "experiment_id"),
+        Path("campaign_sweep", "experiment_id"),
+        Path("add_reports", "experiment_id"),
+        Path("microsporidia", "experiment_id"),
+        Path("embedded_python_post_processing", "experiment_id"),
+        Path("burnin_create_and_use", "burnin_outputs.done"),
+        Path("vector_surveillance", "experiment_id")
+
+checkpoint burnin_create:
+    input:
+    output: Path("burnin_create_and_use", "experiment_id")
+    run:
+        shell(get_command("burnin_create_and_use", python_version=config['python_version']))
+
+def get_sim_path(wildcards):
+    with open(checkpoints.burnin_create.get(**wildcards).output[0]) as f:
+        return f.read().strip()
+
+rule burnin_create_and_use:
+    input:
+        out_100_0 = lambda wc: Path(get_sim_path(wc), "output", "state-00100-000.dtk"),
+        out_100_1 = lambda wc: Path(get_sim_path(wc), "output", "state-00100-001.dtk"),
+        out_200_0 = lambda wc: Path(get_sim_path(wc), "output", "state-00200-000.dtk"),
+        out_200_1 = lambda wc: Path(get_sim_path(wc), "output", "state-00200-001.dtk")
+    output:
+        touch(Path("burnin_create_and_use", "burnin_outputs.done"))
+    run:
+        pass
+
+rule campaign_sweep:
+    input: 
+    output: Path("campaign_sweep", "experiment_id")
+    run:        
+        shell(get_command("campaign_sweep", python_version=config['python_version']))
+
+rule add_reports:
+    input:
+    output: Path("add_reports", "experiment_id")
+    run:
+        shell(get_command("add_reports", python_version=config['python_version']))
+
+rule microsporidia:
+    input:
+    output: Path("microsporidia", "experiment_id")
+    run:
+        shell(get_command("microsporidia", python_version=config['python_version']))
+
+
+rule embedded_python_post_processing:
+    input: 
+    output: Path("embedded_python_post_processing", "experiment_id")
+    run:        
+        shell(get_command("embedded_python_post_processing", python_version=config['python_version']))
+
+rule vector_surveillance:
+    input:
+    output: Path("vector_surveillance", "experiment_id")
+    run:
+        shell(get_command("vector_surveillance", python_version=config['python_version']))
+
+
+rule clean:
+    input: 
+    output: 
+    run:
+        for input_file in input_files:
+            if os.path.exists( input_file ):
+                os.remove(input_file)

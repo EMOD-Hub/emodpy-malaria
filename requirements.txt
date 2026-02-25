@@ -1,3 +1,0 @@
-emodpy~=1.16
-emod-malaria==0.0.78
-requests==2.29.0

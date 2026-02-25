@@ -58,8 +58,8 @@ def generate_weather(platform: Union[str, COMPSPlatform],
     Args:
         platform: Platform name (like "Calculon") or COMPSPlatform object, where the work item will run.
         site_file: CSV (.csv) or demographics (.json) file containing a set of sites (points) defined with lat/lon.
-                   CSV file must contain columns for: EMOD node ids (node), latitude (lat) and longitude (lon).
-                   Demographics file must match EMOD demographics file schema.
+        CSV file must contain columns for: EMOD node ids (node), latitude (lat) and longitude (lon).
+        Demographics file must match EMOD demographics file schema.
         start_date: Start date, in formats: year (2018), year and day-of-year (2018001) or date (20180101)
         end_date: (Optional) End date, in formats: year (2018), year and day-of-year (2018365) or date (20181231)
         node_column: (Optional) Name of a column containing EMOD node ids. The default is "nodes".
@@ -115,15 +115,14 @@ def csv_to_weather(csv_data: Union[str, Path, pd.DataFrame],
         node_column: (Optional) Column containing node ids. The default is "nodes". The default is "nodes".
         step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
         weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                         Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+        Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         attributes: (Optional) Weather attribute object containing metadata for WeatherMetadata object.
         weather_dir: (Optional) Directory where weather files are stored. If not specified files are not created.
         weather_file_names: (Optional) Dictionary of weather variables (keys) and weather .bin file names (values).
 
-            **Example**::
-
-                wa = WeatherAttributes(start_year=2001, end_year=2010)
-                ws = csv_to_weather(csv_data="path/to/data.csv", attributes=wa, weather_dir="path/to/weather_dir")
+        **Example**::
+            wa = WeatherAttributes(start_year=2001, end_year=2010)
+            ws = csv_to_weather(csv_data="path/to/data.csv", attributes=wa, weather_dir="path/to/weather_dir")
     Returns:
         WeatherSet object.
     """
@@ -162,18 +161,16 @@ def weather_to_csv(weather_dir: Union[str, Path],
 
     Args:
         weather_dir: Local dir containing weather files.
-        weather_file_prefix: (Optional) Weather files prefix, e.g. "dtk_15arcmin\_"
+        weather_file_prefix: (Optional) Weather files prefix, e.g. "dtk_15arcmin"
         weather_file_names: (Optional) Dictionary of weather variables (keys) and weather .bin file names (values).
         csv_file: (Optional) The path of a csv file to be generated. If not specified csv file is not created.
         node_column: (Optional) Column containing node ids. The default is "nodes".
         step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
         weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                         Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+        Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
 
-            **Example**::
-
-                df, attributes = weather_to_csv(weather_dir="path/to/weather_dir")
-
+        **Example**::
+            df, attributes = weather_to_csv(weather_dir="path/to/weather_dir")
     Returns:
         Dataframe and weather attributes objects.
     """

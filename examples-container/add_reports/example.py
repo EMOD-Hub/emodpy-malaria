@@ -7,8 +7,6 @@ from idmtools.entities.experiment import Experiment
 
 # emodpy
 import emodpy.emod_task as emod_task
-from emodpy.utils import EradicationBambooBuilds
-from emodpy.bamboo import get_model_files
 
 # importing all the reports functions, they all start with add_
 from emodpy_malaria.reporters.builtin import *
@@ -86,7 +84,7 @@ def general_sim():
     global add_report_event_counter
     platform = Platform("Container", job_directory="../example_jobs")
 
-    experiment_name = "all reports example"
+    experiment_name = "add_reports"
 
     # create EMODTask
     print("Creating EMODTask (from files)...")
@@ -180,7 +178,7 @@ def general_sim():
         print(f"Experiment {experiment.id} failed.\n")
     else:
         print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id.txt", "w") as fd:
+        with open("experiment_id", "w") as fd:
             fd.write(experiment.id)
 
 

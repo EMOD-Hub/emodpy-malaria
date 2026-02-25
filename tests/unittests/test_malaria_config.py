@@ -6,7 +6,7 @@ import sys
 
 from emod_api.config import default_from_schema_no_validation as dfs
 from emodpy.emod_task import EMODTask
-import schema_path_file
+from . import schema_path_file
 from emodpy_malaria.malaria_vector_species_params import species_params
 from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_max_larval_capacity, \
     configure_linear_spline, set_species_param, add_microsporidia, add_insecticide_resistance, add_drug_resistance, \
