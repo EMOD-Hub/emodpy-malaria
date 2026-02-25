@@ -17,4 +17,3 @@ def create_folder(folder_path):
         if not os.path.isdir(folder_path):
             print(f"\t{folder_path} doesn't exist, creating {folder_path}.")
             os.mkdir(folder_path)
-

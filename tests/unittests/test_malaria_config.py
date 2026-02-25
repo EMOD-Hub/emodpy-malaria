@@ -1,5 +1,4 @@
 import unittest
-from copy import deepcopy
 import json
 import os
 import sys
@@ -10,7 +9,7 @@ from . import schema_path_file
 from emodpy_malaria.malaria_vector_species_params import species_params
 from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_max_larval_capacity, \
     configure_linear_spline, set_species_param, add_microsporidia, add_insecticide_resistance, add_drug_resistance, \
-    set_drug_param, set_team_drug_params, set_parasite_genetics_params, get_drug_params, add_blood_meal_mortality
+    set_drug_param, set_parasite_genetics_params, get_drug_params, add_blood_meal_mortality
 from emodpy_malaria.vector_config import \
     add_genes_and_alleles, \
     add_mutation, \
@@ -636,34 +635,34 @@ class TestMalariaConfig(unittest.TestCase):
             add_maternal_deposition(config=self.config, manifest=schema_path_file,
                                     species="gambiae", cas9_grna_from="a",
                                     allele_to_cut="one", likelihood_list=[("one", 0.9), ("four", 0.1)])
-        self.assertTrue(f"Failed to find 'cas9_grna_from' = 'a' in the drivers for species 'gambiae'."
-                        f"\n'cas9_grna_from' must be one of the 'driving_alleles' defined in the "
-                        f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
-                        f"before the maternal deposition.\n" in str(context.exception),
+        self.assertTrue("Failed to find 'cas9_grna_from' = 'a' in the drivers for species 'gambiae'."
+                        "\n'cas9_grna_from' must be one of the 'driving_alleles' defined in the "
+                        "vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
+                        "before the maternal deposition.\n" in str(context.exception),
                         msg=str(context.exception))
         with self.assertRaises(ValueError) as context:
             add_maternal_deposition(config=self.config, manifest=schema_path_file,
                                     species="gambiae", cas9_grna_from="c",
                                     allele_to_cut="two", likelihood_list=[("one", 0.9), ("four", 0.1)])
-        self.assertTrue(f"Failed to find 'allele_to_cut' = 'two' in the drivers for species 'gambiae'.\n"
-                        f"'allele_to_cut' must be one of the 'to_replace' alleles defined for 'driving_allele'="
-                        f"'c' in the "
-                        f"vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
-                        f"before the maternal deposition.\n" in str(context.exception),
+        self.assertTrue("Failed to find 'allele_to_cut' = 'two' in the drivers for species 'gambiae'.\n"
+                        "'allele_to_cut' must be one of the 'to_replace' alleles defined for 'driving_allele'="
+                        "'c' in the "
+                        "vector_config.add_species_drivers() function.\n Please make sure the drivers are added "
+                        "before the maternal deposition.\n" in str(context.exception),
                         msg=str(context.exception))
         with self.assertRaises(ValueError) as context:
             add_maternal_deposition(config=self.config, manifest=schema_path_file,
                                     species="gambiae", cas9_grna_from="c",
                                     allele_to_cut="one", likelihood_list=[("one", 0.9), ("two", 0.1)])
-        self.assertTrue(f"Element at index '1' in the 'likelihood_list' has allele 'two', but it "
-                        f"is also an 'allele_to_copy' for the 'driving_allele' = 'c' and cannot be"
-                        f" cut to in maternal deposition.\n" in str(context.exception),
+        self.assertTrue("Element at index '1' in the 'likelihood_list' has allele 'two', but it "
+                        "is also an 'allele_to_copy' for the 'driving_allele' = 'c' and cannot be"
+                        " cut to in maternal deposition.\n" in str(context.exception),
                         msg=str(context.exception))
         with self.assertRaises(ValueError) as context:
             add_maternal_deposition(config=self.config, manifest=schema_path_file,
                                     species="gambiae", cas9_grna_from="c",
                                     allele_to_cut="one", likelihood_list=[("one", 0.9), ("three", 0.12)])
-        self.assertTrue(f"The sum of likelihoods in the 'likelihood_list' must be equal to 1.0, but got 1.02.\n" in
+        self.assertTrue("The sum of likelihoods in the 'likelihood_list' must be equal to 1.0, but got 1.02.\n" in
                         str(context.exception),
                         msg=str(context.exception))
 

@@ -5,8 +5,8 @@ weather service API offers this metadata.
 
 import json
 
-_data_source_metadata = """ 
-{    
+_data_source_metadata = """
+{
     "defaults": {
         "name": "ERA5"
     },

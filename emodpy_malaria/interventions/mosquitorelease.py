@@ -49,8 +49,8 @@ def _mosquito_release(campaign,
     if not released_genome:
         released_genome = [["X", "X"]]
     # setting released_ratio or released_number to 0 is valid
-    if ((released_number is not None and released_ratio is not None) or
-            (released_number is None and released_ratio is None)):
+    if ((released_number is not None and released_ratio is not None)
+            or (released_number is None and released_ratio is None)):
         raise ValueError("Please define either released_number or released_ratio to determine how to release "
                          "mosquitoes, \n not both.\n")
 
@@ -152,7 +152,7 @@ def add_scheduled_mosquito_release(
 def new_intervention_as_file(campaign, start_day: int = 1, filename: str = "MosquitoRelease.json"):
     """
         Creates a campaign file with a MosquitoRelease intervention
-        
+
     Args:
         campaign: A campaign builder that also contains schema_path parameters
         start_day: The day to release the vectors.

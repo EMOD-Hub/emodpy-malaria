@@ -6,7 +6,7 @@ import unittest
 from datetime import datetime
 from pathlib import Path
 
-from emodpy_malaria.weather import WeatherMetadata, WeatherAttributes
+from emodpy_malaria.weather.weather_metadata import WeatherMetadata, WeatherAttributes
 from emodpy_malaria.weather.weather_metadata import _META_ID_REFERENCE
 
 

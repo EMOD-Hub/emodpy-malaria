@@ -4,13 +4,12 @@ import subprocess
 import sys
 import tempfile
 import unittest
-import numpy as np
 import pandas
-import numpy
 from pathlib import Path
 
 import pandas as pd
 from emodpy_malaria.weather import *
+
 
 @unittest.skip("disabled to avoid comps")
 class WeatherE2ECompsTests(unittest.TestCase):

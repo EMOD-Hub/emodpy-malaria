@@ -22,7 +22,7 @@ class DemoTest(unittest.TestCase):
     def setUp(self) -> None:
         print(f"\n{self._testMethodName} started...")
         current_dir = os.path.dirname(os.path.realpath(__file__))
-        self.out_folder = os.path.join( current_dir, 'demo_output' )
+        self.out_folder = os.path.join(current_dir, 'demo_output')
 
     def check_for_unique_node_id(self, nodes):
         node_ids = list()
@@ -108,7 +108,6 @@ class DemoTest(unittest.TestCase):
         self.assertEqual(0, demog.raw['Defaults']['IndividualAttributes']['RiskDistribution2'])
         # self.assertEqual(len(demog.implicits), 2) # there are 4 implicits in this one??
 
-
     def test_from_csv(self):
         out_filename = os.path.join(self.out_folder, "demographics_from_csv.json")
         delete_existing_file(out_filename)
@@ -116,7 +115,7 @@ class DemoTest(unittest.TestCase):
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         input_file = os.path.join(current_dir, 'demo_data', 'demog_in.csv')
-        demog = MalariaDemographics.from_csv(input_file, res=25/ 3600, id_ref=id_ref)
+        demog = MalariaDemographics.from_csv(input_file, res=25 / 3600, id_ref=id_ref)
         self.assertEqual(demog.idref, id_ref)
         demog.SetDefaultProperties()
         demog.generate_file(out_filename)
@@ -133,8 +132,8 @@ class DemoTest(unittest.TestCase):
         inspect_node = demog.get_node(demog.nodes[15].id)
         self.assertEqual(inspect_node.id, demog.nodes[15].id, msg=f"This node should have an id of {demog.nodes[15].id} but instead it is {inspect_node.id}")
 
-        with self.assertRaises(ValueError) as context:
-            bad_node = demog.get_node(161839)
+        with self.assertRaises(ValueError):
+            demog.get_node(161839)
 
         self.assertEqual(demog_json['Metadata']['IdReference'], id_ref)
 
@@ -144,18 +143,17 @@ class DemoTest(unittest.TestCase):
         csv_df = pd.read_csv(input_file, encoding='iso-8859-1')
 
         pop_threshold = 25000  # hardcoded value
-        csv_df = csv_df[(6*csv_df['under5_pop']) >= pop_threshold]
+        csv_df = csv_df[(6 * csv_df['under5_pop']) >= pop_threshold]
         self.assertEqual(len(csv_df), len(demog_json['Nodes']))
 
         self.assertTrue(self.check_for_unique_node_id((demog.raw['Nodes'])))
-
 
     def test_from_csv_2(self):
         out_filename = os.path.join(self.out_folder, "demographics_from_csv_2.json")
         delete_existing_file(out_filename)
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
-        input_file = os.path.join( current_dir, "demo_data", "nodes.csv")
+        input_file = os.path.join(current_dir, "demo_data", "nodes.csv")
         demog = MalariaDemographics.from_csv(input_file, res=25 / 3600)
         demog.SetDefaultProperties()
         demog.generate_file(out_filename)
@@ -199,12 +197,12 @@ class DemoTest(unittest.TestCase):
         """
         Checks that add_initial_vectors_per_species_from_csv():
             does not accept a nonexistent csv path
-            appropriately maps the node id to an array of species presence      
+            appropriately maps the node id to an array of species presence
         """
         current_dir = os.path.dirname(os.path.realpath(__file__))
         csv_path = os.path.join(current_dir, "inputs", "species_vec.csv")
         bad_csv_path = os.path.join(current_dir, "inputs", "species_vec2.csv")
-        output_file = os.path.join(current_dir,"demo_output", "vec_species_from_csv.csv")
+        output_file = os.path.join(current_dir, "demo_output", "vec_species_from_csv.csv")
         delete_existing_file(output_file)
 
         data = pd.read_csv(csv_path)
@@ -215,7 +213,6 @@ class DemoTest(unittest.TestCase):
         # creates demographics object with only nodes from csv
         demog = MalariaDemographics.MalariaDemographics(nodes=nodes)
         demog.add_initial_vectors_per_species_from_csv(csv_path)
-
 
         demog.generate_file(output_file)
         with open(output_file, 'r') as demo_file:
@@ -252,11 +249,11 @@ class DemoTest(unittest.TestCase):
         delete_existing_file(outfile2)
 
         # tests that specifying vec_species with no node ids is as expected
-        vec_species={"Mosquito": 200}
+        vec_species = {"Mosquito": 200}
         demog_no_id = MalariaDemographics.from_template_node()
         demog_no_id.add_initial_vectors_per_species(init_vector_species=vec_species)
         demog_no_id.generate_file(outfile)
-        
+
         with open(outfile, 'r') as demo_file:
             demog_no_id_dict = json.load(demo_file)
 
@@ -264,7 +261,7 @@ class DemoTest(unittest.TestCase):
 
         # tests that specifying vec species with node id list applies vec species
         # to that node as expected
-        vec_species2={"Mosquito": 300}
+        vec_species2 = {"Mosquito": 300}
         demog = MalariaDemographics.from_template_node(forced_id=5)
         demog.add_initial_vectors_per_species(init_vector_species=vec_species2, node_ids=[5])
         demog.generate_file(outfile2)
@@ -276,14 +273,13 @@ class DemoTest(unittest.TestCase):
         # to all nodes as expected
         nodes = [Node(100, 200, 500, forced_id=id, name=f"id_{id}") for id in range(5)]
         demog_with_nodes = MalariaDemographics.MalariaDemographics(nodes=nodes)
-        demog_with_nodes.add_initial_vectors_per_species(init_vector_species=vec_species2, node_ids=[0,1,2,3,4])
+        demog_with_nodes.add_initial_vectors_per_species(init_vector_species=vec_species2, node_ids=[0, 1, 2, 3, 4])
         delete_existing_file(outfile)
         demog_with_nodes.generate_file(outfile)
-        
-        
+
         with open(outfile, 'r') as demo_file:
             demog_dict_nodes = json.load(demo_file)["Nodes"]
-        
+
         for node in demog_dict_nodes:
             self.assertEqual(node["NodeAttributes"]["InitialVectorsPerSpecies"], vec_species2)
 
@@ -303,7 +299,7 @@ class DemoTest(unittest.TestCase):
         delete_existing_file(out_filename)
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
-        input_file = os.path.join( current_dir, "demo_data", "nodes.csv")
+        input_file = os.path.join(current_dir, "demo_data", "nodes.csv")
         demog = MalariaDemographics.from_pop_csv(input_file)
         demog.SetDefaultProperties()
         demog.generate_file(out_filename)
@@ -320,16 +316,15 @@ class DemoTest(unittest.TestCase):
         self.assertEqual(inspect_node.id, demog.nodes[0].id,
                          msg=f"This node should have an id of {demog.nodes[0].id} but instead it is {inspect_node.id}")
 
-        with self.assertRaises(ValueError) as context:
-            bad_node = demog.get_node(161839)
+        with self.assertRaises(ValueError):
+            demog.get_node(161839)
 
         id_reference = 'No_Site'  # hardcoded value
         self.assertEqual(demog_json['Metadata']['IdReference'], id_reference)
 
         self.assertDictEqual(demog_json, demog.raw)
 
-        csv_df = pd.read_csv(input_file, encoding='iso-8859-1')
-
+        # csv_df = pd.read_csv(input_file, encoding='iso-8859-1')
         # the following assertion fails, logged as https://github.com/InstituteforDiseaseModeling/emod-api/issues/367
         # self.assertEqual(len(csv_df), len(demog_json['Nodes']))
 
@@ -342,7 +337,6 @@ class DemoTest(unittest.TestCase):
         totpop = 1e5
         num_nodes = 250
         frac_rural = 0.1
-        implicit_config_fns = []
         demog = MalariaDemographics.from_params(tot_pop=totpop, num_nodes=num_nodes, frac_rural=frac_rural)
         demog.SetDefaultProperties()
         demog.generate_file(out_filename)
@@ -379,8 +373,8 @@ class DemoTest(unittest.TestCase):
         species = "arabiensis"
         habitat_type = "TEMPORARY_RAINFALL"
         current_dir = os.path.dirname(os.path.realpath(__file__))
-        input_file = os.path.join(current_dir,'demo_data', 'demog_in.csv')
-        demog = MalariaDemographics.from_csv(input_file, res=25/ 3600, id_ref=id_ref)
+        input_file = os.path.join(current_dir, 'demo_data', 'demog_in.csv')
+        demog = MalariaDemographics.from_csv(input_file, res=25 / 3600, id_ref=id_ref)
         import schema_path_file
         demog.add_larval_habitat_multiplier(schema=schema_path_file.schema_file, hab_type=habitat_type,
                                             multiplier=factor, species=species, node_id=node_id)

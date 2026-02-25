@@ -18,7 +18,6 @@ from emod_api.demographics import Demographics as Demog
 # for from_demog_and_param_gravity()
 from geographiclib.geodesic import Geodesic
 
-from emodpy_malaria.vector_config import add_vector_migration
 
 class Layer(dict):
     """
@@ -119,7 +118,7 @@ class VectorMigration(object):
         self._agesyears = []
         try:
             self._author = _author()
-        except Exception as ex:
+        except Exception:
             self._author = ""
         self._datecreated = datetime.now()
         self._genderdatatype = self.SAME_FOR_BOTH_GENDERS
@@ -671,8 +670,6 @@ def from_params(demographics_file_path: any = None, population: int = 1e6, num_n
     return migration
 
 
-
-
 # TODO: just use task to reload the demographics files into an object to use for this
 
 def from_demographics_and_gravity_params(demographics_object, gravity_params: list,
@@ -717,7 +714,7 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
             return 0
         else:
             migration_rate = gravity_params[0] * (from_node_population ** (gravity_params[1] - 1)) \
-                             * (to_node_population ** gravity_params[2]) * (distance ** gravity_params[3])
+                * (to_node_population ** gravity_params[2]) * (distance ** gravity_params[3])
             final_rate = np.min([1., migration_rate])
             return final_rate
 
@@ -770,8 +767,9 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
     v_migration.MigrationType = "LOCAL_MIGRATION"
     # save migration object to file
     if not filename:
-        filename = f"vector_migration.bin"
+        filename = "vector_migration.bin"
     v_migration.to_file(Path(filename))
+
 
 # by gender, by age
 _mapping_fns = {
@@ -788,18 +786,6 @@ _display_fns = {
     (True, False): lambda i, g, a, d, r: f"{i},{g},{d},{r}",  # id:gender
     (True, True): lambda i, g, a, d, r: f"{i},{g},{a},{d},{r}"  # id:gender:age
 }
-
-
-def to_csv():
-    mapping = _mapping_fns[(migration.GenderDataType == VectorMigration.ONE_FOR_EACH_GENDER, bool(migration.AgesYears))]
-    display = _display_fns[(migration.GenderDataType == VectorMigration.ONE_FOR_EACH_GENDER, bool(migration.AgesYears))]
-
-    print(display("from_node", "to_node", "rate"))
-    for gender in range(1 if migration.GenderDataType == VectorMigration.SAME_FOR_BOTH_GENDERS else 2):
-        for age in migration.AgesYears if migration.AgesYears else [0]:
-            for node in migration.Nodes:
-                for destination, rate in mapping(migration, node, gender, age).items():
-                    print(display(node, gender, age, destination, rate))
 
 
 def from_csv(filename_path: str, id_reference: str, migration_type: str = "LOCAL_MIGRATION",

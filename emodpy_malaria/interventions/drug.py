@@ -19,7 +19,7 @@ def add_scheduled_antimalarial_drug(
         intervention_name: str = None
 ):
     """
-    Add an antimalarial drug intervention to your campaign. This is equivalent to 
+    Add an antimalarial drug intervention to your campaign. This is equivalent to
     :doc:`emod/parameter-campaign-individual-antimalarialdrug`.
 
     Args:
@@ -98,7 +98,7 @@ def new_intervention_as_file(campaign, start_day, drug_type="Chloroquine", filen
 
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
-        start_day: The day of the simulation on which the drug is distributed. We recommend 
+        start_day: The day of the simulation on which the drug is distributed. We recommend
             aligning this with the start of the simulation.
         drug_type: The name of the drug to distribute in a drug intervention. Possible values are
             contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.

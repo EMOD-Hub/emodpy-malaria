@@ -1,11 +1,7 @@
-"""
-This module contains functionality for bednet distribution.
-"""
-
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils
 from emod_api.interventions.common import BroadcastEvent
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event, MAX_AGE_YEARS
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
 
 
 def _simple_bednet(campaign,
@@ -186,7 +182,7 @@ def add_itn_scheduled(campaign,
 
     """
     if target_num_individuals and coverage_by_ages:
-        raise ValueError(f"You cannot use both - 'target_num_individuals' and 'coverage_by_ages'.\n")
+        raise ValueError("You cannot use both - 'target_num_individuals' and 'coverage_by_ages'.\n")
 
     intervention = _simple_bednet(campaign,
                                   killing_initial_effect=killing_initial_effect,

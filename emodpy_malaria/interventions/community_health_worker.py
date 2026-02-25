@@ -2,6 +2,7 @@ from emod_api import schema_to_class as s2c
 from emod_api.interventions.common import utils
 from emodpy_malaria.utils import MAX_AGE_YEARS
 
+
 def add_community_health_worker(campaign,
                                 start_day: int = 1,
                                 trigger_condition_list: list = None,

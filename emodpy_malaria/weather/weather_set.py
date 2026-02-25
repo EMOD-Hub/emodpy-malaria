@@ -500,7 +500,7 @@ class WeatherSet:
              Dictionary of weather variables (keys) and weather file names.
              For example, WeatherVariable.AIR_TEMPERATURE: "dtk_15arcmin_air_temperature_daily.bin"
          """
-        assert dir_path is not None, f"Directory path cannot be None."
+        assert dir_path is not None, "Directory path cannot be None."
         templates = cls._make_file_templates(prefix=prefix,
                                              suffix=suffix,
                                              weather_names=weather_names,
@@ -564,4 +564,3 @@ class WeatherSet:
                 both_has = v in self._weather_dict and v in self._weather_columns
                 none_has = v not in self._weather_dict and v not in self._weather_columns
                 assert both_has or none_has, ""
-

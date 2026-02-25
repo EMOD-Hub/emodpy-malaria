@@ -14,8 +14,8 @@ authors = [
     {name = "Clark Kirkman IV", email = "clark.kirkmand@gatesfoundation.org"},
     {name = "Daniel Bridenbecker", email = "daniel.bridenbecker@gatesfoundation.org"},
     {name = "Svetlana Titova", email = "svetlana.titova@gatesfoundation.org"},
-    {name = "Ye Chen", email = "ye.chen@gatesfoundation.org"}]
-
+    {name = "Ye Chen", email = "ye.chen@gatesfoundation.org"},
+]
 keywords = ["modeling", "IDM"]
 dependencies = [
     "emodpy~=1.16",

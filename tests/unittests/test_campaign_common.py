@@ -1,10 +1,6 @@
-#!/usr/bin/env python
 import unittest
 from emodpy_malaria.interventions.common import add_campaign_event
 import emod_api.campaign as campaign
-
-from pathlib import Path
-import sys
 
 from . import schema_path_file
 

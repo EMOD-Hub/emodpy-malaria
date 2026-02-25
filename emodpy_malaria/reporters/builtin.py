@@ -40,8 +40,7 @@ def check_vectors(task):
         ValueError: No Vector_Species_Params defined. You need to define at least one to use ReportVectorGenetics.
     """
     if task and not task.config.parameters.Vector_Species_Params:  # else assume we're in unittest
-        raise ValueError(f"No Vector_Species_Params defined. You need to define at least one to "
-                         f"use ReportVectorGenetics.\n")
+        raise ValueError("No Vector_Species_Params defined. You need to define at least one to use ReportVectorGenetics.\n")
 
 
 def all_vectors_if_none(task):
@@ -65,7 +64,7 @@ def add_visualizations(task):
     """
         Adds pointer files that create visualization for reports relevant to malaria.
         Currently, "AllInsets", "BinnedReport", "MalariaInterventions", "MalariaSummaryReport"
-        
+
     Args:
         task:  task to which to add the pointer files as assets
 
@@ -259,25 +258,25 @@ def add_malaria_summary_report(task, manifest,
             means don't look at IPs (individual properties)
         must_have_intervention: the name of the an intervention that the person must have in order to be included.
             Empty string means don't look at the interventions
-        include_time_age_pfpr_bins: When set to true, the 'DataByTimeAndPfPRBinsAndAgeBins' element is included 
+        include_time_age_pfpr_bins: When set to true, the 'DataByTimeAndPfPRBinsAndAgeBins' element is included
             in the report.  Default is true.  You can save disk space by setting this to false.
         include_time_age_pfpr_infectious_bins: When set to true, the 'DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins'
             element is included in the report.  Default is true.  You can save disk space by setting this to false.
-        add_true_density: If set to true, four new channels will be added to the report that use true density instead 
+        add_true_density: If set to true, four new channels will be added to the report that use true density instead
             of measured.  These additional channels are:
-            * 'PfPR_2to10-True', 
-            * 'PfPR by Age Bin-True', 
-            * 'Pf Gametocyte Prevalence by Age Bin-True', and 
+            * 'PfPR_2to10-True',
+            * 'PfPR by Age Bin-True',
+            * 'Pf Gametocyte Prevalence by Age Bin-True', and
             * 'Mean Log Parasite Density by Age Bin-True'.
             The true densities will be compared to thresholds 'parasite_detection_threshold' and
             'gametocyte_detection_threshold'. The Default is False.
         parasite_detection_threshold: Used when 'add_true_density' is true.  The true parasite density
             is compared against this threshold.  It impacts the:
-            * 'PfPR_2to10-True', 
-            * 'PfPR by Age Bin-True', and 
+            * 'PfPR_2to10-True',
+            * 'PfPR by Age Bin-True', and
             * 'Mean Log Parasite Density by Age Bin-True'
             channels.  Default is zero.
-        gametocyte_detection_threshold: Used when 'add_true_density' is true.  The true gametocyte 
+        gametocyte_detection_threshold: Used when 'add_true_density' is true.  The true gametocyte
             density is compared against this threshold.  It impacts the 'Pf Gametocyte Prevalence by Age Bin-True' channel.
             Default is zero.
         add_hrp2_prevalence: If true, the 'PfPR_2to10-HRP2' and the 'PfPR by Age Bin-HRP2' channels will be added.
@@ -402,7 +401,7 @@ def add_malaria_cotransmission_report(task, manifest,
     Adds ReportSimpleMalariaTransmission report to the simulation.
     See class definition for description of the report.
     This is the report used to track malaria CoTransmission (co_transmission)
-    
+
     Args:
         task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
         manifest: schema path file
@@ -806,8 +805,7 @@ def add_vector_habitat_report(task, manifest):
     """
 
     if task and not task.config.parameters.Vector_Species_Params:  # else assume we're in unittest
-        raise ValueError(f"No Vector_Species_Params defined. You need to define at least one to "
-                         f"use VectorHabitatReport.\n")
+        raise ValueError("No Vector_Species_Params defined. You need to define at least one to use VectorHabitatReport.\n")
 
     reporter = VectorHabitatReport()  # Create the reporter
 
