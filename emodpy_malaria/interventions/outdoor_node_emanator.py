@@ -1,11 +1,6 @@
-"""
-This module contains functionality for OutdoorNodeEmanator intervention for malaria campaigns
-"""
-
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils
-from emod_api.interventions.common import BroadcastEvent
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
+from emodpy_malaria.interventions.common import add_campaign_event
 
 
 def _outdoor_node_emanator(campaign,

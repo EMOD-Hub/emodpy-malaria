@@ -1,15 +1,15 @@
-"""
-This module contains functionality for malaria intervention distribution
-via a cascade of care that may contain diagnostics and drug treatments.
-"""
-
-from copy import deepcopy, copy
+from copy import deepcopy
 import random
 
-from emod_api.interventions.common import *
+from emod_api.interventions.common import BroadcastEvent
+from emod_api.interventions.common import BroadcastEventToOtherNodes
+from emod_api.interventions.common import DelayedIntervention
+from emod_api.interventions.common import TriggeredCampaignEvent
+from emod_api.interventions.common import PropertyValueChanger
+
 from emodpy_malaria.interventions.drug import _antimalarial_drug
 from emodpy_malaria.interventions.diag_survey import add_diagnostic_survey
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event, MAX_AGE_YEARS
+from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
 
 # Different configurations of regimens and drugs
 drug_cfg = {
@@ -32,20 +32,20 @@ drug_cfg = {
 
 
 def drug_configs_from_code(campaign, drug_code: str = None):
-    """  
+    """
     Add a single or multiple drug regimen to the configuration file based
-    on its code and add the corresponding 
+    on its code and add the corresponding
     :doc:`emod/parameter-campaign-individual-antimalarialdrug`
     intervention to the return dictionary. For example, passing the ``ALP`` drug
     code will add the drug configuration for artemether, lumefantrine, and
     primaquine to the configuration file and will return a dictionary containing a
     full treatment course for those three drugs. For more information, see
     **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
-      
+
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
-            will be added. 
-        drug_code: The code of the drug regimen. This must be listed in the ``drug_cfg`` 
+            will be added.
+        drug_code: The code of the drug regimen. This must be listed in the ``drug_cfg``
             dictionary.
 
     Returns:
@@ -108,7 +108,7 @@ def add_drug_campaign(campaign,
                       target_residents_only: int = 1,
                       check_eligibility_at_trigger: bool = False,
                       receiving_drugs_event_name='Received_Campaign_Drugs'):
-    """ 
+    """
     Add a drug intervention campaign from a list of malaria campaign types.
     This intervention uses the
     :doc:`emod/parameter-campaign-individual-malariadiagnostic` class
@@ -116,14 +116,14 @@ def add_drug_campaign(campaign,
     :doc:`emod/parameter-campaign-individual-antimalarialdrug` class
     to configure drug interventions. You can also specify a delay period for a
     triggered event that broadcasts afterwards.  If the campaign is repeated
-    or triggered, separate 
+    or triggered, separate
     :doc:`emod/parameter-campaign-node-nodelevelhealthtriggerediv`
     interventions are created with a delay that sends an event to distribute
     drugs.
 
     Args:
         campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will
-            be added. 
+            be added.
         campaign_type: The type of drug campaign. Available options are:
             MDA - Add a mass drug administration intervention.
             MSAT - Add a  mass screening and treatment intervention.
@@ -142,7 +142,7 @@ def add_drug_campaign(campaign,
             a delayed "Give_Drugs_rfMDA" event to neighboring nodes, which
             will trigger another drug distribution.
             PMC -
-        drug_code: The code of the drug regimen to distribute. This must be 
+        drug_code: The code of the drug regimen to distribute. This must be
             listed in the ``drug_cfg`` dictionary.
         start_days: List of start days (integers) when the drug regimen will
             be distributed. Due to diagnostic/treatment configuration,
@@ -153,24 +153,24 @@ def add_drug_campaign(campaign,
             people at home during the campaign).
         repetitions: The number of repetitions.
         tsteps_btwn_repetitions: The timesteps between the repetitions.
-        diagnostic_type: The setting for **Diagnostic_Type** in 
+        diagnostic_type: The setting for **Diagnostic_Type** in
             :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
             In addition to the accepted values listed there, you may also set
-            TRUE_INFECTION_STATUS, which calls 
+            TRUE_INFECTION_STATUS, which calls
             :doc:`emod/parameter-campaign-individual-standarddiagnostic`
             instead.
-        diagnostic_threshold: The setting for **Diagnostic_Threshold** in 
-            :doc:`emod/parameter-campaign-individual-malariadiagnostic`. 
+        diagnostic_threshold: The setting for **Diagnostic_Threshold** in
+            :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
         measurement_sensitivity: The setting for **Measurement_Sensitivity**
             in :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
-        fmda_radius: Radius (in km) of focal response upon finding infection. 
-            Used in simulations with many small nodes to simulate 
+        fmda_radius: Radius (in km) of focal response upon finding infection.
+            Used in simulations with many small nodes to simulate
             community health workers distributing drugs to surrounding houses.
             Used when **campaign_type** is set to fMDA.
         node_selection_type: The setting for **Node_Selection_Type** in
           :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
         trigger_coverage: The fraction of trigger events that will trigger reactive
-            case detection (RCD). Used when **campaign_type** is set to rfMSAT or rfMDA. 
+            case detection (RCD). Used when **campaign_type** is set to rfMSAT or rfMDA.
             To set the fraction of individuals reached during RCD response, use **coverage**.
         trigger_name: Name of broadcast event sent out after trigger event.
             Also used as in drug campaign with default "Received_{trigger_name}"
@@ -178,11 +178,11 @@ def add_drug_campaign(campaign,
                 "IPTi_{x}" with x = number of IPTi dose
         snowballs: The number of times each triggered intervention will be distributed
             to surrounding nodes. For example, one snowball gives drugs to nodes
-            neighboring the first node and two snowballs gives drugs to the nodes 
+            neighboring the first node and two snowballs gives drugs to the nodes
             neighboring those nodes. Used when **campaign_type** is set to rfMSAT.
-        treatment_delay: For **campaign_type** set to MSAT or fMDA, the length of time 
-            between administering a diagnostic and giving drugs; for values of rfMSAT 
-            or rfMDA, the length of time between treating the index case and triggering 
+        treatment_delay: For **campaign_type** set to MSAT or fMDA, the length of time
+            between administering a diagnostic and giving drugs; for values of rfMSAT
+            or rfMDA, the length of time between treating the index case and triggering
             an RCD response.
         triggered_campaign_delay: When using **trigger_condition_list**, this
             indicates the delay period between receiving the trigger event
@@ -201,7 +201,7 @@ def add_drug_campaign(campaign,
         target_group: A dictionary of ``{'agemin': x, 'agemax': y}`` to
             target MDA, SMC, MSAT, fMDA to individuals between x and y years
             of age. Default is Everyone.
-        drug_ineligibility_duration: The number of days to set the **DrugStatus** 
+        drug_ineligibility_duration: The number of days to set the **DrugStatus**
             individual property to **RecentDrug**, after which the property value
             is reverted. This property value prevents people from receiving drugs too
             frequently, but they can still receive diagnostics during this period.
@@ -225,7 +225,7 @@ def add_drug_campaign(campaign,
             dictionaries from configure_adherent_drug.
         target_residents_only: The setting for **Target_Residents_Only** in
             :doc:`emod/parameter-campaign-event-triggeredeventcoordinator`.
-        check_eligibility_at_trigger: Set to True to check the individual or node's 
+        check_eligibility_at_trigger: Set to True to check the individual or node's
             eligibility at the initial trigger; set to False to check eligibility
             when the event is actually distributed after a delay.
         receiving_drugs_event_name: The event to broadcast when a person receives drugs.
@@ -358,7 +358,7 @@ def add_MDA(campaign, start_days: list = None, coverage: float = 1.0, drug_confi
             trigger_condition_list: list = None, listening_duration: int = -1, triggered_campaign_delay: int = 0,
             target_residents_only: int = 1, check_eligibility_at_trigger: bool = False):
     """
-    Add an MDA (mass drug administration) drug intervention to your campaign. 
+    Add an MDA (mass drug administration) drug intervention to your campaign.
     See :py:func:`add_drug_campaign` for more information about each
     argument.
 
@@ -465,7 +465,7 @@ def add_MSAT(campaign, start_days: list = None, coverage: float = 1.0, drug_conf
     """
     Add an MSAT (mass screening and treatment) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
-    argument. 
+    argument.
 
     Returns:
         None
@@ -648,7 +648,7 @@ def add_rfMSAT(campaign, start_day: int = 0, coverage: float = 1, drug_configs: 
     """
     Add a rfMSAT (reactive focal mass screening and treatment) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
-    argument. 
+    argument.
 
     Returns:
         None

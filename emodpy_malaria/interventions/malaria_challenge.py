@@ -26,8 +26,7 @@ def add_challenge_trial(campaign, start_day: int = 0, node_ids: list = None, dem
 
     """
     if sporozoites and infectious_bites:
-        raise ValueError(f"Please enter a positive value for either 'infectious_bites' or 'sporozoites', "
-                         f"but not both.\n")
+        raise ValueError("Please enter a positive value for either 'infectious_bites' or 'sporozoites', but not both.\n")
 
     intervention = _malaria_challenge(campaign, demographic_coverage=demographic_coverage,
                                       infectious_bites=infectious_bites, sporozoites=sporozoites,
@@ -63,7 +62,6 @@ def _malaria_challenge(campaign, demographic_coverage: float = 1, infectious_bit
     elif infectious_bites:
         intervention.Infectious_Bite_Count = infectious_bites
     else:
-        raise ValueError(f"Please enter a positive value for either 'infectious_bites' or 'sporozoites', "
-                         f"but not both.\n")
+        raise ValueError("Please enter a positive value for either 'infectious_bites' or 'sporozoites', but not both.\n")
 
     return intervention

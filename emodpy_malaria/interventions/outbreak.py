@@ -2,6 +2,7 @@ from emod_api import schema_to_class as s2c
 from emod_api.interventions.common import utils, BroadcastEvent, MultiInterventionDistributor
 from emodpy_malaria.utils import MAX_AGE_YEARS
 
+
 def add_outbreak_individual(campaign,
                             start_day: int = 1,
                             demographic_coverage: float = 1.0,
@@ -170,8 +171,8 @@ def add_outbreak_malaria_genetics(campaign,
     if create_nucleotide_sequence_from == "BARCODE_STRING" and not barcode_string:
         raise ValueError(f"You must define barcode_string with {create_nucleotide_sequence_from} setting.\n")
     elif create_nucleotide_sequence_from == "BARCODE_STRING" and (msp_variant_value or pfemp1_variants_values
-                                                                  or barcode_allele_frequencies_per_genome_location or
-                                                                  hrp_allele_frequencies_per_genome_location):
+                                                                  or barcode_allele_frequencies_per_genome_location
+                                                                  or hrp_allele_frequencies_per_genome_location):
         raise ValueError(f"With {create_nucleotide_sequence_from} setting does not use msp_variant_value or "
                          f"pfemp1_variants_values or barcode_allele_frequencies_per_genome_location or "
                          f"hrp_allele_frequencies_per_genome_location. Please do not set them.\n")
@@ -179,17 +180,17 @@ def add_outbreak_malaria_genetics(campaign,
             msp_variant_value and pfemp1_variants_values):
         raise ValueError(f"You must define msp_variant_value and pfemp1_variants_values with "
                          f"{create_nucleotide_sequence_from} setting.\n")
-    elif create_nucleotide_sequence_from == "NUCLEOTIDE_SEQUENCE" and (barcode_string or
-                                                                       barcode_allele_frequencies_per_genome_location or
-                                                                       hrp_allele_frequencies_per_genome_location):
+    elif create_nucleotide_sequence_from == "NUCLEOTIDE_SEQUENCE" and (barcode_string
+                                                                       or barcode_allele_frequencies_per_genome_location
+                                                                       or hrp_allele_frequencies_per_genome_location):
         raise ValueError(f"With {create_nucleotide_sequence_from} setting does not use barcode_string "
                          f"or barcode_allele_frequencies_per_genome_location or "
                          f"hrp_allele_frequencies_per_genome_location. Please do not set them.\n")
     elif create_nucleotide_sequence_from == "ALLELE_FREQUENCIES" and not barcode_allele_frequencies_per_genome_location:
         raise ValueError(f"You must define barcode_allele_frequencies_per_genome_location with "
                          f"{create_nucleotide_sequence_from} setting.\n")
-    elif create_nucleotide_sequence_from == "ALLELE_FREQUENCIES" and (barcode_string or hrp_string or
-                                                                      msp_variant_value or pfemp1_variants_values):
+    elif create_nucleotide_sequence_from == "ALLELE_FREQUENCIES" and (barcode_string or hrp_string
+                                                                      or msp_variant_value or pfemp1_variants_values):
         raise ValueError(f"With {create_nucleotide_sequence_from} setting does not use barcode_string "
                          f"or msp_variant_value or pfemp1_variants_values or hrp_string. Please do not set them.\n")
 
@@ -292,7 +293,7 @@ def add_outbreak_malaria_var_genes(campaign,
         CampaignEvent which then can be added to the campaign file
     """
     if not irbc_type or not minor_epitope_type or not msp_type:
-        raise ValueError(f"irbc_type, minor_epitope_type, msp_type all must be defined.\n")
+        raise ValueError("irbc_type, minor_epitope_type, msp_type all must be defined.\n")
     elif irbc_type and len(irbc_type) != 50:
         raise ValueError(f"irbc_type needs to have 50 values, you have {len(irbc_type)}.\n")
     elif minor_epitope_type and len(minor_epitope_type) != 50:

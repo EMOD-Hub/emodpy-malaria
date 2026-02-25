@@ -1,5 +1,4 @@
 from emod_api import schema_to_class as s2c
-import pandas as pd
 from emodpy_malaria.interventions.outbreak import add_campaign_event
 
 

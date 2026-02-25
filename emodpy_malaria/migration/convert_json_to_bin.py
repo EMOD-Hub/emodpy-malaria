@@ -5,7 +5,7 @@
 #
 # The JSON file allows the user to specify different rates for different ages
 # and genders.
-# 
+#
 # The output binary file has one or two Gender Data sections depending on whether
 # the JSON file has different data for each gender.  Each Gender Data section has
 # one Age Data section for each age specified in the JSON file.  Each Age Data

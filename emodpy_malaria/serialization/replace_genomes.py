@@ -1,8 +1,3 @@
-# replace+genomes.py
-# -----------------------------------------------------------------------------
-# DanB 4/7/2021
-# -----------------------------------------------------------------------------
-import time
 import os
 import argparse
 import numpy
@@ -154,11 +149,9 @@ def replace_genomes(input_file, next_barcode_fn, output_file):
         for person in node["individualHumans"]:
             # print("------------ " + str(person["suid"]["id"]) + " -----------------")
             for infection in person["infections"]:
-                next_genome = get_next_genome(next_barcode_fn, person["suid"]["id"], ser_pop_genome_map,
-                                              cache_genome_map)
+                next_genome = get_next_genome(next_barcode_fn, person["suid"]["id"], ser_pop_genome_map, cache_genome_map)
                 length_barcode = len(infection["infection_strain"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
-                assert length_barcode == len(
-                    next_genome["m_pInner"]["m_NucleotideSequence"]), f"New barcode has wrong length."
+                assert length_barcode == len(next_genome["m_pInner"]["m_NucleotideSequence"]), "New barcode has wrong length."
                 infection["infection_strain"]["m_Genome"] = next_genome
 
         # tic2 = time.perf_counter()
@@ -172,29 +165,23 @@ def replace_genomes(input_file, next_barcode_fn, output_file):
                 for oocyst in vector["m_OocystCohorts"]:
                     genome_oocyst = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
                     length_oocyst_barcode = len(oocyst["m_MaleGametocyteGenome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_oocyst["m_pInner"][
-                                   "m_NucleotideSequence"]) == length_oocyst_barcode, f"New barcode has wrong length."
+                    assert len(genome_oocyst["m_pInner"]["m_NucleotideSequence"]) == length_oocyst_barcode, "New barcode has wrong length."
                     oocyst["m_MaleGametocyteGenome"] = genome_oocyst
 
                     genome_oocyst = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
-                    length_oocyst_barcode = len(
-                        oocyst["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_oocyst["m_pInner"][
-                                   "m_NucleotideSequence"]) == length_oocyst_barcode, f"New barcode has wrong length."
+                    length_oocyst_barcode = len(oocyst["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
+                    assert len(genome_oocyst["m_pInner"]["m_NucleotideSequence"]) == length_oocyst_barcode, "New barcode has wrong length."
                     oocyst["m_pStrainIdentity"]["m_Genome"] = genome_oocyst
 
                 for sporo in vector["m_SporozoiteCohorts"]:
                     genome_sporo = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
                     length_sporo_barcode = len(sporo["m_MaleGametocyteGenome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_sporo["m_pInner"][
-                                   "m_NucleotideSequence"]) == length_sporo_barcode, f"New barcode has wrong length."
+                    assert len(genome_sporo["m_pInner"]["m_NucleotideSequence"]) == length_sporo_barcode, "New barcode has wrong length."
                     sporo["m_MaleGametocyteGenome"] = genome_sporo
 
                     genome_sporo = get_next_genome(next_barcode_fn, -999, ser_pop_genome_map, cache_genome_map)
-                    length_sporo_barcode = len(
-                        sporo["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
-                    assert len(genome_sporo["m_pInner"][
-                                   "m_NucleotideSequence"]) == length_sporo_barcode, f"New barcode has wrong length."
+                    length_sporo_barcode = len(sporo["m_pStrainIdentity"]["m_Genome"]["m_pInner"]["m_NucleotideSequence"])
+                    assert len(genome_sporo["m_pInner"]["m_NucleotideSequence"]) == length_sporo_barcode, "New barcode has wrong length."
                     sporo["m_pStrainIdentity"]["m_Genome"] = genome_sporo
 
             # tic2 = time.perf_counter()

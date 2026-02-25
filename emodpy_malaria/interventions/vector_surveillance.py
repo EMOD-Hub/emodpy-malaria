@@ -53,7 +53,7 @@ def add_vector_surveillance_event_coordinator(
     differentiate between different VectorSurveillanceEventCoordinators if needed. The respond() function returns a list
     of event names to be broadcast as coordinator-level events at completion of the survey. The events are added by you
     based on your processing of the sampled vectors. These events are used to trigger interventions in the campaign that
-    will run the next day. The events in the list should correspond to the events used in the campaign or be manually 
+    will run the next day. The events in the list should correspond to the events used in the campaign or be manually
     added to the config.parameters.Custom_Coordinator_Events parameter list.
 
     Args:
