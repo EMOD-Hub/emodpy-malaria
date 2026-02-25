@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Iterable, List, NoReturn, Union
 
-from emodpy_malaria.weather.weather_utils import invert_dict, make_path, save_json,  validate_str_value
+from emodpy_malaria.weather.weather_utils import invert_dict, make_path, save_json, validate_str_value
 
 SERIES_BYTE_VALUE_SIZE = 4  # Single series value is stored as 4 bytes = 32b
 assert SERIES_BYTE_VALUE_SIZE == np.dtype(np.float32).itemsize, "Unexpected weather time series value size."

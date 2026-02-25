@@ -1,24 +1,23 @@
 import pandas as pd
-from typing import Tuple
+from typing import Tuple, Dict, Union
+from pathlib import Path
 
-from emodpy_malaria.weather.weather_utils import *
 from emodpy_malaria.weather.weather_variable import WeatherVariable
-from emodpy_malaria.weather.weather_metadata import WeatherMetadata, WeatherAttributes
-from emodpy_malaria.weather.weather_data import WeatherData, DataFrameInfo
+from emodpy_malaria.weather.weather_metadata import WeatherAttributes
 from emodpy_malaria.weather.weather_set import WeatherSet
-from emodpy_malaria.weather.weather_request import WeatherRequest, WeatherArgs, RequestReport
+from emodpy_malaria.weather.weather_request import WeatherRequest, WeatherArgs
 
 from idmtools_platform_comps.comps_platform import COMPSPlatform
 
 # module level doc-string
 __doc__ = """
-**weather** is a module providing features for working with EMOD weather files.  
+**weather** is a module providing features for working with EMOD weather files.
 
 Main Features
 -------------
 Here are main features:
-    
-  - Generate EMOD weather files locally from a csv file.     
+
+  - Generate EMOD weather files locally from a csv file.
   - Generate EMOD weather files using COMPS SSMT weather service.
   - Convert existing EMOD weather files to csv file or dataframes.
   - Programmatic access to EMOD weather files via weather object model.
