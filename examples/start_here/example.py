@@ -105,7 +105,8 @@ def run():
     print_params()
 
     # Set platform
-    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    platform = Platform("SLURMStage", num_retries=0)
 
     # create EMODTask 
     print("Creating EMODTask (from files)...")
