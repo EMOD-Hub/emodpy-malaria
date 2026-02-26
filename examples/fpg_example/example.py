@@ -152,7 +152,8 @@ def general_sim():
     """
 
     # Set platform
-    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    platform = Platform("SLURMStage", num_retries=0)
 
     experiment_name = "Malaria Parasite Genetics example"
 

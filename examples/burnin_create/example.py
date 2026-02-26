@@ -1,10 +1,6 @@
-#!/usr/bin/env python3
-
-# idmtools
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
 
-# emodpy
 from emodpy.emod_task import EMODTask
 import manifest
 
@@ -78,8 +74,8 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", num_cores=2, node_group="idm_48cores", priority="Highest")
+    # platform = Platform("Calculon", num_cores=2, node_group="idm_48cores", priority="Highest")
+    platform = Platform("SLURMStage", num_cores=2, num_retries=0)
     experiment_name = "Create simulation from serialized files"
     
     # create EMODTask 

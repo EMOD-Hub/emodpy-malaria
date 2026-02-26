@@ -158,7 +158,8 @@ def general_sim(selected_platform):
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
     if selected_platform.upper().startswith("COMPS"):
-        platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+        #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+        platform = Platform("SLURMStage", num_retries=0)
         # set the singularity image to be used when running this experiment
         task.set_sif(manifest.sif_id)
     elif selected_platform.upper().startswith("SLURM_LOCAL"):

@@ -202,7 +202,8 @@ def general_sim():
 
     # Set platform
     #platform = Platform("SLURMStage")  # to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", node_group="idm_48cores")
+    #platform = Platform("Calculon", node_group="idm_48cores")
+    platform = Platform("SLURMStage", num_retries=0)
 
     num_seeds = 5
     report_start = 20
