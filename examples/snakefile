@@ -23,18 +23,16 @@ def get_command(path: Path=None, script="example.py", python_version: str=None):
         print("Unknown OS")
         raise Exception  
     return command
-    
 
 # Not sure about start_here, there seems to be an issue with comps2
-skip_tests = ["download_files",
+skip_tests = [
+              "download_files",
               "outdoor_rest_kill_male_mosquitoes",
               "burnin_use",
-              "filtered_report",
-			  "jonr_1", #431
-			  "add_reports", #433
-			  "embedded_python_post_processing", #434
-			  "serialization_replace_genomes", #632
-              ]
+              "jonr_1", #431
+              "serialization_replace_genomes", #632
+              "fpg_example", # Move to COMPS2; needs ObsModel id on COMPS2
+             ]
 
 for dir in dirs:
     if os.path.isdir( dir ) and str( dir ).startswith( "." ) == False and os.path.exists( dir + "/example.py" ):
@@ -48,21 +46,15 @@ rule run:
     input: input_files
     output:
     shell: ""
-	
+
 rule start_here:
-    input: 
+    input:
     output: Path("start_here", "experiment_id")
     run:
         shell(get_command("start_here", python_version=config['python_version']))
 
-rule filtered_report:
-    input: 
-    output: Path("filtered_report", "experiment_id")
-    run:
-        shell(get_command("filtered_report", python_version=config['python_version']))
-
 rule burnin_create:
-    input: 
+    input:
     output: Path("burnin_create", "experiment_id"),
             out_020_0 = Path("burnin_create", "serialization_files", "output", "state-00020-000.dtk"),
             out_020_1 = Path("burnin_create", "serialization_files", "output", "state-00020-001.dtk"),
@@ -72,7 +64,7 @@ rule burnin_create:
         shell(get_command("burnin_create", python_version=config['python_version']))
 
 rule burnin_create_infections:
-    input: 
+    input:
     output: Path("burnin_create_infections", "experiment_id"),
             out_050 = Path("burnin_create_infections", "serialization_files", "output", "state-00050.dtk")
     run:
@@ -93,11 +85,10 @@ rule burnin_create_parasite_genetics:
         shell(get_command("burnin_create_parasite_genetics", python_version=config['python_version']))
 
 rule burnin_use:
-    input: 
+    input:
     output: Path("burnin_use", "experiment_id")
     run:
         shell(get_command("burnin_use", python_version=config['python_version']))
-
 
 rule serialization_remove_infections:
     input:  rules.burnin_create_infections.output.out_050
@@ -114,88 +105,70 @@ rule serialization_replace_genomes:
         shell(get_command("serialization_replace_genomes", python_version=config['python_version']))
 
 rule drug_campaign:
-    input: 
+    input:
     output: Path("drug_campaign","experiment_id")
     run:
         shell(get_command("drug_campaign", python_version=config['python_version']))
 
 rule ivermectin:
-    input: 
+    input:
     output: Path("ivermectin", "experiment_id")
-    run:        
+    run:
         shell(get_command("ivermectin", python_version=config['python_version']))
 
 rule jonr_1:
-    input: 
+    input:
     output: Path("jonr_1", "experiment_id")
-    run:        
+    run:
         shell(get_command("jonr_1", python_version=config['python_version']))
 
-rule kill_only_males_camp_sweep:
-    input: 
-    output: Path("kill_only_males_camp_sweep", "experiment_id")
-    run:        
-        shell(get_command("kill_only_males_camp_sweep", python_version=config['python_version']))
-
 rule male_vector_fertility_test:
-    input: 
+    input:
     output: Path("male_vector_fertility_test", "experiment_id")
-    run:       
+    run:
         shell(get_command("male_vector_fertility_test", python_version=config['python_version']))
 
 rule outdoor_rest_kill_male_mosquitoes:
-    input: 
+    input:
     output: Path("outdoor_rest_kill_male_mosquitoes", "experiment_id")
-    run:        
+    run:
         shell(get_command("outdoor_rest_kill_male_mosquitoes", python_version=config['python_version']))
 
-rule simple_sim_template_emodpy:
-    input: 
-    output: Path("simple-sim-template-emodpy", "experiment_id")
-    run:        
-        shell(get_command("simple_sim_template_emodpy", python_version=config['python_version']))
-
 rule campaign_sweep:
-    input: 
+    input:
     output: Path("campaign_sweep", "experiment_id")
-    run:        
+    run:
         shell(get_command("campaign_sweep", python_version=config['python_version']))
 
 rule demographics_sweep:
-    input: 
+    input:
     output: Path("demographics_sweep", "experiment_id")
-    run:        
+    run:
         shell(get_command("demographics_sweep", python_version=config['python_version']))
 
 rule input_eir:
-    input: 
+    input:
     output: Path("inputEIR", "experiment_id")
-    run:        
+    run:
         shell(get_command("inputEIR", python_version=config['python_version']))
 
 rule irs:
-    input: 
+    input:
     output: Path("irs", "experiment_id")
-    run:        
+    run:
         shell(get_command("irs", python_version=config['python_version']))
 
 rule vector_basic:
-    input: 
+    input:
     output: Path("vector_basic", "experiment_id")
-    run:        
+    run:
         shell(get_command("vector_basic", python_version=config['python_version']))
         
 rule vector_genetics_vector_sim:
-    input: 
+    input:
     output: Path("vector_genetics_vector_sim", "experiment_id")
-    run:        
+    run:
         shell(get_command("vector_genetics_vector_sim", python_version=config['python_version']))
-
-rule vector_genetics_parasite_resistance:
-    input: 
-    output: Path("vector_genetics_parasite_resistance", "experiment_id")
-    run:        
-        shell(get_command("vector_genetics_parasite_resistance", python_version=config['python_version']))
 
 rule vector_genetics_insecticide_resistance:
     input:
@@ -204,59 +177,46 @@ rule vector_genetics_insecticide_resistance:
         shell(get_command("vector_genetics_insecticide_resistance", python_version=config['python_version']))
 
 rule diagnostic_survey:
-    input: 
+    input:
     output: Path("diagnostic_survey", "experiment_id")
-    run:        
+    run:
         shell(get_command("diagnostic_survey", python_version=config['python_version']))
-
-rule add_reports:
-    input: 
-    output: Path("add_reports", "experiment_id")
-    run:       
-        shell(get_command("add_reports", python_version=config['python_version']))
 
 rule run_with_unobserved_importation:
     input:
     output: Path("run_with_unobserved_importation", "experiment_id")
-    run:        
+    run:
         shell(get_command("run_with_unobserved_importation", python_version=config['python_version']))
 
 rule example_template:
     input:
     output: Path("example_template", "experiment_id")
-    run:        
+    run:
         shell(get_command("example_template", python_version=config['python_version']))
 
 rule fpg_example:
     input:
     output: Path("fpg_example", "experiment_id")
-    run:        
+    run:
         shell(get_command("fpg_example", python_version=config['python_version']))
 
 rule download_files:
     input:
     output: Path("download_files", "experiment_id")
-    run:        
+    run:
         shell(get_command("download_files", python_version=config['python_version']))
 
 rule rcd_elimination_emodpy:
-    input: 
+    input:
     output: Path("rcd_elimination_emodpy", "experiment_id")
-    run:        
+    run:
         shell(get_command("rcd_elimination_emodpy", python_version=config['python_version']))
-		
+
 rule scale_larval_habitats:
-    input: 
+    input:
     output: Path("scale_larval_habitats", "experiment_id")
-    run:        
+    run:
         shell(get_command("scale_larval_habitats", python_version=config['python_version']))
-
-
-rule embedded_python_post_processing:
-    input: 
-    output: Path("embedded_python_post_processing", "experiment_id")
-    run:        
-        shell(get_command("embedded_python_post_processing", python_version=config['python_version']))
 
 rule create_demographics:
     input:
@@ -292,8 +252,8 @@ rule vector_surveillance:
         shell(get_command("vector_surveillance", python_version=config['python_version']))
 
 rule clean:
-    input: 
-    output: 
+    input:
+    output:
     run:
         for input_file in input_files:
             if os.path.exists( input_file ):
