@@ -17,7 +17,8 @@ print("\n---=| WEATHER REQUEST |=---\n")
 # Weather data is now only available until April 2024 or 2024152 (year + day of the year)
 # startdate = (datetime.today() - timedelta(180+365)).replace(day=1).strftime('%Y%j')
 # enddate= (datetime.today() - timedelta(180)).replace(day=1).strftime('%Y%j')
-wr = generate_weather(platform="Calculon",
+#wr = generate_weather(platform="Calculon",
+wr = generate_weather(platform="SLURMStage",
                       site_file="input/site_details.csv",
                       start_date=2023152,  # see note above
                       end_date=2024152,  # see note above
