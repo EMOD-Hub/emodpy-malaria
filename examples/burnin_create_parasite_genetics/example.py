@@ -95,9 +95,8 @@ def general_sim():
 
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
-
+    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    
     # create EMODTask 
     print("Creating EMODTask (from files)...")
 

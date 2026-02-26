@@ -113,8 +113,7 @@ def general_sim():
 
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform("Calculon", node_group="idm_48cores")
 
     experiment_name = "create_demographics_example"
 

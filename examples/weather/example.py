@@ -17,8 +17,7 @@ if __name__ == "__main__":
     builder = SimulationBuilder()
     builder.add_sweep_definition(emod_task.EMODTask.set_parameter_partial("Run_Number"), range(0, 1))
     e = Experiment.from_builder(builder, cb, name=exp_name)
-    #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
     e.run(platform=platform, wait_until_done=True)
     assert (e.succeeded)
     with open('experiment_id', 'w') as f:
