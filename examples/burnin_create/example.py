@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
+
+# idmtools
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
 
+# emodpy
 from emodpy.emod_task import EMODTask
 import manifest
 
