@@ -32,8 +32,6 @@ for dir in dirs:
     if os.path.isdir( dir ) and str( dir ).startswith( "." ) == False and os.path.exists( dir + "/example.py" ):
         if dir in skip_tests:
             continue
-        if dir != 'burnin_create_and_use_sweep_larval_habitat':
-            continue
         input_files.append(str(pathlib.PurePath(dir, "experiment_id")))
 
 print( input_files )
