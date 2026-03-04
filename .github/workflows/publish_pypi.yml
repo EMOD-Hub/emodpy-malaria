@@ -17,8 +17,8 @@ jobs:
           python-version: '3.x'
       - name: Build
         run: |
-          python3 -m pip install build --user
-          python3 -m build
+          python -m pip install build --user
+          python -m build
       - name: Store packages
         uses: actions/upload-artifact@v6
         with:
