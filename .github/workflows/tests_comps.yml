@@ -23,7 +23,8 @@ jobs:
     # Run only if PR from branch in EMOD-Hub or after push to main
     if: >
       (github.event_name == 'pull_request' && contains(github.event.pull_request.head.repo.full_name, 'EMOD-Hub/emodpy-malaria')) ||
-      (github.event_name == 'push' && github.repository == 'EMOD-Hub/emodpy-malaria')
+      (github.event_name == 'push' && github.repository == 'EMOD-Hub/emodpy-malaria') ||
+      (github.event_name == 'workflow_dispatch' && github.repository == 'EMOD-Hub/emodpy-malaria')
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
