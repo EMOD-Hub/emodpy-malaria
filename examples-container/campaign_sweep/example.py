@@ -156,7 +156,7 @@ def general_sim():
     )
 
     # Set platform
-    platform = Platform("Container", job_directory="../example_jobs")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # Create simulation sweep with builder
     # sweeping over start day AND killing effectiveness - this will be a cross product

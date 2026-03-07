@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
-
-# idmtools
 import os
+import shutil
 
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
@@ -91,21 +89,8 @@ def general_sim(selected_platform):
     
     # Set platform
     # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    if selected_platform == "COMPS":
-        #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-        platform = Platform("SLURMStage", num_retries=0)
-        # set the singularity image to be used when running this experiment
-        task.set_sif(manifest.sif_id)
-    elif selected_platform.startswith("SLURM"):
-        # This is for native slurm cluster
-        # Quest slurm cluster. 'b1139' is guest partition for idm user. You may have different partition and acct
-        platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
-                            account='b1139', modules=['singularity'], max_running_jobs=10)
-        # set the singularity image to be used when running this experiment
-        # dtk_build_rocky_39.sif can be downloaded with command:
-        # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
-        task.set_sif(manifest.sif_path_slurm, platform)
-    
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
+
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)
@@ -125,31 +110,17 @@ def general_sim(selected_platform):
         fd.write(experiment.id)
     print()
     print(experiment.id)
-    if selected_platform == "COMPS":
-        # important bit
-        # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
-        from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
-        dl_wi = DownloadWorkItem(
-                                 related_experiments=[experiment.id],
-                                 file_patterns=["output/*.dtk"],
-                                 simulation_prefix_format_str='serialization_files',
-                                 verbose=True,
-                                 output_path="",
-                                 delete_after_download=False,
-                                 include_assets=True,
-                                 compress_type=CompressType.deflate)
+    sim_dir = experiment.get_simulations()[0].get_directory()
 
-        dl_wi.run(wait_until_done=True, platform=platform)
-        print("SHOULD BE DOWNLOADED")
-    elif selected_platform.startswith("SLURM"):
-        for simulation in experiment.simulations:
-            simulation_dir = platform._op_client.get_directory(simulation)
-            if os.path.exists(os.path.join(simulation_dir, "output", "state-00050.dtk")):
-                print("dtk file path: ", os.path.join(simulation_dir, "output", "state-00050.dtk"))
-                assert True
-            else:
-                print("dtk file not exists!")
-                assert False
+    # important bit
+    # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
+
+    for fname in os.listdir(os.path.join(sim_dir, 'output')):
+        if fname.endswith('.dtk'):
+            shutil.copy(os.path.join(sim_dir, 'output', fname), fname)
+
+    print("SHOULD BE DOWNLOADED")
+
 
 if __name__ == "__main__":
     import emod_malaria.bootstrap as dtk

@@ -7,7 +7,6 @@ from emodpy_malaria.weather.weather_variable import WeatherVariable
 
 dirs = os.listdir()
 input_files = list()
-sim_path = ""
 
 configfile: "./snake_config.json"
 
@@ -24,7 +23,6 @@ def get_command(path: Path=None, script="example.py", python_version: str=None):
         print("Unknown OS")
         raise Exception  
     return command
-    
 
 skip_tests = [ ]
 
@@ -37,15 +35,10 @@ for dir in dirs:
 input_files.append(str(pathlib.PurePath("burnin_create_and_use", "burnin_outputs.done"))) # adding manually
 print( input_files )
 
-rule all:
-    input:
-        Path("burnin_create_and_use", "experiment_id"),
-        Path("campaign_sweep", "experiment_id"),
-        Path("add_reports", "experiment_id"),
-        Path("microsporidia", "experiment_id"),
-        Path("embedded_python_post_processing", "experiment_id"),
-        Path("burnin_create_and_use", "burnin_outputs.done"),
-        Path("vector_surveillance", "experiment_id")
+rule run:
+    input: input_files
+    output:
+    shell: ""
 
 checkpoint burnin_create:
     input:
@@ -69,9 +62,9 @@ rule burnin_create_and_use:
         pass
 
 rule campaign_sweep:
-    input: 
+    input:
     output: Path("campaign_sweep", "experiment_id")
-    run:        
+    run:
         shell(get_command("campaign_sweep", python_version=config['python_version']))
 
 rule add_reports:
@@ -88,9 +81,9 @@ rule microsporidia:
 
 
 rule embedded_python_post_processing:
-    input: 
+    input:
     output: Path("embedded_python_post_processing", "experiment_id")
-    run:        
+    run:
         shell(get_command("embedded_python_post_processing", python_version=config['python_version']))
 
 rule vector_surveillance:
@@ -99,10 +92,9 @@ rule vector_surveillance:
     run:
         shell(get_command("vector_surveillance", python_version=config['python_version']))
 
-
 rule clean:
-    input: 
-    output: 
+    input:
+    output:
     run:
         for input_file in input_files:
             if os.path.exists( input_file ):

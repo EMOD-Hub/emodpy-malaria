@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+import os
+import shutil
 
 # idmtools
 from idmtools.core.platform_factory import Platform
@@ -79,7 +80,7 @@ def general_sim():
 
     # Set platform
     # platform = Platform("Calculon", num_cores=2, node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_cores=2, num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     experiment_name = "Create simulation from serialized files"
     
     # create EMODTask 
@@ -97,7 +98,7 @@ def general_sim():
     )
     
     # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
+    #task.set_sif(manifest.sif_path)
     
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
@@ -118,25 +119,15 @@ def general_sim():
         fd.write(experiment.id)
     print()
     print(experiment.id)
-    
+    sim_dir = experiment.get_simulations()[0].get_directory()
+
     # important bit
     # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
-    from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
-    # navigating to the experiment.id file to retrieve experiment id
-    # with open("../burnin_create/experiment.id") as f:
-    #    experiment_id = f.readline()
 
-    dl_wi = DownloadWorkItem(
-                             related_experiments=[experiment.id],
-                             file_patterns=["output/*.dtk"],
-                             simulation_prefix_format_str='serialization_files',
-                             verbose=True,
-                             output_path="",
-                             delete_after_download=False,
-                             include_assets=True,
-                             compress_type=CompressType.deflate)
+    for fname in os.listdir(os.path.join(sim_dir, 'output')):
+        if fname.endswith('.dtk'):
+            shutil.copy(os.path.join(sim_dir, 'output', fname), fname)
 
-    dl_wi.run(wait_until_done=True, platform=platform)
     print("SHOULD BE DOWNLOADED")
 
 

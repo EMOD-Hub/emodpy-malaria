@@ -24,7 +24,6 @@ def get_command(path: Path=None, script="example.py", python_version: str=None):
         raise Exception  
     return command
 
-# Not sure about start_here, there seems to be an issue with comps2
 skip_tests = [
               "download_files",
               "outdoor_rest_kill_male_mosquitoes",
@@ -56,17 +55,15 @@ rule start_here:
 rule burnin_create:
     input:
     output: Path("burnin_create", "experiment_id"),
-            out_020_0 = Path("burnin_create", "serialization_files", "output", "state-00020-000.dtk"),
-            out_020_1 = Path("burnin_create", "serialization_files", "output", "state-00020-001.dtk"),
-            out_200_0 = Path("burnin_create", "serialization_files", "output", "state-00200-000.dtk"),
-            out_200_1 = Path("burnin_create", "serialization_files", "output", "state-00200-001.dtk")           
+            out_020 = Path("burnin_create", "state-00020.dtk"),
+            out_200 = Path("burnin_create", "state-00200.dtk"),
     run:
         shell(get_command("burnin_create", python_version=config['python_version']))
 
 rule burnin_create_infections:
     input:
     output: Path("burnin_create_infections", "experiment_id"),
-            out_050 = Path("burnin_create_infections", "serialization_files", "output", "state-00050.dtk")
+            out_050 = Path("burnin_create_infections", "state-00050.dtk")
     run:
         shell(get_command("burnin_create_infections", python_version=config['python_version']))
 

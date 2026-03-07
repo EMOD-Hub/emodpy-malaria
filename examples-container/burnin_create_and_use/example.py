@@ -114,7 +114,7 @@ def general_sim():
     # Set platform to Container Platform
     # ntasks=2 is triggering mpirun -n 2 for multiple process
     # make sure you have at least more than 2 nodes in your demographics
-    platform = Platform("Container", job_directory="../example_jobs", ntasks=2)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image, ntasks=2)
     # create EMODTask
     print("Creating EMODTask (from files)...")
 

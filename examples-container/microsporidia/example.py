@@ -178,21 +178,7 @@ def general_sim(selected_platform):
         demog_builder=build_demographics
     )
     # Set platform
-    if selected_platform == "COMPS":
-        platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-        # set the singularity image to be used when running this experiment
-        task.set_sif(manifest.sif_id)
-    elif selected_platform.startswith("SLURM"):
-        # This is for native slurm cluster
-        # Quest slurm cluster. 'b1139' is guest partition for idm user. You may have different partition and acct
-        platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
-                            account='b1139', modules=['singularity'], max_running_jobs=10)
-        # set the singularity image to be used when running this experiment
-        # dtk_build_rocky_39.sif can be downloaded with command:
-        # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
-        task.set_sif(manifest.SIF_PATH, platform)
-    elif selected_platform.startswith("Container"):
-        platform = Platform("Container", job_directory="../example_jobs")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     # set up sweeps
     builder = SimulationBuilder()
 
@@ -241,6 +227,5 @@ if __name__ == "__main__":
     import pathlib
 
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    # selected_platform = "COMPS"
     selected_platform = "Container"
     general_sim(selected_platform)
