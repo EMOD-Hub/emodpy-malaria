@@ -79,10 +79,9 @@ def general_sim():
     """
 
     # Set platform
-    # platform = Platform("Calculon", num_cores=2, node_group="idm_48cores", priority="Highest")
     platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     experiment_name = "Create simulation from serialized files"
-    
+
     # create EMODTask 
     print("Creating EMODTask (from files)...")
 
@@ -96,10 +95,7 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
-    # set the singularity image to be used when running this experiment
-    #task.set_sif(manifest.sif_path)
-    
+
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)

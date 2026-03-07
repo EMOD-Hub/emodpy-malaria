@@ -50,17 +50,8 @@ def general_sim():
     every time we run an emod experiment. 
     """
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     experiment_name = "Create simulation from serialized files"
-
-    # important bit
-    # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
-    from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
-    # navigating to the experiment.id file to retrieve experiment id
-    with open("../burnin_create_infections/experiment_id") as f:
-        experiment_id = f.readline()
 
     task = EMODTask.from_default2(
         config_path="config.json",
@@ -72,10 +63,7 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)

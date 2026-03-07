@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # idmtools ...
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
@@ -97,9 +95,7 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     experiment_name = "Diagnostic Survey Example"
 
@@ -114,10 +110,7 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # Adding ReportEventCounter so you can see the events.
     from emodpy_malaria.reporters.builtin import ReportEventCounter
 

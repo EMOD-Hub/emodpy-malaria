@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+import os
+import shutil
 
 # idmtools
 from idmtools.core.platform_factory import Platform
@@ -94,9 +95,7 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # create EMODTask 
     print("Creating EMODTask (from files)...")
@@ -111,10 +110,7 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment_name = "Create a serialized population with parasite genetics"
@@ -135,21 +131,12 @@ def general_sim():
         fd.write(experiment.id)
     print()
     print(experiment.id)
-    
-    # important bit
-    # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
-    from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
-    dl_wi = DownloadWorkItem(
-                             related_experiments=[experiment.id],
-                             file_patterns=["output/*.dtk"],
-                             simulation_prefix_format_str='serialization_files',
-                             verbose=True,
-                             output_path="",
-                             delete_after_download=False,
-                             include_assets=True,
-                             compress_type=CompressType.deflate)
+    sim_dir = experiment.get_simulations()[0].get_directory()
 
-    dl_wi.run(wait_until_done=True, platform=platform)
+    for fname in os.listdir(os.path.join(sim_dir, 'output')):
+        if fname.endswith('.dtk'):
+            shutil.copy(os.path.join(sim_dir, 'output', fname), fname)
+
     print("SHOULD BE DOWNLOADED")
 
 

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from pathlib import Path
 import manifest
 import sys
@@ -69,7 +67,7 @@ def general_sim():
     every time we run an emod experiment. 
     """
     # Set platform
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # use serialization files generated in burnin_create_parasite_genetics
     task = EMODTask.from_default2(
@@ -82,9 +80,6 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
 
     # We are creating one-simulation experiment straight from task.
     experiment_name = "Create simulation from serialized file with replaced genomes"

@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
-
 import pathlib  # for a join
 from functools import \
     partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
 
 # idmtools ...
-
 from idmtools.builders import SimulationBuilder
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
@@ -114,9 +111,8 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
+
     experiment_name = "Demographics Sweep example"
     # create EMODTask 
     print("Creating EMODTask (from files)...")
@@ -129,10 +125,7 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # Create simulation sweep with builder
     # sweeping over start day AND killing effectiveness - this will be a cross product
     builder = SimulationBuilder()

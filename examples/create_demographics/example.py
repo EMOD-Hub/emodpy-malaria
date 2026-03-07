@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-
 import pathlib  # for a join
-from functools import \
-    partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
 
 # idmtools ...
 from idmtools.assets import Asset, AssetCollection  #
@@ -112,9 +108,7 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     experiment_name = "create_demographics_example"
 
@@ -129,10 +123,7 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     experiment = Experiment.from_task(task=task, name=experiment_name)

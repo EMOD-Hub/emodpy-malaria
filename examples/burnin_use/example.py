@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
-
 import pathlib  # for a join
 from functools import \
     partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
 
 # idmtools ...
-
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
 from idmtools.builders import SimulationBuilder
@@ -25,8 +22,7 @@ The important bits are in set_param_fn function and general_sim function
 
 def get_serialization_paths(platform, serialization_exp_id):
     exp = Experiment.from_id(serialization_exp_id, children=False)
-    exp.simulations = platform.get_children(exp.id, exp.item_type,
-                                            children=["tags", "configuration", "files", "hpc_jobs"])
+    exp.simulations = platform.get_children(exp.id, exp.item_type, children=["tags", "configuration", "files", "hpc_jobs"])
 
     sim_dict = {'Larval_Capacity': [], 'Outpath': []}
     for simulation in exp.simulations:
@@ -101,10 +97,8 @@ def general_sim(erad_path, serialized_exp_id):
     every time we run an emod experiment. 
     """
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", num_cores=2, node_group="idm_48cores", priority="Highest")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     experiment_name = "Create simulation from serialized files"
-
 
     task = EMODTask.from_default2(
         config_path="my_config.json",
@@ -116,10 +110,7 @@ def general_sim(erad_path, serialized_exp_id):
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # Create simulation sweep with builder
     builder = SimulationBuilder()
 
@@ -136,7 +127,6 @@ def general_sim(erad_path, serialized_exp_id):
 
     # Add reporter
     add_report_vector_genetics(task, manifest, species="gambiae")
-
 
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.

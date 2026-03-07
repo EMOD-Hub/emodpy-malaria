@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import argparse
 import os
 import pathlib  # for a join
@@ -135,7 +134,7 @@ def build_demographics():
     return demographics
 
 
-def general_sim(selected_platform):
+def general_sim():
     """
         This function is designed to be a parameterized version of the sequence of things we do
     every time we run an emod experiment.
@@ -156,19 +155,7 @@ def general_sim(selected_platform):
     )
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    if selected_platform.upper().startswith("COMPS"):
-        #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-        platform = Platform("SLURMStage", num_retries=0)
-        # set the singularity image to be used when running this experiment
-        task.set_sif(manifest.sif_id)
-    elif selected_platform.upper().startswith("SLURM_LOCAL"):
-        # This is for native slurm cluster
-        # Quest slurm cluster. 'b1139' is guest partition for idm user. You may have different partition and acct
-        platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
-                            account='b1139', modules=['singularity'], max_running_jobs=10)
-        # set the singularity image to be used when running this experiment
-        task.set_sif(manifest.sif_path_slurm, platform)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # Create simulation sweep with builder
     # sweeping over start day AND killing effectiveness - this will be a cross product
@@ -211,5 +198,4 @@ if __name__ == "__main__":
     import pathlib
 
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    selected_platform = "COMPS"
-    general_sim(selected_platform)
+    general_sim()

@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 # idmtools ...
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
@@ -152,8 +149,7 @@ def general_sim():
     """
 
     # Set platform
-    #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     experiment_name = "Malaria Parasite Genetics example"
 
@@ -168,10 +164,7 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-    
-    # set the singularity image(fpg_observational_model pre-installed) to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # set up sweeps
     builder = SimulationBuilder()
     builder.add_sweep_definition(sweep_run_number, [3, 4])

@@ -1,8 +1,6 @@
-#!/usr/bin/env python3
-
+import os
+import shutil
 import pathlib  # for a join
-from functools import \
-    partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
 
 # idmtools ...
 from idmtools.assets import Asset
@@ -85,7 +83,7 @@ def general_sim():
     every time we run an emod experiment. 
     """
 
-    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # create EMODTask 
     print("Creating EMODTask (from files)...")
@@ -101,20 +99,13 @@ def general_sim():
         plugin_report=None  # report
     )
 
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-
-    # print("Adding asset dir...")
-    # task.common_assets.add_directory(assets_directory=manifest.assets_input_dir)
-    print("Adding local assets (py scripts mainly)...")
-
     # Create simulation sweep with builder
     builder = SimulationBuilder()
     builder.add_sweep_definition(update_sim_random_seed, range(10))
 
     # create experiment from builder
-    print(f"Prompting for COMPS creds if necessary...")
     experiment = Experiment.from_builder(builder, task, name="Ivermectin sample experiment")
+
     # The last step is to call run() on the ExperimentManager to run the simulations.
     experiment.run(wait_until_done=True, platform=platform)
 
@@ -124,40 +115,16 @@ def general_sim():
         exit()
 
     print(f"Experiment {experiment.id} succeeded.")
-
-    # Save experiment id to file
-    with open("experiment_id", "w") as fd:
-        fd.write(experiment.id)
+    sim_dir = experiment.get_simulations()[0].get_directory()
 
     # THIS IS WHERE WE DOWNLOAD THE FILE
-
-    from idmtools_platform_comps.utils.download.download import DownloadWorkItem, CompressType
-
-    # navigating to the experiment_id file to retrieve experiment id
-    dl_wi = DownloadWorkItem(
-        related_experiments=[experiment.id],
-        file_patterns=["output/*.json"],
-        simulation_prefix_format_str='serialization_files',
-        verbose=True,
-        output_path="",
-        delete_after_download=False,
-        include_assets=True,
-        compress_type=CompressType.deflate)
-
-    dl_wi.run(wait_until_done=True, platform=platform)
-
-    # Check result
-    if not experiment.succeeded:
-        print(f"Experiment {experiment.id} failed.\n")
-        exit()
-
-    print(f"Experiment {experiment.id} succeeded.")
+    for fname in os.listdir(os.path.join(sim_dir, 'output')):
+        if fname.endswith('.dtk'):
+            shutil.copy(os.path.join(sim_dir, 'output', fname), fname)
 
     # Save experiment id to file
     with open("experiment_id", "w") as fd:
         fd.write(experiment.id)
-    print()
-    print(experiment.id)
 
 
 if __name__ == "__main__":
