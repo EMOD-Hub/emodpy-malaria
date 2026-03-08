@@ -88,12 +88,6 @@ rule embedded_python_post_processing:
     run:
         shell(get_command("embedded_python_post_processing", python_version=config['python_version']))
 
-rule vector_surveillance:
-    input:
-    output: Path("vector_surveillance", "experiment_id")
-    run:
-        shell(get_command("vector_surveillance", python_version=config['python_version']))
-
 rule start_here:
     input:
     output: Path("start_here", "experiment_id")
