@@ -48,14 +48,14 @@ rule run:
     output:
     shell: ""
 
-checkpoint burnin_create:
+checkpoint burnin_create_use:
     input:
     output: Path("burnin_create_and_use", "experiment_id")
     run:
         shell(get_command("burnin_create_and_use", python_version=config['python_version']))
 
 def get_sim_path(wildcards):
-    with open(checkpoints.burnin_create.get(**wildcards).output[0]) as f:
+    with open(checkpoints.burnin_create_use.get(**wildcards).output[0]) as f:
         return f.read().strip()
 
 rule burnin_create_and_use:
