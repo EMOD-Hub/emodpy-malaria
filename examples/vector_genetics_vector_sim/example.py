@@ -1,7 +1,4 @@
-#!/usr/bin/env python3
-
 # idmtools ...
-
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
 
@@ -96,9 +93,7 @@ def general_sim():
     """
 
     # Set platform
-    #platform = Platform("SLURMStage") # to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     experiment_name = "Vector Genetics VECTOR_SIM example"
 
     # create EMODTask 
@@ -113,10 +108,7 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     add_report_vector_genetics(task, manifest, species="gambiae", include_vector_state=False,
                                allele_combinations_for_stratification=[["a"], ["b"]])
 

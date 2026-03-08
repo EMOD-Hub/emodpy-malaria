@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-
 import pathlib  # for a join
-from functools import \
-    partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
 
 # idmtools ...
 from idmtools.assets import Asset, AssetCollection  #
@@ -205,9 +201,7 @@ def general_sim():
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     experiment_name = "VectorSurveillance example"
 
     # create EMODTask 
@@ -222,9 +216,6 @@ def general_sim():
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
 
     add_report_vector_genetics(task, manifest, species="gambiae")
     add_coordinator_event_recorder(task, event_list=[start_surveillance,

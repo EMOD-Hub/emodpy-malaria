@@ -1,16 +1,10 @@
-#!/usr/bin/env python3
-
 import pathlib  # for a join
-from functools import \
-    partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
 
 # idmtools ...
 from idmtools.assets import Asset, AssetCollection  #
 from idmtools.builders import SimulationBuilder
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
-# from idmtools_platform_comps.utils.python_requirements_ac.requirements_to_asset_collection import RequirementsToAssetCollection
-# from idmtools_models.templated_script_task import get_script_wrapper_unix_task
 
 # emodpy
 from emodpy.emod_task import EMODTask
@@ -146,10 +140,7 @@ def general_sim(erad_path, ep4_scripts):
     print_params()
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-
-    # pl = RequirementsToAssetCollection( platform, requirements_path=manifest.requirements )
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # create EMODTask 
     print("Creating EMODTask (from files)...")
@@ -165,14 +156,7 @@ def general_sim(erad_path, ep4_scripts):
         plugin_report=None  # report
     )
 
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-
     add_reports(task, manifest)
-
-    # print("Adding asset dir...")
-    # task.common_assets.add_directory(assets_directory=manifest.assets_input_dir)
-    print("Adding local assets (py scripts mainly)...")
 
     # Create simulation sweep with builder
     builder = SimulationBuilder()
@@ -181,9 +165,6 @@ def general_sim(erad_path, ep4_scripts):
     # create experiment from builder
     print(f"Prompting for COMPS creds if necessary...")
     experiment = Experiment.from_builder(builder, task, name=params.exp_name)
-
-    # other_assets = AssetCollection.from_id(pl.run())
-    # experiment.assets.add_assets(other_assets)
 
     # The last step is to call run() on the ExperimentManager to run the simulations.
     experiment.run(wait_until_done=True, platform=platform)

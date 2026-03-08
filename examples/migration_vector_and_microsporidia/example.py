@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import pathlib  # for a join
 from functools import \
     partial  # for setting Run_Number. In Jonathan Future World, Run_Number is set by dtk_pre_proc based on generic param_sweep_value...
@@ -170,7 +168,7 @@ def ep4_fn(task):
     return task
 
 
-def general_sim(selected_platform):
+def general_sim():
     """
         This function is designed to be a parameterized version of the sequence of things we do
     every time we run an emod experiment.
@@ -203,35 +201,13 @@ def general_sim(selected_platform):
                          vector_migration_habitat_modifier=0.3, vector_migration_food_modifier=0.1,
                          vector_migration_stay_put_modifier=4)
 
-
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    if selected_platform.upper().startswith("COMPS"):
-        #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-        platform = Platform("SLURMStage", num_retries=0)
-        # set the singularity image to be used when running this experiment
-        task.set_sif(manifest.sif_path)
-    elif selected_platform.upper().startswith("SLURM_LOCAL"):
-        # This is for native slurm cluster
-        # Quest slurm cluster. 'b1139' is guest partition for idm user. You may have different partition and acct
-        platform = Platform(selected_platform, job_directory=manifest.job_directory, partition='b1139', time='10:00:00',
-                            account='b1139', modules=['singularity'], max_running_jobs=10)
-        # set the singularity image to be used when running this experiment
-        # dtk_build_rocky_39.sif can be downloaded with command:
-        # curl  https://packages.idmod.org:443/artifactory/idm-docker-public/idmtools/rocky_mpi/dtk_build_rocky_39.sif -o dtk_build_rocky_39.sif
-        task.set_sif(manifest.sif_path_slurm, platform)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # set up sweeps
     builder = SimulationBuilder()
 
     builder.add_sweep_definition(on_off_microsporidia, [True, False])
-
-    # builder.add_sweep_definition(sweep_male_to_egg_probability, [0, 0.5, 1])
-    # builder.add_sweep_definition(sweep_female_to_male_probability, [0, 0.5, 1])
-    # builder.add_sweep_definition(sweep_male_to_female_probability, [0,  0.5, 1])
-    # builder.add_sweep_definition(sweep_larval_growth_modifier, [0, 0.5,  1,  5])
-    # builder.add_sweep_definition(sweep_female_mortality_modifier, [0, 0.5, 1,  5])
-    # builder.add_sweep_definition(sweep_male_mortality_modifier, [0, 0.5, 1, 5])
 
     from emodpy_malaria.reporters.builtin import add_report_vector_stats, add_report_microsporidia, \
         add_report_vector_migration, add_human_migration_tracking
@@ -272,5 +248,4 @@ if __name__ == "__main__":
     import pathlib
 
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
-    selected_platform = "COMPS"
-    general_sim(selected_platform)
+    general_sim()

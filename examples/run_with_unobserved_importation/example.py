@@ -201,9 +201,7 @@ def general_sim():
     """
 
     # Set platform
-    #platform = Platform("SLURMStage")  # to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     num_seeds = 5
     report_start = 20
@@ -224,10 +222,7 @@ def general_sim():
         param_custom_cb=set_config_parameters,
         demog_builder=build_demographics
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
+
     # adding reporter
     add_malaria_cotransmission_report(task, manifest, start_day=report_start)
 

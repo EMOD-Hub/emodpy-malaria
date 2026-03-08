@@ -28,9 +28,10 @@ skip_tests = [
               "download_files",
               "outdoor_rest_kill_male_mosquitoes",
               "burnin_use",
-              "jonr_1", #431
-              "serialization_replace_genomes", #632
-              "fpg_example", # Move to COMPS2; needs ObsModel id on COMPS2
+              "jonr_1",  # 431
+              "serialization_replace_genomes",  # 632
+              "fpg_example",  # needs ObsModel runtime image
+              "weather",  # Depends on JFrog data
              ]
 
 for dir in dirs:

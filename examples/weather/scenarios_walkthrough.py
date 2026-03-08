@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
-
 """
 Walk through weather scenarios: generating weather files, convert to csv and back to weather, update and save to file.
 """
 from datetime import datetime, timedelta
 from emodpy_malaria.weather import *
+
+import manifest
 
 weather_dir1 = "output/demo1"           # both string and Path
 weather_dir2 = Path("output/demo2")     # are supported

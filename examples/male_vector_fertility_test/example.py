@@ -130,9 +130,7 @@ def general_sim(erad_path, ep4_scripts):
     """
 
     # Set platform
-    # use Platform("SLURMStage") to run on comps2.idmod.org for testing/dev work
-    #platform = Platform("Calculon", node_group="idm_48cores", priority="Highest")
-    platform = Platform("SLURMStage", num_retries=0)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # create EMODTask 
     print("Creating EMODTask (from files)...")
@@ -147,12 +145,6 @@ def general_sim(erad_path, ep4_scripts):
         demog_builder=build_demog,
         plugin_report=None  # report
     )
-    
-    # set the singularity image to be used when running this experiment
-    task.set_sif(manifest.sif_path)
-    
-    # print("Adding asset dir...")
-    # task.common_assets.add_directory(assets_directory=manifest.assets_input_dir)
 
     add_report_vector_genetics(task, manifest, species="gambiae")
     add_report_vector_genetics(task, manifest, species="SillySkeeter", gender="VECTOR_MALE")
