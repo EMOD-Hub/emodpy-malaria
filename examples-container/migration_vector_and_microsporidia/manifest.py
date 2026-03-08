@@ -15,6 +15,9 @@ ep4_path = "EP4"
 my_ep4_assets_dir = os.path.join(os.curdir, "ep4")
 experiment_id = "experiment_id"
 
+with open(os.path.join('..', 'image_name')) as fid01:
+    image_str = fid01.readlines()[0].strip()
+
 plat_name = "Container"
 job_dir = "../example_jobs"
-plat_image = "ghcr.io/institutefordiseasemodeling/container-rocky-runtime:0.0.6"
+plat_image = image_str

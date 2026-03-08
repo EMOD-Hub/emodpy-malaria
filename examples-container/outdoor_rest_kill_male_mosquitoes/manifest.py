@@ -13,6 +13,9 @@ plugins_folder = "download/reporter_plugins"
 ep4_path="python_scripts"
 experiment_id="experiment_id"
 
+with open(os.path.join('..', 'image_name')) as fid01:
+    image_str = fid01.readlines()[0].strip()
+
 plat_name = "Container"
 job_dir = "../example_jobs"
-plat_image = "ghcr.io/institutefordiseasemodeling/container-rocky-runtime:0.0.6"
+plat_image = image_str
