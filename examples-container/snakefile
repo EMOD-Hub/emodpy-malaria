@@ -48,22 +48,20 @@ rule run:
     output:
     shell: ""
 
-checkpoint burnin_create_use:
+checkpoint burnin_create:
     input:
     output: Path("burnin_create_and_use", "experiment_id")
     run:
         shell(get_command("burnin_create_and_use", python_version=config['python_version']))
 
 def get_sim_path(wildcards):
-    with open(checkpoints.burnin_create_use.get(**wildcards).output[0]) as f:
+    with open(checkpoints.burnin_create.get(**wildcards).output[0]) as f:
         return f.read().strip()
 
 rule burnin_create_and_use:
     input:
-        out_100_0 = lambda wc: Path(get_sim_path(wc), "output", "state-00100-000.dtk"),
-        out_100_1 = lambda wc: Path(get_sim_path(wc), "output", "state-00100-001.dtk"),
-        out_200_0 = lambda wc: Path(get_sim_path(wc), "output", "state-00200-000.dtk"),
-        out_200_1 = lambda wc: Path(get_sim_path(wc), "output", "state-00200-001.dtk")
+        out_100 = lambda wc: Path(get_sim_path(wc), "output", "state-00100.dtk"),
+        out_200 = lambda wc: Path(get_sim_path(wc), "output", "state-00200.dtk"),
     output:
         touch(Path("burnin_create_and_use", "burnin_outputs.done"))
     run:
@@ -94,13 +92,13 @@ rule start_here:
     run:
         shell(get_command("start_here", python_version=config['python_version']))
 
-rule burnin_create:
+rule burnin_create_only:
     input:
-    output: Path("burnin_create", "experiment_id"),
-            out_020 = Path("burnin_create", "state-00020.dtk"),
-            out_200 = Path("burnin_create", "state-00200.dtk"),
+    output: Path("burnin_create_only", "experiment_id"),
+            out_020 = Path("burnin_create_only", "state-00020.dtk"),
+            out_200 = Path("burnin_create_only", "state-00200.dtk"),
     run:
-        shell(get_command("burnin_create", python_version=config['python_version']))
+        shell(get_command("burnin_create_only", python_version=config['python_version']))
 
 rule burnin_create_infections:
     input:

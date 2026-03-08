@@ -105,7 +105,7 @@ def general_sim():
     """
 
     # Set platform to Container Platform
-    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image, ntasks=2)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # create EMODTask
     print("Creating EMODTask (from files)...")
@@ -123,7 +123,7 @@ def general_sim():
 
     builder = SimulationBuilder()
     ts = TemplatedSimulations(base_task=task)
-    experiment_name = "burnin"
+    experiment_name = "burnin_create_and_use"
     run_count = 1
     builder.add_sweep_definition(partial(set_param, param='Run_Number'), range(run_count))
     builder.add_sweep_definition(partial(set_param, param='Serialization_Time_Steps'), [[100, 200]])
@@ -133,7 +133,7 @@ def general_sim():
     ts.add_builder(builder)
     experiment = Experiment.from_template(ts, name=experiment_name)
     # The last step is to call run() on the ExperimentManager to run the simulations.
-    experiment.run(wait_until_done=True)
+    experiment.run(wait_until_done=True, platform=platform)
     simulation = experiment.get_simulations()[0] #there should be only one
 
     if experiment.succeeded:

@@ -118,7 +118,7 @@ def general_sim():
     sim_dir = experiment.get_simulations()[0].get_directory()
 
     # important bit
-    # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create
+    # WE ARE GOING TO USE SERIALIZATION FILES GENERATED IN burnin_create_only
 
     for fname in os.listdir(os.path.join(sim_dir, 'output')):
         if fname.endswith('.dtk'):
