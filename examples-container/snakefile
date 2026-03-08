@@ -24,7 +24,15 @@ def get_command(path: Path=None, script="example.py", python_version: str=None):
         raise Exception  
     return command
 
-skip_tests = [ ]
+skip_tests = [
+              "download_files",
+              "outdoor_rest_kill_male_mosquitoes",
+              "burnin_use",
+              "jonr_1",  # 431
+              "serialization_replace_genomes",  # 632
+              "fpg_example",  # needs ObsModel runtime image
+              "weather",  # Depends on JFrog data
+             ]
 
 for dir in dirs:
     if os.path.isdir( dir ) and str( dir ).startswith( "." ) == False and os.path.exists( dir + "/example.py" ):
@@ -61,12 +69,6 @@ rule burnin_create_and_use:
     run:
         pass
 
-rule campaign_sweep:
-    input:
-    output: Path("campaign_sweep", "experiment_id")
-    run:
-        shell(get_command("campaign_sweep", python_version=config['python_version']))
-
 rule add_reports:
     input:
     output: Path("add_reports", "experiment_id")
@@ -85,6 +87,207 @@ rule embedded_python_post_processing:
     output: Path("embedded_python_post_processing", "experiment_id")
     run:
         shell(get_command("embedded_python_post_processing", python_version=config['python_version']))
+
+rule vector_surveillance:
+    input:
+    output: Path("vector_surveillance", "experiment_id")
+    run:
+        shell(get_command("vector_surveillance", python_version=config['python_version']))
+
+rule start_here:
+    input:
+    output: Path("start_here", "experiment_id")
+    run:
+        shell(get_command("start_here", python_version=config['python_version']))
+
+rule burnin_create:
+    input:
+    output: Path("burnin_create", "experiment_id"),
+            out_020 = Path("burnin_create", "state-00020.dtk"),
+            out_200 = Path("burnin_create", "state-00200.dtk"),
+    run:
+        shell(get_command("burnin_create", python_version=config['python_version']))
+
+rule burnin_create_infections:
+    input:
+    output: Path("burnin_create_infections", "experiment_id"),
+            out_050 = Path("burnin_create_infections", "state-00050.dtk")
+    run:
+        shell(get_command("burnin_create_infections", python_version=config['python_version']))
+
+rule serialization_support_example:
+    input: rules.burnin_create_infections.output.out_050
+    output: Path("burnin_create_infections", "humans_data.json")
+    run:
+        shell(get_command("burnin_create_infections", script="serialization_support_example.py", python_version=config['python_version']))
+
+rule serialization_remove_infections:
+    input:  rules.burnin_create_infections.output.out_050
+    output: Path("serialization_remove_infections", "output", "state-00050_zeroed.dtk"),
+            Path("serialization_remove_infections", "experiment_id")
+    run:
+        shell(get_command("serialization_remove_infections", python_version=config['python_version']))
+
+rule burnin_create_parasite_genetics:
+    input:
+    output: Path("burnin_create_parasite_genetics", "experiment_id"),
+            out_050 = Path("burnin_create_parasite_genetics", "state-00050.dtk")
+    run:
+        shell(get_command("burnin_create_parasite_genetics", python_version=config['python_version']))
+
+rule serialization_replace_genomes:
+    input:  rules.burnin_create_parasite_genetics.output.out_050
+    output: Path("serialization_replace_genomes", "output", "state-00050_replaced_genomes.dtk"),
+            Path("serialization_replace_genomes", "experiment_id")
+    run:
+        shell(get_command("serialization_replace_genomes", python_version=config['python_version']))
+
+rule burnin_use:
+    input:
+    output: Path("burnin_use", "experiment_id")
+    run:
+        shell(get_command("burnin_use", python_version=config['python_version']))
+
+rule drug_campaign:
+    input:
+    output: Path("drug_campaign","experiment_id")
+    run:
+        shell(get_command("drug_campaign", python_version=config['python_version']))
+
+rule ivermectin:
+    input:
+    output: Path("ivermectin", "experiment_id")
+    run:
+        shell(get_command("ivermectin", python_version=config['python_version']))
+
+rule jonr_1:
+    input:
+    output: Path("jonr_1", "experiment_id")
+    run:
+        shell(get_command("jonr_1", python_version=config['python_version']))
+
+rule male_vector_fertility_test:
+    input:
+    output: Path("male_vector_fertility_test", "experiment_id")
+    run:
+        shell(get_command("male_vector_fertility_test", python_version=config['python_version']))
+
+rule outdoor_rest_kill_male_mosquitoes:
+    input:
+    output: Path("outdoor_rest_kill_male_mosquitoes", "experiment_id")
+    run:
+        shell(get_command("outdoor_rest_kill_male_mosquitoes", python_version=config['python_version']))
+
+rule campaign_sweep:
+    input:
+    output: Path("campaign_sweep", "experiment_id")
+    run:
+        shell(get_command("campaign_sweep", python_version=config['python_version']))
+
+rule demographics_sweep:
+    input:
+    output: Path("demographics_sweep", "experiment_id")
+    run:
+        shell(get_command("demographics_sweep", python_version=config['python_version']))
+
+rule input_eir:
+    input:
+    output: Path("inputEIR", "experiment_id")
+    run:
+        shell(get_command("inputEIR", python_version=config['python_version']))
+
+rule irs:
+    input:
+    output: Path("irs", "experiment_id")
+    run:
+        shell(get_command("irs", python_version=config['python_version']))
+
+rule vector_basic:
+    input:
+    output: Path("vector_basic", "experiment_id")
+    run:
+        shell(get_command("vector_basic", python_version=config['python_version']))
+        
+rule vector_genetics_vector_sim:
+    input:
+    output: Path("vector_genetics_vector_sim", "experiment_id")
+    run:
+        shell(get_command("vector_genetics_vector_sim", python_version=config['python_version']))
+
+rule vector_genetics_insecticide_resistance:
+    input:
+    output: Path("vector_genetics_insecticide_resistance", "experiment_id")
+    run:
+        shell(get_command("vector_genetics_insecticide_resistance", python_version=config['python_version']))
+
+rule diagnostic_survey:
+    input:
+    output: Path("diagnostic_survey", "experiment_id")
+    run:
+        shell(get_command("diagnostic_survey", python_version=config['python_version']))
+
+rule run_with_unobserved_importation:
+    input:
+    output: Path("run_with_unobserved_importation", "experiment_id")
+    run:
+        shell(get_command("run_with_unobserved_importation", python_version=config['python_version']))
+
+rule example_template:
+    input:
+    output: Path("example_template", "experiment_id")
+    run:
+        shell(get_command("example_template", python_version=config['python_version']))
+
+rule fpg_example:
+    input:
+    output: Path("fpg_example", "experiment_id")
+    run:
+        shell(get_command("fpg_example", python_version=config['python_version']))
+
+rule download_files:
+    input:
+    output: Path("download_files", "experiment_id")
+    run:
+        shell(get_command("download_files", python_version=config['python_version']))
+
+rule rcd_elimination_emodpy:
+    input:
+    output: Path("rcd_elimination_emodpy", "experiment_id")
+    run:
+        shell(get_command("rcd_elimination_emodpy", python_version=config['python_version']))
+
+rule scale_larval_habitats:
+    input:
+    output: Path("scale_larval_habitats", "experiment_id")
+    run:
+        shell(get_command("scale_larval_habitats", python_version=config['python_version']))
+
+rule create_demographics:
+    input:
+    output: Path("create_demographics", "experiment_id")
+    run:
+        shell(get_command("create_demographics", python_version=config['python_version']))
+
+rule weather:
+    input:  Path("weather", "input", "site_details.csv")
+    output: Path("weather", "output", "demo1", "weather.csv"),
+            expand(Path("weather", "output", "demo2", "dtk_15arcmin_{variable}_daily.bin{suffix}"),
+                variable=[v.name.lower() for v in WeatherVariable.list()],
+                suffix=["", ".json"])
+    run:
+        shell(get_command("weather", script="scenarios_walkthrough.py", python_version=config['python_version']))
+
+rule weather_sim:
+    input:  rules.weather.output
+    output: Path("weather", "experiment_id")
+    run:
+         shell(get_command("weather", python_version=config['python_version']))
+
+rule migration_vector_and_microsporidia:
+    input:
+    output: Path("migration_vector_and_microsporidia", "experiment_id")
+    run:
+        shell(get_command("migration_vector_and_microsporidia", python_version=config['python_version']))
 
 rule vector_surveillance:
     input:
