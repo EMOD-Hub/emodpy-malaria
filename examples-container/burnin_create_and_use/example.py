@@ -1,26 +1,22 @@
-#!/usr/bin/env python3
 import os
 import sys
 from functools import partial
 from typing import Any, Dict
 from pathlib import Path
 from idmtools.builders import SimulationBuilder
+
 # idmtools
 from idmtools.core.platform_factory import Platform
+
 # emodpy
 from emodpy.emod_task import EMODTask
 from idmtools.entities.experiment import Experiment
 from idmtools.entities.simulation import Simulation
 
 from idmtools.entities.templated_simulation import TemplatedSimulations
-import params
+
 import manifest
 
-# Get the examples directory as a Path object
-examples_directory = Path(__file__).resolve().parent.parent.parent
-utils_path = examples_directory / 'examples' / 'utils'
-sys.path.insert(0, str(utils_path))
-from burnin_utils import build_burnin_df
 
 """
 In this example we create serialization files from a multicore simulation.
@@ -59,16 +55,13 @@ def set_param_fn(config):
     """
 
     import emodpy_malaria.malaria_config as malaria_config
+
     config = malaria_config.set_team_defaults(config, manifest)
-    if params.burnin_type == True:
-        config.parameters.Simulation_Duration = 200
-        config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
-        config.parameters.Serialization_Mask_Node_Write = 0
-        config.parameters.Serialization_Precision = "REDUCED"
-    else:
-        config.parameters.Simulation_Duration = 200
-        config.parameters.Serialized_Population_Reading_Type = "READ"
-        config.parameters.Serialization_Mask_Node_Read = 0
+    config.parameters.Simulation_Duration = 200
+    config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
+    config.parameters.Serialization_Mask_Node_Write = 0
+    config.parameters.Serialization_Precision = "REDUCED"
+
     return config
 
 
@@ -112,9 +105,8 @@ def general_sim():
     """
 
     # Set platform to Container Platform
-    # ntasks=2 is triggering mpirun -n 2 for multiple process
-    # make sure you have at least more than 2 nodes in your demographics
-    platform = Platform("Container", job_directory="../example_jobs", ntasks=2)
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
+
     # create EMODTask
     print("Creating EMODTask (from files)...")
 
@@ -131,27 +123,17 @@ def general_sim():
 
     builder = SimulationBuilder()
     ts = TemplatedSimulations(base_task=task)
-    if params.burnin_type:
-        experiment_name = "burnin"
-        run_count = 1
-        builder.add_sweep_definition(partial(set_param, param='Run_Number'), range(run_count))
-        builder.add_sweep_definition(partial(set_param, param='Serialization_Time_Steps'),
-                                     [[100, 200]])
-    else:
-        experiment_name = "use_burnin"
-        burnin_exp_id = "e5aa5423-b288-43b1-810c-cb3ebdb80747"  # this is experiment id from burnin run
-        serialize_days = 200
-        burnin_df = build_burnin_df(burnin_exp_id, platform, serialize_days)
+    experiment_name = "burnin_create_and_use"
+    run_count = 1
+    builder.add_sweep_definition(partial(set_param, param='Run_Number'), range(run_count))
+    builder.add_sweep_definition(partial(set_param, param='Serialization_Time_Steps'), [[100, 200]])
 
-        builder.add_sweep_definition(partial(sweep_burnin_simulations, df=burnin_df), burnin_df.index)
-        run_count = 10
-        builder.add_sweep_definition(partial(set_param, param='Run_Number'), range(run_count))
     # We are creating one-simulation experiment straight from task.
     # If you are doing a sweep, please see sweep_* examples.
     ts.add_builder(builder)
     experiment = Experiment.from_template(ts, name=experiment_name)
     # The last step is to call run() on the ExperimentManager to run the simulations.
-    experiment.run(wait_until_done=True)
+    experiment.run(wait_until_done=True, platform=platform)
     simulation = experiment.get_simulations()[0] #there should be only one
 
     if experiment.succeeded:

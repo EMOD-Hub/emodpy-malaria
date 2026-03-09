@@ -74,7 +74,7 @@ def ep4_fn( task ):
 
 def general_sim():
     # Create a platform
-    platform = Platform("Container", job_directory="../example_jobs")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     task = EMODTask.from_default2(eradication_path=manifest.eradication_path,
                                   campaign_builder=build_camp,
                                   demog_builder=build_demog,

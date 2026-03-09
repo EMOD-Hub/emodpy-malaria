@@ -205,7 +205,7 @@ def general_sim():
     """
 
     # Set platform
-    platform = Platform("Container", job_directory="../example_jobs")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     experiment_name = "vector_surveillance"
 
     # create EMODTask 
