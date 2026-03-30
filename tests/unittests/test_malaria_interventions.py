@@ -31,6 +31,7 @@ from emodpy_malaria.interventions.treatment_seeking import add_treatment_seeking
 from emodpy_malaria.interventions.outdoor_node_emanator import add_outdoor_node_emanator_scheduled
 from emodpy_malaria.interventions.indoor_individual_emanator import (add_indoor_individual_emanator_triggered,
                                                                      add_indoor_individual_emanator_scheduled)
+from emodpy_malaria.interventions.larval_microspiridia import add_larval_microsporidia
 from emod_api.utils import Distributions
 import emod_api.campaign as camp
 
@@ -3158,6 +3159,103 @@ class TestMalariaInterventions(unittest.TestCase):
         self.assertEqual(self.intervention_config['Repelling_Config']['Box_Duration'], box_duration2)
         self.assertEqual(self.intervention_config['Repelling_Config']['Decay_Time_Constant'], decay_time)
         self.assertEqual(self.intervention_config['Repelling_Config']['Initial_Effect'], repelling_effect)
+
+    # region Larval Microsporidia
+
+    def test_default_larval_microsporidia(self):
+        strain_name = "Strain_A"
+        camp.campaign_dict["Events"] = []
+        add_larval_microsporidia(camp, strain_name=strain_name)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.start_day, 1)
+        self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetAll)
+        self.assertEqual(self.intervention_config['class'], "LarvalMicrosporidiaIntervention")
+        self.assertEqual(self.intervention_config['Intervention_Name'], "LarvalMicrosporidiaIntervention")
+        self.assertEqual(self.intervention_config['Habitat_Coverage'], 1.0)
+        self.assertEqual(self.intervention_config['Habitat_Target'], "ALL_HABITATS")
+        self.assertEqual(self.intervention_config['Strain_Name'], strain_name)
+        self.assertEqual(self.intervention_config['Cost_To_Consumer'], 0)
+        infectivity_config = self.intervention_config['Infectivity_Config']
+        self.assertEqual(infectivity_config[WaningParams.Class], WaningEffects.Box)
+        self.assertEqual(infectivity_config[WaningParams.Initial], 1)
+        self.assertEqual(infectivity_config[WaningParams.Box_Duration], 100)
+
+    def test_custom_larval_microsporidia(self):
+        strain_name = "Strain_B"
+        start_day = 50
+        habitat_coverage = 0.75
+        habitat_target = "TEMPORARY_RAINFALL"
+        initial_infectivity = 0.6
+        box_duration = 30
+        decay_time_constant = 15.0
+        node_ids = [1, 3, 5]
+        node_property_restrictions = [{"NodeProperty1": "Value1"}]
+        intervention_name = "CustomMicrosporidia"
+        cost_to_consumer = 2.5
+        num_repetitions = 3
+        timesteps_between_reps = 90
+
+        camp.campaign_dict["Events"] = []
+        add_larval_microsporidia(camp,
+                                 strain_name=strain_name,
+                                 start_day=start_day,
+                                 habitat_coverage=habitat_coverage,
+                                 habitat_target=habitat_target,
+                                 initial_infectivity=initial_infectivity,
+                                 box_duration=box_duration,
+                                 decay_time_constant=decay_time_constant,
+                                 node_ids=node_ids,
+                                 node_property_restrictions=node_property_restrictions,
+                                 intervention_name=intervention_name,
+                                 cost_to_consumer=cost_to_consumer,
+                                 num_repetitions=num_repetitions,
+                                 timesteps_between_reps=timesteps_between_reps)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        self.assertEqual(self.start_day, start_day)
+        self.assertEqual(self.nodeset[NodesetParams.Class], NodesetParams.SetList)
+        self.assertEqual(self.nodeset[NodesetParams.Node_List], node_ids)
+        self.assertEqual(self.event_coordinator['Number_Repetitions'], num_repetitions)
+        self.assertEqual(self.event_coordinator['Timesteps_Between_Repetitions'], timesteps_between_reps)
+        self.assertEqual(self.intervention_config['class'], "LarvalMicrosporidiaIntervention")
+        self.assertEqual(self.intervention_config['Intervention_Name'], intervention_name)
+        self.assertEqual(self.intervention_config['Habitat_Coverage'], habitat_coverage)
+        self.assertEqual(self.intervention_config['Habitat_Target'], habitat_target)
+        self.assertEqual(self.intervention_config['Strain_Name'], strain_name)
+        self.assertEqual(self.intervention_config['Cost_To_Consumer'], cost_to_consumer)
+        infectivity_config = self.intervention_config['Infectivity_Config']
+        self.assertEqual(infectivity_config[WaningParams.Class], WaningEffects.BoxExp)
+        self.assertEqual(infectivity_config[WaningParams.Initial], initial_infectivity)
+        self.assertEqual(infectivity_config[WaningParams.Box_Duration], box_duration)
+        self.assertEqual(infectivity_config[WaningParams.Decay_Time], decay_time_constant)
+
+    def test_larval_microsporidia_waning_exponential(self):
+        camp.campaign_dict["Events"] = []
+        add_larval_microsporidia(camp, strain_name="Strain_A",
+                                 initial_infectivity=0.8,
+                                 box_duration=0,
+                                 decay_time_constant=20.0)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        infectivity_config = self.intervention_config['Infectivity_Config']
+        self.assertEqual(infectivity_config[WaningParams.Class], WaningEffects.Exp)
+        self.assertEqual(infectivity_config[WaningParams.Initial], 0.8)
+        self.assertEqual(infectivity_config[WaningParams.Decay_Time], 20.0)
+
+    def test_larval_microsporidia_waning_constant(self):
+        camp.campaign_dict["Events"] = []
+        add_larval_microsporidia(camp, strain_name="Strain_A",
+                                 initial_infectivity=0.5,
+                                 box_duration=-1,
+                                 decay_time_constant=0.0)
+        self.tmp_intervention = camp.campaign_dict["Events"][0]
+        self.parse_intervention_parts()
+        infectivity_config = self.intervention_config['Infectivity_Config']
+        self.assertEqual(infectivity_config[WaningParams.Class], WaningEffects.Constant)
+        self.assertEqual(infectivity_config[WaningParams.Initial], 0.5)
+
+    # endregion
 
 
 if __name__ == '__main__':

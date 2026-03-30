@@ -39,6 +39,7 @@ def build_campaign(microsporidia=True):
     import emod_api.campaign as campaign
     campaign.set_schema(manifest.schema_file)
     from emodpy_malaria.interventions.mosquitorelease import add_scheduled_mosquito_release
+    from emodpy_malaria.interventions.larval_microspiridia import add_larval_microsporidia
 
     campaign.set_schema(manifest.schema_file)
 
@@ -46,6 +47,13 @@ def build_campaign(microsporidia=True):
                                    released_microsporidia="Strain_A", released_genome=[['X', 'Y']])
     add_scheduled_mosquito_release(campaign, 50, released_number=1000, released_species="gambiae",
                                    released_microsporidia="Strain_B", released_genome=[['X', 'Y']])
+
+    add_larval_microsporidia(campaign, strain_name="Strain_A", start_day=1,
+                             habitat_target="ALL_HABITATS", initial_infectivity=0.5,
+                             box_duration=100)
+    add_larval_microsporidia(campaign, strain_name="Strain_B", start_day=1,
+                             habitat_target="WATER_VEGETATION", initial_infectivity=0.3,
+                             box_duration=50, decay_time_constant=30)
 
     return campaign
 
