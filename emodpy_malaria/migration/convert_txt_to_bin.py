@@ -11,7 +11,7 @@
 # One can have node ID's in the demographics that don't exist in the migration file.
 #
 # The CSV file does not have to have the same number of entries for each From_Node.
-# The script will find the From_Node that has the most and use that for the 
+# The script will find the From_Node that has the most and use that for the
 # DestinationsPerNode.  The binary file will have DestinationsPerNode entries
 # per node.
 # -----------------------------------------------------------------------------

@@ -74,7 +74,7 @@ def ep4_fn( task ):
 
 def general_sim():
     # Create a platform
-    platform = Platform("Container", job_directory="../example_jobs")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
     task = EMODTask.from_default2(eradication_path=manifest.eradication_path,
                                   campaign_builder=build_camp,
                                   demog_builder=build_demog,
@@ -102,7 +102,7 @@ def general_sim():
         print(f"Experiment {experiment.id} failed.\n")
     else:
         print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id.txt", "w") as fd:
+        with open("experiment_id", "w") as fd:
             fd.write(experiment.id)
     
 

@@ -1,11 +1,9 @@
-"""
-This module contains functionality for diagnostic survey interventions.
-"""
 import random
-import emod_api.interventions.utils as utils
-from emod_api import schema_to_class as s2c
-from emod_api.interventions.common import *
-from emodpy_malaria.interventions.common import _malaria_diagnostic, add_campaign_event, MAX_AGE_YEARS
+from emod_api.interventions.common import BroadcastEvent
+from emod_api.interventions.common import MultiInterventionDistributor
+from emod_api.interventions.common import TriggeredCampaignEvent
+from emodpy_malaria.interventions.common import _malaria_diagnostic, add_campaign_event
+
 
 def add_diagnostic_survey(
         campaign,

@@ -8,17 +8,17 @@ from enum import Enum
 def _validate_allele_combo(species_params, allele_combo):
     """
     Internal method to validate that a user provided an acceptal allele_combo
-    where it is a two dimentional array of strings and the inner array has 
+    where it is a two dimentional array of strings and the inner array has
     two elements where each element is an allele of the same gene.
     """
     if len(allele_combo) == 0:
         raise ValueError("allele_combo must define some alleles to target")
-    
+
     for combo in allele_combo:
         if len(combo) != 2:
             raise ValueError(
                 "Each combo in allele_combo must have two values - one for each chromosome, '*' is acceptable. \n")
-        
+
     # Check that the alleles referenced here have been 'declared' previously
     allele_names = []
     allele_names_in_combo = []
@@ -35,7 +35,7 @@ def _validate_allele_combo(species_params, allele_combo):
         if alnic not in allele_names:
             raise ValueError(f"Allele name {alnic} submitted in one of the allele_combos is not found"
                              f" in the Genes parameter for {species_params.Name}.\n")
-        
+
     return
 
 
@@ -435,7 +435,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
         configured config
     """
     species_params = get_species_params(config, species)
-    _validate_allele_combo( species_params=species_params, allele_combo=allele_combo)
+    _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
 
     if not trait_modifiers or not isinstance(trait_modifiers, list):
         raise ValueError("Please make sure to pass in a list of trait modifiers created by create_trait() funciton.\n")
@@ -446,6 +446,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
     species_params.Gene_To_Trait_Modifiers.append(trait.parameters)
 
     return config
+
 
 def add_blood_meal_mortality(config, manifest,
                              default_probability_of_death: float = 0.0,
@@ -460,7 +461,7 @@ def add_blood_meal_mortality(config, manifest,
     of the mosquito.  The deaths from this are added to the "die after feeding" numbers for
     vectors that have fed on humans and "die before feeding on a human" for vectors that
     die after animal blood meal.
-    
+
     If you need to add multiple allele combos for the same species, call this method once for
     each allele combo and associated probability.  If you do, please note that the default
     probability will be combined by OR'ing the different values together [1-((1-p1)*(1-p2))].
@@ -481,7 +482,7 @@ def add_blood_meal_mortality(config, manifest,
         default_probability_of_death: The probability used if the genome of the mosquito does not
             match any of the defined allele combinations in Genetic_Probabilities.
         species: Name of the species of vectors to give the specific probability to.
-        allele_combo: The combination of alleles that a mosquito's genome must have in order to 
+        allele_combo: The combination of alleles that a mosquito's genome must have in order to
             apply associated Probability.  You do not need to specify alleles for every locus.
             The ones not defined are not considered in the match  This should be a two-dimensional
             array where each internal array has two strings representing two alleles of the same
@@ -498,12 +499,12 @@ def add_blood_meal_mortality(config, manifest,
 
     # checks if species name is valid
     species_params = get_species_params(config, species)
-    
+
     if (default_probability_of_death < 0.0) or (1.0 < default_probability_of_death):
         raise ValueError(f"Invalid value for 'default_probability_of_death'={default_probability_of_death}.\n"
                          f"The value must be between 0 and 1.\n")
-    
-    _validate_allele_combo( species_params=species_params, allele_combo=allele_combo)
+
+    _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
 
     if (probability_of_death_for_allele_combo < 0.0) or (1.0 < probability_of_death_for_allele_combo):
         raise ValueError(f"Invalid value for 'probability_of_death_for_allele_combo'={probability_of_death_for_allele_combo}.\n"
@@ -513,10 +514,10 @@ def add_blood_meal_mortality(config, manifest,
     acp.parameters.Allele_Combinations = allele_combo
     acp.parameters.Probability = probability_of_death_for_allele_combo
 
-    species_params.Blood_Meal_Mortality.Genetic_Probabilities.append( acp.parameters )
+    species_params.Blood_Meal_Mortality.Genetic_Probabilities.append(acp.parameters)
 
     default_prob = species_params.Blood_Meal_Mortality.Default_Probability
-    default_prob = 1.0 - ((1.0 - default_prob)*(1.0 - default_probability_of_death))
+    default_prob = 1.0 - ((1.0 - default_prob) * (1.0 - default_probability_of_death))
     species_params.Blood_Meal_Mortality.Default_Probability = default_prob
 
     return config
@@ -694,12 +695,10 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
         configured config
     """
     if not config or not manifest or not species or not driving_allele or not to_copy or not to_replace or not likelihood_list:
-        raise ValueError(f"Please define all the parameters for this function (except shredding,"
-                         f"unless you're using them).\n")
+        raise ValueError("Please define all the parameters for this function (except shredding, unless you're using them).\n")
     if (driver_type != "X_SHRED" and driver_type != "Y_SHRED") and (shredding_allele_required or allele_to_shred
                                                                     or allele_to_shred_to or allele_shredding_fraction or allele_to_shred_to_surviving_fraction):
-        raise ValueError(f"Please do not define any shredding parameters if you're not using 'driver_type' = X_SHRED or"
-                         f"Y_SHRED.\n")
+        raise ValueError("Please do not define any shredding parameters if you're not using 'driver_type' = X_SHRED or Y_SHRED.\n")
     elif driver_type == "DAISY_CHAIN":
         for (copy_to_allele, likelihood) in likelihood_list:
             if copy_to_allele == driving_allele:
@@ -718,39 +717,32 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
 
     if driver_type == "X_SHRED" or driver_type == "Y_SHRED":
         if not allele_to_shred or not allele_to_shred_to or not shredding_allele_required:
-            raise ValueError(f"For 'driver_type'= X_SHRED or Y_SHRED, please define all the shredding parameters.\n")
+            raise ValueError("For 'driver_type'= X_SHRED or Y_SHRED, please define all the shredding parameters.\n")
         for gene in species_params.Genes:
             if gene["Is_Gender_Gene"] == 1:
                 for allele in gene["Alleles"]:
                     if allele["Name"] == shredding_allele_required:
                         gender_allele_required = True
                         if driver_type == "X_SHRED" and allele["Is_Y_Chromosome"] == 0:
-                            raise ValueError(
-                                f"For 'driver_type' = X_SHRED, 'shredding_allele_required' should be a Y chromosome.\n")
+                            raise ValueError("For 'driver_type' = X_SHRED, 'shredding_allele_required' should be a Y chromosome.\n")
                         elif driver_type == "Y_SHRED" and allele["Is_Y_Chromosome"] == 1:
-                            raise ValueError(
-                                f"For 'driver_type' = Y_SHRED, 'shredding_allele_required' should be an X chromosome.\n")
+                            raise ValueError("For 'driver_type' = Y_SHRED, 'shredding_allele_required' should be an X chromosome.\n")
                     elif allele["Name"] == allele_to_shred:
                         gender_allele_to_shred = True
                         if driver_type == "X_SHRED" and allele["Is_Y_Chromosome"] == 1:
-                            raise ValueError(
-                                f"For 'driver_type'= X_SHRED, 'allele_to_shred' should be X chromosome.\n")
+                            raise ValueError("For 'driver_type'= X_SHRED, 'allele_to_shred' should be X chromosome.\n")
                         elif driver_type == "Y_SHRED" and allele["Is_Y_Chromosome"] == 0:
-                            raise ValueError(
-                                f"For 'driver_type'= Y_SHRED, 'allele_to_shred' should be Y chromosome.\n")
+                            raise ValueError("For 'driver_type'= Y_SHRED, 'allele_to_shred' should be Y chromosome.\n")
                     elif allele["Name"] == allele_to_shred_to:
                         gender_allele_to_shred_to = True
                         if driver_type == "X_SHRED" and allele["Is_Y_Chromosome"] == 1:
-                            raise ValueError(
-                                f"For 'driver_type'= X_SHRED, 'allele_to_shred' should be X chromosome.\n")
+                            raise ValueError("For 'driver_type'= X_SHRED, 'allele_to_shred' should be X chromosome.\n")
                         elif driver_type == "Y_SHRED" and allele["Is_Y_Chromosome"] == 0:
-                            raise ValueError(
-                                f"For 'driver_type'= Y_SHRED, 'allele_to_shred_to' should be Y chromosome.\n")
+                            raise ValueError("For 'driver_type'= Y_SHRED, 'allele_to_shred_to' should be Y chromosome.\n")
 
         if not (gender_allele_required and gender_allele_to_shred and gender_allele_to_shred_to):
-            raise ValueError(f"Looks like shredding_allele_required or allele_to_shred or allele_to_shred_to are not "
-                             f"on a gender gene, "
-                             f"but they all should be. Please verify your settings.\n")
+            raise ValueError("Looks like shredding_allele_required or allele_to_shred or allele_to_shred_to are not "
+                             "on a gender gene, but they all should be. Please verify your settings.\n")
 
         shredding_alleles = dfs.schema_to_config_subnode(manifest.schema_file,
                                                          ["idmTypes", "idmType:ShreddingAlleles"])
@@ -864,7 +856,6 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
     sp_params.Maternal_Deposition.append(maternal_deposition.parameters)
 
     return config
-
 
 
 def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity):
@@ -1037,4 +1028,3 @@ def add_vector_migration(task,
         task.common_assets.add_asset(vector_migration_filename_path)
     if not task.common_assets.has_asset(vector_migration_filename_path + ".json"):
         task.common_assets.add_asset(vector_migration_filename_path + ".json")
-

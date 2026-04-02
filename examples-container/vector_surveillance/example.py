@@ -205,8 +205,8 @@ def general_sim():
     """
 
     # Set platform
-    platform = Platform("Container", job_directory="../example_jobs")
-    experiment_name = "VectorSurveillance example"
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
+    experiment_name = "vector_surveillance"
 
     # create EMODTask 
     print("Creating EMODTask (from files)...")
@@ -246,7 +246,7 @@ def general_sim():
         print(f"Experiment {experiment.id} failed.\n")
     else:
         print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id.txt", "w") as fd:
+        with open("experiment_id", "w") as fd:
             fd.write(experiment.id)
 
 

@@ -1,8 +1,7 @@
-
-from typing import List
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import common, utils
 from emodpy_malaria.utils import MAX_AGE_YEARS
+
 
 def _malaria_diagnostic(
         campaign,
@@ -113,7 +112,7 @@ def add_triggered_campaign_delay_event(campaign,
 
     """
     if not trigger_condition_list:
-        raise ValueError(f"Please define trigger_condition_list.\n")
+        raise ValueError("Please define trigger_condition_list.\n")
 
     event = common.TriggeredCampaignEvent(camp=campaign,
                                           Start_Day=start_day,
@@ -195,13 +194,13 @@ def add_campaign_event(campaign,
         Nothing
     """
     if individual_intervention and node_intervention:
-        raise ValueError(f"You cannot define both individual_intervention and node_intervention, only one.\n")
+        raise ValueError("You cannot define both individual_intervention and node_intervention, only one.\n")
     elif not individual_intervention and not node_intervention:
-        raise ValueError(f"Please pass in either individual_intervention or node_intervention.\n")
+        raise ValueError("Please pass in either individual_intervention or node_intervention.\n")
 
     if individual_intervention:
         if node_property_restrictions:
-            raise ValueError(f"node_property_restrictions are not available when using individual_intervention.\n")
+            raise ValueError("node_property_restrictions are not available when using individual_intervention.\n")
         event = common.ScheduledCampaignEvent(camp=campaign,
                                               Start_Day=start_day,
                                               Node_Ids=node_ids,

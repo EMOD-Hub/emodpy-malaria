@@ -1,5 +1,4 @@
 from emod_api import schema_to_class as s2c
-from emod_api.interventions import utils
 from emodpy_malaria.interventions.common import add_campaign_event
 
 iv_name = "InputEIR"
@@ -39,20 +38,20 @@ def _input_eir(
 
     if daily_eir:
         if len(daily_eir) != 365:
-            raise ValueError(f"daily_eir array needs to have 1 element per day of the year (i.e., 365).")
+            raise ValueError("daily_eir array needs to have 1 element per day of the year (i.e., 365).")
         if any(i > 1000 for i in daily_eir):
-            raise ValueError(f"All daily_eir array elements need to be <= 1000.")
+            raise ValueError("All daily_eir array elements need to be <= 1000.")
         if any(i < 0 for i in daily_eir):
-            raise ValueError(f"All daily_eir array elements need to be positive.")
+            raise ValueError("All daily_eir array elements need to be positive.")
         intervention.Daily_EIR = daily_eir
         intervention.EIR_Type = "DAILY"
     else:
         if len(monthly_eir) != 12:
-            raise ValueError(f"monthly_eir array needs to have 1 element per month (i.e., 12).")
+            raise ValueError("monthly_eir array needs to have 1 element per month (i.e., 12).")
         if any(i > 1000 for i in monthly_eir):
-            raise ValueError(f"All monthly_eir array elements need to be <= 1000.")
+            raise ValueError("All monthly_eir array elements need to be <= 1000.")
         if any(i < 0 for i in monthly_eir):
-            raise ValueError(f"All monthly_eir array elements need to be positive.")
+            raise ValueError("All monthly_eir array elements need to be positive.")
         intervention.Monthly_EIR = monthly_eir
         intervention.EIR_Type = "MONTHLY"
     intervention.Scaling_Factor = scaling_factor

@@ -1,7 +1,10 @@
-from emod_api.interventions.common import *
+from emod_api.interventions.common import BroadcastEvent
+from emod_api.interventions.common import DelayedIntervention
+from emod_api.interventions.common import MultiInterventionDistributor
+from emod_api.interventions.common import TriggeredCampaignEvent
+from emod_api.interventions.common import PropertyValueChanger
 from emodpy_malaria.interventions.drug import _antimalarial_drug
-from emodpy_malaria.interventions.common import add_triggered_campaign_delay_event, MAX_AGE_YEARS
-import random
+from emodpy_malaria.interventions.common import MAX_AGE_YEARS
 
 
 def _get_events(
@@ -91,7 +94,7 @@ def add_treatment_seeking(campaign,
                           broadcast_event_name: str = 'Received_Treatment'):
     """
     Add an event-triggered drug-seeking behavior intervention to the campaign using
-    the **NodeLevelHealthTriggeredIV**. The intervention will distribute drugs 
+    the **NodeLevelHealthTriggeredIV**. The intervention will distribute drugs
     to targeted individuals within the node.
 
     targets is a list of dictionaries defining the trigger event and coverage for and
@@ -106,7 +109,7 @@ def add_treatment_seeking(campaign,
     Args:
         campaign: object for building, modifying, and writing campaign configuration files.
         start_day: Start day of intervention.
-        targets: List of dictionaries defining the trigger event and coverage for and 
+        targets: List of dictionaries defining the trigger event and coverage for and
             properties of individuals to target with the intervention. "trigger" must be defined, other defaults are as
             follows - "coverage":1,"agemin":0,"agemax":1000, "rate":0 (no delay)
 
@@ -114,19 +117,15 @@ def add_treatment_seeking(campaign,
 
                 [{"trigger":"NewClinicalCase","coverage":0.8,"agemin":15,"agemax":70, "rate":0.3}]
 
-
         drug: List of drug(s) to administer from the drugs defined in config.
             Default is ``["Artemether","Lumefantrine"]``
         node_ids: The list of nodes to apply this intervention to (**Node_List**
         parameter). If not provided, set value of NodeSetAll.
-        ind_property_restrictions: List of IndividualProperty key:value pairs that 
+        ind_property_restrictions: List of IndividualProperty key:value pairs that
         individuals must have to receive the intervention. For example,
-
- 
 
             ``["IndividualProperty1:PropertyValue1", "IndividualProperty2:PropertyValue2"]``.
 
- 
         drug_ineligibility_duration: number of days for which an individual will be ineligible for more drugs
         duration: duration from start_day until people will no longer seek drugs when sick.
             Default is -1, meaning they will always seek drugs when sick
@@ -135,7 +134,6 @@ def add_treatment_seeking(campaign,
 
     Returns:
         None
-    
     """
 
     camp_events = _get_events(campaign=campaign, start_day=start_day, targets=targets, drug=drug, node_ids=node_ids,

@@ -1,6 +1,3 @@
-# Just bringing over API and preproc of 
-# https://github.com/InstituteforDiseaseModeling/dtk-tools/blob/master/dtk/interventions/itn_age_season.py 
-# wholesale for now. Maybe use most of this API with the schema-backed emod_api mechanism.
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils
 from emodpy_malaria.interventions import common as malaria_common
@@ -29,7 +26,7 @@ def _get_seasonal_times_and_values(campaign, seasonal_dependence):
             seasonal_dependence['min_cov'] = seasonal_dependence['min_cov'] + sys.float_info.epsilon
         seasonal_values = (1 - seasonal_dependence['min_cov']) / 2 * np.cos(
             2 * np.pi / 365 * (seasonal_times - seasonal_dependence['max_day'])) + \
-                          (1 + seasonal_dependence['min_cov']) / 2
+            (1 + seasonal_dependence['min_cov']) / 2
     else:
         raise ValueError('Did not find all the keys were were looking for. Possible dictionaries can be:\n'
                          '{"Times":[], "Values":[]} or {"min_cov":0.45, "max_day":300}\n')

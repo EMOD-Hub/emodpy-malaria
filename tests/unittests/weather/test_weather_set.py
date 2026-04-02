@@ -102,9 +102,9 @@ class WeatherSetTests(unittest.TestCase):
                                              prefix="climate_",
                                              suffix="{}.bin",
                                              weather_names={
-                                                WeatherVariable.AIR_TEMPERATURE: "t2m",
-                                                WeatherVariable.RELATIVE_HUMIDITY: "humid",
-                                                WeatherVariable.RAINFALL: "tp"})
+                                                 WeatherVariable.AIR_TEMPERATURE: "t2m",
+                                                 WeatherVariable.RELATIVE_HUMIDITY: "humid",
+                                                 WeatherVariable.RAINFALL: "tp"})
         self.validate_weather_set(wf, 3)
 
     def test_select_weather_files_no_prefix_fixed_suffix(self):
@@ -118,9 +118,9 @@ class WeatherSetTests(unittest.TestCase):
         wf = WeatherSet.select_weather_files(dir_path=self.climate_dir,
                                              suffix="{}.bin",
                                              weather_names={
-                                                WeatherVariable.AIR_TEMPERATURE: "t2m",
-                                                WeatherVariable.RELATIVE_HUMIDITY: "humid",
-                                                WeatherVariable.RAINFALL: "tp"})
+                                                 WeatherVariable.AIR_TEMPERATURE: "t2m",
+                                                 WeatherVariable.RELATIVE_HUMIDITY: "humid",
+                                                 WeatherVariable.RAINFALL: "tp"})
         self.validate_weather_set(wf, 3)
 
     def test_weather_variables_property(self):
@@ -239,14 +239,14 @@ class WeatherSetTests(unittest.TestCase):
             self.assertTrue(ff.is_file())
             wd_actual: WeatherData = ws[v]
             wd_expected = WeatherData.from_file(ff)
-            self.assertTrue(ff.stat().st_size == wd_expected.metadata.total_value_count*4)
+            self.assertTrue(ff.stat().st_size == wd_expected.metadata.total_value_count * 4)
             self.assertTrue(np.array_equal(wd_expected.data, wd_actual.data))
 
     def test_load_fail_diff_resolution(self):
         """Tests validation of attributes which must be the same in all files in a weather set."""
         with self.assertRaises(AssertionError):
             # This fails because this dir contains files of different resolution.
-            ws = WeatherSet.from_files(dir_path=self.dtk_dir)
+            WeatherSet.from_files(dir_path=self.dtk_dir)
 
     def test_load_df_save(self):
         ws1 = WeatherSet.from_files(dir_path=self.dtk_dir, prefix="dtk_15arc")

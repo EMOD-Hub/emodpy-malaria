@@ -13,7 +13,7 @@ import emodpy_malaria.interventions.treatment_seeking as ts
 
 parent = Path(__file__).resolve().parent
 sys.path.append(parent)
-import schema_path_file
+from . import schema_path_file
 import json
 
 DEFAULT_MAX_AGE = 1000

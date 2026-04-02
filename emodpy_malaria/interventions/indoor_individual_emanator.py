@@ -144,11 +144,9 @@ def add_indoor_individual_emanator_scheduled(campaign,
 
     """
     if coverage_by_ages and (demographic_coverage or target_num_individuals):
-        raise ValueError(f"When 'setting 'coverage_by_ages', do not set 'demographic_coverage' or "
-                         f"'target_num_individuals'.\n")
+        raise ValueError("When 'setting 'coverage_by_ages', do not set 'demographic_coverage' or 'target_num_individuals'.\n")
     if target_num_individuals is None and demographic_coverage is None and coverage_by_ages is None:
-        raise ValueError(f"You must set either 'target_num_individuals', 'demographic_coverage' or "
-                         f"'coverage_by_ages'.\n")
+        raise ValueError("You must set either 'target_num_individuals', 'demographic_coverage' or 'coverage_by_ages'.\n")
 
     intervention = _indoor_individual_emanator(campaign,
                                                killing_initial_effect=killing_initial_effect,

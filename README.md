@@ -4,7 +4,7 @@ Python module for use as user-space front-end for doing research easily with EMO
 
 ![mosquito](media/jorussell-mosquito.png)
 
-![status](https://github.com/clorton/emodpy-malaria-singlebranch/workflows/Rebuild%20Malaria%20Docs/badge.svg) ![docs](https://readthedocs.org/projects/emodpy-malaria/badge/?version=latest) ![license](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+![license](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 
 ## Description
 
@@ -47,13 +47,9 @@ documentation will be output to the docs/_build/html directory.
 
 Frequently asked questions are answered in https://docs.idmod.org/projects/emodpy-malaria/en/latest/faq.html.
 
-##Community
+## Community
 
-The EMOD Community is made up of researchers and software developers, primarily focused on malaria and HIV research.
-We value mutual respect, openness, and a collaborative spirit. If these values resonate with you, 
-we invite you to join our EMOD Slack Community by completing this form:
-
-https://forms.office.com/r/sjncGvBjvZ
+Have a question or a comment? Check out our [Discussions](https://github.com/EMOD-Hub/issues-and-discussions) space.
 
 
 ## Support and Contributions
@@ -67,7 +63,7 @@ requests. You are welcome to create your own fork and modify the code to suit yo
 modeling needs as contemplated under the MIT License.
 
 If you have feature requests, issues, or new code, please see our
-'CONTRIBUTING <https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/CONTRIBUTING.rst>' page
+[CONTRIBUTING](https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/CONTRIBUTING.rst) page
 for how to provide your feedback.
 
 ### Developer Installation

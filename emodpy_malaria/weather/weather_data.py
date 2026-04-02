@@ -101,7 +101,7 @@ class WeatherData:
         # Check weather time series by converting to an array and validate shape
         try:
             series_values = np.array(list(node_series.values()), dtype=np.float32)
-        except ValueError as ex:
+        except ValueError:
             raise ValueError("Time series contains values which are not numbers.")
 
         if np.any(np.isinf(np.abs(series_values))):
@@ -113,7 +113,7 @@ class WeatherData:
 
         # Check there are no NaN values in node ids
         if any(np.isnan(list(node_series))):
-            raise ValueError(f"Node id list contains 'NaN' values.")
+            raise ValueError("Node id list contains 'NaN' values.")
 
         # Check there are no NaN values in weather time series
         if any(np.isnan(series_values.reshape(-1))):    #

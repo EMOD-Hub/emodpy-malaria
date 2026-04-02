@@ -12,6 +12,7 @@ from . import vector_config
 # PUBLIC API section
 #
 
+
 def set_team_defaults(config, manifest):
     """
         Set configuration defaults using team-wide values, including drugs and vector species.
@@ -119,7 +120,7 @@ def set_team_drug_params(config, manifest):
         drug_gamM_idx = header.index("Drug_GametocyteM_Killrate")
         drug_hep_idx = header.index("Drug_Hepatocyte_Killrate")
         drug_maxirbc_idx = header.index("Max_Drug_IRBC_Kill")
-        drug_adher_idx = header.index("Drug_Adherence_Rate")
+        # drug_adher_idx = header.index("Drug_Adherence_Rate")
         drug_bwexp_idx = header.index("Bodyweight_Exponent")
         drug_fracdos_key_idx = header.index("Upper_Age_In_Years")
         drug_fracdos_val_idx = header.index("Fraction_Of_Adult_Dose")
@@ -145,7 +146,7 @@ def set_team_drug_params(config, manifest):
             mdp.parameters.Bodyweight_Exponent = float(row[drug_bwexp_idx])
 
             try:
-                key = row[drug_fracdos_key_idx].strip('[]').replace(' ','')
+                key = row[drug_fracdos_key_idx].strip('[]').replace(' ', '')
                 if len(key) > 0:
                     ages = [float(x) for x in row[drug_fracdos_key_idx].strip('[]').split(",")]
                     values = [float(x) for x in row[drug_fracdos_val_idx].strip('[]').split(",")]
@@ -155,7 +156,7 @@ def set_team_drug_params(config, manifest):
                 values = []
             for idx in range(len(ages)):
                 fdbua = dict()
-                # this is what we want but not ready yet 
+                # this is what we want but not ready yet
                 # fdbua = dfs.schema_to_config_subnode(mani.schema_file, ["idmTypes","idmType:DoseMap"] )
                 # fdbua.Upper_Age_In_Years = ages[idx]
                 # fdbua.Fraction_Of_Adult_Dose = values[idx]
@@ -380,6 +381,7 @@ def add_species(config, manifest, species_to_select):
         Pass through for vector version of function.
     """
     vector_config.add_species(config, manifest, species_to_select)
+
 
 def add_blood_meal_mortality(config, manifest,
                              default_probability_of_death: float = 0.0,

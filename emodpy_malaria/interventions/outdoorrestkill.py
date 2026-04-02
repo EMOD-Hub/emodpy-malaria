@@ -1,4 +1,6 @@
-from emodpy_malaria.interventions.common import *
+from emod_api import schema_to_class as s2c
+from emodpy_malaria.interventions.common import add_campaign_event
+from emod_api.interventions import utils
 
 
 def add_outdoorrestkill(campaign,

@@ -156,7 +156,7 @@ def general_sim():
     )
 
     # Set platform
-    platform = Platform("Container", job_directory="../example_jobs")
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
 
     # Create simulation sweep with builder
     # sweeping over start day AND killing effectiveness - this will be a cross product
@@ -175,7 +175,7 @@ def general_sim():
     )
 
     # create experiment from builder
-    experiment = Experiment.from_builder(builder, task, name="Campaign Sweep, SpaceSpraying")
+    experiment = Experiment.from_builder(builder, task, name="campaign_sweep")
 
     # The last step is to call run() on the ExperimentManager to run the simulations.
     experiment.run(wait_until_done=True, platform=platform)
@@ -186,7 +186,7 @@ def general_sim():
         print(f"Experiment {experiment.id} failed.\n")
     else:
         print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id.txt", "w") as fd:
+        with open("experiment_id", "w") as fd:
             fd.write(experiment.id)
 
 

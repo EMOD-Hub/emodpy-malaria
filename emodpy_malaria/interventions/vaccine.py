@@ -1,7 +1,6 @@
 """
 This module contains functionality for vaccine distribution.
 """
-import math
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils, common
 from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event, MAX_AGE_YEARS

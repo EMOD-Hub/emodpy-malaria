@@ -3,7 +3,7 @@ import os
 import sys
 import unittest
 
-import schema_path_file
+from . import schema_path_file
 import random
 import pandas as pd
 

@@ -20,7 +20,7 @@ pip install --upgrade pip
 #git lfs install
 #git lfs pull
 
-# dev install emodpy-hiv (can be replaced later by pip install emodpy-malaria from jfrog)
+# dev install emodpy-malaria (can be replaced later by pip install emodpy-malaria from jfrog)
 pip install -e . --index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
 # install idmtools
 pip install idmtools[full] --index-url=https://packages.idmod.org/api/pypi/pypi-production/simple --upgrade --force-reinstall

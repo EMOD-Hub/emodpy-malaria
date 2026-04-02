@@ -1,35 +1,34 @@
 """
 This module contains the classes and functions for creating demographics files
 for malaria simulations. For more information on |EMOD_s| demographics files,
-see :doc:`emod/software-demographics`. 
+see :doc:`emod/software-demographics`.
 """
 import os
 import emod_api.demographics.Demographics as Demog
-from emod_api.demographics import DemographicsTemplates as DT
 import emod_api.config.default_from_schema_no_validation as dfs
 
 
 class MalariaDemographics(Demog.Demographics):
     """
-    This class is derived from :py:class:`emod_api:emod_api.demographics.Demographics.Demographics` 
+    This class is derived from :py:class:`emod_api:emod_api.demographics.Demographics.Demographics`
     and sets certain defaults for malaria in construction.
 
     Args:
         nodes: The number of nodes to create.
         idref: Method describing how the latitude and longitude values are created
-            for each of the nodes in a simulation. "Gridded world" values use a grid 
-            overlaid across the globe at some arcsec resolution. You may also generate 
+            for each of the nodes in a simulation. "Gridded world" values use a grid
+            overlaid across the globe at some arcsec resolution. You may also generate
             the grid using another tool or coordinate system. For more information,
             see :ref:`demo-metadata`.
         base_file: A basic demographics file used as a starting point for
             creating more complicated demographics files. For example,
             using a single node file to create a multi-node file for spatial
-            simulations. 
+            simulations.
         init_prev: The initial malaria prevalence of the population. Defaults to 0%.
         include_biting_heterogeneity: variable biting rates. Defaults to on.
 
-    Returns: 
-        None 
+    Returns:
+        None
      """
 
     def __init__(self, nodes, idref="Gridded world grump2.5arcmin", base_file=None, init_prev=0.0,
@@ -44,14 +43,14 @@ class MalariaDemographics(Demog.Demographics):
 
     def set_risk_lowmedium(self):
         """
-            Set initial risk for low-medium transmission settings per: 
+            Set initial risk for low-medium transmission settings per:
             https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
         """
         super().SetHeteroRiskLognormalDist(mean=0.0, sigma=1.6)
 
     def set_risk_high(self):
         """
-            Set initial risk for high transmission settings per: 
+            Set initial risk for high transmission settings per:
             https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
         """
         super().SetHeteroRiskExponDist(mean=1.0)  # 1.0 is placeholder
@@ -99,7 +98,7 @@ class MalariaDemographics(Demog.Demographics):
         Add an InitialVectorsForSpecies configuration for all nodes or just a set of nodes.
 
         Args:
-            init_vector_species: Dictionary of vector species (strings) to initial populations. There is no 
+            init_vector_species: Dictionary of vector species (strings) to initial populations. There is no
                 checking for coherence of species named in other input settings.
             node_ids: Array of node ids. Defaults to None for all nodes.
 
@@ -193,8 +192,8 @@ def from_template_node(lat=0, lon=0, pop=1e6, name=1, forced_id=1, init_prev=0.2
     Args:
         lat: Latitude of the centroid of the node to create.
         lon: Longitude of the centroid of the node to create.
-        pop: Human population of the node. 
-        name: The name of the node. This may be a characteristic of the 
+        pop: Human population of the node.
+        name: The name of the node. This may be a characteristic of the
             node, such as "rural" or "urban", or an identifying integer.
         forced_id: The node ID for the single node.
         init_prev: The initial malaria prevalence of the node.
@@ -223,7 +222,7 @@ def from_pop_csv(pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", si
     if not os.path.exists(pop_filename_in):
         raise ValueError(f"Can't find input data file {pop_filename_in}")
 
-    generic_demog = Demog.from_pop_csv(pop_filename_in=pop_filename_in, res=1/120, id_ref="from_pop_csv",
+    generic_demog = Demog.from_pop_csv(pop_filename_in=pop_filename_in, res=1 / 120, id_ref="from_pop_csv",
                                        pop_filename_out=pop_filename_out, site=site)
 
     nodes = generic_demog._nodes
@@ -245,7 +244,7 @@ def from_csv(input_file, res=30 / 3600, id_ref="from_csv", init_prev=0.0, includ
     Returns:
         A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance
     """
-    if os.path.exists(input_file) == False:
+    if not os.path.exists(input_file):
         raise ValueError(f"Can't find input data file {input_file}")
 
     generic_demog = Demog.from_csv(input_file, res, id_ref)
@@ -269,8 +268,8 @@ def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"
         frac_rural: The fraction of the population that will be distributed between
             nodes 2 and higher
         id_ref: Method describing how the latitude and longitude values are created
-            for each of the nodes in a simulation. "Gridded world" values use a grid 
-            overlaid across the globe at some arcsec resolution. You may also generate 
+            for each of the nodes in a simulation. "Gridded world" values use a grid
+            overlaid across the globe at some arcsec resolution. You may also generate
             the grid using another tool or coordinate system. For more information,
             see :ref:`demo-metadata`.
 

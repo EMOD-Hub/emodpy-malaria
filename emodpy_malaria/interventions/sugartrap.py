@@ -1,7 +1,6 @@
 from emod_api import schema_to_class as s2c
 from emod_api.interventions import utils
-from emodpy_malaria.interventions.common import add_campaign_event, add_triggered_campaign_delay_event
-import json
+from emodpy_malaria.interventions.common import add_campaign_event
 
 sugar_trap = "SugarTrap"
 
@@ -163,7 +162,7 @@ def add_scheduled_sugar_trap(
 
 def new_intervention_as_file(campaign, start_day: int = 0, filename: str = "SugarTrap.json"):
     """
-    Create new campaign file with a single event which distributes a SugarTrap 
+    Create new campaign file with a single event which distributes a SugarTrap
     intervention mostly with defaults. Useful for sanity testing and first time users.
     Args:
         campaign: campaign builder.

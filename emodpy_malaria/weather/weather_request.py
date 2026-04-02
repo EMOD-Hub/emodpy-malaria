@@ -125,7 +125,7 @@ class DataSource:
     def file_prefix(self) -> str:
         """Weather file prefix based on the current data source resolution."""
         # TODO: Consider a case when a data source supports more than one resolution.
-        arc_min = int(self._info["arc_seconds"][0]/60)
+        arc_min = int(self._info["arc_seconds"][0] / 60)
         return f"dtk_{arc_min}arcmin_"
 
     @property
