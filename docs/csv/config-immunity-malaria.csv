@@ -150,14 +150,14 @@ Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as indiv
       ""Pyrogenic_Threshold"": 15000
     }
 "
-"Pyrogenic_Threshold_Min","float","0.1","100000","0.1","Minimum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped from the bottom, so if a threshold is calcualted to be lower, it will be reset to this value.
+"Pyrogenic_Threshold_Min","float","0.1","100000","0.1","Minimum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped from the bottom, so if a threshold is calculated to be lower, it will be reset to this value.
 ",".. code-block:: json
 
     {
       ""Pyrogenic_Threshold_Min"": 100
     }
 "
-"Pyrogenic_Threshold_Max","Maximum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped, so if a threshold is calcualted to be higher, it will be reset to this value.
+"Pyrogenic_Threshold_Max","float","0.1","100000","100000","Maximum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped, so if a threshold is calculated to be higher, it will be reset to this value.
 ",".. code-block:: json
 
     {
