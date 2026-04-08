@@ -21,6 +21,7 @@ Node-level interventions
    parameter-campaign-node-indoorspacespraying
    parameter-campaign-node-inputeir
    parameter-campaign-node-larvicides
+   parameter-campaign-node-larvalmicrosporidiaintervention
    parameter-campaign-node-malariachallenge
    parameter-campaign-node-migratefamily
    parameter-campaign-node-mosquitorelease

@@ -1,0 +1,69 @@
+"Cost_To_Consumer","float","0","999999","0","The unit cost per vector control (unamortized).",".. code-block:: json
+
+    {
+      ""Cost_To_Consumer"": 3.75
+    }
+"
+"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information.",".. code-block:: json
+
+    {
+      ""Disqualifying_Properties"": [
+        ""InterventionStatus:LostForever""
+      ]
+    }
+"
+"Dont_Allow_Duplicates","boolean","0","1","0","Prevents a node from receiving a new intervention with the same **Intervention_Name**.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
+    }
+"
+"Habitat_Coverage","float","0","1","1","The portion of the targeted habitat that is treated with microsporidia.",".. code-block:: json
+
+    {
+      ""Habitat_Coverage"": 0.8
+    }
+"
+"Habitat_Target","enum","NA","NA","ALL_HABITATS","The larval habitat type to target with the intervention. If not ALL_HABITATS, the type must be one of those configured in **Vector_Species_Params**, **Habitats** for the species that the microsporidia strain infects. See :doc:`parameter-configuration-larval` parameters for more information. Possible values are:
+
+* ALL_HABITATS
+* TEMPORARY_RAINFALL
+* WATER_VEGETATION
+* HUMAN_POPULATION
+* CONSTANT
+* BRACKISH_SWAMP
+* LINEAR_SPLINE",".. code-block:: json
+
+    {
+      ""Habitat_Target"": ""WATER_VEGETATION""
+    }
+"
+"Infectivity_Config","json object","NA","NA","NA","The configuration of the daily microsporidia infectivity applied to larvae and its waning over time. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
+
+    {
+      ""Infectivity_Config"": {
+        ""Box_Duration"": 100,
+        ""Decay_Time_Constant"": 150,
+        ""Initial_Effect"": 0.5,
+        ""class"": ""WaningEffectBoxExponential""
+      }
+    }
+"
+"Intervention_Name","string","NA","NA","LarvalMicrosporidiaIntervention","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
+
+    {
+      ""Intervention_Name"": ""LarvalMicrosporidiaIntervention""
+    }
+"
+"New_Property_Value","string","NA","NA","""""","An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.",".. code-block:: json
+
+    {
+      ""New_Property_Value"": ""HasHealthCare:YES""
+    }
+"
+"Strain_Name","string","NA","NA","NA","The name of the microsporidia strain used by the intervention to infect the larvae. This must match a strain defined in **Vector_Species_Params**, **Microsporidia**. Since microsporidia strain names must be unique between the species, you don't need to specify the target species.",".. code-block:: json
+
+    {
+      ""Strain_Name"": ""Strain_A""
+    }
+"
