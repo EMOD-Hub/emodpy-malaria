@@ -51,7 +51,7 @@ def add_larval_microsporidia(
         num_repetitions: int = 1,
         timesteps_between_reps: int = 365,
         node_ids: list = None,
-        node_property_restrictions: dict = None,
+        node_property_restrictions: list[dict] = None,
         habitat_coverage: float = 1.0,
         habitat_target: str = "ALL_HABITATS",
         initial_infectivity: float = 1,
@@ -64,7 +64,7 @@ def add_larval_microsporidia(
         Create a new scheduled Larval Microsporidia intervention and add it to the campaign.
         This is a Node-level intervention that mimics seeding water bodies with microsporidia to infect mosquito
         larvae, reducing their ability to transmit malaria. The intervention can be configured with a habitat target
-        (e.g., specific types of water bodies) and an initial infectivity which defines the portion of larva that are
+        (e.g., specific types of water bodies) and an initial infectivity which defines the portion of larvae that are
         infected each day the intervention exists. The effect of the intervention can wane over time, and the
         waning can be configured with a box_duration and decay_time_constant parameters.
 

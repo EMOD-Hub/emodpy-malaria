@@ -31,7 +31,7 @@ from emodpy_malaria.interventions.treatment_seeking import add_treatment_seeking
 from emodpy_malaria.interventions.outdoor_node_emanator import add_outdoor_node_emanator_scheduled
 from emodpy_malaria.interventions.indoor_individual_emanator import (add_indoor_individual_emanator_triggered,
                                                                      add_indoor_individual_emanator_scheduled)
-from emodpy_malaria.interventions.larval_microspiridia import add_larval_microsporidia
+from emodpy_malaria.interventions.larval_microsporidia import add_larval_microsporidia
 from emod_api.utils import Distributions
 import emod_api.campaign as camp
 
