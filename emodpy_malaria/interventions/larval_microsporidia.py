@@ -18,19 +18,32 @@ def _larval_microsporidia(
         Create a LarvalMicrosporidiaIntervention to be used in a campaign event.
 
     Args:
-        campaign:
-        habitat_coverage:
-        habitat_target:
-        initial_infectivity:
-        box_duration:
-        decay_time_constant:
-        strain_name:
-        intervention_name:
-        cost_to_consumer:
+        campaign: The campaign object to which the intervention will be added. Provides the schema path.
+        habitat_coverage: Portion of habitat that is treated with the intervention. Default is 1.0.
+        habitat_target: The type of habitat to target with the intervention. Default is "ALL_HABITATS".
+            Habitat target is limited to habitats defined for the species that the microsporidia strain infects.
+        initial_infectivity: The initial infectivity of the intervention, which defines the portion of larvae that
+            are infected each day the intervention exists. Must be between 0 and 1. Default is 1.
+        box_duration: The duration, in days, of the initial infectivity before it begins to wane.
+            If box_duration = -1, the intervention will have a constant effect and decay_time_constant will be
+            ignored. If box_duration = 0 and decay_time_constant > 0, the intervention will have an exponential
+            decaying effect. If box_duration > 0 and decay_time_constant = 0, the intervention will have a
+            box-shaped waning effect. If box_duration > 0 and decay_time_constant > 0, the intervention will
+            have a box-shaped waning effect followed by an exponential decay. Default is 100.
+        decay_time_constant: The time constant for the exponential decay of the intervention's effect, in days. Only
+            relevant if box_duration = 0 or > 0 as described above in box_duration. Default is 0.0.
+        strain_name: The microsporidia strain with which to treat the habitat. This must be a known strain defined in
+            the vector species parameters. Default is None.
+        intervention_name: The name of the intervention, for organizational purposes. Default
+            is "LarvalMicrosporidiaIntervention".
+        cost_to_consumer: The cost to consumer for each distribution of this intervention, if any. Default is 0.
 
     Returns:
-        configured LarvalMicrosporidiaIntervention object that can be added to a campaign event
+        Configured LarvalMicrosporidiaIntervention object that can be added to a campaign event.
     """
+    if not strain_name:
+        raise ValueError("strain_name is required to create a LarvalMicrosporidiaIntervention. Please provide "
+                         "a valid strain_name that is defined in the vector species parameters.")
     intervention = s2c.get_class_with_defaults("LarvalMicrosporidiaIntervention", campaign.schema_path)
     intervention.Intervention_Name = intervention_name
     intervention.Habitat_Coverage = habitat_coverage
