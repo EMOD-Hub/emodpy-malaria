@@ -142,7 +142,6 @@ Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as indiv
       ""Fever_IRBC_Kill_Rate"": 1.4
     }
 "
-
 "Pyrogenic_Threshold","float","0.1","100000","1000","Level of bloodstream infection, measured in IRBC per microliter, at which stimulation of the innate inflammatory immune response is half its maximum value.
 ",".. code-block:: json
 
