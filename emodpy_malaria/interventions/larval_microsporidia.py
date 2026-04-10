@@ -92,10 +92,10 @@ def add_larval_microsporidia(
         strain_name: The microsporidia strain with which to treat the habitat. This must be a known strain defined in the vector species parameters.
         start_day: the day to distribute the LarvalMicrosporidiaIntervention
         num_repetitions: Number of times to distribute the intervention. If num_repetitions > 1,
-        the intervention will be distributed every timesteps_between_reps days after the initial start_day. \
-        num_repetitions = 1 distributes intervention once on start_day, num_repetitions = 2 distributes
-        intervention on start_day and start_day + timesteps_between_reps, etc. num_repetitions = -1 distributes
-        intervention on start_day and every timesteps_between_reps indefinitely.
+            the intervention will be distributed every timesteps_between_reps days after the initial start_day.
+            num_repetitions = 1 distributes intervention once on start_day, num_repetitions = 2 distributes
+            intervention on start_day and start_day + timesteps_between_reps, etc. num_repetitions = -1 distributes
+            intervention on start_day and every timesteps_between_reps indefinitely.
         timesteps_between_reps: Number of days between repeated distributions of the intervention. Only relevant if num_repetitions > 1 or -1.
         node_ids: List of node IDs to which the intervention will be applied. If None, the intervention will be applied to all nodes.
         node_property_restrictions: A list of dictionaries of NodeProperties which the node must have to receive the intervention. If left at None, all nodes in node_ids receive the intervention.
@@ -103,11 +103,11 @@ def add_larval_microsporidia(
         habitat_target: The type of habitat to target with the intervention. Default is "ALL_HABITATS". Habitat target is limited to habitats defined for the species that the microsporidia strain infects.
         initial_infectivity: The initial infectivity of the intervention, which defines the portion of larvae that are infected each day the intervention exists. Must be between 0 and 1.
         box_duration: The duration, in days, of the initial infectivity before it begins to wane.
-        If box_duration = -1, the intervention will have a constant effect and decay_time_constant will be
-        ignored. If box_duration = 0 and decay_time_constant > 0, the intervention will have an exponential
-        decaying effect. If box_duration > 0 and decay_time_constant = 0, the intervention will have a
-        box-shaped waning effect. If box_duration > 0 and decay_time_constant > 0, the intervention will
-        have a box-shaped waning effect followed by an exponential decay.
+            If box_duration = -1, the intervention will have a constant effect and decay_time_constant will be
+            ignored. If box_duration = 0 and decay_time_constant > 0, the intervention will have an exponential
+            decaying effect. If box_duration > 0 and decay_time_constant = 0, the intervention will have a
+            box-shaped waning effect. If box_duration > 0 and decay_time_constant > 0, the intervention will
+            have a box-shaped waning effect followed by an exponential decay.
         decay_time_constant: The time constant for the exponential decay of the intervention's effect, in days. Only relevant if box_duration = 0 or > 0 as described above in box_duration.
         intervention_name: (Optional) The name of the intervention, for organizational purposes. Default is "LarvalMicrosporidiaIntervention".
         cost_to_consumer: The cost to consumer for each distribution of this intervention, if any. Default is 0.

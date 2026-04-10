@@ -56,11 +56,11 @@ For each strain, the final fraction newly infected is coverage × effect.
 Key properties
 
 - Order-dependent: Processing interventions in different orders can yield different results because each new intervention
-redistributes from the current state.
+  redistributes from the current state.
 - Conservation: Total coverage across all strains never exceeds 1.0 — every larva is accounted for exactly once (either
-claimed by a strain or uninfected).
+  claimed by a strain or uninfected).
 - Proportional competition: When two strains overlap, the stronger effect wins a larger share, but neither fully displaces
-the other.
+  the other.
 
 
 
