@@ -184,7 +184,7 @@ CYTOKINE_KILLING
 PYROGENIC_THRESHOLD_VS_AGE_CONCAVE
     Pyrogenic threshold is calculated using individual's age, set **Pyrogenic_Threshold** and individual-level variation.
     m_ind_pyrogenic_threshold = (individual-level variation) * **Pyrogenic_Threshold**
-    For individuals under 2 years old, the formula is m_ind_pyrogenic_threshold + 0.035 * m_ind_pyrogenic_threshold * (age_in_years)).
+    For individuals under 2 years old, the formula is m_ind_pyrogenic_threshold + 0.035 * m_ind_pyrogenic_threshold * (age_in_years).
     For individuals over 2, the formula is m_ind_pyrogenic_threshold * 0.965 * exp( -.09 * ( age_in_years - 2 ) ) + ( m_ind_pyrogenic_threshold * 0.1 );
     If calculated pyrogenic threshold is below **Pyrogenic_Threshold_Min**, it is set to **Pyrogenic_Threshold_Min**.
     The threshold is updated every 3 months of a person's age.
