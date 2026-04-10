@@ -36,7 +36,7 @@ Follow the steps below to install |EMODPY_malaria|.
 
         git clone https://github.com/InstituteforDiseaseModeling/emodpy-malaria.git
 
-#.  Verify installation by running the included Python example, ``example.py``, located in /examples/start_here::
+#.  Verify installation by running the included Python example, ``example.py``, located in /examples-container/campaign_sweep::
 
         python example.py
 

@@ -127,10 +127,10 @@ that function to the task creator as the ``param_custom_cb``
 parameter. In that function, you can set the parameters directly. For
 example:
 
-.. literalinclude:: ../examples/start_here/example.py
+.. literalinclude:: ../examples-container/campaign_sweep/example.py
   :lines: 55-82
 
-See examples/start_here/example.py. for additional information.
+See /examples-container/campaign_sweep/example.py. for additional information.
 
 If you prefer something more modular, you can call a function in a standalone
 script/file that sets the configuration parameters.
@@ -152,9 +152,9 @@ How do I specify the vector species for my scenario?
 
 See the excerpt below or the complete example of setting the vector species
 and parameter values associated with each species in
-examples/start_here/example.py.
+/examples-container/campaign_sweep/example.py.
 
-.. literalinclude:: ../examples/start_here/example.py
+.. literalinclude:: ../examples-container/campaign_sweep/example.py
   :lines: 55-82
 
 A helper function to make this task even easier may be coming shortly.

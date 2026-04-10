@@ -21,10 +21,7 @@ index-url = https://packages.idmod.org/api/pypi/pypi-production/simple
 ## Installation
 ```
 pip install emodpy_malaria
-pip install dataclasses
 pip install keyrings.alt (Linux only)
-git clone https://github.com/InstituteforDiseaseModeling/emodpy-malaria.git
-cd emodpy-malaria/examples/start_here
 ```
 
 ## Configuration
