@@ -74,7 +74,7 @@ At a glance:
 *  **Purge existing:** No. Already existing intervention(s) of this class continue(s) to exist together with any new interventions of this class. Their coverages and effects are resolved per the algorithm described above.
 *  **Vector killing contributes to:** Does not apply
 *  **Vector effects:** Microsporidia/endosymbiont infection of larvae
-*  **Vector sexes affected:** Both male and female larva
+*  **Vector sexes affected:** Both male and female larvae
 *  **Vector life stage affected:** Larval
 
 .. include:: ../reuse/warning-case.txt
