@@ -142,6 +142,27 @@ Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as indiv
       ""Fever_IRBC_Kill_Rate"": 1.4
     }
 "
+"Pyrogenic_Threshold","float","0.1","100000","1000","Level of bloodstream infection, measured in IRBC per microliter, at which stimulation of the innate inflammatory immune response is half its maximum value.
+",".. code-block:: json
+
+    {
+      ""Pyrogenic_Threshold"": 15000
+    }
+"
+"Pyrogenic_Threshold_Min","float","0.1","100000","0.1","Minimum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped from the bottom, so if a threshold is calculated to be lower, it will be reset to this value.
+",".. code-block:: json
+
+    {
+      ""Pyrogenic_Threshold_Min"": 100
+    }
+"
+"Pyrogenic_Threshold_Max","float","0.1","100000","100000","Maximum level of bloodstream infection, measured in IRBC per microliter, which will be allowed in the simulation. The value is capped, so if a threshold is calculated to be higher, it will be reset to this value.
+",".. code-block:: json
+
+    {
+      ""Pyrogenic_Threshold_Max"": 50000
+    }
+"
 "Immune_Threshold_For_Downsampling","float","0","1","0","The threshold on acquisition immunity at which to apply immunity-dependent downsampling; individuals who are more immune than this this threshold are downsampled. A value of 1 is equivalent to full susceptibility and 0 is equivalent to full immunity. If the acquisition immunity modifier is larger than the threshold, no downsampling occurs. **Individual_Sampling_Type** must set to ADAPTED_SAMPLING_BY_IMMUNE_STATE.",".. code-block:: json
 
     {
@@ -150,19 +171,37 @@ Note: In MALARIA_SIM, this parameter is ignored and always treated as 0 as indiv
       ""Individual_Sampling_Type"": ""ADAPTED_SAMPLING_BY_IMMUNE_STATE""
     }
 "
-"Innate_Immune_Variation_Type","enum","NA","NA","NONE","The type of innate immunity on which to apply individual-level variation. 
-Possible values are: 
+"Innate_Immune_Variation_Type","enum","NA","NA","NONE","The type of innate immunity on which to apply individual-level variation. The individual-level variation is generated from a simple distribution defined in demographics using **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** parameters. If the pyrogenic threshold is bounded by **Pyrogenic_Threshold_Min** and **Pyrogenic_Threshold_Max**, those bounds are applied after pyrogenic threshold is calculated.
+
+Possible values are:
 
 NONE
-    No variation in innate immunity between individuals.  
+    No individual-level variation applied to the defined **Pyrogenic_Threshold** or **Fever_IRBC_Kill_Rate**.
 PYROGENIC_THRESHOLD
-    Applies individual variation using the innate immunity distribution values set in **InnateImmunityDistributionFlag**, **InnateImmunityDistribution1**, and **InnateImmunityDistribution2** in the demographics file to the average threshold for infected red blood cells resulting in fever, as set in **Pyrogenic_Threshold**.
-PYROGENIC_THRESHOLD_VS_AGE
-    Ignores the demographic file settings and applies an age-dependent threshold for infected red blood cells resulting in fever.
+    Applies individual-level variation to the **Pyrogenic_Threshold**.
+CYTOKINE_KILLING
+    Applies individual-level variation to the **Fever_IRBC_Kill_Rate**.
+PYROGENIC_THRESHOLD_VS_AGE_CONCAVE
+    Pyrogenic threshold is calculated using individual's age, set **Pyrogenic_Threshold** and individual-level variation.
+    m_ind_pyrogenic_threshold = (individual-level variation) * **Pyrogenic_Threshold**
+    For individuals under 2 years old, the formula is m_ind_pyrogenic_threshold + 0.035 * m_ind_pyrogenic_threshold * (age_in_years).
+    For individuals over 2, the formula is m_ind_pyrogenic_threshold * 0.965 * exp( -.09 * ( age_in_years - 2 ) ) + ( m_ind_pyrogenic_threshold * 0.1 );
+    If calculated pyrogenic threshold is below **Pyrogenic_Threshold_Min**, it is set to **Pyrogenic_Threshold_Min**.
+    The threshold is updated every 3 months of a person's age.
+PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE
+    For this option, both pyrogenic threshold and cytokine killing rate are modified based on individual-level variation.
+    Because of how the cytokine killing rate is calculated, individual-level variation is fixed to be drawn from a Uniform distribution between 0 and 1.
+    Pyrogenic threshold is calculated using individual's age, set **Pyrogenic_Threshold** and individual-level variation.
+    m_ind_pyrogenic_threshold = individual-level variation * **Pyrogenic_Threshold**
+    For individuals whose pyrogenic threshold is less than **Pyrogenic_Threshold_Max**, the formula to calculate their new pyrogenic threshold is:
+    m_ind_pyrogenic_threshold * pow( 10, ( 0.132 * age_in_years) )
+    When that calculation exceeds **Pyrogenic_Threshold_Max**, the pyrogenic threshold is set to **Pyrogenic_Threshold_Max**.
+    The individual's cytokine kill rate is then set to: **Fever_IRBC_Kill_Rate** * ( 2 - individual-level variation)
+
 ",".. code-block:: json
 
     {
-      ""Innate_Immune_Variation_Type"": ""PYROGENIC_THRESHOLD_VS_AGE""
+      ""Innate_Immune_Variation_Type"": ""PYROGENIC_THRESHOLD_VS_AGE_CONCAVE""
     }
 "
 "Maternal_Antibodies_Type","enum","NA","NA","OFF","The type of maternal antibody protection.  **Enable_Maternal_Antibodies_Transmission** must be set to 1 (true).
@@ -195,7 +234,7 @@ CONSTANT_INITIAL_IMMUNITY
       ""Maternal_Antibody_Protection"": 0.1327
     }
 "
-"Maternal_Linear_Slope","float","0.0001","1","0.01","[Note: Not used in MALARIA_SIM]Slope parameter describing the rate of waning for maternal protection, must be positive. The per-day increase in susceptibility. **Maternal_Protection_Type** must be set to LINEAR_FRACTIONAL or LINEAR_BINARY.",".. code-block:: json
+"Maternal_Linear_Slope","float","0.0001","1","0.01","[Note: Not used in MALARIA_SIM] Slope parameter describing the rate of waning for maternal protection, must be positive. The per-day increase in susceptibility. **Maternal_Protection_Type** must be set to LINEAR_FRACTIONAL or LINEAR_BINARY.",".. code-block:: json
 
     {
       ""Maternal_Protection_Type"": ""LINEAR_FRACTIONAL"",
@@ -276,6 +315,12 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
 
     {
       ""Mortality_Blocking_Immunity_Duration_Before_Decay"": 270
+    }
+"
+"MSP1_Growth_Aligned","boolean","0","1","0","Controls whether to use the old code for MSP1 antibody growth or new code, which is aligned with how other antibodies grow. See code details at https://github.com/EMOD-Hub/EMOD/blob/main/Eradication/MalariaAntibody.cpp#L115",".. code-block:: json
+
+    {
+      ""MSP1_Growth_Aligned"": 1
     }
 "
 "MSP1_Merozoite_Kill_Fraction","double","NA","NA","0.5","The fraction of merozoites inhibited from invading new erythrocytes when MSP1-specific antibody level is 1.",".. code-block:: json
