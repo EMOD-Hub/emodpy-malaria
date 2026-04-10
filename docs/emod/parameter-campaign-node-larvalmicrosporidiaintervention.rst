@@ -39,7 +39,7 @@ If the new intervention is distributing a previously-processed strain, their res
 coverage-weighted average:
 
 new_coverageA = coverage_A + coverage_A1
-new_effectA = (coverage_A × effect_A + coverage_A1 × effect_A1) / new_coverage
+new_effectA = (coverage_A × effect_A + coverage_A1 × effect_A1) / new_coverageA
 
 If this is a new strain, its coverage and effect are added to the previously-processed strains.
 
