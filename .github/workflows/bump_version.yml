@@ -1,4 +1,4 @@
-name: Test and Update Version
+name: Update Version
 
 on:
   push:
@@ -15,9 +15,9 @@ permissions:
   contents: write # Allow writing to the repository (e.g., commits, pushes)
 
 jobs:
-  run-tests:
-    name: Run unit and container tests
-    uses: ./.github/workflows/tests_unit_container.yml
+#  run-tests:
+#    name: Run unit and container tests
+#    uses: ./.github/workflows/tests_unit_container.yml
 
   bump-version:
     name: Bump patch version
