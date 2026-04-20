@@ -56,7 +56,7 @@ and **Daily EIR** don't get started until day 40.  Why do the plots have the sha
 
 EMOD is one of the only malaria models that includes the mosquitoes as its own set of agents.
 EMOD models the mosquito through its life cycle from eggs to larve to adult and back again.
-Please see [EMOD Vector Biology](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/vector-model-overview.html)
+Please see [EMOD Vector Biology](https://emod.idmod.org/emodpy-malaria/emod/vector-model-overview.html)
 for more information.
 
 **Adult Vectors** - These are the adult female mosquitoes in the simulation. The scenario initializes with three species,

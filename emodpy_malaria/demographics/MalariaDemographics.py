@@ -86,12 +86,12 @@ class MalariaDemographics(Demog.Demographics):
             lhm_dict.append(lhm.parameters)
             self.SetNodeDefaultFromTemplate({"LarvalHabitatMultiplier": lhm_dict}, setter_fn=None)
         else:
-            if self.get_node(node_id).node_attributes.larval_habitat_multiplier:
-                lhm_dict = self.get_node(node_id).node_attributes.larval_habitat_multiplier
+            if self.get_node_by_id(node_id).node_attributes.larval_habitat_multiplier:
+                lhm_dict = self.get_node_by_id(node_id).node_attributes.larval_habitat_multiplier
             else:
                 lhm_dict = []
             lhm_dict.append(lhm.parameters)
-            self.get_node(node_id).node_attributes.larval_habitat_multiplier = lhm_dict
+            self.get_node_by_id(node_id).node_attributes.larval_habitat_multiplier = lhm_dict
 
     def add_initial_vectors_per_species(self, init_vector_species, node_ids=None):
         """
@@ -112,7 +112,7 @@ class MalariaDemographics(Demog.Demographics):
             self.SetNodeDefaultFromTemplate(ivs_dict, setter_fn=None)
         else:
             for node_id in node_ids:
-                self.get_node(node_id).node_attributes.add_parameter("InitialVectorsPerSpecies", init_vector_species)
+                self.get_node_by_id(node_id).node_attributes.add_parameter("InitialVectorsPerSpecies", init_vector_species)
 
         # no implicits
 
@@ -225,7 +225,7 @@ def from_pop_csv(pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", si
     generic_demog = Demog.from_pop_csv(pop_filename_in=pop_filename_in, res=1 / 120, id_ref="from_pop_csv",
                                        pop_filename_out=pop_filename_out, site=site)
 
-    nodes = generic_demog._nodes
+    nodes = generic_demog.nodes
     return MalariaDemographics(nodes=nodes, idref=site)
 
 
@@ -248,7 +248,7 @@ def from_csv(input_file, res=30 / 3600, id_ref="from_csv", init_prev=0.0, includ
         raise ValueError(f"Can't find input data file {input_file}")
 
     generic_demog = Demog.from_csv(input_file, res, id_ref)
-    nodes = generic_demog._nodes
+    nodes = generic_demog.nodes
     return MalariaDemographics(nodes=nodes, idref=id_ref, init_prev=init_prev,
                                include_biting_heterogeneity=include_biting_heterogeneity)
 

@@ -65,7 +65,7 @@ If you notice unexpected behavior or a limitation in emodpy-malaria, follow the 
     team gauge interest without the noise of comments, which trigger notifications to all watchers.
     Comments should be used only if you have new and useful information to share.
 
-.. _documentation: https://docs.idmod.org/projects/emodpy-malaria/en/latest/
+.. _documentation: https://emod.idmod.org/emodpy-malaria
 
 .. _issues: https://github.com/EMOD-Hub/issues-and-discussions/issues
 

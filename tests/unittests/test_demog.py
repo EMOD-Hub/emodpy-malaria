@@ -129,11 +129,11 @@ class DemoTest(unittest.TestCase):
             demog_json = json.load(demo_file)
 
         # Checking we can grab a node
-        inspect_node = demog.get_node(demog.nodes[15].id)
+        inspect_node = demog.get_node_by_id(demog.nodes[15].id)
         self.assertEqual(inspect_node.id, demog.nodes[15].id, msg=f"This node should have an id of {demog.nodes[15].id} but instead it is {inspect_node.id}")
 
         with self.assertRaises(ValueError):
-            demog.get_node(161839)
+            demog.get_node_by_id(161839)
 
         self.assertEqual(demog_json['Metadata']['IdReference'], id_ref)
 
@@ -167,7 +167,7 @@ class DemoTest(unittest.TestCase):
             demog_json = json.load(demo_file)
 
         # Checking we can grab a node
-        inspect_node = demog.get_node(demog.nodes[0].id)
+        inspect_node = demog.get_node_by_id(demog.nodes[0].id)
         self.assertEqual(inspect_node.id, demog.nodes[0].id, msg=f"This node should have an id of {demog.nodes[0].id} "
                                                                  f"but instead it is {inspect_node.id}")
 
@@ -312,12 +312,12 @@ class DemoTest(unittest.TestCase):
             demog_json = json.load(demo_file)
 
         # Checking we can grab a node
-        inspect_node = demog.get_node(demog.nodes[0].id)
+        inspect_node = demog.get_node_by_id(demog.nodes[0].id)
         self.assertEqual(inspect_node.id, demog.nodes[0].id,
                          msg=f"This node should have an id of {demog.nodes[0].id} but instead it is {inspect_node.id}")
 
         with self.assertRaises(ValueError):
-            demog.get_node(161839)
+            demog.get_node_by_id(161839)
 
         id_reference = 'No_Site'  # hardcoded value
         self.assertEqual(demog_json['Metadata']['IdReference'], id_reference)

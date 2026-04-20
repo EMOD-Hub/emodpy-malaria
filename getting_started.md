@@ -15,7 +15,7 @@ it does require a GitHub account.
 - [Interpreting the results](tutorial_interpret_results.md)
 
 Another way to learn about EMOD is through the
-[documentation](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-overview.html).
+[documentation](https://emod.idmod.org/emodpy-malaria/emod/software-overview.html).
 It provides lots of information on how EMOD models malaria as well as how malaria
 works.
 

@@ -22,17 +22,17 @@ def _get_events(
 
     if not targets:
         raise ValueError("Please define targets for treatment seeking. It is a list of dictionaries:\n "
-                         "ex: [{\"trigger\":\"NewClinicalCase\", \"coverage\":0.8, \"agemin\":15, \"agemax\":70, \"rate\":0.3}]\n")
+                         "ex: [{'trigger':'NewClinicalCase', 'coverage':0.8, 'agemin':15, 'agemax':70, 'rate':0.3}]\n")
     for target in targets:
         if "trigger" not in target:
-            raise ValueError("Please define \"trigger\" for each target dictionary. \n"
-                             "ex: [{\"trigger\":\"NewClinicalCase\", \"coverage\":0.7, \"agemax\":3 }]")
+            raise ValueError("Please define trigger for each target dictionary. \n"
+                             "ex: [{'trigger':'NewClinicalCase', 'coverage':0.7, 'agemax':3 }]")
         if "seek" in target:
-            raise ValueError("Notice: \"seek\" parameter has been removed. Please remove it from your \"targets\""
+            raise ValueError("Notice: 'seek' parameter has been removed. Please remove it from your targets"
                              " dictionary."
-                             " Please modify the \"coverage\" parameter "
+                             " Please modify the coverage parameter "
                              "directly to attain a different coverage for the intervention. Previously, "
-                             "\"Demographic_Coverage\" was \"coverage\"x\"seek\". It is now just \"coverage\".\n")
+                             "'Demographic_Coverage' was 'coverage' x 'seek'. It is now just 'coverage'.\n")
 
     drugs = [_antimalarial_drug(campaign, drug_type=d) for d in drug]
     drugs.append(BroadcastEvent(campaign, Event_Trigger=broadcast_event_name))
