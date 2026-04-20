@@ -1,8 +1,17 @@
-name: Publish to PyPI
+name: Build and Publish to PyPI
 
 on:
   # Allows manual run from the Actions tab
   workflow_dispatch:
+    inputs:
+      dev_release:
+        description: 'Create a .devN pre-release version'
+        type: boolean
+        default: false
+      dev_number:
+        description: 'Dev version number N (for .devN suffix). Leave blank to use the run number.'
+        type: string
+        required: false
 
 jobs:
   build:
@@ -11,14 +20,40 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.x'
+
+      - name: Validate dev number
+        if: inputs.dev_release && inputs.dev_number != ''
+        shell: bash
+        run: |
+          if ! echo "${{ inputs.dev_number }}" | grep -qxE '[0-9]+'; then
+            echo "::error::dev_number must be a non-negative integer, got '${{ inputs.dev_number }}'"
+            exit 1
+          fi
+
+      - name: Apply dev version suffix
+        if: inputs.dev_release
+        shell: bash
+        run: |
+          DEV_N="${{ inputs.dev_number }}"
+          if [ -z "$DEV_N" ]; then
+            DEV_N="${{ github.run_number }}"
+          fi
+          sed -i "s/^version = \"\\(.*\\)\"/version = \"\\1.dev${DEV_N}\"/" pyproject.toml
+          sed -i "s/^__version__ = \"\\(.*\\)\"/__version__ = \"\\1.dev${DEV_N}\"/" emodpy_malaria/__init__.py
+          echo "Building dev version:"
+          grep '^version' pyproject.toml
+          grep '__version__' emodpy_malaria/__init__.py
+
       - name: Build
         run: |
           python -m pip install build --user
           python -m build
+
       - name: Store packages
         uses: actions/upload-artifact@v6
         with:
@@ -34,7 +69,7 @@ jobs:
       name: pypi
       url: https://pypi.org/project/emodpy-malaria
     permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
+      id-token: write
     steps:
       - name: Download distribution files
         uses: actions/download-artifact@v7
