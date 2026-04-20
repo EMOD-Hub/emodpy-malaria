@@ -222,9 +222,9 @@ html_sidebars = {
 html_logo = "images/idm-logo-transparent.png"
 html_favicon = "images/favicon.ico"
 html_static_path = ['_static']
-html_baseurl = "https://docs.idmod.org/projects/emodpy-malaria/en/latest"
+html_baseurl = "https://emod.idmod.org/emodpy-malaria"
 html_context = {
-    'rtd_url': 'https://docs.idmod.org/projects/emodpy-malaria/en/latest',
+    'rtd_url': 'https://emod.idmod.org/emodpy-malaria',
     "versions_dropdown": {
         "latest": "devel (latest)",
         "stable": "current (stable)",
