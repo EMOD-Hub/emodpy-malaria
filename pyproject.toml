@@ -74,7 +74,7 @@ emodpy_malaria = [
 ]
 
 [tool.bumpversion]
-current_version = "5.1.0"
+current_version = "5.1.1"
 commit = true
 
 [[tool.bumpversion.files]]
