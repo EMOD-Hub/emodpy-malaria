@@ -20,14 +20,14 @@ It can guide you through trying EMOD before you try it on your own machine.
 The `emodpy-malaria` package (and its supporting packages) is currently hosted on IDM's Python package repository.
 
 ```shell
-python3 -m pip install emodpy-malaria --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
+python3 -m pip install emodpy-malaria
 ```
 
 Note: you may need to only use `python` on Windows machines rather than `python3`.
 
 ## Documentation
 
-Documentation available at https://docs.idmod.org/projects/emodpy-malaria/en/latest/.
+Documentation available at https://emod-hub.github.io/emodpy-malaria
 
 To build the documentation locally, do the following:
 
@@ -35,17 +35,14 @@ To build the documentation locally, do the following:
 2. Navigate to the root directory of the repo and enter the following:
 
     ```
-    pip install -e . --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
-    cd docs
-    pip install -r requirements.txt
-    make html
+    pip install -e[docs] .
+    python -m sphinx -T --keep-going -b html ./docs ./site
     ```
-You may need to open a new command prompt before running `make html`. The HTML 
-documentation will be output to the docs/_build/html directory. 
+The HTML documentation will be output to the 'site' directory.
 
 ## FAQ
 
-Frequently asked questions are answered in https://docs.idmod.org/projects/emodpy-malaria/en/latest/faq.html.
+Frequently asked questions are answered in https://emod-hub.github.io/emodpy-malaria/faq.html
 
 ## Community
 
@@ -72,18 +69,18 @@ There are several options if you are modifying the code locally.
 Option 1:
 install in the `emodpy-malaria` directory:
 ```
-pip install -e . --extra-index-url=https://packages.idmod.org/api/pypi/pypi-production/simple
+pip install -e .
 ```
 
 Option 2:
-Each time you make a change you want to install 'build':
+You will need to install 'build':
 ```
 pip install build 
 ```
-..and then run the following commands to build the package with latest code and install it:
+Each time you make a change you want to use, you'll need to build a new .whl file and install it:
 ```
-python -m build --wheel
-pip install dist\emodpy_malaria-XXX.whl 
+python -m build
+pip install dist\emodpy_malaria-XXXX.whl
 ```
 
 # Disclaimer
