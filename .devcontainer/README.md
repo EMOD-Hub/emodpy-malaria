@@ -18,7 +18,7 @@ It includes:
 
 | Tool / Language  | Version       | Notes                            |
 |------------------|---------------|----------------------------------|
-| Python           | 3.9           | Required for EMOD                |
+| Python           | 3.13          | Required for EMOD                |
 | Docker-in-Docker | -             | Enables Docker inside container  |
 |                  |               | and ContainerPlatform            |
 
