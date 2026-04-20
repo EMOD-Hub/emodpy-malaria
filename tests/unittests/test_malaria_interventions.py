@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import sys
 import unittest
 
@@ -2991,20 +2992,21 @@ class TestMalariaInterventions(unittest.TestCase):
     def test_treatment_seeking_exceptions(self):
         import emodpy_malaria.interventions.adherentdrug as ad
         with self.assertRaisesRegex(ValueError,
-                                    "Please define targets for treatment seeking. It is a list of dictionaries:\n"
-                                    " ex: \[\{\"trigger\":\"NewClinicalCase\", \"coverage\":0.8, \"agemin\":15, \"agemax\":70, \"rate\":0.3\}\]\n"):
+                                    re.escape("Please define targets for treatment seeking. It is a list of dictionaries:\n"
+                                              " ex: [{'trigger':'NewClinicalCase', 'coverage':0.8, 'agemin':15, 'agemax':70, 'rate':0.3}]\n")):
             add_treatment_seeking(camp)
         bad_target = [{"age_max": 30}]
-        with self.assertRaisesRegex(ValueError, "Please define \"trigger\" for each target dictionary. \n"
-                                                "ex: \[\{\"trigger\":\"NewClinicalCase\", \"coverage\":0.7, \"agemax\":3 \}\]"):
+        with self.assertRaisesRegex(ValueError,
+                                    re.escape("Please define trigger for each target dictionary. \n"
+                                              "ex: [{'trigger':'NewClinicalCase', 'coverage':0.7, 'agemax':3 }]")):
             add_treatment_seeking(camp, targets=bad_target)
         seek_target = [{"trigger": "NewClinicalCase", "coverage": 0.7, "agemax": 3, "seek": 0.5}]
         with self.assertRaisesRegex(ValueError,
-                                    "Notice: \"seek\" parameter has been removed. Please remove it from your \"targets\""
-                                    " dictionary."
-                                    " Please modify the \"coverage\" parameter "
-                                    "directly to attain a different coverage for the intervention. Previously, "
-                                    "\"Demographic_Coverage\" was \"coverage\"x\"seek\". It is now just \"coverage\".\n"):
+                                    re.escape("Notice: 'seek' parameter has been removed. Please remove it from your targets"
+                                              " dictionary."
+                                              " Please modify the coverage parameter "
+                                              "directly to attain a different coverage for the intervention. Previously, "
+                                              "'Demographic_Coverage' was 'coverage' x 'seek'. It is now just 'coverage'.\n")):
             add_treatment_seeking(camp, targets=seek_target)
 
     def test_vector_surveillance_defaults(self):
