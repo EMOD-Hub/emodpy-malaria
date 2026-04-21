@@ -15,14 +15,9 @@ permissions:
   contents: write # Allow writing to the repository (e.g., commits, pushes)
 
 jobs:
-#  run-tests:
-#    name: Run unit and container tests
-#    uses: ./.github/workflows/tests_unit_container.yml
-
   bump-version:
     name: Bump patch version
     runs-on: ubuntu-latest
-    needs: run-tests
     steps:
       - name: Bump version
         uses: callowayproject/bump-my-version@v1
