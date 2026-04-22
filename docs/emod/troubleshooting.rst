@@ -58,7 +58,7 @@ this occurs where spatial output channel names are specified in the configuratio
 if an unrecognized channel name is used.
 
 If you have not modified the |EMOD_s| source code or used an unrecognized channel name, this error
-could signal an internal problem with the code. Contact idm@gatesfoundation.org.
+could signal an internal problem with the code. Please visit our discussion board at https://github.com/orgs/EMOD-Hub/discussions.
 
 CalculatedValueOutOfRangeException
 ----------------------------------
@@ -232,7 +232,7 @@ exception is thrown when a required interface is queried on an object and the ob
 that the interface is not supported.
 
 If you have not modified the |EMOD_s| source code and receive this error, it could signal an
-internal problem with the code. Contact idm@gatesfoundation.org.
+internal problem with the code. Please visit our discussion board at https://github.com/orgs/EMOD-Hub/discussions.
 
 SerializationException
 ----------------------

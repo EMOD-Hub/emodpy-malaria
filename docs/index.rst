@@ -16,7 +16,7 @@ simulation jobs to a compute cluster, and more.
 The |IDM_l| develops disease modeling software that is thoroughly tested and shared with the
 research community to advance the understanding of disease dynamics. This software helps determine
 the combination of health policies and intervention strategies that can lead to disease eradication.
-If you encounter any issues while using the software, please contact idm@gatesfoundation.org.
+If you encounter any issues while using the software, please visit our discussion board at https://github.com/orgs/EMOD-Hub/discussions.
 
 |EMOD_s|, is an :term:`agent-based model` (ABM) that simulates the
 simultaneous interactions of agents in an effort to recreate complex phenomena.  Each agent (such as
