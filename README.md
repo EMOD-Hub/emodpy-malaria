@@ -40,10 +40,6 @@ To build the documentation locally, do the following:
     ```
 The HTML documentation will be output to the 'site' directory.
 
-## FAQ
-
-Frequently asked questions are answered in https://emod-hub.github.io/emodpy-malaria/faq.html
-
 ## Community
 
 Have a question or a comment? Check out our [Discussions](https://github.com/EMOD-Hub/issues-and-discussions) space.

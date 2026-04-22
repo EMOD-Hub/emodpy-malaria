@@ -59,7 +59,6 @@ disease transmission model.
    overview
    emod/tutorials
    reference
-   faq
    glossary
 
 
