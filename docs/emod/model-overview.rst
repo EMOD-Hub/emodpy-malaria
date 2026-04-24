@@ -81,6 +81,7 @@ handled via several :term:`JSON (JavaScript Object Notation)` files. For more in
 
     vector-model-overview
     malaria-model-overview
+    malaria-model-fpg
     model-outbreak
     model-heterogeneity
     model-campaign
