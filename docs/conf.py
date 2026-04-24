@@ -64,6 +64,7 @@ extensions = [
     'sphinx_search.extension',
     'sphinx.ext.viewcode', # link to view source code
     'myst_parser', # source files written in MD or RST
+    'sphinx.ext.napoleon',
 ]
 
 myst_enable_extensions = [
