@@ -29,7 +29,7 @@ To generate this report, configure the following parameters in the custom_report
     **Include_Health_Table**, boolean, NA, NA, 1, "A true value (1) includes the Health table which has data for each time step for the health of an individual."
     **Include_Infection_Data_Table**, boolean, NA, NA, 1, "A true value (1) includes the InfectionData table which has data for each time step for each active infection."
     **End_Day**, float, 0, 3.40E+38, 3.40E+38, "The day to stop collecting data for the report."
-    **Start_Day**, float, 0, 3.40E+38, 0, "The day to start distributing interventions."
+    **Start_Day**, float, 0, 3.40E+38, 0, "The day to start collecting data."
 
 
 .. code-block:: json
@@ -95,7 +95,7 @@ Health table
 The Health table tracks the health of each individual while they are alive in the simulation. There
 is one record for each timestep during which an individual was alive. This table has a many-to-one
 relationship with the Humans table. Query the SevereCaseType table if you want to translate the
-integer value of ServerCaseTypeID to a text value.
+integer value of SevereCaseTypeID to a text value.
 
 
 .. csv-table::
@@ -132,7 +132,7 @@ table into the actual name of the case type. The SevereCaseType names are based 
     :widths: 15, 10, 40
 
     SevereCaseTypeID, integer, The unique ID of the severe case type.
-    Name, enum, "The name of the cause of the sever disease. Possible values are NONE, ANEMIA, PARASITES, or FEVER."
+    Name, enum, "The name of the cause of the severe disease. Possible values are NONE, ANEMIA, PARASITES, or FEVER."
 
 
 
@@ -141,7 +141,7 @@ Infections table
 
 The Infections table tracks the infections that occurred in humans during the simulation. There is
 one row for each infection that occurred. This table has a many-to-one relationship with the
-Infections and ParasiteGenomes tables.
+Humans and ParasiteGenomes tables.
 
 
 .. csv-table::
@@ -160,7 +160,7 @@ InfectionData table
 ===================
 
 The InfectionData table contains data about each infection while it was active in the simulation.
-This table has a one-to-many relationship with the Infections table.
+This table has a many-to-one relationship with the Infections table.
 
 
 .. csv-table::
@@ -264,4 +264,4 @@ Locations and GenomeSequenceData tables) used when querying the ParasiteGenomes 
     :widths: 15, 10, 40
 
     LocationTypeID, integer, The unique ID of the location type.
-    Name, enum, "The name of the location. Possible values are BARCODE, DRUG_RESISTANCE, HRP_STATUS, MPS, or PFEMP1_VARIANTS."
+    Name, enum, "The name of the location. Possible values are BARCODE, DRUG_RESISTANCE, HRP_STATUS, MSP, or PFEMP1_VARIANTS."

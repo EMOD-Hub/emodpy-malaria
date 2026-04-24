@@ -241,8 +241,8 @@ position, and positions within a single parameter must be in ascending order.
     PfEMP1_Variants_Genome_Locations, list of integers, "Genome positions of PfEMP1 major epitope loci. Must define exactly 50 locations corresponding to the 50 PfEMP1 variants in each clonal infection's repertoire (see :doc:`malaria-model-infection-immunity`). Only used when ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD``."
 
 The total number of tracked positions — barcode + drug resistance + HRP (+ MSP and PfEMP1 if
-applicable) — directly affects simulation memory usage and runtime. See the Overview for discussion
-of this trade-off.
+applicable) — directly affects simulation memory usage and runtime. More tracked positions require
+more memory and increase simulation time.
 
 Antigen expression
 ------------------
@@ -286,7 +286,7 @@ Similarity to base model
     :header: Parameter, Data type, Default, Description
     :widths: 15, 8, 10, 30
 
-    Enable_FPG_Similarity_To_Base, boolean, false, "If true FPG simulates the base MALARIA_SIM model: a person can acquire only one new infection per time step only adult vectors can become infected and a vector is always considered infected once it acquires an infection. Provided for validation — allows direct comparison of FPG and base model output."
+    Enable_FPG_Similarity_To_Base, boolean, false, "If true, FPG simulates the base MALARIA_SIM model: a person can acquire only one new infection per time step, only adult vectors can become infected, and a vector is always considered infected once it acquires an infection. Provided for validation — allows direct comparison of FPG and base model output."
 
 
 Output reports
