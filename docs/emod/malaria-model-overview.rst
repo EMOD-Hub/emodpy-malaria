@@ -70,3 +70,4 @@ Additionally, the specifics of the model are discussed in detail in the articles
     malaria-model-infection-immunity
     malaria-model-symptoms-diagnosis
     malaria-model-antimalarial-drugs
+    malaria-model-fpg

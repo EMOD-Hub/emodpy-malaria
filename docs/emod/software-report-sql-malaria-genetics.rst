@@ -1,11 +1,18 @@
-================
-MalariaSQLReport
-================
+========================
+SqlReportMalariaGenetics
+========================
 
-The MalariaSQL report outputs epidemiological and transmission data. Because of the quantity and
-complexity of the data, the report output is a multi-table SQLite relational database (see `DB
-Browser for SQLite <https://sqlitebrowser.org/>`_ for more information). Use the configuration
-parameters to manage the size of the database.
+The SqlReportMalariaGenetics report extends :doc:`software-report-sql-malaria` to output
+epidemiological, transmission, and parasite genetics data for simulations where **Malaria_Model**
+is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS. Because of the quantity and complexity of the
+data, the report output is a multi-table SQLite relational database (see `DB Browser for SQLite
+<https://sqlitebrowser.org/>`_ for more information). Use the configuration parameters to manage
+the size of the database.
+
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For an overview of the FPG model, genome configuration, and the full FPG workflow.
 
 
 
@@ -35,7 +42,7 @@ To generate this report, configure the following parameters in the custom_report
                 "Include_Infection_Data_Table": 1,
                 "Start_Day": 100,
                 "End_Day": 900,
-                "class": "MalariaSQLReport"
+                "class": "SqlReportMalariaGenetics"
             }
         ],
         "Use_Defaults": 1
@@ -51,8 +58,8 @@ yellow on the figure below) that is a combination of RunNumber and another value
 the Humans table, the primary key is the combination of RunNumber and HumanID. Because the RunNumber
 is part of the primary key, you can combine data from multiple runs.
 
-The following chart and tables describe the SQL data tables produced by this report. The “many” and
-“1” notations in the chart show you which tables have a one-to-many row relationship and which have
+The following chart and tables describe the SQL data tables produced by this report. The "many" and
+"1" notations in the chart show you which tables have a one-to-many row relationship and which have
 a many-to-one row relationship with the rows in another table.
 
 
@@ -258,9 +265,3 @@ Locations and GenomeSequenceData tables) used when querying the ParasiteGenomes 
 
     LocationTypeID, integer, The unique ID of the location type.
     Name, enum, "The name of the location. Possible values are BARCODE, DRUG_RESISTANCE, HRP_STATUS, MPS, or PFEMP1_VARIANTS."
-
-
-
-
-
-

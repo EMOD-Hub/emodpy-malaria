@@ -8,10 +8,15 @@ infections with specific gentic barcodes. The malaria node demographics genetics
 include columns for **Genome_Markers** because this report assumes that the simulation setup
 parameter **Malaria_Model** is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
 
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For an overview of the FPG model, genome configuration, and the full FPG workflow.
+
 .. note::
 
     If you need detailed data on the infections with different barcodes, use the
-    :doc:`software-report-malaria-sql`. That report contains data on all barcodes, without specifying
+    :doc:`software-report-sql-malaria-genetics`. That report contains data on all barcodes, without specifying
     what they are.
 
 

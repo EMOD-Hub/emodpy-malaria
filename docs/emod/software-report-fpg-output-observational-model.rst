@@ -8,6 +8,11 @@ for the entire population, allowing post-processing scripts to model the actual 
 is intended for simulations where **Malaria_Model** is set to
 MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
 
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For an overview of the FPG model, genome configuration, and the full FPG workflow.
+
 The report generates the following output files:
 
 * **infIndexRecursive-genomes-df.csv** - A list of infected individuals in each node at each time
