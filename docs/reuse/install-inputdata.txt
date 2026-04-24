@@ -11,12 +11,12 @@ steps below.
 #.  Install the Git LFS plugin, if it is not already installed.
 
     * For Windows users, download the plugin from https://git-lfs.github.com.
-    * For |Centos| users, the plugin is included with the PrepareLinuxEnvironment.sh script.
+    * For Linux users, the plugin is included with the PrepareLinuxEnvironment.sh script.
 
 #.  Using a Git client or Command Prompt window, clone the input data repository to retrieve
     the metadata::
 
-        git clone https://github.com/InstituteforDiseaseModeling/EMOD-InputData.git
+        git clone https://github.com/EMOD-Hub/EMOD-InputData.git
 
 #.  Navigate to the directory where you downloaded the metadata for the
     input files.

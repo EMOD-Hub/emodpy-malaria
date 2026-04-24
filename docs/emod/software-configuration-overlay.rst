@@ -55,7 +55,7 @@ To flatten two configuration files:
        :language: json
 
 
-.. _Regression: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression
+.. _Regression: https://github.com/EMOD-Hub/EMOD/tree/master/Regression
 
 .. there is a new DTKTrunk issue #1025 open to make these files function in the same way so
 .. we can combine this into a single procedure for both types of files

@@ -48,7 +48,7 @@ multiple simulations on a cluster, including running the suite of regression
 tests run by the |IDM_s| testing team. For more information,
 see :doc:`emod:dev-regression`.  
 
-.. _Regression: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression
+.. _Regression: https://github.com/EMOD-Hub/EMOD/tree/master/Regression
 
 
 Directory structure

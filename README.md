@@ -56,7 +56,7 @@ requests. You are welcome to create your own fork and modify the code to suit yo
 modeling needs as contemplated under the MIT License.
 
 If you have feature requests, issues, or new code, please see our
-[CONTRIBUTING](https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/CONTRIBUTING.rst) page
+[CONTRIBUTING][emodpy-malaria-contributing] page
 for how to provide your feedback.
 
 ### Developer Installation
@@ -86,3 +86,4 @@ The code in this repository was developed by IDM and other collaborators to supp
  their own work. We make no representations that the code works as intended or that we will provide support, address issues that are found, or accept pull requests.
  You are welcome to create your own fork and modify the code to suit your own modeling needs as permitted under the MIT License.
 
+[emodpy-malaria-contributing]: https://github.com/EMOD-Hub/emodpy-malaria/blob/main/CONTRIBUTING.rst

@@ -6,7 +6,7 @@ generally control whether certain events, such as births or deaths, are enabled 
 
 Generally, you will download a demographics file and modify it to meet the needs of your
 simulation. Demographics files for several locations are available on the |IDM_l|
-GitHub `EMOD-InputData <https://github.com/InstituteforDiseaseModeling/EMOD-InputData>`_ repository or
+GitHub `EMOD-InputData <https://github.com/EMOD-Hub/EMOD-InputData>`_ repository or
 you can use |COMPS_l| to generate demographics and climate files for a particular region.
 By convention, these are named using the name of the region appended with "_demographics.json", but
 you may name the file anything you like.

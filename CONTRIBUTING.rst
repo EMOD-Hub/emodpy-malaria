@@ -17,12 +17,12 @@ Contributions to this project are
 `released <https://help.github.com/articles/github-terms-of-service/#6-contributions-under-repository-license>`__
 to the public under the project's open source license_.
 
-.. _license: https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/LICENSE
+.. _license: https://github.com/EMOD-Hub/emodpy-malaria/blob/main/LICENSE
 
 Review the `documentation`_ before you begin. Additionally, this content is also
 included in the following README files:
 
-   -  `Project README <https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/README.md>`__: Setup and project overview.
+   -  `Project README <https://github.com/EMOD-Hub/emodpy-malaria/blob/main/README.md>`__: Setup and project overview.
 
 Discussions
 ===========
@@ -47,7 +47,7 @@ We welcome the following types of contributions:
     * Code to resolve
     * Documentation improvements in the docs_ folder.
 
-.. _docs: https://github.com/InstituteforDiseaseModeling/emodpy-malaria/tree/main/docs
+.. _docs: https://github.com/EMOD-Hub/emodpy-malaria/tree/main/docs
 
 All external communication about these contribution efforts is currently
 occurring on GitHub.
@@ -97,7 +97,7 @@ Submit a pull request
 To contribute directly to emodpy-malaria code, do the following:
 
 1.  Fork and clone the emodpy-malaria repository.
-2.  Install emodpy-malaria on your machine. See the `project README <https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/README.md>`_.
+2.  Install emodpy-malaria on your machine. See the `project README <https://github.com/EMOD-Hub/emodpy-malaria/blob/main/README.md>`_.
 3.  Create a new branch::
 
         git checkout -b my-branch-name
@@ -118,7 +118,7 @@ that meet the following criteria are more likely to be merged:
     GitHub, not necessarily committed in the repo)
 
 .. _Google style docstrings: https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html
-.. _project README: https://github.com/InstituteforDiseaseModeling/emodpy-malaria/blob/main/README.md
+.. _project README: https://github.com/EMOD-Hub/emodpy-malaria/blob/main/README.md
 
 If you have additional questions or comments, contact idmsupport@gatesfoundation.org.
 

@@ -49,6 +49,6 @@ repository list the parameters and nested objects differently.
     }
 
 
-.. _Regression: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression
+.. _Regression: https://github.com/EMOD-Hub/EMOD/tree/master/Regression
 
-.. _Regression/defaults: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression/defaults
+.. _Regression/defaults: https://github.com/EMOD-Hub/EMOD/tree/master/Regression/defaults
