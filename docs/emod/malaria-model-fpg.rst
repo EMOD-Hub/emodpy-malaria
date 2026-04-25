@@ -96,7 +96,10 @@ is tracked separately regardless of genome identity.
 FPG adds the ability to configure how PfEMP1 major epitope antigens are assigned to each infection
 via ``Var_Gene_Randomness_Type``. In the standard malaria model, PfEMP1 variants are assigned
 randomly. FPG adds the option to have PfEMP1 variants determined by the parasite genome through
-recombination, so that infections sharing a genome express similar antigens. In all modes, minor
+recombination, so that infections sharing alleles at PfEMP1 loci are more likely to express similar
+antigens. However, the degree of association between barcode IBD and antigen similarity depends on
+the physical proximity of ``PfEMP1_Variants_Genome_Locations`` to the barcode loci — if PfEMP1
+locations are placed far from barcode loci, recombination may decouple them. In all modes, minor
 epitopes remain randomly assigned. Note that the genome-determined PfEMP1 feature
 (``FIXED_NEIGHBORHOOD``) is provided for research purposes and requires further investigation before
 use in production simulations.
