@@ -9,14 +9,17 @@ infectious bites.
 
 FPG tracks four core processes:
 
-- **Within-host strain tracking**: Each infection carries an explicit genome. Because each bite or
-  deposit of sporozoites progresses on its own timeline — as in the base EMOD model — a person with
-  multiple infections maintains distinct parasite populations, each advancing independently through
-  the asexual cycle.
+- **Within-host strain tracking**: Each infection carries an explicit genome. A single infectious
+  bite can deliver sporozoites carrying different genomes; each sporozoite that survives the bite
+  and reaches the liver initiates a new infection — progressing independently through hepatocyte,
+  asexual blood-stage, and gametocyte stages. A person can therefore acquire multiple simultaneous
+  infections from a single bite, each with a distinct genome advancing on its own timeline.
 
-- **Vector sampling**: When a mosquito takes a blood meal from an infected human, gametocytes are
-  sampled from the person's active infections, giving the strains present in the human the
-  opportunity to contribute to oocyst formation.
+- **Gametocyte and sporozoite sampling**: When a mosquito takes a blood meal from an infected human,
+  gametocytes are sampled from the person's active infections, giving the strains present in the human the
+  opportunity to contribute to oocyst formation.  Similarly, when an infectious mosquito bites a human,
+  sporozoites are sampled from the mosquito, giving the strains present in the mosquito the opportunity
+  to establish new infections in the human host.
 
 - **Meiotic recombination**: When a mosquito ingests gametocytes from genetically distinct strains,
   recombination occurs during oocyst development, producing progeny genomes that are new combinations
@@ -31,16 +34,19 @@ FPG tracks four core processes:
 Genome representation
 =====================
 
-The *P. falciparum* genome comprises 14 chromosomes with a total length of approximately 22.79 Mb.
+The *P. falciparum* genome is comprised of 14 chromosomes with a total length of approximately 22.79 megabases.
 FPG represents each parasite genome as two parallel arrays, each with one entry per tracked SNP
 position:
 
 - **Nucleotide sequence**: An integer array of allele values, where each value (0–3) corresponds to
-  one of the four nucleotide bases (A, C, G, T) at a tracked genome position.
+  one of the four nucleotide bases (A=0, C=1, G=2, T=3) at a tracked genome position.
 
-- **Allele roots**: A parallel integer array recording, for each position, the infection ID of the
-  ancestral infection from which that allele descended. Allele roots enable downstream analysis to
-  distinguish IBD from IBS.
+- **Allele roots**: A parallel integer array recording, for each position, the ID of the
+  user-seeded infection — created via ``OutbreakIndividualMalariaGenetics`` — from which this allele
+  originally descended. As alleles propagate through transmission and recombination, each carries
+  its origin ID forward unchanged, enabling downstream analysis to distinguish identity-by-descent
+  (IBD, alleles tracing to a common user-seeded infection) from identity-by-state (IBS, alleles
+  with the same value but independent origins).
 
 Users specify which genome positions to track by supplying lists of base-pair coordinates in the
 configuration file (see the :ref:`configuration` section). Positions can be designated as barcode
@@ -48,15 +54,44 @@ loci, drug resistance loci, or HRP loci. The total number of tracked positions d
 simulation memory usage and runtime — simulations tracking more positions will require more memory
 and take longer to run.
 
+For example, if a user configures 7 barcode positions, 2 drug resistance positions, and 1 HRP position,
+each genome will be represented by two arrays of length 10: one for the nucleotide sequence and one for
+the allele roots. Each infection's genome will then consist of the allele values and ancestral infection
+IDs at those 10 positions.
+
+.. code-block:: none
+
+    Barcode_Genome_Locations = [100, 300, 500, 700, 900, 1100, 1300]
+    Drug_Resistant_Genome_Locations = [200, 1000]
+    HRP_Genome_Locations = [600]
+
+    Genome = {
+        "Nucleotide_Sequence": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1],
+        "Allele_Roots": [5, 5, 6, 6, 5, 5, 5, 5, 9, 9]
+    }
+
+    locations = [    100,        200,     300,     500, 600,     700,     900,       1000,    1100,    1300]
+    type      = [barcode, resistance, barcode, barcode, HRP, barcode, barcode, resistance, barcode, barcode]
+    sequence  = [      0,          1,       2,       3,   0,       1,       2,          3,       0,       1]
+    character = [      A,          C,       G,       T,   A,       C,       G,          T,       A,       C]
+    roots     = [      5,          5,       6,       6,   5,       5,       5,          5,       9,       9]
+
 
 Within-host model
 =================
 
-FPG builds on the existing EMOD malaria within-host model, which is described in detail in
+FPG builds on the existing EMOD malaria within-host model, which is described in
 :doc:`malaria-model-infection-immunity`. Each infection progresses through hepatocyte, asexual, and
-gametocyte stages on its own timeline. Because each bite or deposit of sporozoites initiates a
-separate infection, a multiply-infected person carries multiple parasite populations advancing
-independently — a behavior inherited from the base EMOD model, not specific to FPG.
+gametocyte stages on its own timeline. Because each sporozoite that successfully reaches the liver
+initiates a separate infection, a multiply-infected person carries multiple parasite populations
+advancing independently — a behavior inherited from the base EMOD model, not specific to FPG.
+
+For example, on day 1, a person gets an infectious bite from a mosquito that has half the sporozoites
+with barcode AATT and half with TTAA.  This will create two infections.  If the person gets another
+infectious bite on day 20 from a mosquito that only has sporozoites with AATT, the person will get
+a third infection with AATT. This new infection begins its own independent progression on day 20 —
+even though a day-1 AATT infection may still be active — because each infection
+is tracked separately regardless of genome identity.
 
 FPG adds the ability to configure how PfEMP1 major epitope antigens are assigned to each infection
 via ``Var_Gene_Randomness_Type``. In the standard malaria model, PfEMP1 variants are assigned
@@ -70,25 +105,32 @@ use in production simulations.
 Transmission
 ============
 
-FPG replaces EMOD's contagion-pool transmission model with one-to-one transmission that links
-specific source humans to specific mosquitoes and specific recipient humans, preserving genome
-identity at each step.
+FPG replaces EMOD's contagion-pool transmission model (in which infectiousness is aggregated across
+all infected individuals and applied probabilistically across the population) with one-to-one
+transmission that links specific source humans to specific mosquitoes and specific recipient humans,
+preserving genome identity at each step.
 
 Human-to-vector
 ---------------
 
 When an infectious mosquito takes a blood meal from an infected human, gametocytes are sampled from
 the person's active infections proportionally to each infection's gametocyte density, using a
-multinomial draw. The number of oocysts formed is then drawn independently from a negative binomial
-distribution — the oocyst count is not determined by the number of gametocytes sampled. Male and
-female gametocytes are then paired for each oocyst using a multivariate hypergeometric draw without
-replacement. If either sex contributes no gametocytes to the blood meal, no infection occurs.
+multinomial draw. The number of gametocytes in the blood meal is proportional to the person's total
+gametocyte density, scaled by the fraction of blood taken during feeding, with a minimum of two (one
+male, one female) required to form an oocyst. The exact count is not the critical quantity — what
+matters is that the relative density across infections determines each strain's probability of
+contributing gametocytes to the blood meal. The number of oocysts formed is then drawn independently
+from a negative binomial distribution — the oocyst count is not determined by the number of
+gametocytes sampled. Male and female gametocytes are then paired for each oocyst using a
+multivariate hypergeometric draw without replacement; if either sex is absent from the blood meal,
+no oocysts form.
 
 Once formed, oocysts develop over a temperature-dependent period governed by an Arrhenius
 relationship — the same process that determines the extrinsic incubation period (EIP) in the base
-EMOD model. Each oocyst produces a cohort of sporozoites sharing the same recombinant genome (see
-the :ref:`meiotic-recombination` section). Sporozoites accumulate in the mosquito's salivary glands
-and decay over time at a configurable rate.
+EMOD model; see :doc:`vector-model-transmission` for the governing parameters. Each oocyst produces
+a cohort of sporozoites sharing the same recombinant genome (see the :ref:`meiotic-recombination`
+section). Sporozoites accumulate in the mosquito's salivary glands and decay over time at a
+configurable rate.
 
 If an infected or infectious mosquito bites another infected human, she can acquire new gametocytes,
 form new oocysts, and produce additional sporozoite cohorts alongside any already present. As with
@@ -99,16 +141,23 @@ introducing additional genetic diversity into the mosquito's sporozoite pool.
 Vector-to-human
 ---------------
 
-When an infectious mosquito bites a susceptible human, a number of sporozoites are drawn from a
-negative binomial distribution. Sporozoites are selected from the mosquito's salivary gland cohorts
-proportionally to each cohort's density, so genomes that are more abundant are more likely to be
-transmitted. Each selected sporozoite carries the genome of its cohort. Sporozoites that survive the
-hepatocyte stage — with survival drawn from a configurable fraction — establish new infections in the
-human host, each progressing on its own independent timeline.
+A person may receive infectious bites from multiple mosquitoes within a single time step;
+sporozoites from all bites are accumulated and processed together.
 
-All numerical parameters in the transmission model — including oocyst burden, sporozoites per
-oocyst, sporozoites per bite, and hepatocyte survival fraction — are default values derived from
-empirical literature and are configurable; see the :ref:`configuration` section for details.
+When an infectious mosquito bites a susceptible human, the number of sporozoites transmitted is
+drawn from a negative binomial distribution. Sporozoites are allocated across the mosquito's
+salivary gland cohorts proportionally to each cohort's density using a multinomial draw, so genomes
+that are more abundant are more likely to be transmitted.
+
+For each genome cohort delivered, a Poisson draw determines how many sporozoites successfully infect
+hepatocytes — with mean equal to the cohort size multiplied by ``Base_Sporozoite_Survival_Fraction``
+(see :doc:`parameter-configuration-parasite`). If at least one succeeds, a new infection is
+established with that count as its initial hepatocyte load, progressing independently through the
+incubation period before transitioning to the asexual blood stage.
+
+All numerical parameters in the transmission model — including sporozoites per bite and hepatocyte
+survival fraction — are derived from empirical literature and are configurable; see the
+:ref:`configuration` section for details.
 
 
 .. _meiotic-recombination:
@@ -126,21 +175,30 @@ proceeds as follows.
 
 **Crossover placement**: On each of the 14 chromosomes, one obligate crossover is placed at a
 uniformly random position along the chromosome. Each crossover always occurs between one maternal
-and one paternal chromatid — never between two chromatids of the same parent. Additional secondary
-crossovers are placed bidirectionally outward from the obligate position, with inter-crossover
-distances drawn from a gamma distribution (shape k=2, scale θ=0.38 cM, mean 0.76 cM). Centimorgan
-distances are converted to base pairs at a rate of approximately 15 kb per cM, yielding a mean
-inter-crossover distance of roughly 1.14 Mb. Because chromosomes vary in length (0.6–3.3 Mb),
-shorter chromosomes typically receive only the obligate crossover while longer ones receive one to
-three secondary crossovers.
+and one paternal chromatid — never between two chromatids of the same parent. The specific chromatid
+pair involved in each crossover is selected randomly. Additional secondary crossovers are placed
+bidirectionally outward from the obligate position, with inter-crossover distances drawn from a gamma
+distribution (shape k=2, scale θ=0.38 cM, mean 0.76 cM). Centimorgan distances are converted to base
+pairs at a rate of approximately 1,500 kilobases per cM, yielding a mean inter-crossover distance of
+roughly 1.14 Mb. Because chromosomes vary in length (0.6–3.3 Mb), shorter chromosomes typically
+receive only the obligate crossover while longer ones receive one to three secondary crossovers.
 
-**Progeny assembly**: At each crossover point, allele values and allele roots are exchanged between
-the participating chromatids. Each of the four progeny genomes then receives exactly one chromatid
+**Progeny assembly**: All crossover positions are fixed in the original genomic coordinate space
+before any exchanges occur. Each crossover exchanges the tail of the two participating chromatids at
+their current state; subsequent crossover positions are not recalculated based on prior exchanges.
+At each crossover point, allele values and allele roots are exchanged between the participating
+chromatids. Each of the four progeny genomes then receives exactly one chromatid
 from each of the 14 chromosome tetrads, with the chromatid-to-progeny assignment randomized
 independently per chromosome (independent assortment). Sporozoites are distributed equally among the
 four progeny genotypes, so each sibling genotype represents approximately one-quarter of the
 oocyst's sporozoites. A single outcrossed oocyst therefore contributes four distinct recombinant
 genotypes to the vector's sporozoite pool.
+
+.. seealso::
+
+   :doc:`software-report-fpg-new-infections`
+      Set ``Report_Crossover_Data_Instead`` to true to record the crossover locations that produced
+      each infection's genome, which is useful for validating recombination behavior.
 
 
 .. _seeding-infections:
