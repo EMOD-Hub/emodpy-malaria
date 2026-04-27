@@ -121,6 +121,7 @@ your working directory.
     software-report-event-recorder
     software-report-human-migration
     software-report-node-demographics
+    software-report-simulation-stats
     software-report-spatial
 
 
