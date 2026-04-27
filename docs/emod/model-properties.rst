@@ -89,8 +89,3 @@ maximum age.
 
 .. literalinclude:: ../json/howto-demographics-groups.json
 
-For an example of a complete demographics file with individual properties set, see the
-`demographics file`_ used in the 11_HINT_AgeAndAccess scenario. 
-
-.. _demographics file: https://github.com/EMOD-Hub/EMOD-InputData/blob/master/SamplesInput/hint_ageandaccess_overlay.json
-

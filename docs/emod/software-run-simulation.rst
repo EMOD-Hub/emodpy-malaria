@@ -22,8 +22,7 @@ run a single simulation and put the output files in a local directory.
 
 You must either download the latest version of |exe_s| from GitHub or clone the |EMOD_s| source from
 GitHub and build |exe_s| yourself. This gives you access to the latest features and parameters for
-|EMOD_s|. To learn |EMOD_s|, you can also download the `EMOD scenarios`_, which contains all input files
-needed to run local simulations that model a variety of disease scenarios.
+|EMOD_s|.
 
 Run multiple simulations
 ========================
@@ -69,8 +68,6 @@ or passed as arguments to |exe_s|.
     and campaign files.
 
 It is not important where you install |exe_s| or the |linux_binary|.
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases
 
 
 .. toctree::

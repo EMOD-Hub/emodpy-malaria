@@ -2,10 +2,9 @@
 Tutorials 
 ==========
 
-While the workings of the model are explained in detail, it is often more useful to learn through hands-on implementation. To illustrate many of the concepts and capabilities of |EMOD_s|, |IDM_s| provides tested files to
-run example simulations that model a variety of disease scenarios. The directory for each scenario
-contains the files needed to run a simulation and generate the output graphs. Click `EMOD scenarios`_ to
-download a zipped folder containing all required files. These scenarios are referenced throughout the documentation where relevant.
+While the workings of the model are explained in detail, it is often more useful to learn through
+hands-on implementation. The sections below introduce the structure of the example scenarios that
+illustrate many of the concepts and capabilities of |EMOD_s|.
 
 .. include:: ../reuse/note-stochastic.txt
 
@@ -115,11 +114,6 @@ births, deaths, cumulative infections, new infections, and more. You can enable 
 reports by setting the appropriate parameter to 1 in the configuration file.
 
 For a complete list of all available output reports, see :doc:`parameter-configuration-output`.
-
-
-
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases
 
 
 .. toctree::

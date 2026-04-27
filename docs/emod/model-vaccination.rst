@@ -84,9 +84,6 @@ number of campaigns.
 | 5                   | 96.875%                       |
 +---------------------+-------------------------------+
 
-For an example simulation, see the Generic/Vaccinations scenario in the downloadable `EMOD scenarios`_
-zip file. Review the README files there for more information.
-
 The following graphs show a baseline SIR outbreak and then the effect of a vaccination campaign
 distributed to the entire population. The vaccination campaign is repeated three times, seven days
 apart. The vaccine has 100% take and 50% demographic coverage. With this configuration, the fraction
@@ -140,5 +137,3 @@ missed by the vaccination campaign, allowing the outbreak to persist.
    :scale: 40%
 
    Figure 3: Vaccination campaign that misses 30% of the population
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases

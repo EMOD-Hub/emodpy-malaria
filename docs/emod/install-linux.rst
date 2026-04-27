@@ -60,5 +60,3 @@ MATLAB
 ------
 
 .. include:: ../reuse/matlab-install.txt
-
-.. include:: ../reuse/install-inputdata.txt

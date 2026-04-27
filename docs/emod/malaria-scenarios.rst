@@ -6,10 +6,8 @@ Malaria model scenarios
 The |EMOD_s| malaria model is explained in detail in :doc:`malaria-model-overview` and the
 vector model it is built upon is described in :doc:`vector-model-overview`. While the
 various components that comprise the model are explained with examples, it may be more useful to
-learn the model through hands-on implementation. The following sections will introduce sets of
-example files that illustrate how the malaria model works on particular topics. All files are available in a
-downloadable `EMOD scenarios`_ zip file and, in addition to the explanations below, each scenario will
-have a more detailed README file to cover relevant information.
+learn the model through hands-on implementation. The following sections introduce sets of
+example files that illustrate how the malaria model works on particular topics.
 
 
 For more information on the software architecture and inheritance, see :doc:`software-overview`.
@@ -39,6 +37,3 @@ the campaign file will then be used to distribute the vaccines to the desired po
 population. The purpose of this scenario is twofold: first, it will allow the user to explore
 the Garki dataset, and second, it will introduce a new intervention (MDA).
 
-
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases
