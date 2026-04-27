@@ -144,6 +144,7 @@ your working directory.
    software-report-malaria-survey
    software-report-drug-status
    software-report-filtered-malaria
+   software-report-malaria-filtered-intra-host
    software-report-fpg-new-infections
    software-report-fpg-output-observational-model
    software-report-malaria-node-demographics
