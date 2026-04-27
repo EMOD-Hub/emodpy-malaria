@@ -121,6 +121,7 @@ Vector reports
 
 Reports for vector biology and mosquito population dynamics.
 
+- :doc:`ReportMicrosporidia <software-report-microsporidia>` — Tracks vector population counts by species and microsporidia strain across all life stages.
 - :doc:`ReportVectorGenetics <software-report-vector-genetics>` — Reports vector genome and allele combinations by state.
 - :doc:`ReportVectorMigration <software-report-vector-migration>` — Provides detailed information on vector migration locations.
 - :doc:`ReportVectorStats <software-report-vector-stats>` — Reports detailed vector life-cycle data stratified by time, node, and species.
@@ -132,6 +133,7 @@ Reports for vector biology and mosquito population dynamics.
    :maxdepth: 3
    :titlesonly:
 
+   software-report-microsporidia
    software-report-vector-genetics
    software-report-vector-migration
    software-report-vector-stats
