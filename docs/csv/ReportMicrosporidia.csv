@@ -1,0 +1,10 @@
+Time,NodeID,Species,MicrosporidiaStrain,VectorPopulation,STATE_INFECTIOUS,STATE_INFECTED,STATE_ADULT,STATE_MALE,STATE_IMMATURE,STATE_LARVA,STATE_EGG
+0,340461476,SillySkeeter,NoMicrosporidia,8742,0,0,8742,9033,0,0,613800
+0,340461476,SillySkeeter,Strain_A,0,0,0,0,0,0,0,0
+0,340461476,SillySkeeter,Strain_B,0,0,0,0,0,0,0,0
+1,340461476,SillySkeeter,NoMicrosporidia,7652,0,0,7652,8139,0,20576,548000
+1,340461476,SillySkeeter,Strain_A,0,0,0,0,0,0,0,0
+1,340461476,SillySkeeter,Strain_B,0,0,0,0,0,0,0,0
+2,340461476,SillySkeeter,NoMicrosporidia,6724,0,0,6724,7391,0,27219,481000
+2,340461476,SillySkeeter,Strain_A,0,0,0,0,0,0,0,0
+2,340461476,SillySkeeter,Strain_B,0,0,0,0,0,0,0,0
