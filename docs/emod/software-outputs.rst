@@ -171,6 +171,7 @@ Reports for within-host infection dynamics, drug status, and individual patient 
 - :doc:`MalariaSurveyJSONAnalyzer <software-report-malaria-survey>` — Reports individual details for each event during the reporting interval.
 - :doc:`ReportAntibodies <software-report-antibodies>` — Tracks antibody concentration or capacity data per individual per day.
 - :doc:`ReportDrugStatus <software-report-drug-status>` — Reports drug status for individuals who have taken or are awaiting treatment.
+- :doc:`ReportInfectionDuration <software-report-infection-duration>` — Records the duration of each cleared infection along with individual demographics.
 - :doc:`ReportMalariaFilteredIntraHost <software-report-malaria-filtered-intra-host>` — Reports within-host disease dynamics with a focused set of intra-host channels.
 
 .. toctree::
@@ -184,6 +185,7 @@ Reports for within-host infection dynamics, drug status, and individual patient 
    software-report-malaria-survey
    software-report-antibodies
    software-report-drug-status
+   software-report-infection-duration
    software-report-malaria-filtered-intra-host
 
 
