@@ -1,0 +1,182 @@
+{
+    "Header": {
+        "DateTime": "Mon Apr 13 23:49:19 2026",
+        "DTK_Version": "2.33.0 jammy_jellyfish(26cf0505) Apr 13 2026 22:25:02",
+        "Report_Type": "InsetChart",
+        "Report_Version": "3.2",
+        "Start_Time": 0,
+        "Simulation_Timestep": 1,
+        "Timesteps": 3,
+        "Channels": 21
+    },
+    "Channels": {
+        "30-day Avg Infection Duration": {
+            "Units": "",
+            "Data": [
+                34.39166641235,
+                30.69079017639,
+                32.65899276733
+            ]
+        },
+        "Avg Cytokines": {
+            "Units": "",
+            "Data": [
+                0.05802467465401,
+                0.0510664395988,
+                0.05226223543286
+            ]
+        },
+        "Avg Num Infections": {
+            "Units": "",
+            "Data": [
+                2.253846168518,
+                2.176470518112,
+                2.152454853058
+            ]
+        },
+        "Blood Smear Parasite Prevalence": {
+            "Units": "",
+            "Data": [
+                0.3131749331951,
+                0.2909482717514,
+                0.3254310488701
+            ]
+        },
+        "Campaign Cost": {
+            "Units": "USD",
+            "Data": [
+                5172,
+                5192,
+                5216
+            ]
+        },
+        "Fraction Infected": {
+            "Units": "",
+            "Data": [
+                0.8423326015472,
+                0.8426724076271,
+                0.8340517282486
+            ]
+        },
+        "Inf Frac-Stage 1 - Hepatocyte": {
+            "Units": "",
+            "Data": [
+                0.1581342369318,
+                0.1492361873388,
+                0.1500600278378
+            ]
+        },
+        "Inf Frac-Stage 1 - Hepatocyte - New": {
+            "Units": "",
+            "Data": [
+                0.1079136654735,
+                0.1417322903872,
+                0.1599999964237
+            ]
+        },
+        "Inf Frac-Stage 2 - Asexual": {
+            "Units": "",
+            "Data": [
+                0.5961319804192,
+                0.620446562767,
+                0.6278511285782
+            ]
+        },
+        "Inf Frac-Stage 2 - Asexual - New": {
+            "Units": "",
+            "Data": [
+                0.04198473319411,
+                0.06060606241226,
+                0.05162524059415
+            ]
+        },
+        "Inf Frac-Stage 3 - Gametocytes Only": {
+            "Units": "",
+            "Data": [
+                0.245733782649,
+                0.2303172796965,
+                0.2220888286829
+            ]
+        },
+        "Inf Frac-Stage 3 - Gametocytes Only - New": {
+            "Units": "",
+            "Data": [
+                0.1851851791143,
+                0.1224489808083,
+                0.1405405402184
+            ]
+        },
+        "Infection Duration Max": {
+            "Units": "",
+            "Data": [
+                167,
+                168,
+                138
+            ]
+        },
+        "Max Inf-Avg Duration": {
+            "Units": "",
+            "Data": [
+                18.65841674805,
+                19.48648643494,
+                19.36666679382
+            ]
+        },
+        "Max Inf-Pop Fraction": {
+            "Units": "",
+            "Data": [
+                0.5179487466812,
+                0.4731457829475,
+                0.4651162922382
+            ]
+        },
+        "New Clinical Cases": {
+            "Units": "",
+            "Data": [
+                10,
+                14,
+                16
+            ]
+        },
+        "New Infections": {
+            "Units": "",
+            "Data": [
+                15,
+                18,
+                20
+            ]
+        },
+        "Statistical Population": {
+            "Units": "Population",
+            "Data": [
+                463,
+                464,
+                464
+            ]
+        },
+        "True Prevalence": {
+            "Units": "",
+            "Data": [
+                0.5572354197502,
+                0.5517241358757,
+                0.5431034564972
+            ]
+        },
+        "Variant Fraction-MSP": {
+            "Units": "",
+            "Data": [
+                0.515051305294,
+                0.5143453478813,
+                0.5150862336159
+            ]
+        },
+        "Variant Fraction-PfEMP1 Major": {
+            "Units": "",
+            "Data": [
+                0.2465250939131,
+                0.2463604211807,
+                0.2467168867588
+            ]
+        }
+    }
+}
