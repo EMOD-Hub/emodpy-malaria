@@ -175,6 +175,7 @@ Reports for within-host infection dynamics, drug status, and individual patient 
 - :doc:`ReportAntibodies <software-report-antibodies>` — Tracks antibody concentration or capacity data per individual per day.
 - :doc:`ReportDrugStatus <software-report-drug-status>` — Reports drug status for individuals who have taken or are awaiting treatment.
 - :doc:`ReportInfectionDuration <software-report-infection-duration>` — Records the duration of each cleared infection along with individual demographics.
+- :doc:`ReportInfectionStatsMalaria <software-report-infection-stats-malaria>` — Reports per-infection parasite burden (hepatocytes, IRBCs, gametocytes) for every active infection at each reporting interval.
 - :doc:`ReportMalariaFilteredIntraHost <software-report-malaria-filtered-intra-host>` — Reports within-host disease dynamics with a focused set of intra-host channels.
 
 .. toctree::
@@ -189,6 +190,7 @@ Reports for within-host infection dynamics, drug status, and individual patient 
    software-report-antibodies
    software-report-drug-status
    software-report-infection-duration
+   software-report-infection-stats-malaria
    software-report-malaria-filtered-intra-host
 
 
