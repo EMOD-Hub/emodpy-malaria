@@ -2,18 +2,20 @@
 ReportFpgOutputForObservationalModel
 =====================================
 
-The full parasite genetics output for observational model report generates data for use in FPG
-(full parasite genetics) workflows. The report samples the infected population and generates output
-for the entire population, allowing post-processing scripts to model the actual sampling. This report
-is intended for simulations where **Malaria_Model** is set to
+FPG simulations have complete knowledge of every parasite genome in the population, but real-world
+genomic surveillance collects data through specific sampling strategies that capture only a fraction
+of infections. ``ReportFpgOutputForObservationalModel`` bridges this gap by extracting the complete
+genetic data on all filtered infected individuals, allowing post-processing tools such as the
+`FPGObservationalModel <https://github.com/EMOD-Hub/FPGObservationalModel>`_ to apply realistic
+surveillance sampling strategies and study what genetic signals different approaches can detect.
+
+Unlike most EMOD reports, which produce a single output file named after the report class, this
+report produces a three-file ensemble: **infIndexRecursive-genomes-df.csv**, **variants.npy**, and
+**roots.npy**. This report is intended for simulations where **Malaria_Model** is set to
 MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
 
-.. seealso::
-
-   :doc:`malaria-model-fpg`
-      For an overview of the FPG model, genome configuration, and the full FPG workflow.
-
-The report generates the following output files:
+Output files
+------------
 
 * **infIndexRecursive-genomes-df.csv** - A list of infected individuals in each node at each time
   step, where each row represents one person.
@@ -24,6 +26,10 @@ The report generates the following output files:
   in the **recursive_nid** column of infIndexRecursive-genomes-df.csv. The row index into this
   array corresponds to the genome index values in **recursive_nid**.
 
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For an overview of the FPG model, genome configuration, and the full FPG workflow.
 
 Configuration
 =============
@@ -68,14 +74,19 @@ To generate this report, configure the following parameters in the custom_report
     }
 
 This example collects data after running for 10 years and collects it for the next 2 years. It only
-collects data from nodes 1 and 3 for children under 5 who have accessibility to healthcare and are
+collects data from nodes 1 and 3 for children 5 and under who have accessibility to healthcare and are
 taking anti-malarial drugs. The infections must have a parasite density of at least 1.0.
 The Sampling_Period of 30.4166667 is 365/12, resulting in 12 collections per year (approximately
 monthly). The report will have entries for the following days:
 
 3650, 3681, 3711, 3742, 3772, 3803, 3833, 3863, 3894, 3924, 3955, 3985,
 4015, 4046, 4076, 4107, 4137, 4168, 4198, 4228, 4259, 4289, 4320, 4350,
-4380 (25 entries because End_Day was one over two years).
+4380
+
+There are 25 entries — the initial collection on day 3650 plus 24 subsequent monthly collections,
+ending on day 4380 (exactly two years later). End_Day is set to 4381 rather than 4380 because the
+report collects data only on days strictly less than End_Day; it must be set one day past the last
+desired collection day to include it.
 
 
 Output file: infIndexRecursive-genomes-df.csv
@@ -89,7 +100,7 @@ The report contains the following columns:
     :header: Column, Data type, Description
     :widths: 8, 5, 20
 
-    population, integer, The ID of the EMOD node where the person resides.
+    population, integer, The external ID of the node the person is currently in.
     year, integer, "The year of the data starting at zero. Used as a label for the time bin of data."
     month, integer, "A value from 0 to 11 that, together with the year column, specifies the time bin of data."
     infIndex, integer, A unique identifier for this row of data; an increasing integer with each row.
@@ -97,12 +108,12 @@ The report contains the following columns:
     count, (not used), This column is not used.
     age_day, float, The age of the person in days.
     fever_status, integer, "0 = no fever, 1 = has fever (clinical disease symptoms present)."
-    recursive_nid, array of integers, "A quoted list of genome indices — one per qualifying infection the person has — where each value is the row index into variants.npy and roots.npy for that infection's genome data (e.g., ""[0,1,2]"")."
+    recursive_nid, array of integers, "A quoted list of genome indices — one per qualifying infection the person has — where each value is the row index into variants.npy and roots.npy for that infection's genome data (e.g., ""[0,1,2]""). The entries in recursive_nid, infection_ids, bite_ids, and genome_ids are parallel arrays: the i-th entry in each refers to the same infection."
     recursive_count, integer, "The number of active infections meeting the Minimum_Parasite_Density threshold; equals the number of entries in recursive_nid."
     IndividualID, integer, The unique ID of the person in EMOD.
-    infection_ids, array of integers, "A quoted list of unique infection IDs in EMOD. Contains the same number of entries as recursive_nid."
-    bite_ids, array of integers, "A quoted list of bite IDs corresponding to each infection in recursive_nid. Each ID identifies the specific mosquito bite during which sporozoites were transferred from the mosquito to the human, initiating that infection."
-    genome_ids, array of integers, "(Optional) A quoted list of EMOD's internal genome IDs for each infection's parasite — one per entry in recursive_nid. This ID can be used to cross-reference genome data with other EMOD reports that include genome IDs. Only present when Include_Genome_IDs is set to true (1)."
+    infection_ids, array of integers, "A quoted list of unique EMOD infection IDs, one per qualifying infection. Entries are in the same order as recursive_nid."
+    bite_ids, array of integers, "A quoted list of bite IDs, one per qualifying infection, identifying the mosquito bite that initiated each infection. Entries are in the same order as recursive_nid."
+    genome_ids, array of integers, "(Optional) A quoted list of EMOD's internal genome IDs, one per qualifying infection. Entries are in the same order as recursive_nid. Only present when Include_Genome_IDs is set to true (1)."
 
 
 Example

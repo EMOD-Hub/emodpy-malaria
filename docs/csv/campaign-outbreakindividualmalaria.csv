@@ -1,16 +1,3 @@
-"Genome_Markers","array of strings","NA","NA","NA","A list of the names of genome marker(s) that represent the genetic components in a strain of an infection.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""OutbreakIndividualMalaria"",
-        ""Antigen"": 0,
-        ""Genome_Markers"": [
-          ""D6"",
-          ""W2""
-        ]
-      }
-    }
-"
 "Ignore_Immunity","boolean","0","1","1","Individuals will be force-infected (with a specific strain) regardless of actual immunity level when set to true (1).",".. code-block:: json
 
     {

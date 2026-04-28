@@ -34,8 +34,11 @@ FPG tracks four core processes:
 Genome representation
 =====================
 
-The *P. falciparum* genome is comprised of 14 chromosomes with a total length of approximately 22.79 megabases.
-FPG represents each parasite genome as two parallel arrays, each with one entry per tracked SNP
+FPG models the *P. falciparum* genome as 14 chromosomes spanning 22,790,000 base pairs in total,
+following the reference assembly of Gardner et al. (2002) [#gardnerref]_. Because genome length
+estimates vary across sources, positions in the model should be understood as coordinates in this
+specific reference assembly rather than as universal genomic positions. FPG represents each parasite
+genome as two parallel arrays, each with one entry per tracked SNP
 position:
 
 - **Nucleotide sequence**: An integer array of allele values, where each value (0–3) corresponds to
@@ -54,27 +57,35 @@ loci, drug resistance loci, or HRP loci. The total number of tracked positions d
 simulation memory usage and runtime — simulations tracking more positions will require more memory
 and take longer to run.
 
-For example, if a user configures 7 barcode positions, 2 drug resistance positions, and 1 HRP position,
-each genome will be represented by two arrays of length 10: one for the nucleotide sequence and one for
-the allele roots. Each infection's genome will then consist of the allele values and ancestral infection
-IDs at those 10 positions.
+For example, consider a simulation with 7 barcode positions, 2 drug resistance positions, and 1 HRP
+position — 10 tracked positions in total, spanning chromosomes 1, 2, and 3. Each genome is
+represented by two arrays of length 10. The example below shows a recombinant progeny genome derived
+from two ancestral infections: infection ID 5 (whose allele roots are all 5 at every position) and
+infection ID 6 (whose allele roots are all 6 at every position). The root switch within chromosome 1
+— from 5 to 6 between positions 300 and 500 — is unambiguous evidence of a crossover in that
+interval. The chromosome 2 positions all carry root 5 and the chromosome 3 positions all carry root
+6, reflecting the ancestral origin at each tracked position; however, uniform roots within a
+chromosome cannot distinguish independent assortment from a crossover that occurred outside the
+tracked region.
 
 .. code-block:: none
 
-    Barcode_Genome_Locations = [100, 300, 500, 700, 900, 1100, 1300]
-    Drug_Resistant_Genome_Locations = [200, 1000]
-    HRP_Genome_Locations = [600]
+    Barcode_Genome_Locations        = [100, 300, 500, 700000, 900000, 1700000, 2000000]
+    Drug_Resistant_Genome_Locations = [200, 800000]
+    HRP_Genome_Locations            = [600]
 
     Genome = {
-        "Nucleotide_Sequence": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1],
-        "Allele_Roots": [5, 5, 6, 6, 5, 5, 5, 5, 9, 9]
+        "Nucleotide_Sequence": [0, 1, 2, 3, 0, 2, 3, 0, 1, 2],
+        "Allele_Roots":        [5, 5, 5, 6, 6, 5, 5, 5, 6, 6]
     }
 
-    locations = [    100,        200,     300,     500, 600,     700,     900,       1000,    1100,    1300]
-    type      = [barcode, resistance, barcode, barcode, HRP, barcode, barcode, resistance, barcode, barcode]
-    sequence  = [      0,          1,       2,       3,   0,       1,       2,          3,       0,       1]
-    character = [      A,          C,       G,       T,   A,       C,       G,          T,       A,       C]
-    roots     = [      5,          5,       6,       6,   5,       5,       5,          5,       9,       9]
+    locations  = [    100,        200,    300,    500, 600, 700000,     800000, 900000, 1700000, 2000000]
+    chromosome = [   chr1,       chr1,   chr1,   chr1,chr1,   chr2,       chr2,   chr2,    chr3,    chr3]
+    type       = [barcode, resistance, barcode, barcode, HRP, barcode, resistance, barcode, barcode, barcode]
+    sequence   = [      0,          1,       2,       3,   0,       2,          3,       0,       1,       2]
+    character  = [      A,          C,       G,       T,   A,       G,          T,       A,       C,       G]
+    roots      = [      5,          5,       5,       6,   6,       5,          5,       5,       6,       6]
+    #                                        ^crossover^   ^chr2: all root 5^           ^chr3: all root 6^
 
 
 Within-host model
@@ -100,9 +111,22 @@ recombination, so that infections sharing alleles at PfEMP1 loci are more likely
 antigens. However, the degree of association between barcode IBD and antigen similarity depends on
 the physical proximity of ``PfEMP1_Variants_Genome_Locations`` to the barcode loci — if PfEMP1
 locations are placed far from barcode loci, recombination may decouple them. In all modes, minor
-epitopes remain randomly assigned. Note that the genome-determined PfEMP1 feature
-(``FIXED_NEIGHBORHOOD``) is provided for research purposes and requires further investigation before
-use in production simulations.
+epitopes remain randomly assigned. Note that the genome-determined PfEMP1 feature (``FIXED_NEIGHBORHOOD``) requires validation before
+being applied to simulations used for policy decisions.
+
+.. note::
+
+    The ``Max_Individual_Infections`` parameter in config.json caps the number of concurrent
+    infections a person can carry. When a person is already at the cap and receives a new
+    infectious bite, the sporozoites that would establish new infections are discarded. The 2018
+    EMOD calibration set this to 3, which was appropriate for epidemiological modeling and
+    reflected a real performance constraint at the time — larger infection counts made EMOD
+    substantially slower. Subsequent performance improvements have largely eliminated that
+    constraint. For FPG simulations, a value of 3 artificially suppresses genetic diversity: it
+    limits the number of distinct genomes that can co-circulate within a host and be transmitted
+    together to a mosquito, reducing the opportunities for recombination and underrepresenting
+    the true complexity of infection seen in high-transmission settings. FPG simulations should
+    use a value closer to 20.
 
 
 Transmission
@@ -133,7 +157,9 @@ relationship — the same process that determines the extrinsic incubation perio
 EMOD model; see :doc:`vector-model-transmission` for the governing parameters. Each oocyst produces
 a cohort of sporozoites sharing the same recombinant genome (see the :ref:`meiotic-recombination`
 section). Sporozoites accumulate in the mosquito's salivary glands and decay over time at a
-configurable rate.
+configurable rate. If all sporozoites die before the mosquito acquires new infections, the mosquito
+reverts to an uninfected state — unlike the base EMOD model, where a vector remains infectious
+once it reaches that state.
 
 If an infected or infectious mosquito bites another infected human, she can acquire new gametocytes,
 form new oocysts, and produce additional sporozoite cohorts alongside any already present. As with
@@ -197,6 +223,17 @@ four progeny genotypes, so each sibling genotype represents approximately one-qu
 oocyst's sporozoites. A single outcrossed oocyst therefore contributes four distinct recombinant
 genotypes to the vector's sporozoite pool.
 
+The figure below illustrates a single crossover between two parental chromatids. Parent 1 (top)
+carries alleles 0–9 at positions 0–9; Parent 2 (bottom) carries alleles A–J at the same positions.
+A crossover occurs between positions 5 and 6 (indicated by the arrow). The exchange produces two
+recombinant chromatids: one carrying Parent 1's alleles (0–5) to the left of the crossover and
+Parent 2's alleles (G–J) to the right, and the complementary recombinant carrying Parent 2's
+alleles (A–F) on the left and Parent 1's alleles (6–9) on the right. The highlighted segments show
+the portions exchanged between the two chromatids at the crossover point.
+
+.. image:: ../images/crossovers.png
+   :scale: 100%
+
 .. seealso::
 
    :doc:`software-report-fpg-new-infections`
@@ -243,6 +280,159 @@ selects one of three modes:
 ``OutbreakIndividualMalariaGenetics`` can only be used when ``Malaria_Model`` is set to
 ``MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS``; using the standard ``OutbreakIndividual`` in
 that mode will raise a configuration error.
+
+
+Drug resistance
+===============
+
+FPG models drug resistance by modifying drug killing effects based on the parasite's genome. When
+EMOD computes the drug kill rate for an infection, it passes the parasite's genome to the drug
+model, which checks whether specific alleles are present at designated positions. If the genome
+matches, one or more modifiers are applied to the drug's efficacy parameters. This allows users to
+model parasites that are more or less susceptible to a given drug based on their genetic makeup.
+
+Drug killing is modeled across five parasite life stages: hepatocytes, infected red blood cells
+(IRBCs), gametocyte stages 0–2, gametocyte stages 3–4, and mature gametocytes. For each stage, the
+drug has a parameter that converts concentration-derived efficacy into a killing rate. Resistance
+modifiers scale these parameters for parasites carrying specific alleles.
+
+Configuring resistance in the drugs
+------------------------------------
+
+Genome positions used for drug resistance tracking are specified in
+``Parasite_Genetics.Drug_Resistant_Genome_Locations`` in config.json (see the
+:ref:`configuration` section). Resistance behavior for each drug is then configured in
+``Malaria_Drug_Params`` by adding a ``Resistances`` array to the drug entry. Each element of the
+array is a resistance object with the following parameters:
+
+.. csv-table::
+    :header: Parameter, Data type, Default, Description
+    :widths: 15, 8, 8, 30
+
+    Drug_Resistant_String, string, —, "A string of nucleotide characters (``A``, ``C``, ``G``, ``T``, or ``*`` for wildcard) — one per position in ``Drug_Resistant_Genome_Locations``. The modifier is applied only if the parasite's genome matches all non-wildcard positions in this string."
+    PKPD_C50_Modifier, float, 1.0, "Multiplied times ``Drug_PKPD_C50`` when the string matches. Values above 1.0 reduce drug potency; values below 1.0 increase it."
+    Max_IRBC_Kill_Modifier, float, 1.0, "Multiplied times ``Max_Drug_IRBC_Kill`` when the string matches."
+
+If a parasite's genome matches multiple resistance objects, the modifiers from each matching object
+are multiplied together. The following example configures Artemether with two resistance objects,
+assuming ``Drug_Resistant_Genome_Locations`` has two positions. A ``T`` at the first position
+reduces IRBC killing to 5% of baseline; an ``A`` at the second position independently increases
+potency by reducing ``Drug_PKPD_C50`` and reduces IRBC killing via ``Max_Drug_IRBC_Kill``.
+The ``*`` wildcard means that position is ignored for matching:
+
+.. code-block:: json
+
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether",
+            "PKPD_Model": "CONCENTRATION_VERSUS_TIME",
+            "Bodyweight_Exponent": 1.0,
+            "Drug_Cmax": 114.0,
+            "Drug_Decay_T1": 0.12,
+            "Drug_Decay_T2": 0.12,
+            "Drug_Dose_Interval": 0.5,
+            "Drug_Fulltreatment_Doses": 6.0,
+            "Drug_Gametocyte02_Killrate": 2.5,
+            "Drug_Gametocyte34_Killrate": 1.5,
+            "Drug_GametocyteM_Killrate": 0.7,
+            "Drug_Hepatocyte_Killrate": 0,
+            "Drug_PKPD_C50": 0.6,
+            "Drug_Vd": 1.0,
+            "Max_Drug_IRBC_Kill": 8.9,
+            "Fractional_Dose_By_Upper_Age": [
+                {"Fraction_Of_Adult_Dose": 0.25, "Upper_Age_In_Years": 3.0},
+                {"Fraction_Of_Adult_Dose": 0.5,  "Upper_Age_In_Years": 6.0},
+                {"Fraction_Of_Adult_Dose": 0.75, "Upper_Age_In_Years": 10.0}
+            ],
+            "Resistances": [
+                {
+                    "Drug_Resistant_String": "T*",
+                    "PKPD_C50_Modifier": 1.0,
+                    "Max_IRBC_Kill_Modifier": 0.05
+                },
+                {
+                    "Drug_Resistant_String": "*A",
+                    "PKPD_C50_Modifier": 0.44,
+                    "Max_IRBC_Kill_Modifier": 0.77
+                }
+            ]
+        }
+    ]
+
+.. note::
+
+    The drug efficacy model checks specific allele patterns defined in each drug's ``Resistances``
+    array. The InsetChart drug resistance channels use a simpler criterion: any infection with a
+    non-``A`` allele at any position in ``Drug_Resistant_Genome_Locations`` is counted as resistant,
+    regardless of which drug or which specific allele pattern triggered resistance.
+
+Seeding resistance
+------------------
+
+Drug resistant strains are introduced into the simulation using
+``OutbreakIndividualMalariaGenetics`` with ``Drug_Resistant_String`` (for ``BARCODE_STRING`` and
+``NUCLEOTIDE_SEQUENCE`` modes) or ``Drug_Resistant_Allele_Frequencies_Per_Genome_Location`` (for
+``ALLELE_FREQUENCIES`` mode). See the :ref:`seeding-infections` section for details. Once
+introduced, resistance alleles propagate and recombine through the simulation like any other
+genome position.
+
+
+HRP2/3 deletion
+===============
+
+*Plasmodium falciparum* secretes histidine-rich proteins HRP2 and HRP3 into the bloodstream. Most
+rapid diagnostic tests (RDTs) target HRP2 as a marker of active infection. Parasites carrying
+deletions of the *pfhrp2* and/or *pfhrp3* genes produce no HRP2 protein and test false-negative on
+HRP2-based RDTs despite active infection.
+
+FPG tracks HRP gene status as allele values at positions designated by ``HRP_Genome_Locations`` in
+``Parasite_Genetics``. Each position represents one HRP locus:
+
+- An allele of ``A`` indicates the HRP gene at that position is **present** (functional) — the
+  infection produces HRP2 protein.
+- Any other allele (``C``, ``G``, or ``T``) indicates the HRP gene is **deleted** at that position.
+
+An infection is classified as "HRP-deleted" only when **all** designated HRP positions carry a
+non-``A`` allele. If any position retains ``A``, the infection is treated as HRP-expressing. This
+allows independent representation of *pfhrp2* and *pfhrp3*: defining two HRP positions (one per
+gene) means an infection with *pfhrp2* deleted but *pfhrp3* intact still produces HRP2 protein,
+reflecting the cross-reactivity of pfhrp3 with HRP2-targeting RDTs.
+
+HRP2 protein dynamics
+---------------------
+
+Each time step, the host's circulating HRP2 level is updated from the IRBCs of HRP-expressing
+infections only. HRP-deleted infections contribute zero IRBCs to this sum. The dynamics follow
+Marquart et al. (2012) [#hrp2ref]_:
+
+.. math::
+
+    \frac{d[\text{HRP2}]}{dt} = B \cdot \text{IRBC}_{HRP} - D \cdot [\text{HRP2}]
+
+where :math:`[\text{HRP2}]` is the circulating HRP2 protein level (pg), :math:`\text{IRBC}_{HRP}`
+is the total number of infected red blood cells from HRP-expressing infections, :math:`B` is
+``PfHRP2_Boost_Rate`` (pg per iRBC per day), and :math:`D` is ``PfHRP2_Decay_Rate`` (per day). The
+decay term is approximated as linear within each time step. These parameters are configurable; see
+the :ref:`configuration` section.
+
+Interventions and diagnostics using the ``PF_HRP2`` measurement type compare the accumulated HRP2
+level against the ``Report_Detection_Threshold_PfHRP2`` threshold.
+
+Seeding HRP deletions
+---------------------
+
+HRP status is set when ancestral infections are seeded via ``OutbreakIndividualMalariaGenetics``.
+In ``BARCODE_STRING`` or ``NUCLEOTIDE_SEQUENCE`` mode, the ``HRP_String`` parameter assigns a fixed
+HRP genotype to every seeded infection — one character per position in ``HRP_Genome_Locations``.
+For example, with two HRP positions representing *pfhrp2* and *pfhrp3*:
+
+- ``"AA"`` — both genes intact; infection is fully HRP-expressing.
+- ``"CA"`` — *pfhrp2* deleted, *pfhrp3* intact; infection still produces HRP2 protein.
+- ``"CT"`` — both genes deleted; infection is fully HRP-deleted.
+
+In ``ALLELE_FREQUENCIES`` mode, use ``HRP_Allele_Frequencies_Per_Genome_Location`` to seed a
+mixture of HRP genotypes across the population. See the :ref:`seeding-infections` section for
+details.
 
 
 .. _configuration:
@@ -312,7 +502,7 @@ Antigen expression
     :header: Parameter, Data type, Default, Description
     :widths: 15, 8, 10, 30
 
-    Var_Gene_Randomness_Type, enum, ALL_RANDOM, "Controls how MSP and PfEMP1 major epitope antigens are assigned to each new infection. ``ALL_RANDOM``: both are randomly assigned for every infection matching base model behavior. ``FIXED_MSP``: MSP is genome-determined; PfEMP1 major epitopes remain random. ``FIXED_NEIGHBORHOOD``: both MSP and PfEMP1 major epitopes are genome-determined. In all modes minor epitopes (the five nonspecific epitopes associated with each PfEMP1 variant; see :doc:`malaria-model-infection-immunity`) are always randomly assigned."
+    Var_Gene_Randomness_Type, enum, ALL_RANDOM, "Controls how MSP and PfEMP1 major epitope antigens are assigned to each new infection. ``ALL_RANDOM``: MSP and PfEMP1 major epitope antigens are both randomly assigned for every infection, matching base model behavior. ``FIXED_MSP``: MSP is genome-determined; PfEMP1 major epitopes remain random. ``FIXED_NEIGHBORHOOD``: both MSP and PfEMP1 major epitopes are genome-determined. In all modes minor epitopes (the five nonspecific epitopes associated with each PfEMP1 variant; see :doc:`malaria-model-infection-immunity`) are always randomly assigned."
     Neighborhood_Size_MSP, integer, 4, "When ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD`` or ``FIXED_MSP``, the number of adjacent MSP variants from which the strain's MSP value is drawn. Must not exceed ``Falciparum_MSP_Variants``."
     Neighborhood_Size_PfEMP1, integer, 10, "When ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD``, the number of adjacent PfEMP1 variants from which each epitope value is drawn. Must not exceed ``Falciparum_PfEMP1_Variants``."
 
@@ -340,6 +530,16 @@ Recombination parameters
     Crossover_Gamma_K, float, 2.0, "Shape parameter (k) of the gamma distribution for secondary inter-crossover distances during meiosis. The mean inter-crossover distance is k×θ cM and the variance is k×θ² cM². Output is in centimorgans converted internally to base pairs."
     Crossover_Gamma_Theta, float, 0.38, "Scale parameter (θ) of the gamma distribution for secondary inter-crossover distances during meiosis. The mean inter-crossover distance is k×θ cM and the variance is k×θ² cM²."
 
+HRP protein dynamics
+--------------------
+
+.. csv-table::
+    :header: Parameter, Data type, Default, Description
+    :widths: 15, 8, 8, 30
+
+    PfHRP2_Boost_Rate, float, 0.07, "Rate at which HRP2 protein accumulates from HRP-expressing IRBCs (pg per iRBC per day)."
+    PfHRP2_Decay_Rate, float, 0.172, "Daily fractional decay of circulating HRP2 protein (corresponding to a half-life of approximately 3.67 days)."
+
 Similarity to base model
 ------------------------
 
@@ -347,7 +547,7 @@ Similarity to base model
     :header: Parameter, Data type, Default, Description
     :widths: 15, 8, 10, 30
 
-    Enable_FPG_Similarity_To_Base, boolean, false, "If true, FPG simulates the base MALARIA_SIM model: a person can acquire only one new infection per time step, only adult vectors can become infected, and a vector is always considered infected once it acquires an infection. Provided for validation — allows direct comparison of FPG and base model output."
+    Enable_FPG_Similarity_To_Base, boolean, false, "If true, FPG simulates the base MALARIA_SIM model: a person can acquire only one new infection per time step, and a vector is always considered infected once it acquires an infection. Provided for validation — allows direct comparison of FPG and base model output."
 
 
 Output reports
@@ -374,15 +574,40 @@ Reports with FPG-enhanced output
 
 :doc:`software-report-sql-malaria-genetics` (``SqlReportMalariaGenetics``) records barcode and full
 nucleotide sequence data in two additional database tables — ``ParasiteGenomes`` and
-``GenomeSequenceData`` — alongside the standard epidemiological tables.
+``GenomeSequenceData`` — alongside the standard epidemiological tables. A ``DrugStatus`` table
+tracking drug name, current efficacy, and remaining doses for each person at each time step can be
+enabled via ``Include_Drug_Status_Table``.
 
 :doc:`software-report-malaria-node-demographics-genetics`
 (``ReportNodeDemographicsMalariaGenetics``) extends the standard malaria node demographics report by
-adding per-barcode infection counts, stratified by node and time step.
+adding per-barcode infection counts, stratified by node and time step. The ``Drug_Resistant_Strings``
+parameter adds columns counting infections with specific drug resistance allele patterns, including
+wildcard (``*``) matching.
 
 :doc:`software-report-vector-stats-malaria-genetics` (``ReportVectorStatsMalariaGenetics``) extends
 the standard vector statistics report with genetic barcode data on the parasites carried in the
 vector population, including details on oocysts and sporozoites.
+
+InsetChart channels
+-------------------
+
+When FPG is enabled, InsetChart.json includes the following additional channels beyond the standard
+malaria channels:
+
+.. csv-table::
+    :header: Channel, Description
+    :widths: 20, 40
+
+    Avg Num Vector Infs, "The average number of distinct oocyst and sporozoite cohorts currently present in infected vectors."
+    Complexity of Infection, "The mean number of distinct parasite genomes per infected person (complexity of infection, COI). Distinct genomes are identified by barcode hashcode only — drug resistance, HRP, MSP, and PfEMP1 loci are not considered."
+    Drug Resistant Fraction of All Infections, "The fraction of all active human infections that have a non-``A`` allele at any position in ``Drug_Resistant_Genome_Locations``."
+    Drug Resistant Fraction of Infected People, "The fraction of currently infected people who have at least one infection with a non-``A`` allele at any position in ``Drug_Resistant_Genome_Locations``."
+    HRP Deleted Fraction of All Infections, "The fraction of all active human infections that are HRP-deleted (all HRP loci carry a non-``A`` allele)."
+    HRP Deleted Fraction of Infected People, "The fraction of currently infected people who have at least one HRP-deleted infection."
+    Infected and Infectious Vectors, "The fraction of adult vectors that are infected (have acquired gametocytes but not yet produced sporozoites) or infectious (have sporozoites in salivary glands)."
+    New Vector Infections, "The number of vectors that acquired new infections from human blood meals during this time step."
+    Num Total Infections, "The total count of active human infections across all individuals in the simulation."
+    PfHRP2 Prevalence, "The fraction of the population that would test positive on an HRP2-based rapid diagnostic test, based on whether circulating HRP2 exceeds ``Report_Detection_Threshold_PfHRP2``."
 
 
 FPG Observational Model
@@ -417,181 +642,9 @@ post-processing is provided in the emodpy-malaria repository at ``examples-conta
 where it is called from the ``dtk_post_process.py`` script after the simulation completes.
 
 
-Drug resistance
-===============
-
-FPG models drug resistance by modifying drug killing effects based on the parasite's genome. When
-EMOD computes the drug kill rate for an infection, it passes the parasite's genome to the drug
-model, which checks whether specific alleles are present at designated positions. If the genome
-matches, one or more modifiers are applied to the drug's efficacy parameters. This allows users to
-model parasites that are more or less susceptible to a given drug based on their genetic makeup.
-
-Drug killing is modeled across five parasite life stages: hepatocytes, infected red blood cells
-(IRBCs), gametocyte stages 0–2, gametocyte stages 3–4, and mature gametocytes. For each stage, the
-drug has a parameter that converts concentration-derived efficacy into a killing rate. Resistance
-modifiers scale these parameters for parasites carrying specific alleles.
-
-Configuring resistance
-----------------------
-
-Genome positions used for drug resistance tracking are specified in
-``Parasite_Genetics.Drug_Resistant_Genome_Locations`` in config.json (see the
-:ref:`configuration` section). Resistance behavior for each drug is then configured in
-``Malaria_Drug_Params`` by adding a ``Resistances`` array to the drug entry. Each element of the
-array is a resistance object with the following parameters:
-
-.. csv-table::
-    :header: Parameter, Data type, Default, Description
-    :widths: 15, 8, 8, 30
-
-    Drug_Resistant_String, string, —, "A string of nucleotide characters (``A``, ``C``, ``G``, ``T``, or ``*`` for wildcard) — one per position in ``Drug_Resistant_Genome_Locations``. The modifier is applied only if the parasite's genome matches all non-wildcard positions in this string."
-    PKPD_C50_Modifier, float, 1.0, "Multiplied times ``Drug_PKPD_C50`` when the string matches. Values above 1.0 reduce drug potency; values below 1.0 increase it."
-    Max_IRBC_Kill_Modifier, float, 1.0, "Multiplied times ``Max_Drug_IRBC_Kill`` when the string matches."
-
-If a parasite's genome matches multiple resistance objects, the modifiers from each matching object
-are multiplied together. The following example configures Artemether with two resistance objects,
-assuming ``Drug_Resistant_Genome_Locations`` has two positions. A ``T`` at the first position
-reduces IRBC killing to 5% of baseline; an ``A`` at the second position independently reduces both
-C50 and max kill modifiers. The ``*`` wildcard means that position is ignored for matching:
-
-.. code-block:: json
-
-    "Malaria_Drug_Params": [
-        {
-            "Name": "Artemether",
-            "PKPD_Model": "CONCENTRATION_VERSUS_TIME",
-            "Bodyweight_Exponent": 1.0,
-            "Drug_Cmax": 114.0,
-            "Drug_Decay_T1": 0.12,
-            "Drug_Decay_T2": 0.12,
-            "Drug_Dose_Interval": 0.5,
-            "Drug_Fulltreatment_Doses": 6.0,
-            "Drug_Gametocyte02_Killrate": 2.5,
-            "Drug_Gametocyte34_Killrate": 1.5,
-            "Drug_GametocyteM_Killrate": 0.7,
-            "Drug_Hepatocyte_Killrate": 0,
-            "Drug_PKPD_C50": 0.6,
-            "Drug_Vd": 1.0,
-            "Max_Drug_IRBC_Kill": 8.9,
-            "Fractional_Dose_By_Upper_Age": [
-                {"Fraction_Of_Adult_Dose": 0.25, "Upper_Age_In_Years": 3.0},
-                {"Fraction_Of_Adult_Dose": 0.5,  "Upper_Age_In_Years": 6.0},
-                {"Fraction_Of_Adult_Dose": 0.75, "Upper_Age_In_Years": 10.0}
-            ],
-            "Resistances": [
-                {
-                    "Drug_Resistant_String": "T*",
-                    "PKPD_C50_Modifier": 1.0,
-                    "Max_IRBC_Kill_Modifier": 0.05
-                },
-                {
-                    "Drug_Resistant_String": "*A",
-                    "PKPD_C50_Modifier": 0.44,
-                    "Max_IRBC_Kill_Modifier": 0.77
-                }
-            ]
-        }
-    ]
-
-Seeding resistance
-------------------
-
-Drug resistant strains are introduced into the simulation using
-``OutbreakIndividualMalariaGenetics`` with ``Drug_Resistant_String`` (for ``BARCODE_STRING`` and
-``NUCLEOTIDE_SEQUENCE`` modes) or ``Drug_Resistant_Allele_Frequencies_Per_Genome_Location`` (for
-``ALLELE_FREQUENCIES`` mode). See the :ref:`seeding-infections` section for details. Once
-introduced, resistance alleles propagate and recombine through the simulation exactly like any other
-genome position.
-
-Output
-------
-
-The InsetChart report includes a **Drug Resistance Fraction** channel showing the fraction of
-infected people who have at least one infection whose genome matches the alleles defined in any
-drug's ``Resistances``. The ``ReportNodeDemographicsMalariaGenetics`` report supports a
-``Drug_Resistant_Strings`` parameter that adds columns counting infections with specific drug
-resistance allele patterns, including wildcard (``*``) matching. The ``SqlReportMalariaGenetics``
-report includes a ``DrugStatus`` table tracking drug name, current efficacy, and remaining doses for
-each person at each time step (enabled via ``Include_Drug_Status_Table``).
-
-
-HRP2/3 deletion
-===============
-
-*Plasmodium falciparum* secretes histidine-rich proteins HRP2 and HRP3 into the bloodstream. Most
-rapid diagnostic tests (RDTs) target HRP2 as a marker of active infection. Parasites carrying
-deletions of the *pfhrp2* and/or *pfhrp3* genes produce no HRP2 protein and test false-negative on
-HRP2-based RDTs despite active infection.
-
-FPG tracks HRP gene status as allele values at positions designated by ``HRP_Genome_Locations`` in
-``Parasite_Genetics``. Each position represents one HRP locus:
-
-- An allele of ``A`` indicates the HRP gene at that position is **present** (functional) — the
-  infection produces HRP2 protein.
-- Any other allele (``C``, ``G``, or ``T``) indicates the HRP gene is **deleted** at that position.
-
-An infection is classified as "HRP-deleted" only when **all** designated HRP positions carry a
-non-``A`` allele. If any position retains ``A``, the infection is treated as HRP-expressing. This
-allows independent representation of *pfhrp2* and *pfhrp3*: defining two HRP positions (one per
-gene) means an infection with *pfhrp2* deleted but *pfhrp3* intact still produces HRP2 protein,
-reflecting the cross-reactivity of pfhrp3 with HRP2-targeting RDTs.
-
-HRP2 protein dynamics
----------------------
-
-Each time step, the host's circulating HRP2 level is updated from the IRBCs of HRP-expressing
-infections only. HRP-deleted infections contribute zero IRBCs to this sum. The dynamics follow
-Marquart et al. (2012) [#hrp2ref]_:
-
-.. math::
-
-    \frac{d[\text{HRP2}]}{dt} = B \cdot \text{IRBC}_{HRP} - D \cdot [\text{HRP2}]
-
-where :math:`[\text{HRP2}]` is the circulating HRP2 protein level (pg), :math:`\text{IRBC}_{HRP}`
-is the total number of infected red blood cells from HRP-expressing infections, :math:`B` is
-``PfHRP2_Boost_Rate`` (pg per iRBC per day), and :math:`D` is ``PfHRP2_Decay_Rate`` (per day). The
-decay term is approximated as linear within each time step.
-
-.. csv-table::
-    :header: Parameter, Data type, Default, Description
-    :widths: 15, 8, 8, 30
-
-    PfHRP2_Boost_Rate, float, 0.07, "Rate at which HRP2 protein accumulates from HRP-expressing IRBCs (pg per iRBC per day)."
-    PfHRP2_Decay_Rate, float, 0.172, "Daily fractional decay of circulating HRP2 protein (corresponding to a half-life of approximately 3.67 days)."
-
-Interventions and diagnostics using the ``PF_HRP2`` measurement type compare the accumulated HRP2
-level against the ``Report_Detection_Threshold_PfHRP2`` threshold.
-
 .. [#hrp2ref] Marquart L, Butterworth A, McCarthy JS, Gatton ML. "Modelling the dynamics of
    *Plasmodium falciparum* histidine-rich protein 2 in human malaria to better understand malaria
    rapid diagnostic test performance." *Malaria Journal*. 2012;11:74.
 
-Seeding HRP deletions
----------------------
-
-HRP status is set when ancestral infections are seeded via ``OutbreakIndividualMalariaGenetics``.
-In ``BARCODE_STRING`` or ``NUCLEOTIDE_SEQUENCE`` mode, the ``HRP_String`` parameter assigns a fixed
-HRP genotype to every seeded infection — one character per position in ``HRP_Genome_Locations``.
-For example, with two HRP positions representing *pfhrp2* and *pfhrp3*:
-
-- ``"AA"`` — both genes intact; infection is fully HRP-expressing.
-- ``"CA"`` — *pfhrp2* deleted, *pfhrp3* intact; infection still produces HRP2 protein.
-- ``"CT"`` — both genes deleted; infection is fully HRP-deleted.
-
-In ``ALLELE_FREQUENCIES`` mode, use ``HRP_Allele_Frequencies_Per_Genome_Location`` to seed a
-mixture of HRP genotypes across the population. See the :ref:`seeding-infections` section for
-details.
-
-Output
-------
-
-When using FPG, InsetChart.json includes two additional channels:
-
-- **HRP Deleted Fraction of Infected People**: The fraction of currently infected people who have
-  at least one HRP-deleted infection.
-- **HRP Deleted Fraction of All Infections**: The fraction of all active infections that are
-  HRP-deleted.
-
-The standard **PfHRP2 Prevalence** channel (also in InsetChart.json) shows the fraction of the
-population that would test positive on an HRP2-based diagnostic, accounting for HRP deletion status
-and the ``Report_Detection_Threshold_PfHRP2`` threshold.
+.. [#gardnerref] Gardner MJ, et al. "Genome sequence of the human malaria parasite *Plasmodium
+   falciparum*." *Nature*. 2002;419:498–511. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3836256/
