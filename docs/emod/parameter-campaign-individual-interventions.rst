@@ -19,6 +19,7 @@ Individual-level interventions
    parameter-campaign-individual-broadcasteventtoothernodes
    parameter-campaign-individual-controlledvaccine
    parameter-campaign-individual-delayedintervention
+   parameter-campaign-individual-femalecontraceptive
    parameter-campaign-individual-humanhostseekingtrap
    parameter-campaign-individual-immunitybloodtest
    parameter-campaign-individual-indoorindividualemanator

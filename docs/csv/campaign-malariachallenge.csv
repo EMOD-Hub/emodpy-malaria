@@ -23,6 +23,12 @@ Sporozoites
       ]
     }
 "
+"Dont_Allow_Duplicates","bool","NA","NA","0","If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the node.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
+    }
+"
 "Infectious_Bite_Count","integer","0","1000","1","The number of infectious bites per person. Use when **Challenge_Type** is set to InfectiousBites.",".. code-block:: json
 
     {

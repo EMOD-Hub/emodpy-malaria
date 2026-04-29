@@ -1,0 +1,165 @@
+"Strain_Name","string","NA","NA","""""","A required unique identifier for the microsporidia strain. Must be unique across all species. Cannot be empty or 'NoMicrosporidia'.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A""
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Female_To_Egg_Transmission_Probability","float","0","1","0","Probability that an infected female transmits microsporidia to her eggs during oviposition.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Female_To_Egg_Transmission_Probability"": 0.70
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Male_To_Egg_Transmission_Probability","float","0","1","0","Probability that a female mated with an infected male transmits microsporidia to her eggs, independent of her own infection status.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Male_To_Egg_Transmission_Probability"": 0.0
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Female_To_Male_Transmission_Probability","float","0","1","0","Probability that an infected female transmits microsporidia to an uninfected male during mating.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Female_To_Male_Transmission_Probability"": 0.40
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Male_To_Female_Transmission_Probability","float","0","1","0","Probability that an infected male transmits microsporidia to an uninfected female during mating.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Male_To_Female_Transmission_Probability"": 0.98
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Larval_Growth_Modifier","float","0","3.40E+38","1","Multiplier for daily larval growth rate. Values greater than 1.0 accelerate development; values less than 1.0 slow development.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Larval_Growth_Modifier"": 1.08
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Female_Mortality_Modifier","float","0","3.40E+38","1","Multiplier for female adult mortality rate. Values greater than 1.0 increase mortality (shorter lifespan); values less than 1.0 decrease mortality.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Female_Mortality_Modifier"": 1.2
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Male_Mortality_Modifier","float","0","3.40E+38","1","Multiplier for male adult mortality rate. Values greater than 1.0 increase mortality (shorter lifespan); values less than 1.0 decrease mortality.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Male_Mortality_Modifier"": 1.2
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Duration_To_Disease_Acquisition_Modification","JSON object","NA","NA","NA","Time-dependent modifier for malaria acquisition probability. Uses an **InterpolatedValueMap** where **Times** represent days since microsporidia infection (ascending order) and **Values** represent probability multipliers (0-1). The model uses linear interpolation for times not explicitly defined; times beyond the maximum retain the last value.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Duration_To_Disease_Acquisition_Modification"": {
+                            ""Times"": [0, 1, 2, 3],
+                            ""Values"": [1.0, 0.8, 0.3, 0.0]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+"
+"Duration_To_Disease_Transmission_Modification","JSON object","NA","NA","NA","Time-dependent modifier for malaria transmission probability. Uses an **InterpolatedValueMap** where **Times** represent days since microsporidia infection (ascending order) and **Values** represent probability multipliers (0-1). The model uses linear interpolation for times not explicitly defined; times beyond the maximum retain the last value.",".. code-block:: json
+
+    {
+        ""Vector_Species_Params"": [
+            {
+                ""Name"": ""gambiae"",
+                ""Microsporidia"": [
+                    {
+                        ""Strain_Name"": ""Strain_A"",
+                        ""Duration_To_Disease_Transmission_Modification"": {
+                            ""Times"": [0, 3, 7],
+                            ""Values"": [1.0, 0.5, 0.1]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+"

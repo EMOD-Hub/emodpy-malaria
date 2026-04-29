@@ -4,8 +4,8 @@ MosquitoRelease
 
 The **MosquitoRelease** intervention class adds mosquito release vector control programs to the simulation.
 Mosquito release is a key vector control mechanism that allows the release of sterile males,
-genetically modified mosquitoes, or even Wolbachia-infected mosquitoes. See :doc:`parameter-configuration-vector-control`
-configuration parameters for more information.
+genetically modified mosquitoes, or even Wolbachia- or Microsporidia-infected mosquitoes
+See :doc:`parameter-configuration-vector-control` configuration parameters for more information.
 
 .. include:: ../reuse/warning-case.txt
 
