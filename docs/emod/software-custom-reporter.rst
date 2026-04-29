@@ -10,7 +10,7 @@ for a list of the reports that are available using built-in reporters.
 
 In addition, you can use custom reporters that extract data from the simulation and aren't part of
 the |exe_s|. A custom reporter is an :term:`EMODule` that you plug in to |EMOD_s|. Custom reporters
-are not supported for |Centos|. There are several reporters in the GitHub reporters_ directory that
+are not supported for Linux. There are several reporters in the GitHub reporters_ directory that
 you can use. You may also want to build your own custom reporter to create a new output report.
 
 .. image:: ../images/dev/Reporters.png
@@ -76,4 +76,4 @@ Working directory
 Finally, if neither the the map file or the command-line option are provided, |exe_s| looks for the
 reporter plug-in in the current working directory.
 
-.. _reporters: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/reporters
+.. _reporters: https://github.com/EMOD-Hub/EMOD/tree/master/reporters

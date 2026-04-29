@@ -4,12 +4,6 @@
 - Open a terminal/shell/console.
 - Create virtual environment (python -m venv emodpy)
 - Activate virtual environment (emodpy\Scripts\activate)
-- Edit your pip.conf (or pip.ini) to make sure it's pointing at our Artifactory.
-NOTE: If you do not have a pip.ini (Windows) or pip.conf (Linux) then create a new one in your home directory.
-```
-[global]
-index-url = https://packages.idmod.org/api/pypi/pypi-production/simple
-```
 
 ## Alternate (Docker-based Linux) Environment Prep
 - TBD... 

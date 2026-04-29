@@ -11,11 +11,6 @@ instructions.
 
 * Git client, such as Git Bash or the Git GUI
 
-* pip.ini (Windows) or pip.conf (Linux), containing the following::
-
-    [global]
-    index-url = https://packages.idmod.org/api/pypi/pypi-production/simple
-
 .. toctree::
     :titlesonly:
 

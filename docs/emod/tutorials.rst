@@ -2,10 +2,9 @@
 Tutorials 
 ==========
 
-While the workings of the model are explained in detail, it is often more useful to learn through hands-on implementation. To illustrate many of the concepts and capabilities of |EMOD_s|, |IDM_s| provides tested files to
-run example simulations that model a variety of disease scenarios. The directory for each scenario
-contains the files needed to run a simulation and generate the output graphs. Click `EMOD scenarios`_ to
-download a zipped folder containing all required files. These scenarios are referenced throughout the documentation where relevant.
+While the workings of the model are explained in detail, it is often more useful to learn through
+hands-on implementation. The sections below introduce the structure of the example scenarios that
+illustrate many of the concepts and capabilities of |EMOD_s|.
 
 .. include:: ../reuse/note-stochastic.txt
 
@@ -45,9 +44,9 @@ We recommend running these scenarios on a Windows computer. You must install the
 Python packages described in :doc:`install-windows`. You do not need to download another copy of
 |exe_s|, although it won't hurt if you do.
 
-Although |EMOD_s| also supports |Centos|, the scripts to run simulations will not work and the
-installation instructions differ. However, you can still run simulations from the command line. See
-the |Centos| installation instructions at :doc:`install-linux`.
+Although |EMOD_s| also supports Linux (|Linux_supp|), the scripts to run simulations will not work
+and the installation instructions differ. However, you can still run simulations from the command
+line. See the Linux installation instructions at :doc:`install-linux`.
 
 
 General |EMOD_s| information
@@ -115,11 +114,6 @@ births, deaths, cumulative infections, new infections, and more. You can enable 
 reports by setting the appropriate parameter to 1 in the configuration file.
 
 For a complete list of all available output reports, see :doc:`parameter-configuration-output`.
-
-
-
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases
 
 
 .. toctree::

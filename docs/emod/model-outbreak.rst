@@ -76,8 +76,7 @@ fraction of cases that are primary zoonotic infections.
 .. TBD add new images 
 
 The following graphs show the :term:`inset chart` and charts for all channels in an outbreak of a
-zoonotic disease. To run this example simulation, see the Generic/Zoonosis scenario in the
-downloadable `EMOD scenarios`_ zip file. Review the README files there for more information.
+zoonotic disease.
 
 After the initial outbreak, there are no additional imported cases set in the campaign file.
 However, there are additional introductions from the animal
@@ -93,6 +92,3 @@ reservoir, as shown in the log prevalence chart.
    :scale: 60%
 
    Figure 2: All output channels showing re-seeding caused by zoonosis and waning immunity
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases
-

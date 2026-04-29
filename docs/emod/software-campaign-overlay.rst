@@ -65,7 +65,7 @@ To flatten campaign files:
 After the overlay files and default files are combined into a single campaign
 file, you can run a simulation using the |exe_l|.
 
-.. _Regression: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression
+.. _Regression: https://github.com/EMOD-Hub/EMOD/tree/master/Regression
 
 
-.. _Regression/defaults: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression/defaults
+.. _Regression/defaults: https://github.com/EMOD-Hub/EMOD/tree/master/Regression/defaults

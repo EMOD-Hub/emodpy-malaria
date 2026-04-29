@@ -113,7 +113,7 @@ application will automatically generate habitat from the configuration parameter
 Manipulating
 ============
 
-IDM provides a Python package `EMOD-Py <https://github.com/InstituteforDiseaseModeling/emodpy-malaria>`__
+IDM provides a Python package `EMOD-Py <https://github.com/EMOD-Hub/emodpy-malaria>`__
 with installation instructions and documentation to manipulate a serialized population file.
 
 The following provides a list of a few scripts that are available in EMOD-Py.  Please see the package

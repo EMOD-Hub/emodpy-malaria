@@ -88,11 +88,7 @@ with population density for the infectious disease models
 
   Figure 1: Effect of population density on transmissibility
 
-The Generic/DensityScaling example scenario in the `EMOD scenarios`_ zip file illustrates how population
-density can be configured to affect transmission. Review the README files there for more
-information.
-
-The table below shows how setting **Node_Grid_Size** in that scenario to 0.1, 0.15, and 0.3 affects
+The table below shows how setting **Node_Grid_Size** to 0.1, 0.15, and 0.3 affects
 population density and R\ :sub:`0` \ values.
 
 +------------+-------------+------------+----------------+------------+---------+------------------+
@@ -125,6 +121,3 @@ endemic status while in lower density is difficult to do so.
    :scale: 50%
 
    Figure 4: Node_Grid_Size = 0.3, population density 9/km\ :sup:`2`\ and R\ :sub:`0`\  < 1
-
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases

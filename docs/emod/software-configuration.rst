@@ -15,9 +15,7 @@ config.json. The configuration file controls many different aspects of the simul
 
 Although you can create configuration files entirely from scratch, it is often easier to start from
 an existing configuration file and modify it to meet your needs or use the provided Python packages
-to create configuration files. You can download sets of configuration
-and campaign files that illustrate how to model different disease scenarios at `EMOD scenarios`_. For more
-information, see :doc:`tutorials`. 
+to create configuration files. For more information, see :doc:`tutorials`.
 
 
 For a complete list of configuration parameters that are available to use with this simulation type,
@@ -59,5 +57,3 @@ Below is an example of a hierarchical configuration file:
 
    software-configuration-overlay
    software-parameter-sweep
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases

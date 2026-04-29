@@ -72,6 +72,4 @@ MATLAB
 
 .. include:: ../reuse/matlab-install.txt
 
-.. _EMOD releases: https://github.com/InstituteforDiseaseModeling/EMOD/releases
-
-.. include:: ../reuse/install-inputdata.txt
+.. _EMOD releases: https://github.com/EMOD-Hub/EMOD/releases

@@ -69,4 +69,4 @@ This is excerpted from the regression_test.py script in the Regression_ director
         print "Unknown state"
         sys.exit(0)
 
-.. _Regression: https://github.com/InstituteforDiseaseModeling/EMOD/tree/master/Regression
+.. _Regression: https://github.com/EMOD-Hub/EMOD/tree/master/Regression

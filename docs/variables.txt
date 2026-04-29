@@ -19,8 +19,7 @@
 .. |Boost_177| replace:: Boost 1.77.0
 .. |Boost_supp_path| replace:: https://sourceforge.net/projects/boost/files/boost/1.77.0/
 .. |Boost_supp| replace:: Boost 1.77.0
-.. |Centos_supp| replace:: CentOS 7.1
-.. |Centos| replace:: CentOS
+.. |Linux_supp| replace:: Ubuntu 22.04 (Jammy Jellyfish)
 .. |COMPS_l| replace:: COmputational Modeling Platform Service (COMPS)
 .. |COMPS_s| replace:: COMPS
 .. |DTM| replace:: DTK-Tools-Malaria
@@ -42,7 +41,7 @@
 .. |IDM_s| replace:: IDM
 .. |IT_s| replace:: idmtools
 .. |linux_binary| replace:: Eradication binary for Linux
-.. |Linux_dtksupp| replace:: CentOS 7.1 or Ubuntu 18
+.. |Linux_dtksupp| replace:: Ubuntu 22.04 (Jammy Jellyfish)
 .. |Mac_dtksupp| replace:: Mac OS X
 .. |MATLAB_supp_path| replace:: http://www.mathworks.com/products/matlab/
 .. |MATLAB_supp| replace:: MATLAB R2021b
