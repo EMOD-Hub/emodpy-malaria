@@ -54,7 +54,7 @@ Microsporidia infections are tracked using a field within the vector genome, all
 - **Index 0**: No microsporidia infection
 - **Indices 1-3**: Infection with microsporidia strain 1, 2, or 3 respectively
 
-Each strain has a unique name (``Strain_Name``) and an independent parameter set. Strain names must be unique across all species. Vector may only be infected with one microspridia strain and, once infected, is infected for life.
+Each strain has a unique name (``Strain_Name``) and an independent parameter set. Strain names must be unique across all species. Vector may only be infected with one microsporidia strain and, once infected, is infected for life.
 
 
 Transmission mechanisms
