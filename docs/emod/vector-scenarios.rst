@@ -5,10 +5,8 @@ Vector model scenarios
 
 The |EMOD_s| vector model is explained in detail in :doc:`vector-model-overview`. While the various
 components that comprise the model are explained with examples, it may be more useful to learn the
-model through hands-on implementation. The following sections will introduce sets of example files
-that illustrate how the vector model works on particular topics. All files are available in a
-downloadable `EMOD scenarios`_ zip file and, in addition to the explanations below, each scenario will
-have a more detailed README file to cover relevant information.
+model through hands-on implementation. The following sections introduce sets of example files
+that illustrate how the vector model works on particular topics.
 
 For more information on the software architecture and inheritance, see :doc:`software-overview`.
 
@@ -136,7 +134,3 @@ to configure multiple habitat types for a single vector species.
 
 
 .. will want to include some vector genetics tutorials!
-
-
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases

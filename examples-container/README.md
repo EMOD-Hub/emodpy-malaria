@@ -6,5 +6,5 @@
 - Install emodpy-malaria and dependencies
 - Install idmtools_platform_container and dependencies if run container examples
   ```bash
-  pip install -r requirements_container.txt --index-url=https://packages.idmod.org/api/pypi/pypi-production/simple --upgrade --force-reinstall --no-cache-dir
+  pip install -r requirements_container.txt --upgrade --force-reinstall --no-cache-dir
   ```

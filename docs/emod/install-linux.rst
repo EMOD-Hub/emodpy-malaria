@@ -34,9 +34,9 @@ of the |linux_binary|, it also provides the option of installing the |EMOD_s| so
 
 For information on building the |linux_binary| from source code, see :doc:`emod:dev-install-overview`.
 
-.. include:: ../reuse/centos-install-to-run.txt
+.. include:: ../reuse/linux-install-to-run.txt
 
-2.  Download the |linux_binary| for |Centos_supp| (not |exe_s| for Windows). See on `EMOD releases`_
+2.  Download the |linux_binary| for |Linux_supp| (not |exe_s| for Windows). See on `EMOD releases`_
     on GitHub. Save to a local drive, such as the desktop.
 
 (Optional) Install Python virtual environments
@@ -60,5 +60,3 @@ MATLAB
 ------
 
 .. include:: ../reuse/matlab-install.txt
-
-.. include:: ../reuse/install-inputdata.txt

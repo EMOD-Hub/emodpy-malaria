@@ -206,9 +206,6 @@ accessibility properties in which transmission is lower for hard-to-access indiv
 vaccination to children aged 6 to 10. The second graph shows the effect of instead targeting it to
 all individuals who are easy to access.
 
-To run this example simulation, see the Generic/HINT_AgeAndAccess scenario in
-the downloadable `EMOD scenarios`_ zip file. Review the README files there for more information.
-
 .. figure:: ../images/general/HINT_AgeAndAccess_PropertyReport_agetargeted.png
    :scale: 60%
 
@@ -228,5 +225,3 @@ In this example, the outbreak begins in the inaccessible population and vaccinat
 all individuals who are easily accessed. Notice how the infection is almost entirely eliminated
 among the easily accessible population, but there is only a slight reduction in infection among the
 inaccessible population that was not reached by the vaccination campaign.
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases

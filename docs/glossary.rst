@@ -75,7 +75,7 @@ Glossary
     EMODule
         A modular component of |EMOD_s| that are consumed and used by the |exe_l|.
         Under Windows, a |module| is implemented as a :term:`dynamic link library (DLL)` and,
-        under |Centos|, |modules| are currently not supported. |modules| are primarily custom reporters.
+        under Linux, |modules| are currently not supported. |modules| are primarily custom reporters.
 
     Epidemiological MODeling software (EMOD)
         The modeling software from the |IDM_l| for disease researchers and developers to investigate
@@ -228,9 +228,8 @@ Glossary
 
     scenario
         A collection of input files that describes a real-world example of a disease outbreak and
-        interventions. Many scenarios are included with |EMOD_s| source installations or are
-        available to download at `EMOD scenarios`_ to learn more about epidemiology and disease
-        modeling.
+        interventions. Scenarios are included with |EMOD_s| source installations to help users
+        learn more about epidemiology and disease modeling.
 
     schema
         A text or JSON file that can be generated from the |exe_l| that defines all
@@ -671,7 +670,4 @@ Glossary
         In |EMOD_s|, vaccine intervention types are either "AcquisitionBlocking",
         "TransmissionBlocking" or "MortalityBlocking". For example, "mode-of-action", "targeted
         parasite stages", (such as pre-erythrocytic, asexual, or sexual), etc.
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases
-
 

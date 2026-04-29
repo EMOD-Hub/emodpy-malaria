@@ -104,7 +104,7 @@ your working directory.
 .. _JSON: http://docs.python.org/library/json.html
 .. _matplotlib.pyplot: http://matplotlib.org/api/pyplot_api.html
 .. _JSONlab: http://www.mathworks.com/matlabcentral/fileexchange/33381-jsonlab-a-toolbox-to-encodedecode-json-files-in-matlaboctave
-.. _icjjson2csv.py: https://github.com/InstituteforDiseaseModeling/EMOD/blob/master/Regression/Python/icjjson2csv.py
+.. _icjjson2csv.py: https://github.com/EMOD-Hub/EMOD/blob/master/Regression/Python/icjjson2csv.py
 
 
 .. toctree::

@@ -58,7 +58,7 @@ this occurs where spatial output channel names are specified in the configuratio
 if an unrecognized channel name is used.
 
 If you have not modified the |EMOD_s| source code or used an unrecognized channel name, this error
-could signal an internal problem with the code. Contact idm@gatesfoundation.org.
+could signal an internal problem with the code. Please visit our discussion board at https://github.com/orgs/EMOD-Hub/discussions.
 
 CalculatedValueOutOfRangeException
 ----------------------------------
@@ -232,7 +232,7 @@ exception is thrown when a required interface is queried on an object and the ob
 that the interface is not supported.
 
 If you have not modified the |EMOD_s| source code and receive this error, it could signal an
-internal problem with the code. Contact idm@gatesfoundation.org.
+internal problem with the code. Please visit our discussion board at https://github.com/orgs/EMOD-Hub/discussions.
 
 SerializationException
 ----------------------
@@ -241,18 +241,18 @@ This exception is thrown when there is a serialization (or de-serialization) iss
 data is being passed over the network (MPI) and the connection drops, then the serialization fails
 and this exception is thrown.
 
-|Centos| environment
-====================
+Linux environment
+=================
 
-The following problems are specific to running simulations using the |linux_binary| on |Centos_supp|.
+The following problems are specific to running simulations using the |linux_binary| on |Linux_supp|.
 
-Regression test graphs differ when run on |Centos|
---------------------------------------------------
+Regression test graphs differ when run on Linux
+-----------------------------------------------
 
-After you run regression simulations on |Centos| using runemod.sh in the Scripts directory, it plots
-graphs from the simulation output data with a red line for the reference output and a blue line for
-the new output. The reference output was created by running the simulation on Windows, which in some
-cases may be slightly different than the output from |Centos|.
+After you run regression simulations on |Linux_supp| using runemod.sh in the Scripts directory, it
+plots graphs from the simulation output data with a red line for the reference output and a blue
+line for the new output. The reference output was created by running the simulation on Windows,
+which in some cases may be slightly different than the output from |Linux_supp|.
 
 For simulations that plot a baseline, you can override the Windows reference output by modifying
 runemod.sh to use output/InsetChart.linux.json as the output location. In that case, the red
@@ -263,4 +263,4 @@ reference plots should always be completely covered by the blue plots.
 
 If you chose not to have the PrepareLinuxEnvironment.sh script download the |EMOD_s| source code and
 input files, you need to set up the environment variable, path and symlink that are needed
-to run simulations on |Centos|. See :doc:`install-linux`.
+to run simulations on |Linux_supp|. See :doc:`install-linux`.

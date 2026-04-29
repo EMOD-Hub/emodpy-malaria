@@ -38,12 +38,8 @@ simulation type.
 
 
 Although you can create campaign files entirely from scratch, it is often easier to start from
-an existing campaign file and modify it to meet your needs. You can download sets of configuration
-and campaign files that illustrate how to model different disease scenarios at `EMOD scenarios`_. For more
-information, see :doc:`tutorials`. 
-
-
-.. _EMOD scenarios: https://github.com/InstituteforDiseaseModeling/docs-emod-scenarios/releases
+an existing campaign file and modify it to meet your needs. For more information, see
+:doc:`tutorials`.
 
 
 .. toctree::
