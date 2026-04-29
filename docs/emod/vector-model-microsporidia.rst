@@ -169,7 +169,7 @@ See :doc:`parameter-campaign-node-larvalmicrosporidiaintervention` for details.
 MosquitoRelease intervention
 ----------------------------
 
-Microsporidia can also be introduced through the **MosquitoRelease** intervention by specifying the ``Released_Microsporidia`` parameter with the desired strain name. This allows for targeted release of infected adult mosquitoes to establish microsporidia in wild populations.
+Microsporidia can also be introduced through the **MosquitoRelease** intervention by specifying the ``Released_Microsporidia_Strain`` parameter with the desired strain name. This allows for targeted release of infected adult mosquitoes to establish microsporidia in wild populations.
 
 See :doc:`parameter-campaign-node-mosquitorelease` for details.
 
