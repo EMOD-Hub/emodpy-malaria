@@ -6,6 +6,11 @@ Drugs and treatments
 
 For more information on the drugs used to treat malaria, see :doc:`malaria-model-antimalarial-drugs`.
 
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For FPG drug resistance configuration, including the ``Resistances`` array added to ``Malaria_Drug_Params`` entries.
+
 
 .. include:: ../reuse/warning-case.txt
 

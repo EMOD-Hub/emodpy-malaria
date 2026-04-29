@@ -11,6 +11,11 @@ When **Malaria_Model** is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETIC
 provide detailed insight into the status of the parasites in the vector population, including
 details on the oocysts, sporozoites, biting, etc.
 
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For an overview of the FPG model, genome configuration, and the full FPG workflow.
+
 
 
 Configuration

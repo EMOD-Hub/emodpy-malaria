@@ -1,7 +1,6 @@
 {
     "Intervention_Config": {
         "class": "OutbreakIndividualMalaria",
-        "Antigen": 0,
-        "Genome_Markers": [ "D6", "W2" ]
+        "Antigen": 0
         }
 }

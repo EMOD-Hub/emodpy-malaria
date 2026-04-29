@@ -2063,9 +2063,7 @@ class ReportNodeDemographics(BuiltInReporter):
 class ReportNodeDemographicsMalaria(BuiltInReporter):
     """
     This report extends the data collected in the ReportNodeDemographics by adding data about the number of
-    infections with specific barcodes. The malaria node demographics genetics report does not include columns for
-    Genome_Markers because this report assumes that the simulation setup parameter Malaria_Model is set to
-    MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
+    infections with specific barcodes.
 
     Note: If you need detailed data on the infections with different barcodes, use the SqlReportMalaria. That report
     contains data on all barcodes, without specifying what they are.
@@ -2084,12 +2082,11 @@ class ReportNodeDemographicsMalaria(BuiltInReporter):
 class ReportNodeDemographicsMalariaGenetics(BuiltInReporter):
     """
     This report extends the data collected in the ReportNodeDemographics by adding data about the number of
-    infections with specific barcodes. The malaria node demographics genetics report does not include columns for
-    Genome_Markers because this report assumes that the simulation setup parameter Malaria_Model is set to
+    infections with specific barcodes. Requires Malaria_Model to be set to
     MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
 
     Note: If you need detailed data on the infections with different barcodes, use the SqlReportMalaria. That report
-    contains data on all barcodes, without specifying what they are.
+    contains detailed data on humans, infections, barcodes, and more.
     """
 
     def config(self, config_builder, manifest):
@@ -2122,8 +2119,7 @@ class ReportVectorMigration(BuiltInReporter):
 class ReportVectorStatsMalariaGenetics(BuiltInReporter):
     """
     This report extends the data collected in the ReportVectorStats by adding data about the number of
-    infections with specific barcodes. The malaria node demographics genetics report does not include columns for
-    Genome_Markers because this report assumes that the simulation setup parameter Malaria_Model is set to
+    infections with specific barcodes. Requires Malaria_Model to be set to
     MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
     """
 
