@@ -178,10 +178,10 @@ Output and reporting
 
 The microsporidia model extends several existing reports and adds new output channels to track infection dynamics:
 
-**ReportVectorStats.csv**: When ``Include_Microsporidia`` is enabled, adds columns tracking microsporidia-infected vectors by strain, state, and age:
+**ReportVectorStats.csv**: When ``Include_Microsporidia_Columns`` is enabled, adds columns tracking vectors with and without microsporidia by vector state:
 
-- ``Microsporidia_<StrainName>_<State>_<Age>``: Count of vectors in each combination of strain, developmental state, and age group
-- Provides detailed temporal tracking of how microsporidia infections spread through vector populations
+- ``HasMicrosporidia-STATE_XXX`` / ``NoMicrosporidia-STATE_XXX``: Counts of vectors in each state partitioned by whether they have microsporidia
+- Provides detailed temporal tracking of how microsporidia infections spread through vector populations using the standard ReportVectorStats microsporidia columns
 
 **ReportMicrosporidia.csv**: Specialized report focusing exclusively on microsporidia dynamics:
 
