@@ -134,7 +134,7 @@ Microsporidia's primary value for malaria control lies in their ability to inter
 - **Times**: Array of days since microsporidia infection (ascending order)
 - **Values**: Array of probability multipliers (0-1) for malaria transmission
 
-For example, newly infected mosquitoes might show no aquisition or transmission interference (multiplier = 1.0), but interference increases over time as the microsporidia establish infection, reaching maximum effect (multiplier = 0.0) after several days. The model uses linear interpolation to calculate values for times not explicitly defined, with times greater than maximum time defined maintaining the last value of the map.
+For example, newly infected mosquitoes might show no acquisition or transmission interference (multiplier = 1.0), but interference increases over time as the microsporidia establish infection, reaching maximum effect (multiplier = 0.0) after several days. The model uses linear interpolation to calculate values for times not explicitly defined, with times greater than maximum time defined maintaining the last value of the map.
 
 
 Configuration parameters
