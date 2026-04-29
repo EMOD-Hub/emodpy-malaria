@@ -341,6 +341,18 @@ You must set **Susceptibility_Type** to determine if susceptibility at a particu
       ""Nonspecific_Antigenicity_Factor"": 0.39192559432597257
     }
 "
+"PfHRP2_Boost_Rate","float","0","1000","0.07","The rate at which PfHRP2 protein is added to the bloodstream by HRP-expressing infected red blood cells (pg/iRBC/day). Only relevant when **Malaria_Model** is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS and HRP genome locations are configured. See :doc:`malaria-model-fpg`.",".. code-block:: json
+
+    {
+      ""PfHRP2_Boost_Rate"": 0.07
+    }
+"
+"PfHRP2_Decay_Rate","float","0","1","0.172","The fraction of circulating PfHRP2 protein that decays each day (based on a half-life of approximately 3.67 days). Only relevant when **Malaria_Model** is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS and HRP genome locations are configured. See :doc:`malaria-model-fpg`.",".. code-block:: json
+
+    {
+      ""PfHRP2_Decay_Rate"": 0.172
+    }
+"
 "Post_Infection_Acquisition_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of reacquiring disease. At the time of recovery, the immunity against acquisition is multiplied by **Acquisition_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Acquisition_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
 
     {

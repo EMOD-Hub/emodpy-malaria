@@ -2,16 +2,20 @@
 ReportNodeDemographicsMalariaGenetics
 =====================================
 
-The malaria genetics node demographics report (ReportNodeDemographcsMalariaGenetics.csv)  extends
+The malaria genetics node demographics report (ReportNodeDemographicsMalariaGenetics.csv) extends
 the data collected in the malaria node demographics report by adding data about the number of
-infections with specific gentic barcodes. The malaria node demographics genetics report does not
-include columns for **Genome_Markers** because this report assumes that the simulation setup
-parameter **Malaria_Model** is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
+infections with specific genetic barcodes. This report requires **Malaria_Model** to be set to
+MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
+
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For an overview of the FPG model, genome configuration, and the full FPG workflow.
 
 .. note::
 
     If you need detailed data on the infections with different barcodes, use the
-    :doc:`software-report-malaria-sql`. That report contains data on all barcodes, without specifying
+    :doc:`software-report-sql-malaria-genetics`. That report contains data on all barcodes, without specifying
     what they are.
 
 

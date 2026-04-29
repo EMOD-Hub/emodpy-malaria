@@ -5,6 +5,12 @@ ReportFpgNewInfections
 
 The full parasite genetics new infections report (ReportFpgNewInfections.csv) provides very detailed information on
 new human infections for simulations where **Malaria_Model** is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
+
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For an overview of the FPG model, genome configuration, and the full FPG workflow.
+
 When **Report_Crossover_Data_Instead** is set to true, it provides less detailed information on the new infections
 and includes GenomeCrossoverLocations data column that provides a list of crossovers that created this new infection's
 genome.

@@ -113,6 +113,7 @@ your working directory.
 
     software-custom-reporter
     software-error-logging
+    software-report-sql
     software-report-binned
     software-report-demographic-summary
     software-report-inset-chart
@@ -136,12 +137,14 @@ your working directory.
    software-report-vector-species
    software-report-malaria-immunity
    software-report-malaria-patient
-   software-report-malaria-sql
+   software-report-sql-malaria
+   software-report-sql-malaria-genetics
    software-report-malaria-summary
    software-report-malaria-survey
    software-report-drug-status
    software-report-filtered-malaria
    software-report-fpg-new-infections
+   software-report-fpg-output-observational-model
    software-report-malaria-node-demographics
    software-report-malaria-node-demographics-genetics
    software-report-simple-malaria-transmission

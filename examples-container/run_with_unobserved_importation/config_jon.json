@@ -118,7 +118,6 @@
         "Fever_Severe_Threshold": 3.98354299722192,
         "Gametocyte_Smear_Sensitivity": 0.1,
         "Gametocyte_Stage_Survival_Rate": 0.588569307,
-        "Genome_Markers": [],
         "Geography": "",
         "HEG_Fecundity_Limiting": 0.0,
         "HEG_Homing_Rate": 0.0,

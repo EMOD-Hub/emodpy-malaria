@@ -120,9 +120,9 @@ def add_treatment_seeking(campaign,
         drug: List of drug(s) to administer from the drugs defined in config.
             Default is ``["Artemether","Lumefantrine"]``
         node_ids: The list of nodes to apply this intervention to (**Node_List**
-        parameter). If not provided, set value of NodeSetAll.
+            parameter). If not provided, set value of NodeSetAll.
         ind_property_restrictions: List of IndividualProperty key:value pairs that
-        individuals must have to receive the intervention. For example,
+            individuals must have to receive the intervention. For example,
 
             ``["IndividualProperty1:PropertyValue1", "IndividualProperty2:PropertyValue2"]``.
 

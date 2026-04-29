@@ -6,6 +6,11 @@ The following parameters determine the dynamics of the *Plasmodium falciparum* p
 including dynamics within the host and human population. For more information, see
 :doc:`malaria-model-infection-immunity`.
 
+.. seealso::
+
+   :doc:`malaria-model-fpg`
+      For the ``Parasite_Genetics`` parameters that configure the Full Parasite Genetics (FPG) model.
+
 
 .. include:: ../reuse/warning-case.txt
 
