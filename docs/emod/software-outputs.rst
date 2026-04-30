@@ -34,23 +34,10 @@ time step values accumulated over the simulation in a variety of reporting chann
 prevalence, and recovered. |EMOD_s| provides several other
 built-in reports that you can produce if you enable them in the :term:`configuration file`
 with the :doc:`parameter-configuration-output` parameters. Reports are generally in JSON or CSV format.
-If none of the built-in output reports provide the data you need, you can use a custom reporter that
-plugs in to the |exe_s| as an |module| :term:`dynamic link library (DLL)`. For more information, see
-:doc:`software-custom-reporter`.
 
 In order to interpret the output of |EMOD_s| simulations, you will find it useful to parse the output
-reports into an analyzable structure. For example, you can use a Python or MATLAB script to create graphs
+reports into an analyzable structure. For example, you can use a Python or R script to create graphs
 and charts for analysis.
-
-Convert output to CSV format
-----------------------------
-
-Most output reports, including the primary InsetChart report, are in JSON format. If you are using R
-for data analysis, you may prefer a CSV report. You can easily convert the output format using
-Python post-processing using the icjjson2csv.py_ script provided in the |EMOD_s| GitHub repository.
-Provide the path to this script using the ``-P`` argument when you run |exe_s| at the command line.
-See :doc:`software-simulation-cli` for more information.
-
 
 Use Python to plot data
 -----------------------
@@ -76,91 +63,161 @@ or elegant. Be sure to set the actual path to your working directory.
     plt.show()
 
 
-Use MATLAB to plot data
------------------------
-
-The example below uses the MATLAB toolbox JSONlab_ to parse an InsetChart.json file and plot one channel.
-This script uses JSONLab to parse the file into a usable form in MATLAB. This is a very simple
-example and not likely the most robust or elegant. Be sure to set the actual paths to JSONlab and
-your working directory.
-
-.. code-block:: matlab
-
-    % this sample uses JSONLab toolbox
-    addpath('PATH TO/jsonlab');
-
-    % open and parse InsetChart.json
-    ic_json = loadjson( fullfile( 'WorkingDirectoryLocation', 'output', 'InsetChart.json' ));
-    ic_json_allchannels = ic_json.Channels;
-    ic_json_birthinfo = ic_json_allchannels.Births;
-    ic_json_birthdata = ic_json_birthinfo.Data;
-    M = num2cell(ic_json_birthdata);
-
-    % plot "Births" channel by time step
-    plot(cell2mat(M));
-    title( 'Births' );
-
-
 .. _JSON: http://docs.python.org/library/json.html
 .. _matplotlib.pyplot: http://matplotlib.org/api/pyplot_api.html
-.. _JSONlab: http://www.mathworks.com/matlabcentral/fileexchange/33381-jsonlab-a-toolbox-to-encodedecode-json-files-in-matlaboctave
-.. _icjjson2csv.py: https://github.com/EMOD-Hub/EMOD/blob/master/Regression/Python/icjjson2csv.py
 
 
-.. toctree::
-    :maxdepth: 3
-    :titlesonly:
+General reports
+===============
 
-    software-custom-reporter
-    software-error-logging
-    software-report-sql
-    software-report-binned
-    software-report-demographic-summary
-    software-report-inset-chart
-    software-report-property
-    software-report-event-counter
-    software-report-event-recorder
-    software-report-human-migration
-    software-report-node-demographics
-    software-report-spatial
+Reports for simulation performance, events, demographics, and spatial data.
 
-
+- :doc:`BinnedReport <software-report-binned>` — Sorts channel data by age bins instead of simulation-wide averages.
+- :doc:`DemographicsSummary <software-report-demographic-summary>` — Reports demographic categories like gender ratio and population age groups.
+- :doc:`InsetChart <software-report-inset-chart>` — Core report with simulation-wide averages per time step.
+- :doc:`PropertyReport <software-report-property>` — Reports counts of individuals by individual property key-value combinations.
+- :doc:`ReportEventCounter <software-report-event-counter>` — Counts event occurrences by type during simulation time steps.
+- :doc:`ReportEventRecorder <software-report-event-recorder>` — Records individual demographics and health at the time of each event.
+- :doc:`ReportHumanMigrationTracking <software-report-human-migration>` — Tracks human travel and migration events during simulations.
+- :doc:`ReportInterventionPopAvg <software-report-intervention-population-average>` — Reports intervention usage and efficacy by population fraction.
+- :doc:`ReportNodeDemographics <software-report-node-demographics>` — Provides population data stratified by node and age bin.
+- :doc:`ReportSimulationStats <software-report-simulation-stats>` — Tracks performance metrics and resource usage per time step.
+- :doc:`SpatialReport <software-report-spatial>` — Breaks down channel data by individual nodes in binary files.
 
 .. toctree::
+   :hidden:
    :maxdepth: 3
    :titlesonly:
 
+   software-report-binned
+   software-report-demographic-summary
+   software-report-inset-chart
+   software-report-property
+   software-report-event-counter
+   software-report-event-recorder
+   software-report-human-migration
+   software-report-intervention-population-average
+   software-report-node-demographics
+   software-report-simulation-stats
+   software-report-spatial
+
+
+Vector reports
+==============
+
+Reports for vector biology and mosquito population dynamics.
+
+- :doc:`ReportMicrosporidia <software-report-microsporidia>` — Tracks vector population counts by species and microsporidia strain across all life stages.
+- :doc:`ReportVectorGenetics <software-report-vector-genetics>` — Reports vector genome and allele combinations by state.
+- :doc:`ReportVectorMigration <software-report-vector-migration>` — Provides detailed information on vector migration locations.
+- :doc:`ReportVectorStats <software-report-vector-stats>` — Reports detailed vector life-cycle data stratified by time, node, and species.
+- :doc:`VectorHabitatReport <software-report-vector-habitat>` — Reports habitat data for vector species developmental stages.
+- :doc:`VectorSpeciesReport <software-report-vector-species>` — Sorts vector data into bins by species with adult vector counts.
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :titlesonly:
+
+   software-report-microsporidia
    software-report-vector-genetics
    software-report-vector-migration
    software-report-vector-stats
    software-report-vector-habitat
    software-report-vector-species
+
+
+Malaria — Population and epidemiology
+======================================
+
+Reports for malaria disease burden, prevalence, and population-level statistics.
+
+- :doc:`MalariaSummaryReport <software-report-malaria-summary>` — Provides a population-level malaria summary grouped by age and parasitemia bins.
+- :doc:`ReportMalariaFiltered <software-report-filtered-malaria>` — Filtered InsetChart with options for data selection by time, node, or individual property.
+- :doc:`ReportNodeDemographicsMalaria <software-report-malaria-node-demographics>` — Extends node demographics with malaria parasite counts.
+- :doc:`SpatialReportMalariaFiltered <software-report-malaria-spatial>` — Spatial malaria information with filtering and custom reporting intervals.
+- :doc:`SqlReport <software-report-sql>` — Outputs individual-level epidemiological data in SQLite relational database format.
+- :doc:`SqlReportMalaria <software-report-sql-malaria>` — Outputs malaria epidemiological data in SQLite relational database format.
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :titlesonly:
+
+   software-report-malaria-summary
+   software-report-filtered-malaria
+   software-report-malaria-node-demographics
+   software-report-malaria-spatial
+   software-report-sql
+   software-report-sql-malaria
+
+
+Malaria — Intra-host
+=====================
+
+Reports for within-host infection dynamics, drug status, and individual patient data.
+
+- :doc:`MalariaImmunityReport <software-report-malaria-immunity>` — Reports antibody statistics for MSP and PfEMP1 by age bins.
+- :doc:`MalariaPatientJSONReport <software-report-malaria-patient>` — Reports medical data for each individual on each day.
+- :doc:`MalariaSurveyJSONAnalyzer <software-report-malaria-survey>` — Reports individual details for each event during the reporting interval.
+- :doc:`ReportAntibodies <software-report-antibodies>` — Tracks antibody concentration or capacity data per individual per day.
+- :doc:`ReportDrugStatus <software-report-drug-status>` — Reports drug status for individuals who have taken or are awaiting treatment.
+- :doc:`ReportInfectionDuration <software-report-infection-duration>` — Records the duration of each cleared infection along with individual demographics.
+- :doc:`ReportInfectionStatsMalaria <software-report-infection-stats-malaria>` — Reports per-infection parasite burden (hepatocytes, IRBCs, gametocytes) for every active infection at each reporting interval.
+- :doc:`ReportMalariaFilteredIntraHost <software-report-malaria-filtered-intra-host>` — Reports within-host disease dynamics with a focused set of intra-host channels.
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :titlesonly:
+
    software-report-malaria-immunity
    software-report-malaria-patient
-   software-report-sql-malaria
-   software-report-sql-malaria-genetics
-   software-report-malaria-summary
    software-report-malaria-survey
+   software-report-antibodies
    software-report-drug-status
-   software-report-filtered-malaria
+   software-report-infection-duration
+   software-report-infection-stats-malaria
+   software-report-malaria-filtered-intra-host
+
+
+Malaria - Parasite genetics (FPG)
+=================================
+
+Reports for parasite genome tracking and full parasite genetics simulations.
+
+- :doc:`ReportFpgNewInfections <software-report-fpg-new-infections>` — Tracks detailed new human infections with parasite genetics data.
+- :doc:`ReportFpgOutputForObservationalModel <software-report-fpg-output-observational-model>` — Extracts genetic and epidemiological data on the filtered infected population for use with the FPGObservationalModel post-processing tool.
+- :doc:`ReportNodeDemographicsMalariaGenetics <software-report-malaria-node-demographics-genetics>` — Adds specific genetic barcode infection counts to node demographics.
+- :doc:`ReportSimpleMalariaTransmission <software-report-simple-malaria-transmission>` — Tracks who transmitted malaria to whom; requires ``MALARIA_MECHANISTIC_MODEL_WITH_CO_TRANSMISSION`` and is typically used as input to the GenEpi model.
+- :doc:`ReportVectorStatsMalariaGenetics <software-report-vector-stats-malaria-genetics>` — Reports vector life-cycle data with genetic barcode information.
+- :doc:`SqlReportMalariaGenetics <software-report-sql-malaria-genetics>` — Outputs malaria epidemiological and genetics data in SQLite relational database format.
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :titlesonly:
+
    software-report-fpg-new-infections
    software-report-fpg-output-observational-model
-   software-report-malaria-node-demographics
    software-report-malaria-node-demographics-genetics
    software-report-simple-malaria-transmission
    software-report-vector-stats-malaria-genetics
-   software-report-malaria-spatial
-   software-report-intervention-population-average
-   software-report-antibodies
+   software-report-sql-malaria-genetics
 
 
+Other
+=====
 
+- :doc:`Error and logging files <software-error-logging>` — Describes the error and logging files generated when running a simulation.
+- **stdout.txt** — Contains the logging output written by |EMOD_s| to standard output during a simulation run.
+- **stderr.txt** — Contains error messages written by |EMOD_s| or Python to standard error during a simulation run.
+- :doc:`Troubleshooting <troubleshooting>` — Lists common exceptions and errors encountered when running simulations and explains how to resolve them.
 
-.. added this way even though it adds a blank link in the toc links because it's safer--
-.. if new built-in reports are added to generic, we can update only the generic file instead
-.. of all files that inherit from it.
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :titlesonly:
 
-.. Need to double check, but software-report-human-migration, software-report-event-counter and software-report-node-demographics
-.. may need to go into the generic toc
-
-.. make sure order of reports makes sense
+   software-error-logging
+   troubleshooting
