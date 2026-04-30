@@ -34,12 +34,9 @@ time step values accumulated over the simulation in a variety of reporting chann
 prevalence, and recovered. |EMOD_s| provides several other
 built-in reports that you can produce if you enable them in the :term:`configuration file`
 with the :doc:`parameter-configuration-output` parameters. Reports are generally in JSON or CSV format.
-If none of the built-in output reports provide the data you need, you can use a custom reporter that
-plugs in to the |exe_s| as an |module| :term:`dynamic link library (DLL)`. For more information, see
-:doc:`software-custom-reporter`.
 
 In order to interpret the output of |EMOD_s| simulations, you will find it useful to parse the output
-reports into an analyzable structure. For example, you can use a Python or MATLAB script to create graphs
+reports into an analyzable structure. For example, you can use a Python or R script to create graphs
 and charts for analysis.
 
 Convert output to CSV format
@@ -195,7 +192,7 @@ Reports for within-host infection dynamics, drug status, and individual patient 
    software-report-malaria-filtered-intra-host
 
 
-Parasite genetics (FPG)
+Malaria - Parasite genetics (FPG)
 ========================
 
 Reports for parasite genome tracking and full parasite genetics simulations.
@@ -223,7 +220,6 @@ Reports for parasite genome tracking and full parasite genetics simulations.
 Other
 =====
 
-- :doc:`Custom reporters <software-custom-reporter>` — Describes how to build and load custom reporters that extract simulation data not covered by built-in reports.
 - :doc:`Error and logging files <software-error-logging>` — Describes the error and logging files generated when running a simulation.
 - :doc:`Troubleshooting <troubleshooting>` — Lists common exceptions and errors encountered when running simulations and explains how to resolve them.
 
@@ -232,6 +228,5 @@ Other
    :maxdepth: 3
    :titlesonly:
 
-   software-custom-reporter
    software-error-logging
    troubleshooting
