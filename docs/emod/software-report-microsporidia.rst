@@ -41,7 +41,7 @@ is included for each species and represents vectors not carrying any microsporid
     :widths: 10, 8, 30
 
     Time, float, "The simulation time in days when the data was collected."
-    NodeID, integer, "The external ID of the node."
+    NodeID, integer, "The external ID of the node that the data is being collected for."
     Species, string, "The name of the vector species."
     MicrosporidiaStrain, string, "The name of the microsporidia strain. A value of ``NoMicrosporidia`` indicates vectors not infected with any strain."
     VectorPopulation, integer, "The total number of adult female vectors in this species/strain group (STATE_INFECTIOUS + STATE_INFECTED + STATE_ADULT)."
@@ -51,7 +51,7 @@ is included for each species and represents vectors not carrying any microsporid
     STATE_MALE, integer, "The number of adult male vectors."
     STATE_IMMATURE, integer, "The number of immature vectors (male and female)."
     STATE_LARVA, integer, "The number of larvae (male and female)."
-    STATE_EGG, integer, "The number of eggs."
+    STATE_EGG, integer, "The number of eggs (male and female)."
 
 
 Example

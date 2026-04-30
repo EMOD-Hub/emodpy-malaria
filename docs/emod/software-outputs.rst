@@ -39,16 +39,6 @@ In order to interpret the output of |EMOD_s| simulations, you will find it usefu
 reports into an analyzable structure. For example, you can use a Python or R script to create graphs
 and charts for analysis.
 
-Convert output to CSV format
-----------------------------
-
-Most output reports, including the primary InsetChart report, are in JSON format. If you are using R
-for data analysis, you may prefer a CSV report. You can easily convert the output format using
-Python post-processing using the icjjson2csv.py_ script provided in the |EMOD_s| GitHub repository.
-Provide the path to this script using the ``-P`` argument when you run |exe_s| at the command line.
-See :doc:`software-simulation-cli` for more information.
-
-
 Use Python to plot data
 -----------------------
 
@@ -75,7 +65,6 @@ or elegant. Be sure to set the actual path to your working directory.
 
 .. _JSON: http://docs.python.org/library/json.html
 .. _matplotlib.pyplot: http://matplotlib.org/api/pyplot_api.html
-.. _icjjson2csv.py: https://github.com/InstituteforDiseaseModeling/EMOD/blob/master/Regression/Python/icjjson2csv.py
 
 
 General reports
@@ -193,7 +182,7 @@ Reports for within-host infection dynamics, drug status, and individual patient 
 
 
 Malaria - Parasite genetics (FPG)
-========================
+=================================
 
 Reports for parasite genome tracking and full parasite genetics simulations.
 
@@ -221,6 +210,8 @@ Other
 =====
 
 - :doc:`Error and logging files <software-error-logging>` — Describes the error and logging files generated when running a simulation.
+- **stdout.txt** — Contains the logging output written by |EMOD_s| to standard output during a simulation run.
+- **stderr.txt** — Contains error messages written by |EMOD_s| or Python to standard error during a simulation run.
 - :doc:`Troubleshooting <troubleshooting>` — Lists common exceptions and errors encountered when running simulations and explains how to resolve them.
 
 .. toctree::

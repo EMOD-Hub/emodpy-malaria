@@ -29,7 +29,7 @@ file. All parameters are inherited from :doc:`software-report-filtered-malaria`.
     **Must_Have_IP_Key_Value**, string, NA, NA, (empty string), "A Key:Value pair that the individual must have in order to be included. Empty string means to not include IPs in the selection criteria."
     **Must_Have_Intervention**, string, NA, NA, (empty string), "The name of the intervention that the person must have in order to be included. Empty string means to not include interventions in the selection criteria."
     **Has_Interventions**, array of strings, NA, NA, [], "A channel is added to the report for each intervention name specified. The channel value is the fraction of the population that has that intervention."
-    **Include_30Day_Avg_Infection_Duration**, boolean, NA, NA, 1, "If set to true (1), the 30-Day Avg Infection Duration channel is included in the report."
+    **Include_30Day_Avg_Infection_Duration**, boolean, NA, NA, 1, "If set to true (1), the 30-Day Avg Infection Duration channel is included in the report.  See below for what the channel is."
 
 
 .. code-block:: json
@@ -63,11 +63,11 @@ The following channels are included in the report.
    :header: Channel, Description
    :widths: 15, 30
 
-   30-day Avg Infection Duration, "The 30-day moving average of infection duration in days. Only included if **Include_30Day_Avg_Infection_Duration** is set to true."
+   30-day Avg Infection Duration, "A running average of the duration of each infection that cleared in the last 30 days (both naturally and due to drugs). Only included if **Include_30Day_Avg_Infection_Duration** is set to true."
    Avg Cytokines, "The average cytokine level per person across the population."
-   Avg Num Infections, "The average number of simultaneous infections per person in the population."
-   Blood Smear Parasite Prevalence, "The fraction of the population with a detectable parasite level based on a blood smear diagnostic."
-   Campaign Cost, "The cumulative cost of campaigns distributed up to this time step."
+   Avg Num Infections, "The average number of infections, per person (infected people only) on that day. These are all the infections the individual has and may not be detectable by diagnostics. Note that this may not equal the number of infected people as people may have multiple infections."
+   Blood Smear Parasite Prevalence, "The fraction of the population that is detectable with the BLOOD_SMEAR_PARASITES version of **MalariaDiagnostic**. The detectability of the diagnostic is controlled by parameters **Report_Parasite_Smear_Sensitivity** and **Report_Detection_Threshold_Blood_Smear_Parasites**."
+   Campaign Cost, "The cost of campaigns cumulative up to that day (set by the **Cost_To_Consumer** parameter in each intervention)."
    Fraction Infected, "The fraction of the statistical population that is currently infected."
    Inf Frac-Stage 1 - Hepatocyte, "The fraction of all active infections currently in the hepatocyte stage."
    Inf Frac-Stage 1 - Hepatocyte - New, "Of infections currently in the hepatocyte stage, the fraction that transitioned into that stage on this time step."
@@ -78,12 +78,12 @@ The following channels are included in the report.
    Infection Duration Max, "The duration in days of the longest-running active infection across all individuals at this time step."
    Max Inf-Avg Duration, "The average infection duration among individuals who are carrying the maximum allowed number of simultaneous infections."
    Max Inf-Pop Fraction, "The fraction of currently infected individuals who are carrying the maximum allowed number of simultaneous infections."
-   New Clinical Cases, "The number of new clinical cases this time step."
-   New Infections, "The number of new infections that began this time step."
-   Statistical Population, "The total number of individuals in the simulation at this time step."
-   True Prevalence, "The fraction of the population with at least one active infection, regardless of detectability."
+   New Clinical Cases, "The number of new clinical cases on that day. This channel is controlled by the **Clinical_Fever_Threshold_Low** and **Clinical_Fever_Threshold_High** parameters. The amount that an individual's fever is above normal must be greater than both of these values to be considered clinical."
+   New Infections, "The number of *individuals* who got infected on that day. Because an individual could receive multiple infections in a single day, this is not the number of *total new infections* on that day. The **Malaria_Model** parameter controls the number of new infections possible per person per day."
+   Statistical Population, "The total number of individuals in the simulation on that day."
+   True Prevalence, "The fraction of the population that is detectable with the TRUE_PARASITE_DENSITY version of **MalariaDiagnostic**. The detectability of the diagnostic is controlled by the parameter **Report_Detection_Threshold_True_Parasite_Density**."
    Variant Fraction-MSP, "The average fraction of MSP1 antibody variants present per person across the population."
-   Variant Fraction-PfEMP1 Major, "The average fraction of PfEMP1 major epitope variants for which an individual has antibodies, averaged across the population."
+   Variant Fraction-PfEMP1 Major, "The average of the fraction of variants of the PfEMP1 var genes that an individual has had. The parameter **Falciparum_PfEMP1_Variants** defines the total number of possible variants. This channel indicates the average fraction that an individual has seen of this total number. The greater the fraction the more that the population has developed antibodies to the parasite."
 
 
 Example

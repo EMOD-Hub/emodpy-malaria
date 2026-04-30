@@ -52,45 +52,8 @@ To generate this report, the following parameters must be configured in the cust
     }
 
 
-Header
-======
+Output file data
+================
 
-The header section contains the following parameters.
-
-.. csv-table::
-   :header: Parameter, Data type, Description
-   :widths: 8, 5, 10
-
-   DateTime, string, The time stamp indicating when the report was generated.
-   DTK_Version, string, The version of |EMOD_s| used.
-   Report_Type, string, The type of output report.
-   Report_Version, string, The format version of the report.
-   Start_Time, integer, The time noted in days when the simulation begins.
-   Simulation_Timestep, integer, The number of days in each time step.
-   Timesteps, integer, The number of time steps in this simulation.
-   Channels, integer, The number of channels in the simulation.
-
-
-Channels
-========
-
-The channels section contains the following parameters.
-
-.. csv-table::
-   :header: Parameter, Data type, Description
-   :widths: 8, 5, 10
-
-   <Channel_Title>, string, The title of the particular channel.
-   Units, string, The units used for this channel.
-   Data, array, A list of the channel data at each time step.
-
-Example
-=======
-
-The following is a sample of an InsetChart.json file.
-
-.. literalinclude:: ../json/report-insetchart.json
-   :language: json
-
-
-.. would like to have a malaria-specific example file...
+This report produces the same output file format and channels as :doc:`software-report-inset-chart`.
+See that page for a full description of the file structure and channel definitions.
