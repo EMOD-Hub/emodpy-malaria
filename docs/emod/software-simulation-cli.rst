@@ -31,7 +31,7 @@ specified.
    files in the current directory. The specific demographics, climate, etc. files to use must be
    listed in the configuration file."
    ``--output-path``, ``-O``, "Path to the directory where output files will be written. If not specified, |EMOD_s| will create an ""output"" directory and overwrite any previous output in that directory."
-   ``--dll-path``, ``-D``, "Path to the |module| root directory. For more information, see :doc:`software-custom-reporter`."
+   ``--dll-path``, ``-D``, "Path to the |module| root directory."
    ``--python-script-path``, ``-P``, "The path to Python scripts to use for pre- or post-processing."
 
 
