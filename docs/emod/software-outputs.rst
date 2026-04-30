@@ -150,7 +150,7 @@ Reports for malaria disease burden, prevalence, and population-level statistics.
 - :doc:`ReportMalariaFiltered <software-report-filtered-malaria>` — Filtered InsetChart with options for data selection by time, node, or individual property.
 - :doc:`ReportNodeDemographicsMalaria <software-report-malaria-node-demographics>` — Extends node demographics with malaria parasite counts.
 - :doc:`SpatialReportMalariaFiltered <software-report-malaria-spatial>` — Spatial malaria information with filtering and custom reporting intervals.
-- :doc:`SqlReportMalaria <software-report-sql-malaria>` — Outputs generic epidemiological data in SQLite relational database format.
+- :doc:`SqlReport <software-report-sql>` — Outputs individual-level epidemiological data in SQLite relational database format.
 - :doc:`SqlReportMalaria <software-report-sql-malaria>` — Outputs malaria epidemiological data in SQLite relational database format.
 
 .. toctree::
@@ -187,7 +187,6 @@ Reports for within-host infection dynamics, drug status, and individual patient 
 
    software-report-malaria-immunity
    software-report-malaria-patient
-   software-report-malaria-summary
    software-report-malaria-survey
    software-report-antibodies
    software-report-drug-status
@@ -202,9 +201,9 @@ Parasite genetics (FPG)
 Reports for parasite genome tracking and full parasite genetics simulations.
 
 - :doc:`ReportFpgNewInfections <software-report-fpg-new-infections>` — Tracks detailed new human infections with parasite genetics data.
-- :doc:`ReportFpgOutputForObservationalModel <software-report-fpg-output-observational-model>` — Extract data for the FPGObservational model.
+- :doc:`ReportFpgOutputForObservationalModel <software-report-fpg-output-observational-model>` — Extracts genetic and epidemiological data on the filtered infected population for use with the FPGObservationalModel post-processing tool.
 - :doc:`ReportNodeDemographicsMalariaGenetics <software-report-malaria-node-demographics-genetics>` — Adds specific genetic barcode infection counts to node demographics.
-- :doc:`ReportSimpleMalariaTransmission <software-report-simple-malaria-transmission>` — Tracks who transmitted malaria to whom during co-transmission events.
+- :doc:`ReportSimpleMalariaTransmission <software-report-simple-malaria-transmission>` — Tracks who transmitted malaria to whom; requires ``MALARIA_MECHANISTIC_MODEL_WITH_CO_TRANSMISSION`` and is typically used as input to the GenEpi model.
 - :doc:`ReportVectorStatsMalariaGenetics <software-report-vector-stats-malaria-genetics>` — Reports vector life-cycle data with genetic barcode information.
 - :doc:`SqlReportMalariaGenetics <software-report-sql-malaria-genetics>` — Outputs malaria epidemiological and genetics data in SQLite relational database format.
 
