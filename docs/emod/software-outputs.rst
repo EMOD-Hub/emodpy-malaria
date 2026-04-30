@@ -225,6 +225,7 @@ Other
 
 - :doc:`Custom reporters <software-custom-reporter>` — Describes how to build and load custom reporters that extract simulation data not covered by built-in reports.
 - :doc:`Error and logging files <software-error-logging>` — Describes the error and logging files generated when running a simulation.
+- :doc:`Troubleshooting <troubleshooting>` — Lists common exceptions and errors encountered when running simulations and explains how to resolve them.
 
 .. toctree::
    :hidden:
@@ -233,3 +234,4 @@ Other
 
    software-custom-reporter
    software-error-logging
+   troubleshooting

@@ -81,5 +81,6 @@ between multiple instances of |EMOD_s|.
    software-run-simulation
    software-serializing-pops
    software-outputs
+   tips-tricks
 
 .. _IDM Publications: http://idmod.org/publications
