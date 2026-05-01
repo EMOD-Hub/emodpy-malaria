@@ -2,10 +2,37 @@
 Vector genetics
 ================
 
-EMOD's vector genetics system models the inheritance and phenotypic effects of genetic loci in
-mosquito populations. It enables simulations of Mendelian inheritance, insecticide resistance,
-gene drives, sex-ratio distortion, and genetically modified mosquito releases — all operating
-within the standard vector lifecycle described in :doc:`vector-model-transmission`.
+Vector control interventions such as insecticide-treated nets (ITNs) and indoor residual spraying
+(IRS) are cornerstones of malaria control and elimination efforts. However, the growing spread of
+insecticide resistance in mosquito populations threatens to undermine these tools. In parallel,
+new strategies such as gene drives — genetic elements that bias their own inheritance to spread
+through a population within a few generations — have been proposed as a way to either suppress
+vector populations or replace them with vectors that are unable to transmit malaria.
+
+|EMOD_s|'s vector genetics system provides a stochastic, agent-based framework for simulating
+the inheritance and phenotypic effects of genetic loci in mosquito populations. Each mosquito
+carries a diploid genome composed of up to 9 genetic loci with up to 8 alleles per locus. The
+system supports Mendelian inheritance, germline mutations, insecticide resistance, gene drives,
+sex-ratio distortion, and releases of genetically modified mosquitoes — all operating within the
+standard vector lifecycle described in :doc:`vector-model-transmission`. This allows researchers
+to investigate the spread of insecticide resistance, evaluate gene drive deployment strategies,
+and explore the interaction between vector genetics and malaria transmission in a spatially and
+temporally explicit setting.
+
+For more details on the modeling approach and example applications, see Selvaraj et al. (2020),
+`Vector genetics, insecticide resistance and gene drives: An agent-based modeling approach to
+evaluate malaria transmission and elimination <https://doi.org/10.1371/journal.pcbi.1008121>`_.
+
+.. figure:: ../images/vector-genetics/fig1-inheritance.png
+   :scale: 75%
+
+   Overview of the vector genetics system in |EMOD_s|: a female and male each carry a diploid
+   genome; the F1 offspring inherits one gamete from each parent. The labels illustrate three
+   consequences modeled by the genetics system: (a) allele combinations can modify phenotypic
+   traits such as lifespan (see :ref:`trait-modifiers`), (b) spontaneous germline mutations can
+   introduce new allele variants (see :ref:`germline-mutations`), and (c) allele combinations can
+   alter vector competence such as infectability (see :ref:`trait-modifiers`). From Selvaraj
+   et al. (2020), `doi:10.1371/journal.pcbi.1008121 <https://doi.org/10.1371/journal.pcbi.1008121>`_.
 
 Vector genetics is configured per species under ``Vector_Species_Params`` in config.json. Each
 species defines its own set of genes, alleles, trait modifiers, and (optionally) gene drives.
@@ -16,54 +43,28 @@ includes vector population dynamics (``Simulation_Type`` set to VECTOR_SIM or MA
 Genome representation
 =====================
 
-Each mosquito carries a diploid genome (``VectorGenome``) composed of two gametes — one
-inherited from each parent (maternal and paternal). A gamete (``VectorGamete``) is a compact
-32-bit integer that bit-packs allele values for up to 9 genetic loci along with Wolbachia and
-microsporidia status. Both classes are marked ``final`` to prevent virtual methods, keeping memory
-overhead to 4 bytes per gamete and 8 bytes per genome — critical when the simulation tracks
-hundreds of millions of mosquitoes.
+Each mosquito carries a diploid genome composed of two gametes — one inherited from each parent.
+The genome supports up to 8 user-defined genetic loci, each with up to 8 named alleles. A
+mosquito's Wolbachia status and microsporidia strain are also tracked per individual alongside
+the genetic information.
 
-The 32-bit gamete layout is:
+.. figure:: ../images/vector-genetics/genome-example.png
 
-.. code-block:: none
+   Example diploid genome: two gametes (rows), each carrying one allele per locus. The first
+   column is the gender locus; the remaining columns are user-defined genes with named alleles.
 
-    (upper)  WW mmm HHH ggg FFF EEE DDD CCC BBB AAA yGG (lower)
-
-    Bits 0-2     Locus 0 (gender): GG = allele index, y = Y-chromosome flag
-    Bits 3-5     Locus 1 (gene A)
-    Bits 6-8     Locus 2 (gene B)
-    Bits 9-11    Locus 3 (gene C)
-    Bits 12-14   Locus 4 (gene D)
-    Bits 15-17   Locus 5 (gene E)
-    Bits 18-20   Locus 6 (gene F)
-    Bits 21-23   Locus 7 (gene g)
-    Bits 24-26   Locus 8 (gene H)
-    Bits 27-29   Microsporidia strain index (mmm)
-    Bits 30-31   Wolbachia status (WW)
-
-Each non-gender locus stores a 3-bit allele index, supporting up to 8 alleles per gene. The
-gender locus (always locus 0) uses 3 bits, but bit 2 (the ``y`` flag, mask ``0x00000004``)
-distinguishes X-chromosome alleles (indices 0--3, bit 2 = 0) from Y-chromosome alleles (indices
-4--7, bit 2 = 1). A mosquito's sex is determined by whether the *paternal* gamete has the
-Y-chromosome flag set: if it does, the mosquito is male; otherwise it is female.
-
-The full diploid genome is packed into a single 64-bit integer (``VectorGameteBitPair_t``) for
-efficient storage and comparison: the maternal gamete occupies the lower 32 bits and the
-paternal gamete the upper 32 bits. Querying a locus returns the allele index pair from both
-gametes — for example, ``(0, 1)`` at locus 2 means the maternal gamete carries allele 0 and the
-paternal gamete carries allele 1 at that locus.
-
-Wolbachia and microsporidia status bits are stored identically in both gametes of a genome,
-since these are cytoplasmic factors rather than Mendelian loci. Wolbachia encodes four states
-(none, strain A, strain B, or both). Microsporidia encodes a strain index (0 = none).
+One locus is always reserved as the gender gene. A mosquito's sex is always determined by the
+gender gene — this is true even in simulations that do not use the genetics system. In a standard
+simulation the gender gene has just two alleles (X and Y), but it can be configured with
+additional alleles to support gene drive scenarios such as sex-ratio distortion, where a drive
+element on the X chromosome suppresses Y-bearing sperm.
 
 
 Genes and alleles
 =================
 
 Genes are defined in the ``Genes`` array within each species' configuration. Each gene declares a
-set of named alleles with initial population frequencies to be used at simulation initialization if
-starting with the usual vector population of 10,000 vectors per species.
+set of named alleles with initial population frequencies to be used at simulation initialization.
 
 .. code-block:: json
 
@@ -90,7 +91,7 @@ starting with the usual vector population of 10,000 vectors per species.
 
 **Gender gene**: If defined, the gender gene must be listed first. It partitions alleles into
 X-chromosome alleles (``Is_Y_Chromosome`` = 0 (false)) and Y-chromosome alleles
-(``Is_Y_Chromosome`` = 1 (true)). If no gender gene is explicitly defined, EMOD creates a default
+(``Is_Y_Chromosome`` = 1 (true)). If no gender gene is explicitly defined, |EMOD_s| creates a default
 one with a single X allele and a single Y allele, with XX and XY combinations being generated at
 about 50/50 frequencies.
 
@@ -102,6 +103,24 @@ When the simulation initializes, the vector population is seeded with genomes dr
 configured allele frequencies. Each gamete's alleles are sampled independently at each locus, then
 maternal and paternal gametes are combined to produce diploid genomes. The resulting genotype
 frequencies follow Hardy-Weinberg expectations.
+
+
+Genetic diversity
+-----------------
+
+Keep the following in mind when deciding how much genetic diversity to define for your vector
+population:
+
+- **Initial population size**: If you want high genetic diversity in the initial population, the
+  initial adult population must be large enough to represent that diversity. For example, if you
+  define enough genes and alleles to produce 100,000 possible genome combinations but only
+  initialize 10,000 mosquitoes, many combinations will simply not be present. Population size also
+  needs to be sufficient that stochastic effects such as daily mortality do not eliminate rare
+  alleles before the population becomes established.
+
+- **Runtime cost**: Greater genetic diversity — even if introduced later via a release —
+  increases simulation run time. More distinct genomes mean more objects to track and process at
+  each time step.
 
 
 Mating
@@ -117,36 +136,122 @@ Each female stores her mate's genome for the duration of her life. When she comp
 cycle and is ready to oviposit, the stored mate genome is used to determine offspring genotypes
 through the fertilization process described below.
 
-Males have a separate life expectancy controlled by the ``Male_Life_Expectancy`` parameter
-(default 10 days), independent of the female ``Adult_Life_Expectancy``. The ``MORTALITY`` trait
-modifier applies to both sexes.
-
 
 Mendelian inheritance
 =====================
 
-During fertilization, offspring genomes are determined through standard Mendelian segregation:
+During fertilization, each parent contributes one gamete to the offspring through standard
+Mendelian segregation: at each locus, one of the two parental alleles is selected with equal
+(50/50) probability, and loci segregate independently. Females always contribute an X-bearing
+gamete; males contribute either X or Y, with the ratio controlled by the ``FEMALE_EGG_RATIO``
+trait modifier. All possible gamete combinations are enumerated, each assigned a probability
+equal to the product of the two gamete probabilities, and eggs are distributed across these
+combinations stochastically. Offspring sharing the same genome are grouped into cohorts and
+enter the standard egg-to-adult development pipeline.
 
-1. **Gamete creation (meiosis)**: For each locus in a parent's diploid genome, if the parent is
-   homozygous (both alleles identical), all gametes carry that allele. If heterozygous, each
-   gamete receives one of the two alleles with equal probability (50/50 segregation). Loci
-   segregate independently.
+The following diagram shows the full sequence of events during fertilization, including when gene
+drive, germline mutation, and maternal deposition are applied relative to gamete creation:
 
-2. **Gender determination**: Females always produce X-bearing gametes. Males produce X-bearing or
-   Y-bearing gametes, with the ratio controlled by the ``FEMALE_EGG_RATIO`` trait modifier
-   (default 1.0 = 50/50 sex ratio). A modifier of 2.0 produces all-female offspring; a modifier
-   of 0.0 produces all-male offspring.
+.. uml::
 
-3. **Fertilization**: All possible combinations of maternal and paternal gametes are enumerated.
-   Each combination has a probability equal to the product of the individual gamete probabilities.
-   The total number of eggs is distributed across these combinations using multinomial sampling,
-   producing a stochastic count for each offspring genotype. Both male and female eggs are
-   produced — the ``Egg_Batch_Size`` includes both sexes.
+    @startuml
+    skinparam defaultFontSize 12
+    skinparam activityFontSize 12
+    skinparam activityArrowFontSize 11
+    skinparam backgroundColor white
 
-4. **Egg cohort creation**: Offspring with the same genome are grouped into cohorts. These cohorts
-   enter the egg queue and progress through the standard larval development pipeline. Crowding,
-   survival rates, and development delay apply to both male and female eggs.
+    start
 
+    :Input: female genome, male genome, total egg count;
+
+    fork
+        :**Gene Drive — Female**
+        DriveGenes(female)
+        Expands female genome into a set of
+        weighted genome-probability pairs.
+        Drives alleles across chromosomes
+        before gamete creation.;
+    fork again
+        :**Gene Drive — Male**
+        DriveGenes(male)
+        Expands male genome into a set of
+        weighted genome-probability pairs.
+        Drives alleles across chromosomes
+        before gamete creation.;
+    fork again
+        :**Get FEMALE_EGG_RATIO modifier**
+        Read from male genome trait modifiers.
+        Adjusts the ratio of X-bearing to
+        Y-bearing sperm (affects sex ratio
+        of offspring).;
+    end fork
+
+    fork
+        :**Create Female Gametes**
+        Mendelian segregation: 50/50 probability
+        of inheriting either allele at each locus.
+        Wolbachia infection status is passed
+        through female gametes only.;
+    fork again
+        :**Create Male Gametes**
+        Mendelian segregation: 50/50 probability
+        of inheriting either allele at each locus.
+        X vs Y gamete ratio adjusted by the
+        FEMALE_EGG_RATIO modifier.;
+    end fork
+
+    fork
+        :**Germline Mutation — Female Gametes**
+        For each allele with defined mutations:
+        new gametes are added at the mutation
+        frequency and the original gamete
+        probability is reduced accordingly.;
+    fork again
+        :**Germline Mutation — Male Gametes**
+        For each allele with defined mutations:
+        new gametes are added at the mutation
+        frequency and the original gamete
+        probability is reduced accordingly.;
+    end fork
+
+    fork
+        :**Maternal Deposition — Female Gametes**
+        Using the mother's genome, pre-calculate
+        allele changes due to maternal Cas9
+        deposition (e.g. gene drive cargo
+        deposited into eggs).;
+    fork again
+        :**Maternal Deposition — Male Gametes**
+        Using the mother's genome, pre-calculate
+        allele changes due to maternal Cas9
+        deposition. Applied to both gamete
+        sets using the mother's genome.;
+    end fork
+
+    :**Create Possible Egg Genomes**
+    Combine all female gametes x all male gametes.
+    Each combination's probability =
+    female_gamete_prob x male_gamete_prob.
+    Zero-probability combinations are discarded.;
+
+    :**Adjust for Non-Fertile Eggs**
+    Apply the ADJUST_FERTILE_EGGS trait modifier
+    to each possible genome's probability.
+    Reduces the likelihood of non-viable
+    genome combinations.;
+
+    :**Determine Egg Counts**
+    For each possible genome, multiply its
+    probability by totalEggs to get a
+    stochastic count.;
+
+    :Output: fertilized eggs (genome to count pairs);
+
+    stop
+    @enduml
+
+
+.. _germline-mutations:
 
 Germline mutations
 ==================
@@ -175,6 +280,10 @@ configured per-generation rate. Mutations are defined per gene:
 When gametes are created, each allele has the configured probability of mutating to the specified
 target. The mutation is applied after standard Mendelian segregation but before fertilization.
 Multiple mutations can be defined for a single gene, including bidirectional mutations.
+
+Note that germline mutation acts on gametes, not the parent genome. New mutant gametes are added
+at the defined frequency, and the probability of the original (unmutated) gamete is reduced by
+the same amount, so total probability is conserved.
 
 
 .. _trait-modifiers:
@@ -232,7 +341,7 @@ The following traits can be modified by genotype:
     INFECTED_BY_HUMAN, 1.0, "Multiplier on the probability that a mosquito becomes infected when feeding on an infectious human. Applied to the species-level ``Acquire_Modifier`` parameter."
     FECUNDITY, 1.0, "Multiplier on the number of eggs laid per oviposition. Applied to the ``Egg_Batch_Size`` parameter. This impacts egg count before egg crowding takes effect."
     FEMALE_EGG_RATIO, 1.0, "Controls the sex ratio of offspring. A value of 1.0 produces 50/50 male/female. Values above 1.0 bias toward female; values below 1.0 bias toward male. At 2.0 all offspring are female; at 0.0 all are male. Applied during fertilization after egg crowding."
-    STERILITY, 1.0, "Determines if eggs are viable based on the parents' genomes. A value of 0.0 means the vector is sterile — if either parent is sterile, the eggs are not viable and are not added to the egg queue. Any nonzero value means fertile. Applied after egg crowding. Sterility does not impact mating."
+    STERILITY, 1.0, "Determines if eggs are viable based on the parents' genomes. A value of 0.0 means the vector is sterile — if either parent is sterile, the eggs are not viable and are not added to the egg queue. Any nonzero value means fertile. Applied after egg crowding. Sterility does not impact mating. If the female mates with a sterile male, then she will feed as normal but produce no eggs."
     TRANSMISSION_TO_HUMAN, 1.0, "Multiplier on the probability that sporozoites in the salivary gland successfully infect a human during a bite. Applied to the species-level ``Transmission_Rate`` parameter."
     ADJUST_FERTILE_EGGS, 1.0, "Multiplier on the probability of each genome's eggs being fertile. This is the last step in the fertilization process before actual numbers of eggs are assigned. A value of 0.0 means no eggs are produced; 1.0 means no change; values above 1.0 increase egg production for that genome."
     MORTALITY, 1.0, "Multiplier on the daily mortality rate, where the base rate is ``1/Adult_Life_Expectancy`` (or ``1/Male_Life_Expectancy`` for males). Values above 1.0 increase mortality (shorter lifespan); values below 1.0 decrease it."
@@ -258,8 +367,12 @@ Gene drives
 ===========
 
 Gene drives are genetic elements that bias their own inheritance, spreading through a population
-at rates exceeding standard Mendelian expectations. EMOD supports five gene drive types, each
+at rates exceeding standard Mendelian expectations. |EMOD_s| supports five gene drive types, each
 modeling a different mechanism.
+
+Note that gene drive is applied before gamete creation. A single parent genome is first expanded
+into a set of weighted genome-probability pairs by the drive, and Mendelian segregation then
+operates on those possibilities.
 
 Please see :doc:`vector-model-gene-drives` for more information on configuring gene drives.
 
@@ -274,6 +387,10 @@ generating resistance alleles in the embryo before the drive's homology-directed
 active. It extends gene drive behavior by adding a pre-embryonic cutting step configured in the
 ``Maternal_Deposition`` array within ``Vector_Species_Params``.
 
+Note that maternal deposition uses the mother's genome to modify both the female and male gamete
+sets. The Cas9-driven allele changes originate from the mother regardless of which set of gametes
+is being modified.
+
 Please see :doc:`vector-model-maternal-deposition` for full details on how maternal deposition
 works, configuration parameters, and validation rules.
 
@@ -281,21 +398,32 @@ works, configuration parameters, and validation rules.
 Wolbachia
 =========
 
-*Wolbachia* is an intracellular bacterium that can be introduced into mosquito populations as a
-disease-control strategy. EMOD models four Wolbachia states per vector: none, strain A, strain B,
-or both strains A and B.
+*Wolbachia* is an intracellular bacterium found naturally in many insect species and can be
+introduced into mosquito populations as a disease-control strategy. In *Anopheles* mosquitoes,
+Wolbachia infection can shorten adult lifespan — important because malaria parasites (*Plasmodium*)
+require 10–14 days to develop inside the mosquito before it can transmit disease, so a shorter
+lifespan means fewer mosquitoes survive long enough to become infectious. Wolbachia can also inhibit
+*Plasmodium* development directly by activating the mosquito immune system and competing with
+the parasite for resources. A key feature of Wolbachia for population-level strategies is
+cytoplasmic incompatibility: infected males cannot successfully reproduce with uninfected females,
+which causes Wolbachia to spread through a population over time once introduced. Together, these
+effects — reduced lifespan, parasite inhibition, and self-sustaining spread — make Wolbachia a
+candidate tool for reducing malaria transmission without eliminating mosquitoes.
+
+|EMOD_s| models four Wolbachia states per vector: none, strain A, strain B, or both strains A and B.
 
 Wolbachia is inherited maternally — infected females pass their Wolbachia status to all offspring
-through the egg cytoplasm. Males do not transmit Wolbachia. Wolbachia status is stored alongside
-the genetic information in each gamete but is not a genetic locus — it is a cytoplasmic factor.
+through the egg cytoplasm. Males do not transmit Wolbachia.
 
 Wolbachia-infected males are incompatible with uninfected females: matings between Wolbachia-
 carrying males and uninfected females produce inviable eggs (cytoplasmic incompatibility). This
-is checked during egg laying via the ``AreWolbachiaCompatible`` function, which skips egg
-production for incompatible crosses.
+is checked during egg laying, and incompatible crosses produce no eggs.
 
-Wolbachia also modifies adult mortality through the ``WolbachiaMortalityModification`` parameter,
-which is applied as a multiplier on the mortality rate for infected vectors.
+Wolbachia modifies vector biology through two parameters: ``Wolbachia_Mortality_Modification``
+is a multiplier on the mortality rate of infected vectors, and ``Wolbachia_Infection_Modification``
+is a multiplier on the probability that a Wolbachia-infected vector acquires a malaria infection
+when biting an infectious human. A value below 1.0 reduces susceptibility, modeling the parasite-
+blocking effect of Wolbachia; the default of 1.0 means no effect.
 
 Vectors with specific Wolbachia status can be introduced into the population using the
 ``MosquitoRelease`` intervention with the ``Released_Wolbachia`` parameter.
@@ -306,14 +434,16 @@ Releasing vectors with specific genomes
 
 The ``MosquitoRelease`` intervention introduces vectors with user-specified genomes into the
 simulation. This is the primary mechanism for modeling releases of genetically modified
-mosquitoes, including gene drive carriers and sterile males. The user specifies the complete
-genome of the released vectors — all genes and loci must be specified, including sex (via the
-appropriate X/Y chromosome pair).
+mosquitoes, including gene drive carriers and sterile males. Released vectors can also be given
+a specific Wolbachia status (via ``Released_Wolbachia``) or a microsporidia strain (via
+``Released_Microsporidia_Strain``). The user specifies the complete genome of the released
+vectors — all genes and loci must be specified, including sex (via the appropriate X/Y
+chromosome pair).
 
 When gene drive alleles are released, the drive mechanics take effect during subsequent mating
 and fertilization events, propagating the driven alleles through the population.
 
-see :doc:`parameter-campaign-node-mosquitorelease` for more information on configuring mosquito releases.
+See :doc:`parameter-campaign-node-mosquitorelease` for more information on configuring mosquito releases.
 
 Output
 ======
@@ -323,5 +453,3 @@ tracking vector genetics. It produces a CSV file with vector counts stratified b
 or allele frequency at each time step, node, and vector state (eggs, larvae, immature, adult,
 infected, infectious, male).
 
-See :doc:`software-report-vector-genetics` for full configuration details and output column
-descriptions.
