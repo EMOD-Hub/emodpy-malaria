@@ -97,6 +97,7 @@ The following pages in this section describe the structural components of the ve
    vector-model-climate-demographics
    vector-model-larval-habitat
    vector-model-transmission
+   vector-model-microsporidia
 
 
 

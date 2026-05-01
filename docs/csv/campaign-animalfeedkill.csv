@@ -12,6 +12,12 @@
       ]
     }
 "
+"Dont_Allow_Duplicates","bool","NA","NA","0","If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the node.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
+    }
+"
 "Insecticide_Name","string","NA","NA","UNINITIALIZED STRING","The name of the insecticide defined in  <config.Insecticides>  for this intervention.  If insecticides are being used,  this must be defined as one of those values; if they are not being used this can be empty.  It cannot have a value if you did not configure <config.Insecticides>.",".. code-block:: json
 
     {
