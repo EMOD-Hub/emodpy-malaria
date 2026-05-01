@@ -38,8 +38,7 @@ simulation type.
 
 
 Although you can create campaign files entirely from scratch, it is often easier to start from
-an existing campaign file and modify it to meet your needs. For more information, see
-:doc:`tutorials`.
+an existing campaign file and modify it to meet your needs
 
 
 .. toctree::
