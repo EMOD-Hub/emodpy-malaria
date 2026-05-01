@@ -1,0 +1,118 @@
+"Drivers","array of json objects","NA","NA","[]","Array of gene driver objects defined per species under **Vector_Species_Params**. Each entry specifies a drive type and the alleles it acts on. All drivers in the array must be of the same **Driver_Type**.",".. code-block:: json
+
+    {
+        ""Drivers"": []
+    }
+"
+"Driver_Type","string","NA","NA","NA","The type of gene drive mechanism. CLASSIC — the driver copies itself only when one gamete has the driving allele and the other has the target allele to replace. INTEGRAL_AUTONOMOUS — at least one gamete must carry the driver; effectors can be driven even if the driver itself fails to copy. DAISY_CHAIN — a multi-element system where each component drives the next but the first element is not driven, making the system self-limiting. X_SHRED — destroys X-bearing sperm to bias offspring toward males. Y_SHRED — destroys Y-bearing sperm to bias offspring toward females.",".. code-block:: json
+
+    {
+        ""Driver_Type"": ""CLASSIC""
+    }
+"
+"Driving_Allele","string","NA","NA","NA","The allele that acts as the driver. Must be defined in the species **Genes** configuration. For X_SHRED and Y_SHRED, this is the allele at a non-gender locus that activates shredding.",".. code-block:: json
+
+    {
+        ""Driving_Allele"": ""drive_a""
+    }
+"
+"Alleles_Driven","array of json objects","NA","NA","[]","Defines the alleles to be copied and the probability distribution of outcomes at each driven locus. Used by CLASSIC, INTEGRAL_AUTONOMOUS, and DAISY_CHAIN drive types. Each entry specifies one locus to drive via **Allele_To_Copy**, **Allele_To_Replace**, and **Copy_To_Likelihood**.",".. code-block:: json
+
+    {
+        ""Alleles_Driven"": [
+            {
+                ""Allele_To_Copy"": ""drive_a"",
+                ""Allele_To_Replace"": ""wild_a"",
+                ""Copy_To_Likelihood"": []
+            }
+        ]
+    }
+"
+"Allele_To_Copy","string","NA","NA","NA","The allele to be copied into the target gamete. Must be from the same gene/locus as **Allele_To_Replace**.",".. code-block:: json
+
+    {
+        ""Allele_To_Copy"": ""drive_a""
+    }
+"
+"Allele_To_Replace","string","NA","NA","NA","The allele that must be present in the target gamete and will be replaced. Must be from the same gene/locus as **Allele_To_Copy**. Must have an entry in **Copy_To_Likelihood** (representing the failure probability, which may be zero).",".. code-block:: json
+
+    {
+        ""Allele_To_Replace"": ""wild_a""
+    }
+"
+"Copy_To_Likelihood","array of json objects","NA","NA","NA","A list of allele-to-likelihood pairs defining the probability distribution of outcomes when the drive attempts to copy. Entries must include the **Allele_To_Replace** (probability of copy failure) and sum to 1.0. Additional entries represent successful copy or mutation products.",".. code-block:: json
+
+    {
+        ""Copy_To_Likelihood"": [
+            { ""Copy_To_Allele"": ""drive_a"", ""Likelihood"": 0.95 },
+            { ""Copy_To_Allele"": ""resist_a"", ""Likelihood"": 0.05 }
+        ]
+    }
+"
+"Copy_To_Allele","string","NA","NA","NA","The name of the allele produced at the cut site. Must be from the same gene as **Allele_To_Copy** and **Allele_To_Replace**.",".. code-block:: json
+
+    {
+        ""Copy_To_Allele"": ""drive_a""
+    }
+"
+"Likelihood","float","0","1","0","The probability of producing this allele at the cut site. All entries in **Copy_To_Likelihood** must sum to 1.0.",".. code-block:: json
+
+    {
+        ""Likelihood"": 0.95
+    }
+"
+"Driving_Allele_Params","json object","NA","NA","NA","For X_SHRED and Y_SHRED only. Defines how the driving allele itself is inherited using the same **Allele_To_Copy**, **Allele_To_Replace**, and **Copy_To_Likelihood** structure as entries in **Alleles_Driven**.",".. code-block:: json
+
+    {
+        ""Driving_Allele_Params"": {
+            ""Allele_To_Copy"": ""Ad"",
+            ""Allele_To_Replace"": ""Aw"",
+            ""Copy_To_Likelihood"": [
+                { ""Copy_To_Allele"": ""Ad"", ""Likelihood"": 1.0 },
+                { ""Copy_To_Allele"": ""Aw"", ""Likelihood"": 0.0 }
+            ]
+        }
+    }
+"
+"Shredding_Alleles","json object","NA","NA","NA","For X_SHRED and Y_SHRED only. Defines which gender alleles are targeted for destruction during spermatogenesis and how surviving gametes are treated.",".. code-block:: json
+
+    {
+        ""Shredding_Alleles"": {
+            ""Allele_Required"": ""Yw"",
+            ""Allele_To_Shred"": ""Xw"",
+            ""Allele_To_Shred_To"": ""Xm"",
+            ""Allele_Shredding_Fraction"": 1.0,
+            ""Allele_To_Shred_To_Surviving_Fraction"": 0.0
+        }
+    }
+"
+"Allele_Required","string","NA","NA","NA","The gender allele the male must carry for shredding to occur. For X_SHRED, must be a Y-chromosome allele. For Y_SHRED, must be an X-chromosome allele.",".. code-block:: json
+
+    {
+        ""Allele_Required"": ""Yw""
+    }
+"
+"Allele_To_Shred","string","NA","NA","NA","The gender allele targeted for destruction. For X_SHRED, must be an X-chromosome allele. For Y_SHRED, must be a Y-chromosome allele.",".. code-block:: json
+
+    {
+        ""Allele_To_Shred"": ""Xw""
+    }
+"
+"Allele_To_Shred_To","string","NA","NA","NA","The allele that shredded gametes are converted to before being eliminated or surviving. Typically a mutant or resistance allele. Must differ from **Allele_Required** and **Allele_To_Shred**.",".. code-block:: json
+
+    {
+        ""Allele_To_Shred_To"": ""Xm""
+    }
+"
+"Allele_Shredding_Fraction","float","0","1","1.0","The fraction of targeted gametes (Allele_To_Shred) that are converted to Allele_To_Shred_To. A value of 1.0 means all targeted gametes are shredded; less than 1.0 means some survive unchanged.",".. code-block:: json
+
+    {
+        ""Allele_Shredding_Fraction"": 1.0
+    }
+"
+"Allele_To_Shred_To_Surviving_Fraction","float","0","1","0.0","The fraction of converted gametes (Allele_To_Shred_To) that survive as viable eggs. 0.0 means perfect shredding — none survive. 1.0 means all converted gametes survive and can contribute to offspring.",".. code-block:: json
+
+    {
+        ""Allele_To_Shred_To_Surviving_Fraction"": 0.0
+    }
+"
