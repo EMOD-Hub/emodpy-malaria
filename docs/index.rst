@@ -57,7 +57,6 @@ disease transmission model.
 
    installation
    overview
-   emod/tutorials
    reference
    glossary
 
