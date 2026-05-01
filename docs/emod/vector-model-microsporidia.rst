@@ -54,25 +54,10 @@ Why model microsporidia?
 Modeling microsporidia infections is essential for:
 
 **Evaluating biocontrol strategies**: Microsporidia-based interventions could involve releasing infected mosquitoes to establish symbiont infections in wild populations. Models help predict the conditions under which such releases would be successful and sustainable.
-
 **Optimizing intervention timing and coverage**: The model can evaluate how release timing, coverage levels, and strain characteristics affect the establishment and persistence of transmission-blocking microsporidia.
-
 **Assessing combined intervention effects**: Microsporidia work synergistically with other vector control measures. Models help predict how microsporidia-based interventions interact with insecticides, bed nets, and other malaria control tools.
-
 **Understanding natural transmission dynamics**: Wild mosquito populations often harbor microsporidia at moderate prevalences. Understanding how these infections spread and persist helps explain natural variation in malaria transmission intensity and seasonal patterns.
-
 **Strain selection and optimization**: By comparing different microsporidia strains with varying transmission characteristics and phenotypic effects, models can guide the selection of optimal strains for field deployment.
-
-
-Genome representation
-=====================
-
-Microsporidia infections are tracked using a field within the vector genome, allowing for up to 4 states per mosquito (no infection plus 3 distinct strains). The infection state is encoded as an index where:
-
-- **Index 0**: No microsporidia infection
-- **Indices 1-3**: Infection with microsporidia strain 1, 2, or 3 respectively
-
-Each strain has a unique name (``Strain_Name``) and an independent parameter set. Strain names must be unique across all species. Vector may only be infected with one microsporidia strain and, once infected, is infected for life.
 
 
 Transmission mechanisms
