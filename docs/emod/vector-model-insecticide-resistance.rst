@@ -14,6 +14,11 @@ Insecticide resistance operates through the vector genetics system described in
 configuration; what makes them confer resistance is the ``Resistances`` configuration on the
 insecticide that maps specific allele combinations to reduced effectiveness.
 
+Please note, once you have defined Insecticides for your simulation, you will be required to specify the
+**Insecticide_Name** parameter for any intervention that has it. This is because the model needs to know
+which insecticide's resistance modifiers to apply when calculating the intervention's effectiveness against
+different vector genotypes. If you have interventions for which you do not wish to model resistance, you can
+create a dummy insecticide with no resistance entries and reference that insecticide in those interventions.
 
 How resistance works
 ====================
@@ -107,6 +112,30 @@ looked up for the vector's exact genotype: if it matches a resistant allele comb
 reduced modifier is used; otherwise the default (1.0, full susceptibility) applies.
 
 
+Effect on the vector population
+================================
+
+Most insecticide-based interventions target only meal-seeking female vectors — those actively
+host-seeking or attempting to feed. This includes bednets (SimpleBednet, UsageDependentBednet),
+indoor residual spraying (IRSHousingModification), ivermectin (Ivermectin), and indoor emanators
+(IndoorIndividualEmanator).
+
+However, some interventions affect vectors beyond the meal-seeking population, including
+non-meal-seeking females and males:
+
+- **OutdoorNodeEmanator** — can kill both male and female vectors in outdoor spaces, regardless
+  of host-seeking status.
+- **SugarTrap** — targets both male and female vectors that feed on sugar sources, regardless
+  of host-seeking status.
+- **OutdoorRestKill** — kills vectors resting outdoors, including males.
+- **SpaceSpraying** (and MultiInsecticideSpaceSpraying) — applies insecticide to all vectors
+  present in the node, affecting males and females regardless of feeding status.
+
+This distinction is important when modeling resistance dynamics: interventions that affect the
+entire vector population exert broader selection pressure on resistance alleles than those
+targeting only meal-seeking females.
+
+
 Effect on the feeding cycle
 ===========================
 
@@ -123,10 +152,9 @@ For indoor-feeding vectors, the sequence is:
 2. **Blocking**: If not repelled, the vector may be blocked from feeding (bednet blocking).
    Resistant vectors are more likely to penetrate the net.
 
-3. **Killing during feeding**: The vector may die during the feeding attempt (bednet killing).
+3. **Killing before feeding**: If blocked, the vector then may be killed by insecticide (bednet killing).
 
-4. **Killing after feeding**: The vector may die after feeding (IRS killing, bednet post-feed
-   killing).
+4. **Killing after feeding**: The vector may die after feeding due to resting or Ivermectin.
 
 At each step, the probability is genome-specific: a resistant vector faces lower killing and
 blocking probabilities than a susceptible vector encountering the same interventions.
@@ -139,17 +167,21 @@ genotypes experience a reduced mortality increase, proportional to their ``Larva
 Modeling resistance dynamics
 ============================
 
-Insecticide resistance in EMOD is not a fixed property — it emerges and spreads through the
-population via the same genetic inheritance system used for all vector traits. A typical workflow
-for modeling resistance dynamics involves:
+Insecticide resistance in EMOD depends on the genetics defined in the simulation. The mosquitoes
+with the resistant alleles are more likely to survive and feed than the other mosquitoes, therefore
+they will be more likely to lay eggs (if female) and more likely to mate (if male) spreading their
+genes to the next generation.
+
+A typical workflow for modeling resistance dynamics involves:
 
 1. **Define resistance alleles** as part of the species' ``Genes`` configuration, with initial
    frequencies reflecting baseline resistance prevalence.
 
-2. **Define fitness costs** (optional) using ``Gene_To_Trait_Modifiers`` to associate resistance
-   alleles with increased mortality or reduced fecundity in the absence of insecticide pressure.
-   This creates a fitness trade-off that prevents resistance from fixing in the population without
-   selection pressure.
+2. **Define fitness costs if any** (optional). Sometimes the resistance alleles might have a fitness
+   cost such as increased mortality or reduced fecundity, which creates a trade-off that prevents
+   resistance from fixing in the population without selection pressure. To model that, you can use
+   ``Gene_To_Trait_Modifiers`` to define fitness cost traits associated with the same genes that
+   have insecticide resistance.
 
 3. **Configure insecticides** with ``Resistances`` that map the resistance alleles to reduced
    intervention effectiveness.
@@ -174,6 +206,12 @@ The following is a complete example showing the configuration of a resistance al
 insecticide with resistance modifiers, a fitness cost, and a bednet intervention that uses the
 insecticide.
 
+Note: When calculating resistance effects based on the alleles present in a vector, more specifically
+defined resistances are applied first, and each allele can contribute to a resistance effect only once.
+For example, if a vector has the genotype (a1, a1) and there are resistance effects defined for both (a1, *)
+and (a1, a1), the (a1, a1) effect will be applied because it is the more specific match. The (a1, *)
+effect will not be applied, since both alleles have already been accounted for.
+
 **config.json** (relevant excerpts):
 
 .. code-block:: json
@@ -184,16 +222,10 @@ insecticide.
                 "Name": "gambiae",
                 "Genes": [
                     {
-                        "Is_Gender_Gene": 1,
+                        "Is_Gender_Gene": 0,
                         "Alleles": [
-                            { "Name": "X", "Initial_Allele_Frequency": 0.75, "Is_Y_Chromosome": 0 },
-                            { "Name": "Y", "Initial_Allele_Frequency": 0.25, "Is_Y_Chromosome": 1 }
-                        ]
-                    },
-                    {
-                        "Alleles": [
-                            { "Name": "wt", "Initial_Allele_Frequency": 0.95 },
-                            { "Name": "kdr", "Initial_Allele_Frequency": 0.05 }
+                            { "Name": "wt", "Initial_Allele_Frequency": 0.95, "Is_Y_Chromosome": 0 },
+                            { "Name": "kdr", "Initial_Allele_Frequency": 0.05, "Is_Y_Chromosome": 0 }
                         ]
                     }
                 ],
@@ -255,12 +287,17 @@ insecticide.
                         "Killing_Config": {
                             "class": "WaningEffectExponential",
                             "Initial_Effect": 0.8,
-                            "Decay_Time_Constant": 730
+                            "Decay_Time_Constant": 400
                         },
                         "Blocking_Config": {
                             "class": "WaningEffectExponential",
                             "Initial_Effect": 0.6,
-                            "Decay_Time_Constant": 730
+                            "Decay_Time_Constant": 750
+                        },
+                        "Repelling_Config": {
+                            "class": "WaningEffectExponential",
+                            "Initial_Effect": 0.2,
+                            "Decay_Time_Constant": 300
                         }
                     }
                 }
@@ -270,7 +307,7 @@ insecticide.
 
 With this configuration:
 
-- Wild-type vectors (``wt/wt``) experience full bednet effects (killing = 0.8, blocking = 0.6)
+- Wild-type vectors (``wt/wt``) experience full bednet effects (initially at killing = 0.8, blocking = 0.6, repelling = 0.2)
   and no fitness cost.
 - Heterozygous vectors (``kdr/wt``) experience reduced killing (0.8 × 0.5 = 0.4) and slightly
   reduced blocking (0.6 × 0.9 = 0.54), with no fitness cost.
@@ -282,12 +319,10 @@ With this configuration:
 Output
 ======
 
-Insecticide resistance dynamics can be tracked through several reports:
+Insecticide resistance dynamics can be tracked through the following reports:
 
 - :doc:`software-report-vector-genetics` — monitors allele frequencies and genotype counts over
   time, allowing direct observation of resistance allele spread.
-- The standard **InsetChart** report tracks population-level metrics such as vector counts and
+- :doc:`software-report-inset-chart` —  tracks population-level metrics such as vector counts and
   human biting rates, which reflect the aggregate impact of resistance on intervention
   effectiveness.
-
-See :doc:`software-report-vector-genetics` for configuration details and output format.
