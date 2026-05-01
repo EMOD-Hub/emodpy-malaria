@@ -15,9 +15,11 @@ Node-level interventions
 
    parameter-campaign-node-animalfeedkill
    parameter-campaign-node-artificialdiet
+   parameter-campaign-node-birthtriggerediv
    parameter-campaign-node-broadcastcoordinatoreventfromnode
    parameter-campaign-node-broadcastnodeevent
    parameter-campaign-node-firstnodewithnodepropertyeventcoordinator
+   parameter-campaign-node-importpressure
    parameter-campaign-node-indoorspacespraying
    parameter-campaign-node-inputeir
    parameter-campaign-node-larvicides

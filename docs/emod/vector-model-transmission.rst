@@ -139,6 +139,22 @@ Transmission between humans and vectors
 Transmission between humans and vectors can only occur when mosquitoes successfully feed on humans
 (see `Modeling feeding cycle outcomes`_).
 
+Microsporidia and transmission interference
+--------------------------------------------
+
+The standard vector transmission model has been extended with a
+:doc:`microsporidia endosymbiont model <vector-model-microsporidia>` that captures how
+microsporidia infections in mosquitoes interfere with *Plasmodium* acquisition and transmission.
+Microsporidia-infected vectors have reduced probability of becoming infected with malaria when
+feeding on infectious humans and reduced probability of transmitting malaria when feeding on
+susceptible humans, with both effects configurable as time-dependent modifiers. The model tracks
+vertical and horizontal microsporidia transmission through the mosquito population, enabling
+evaluation of symbiont-based biocontrol strategies alongside conventional vector control
+interventions such as IRS and ITNs.
+
+See :doc:`vector-model-microsporidia` for full details on transmission mechanisms, phenotypic
+effects, configuration parameters, and associated interventions.
+
 Relevant IDM publications
 =========================
 

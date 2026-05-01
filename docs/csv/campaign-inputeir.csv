@@ -378,6 +378,12 @@
       ]
     }
 "
+"Dont_Allow_Duplicates","bool","NA","NA","0","If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the node.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
+    }
+"
 "EIR_Type","enum","NA","NA","MONTHLY","Specifies the frequency of the EIR read-in: options are 'MONTHLY' (default) or 'DAILY'.",".. code-block:: json
 
     {

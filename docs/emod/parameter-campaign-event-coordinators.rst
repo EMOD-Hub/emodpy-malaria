@@ -22,4 +22,5 @@ Events and event coordinators
    parameter-campaign-event-standardinterventiondistributioneventcoordinator
    parameter-campaign-event-surveillanceeventcoordinator
    parameter-campaign-event-triggeredeventcoordinator
+   parameter-campaign-event-vectorsurveillanceeventcoordinator
 

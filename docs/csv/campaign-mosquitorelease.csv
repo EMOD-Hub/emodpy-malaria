@@ -4,12 +4,18 @@
       ""Cost_To_Consumer"": 1.5
     }
 "
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of *NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
+"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
 
     {
       ""Disqualifying_Properties"": [
         ""InterventionStatus:LostForever""
       ]
+    }
+"
+"Dont_Allow_Duplicates","bool","NA","NA","0","If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the node.",".. code-block:: json
+
+    {
+      ""Dont_Allow_Duplicates"": 0
     }
 "
 "Intervention_Name","string","NA","NA","MosquitoRelease","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
@@ -66,6 +72,12 @@
 
     {
       ""Released_Infectious"": 0.6
+    }
+"
+"Released_Microsporidia_Strain","string","NA","NA","""""","The name of the microsporidia strain for the released mosquitoes. The strain name must match a strain defined in **Vector_Species_Params**, **Microsporidia** for the species being released. An empty string indicates no microsporidia infection.",".. code-block:: json
+
+    {
+      ""Released_Microsporidia_Strain"": ""Strain_A""
     }
 "
 "Released_Number","integer","1","100000000.0","10000","The number of mosquitoes released in the intervention.",".. code-block:: json
