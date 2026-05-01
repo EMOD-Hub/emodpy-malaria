@@ -95,21 +95,27 @@ How effects are aggregated
 ==========================
 
 When multiple insecticide-based interventions protect the same person — for example, a bednet and
-IRS in the same house — their effects are aggregated at the individual level and then across the
-node's population. The aggregation uses independent probability combination:
+IRS in the same house — their effects are kept separate until they are resolved against a specific
+vector cohort. Each intervention may use a different insecticide, so each one contributes its own
+killing, blocking, and repelling probabilities independently. The effects are then cumulatively
+applied using independent probability combination:
 
 .. math::
 
     P_{combined} = 1 - (1 - P_1)(1 - P_2) \cdots (1 - P_n)
 
-where each :math:`P_i` is the genome-specific probability from one intervention. This means a
-vector encountering both a bednet and IRS faces the combined (but not simply additive) probability
-of being killed, blocked, or repelled by either intervention.
+where each :math:`P_i` is the genome-specific probability from one intervention. Because each
+intervention's insecticide has its own resistance modifiers, the effective probability :math:`P_i`
+depends on the vector's genotype — a vector resistant to pyrethroids but susceptible to
+organophosphates will experience reduced killing from a pyrethroid bednet but full killing from
+an organophosphate IRS. Two vectors with different genotypes encountering the same combination
+of interventions will therefore be affected differently.
 
-The genome-specific probability is resolved at the final step, when the population-averaged
-intervention effects are applied to a specific vector cohort. At that point, the probability is
-looked up for the vector's exact genotype: if it matches a resistant allele combination, the
-reduced modifier is used; otherwise the default (1.0, full susceptibility) applies.
+The genome-specific probability is resolved at the final step, when the intervention effects are
+applied to a specific vector cohort. At that point, each intervention's probability is looked up
+for the vector's exact genotype: if it matches a resistant allele combination for that
+intervention's insecticide, the reduced modifier is used; otherwise the default (1.0, full
+susceptibility) applies. The per-intervention probabilities are then combined as shown above.
 
 
 Effect on the vector population
