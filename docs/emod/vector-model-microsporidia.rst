@@ -2,20 +2,34 @@
 Microsporidia Infection Model
 =============================
 
-The microsporidia infection model extends the standard VECTOR_SIM model to track vertically and horizontally transmitted microsporidia infections and its effects in mosquito vectors. Microsporidia are obligate intracellular parasites that can significantly impair *Plasmodium falciparum* transmission in *Anopheles* mosquitoes, making it a potentially valuable malaria control strategy.
+The model extends the standard VECTOR_SIM model to track endosymbiont infections and their
+effects in mosquito vectors throughout the complete lifecycle — from larval infections through
+adult transmission events to vertical transmission to offspring.
 
-The model tracks infection dynamics throughout the complete mosquito lifecycle — from larval infections through adult transmission events to vertical transmission to offspring. This implementation can also be adapted to model other endosymbionts, making it a flexible framework for studying various symbiont-based biocontrol approaches.
+Although this model was originally created to study Microsporidia MB and its impact on malaria
+transmission dynamics, it can represent any endosymbiont that spreads between vectors horizontally
+(during mating) or vertically (from parent to offspring) and reduces the vector's ability to
+acquire or transmit disease. The framework is not limited to microsporidia — it can model
+*Wolbachia*-like symbionts, engineered bacteria, or other intracellular organisms with similar
+transmission and disease-blocking characteristics.
+
+In the following sections, we will refer to the modeled endosymbionts as "microsporidia" for simplicity, and
+vector-borne diseases as "malaria", but the framework applies broadly to any vector-endosymbiont-disease system
+with similar dynamics.
 
 The microsporidia model implements four core transmission processes:
 
 - **Vertical transmission**: Infected parents transmit microsporidia to their offspring through both maternal (female-to-egg) and paternal (male-to-egg) routes with strain-specific probabilities.
-
 - **Horizontal transmission**: Adult-to-adult transmission occurs during mating, with infected males and females transmitting their strain to uninfected partners at configurable rates.
-
 - **Multi-strain dynamics**: The model supports up to 3 distinct microsporidia strains per mosquito species, each with independent transmission parameters and phenotypic effects.
-
 - **Malaria interference**: Microsporidia infection modifies mosquito susceptibility to malaria acquisition and transmission through time-dependent immunity effects.
 
+Some of the model limitations include:
+
+- **Maximum strain count**: Limited to 3 microsporidia strains per species.
+- **Fixed transmission probabilities**: Transmission rates are constant and do not vary with environmental conditions or vector age
+- **No co-infection dynamics**: Each vector can carry only one microsporidia strain; competitive exclusion is absolute
+- **Simplified immunity**: Malaria interference effects are time-dependent but do not account for dose-response relationships or microsporidia load
 
 What are microsporidia?
 =======================
@@ -60,11 +74,20 @@ Each strain has a unique name (``Strain_Name``) and an independent parameter set
 Transmission mechanisms
 =======================
 
-The model implements three distinct transmission pathways that operate according to empirically derived probabilities:
+Inter-population transmission
+-----------------------------
+When vector migration is used, microsporidia infections migrate with their hosts, enabling
+spatial spread modeling between different vector populations and metapopulation analysis.
+The model does not currently include environmental transmission pathways (e.g., spore contamination of larval habitats)
+beyond the **LarvalMicrosporidiaIntervention**, see :ref:`larval-microsporidia-intervention` below for details.
 
-Adult-to-adult transmission
----------------------------
 
+Intra-population transmission
+-----------------------------
+The model implements three distinct within population transmission pathways that operate according to empirically derived probabilities:
+
+Adult-to-adult
+--------------
 During mating, microsporidia can transmit between adult mosquitoes through two pathways:
 
 **Male-to-female transmission**: When an infected male mates with an uninfected female, transmission occurs with probability set by the ``Male_To_Female_Transmission_Probability`` parameter. 
@@ -73,8 +96,8 @@ During mating, microsporidia can transmit between adult mosquitoes through two p
 
 If both partners are already infected (regardless of strain), no additional transmission occurs. 
 
-Adult-to-egg transmission
--------------------------
+Adult-to-egg
+------------
 
 Microsporidia transmit from infected parents to their offspring through vertical transmission pathways:
 
@@ -92,12 +115,17 @@ For eggs that become infected through this combined mechanism, the strain is det
 .. math::
     P_{female\_strain} = \frac{P_{female}}{P_{female} + P_{male}}
 
+    P_{male\_strain} = 1 - P_{female\_strain}
+
+
 The model uses binomial approximation to determine how many eggs become infected and which strain they carry.
 
 Larval habitat seeding
 ----------------------
 
-Microsporidia can also be introduced directly into larval habitats through the **LarvalMicrosporidiaIntervention**. This intervention mimics environmental seeding of water bodies with microsporidia spores, allowing larvae to become infected through ingestion or contact with contaminated water.
+Microsporidia can also be introduced directly into larval habitats through the **LarvalMicrosporidiaIntervention**.
+This intervention mimics environmental seeding of water bodies with microsporidia spores, allowing larvae to become
+infected through ingestion or contact with contaminated water. See :ref:`larval-microsporidia-intervention` below for details.
 
 
 Phenotypic effects
@@ -124,7 +152,7 @@ Malaria transmission interference
 
 Microsporidia's primary value for malaria control lies in their ability to interfere with *Plasmodium* development and transmission:
 
-**Malaria Acquisition interference**: The ``Duration_To_Disease_Acquisition_Modification`` parameter defines how microsporidia infection affects the probability that a female mosquito becomes infected with malaria when feeding on an infectious human. This is specified as a time-dependent modifier using an ``InterpolatedValueMap`` where:
+**Malaria Acquisition interference**: The ``Duration_To_Disease_Acquisition_Modification`` parameter defines how microsporidia infection affects the probability that a female mosquito becomes infected with malaria when feeding on an infectious human. This is specified as a time-dependent modifier using an dictionary with **Times** and **Values** keys, where:
 
 - **Times**: Array of days since microsporidia infection (ascending order)
 - **Values**: Array of probability multipliers (0-1) for malaria acquisition
@@ -159,6 +187,8 @@ The following example shows a two-strain microsporidia configuration for *Anophe
 Interventions
 =============
 
+.. _larval-microsporidia-intervention:
+
 LarvalMicrosporidiaIntervention
 -------------------------------
 
@@ -176,29 +206,20 @@ See :doc:`parameter-campaign-node-mosquitorelease` for details.
 Output and reporting
 ====================
 
-The microsporidia model extends several existing reports and adds new output channels to track infection dynamics:
+The microsporidia model extends several existing reports and adds a dedicated report to track
+infection dynamics:
 
-**ReportVectorStats.csv**: When ``Include_Microsporidia_Columns`` is enabled, adds columns tracking vectors with and without microsporidia by vector state:
+- :doc:`software-report-vector-stats` — When ``Include_Microsporidia_Columns`` is enabled, adds
+  columns partitioning vector counts by microsporidia status
+  (``HasMicrosporidia-STATE_XXX`` / ``NoMicrosporidia-STATE_XXX``), providing temporal and spatial tracking of
+  how microsporidia infections spread through vector populations.
 
-- ``HasMicrosporidia-STATE_XXX`` / ``NoMicrosporidia-STATE_XXX``: Counts of vectors in each state partitioned by whether they have microsporidia
-- Provides detailed temporal tracking of how microsporidia infections spread through vector populations using the standard ReportVectorStats microsporidia columns
+- :doc:`software-report-microsporidia` — A specialized report focusing exclusively on
+  microsporidia dynamics, tracking infection prevalence by strain across vector life stages and
+  monitoring strain competition dynamics.
 
-**ReportMicrosporidia.csv**: Specialized report focusing exclusively on microsporidia dynamics:
-
-- Tracks infection prevalence by strain across all vector life stages
-- Reports transmission events between adults and from adults to offspring
-- Monitors intervention effectiveness and strain competition dynamics
-
-Vector migration integration
-----------------------------
-
-When vector migration is enabled, microsporidia infections migrate with their hosts, allowing for:
-
-- **Spatial spread modeling**: Track how microsporidia infections spread across landscapes through natural mosquito movement
-- **Source population dynamics**: Model how infected mosquitoes from release sites colonize surrounding areas
-- **Metapopulation effects**: Understand how local microsporidia interventions affect regional malaria transmission patterns
-
-**ReportVectorMigration.csv**: When both vector migration and microsporidia are enabled, tracks the movement of infected vectors between nodes, providing insights into spatial infection dynamics.
+When vector migration is enabled, microsporidia infections migrate with their hosts, enabling
+spatial spread modeling and metapopulation analysis.
 
 
 Implementation notes
@@ -211,15 +232,4 @@ The microsporidia model adds computational overhead through:
 
 - **Adult mating algorithms**: Pairing males and females for transmission calculations requires more complex mating logic than the base model
 - **Multi-strain tracking**: Maintaining separate cohorts for different microsporidia strains increases memory usage and computational complexity
-- **Time-dependent effects**: Evaluating time-since-infection modifiers for malaria interference requires additional calculations per vector per timestep
-
-
-Limitations
------------
-
-Current model limitations include:
-
-- **Maximum strain count**: Limited to 3 microsporidia strains per species.
-- **Fixed transmission probabilities**: Transmission rates are constant and do not vary with environmental conditions or vector age
-- **No co-infection dynamics**: Each vector can carry only one microsporidia strain; competitive exclusion is absolute
-- **Simplified immunity**: Malaria interference effects are time-dependent but do not account for dose-response relationships or microsporidia load
+- **Time-dependent effects**: Evaluating time-since-infection modifiers for disease interference requires additional calculations per vector per timestep

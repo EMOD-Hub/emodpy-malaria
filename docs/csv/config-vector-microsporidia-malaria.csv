@@ -77,7 +77,7 @@
         ]
     }
 "
-"Larval_Growth_Modifier","float","0","3.40E+38","1","Multiplier for daily larval growth rate. Values greater than 1.0 accelerate development; values less than 1.0 slow development.",".. code-block:: json
+"Larval_Growth_Modifier","float","0","3.40E+38","1","Multiplier for daily larval growth rate for larva infected with this particular strain. Values greater than 1.0 accelerate development; values less than 1.0 slow development.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -93,7 +93,7 @@
         ]
     }
 "
-"Female_Mortality_Modifier","float","0","3.40E+38","1","Multiplier for female adult mortality rate. Values greater than 1.0 increase mortality (shorter lifespan); values less than 1.0 decrease mortality.",".. code-block:: json
+"Female_Mortality_Modifier","float","0","3.40E+38","1","Multiplier for female adult mortality rate for vectors infected with this particular strain. Values greater than 1.0 increase mortality (shorter lifespan); values less than 1.0 decrease mortality.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -109,7 +109,7 @@
         ]
     }
 "
-"Male_Mortality_Modifier","float","0","3.40E+38","1","Multiplier for male adult mortality rate. Values greater than 1.0 increase mortality (shorter lifespan); values less than 1.0 decrease mortality.",".. code-block:: json
+"Male_Mortality_Modifier","float","0","3.40E+38","1","Multiplier for male adult mortality rate for vectors infected with this particular strain. Values greater than 1.0 increase mortality (shorter lifespan); values less than 1.0 decrease mortality.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -125,7 +125,7 @@
         ]
     }
 "
-"Duration_To_Disease_Acquisition_Modification","JSON object","NA","NA","NA","Time-dependent modifier for malaria acquisition probability. Uses an **InterpolatedValueMap** where **Times** represent days since microsporidia infection (ascending order) and **Values** represent probability multipliers (0-1). The model uses linear interpolation for times not explicitly defined; times beyond the maximum retain the last value.",".. code-block:: json
+"Duration_To_Disease_Acquisition_Modification","JSON object","NA","NA","NA","Time-dependent modifier for disease acquisition probability for vectors infected with this particular strain. It is a dictionary of arrays where **Times** represent days since microsporidia infection (ascending order) and **Values** represent probability multipliers (0-1). The model uses linear interpolation for times not explicitly defined; times beyond the maximum retain the last value.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -144,7 +144,7 @@
         ]
     }
 "
-"Duration_To_Disease_Transmission_Modification","JSON object","NA","NA","NA","Time-dependent modifier for malaria transmission probability. Uses an **InterpolatedValueMap** where **Times** represent days since microsporidia infection (ascending order) and **Values** represent probability multipliers (0-1). The model uses linear interpolation for times not explicitly defined; times beyond the maximum retain the last value.",".. code-block:: json
+"Duration_To_Disease_Transmission_Modification","JSON object","NA","NA","NA","Time-dependent modifier for disease transmission probability for vectors infected with this particular strain. It is a dictionary of arrays where **Times** represent days since microsporidia infection (ascending order) and **Values** represent probability multipliers (0-1). The model uses linear interpolation for times not explicitly defined; times beyond the maximum retain the last value.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
