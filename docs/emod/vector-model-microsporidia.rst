@@ -19,6 +19,10 @@ with similar dynamics.
 
 The microsporidia model implements four core transmission processes:
 
+.. figure:: ../images/vector-malaria/microsporidia_illustration.png
+
+   Microsporidia transmission and disease interference in the vector lifecycle
+
 - **Vertical transmission**: Infected parents transmit microsporidia to their offspring through both maternal (female-to-egg) and paternal (male-to-egg) routes with strain-specific probabilities.
 - **Horizontal transmission**: Adult-to-adult transmission occurs during mating, with infected males and females transmitting their strain to uninfected partners at configurable rates.
 - **Multi-strain dynamics**: The model supports up to 3 distinct microsporidia strains per mosquito species, each with independent transmission parameters and phenotypic effects.
