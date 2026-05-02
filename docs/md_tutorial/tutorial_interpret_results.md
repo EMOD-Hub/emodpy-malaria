@@ -25,7 +25,7 @@ NOTE:  Sometimes a statistic in InsetChart is referred to as a "channel".
 
 Your Simple_Example.png should look something like the following:
 
-![](media/tutorial_17_understand_results.png)
+![](../figures/tutorial/tutorial_17_understand_results.png)
 
 ## Weather information
 
@@ -40,7 +40,7 @@ are constant over the 80 days of the simulation.  This is because the simulation
 to have constant weather.  This is a handy feature to use when you are trying to understand how
 things work because you don't have to also adjust for how seasonality changes things.
 
-![](media/tutorial_18_weather.png)
+![](../figures/tutorial/tutorial_18_weather.png)
 
 ## Mosquitoes / Vectors
 
@@ -90,7 +90,7 @@ it create a "serialized population file".  This file is then used for new simula
 please see [Serializing Populaitons](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-serializing-pops.html) 
 or more information.
 
-![](media/tutorial_19_vectors.png)
+![](../figures/tutorial/tutorial_19_vectors.png)
 
 ## Demographic statistics
 
@@ -113,7 +113,7 @@ time step. In these simulations, no disease deaths occur. Most users exclude mal
 mortality from their models due to insufficient calibration data, focusing instead
 on infection dynamics and morbidity outcomes.
 
-![](media/tutorial_20_demographics.png)
+![](../figures/tutorial/tutorial_20_demographics.png)
 
 ## Prevalence, incidence, and immunity
 
@@ -142,7 +142,7 @@ antibody development accelerates rapidly once infections begin spreading. See th
 [Malaria infection and immune model](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-infection-immunity.html)
 for more information.
 
-![](media/tutorial_21_prevalence.png)
+![](../figures/tutorial/tutorial_21_prevalence.png)
 
 ## Clinical and severe cases
 
@@ -169,7 +169,7 @@ more severe case development.  Please see
 [Malaria symptoms and diagnostics](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-symptoms-diagnosis.html)
 for more information.
 
-![](media/tutorial_22_cases.png)
+![](../figures/tutorial/tutorial_22_cases.png)
 
 ## Diagnostics
 
@@ -186,7 +186,7 @@ might have detected that people had malaria before people started developing hig
 see the delay it takes for the parasites to be come gametocytes and the people to become
 infectious.
 
-![](media/tutorial_23_diagnostics.png)
+![](../figures/tutorial/tutorial_23_diagnostics.png)
 
 For more on InsetChart, please our
 [documetation](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-report-inset-chart.html).

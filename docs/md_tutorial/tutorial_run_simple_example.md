@@ -20,7 +20,7 @@ emopdy-malaria repository.  To learn how to do this, please the
 
     "cd" stands for _change directory_
 
-    ![](media/tutorial_6_cd_examples_container.png)
+    ![](../figures/tutorial/tutorial_6_cd_examples_container.png)
 
     Notice that the line after executing the command says what folder you are in.
     In our case, the folder you are in should be:
@@ -38,7 +38,7 @@ emopdy-malaria repository.  To learn how to do this, please the
 
     "ls" stands for _list files/directories_
 
-    ![](media/tutorial_7_ls.png)
+    ![](../figures/tutorial/tutorial_7_ls.png)
 
 3. Enter the “simple_example” directory by executing the following command:
 
@@ -46,7 +46,7 @@ emopdy-malaria repository.  To learn how to do this, please the
     cd simple_example
     ```
 
-    ![](media/tutorial_8_cd_simple_example.png)
+    ![](../figures/tutorial/tutorial_8_cd_simple_example.png)
 
 4. See what files are in this directory by executing the following command:
 
@@ -54,7 +54,7 @@ emopdy-malaria repository.  To learn how to do this, please the
     ls
     ```
 
-    ![](media/tutorial_9_ls.png)
+    ![](../figures/tutorial/tutorial_9_ls.png)
 
 5. Run the example with the following command:
 
@@ -62,16 +62,16 @@ emopdy-malaria repository.  To learn how to do this, please the
     python example.py
     ```
 
-    ![](media/tutorial_10_python_example_start.png)
+    ![](../figures/tutorial/tutorial_10_python_example_start.png)
 
     This step “Pulling image docker-production-public…”  may take a few minutes,
     but will only happen once per codespace image.
 
-    ![](media/tutorial_11_pull_image.png)
+    ![](../figures/tutorial/tutorial_11_pull_image.png)
 
     When the simulation is done, you should see the following:
 
-    ![](media/tutorial_12_python_example_done.png)
+    ![](../figures/tutorial/tutorial_12_python_example_done.png)
 
 ## View the results
 
@@ -86,7 +86,7 @@ and continue navigating to the folder:
 
 2. Select the file name **Simple_Example.png".
 
-    ![](media/tutorial_16_select_image.png)
+    ![](../figures/tutorial/tutorial_16_select_image.png)
 
 ## Understand the results
 

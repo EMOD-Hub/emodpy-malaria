@@ -27,20 +27,20 @@ https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
 
 2. Click on the green “<> Code” button
 
-    ![](media/tutorial_1_code_button.png)
+    ![](../figures/tutorial/tutorial_1_code_button.png)
 
 3. In the drop down menu, select the green button that says “Create codespace on main”
 
-    ![](media/tutorial_2_create_codespace_button.png)
+    ![](../figures/tutorial/tutorial_2_create_codespace_button.png)
 
     This will open a new tab with a web version of Visual Studio Code.
 
-    ![](media/tutorial_3_creating_codespace.png)
+    ![](../figures/tutorial/tutorial_3_creating_codespace.png)
 
     You will probably have to wait 10-15 minutes while it builds the environment. 
     When it is done, you should see something like the following:
 
-    ![](media/tutorial_4_done_creating_codespace.png)
+    ![](../figures/tutorial/tutorial_4_done_creating_codespace.png)
 
 4. To verify that things have been setup correctly, type the following command in the “terminal” window:
 
@@ -50,10 +50,10 @@ https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
 
     You should see a list like the following:
 
-    ![](media/tutorial_5_pip_freeze.png)
+    ![](../figures/tutorial/tutorial_5_pip_freeze.png)
 
     If you do, then are ready to go. If not, stop and delete the codespace.  Try starting it again.
-    
+
 ## Stopping and deleting a Codespace
 
 When you are done, you should stop and delete your Codespace so that you do not occur

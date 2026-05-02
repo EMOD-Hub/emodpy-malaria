@@ -2,7 +2,7 @@
 
 Python module for use as user-space front-end for doing research easily with EMOD (MALARIA_SIM) via idmtools.
 
-![mosquito](media/jorussell-mosquito.png)
+![mosquito](docs/figures/tutorial/jorussell-mosquito.png)
 
 ![license](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 
@@ -12,7 +12,7 @@ This package provides a Python scriptable interface for configuring EMOD for mal
 
 ## Getting started
 
-Before installing `emodpy_malaria`, please see the [Getting Started page](getting_started.md).
+Before installing `emodpy_malaria`, please see the [Getting Started page](docs/md_tutorial/getting_started.md).
 It can guide you through trying EMOD before you try it on your own machine.
 
 ## Get `emodpy-malaria`
@@ -27,7 +27,7 @@ Note: you may need to only use `python` on Windows machines rather than `python3
 
 ## Documentation
 
-Documentation available at https://emod-hub.github.io/emodpy-malaria
+Documentation available at https://emod.idmod.org/emodpy-malaria
 
 To build the documentation locally, do the following:
 
@@ -36,7 +36,7 @@ To build the documentation locally, do the following:
 
     ```
     pip install -e[docs] .
-    python -m sphinx -T --keep-going -b html ./docs ./site
+    mkdocs serve
     ```
 The HTML documentation will be output to the 'site' directory.
 
@@ -85,6 +85,5 @@ The code in this repository was developed by IDM and other collaborators to supp
  We've made it publicly available under the MIT License to provide others with a better understanding of our research and an opportunity to build upon it for 
  their own work. We make no representations that the code works as intended or that we will provide support, address issues that are found, or accept pull requests.
  You are welcome to create your own fork and modify the code to suit your own modeling needs as permitted under the MIT License.
-
 
 [emodpy-malaria-contributing]: https://github.com/EMOD-Hub/emodpy-malaria/blob/main/CONTRIBUTING.rst
