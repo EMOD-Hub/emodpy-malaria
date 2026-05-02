@@ -1,10 +1,10 @@
-"Cas9_gRNA_From","string","NA","NA","UNINITIALIZED STRING","The allele in the mother that produces Cas9 protein. The mother's genome is checked for the presence of this allele to determine if additional resistance alleles will be formed via maternal deposition. This allele must be one of the **Driving_Allele** alleles defined in the **Drivers** array.",".. code-block:: json
+"Cas9_gRNA_From","string","NA","NA","UNINITIALIZED STRING","The allele in the mother that produces Cas9 protein. The mother's genome is checked for the presence of this allele to determine if additional gene drive resistance alleles will be formed via maternal deposition. This allele must be one of the **Driving_Allele** alleles defined in the **Drivers** array.",".. code-block:: json
 
     {
       ""Cas9_gRNA_From"": ""Ad""
     }
 "
-"Allele_To_Cut","string","NA","NA","UNINITIALIZED STRING","The target allele from which resistance alleles might be formed due to maternal deposition. This must be one of the **Allele_To_Replace** alleles defined in the **Drivers** array for each of the **Driving_Allele** alleles defined in **Cas9_gRNA_From**.",".. code-block:: json
+"Allele_To_Cut","string","NA","NA","UNINITIALIZED STRING","The target allele from which gene drive resistance alleles might be formed due to maternal deposition. This must be one of the **Allele_To_Replace** alleles defined in the **Drivers** array for each of the **Driving_Allele** alleles defined in **Cas9_gRNA_From**.",".. code-block:: json
 
     {
       ""Allele_To_Cut"": ""Aw""

@@ -21,7 +21,7 @@
       ]
     }
 "
-"Allele_Combinations","array of string arrays","NA","NA","[]","The combination of alleles that vectors must have in order to be resistant. Each inner array represents one locus with two allele names. Use ``*`` as a wildcard to match any allele at a position. These alleles must be defined in the **Genes** configuration for the associated species. Uses the same syntax as **Gene_To_Trait_Modifiers** allele combinations (see :doc:`vector-model-genetics`).",".. code-block:: json
+"Allele_Combinations","array of string arrays","NA","NA","[]","The combination of alleles that vectors must have in order to be resistant. Each inner array represents one locus with two allele names. Use ``*`` as a wildcard to match any allele at a position. The order of alleles within an inner array does not matter — ``[""a"", ""*""]`` and ``[""*"", ""a""]`` are treated identically. These alleles must be defined in the **Genes** configuration for the associated species. Uses the same syntax as **Gene_To_Trait_Modifiers** allele combinations (see :doc:`vector-model-genetics`).",".. code-block:: json
 
     {
       ""Allele_Combinations"": [
