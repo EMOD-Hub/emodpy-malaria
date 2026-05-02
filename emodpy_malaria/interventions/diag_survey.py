@@ -133,9 +133,6 @@ def add_diagnostic_survey(
             expire_recent_drugs: Adds ``[{"DrugStatus:None"}]`` to
                 **Property_Restrictions_Within_Node** for positive test config, so
                 only those with that property receive drugs.
-
-        Returns:
-           None
     """
 
     if ind_property_restrictions is None:

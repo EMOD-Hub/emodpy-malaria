@@ -32,10 +32,6 @@ def check_vectors(task):
 
     Args:
         task: task to which to add the reporter, which also contains the config file
-
-    Returns:
-        Nothing
-
     Raises:
         ValueError: No Vector_Species_Params defined. You need to define at least one to use ReportVectorGenetics.
     """
@@ -67,9 +63,6 @@ def add_visualizations(task):
 
     Args:
         task:  task to which to add the pointer files as assets
-
-    Returns:
-        Nothing
     """
     relevant_diseases = ["generic", "malaria"]
     sites = []
@@ -1366,9 +1359,6 @@ def add_event_recorder(task, event_list: list = None,
         property_change_ip_to_record:If the string is not empty, then the recorder will add the PropertyChange event to
             the list of events that the report is listening to. However, it will only record the events where the
             property changed the value of the given key
-
-    Returns:
-        Nothing
     """
     # Documentation: https://docs.idmod.org/projects/emod-malaria/en/latest/software-report-event-recorder.html
     if not event_list:
@@ -1410,9 +1400,6 @@ def add_node_event_recorder(task, event_list: list = None,
         stats_by_individual_properties: Specifies an array of (optional) individual property keys, as defined in
             IndividualProperties in the demographics file, to be added to the ReportNodeEventRecorder.csv output
             report. An empty array equals no additional columns added
-
-    Returns:
-        Nothing
     """
 
     if not event_list:
@@ -1439,9 +1426,6 @@ def add_coordinator_event_recorder(task, event_list: list = None,
             only_include_coordinator_events_in_list
         only_include_events_in_list: If True, only record node-level events listed.  if False, record ALL
             node-level events EXCEPT for the ones listed
-
-    Returns:
-        Nothing
     """
 
     if not event_list:

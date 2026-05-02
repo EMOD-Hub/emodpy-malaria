@@ -49,9 +49,6 @@ def add_scale_larval_habitats(campaign, df=None,
         repetitions: The number of times to repeat the intervention.
         timesteps_between_repetitions: The number of time steps between
             repetitions.
-
-    Returns:
-        None
     """
 
     if 'Start_Day' not in df.columns.values:
@@ -135,9 +132,6 @@ def add_habitat_reduction_event(campaign, start_day: int, node_ids: list, habita
             the intervention repeats forever. Sets **Number_Repetitions**
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-
-    Returns:
-        Nothing
     """
 
     # configuring the intervention itself

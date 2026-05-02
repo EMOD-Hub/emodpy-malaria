@@ -50,9 +50,6 @@ def add_outbreak_individual(campaign,
         antigen: The antigenic base strain ID of the outbreak infection
         genome: The genetic substrain ID of the outbreak infection
         broadcast_event: Optional event that will be sent out at the same time as outbreak is distributed
-
-    Returns:
-        Nothing
     """
     schema_path = campaign.schema_path
 
@@ -351,10 +348,6 @@ def add_campaign_event(campaign,
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
         intervention: Intervention or a list of interventions to be distributed by this event
-
-    Returns:
-        Nothing, add the CampaignEvent to the campaign
-
     """
 
     schema_path = campaign.schema_path

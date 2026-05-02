@@ -139,9 +139,6 @@ def add_scheduled_sugar_trap(
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
             -1 indicates effect is indefinite (WaningEffectConstant)
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-
-    Returns:
-        Nothing
     """
     node_intervention = _sugar_trap(campaign=campaign,
                                     cost_to_consumer=cost_to_consumer,

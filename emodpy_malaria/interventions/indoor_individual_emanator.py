@@ -138,10 +138,6 @@ def add_indoor_individual_emanator_scheduled(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IndoorIndividualEmanator interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
-
     """
     if coverage_by_ages and (demographic_coverage or target_num_individuals):
         raise ValueError("When 'setting 'coverage_by_ages', do not set 'demographic_coverage' or 'target_num_individuals'.\n")
@@ -249,10 +245,6 @@ def add_indoor_individual_emanator_triggered(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IndoorIndividualEmanator interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
-
     """
 
     intervention_list = [_indoor_individual_emanator(campaign,

@@ -20,10 +20,6 @@ def add_challenge_trial(campaign, start_day: int = 0, node_ids: list = None, dem
             infectious_bites to 0.
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class.
-
-    Returns:
-        Nothing
-
     """
     if sporozoites and infectious_bites:
         raise ValueError("Please enter a positive value for either 'infectious_bites' or 'sporozoites', but not both.\n")

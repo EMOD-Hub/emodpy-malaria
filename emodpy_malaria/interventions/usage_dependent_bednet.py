@@ -176,7 +176,6 @@ def add_scheduled_usage_dependent_bednet(
             Default is False.
 
     Returns:
-        None
         NOTE:
             Previous way of setting discard config is no longer available, you can translate it to the current way by:
             discard_config the old way {'halflife1': 260, 'halflife2': 2106, 'fraction1': float(table_dict['fast_fraction'])
@@ -349,7 +348,6 @@ def add_triggered_usage_dependent_bednet(campaign,
 
 
     Returns:
-        None
 
     NOTE:
         Previous way of setting discard config is no longer available, you can translate it to the current way by:

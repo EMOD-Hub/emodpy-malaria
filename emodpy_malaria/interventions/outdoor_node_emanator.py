@@ -118,10 +118,6 @@ def add_outdoor_node_emanator_scheduled(campaign,
             in format of "PropertyName:Value", e.g. "EmanatorNode:Yes".
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class.
-
-    Returns:
-        Nothing
-
     """
     intervention = _outdoor_node_emanator(campaign,
                                           killing_initial_effect=killing_initial_effect,

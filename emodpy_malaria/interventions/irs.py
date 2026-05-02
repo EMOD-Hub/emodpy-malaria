@@ -75,9 +75,6 @@ def add_scheduled_irs_housing_modification(
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IRSHousingModification interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
     """
 
     intervention = irs_configuration(campaign,
@@ -180,9 +177,6 @@ def add_triggered_irs_housing_modification(
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IRSHousingModification interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
     """
     intervention = irs_configuration(campaign,
                                      killing_initial_effect=killing_initial_effect,

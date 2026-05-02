@@ -87,9 +87,6 @@ def add_scheduled_input_eir(
             intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
                 others that use the same class. It’s possible to have multiple InputEIR interventions
                 attached to a node if they have different Intervention_Name values.
-
-        Returns:
-            Nothing
     """
 
     input_eir = _input_eir(campaign=campaign, monthly_eir=monthly_eir, daily_eir=daily_eir,

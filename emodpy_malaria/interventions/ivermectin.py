@@ -61,10 +61,6 @@ def add_scheduled_ivermectin(campaign,
             others that use the same class.
         broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
             Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
-
-    Returns:
-        Nothing
-
     """
 
     intervention = _ivermectin(campaign=campaign,
@@ -150,9 +146,6 @@ def add_triggered_ivermectin(campaign,
             others that use the same class.
         broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
             Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
-
-    Returns:
-        Nothing
     """
 
     intervention = _ivermectin(campaign=campaign,

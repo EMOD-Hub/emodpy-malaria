@@ -111,9 +111,6 @@ def add_scheduled_vaccine(campaign,
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
-
-    Returns:
-        Nothing
     """
 
     intervention = _simple_vaccine(campaign,
@@ -205,9 +202,6 @@ def add_triggered_vaccine(campaign,
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
-
-    Returns:
-        Nothing
     """
 
     intervention = _simple_vaccine(campaign,

@@ -67,10 +67,6 @@ def zero_human_infections(humans: List[dict], keep_ids: list = None):
     Args:
         humans: All humans in a node
         keep_ids: ids of individuals that will be skipped, i.e. infection state is not changed
-
-    Returns:
-        None
-
     """
     if not keep_ids:
         keep_ids = []

@@ -111,10 +111,6 @@ def add_larval_microsporidia(
         decay_time_constant: The time constant for the exponential decay of the intervention's effect, in days. Only relevant if box_duration = 0 or > 0 as described above in box_duration.
         intervention_name: (Optional) The name of the intervention, for organizational purposes. Default is "LarvalMicrosporidiaIntervention".
         cost_to_consumer: The cost to consumer for each distribution of this intervention, if any. Default is 0.
-
-    Returns:
-        None
-
     """
     node_intervention = _larval_microsporidia(campaign=campaign,
                                               habitat_coverage=habitat_coverage,

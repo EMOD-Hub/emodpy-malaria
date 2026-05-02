@@ -26,9 +26,6 @@ class MalariaDemographics(Demog.Demographics):
             simulations.
         init_prev: The initial malaria prevalence of the population. Defaults to 0%.
         include_biting_heterogeneity: variable biting rates. Defaults to on.
-
-    Returns:
-        None
      """
 
     def __init__(self, nodes, idref="Gridded world grump2.5arcmin", base_file=None, init_prev=0.0,
@@ -65,10 +62,6 @@ class MalariaDemographics(Demog.Demographics):
                 multiplier: Multiplier or Factor.
                 species: Specific species (defaults to ALL).
                 node_id: Nodes for this LHM. Defaults to all.
-
-            Returns:
-                Nothing.
-
         """
 
         lhm = dfs.schema_to_config_subnode(schema, ["idmTypes", "idmType:LarvalHabitatMultiplierSpec"])
@@ -101,10 +94,6 @@ class MalariaDemographics(Demog.Demographics):
             init_vector_species: Dictionary of vector species (strings) to initial populations. There is no
                 checking for coherence of species named in other input settings.
             node_ids: Array of node ids. Defaults to None for all nodes.
-
-        Returns:
-            N/A.
-
         """
         if node_ids is None:
             ivs_dict = dict()
@@ -122,10 +111,6 @@ class MalariaDemographics(Demog.Demographics):
 
         Args:
             csv_path: Path to CSV file with the initial vector species populations for each node.
-
-        Returns:
-            N/A.
-
         """
         import csv
         if not os.path.exists(csv_path):
@@ -174,9 +159,6 @@ class MalariaDemographics(Demog.Demographics):
                 5, Sigma (the standard deviation of the natural log) for a log normal distribution.
                 6, The innate immune coefficient for individuals in the second innate immune coefficient bin for a bimodal distribution.
                 7, Shape parameter for a Weibull distribution.
-
-        Returns:
-            Nothing
         """
         innate_immune_distribution = {"InnateImmuneDistributionFlag": distribution_flag,
                                       "InnateImmuneDistribution1": param1,

@@ -322,9 +322,6 @@ def set_drug_param(config, drug_name: str = None, parameter: str = None, value: 
         drug_name: The drug that has a parameter to set
         parameter: The parameter to set
         value: The new value to set
-
-    Returns:
-        Nothing or error if drug name is not found
     """
 
     if not drug_name or not parameter or not value:
@@ -427,10 +424,6 @@ def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_la
         species_name: string. Species_Name to target.
         habitat_type: enum. Habitat_Type to target.
         max_larval_capacity: integer. New value of Max_Larval_Capacity.
-
-    Returns:
-        Nothing.
-
     """
     return vector_config.set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity)
 
@@ -494,9 +487,6 @@ def add_microsporidia(config, manifest, species_name: str = None,
             rate for female vectors due to general life expectancy, age, and dry heat
         male_mortality_modifier: **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
             male vectors due to general life expectancy, age, and dry heat
-
-    Returns:
-        Nothing
     """
     vector_config.add_microsporidia(config, manifest,
                                     species_name=species_name,

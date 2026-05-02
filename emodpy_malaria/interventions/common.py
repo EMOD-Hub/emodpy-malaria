@@ -106,10 +106,6 @@ def add_triggered_campaign_delay_event(campaign,
             occurrence of an event in the **Trigger_Condition_List***.
         individual_intervention: Individual intervention or a list of individual interventions to be distributed
             by this event
-
-    Returns:
-        Nothing
-
     """
     if not trigger_condition_list:
         raise ValueError("Please define trigger_condition_list.\n")
@@ -189,9 +185,6 @@ def add_campaign_event(campaign,
             by this event
         node_property_restrictions: A list of dictionaries of NodeProperties, which are required for the node
             to receive the intervention. Sets the **Node_Property_Restrictions**
-
-    Returns:
-        Nothing
     """
     if individual_intervention and node_intervention:
         raise ValueError("You cannot define both individual_intervention and node_intervention, only one.\n")

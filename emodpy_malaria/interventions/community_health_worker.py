@@ -52,9 +52,6 @@ def add_community_health_worker(campaign,
             or clinic
         waiting_period: The number of days a person or node can be in the queue waiting to get the intervention from
             the community health worker (CHW)
-
-    Returns:
-        Nothing
     """
     if not trigger_condition_list or not intervention_config:
         raise ValueError("Please define trigger_condition_list and intervention_config.\n")

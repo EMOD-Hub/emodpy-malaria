@@ -176,10 +176,6 @@ def add_itn_scheduled(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple SimpleBednet interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
-
     """
     if target_num_individuals and coverage_by_ages:
         raise ValueError("You cannot use both - 'target_num_individuals' and 'coverage_by_ages'.\n")
@@ -300,10 +296,6 @@ def add_itn_triggered(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple SimpleBednet interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
-
     """
 
     intervention_list = [_simple_bednet(campaign,

@@ -361,9 +361,6 @@ def add_MDA(campaign, start_days: list = None, coverage: float = 1.0, drug_confi
     Add an MDA (mass drug administration) drug intervention to your campaign.
     See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if start_days is None:
@@ -466,9 +463,6 @@ def add_MSAT(campaign, start_days: list = None, coverage: float = 1.0, drug_conf
     Add an MSAT (mass screening and treatment) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if not start_days:
@@ -544,9 +538,6 @@ def add_fMDA(
     Add an fMDA (focal mass drug administration) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if not start_days:
@@ -649,9 +640,6 @@ def add_rfMSAT(campaign, start_day: int = 0, coverage: float = 1, drug_configs: 
     Add a rfMSAT (reactive focal mass screening and treatment) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if drug_configs is None:
@@ -725,9 +713,6 @@ def add_rfMDA(campaign, start_day: int = 0, coverage: float = 1, drug_configs: l
     Add an rfMDA (reactive focal mass drug administration) drug intervention
     to your campaign. See :py:func:`add_drug_campaign` for more information
     about each argument.
-
-    Returns:
-        None
     """
 
     if drug_configs is None:
@@ -867,9 +852,6 @@ def add_IPTi(campaign, start_day: int = 1, triggered_campaign_delay: int = None,
             individuals must have to receive the diagnostic intervention.
             For example, ``[{"IndividualProperty1":"PropertyValue1"},
             {"IndividualProperty2":"PropertyValue2"}]``. Default is no restrictions.
-
-    Returns:
-        None
     """
     if drug_configs is None:
         raise Exception("You have to pass in drug_configs (list of drug configurations) that can be generated with "

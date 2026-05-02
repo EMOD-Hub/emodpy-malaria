@@ -131,9 +131,6 @@ def add_treatment_seeking(campaign,
             Default is -1, meaning they will always seek drugs when sick
         broadcast_event_name: Event to broadcast when successful health seeking behavior.
             Default is "Received_Treatment".
-
-    Returns:
-        None
     """
 
     camp_events = _get_events(campaign=campaign, start_day=start_day, targets=targets, drug=drug, node_ids=node_ids,

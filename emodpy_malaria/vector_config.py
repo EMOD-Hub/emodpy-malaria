@@ -135,9 +135,6 @@ def set_species_param(config, species, parameter, value, overwrite=False):
         parameter: parameter to set
         value: value to set the parameter to
         overwrite: if set to True and parameter is a list, overwrites the parameter with value, appends by default
-
-    Returns:
-        Nothing
     """
 
     vector_species = get_species_params(config, species)
@@ -869,10 +866,6 @@ def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capac
         species_name: string. Species_Name to target.
         habitat_type: enum. Habitat_Type to target.
         max_larval_capacity: integer. New value of Max_Larval_Capacity.
-
-    Returns:
-        Nothing.
-
     """
 
     habitats = get_species_params(config, species_name).Habitats
@@ -944,9 +937,6 @@ def add_microsporidia(config, manifest, species_name: str = None,
             rate for female vectors due to general life expectancy, age, and dry heat
         male_mortality_modifier: **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
             male vectors due to general life expectancy, age, and dry heat
-
-    Returns:
-        Nothing
     """
     if not strain_name:
         raise ValueError("Please define strain_name.\n")
@@ -1007,9 +997,6 @@ def add_vector_migration(task,
             independent of the number of humans in the node. This only applies to female migrating vectors.
         vector_migration_stay_put_modifier: Preference of a vector to remain in its current node rather than migrate
             to another node. This applies only to female migrating vectors.
-
-
-    Returns:
 
     """
     if not vector_migration_filename_path:
