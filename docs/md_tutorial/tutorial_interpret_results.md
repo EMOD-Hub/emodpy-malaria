@@ -1,4 +1,4 @@
-# Interpreting the results of Simple Example
+# Interpreting the results
 
 At the end of the [Run Simple Example Tutorial](tutorial_run_simple_example.md), you generated
 an image, results/Simple_Example.png.  This image shows 31 different time-based statistics

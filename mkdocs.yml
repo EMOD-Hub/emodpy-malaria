@@ -30,6 +30,11 @@ theme:
 
 nav:
   - Home: index.md
+  - Tutorial:
+    - Getting Started: md_tutorial/tutorial_getting_started.md
+    - md_tutorial/tutorial_starting_codespaces.md
+    - md_tutorial/tutorial_run_simple_example.md
+    - md_tutorial/tutorial_interpret_results.md
   - API reference: autoapi/
   - Related projects: https://emod.idmod.org/
 

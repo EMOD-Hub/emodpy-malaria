@@ -1,4 +1,4 @@
-# Run the Simple Example in Codespaces
+# Run a simple example
 
 This tutorial will guide you through the steps to run a simple example of
 EMOD-Malaria within GitHub Codespaces.  Everything will be on the web so

@@ -17,7 +17,7 @@ See the following link for more information:
 
 https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
 
-**WARNING: Codespaces can [cost money](.devcontainer/README.md#-cost-of-using-codespaces-)**
+**WARNING: Codespaces can [cost money](/.devcontainer/README.md#-cost-of-using-codespaces-)**
 
 ## Start Codespaces
 
@@ -58,7 +58,7 @@ https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
 
 When you are done, you should stop and delete your Codespace so that you do not occur
 any added expenses.  When it is time, please follow these
-[instructions](https://github.com/EMOD-Hub/emodpy-malaria/blob/main/.devcontainer/README.md#stopping--deleting-a-codespace)
+[instructions](/.devcontainer/README.md#stopping--deleting-a-codespace)
 
 ## Running EMOD
 
