@@ -15,10 +15,10 @@ can take to speed up |EMOD_s| simulations.
 Parallel processing
 ===================
 
-The |exe_l| is "single threaded", meaning that for processing, it will use only one core. However,
-you can use the Message Passing Interface (MPI) to run multiple copies of |exe_s| in parallel,
-either locally or on an HPC cluster. To run a simulation in parallel, you must invoke |exe_s| with
-the mpiexec command. For more information, see :doc:`software-simulation-mpiexec`.
+|EMOD_s| supports parallel processing across multiple cores. When **Num_Cores** is set to a
+value greater than 1 (but less than or equal to the number of nodes in the simulation),
+|EMODPY_malaria| will automatically run |EMOD_s| in parallel. This can significantly reduce
+simulation time for large, spatially distributed simulations.
 
 Parameter settings
 ==================

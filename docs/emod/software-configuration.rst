@@ -22,12 +22,11 @@ For a complete list of configuration parameters that are available to use with t
 see :doc:`parameter-configuration`. For more information about JSON, see :doc:`parameter-overview`.
 
 
-Flattened configuration files
+Configuration files
 =============================
 
-A flattened configuration file is generally a single-depth JSON file with configuration parameters
-listed alphabetically. This is the configuration file format that |exe_s| and |linux_binary| both
-require for running simulations.
+A configuration file is a single-depth JSON file with configuration parameters
+listed alphabetically. This is the configuration file format required by |EMOD_s|.
 
 However, there may be some hierarchical elements in the flattened version. For example,
 **Vector_Species_Params** and **Malaria_Drug_Params** have nested JSON objects.
@@ -37,23 +36,3 @@ Below is an example of a flattened configuration file:
 .. literalinclude:: ../json/howto-generic-config-flat-full.json
    :language: json
 
-Hierarchical configuration files
-================================
-
-A hierarchical file allows you to organize parameters into logical groups by nesting them within
-JSON objects, making them easier to manage. If you use hierarchical configuration files, you must
-flatten them prior to running a simulation. The names you use to label these logical categories are
-unimportant; the scripts used to flatten the files will search through the hierarchies and retain
-only the "leaf" values in the resulting flattened file. See :doc:`software-configuration-overlay`
-for more information on flattening files.
-
-Below is an example of a hierarchical configuration file:
-
-.. literalinclude:: ../json/howto-generic-default-config.json
-   :language: json
-
-
-.. toctree::
-
-   software-configuration-overlay
-   software-parameter-sweep

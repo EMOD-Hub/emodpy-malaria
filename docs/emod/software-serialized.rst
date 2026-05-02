@@ -48,7 +48,7 @@ File format
 ===========
 
 Serialized population files are saved in JSON format. The file structure reflects the hierarchical
-structure of the objects in Eradication.exe. Each file starts with a header and then contains
+structure of the objects in |EMOD_s|. Each file starts with a header and then contains
 information about the simulation and the nodes. The following figure gives a rough overview of the
 JSON file structure (note that only vector or malaria simulations will have larval habitats, vector
 populations, or vector life cycles).

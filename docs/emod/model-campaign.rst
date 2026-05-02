@@ -46,10 +46,7 @@ Campaign file overview
 For the interventions to take place, the campaign file must be in the same directory as the
 :term:`configuration file` and you must set the configuration parameters **Enable_Interventions** to
 1 and **Campaign_Filename** to the name of the campaign file. When you run a simulation, you must
-have a single campaign file. However, you can use a campaign overlay file that includes certain
-parameters of interest that will override the settings in a base file; these files must be flattened
-into a single file before running a simulation. See :doc:`software-campaign-overlay` for more information
-flattening two campaign files.
+have a single campaign file.
 
 Although you can create campaign files entirely from scratch, it is easier to use the provided Python
 packages to create the JSON files.
