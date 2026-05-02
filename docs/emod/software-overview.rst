@@ -78,7 +78,6 @@ between multiple instances of |EMOD_s|.
    :titlesonly:
 
    software-inputs
-   software-run-simulation
    software-serializing-pops
    software-outputs
    tips-tricks

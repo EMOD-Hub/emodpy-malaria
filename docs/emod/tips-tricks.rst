@@ -11,4 +11,5 @@ advanced features of the |EMOD_s| malaria model.
    :titlesonly:
 
    tips-biting-risk
+   software-simulation-performance
 
