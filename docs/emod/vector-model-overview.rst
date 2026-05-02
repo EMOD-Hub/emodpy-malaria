@@ -101,6 +101,7 @@ The following pages in this section describe the structural components of the ve
    vector-model-gene-drives
    vector-model-maternal-deposition
    vector-model-insecticide-resistance
+   vector-model-microsporidia
 
 
 
