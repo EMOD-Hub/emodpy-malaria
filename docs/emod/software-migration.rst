@@ -33,7 +33,7 @@ JSON metadata file
 
 The metadata file is a JSON-formatted file that includes a metadata section and a node offsets
 section. The **Metadata** section contains a JSON object with parameters, some of which are
-strictly  informational and some of which are used by |exe_s|. However, the informational ones may
+strictly  informational and some of which are used by |EMOD_s|. However, the informational ones may
 still be important to understand the provenance and meaning of the data.
 
 Simple Migration File Parameters

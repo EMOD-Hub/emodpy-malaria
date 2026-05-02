@@ -13,10 +13,9 @@ documentation.
 These parameters include three major groups: parameters for the :term:`demographics file`,
 parameters for the :term:`configuration file`, and parameters for the :term:`campaign file`.
 
-If you would rather use a text file for parameter reference than this web documentation, you can
-also generate a :term:`schema` with the |exe_l| that defines all configuration and campaign
-parameters that can be used in a simulation, including names, data types, defaults, ranges, and
-short descriptions.
+For information on accessing the :term:`schema`, which defines all configuration and campaign
+parameters including names, data types, defaults, ranges, and short descriptions, see
+:doc:`parameter-schema`.
 
 
 JSON formatting overview

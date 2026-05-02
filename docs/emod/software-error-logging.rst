@@ -70,11 +70,8 @@ with 50 time steps will look something like this::
 Standard output
 ===============
 
-When you run a simulation on an HPC cluster, it will generate a standard output logging file
-(StdOut.txt) in the working directory that captures all standard output messages. When you run a
-simulation locally, the Command Prompt window will display the same information. If you want to save
-this information to a text file instead, you can append ``> stdout.txt`` to the command used to
-run the local |EMOD_s| simulation to redirect the console output to the file specified.
+When you run a simulation, it will generate a standard output logging file
+(StdOut.txt) in the working directory that captures all standard output messages.
 
 The file contains information about a particular simulation, such as the |EMOD_s| version used and
 the files in use, as well as other initialization information, including the default logging level
@@ -86,7 +83,6 @@ By default, the logging level is set to "INFO". If you want to change the loggin
 For example::
 
 
-    ..\..\..\Eradication.exe --config config.json --input-path ..\..\..\Demographics_Files
     Intellectual Ventures(R)/EMOD Disease Transmission Kernel 2.18.16.0
     Built on Jul  5 2018 15:32:59 by SYSTEM from master (e98fbf4) checked in on 2018-06-12 11:32:40 -0700
     Supports sim_types: GENERIC, VECTOR, MALARIA, AIRBORNE, TBHIV, STI, HIV, PY.
@@ -189,46 +185,6 @@ For example::
     00:00:01 [0] [I] [Simulation] Update(): Time: 48.0 Rank: 0 StatPop: 10000 Infected: 0
     00:00:01 [0] [I] [Simulation] Update(): Time: 49.0 Rank: 0 StatPop: 10000 Infected: 0
     00:00:01 [0] [I] [Simulation] Update(): Time: 50.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:01 [0] [I] [Simulation] Update(): Time: 51.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:01 [0] [I] [Simulation] Update(): Time: 52.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:01 [0] [I] [Simulation] Update(): Time: 53.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 54.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 55.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 56.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 57.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 58.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 59.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 60.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 61.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 62.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 63.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 64.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 65.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 66.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 67.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 68.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 69.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 70.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 71.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 72.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 73.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 74.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 75.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 76.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 77.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 78.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 79.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 80.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 81.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 82.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 83.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 84.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 85.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 86.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 87.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 88.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 89.0 Rank: 0 StatPop: 10000 Infected: 0
-    00:00:02 [0] [I] [Simulation] Update(): Time: 90.0 Rank: 0 StatPop: 10000 Infected: 0
     00:00:02 [0] [I] [Simulation] Finalizing 'InsetChart.json' reporter.
     00:00:02 [0] [I] [Simulation] Finalized  'InsetChart.json' reporter.
     00:00:02 [0] [I] [Simulation] Finalizing 'BinnedReport.json' reporter.

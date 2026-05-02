@@ -1,57 +1,26 @@
-=============================================================
-Generate a list of all available parameters (a schema)
-=============================================================
+================
+Parameter schema
+================
 
-You can generate a :term:`schema` from the |exe_l| or |linux_binary| that defines all configuration
-parameters and campaign parameters available in the version of |EMOD_s| that is installed, for all
-available simulation types. This includes parameter names, data types, defaults, ranges, and short
-descriptions. The schema does not include demographics parameters.
+A :term:`schema` defines all configuration and campaign parameters available in the installed
+version of |EMOD_s|, for all simulation types. It includes parameter names, data types,
+defaults, valid ranges, and short descriptions. Note that the schema does not include
+demographics parameters. The schema is a JSON file and can be opened in any text editor.
 
-Logging information is also produced as part of the schema. If you are using |EMOD_s| source and have
-added or modified configuration parameters or intervention code, this logging information can help
-you troubleshoot any errors that may occur.
+In most cases, you will not need to work with the schema directly — |EMODPY_malaria| handles
+all model configuration through its Python API and uses the schema internally.
 
-.. include:: ../reuse/warning-schema.txt
+If you do need access to the schema, the |EMOD_s| executable and its associated schema are
+bundled in the ``emod_malaria`` package, which is installed automatically when you install
+|EMODPY_malaria|. You can extract them using the ``emod_malaria.bootstrap`` module. Add the
+following to your project and run it once:
 
-Command options
-===============
+.. code-block:: python
 
-The following command-line options are available for providing information about |EMOD_s|.
+    if __name__ == "__main__":
+        import emod_malaria.bootstrap as bootstrap
+        import pathlib
+        bootstrap.setup(pathlib.Path("executables"))
 
-.. csv-table:: |EMOD_s| information commands
-   :header: "Long form", "Short form", "Description"
-   :widths: 2,1,10
-
-   ``--help``, ``-help``, "Shows help options for |exe_s|."
-   ``--version``, ``-v``, "Shows the version information and supported simulation types. Note capitalization of short alternative."
-   ``--get-schema``, ``--get-schema``, "Outputs the configuration and campaign parameters. Unless ``--schema-path`` or a redirect operator is used, the schema will print to the Command Prompt window."
-   ``--schema-path``, ``>``, "When used with ``--get-schema``, if a TXT or JSON file is specified, the schema information will be written to the file instead of the Command Prompt window."
-
-Usage
-=====
-
-#.  Open a Command Prompt window and navigate to the directory where |exe_s| is installed.
-#.  To output the schema to the Command Prompt window, enter::
-
-        Eradication.exe --get-schema
-
-#.  To output the schema to a file, do one of the following (replacing <filename> with the
-    desired filename):
-
-    *   To output a text file that includes logging information, enter::
-
-            Eradication.exe --get-schema > <filename>.txt
-
-    *   To display logging in the Command Prompt window and output a text file
-        that does not include logging information, enter::
-
-            Eradication.exe --get-schema --schema-path <filename>.txt
-
-    *   To output the schema to a JSON file that includes logging information, enter::
-
-            Eradication.exe --get-schema > <filename>.json
-
-    *   To display logging in the Command Prompt window and output a JSON file
-        that does not include logging information, enter::
-
-            Eradication.exe --get-schema --schema-path <filename>.json
+This will download and place the |EMOD_s| executable and schema files into an
+``executables`` folder in your current directory.

@@ -10,7 +10,7 @@ a set of two files, a metadata file with header information (<name>.bin.json) an
 
 The metadata file is a JSON-formatted file that includes a metadata section and a node offsets
 section. The **Metadata** parameter contains a JSON object with parameters, some of which are
-strictly  informational and some of which are used by |exe_s|. However, the informational ones may
+strictly  informational and some of which are used by |EMOD_s|. However, the informational ones may
 still be important to understand the provenance and meaning of the data.
 
 In a second section, the **NodeOffsets** parameter contains a list of hex-encoded 16-byte values
@@ -35,7 +35,7 @@ Climate by data
 
 Climate by data files contain real data gathered from weather stations in the region to be
 simulated. This includes rainfall, temperature, relative humidity, and so on. At this time, the
-|exe_l| reads land temperature data, but does not use the data in any calculations. |IDM_s| clones
+|EMOD_s| reads land temperature data, but does not use the data in any calculations. |IDM_s| clones
 the air temperature and uses that as the land temperature in the climate data files. If you are
 going to be constructing your own climate files, we advise you to do the same.
 
@@ -55,7 +55,7 @@ The following parameters in the metadata section are informational:
     StartDayOfYear, string, The day of the year representing the first day in the climate file.
     DataProvenance, string, The source of the data.
 
-The following parameters in the metadata section are used by |exe_s|:
+The following parameters in the metadata section are used by |EMOD_s|:
 
 .. csv-table::
     :header: Parameter, Data type, Description
@@ -109,7 +109,7 @@ The following parameters in the metadata section are informational:
     DataProvenance, string, The source of the data.
     Tool, string, The script used to create the file.
 
-The following parameters in the metadata section are used by |exe_s|:
+The following parameters in the metadata section are used by |EMOD_s|:
 
 .. csv-table::
     :header: Parameter, Data type, Description

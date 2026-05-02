@@ -41,6 +41,3 @@ Although you can create campaign files entirely from scratch, it is often easier
 an existing campaign file and modify it to meet your needs
 
 
-.. toctree::
-
-   software-campaign-overlay
