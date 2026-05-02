@@ -55,6 +55,19 @@
       ]
     }
 "
+"Released_Mate_Genome","array of string arrays","NA","NA","[]","Optional parameter which defines the alleles of the genome of the mate for pre-mated female releases. The **Released_Mate_Genome** must be male and **Released_Genome** must be female. It must define all of the alleles including the gender gene. ``*`` is not allowed. When this parameter is defined, the released female vectors will be fully gestated and ready to lay eggs, which will be the product of **Released_Genome** and **Released_Mate_Genome**.",".. code-block:: json
+
+    {
+      ""Released_Genome"": [
+        [""X"", ""X""],
+        [""a1"", ""a1""]
+      ],
+      ""Released_Mate_Genome"": [
+        [""X"", ""Y""],
+        [""a1"", ""a1""]
+      ]
+    }
+"
 "Released_Infectious","float","0","1","0","The fraction of vectors released that are to be infectious. You can only use this feature when **Malaria_Model** is NOT set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.",".. code-block:: json
 
     {

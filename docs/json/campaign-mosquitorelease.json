@@ -67,6 +67,31 @@
             "Start_Day": 200,
             "class": "CampaignEvent"
         }
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "class": "MosquitoRelease",
+                    "Cost_To_Consumer": 300,
+                    "Released_Type": "FIXED_NUMBER",
+                    "Released_Number": 20000,
+                    "Released_Species": "SillySkeeter",
+                    "Released_Genome" : [
+                        ["X", "X"], ["a1", "a1"]
+                    ],
+                    "Released_Mate_Genome" : [
+                        ["X", "Y"], ["a1", "a1"]
+                    ]
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            },
+            "Event_Name": "MosquitoRelease Pre-mated",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Day": 200,
+            "class": "CampaignEvent"
+        }
     ],
     "Use_Defaults": 1
 }

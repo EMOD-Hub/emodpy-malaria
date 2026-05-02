@@ -1,0 +1,39 @@
+"Cas9_gRNA_From","string","NA","NA","UNINITIALIZED STRING","The allele in the mother that produces Cas9 protein. The mother's genome is checked for the presence of this allele to determine if additional gene drive resistance alleles will be formed via maternal deposition. This allele must be one of the **Driving_Allele** alleles defined in the **Drivers** array.",".. code-block:: json
+
+    {
+      ""Cas9_gRNA_From"": ""Ad""
+    }
+"
+"Allele_To_Cut","string","NA","NA","UNINITIALIZED STRING","The target allele from which gene drive resistance alleles might be formed due to maternal deposition. This must be one of the **Allele_To_Replace** alleles defined in the **Drivers** array for each of the **Driving_Allele** alleles defined in **Cas9_gRNA_From**.",".. code-block:: json
+
+    {
+      ""Allele_To_Cut"": ""Aw""
+    }
+"
+"Likelihood_Per_Cas9_gRNA_From","array of json objects","NA","NA","[]","An array of allele-to-likelihood objects applied for each copy of **Cas9_gRNA_From** present in the mother. Each object specifies a **Cut_To_Allele** and its **Likelihood**. If the mother is homozygous for the **Cas9_gRNA_From** allele, the likelihoods are applied twice in sequence. The sum of all **Likelihood** values in the array must equal 1.0.",".. code-block:: json
+
+    {
+      ""Likelihood_Per_Cas9_gRNA_From"": [
+        {
+          ""Cut_To_Allele"": ""Aw"",
+          ""Likelihood"": 0.8
+        },
+        {
+          ""Cut_To_Allele"": ""Am"",
+          ""Likelihood"": 0.2
+        }
+      ]
+    }
+"
+"Cut_To_Allele","string","NA","NA","UNINITIALIZED STRING","The allele that will be formed at the cut site due to maternal deposition. This cannot be a driving allele and must be an allele of the same gene as **Allele_To_Cut**. If **Cut_To_Allele** equals **Allele_To_Cut**, this defines the likelihood that maternal deposition has no effect (the allele survives uncut).",".. code-block:: json
+
+    {
+      ""Cut_To_Allele"": ""Am""
+    }
+"
+"Likelihood","float","0","1","0","The probability (0.0--1.0) that maternal deposition will produce the allele defined in **Cut_To_Allele** from the **Allele_To_Cut** allele. When **Cut_To_Allele** equals **Allele_To_Cut**, this represents the probability of no effect.",".. code-block:: json
+
+    {
+      ""Likelihood"": 0.2
+    }
+"

@@ -97,6 +97,10 @@ The following pages in this section describe the structural components of the ve
    vector-model-climate-demographics
    vector-model-larval-habitat
    vector-model-transmission
+   vector-model-genetics
+   vector-model-gene-drives
+   vector-model-maternal-deposition
+   vector-model-insecticide-resistance
    vector-model-microsporidia
 
 

@@ -1,0 +1,33 @@
+{
+    "Insecticides": [
+        {
+            "Name": "pyrethroid",
+            "Resistances": [
+                {
+                    "Species" : "arabiensis",
+                    "Allele_Combinations": [
+                        [ "kdr", "kdr" ]
+                    ],
+                    "Killing_Modifier": 0.1,
+                    "Blocking_Modifier": 0.8,
+                    "Repelling_Modifier": 1.0,
+                    "Larval_Killing_Modifier": 0.3
+                },
+                {
+                    "Species" : "funestus",
+                    "Allele_Combinations": [
+                        [ "a1", "*" ]
+                    ],
+                    "Killing_Modifier": 0.5,
+                    "Blocking_Modifier": 1.0,
+                    "Repelling_Modifier": 1.0,
+                    "Larval_Killing_Modifier": 1.0
+                }
+            ]
+        },
+        {
+            "Name": "organophosphate",
+            "Resistances": []
+        }
+    ]
+}
