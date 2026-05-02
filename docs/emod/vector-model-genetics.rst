@@ -43,10 +43,11 @@ includes vector population dynamics (``Simulation_Type`` set to VECTOR_SIM or MA
 Genome representation
 =====================
 
-Each mosquito carries a diploid genome composed of two gametes — one inherited from each parent.
-The genome supports up to 8 user-defined genetic loci, each with up to 8 named alleles. A
-mosquito's Wolbachia status and microsporidia strain are also tracked per individual alongside
-the genetic information.
+In EMOD, each mosquito carries a simplified diploid genome composed of two gametes — one inherited
+from each parent. The genome supports up to 8 user-defined genetic loci, each with up to 8 named
+alleles. While real mosquito genomes contain thousands of genes, this abstraction captures the
+loci most relevant to the dynamics being studied. A mosquito's Wolbachia status and microsporidia
+strain are also tracked per individual alongside the genetic information.
 
 .. figure:: ../images/vector-genetics/genome-example.png
 
@@ -126,23 +127,29 @@ population:
 Mating
 ======
 
-Alleles are spread through the population via mating. Females mate exactly once in their
-lifetime, when they transition from immature to adult. Males are available for mating every day.
-During the immature-to-adult transition, immature males are updated first to determine how many
-of each genome are available in the male queue. Female cohorts then select mates randomly from
-the available males, weighted by population count.
+In EMOD, alleles are spread through the population via mating. The model simplifies real
+mosquito mating behavior: females mate exactly once in their lifetime, when they transition from
+immature to adult, and males are available for mating every day. In reality, mating dynamics are
+more complex, but this approximation captures the key genetic consequences — each female's
+offspring share a single father. During the immature-to-adult transition, immature males are
+updated first to determine how many of each genome are available in the male queue. Female
+cohorts then select mates randomly from the available males, weighted by population count.
 
 Each female stores her mate's genome for the duration of her life. When she completes a feeding
 cycle and is ready to oviposit, the stored mate genome is used to determine offspring genotypes
 through the fertilization process described below.
 
 
+.. _mendelian-inheritance:
+
 Mendelian inheritance
 =====================
 
-During fertilization, each parent contributes one gamete to the offspring through standard
-Mendelian segregation: at each locus, one of the two parental alleles is selected with equal
-(50/50) probability, and loci segregate independently. Females always contribute an X-bearing
+In EMOD's implementation of fertilization, each parent contributes one gamete to the offspring
+through standard Mendelian segregation: at each locus, one of the two parental alleles is
+selected with equal (50/50) probability, and loci segregate independently. The model assumes
+all loci are on separate chromosomes (no linkage), which is a simplification of real genetics
+where nearby loci on the same chromosome tend to be inherited together. Females always contribute an X-bearing
 gamete; males contribute either X or Y, with the ratio controlled by the ``FEMALE_EGG_RATIO``
 trait modifier. All possible gamete combinations are enumerated, each assigned a probability
 equal to the product of the two gamete probabilities, and eggs are distributed across these
@@ -256,8 +263,11 @@ drive, germline mutation, and maternal deposition are applied relative to gamete
 Germline mutations
 ==================
 
-Alleles can mutate during gametogenesis, producing new allele variants in offspring at a
-configured per-generation rate. Mutations are defined per gene:
+In EMOD, alleles can mutate during gametogenesis, producing new allele variants in offspring at a
+configured per-generation rate. This is a simplified model of mutation — real mutation processes
+involve a variety of mechanisms (point mutations, insertions, deletions, etc.) that are abstracted
+here into a single probability of one named allele converting to another. Mutations are defined
+per gene:
 
 .. code-block:: json
 
@@ -291,9 +301,11 @@ the same amount, so total probability is conserved.
 Trait modifiers
 ===============
 
-Trait modifiers map allele combinations to phenotypic effects. They are the mechanism by which
-genotype influences mosquito biology — controlling traits such as mortality, fecundity,
-insecticide susceptibility, and parasite transmission.
+In EMOD, trait modifiers are the mechanism by which genotype influences mosquito biology. They
+map allele combinations to phenotypic effects — controlling traits such as mortality, fecundity,
+insecticide susceptibility, and parasite transmission. Real genotype-phenotype relationships are
+far more complex, involving epistasis, environmental interactions, and polygenic effects; EMOD
+simplifies this to direct multipliers on specific traits for specified allele combinations.
 
 Each modifier specifies one or more ``Allele_Combinations`` (the genotypes it applies to) and one
 or more ``Trait_Modifiers`` (the traits it affects and by how much):
@@ -410,10 +422,13 @@ which causes Wolbachia to spread through a population over time once introduced.
 effects — reduced lifespan, parasite inhibition, and self-sustaining spread — make Wolbachia a
 candidate tool for reducing malaria transmission without eliminating mosquitoes.
 
-|EMOD_s| models four Wolbachia states per vector: none, strain A, strain B, or both strains A and B.
+|EMOD_s| models Wolbachia as a discrete state per vector with four possible values: none, strain
+A, strain B, or both strains A and B. This is a simplification — in reality, Wolbachia dynamics
+involve variable bacterial loads, incomplete maternal transmission, and strain-specific effects
+that are more nuanced than the model captures.
 
-Wolbachia is inherited maternally — infected females pass their Wolbachia status to all offspring
-through the egg cytoplasm. Males do not transmit Wolbachia.
+In EMOD, Wolbachia is inherited maternally with 100% fidelity — infected females pass their
+Wolbachia status to all offspring through the egg cytoplasm. Males do not transmit Wolbachia.
 
 Wolbachia-infected males are incompatible with uninfected females: matings between Wolbachia-
 carrying males and uninfected females produce inviable eggs (cytoplasmic incompatibility). This

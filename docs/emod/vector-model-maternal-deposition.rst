@@ -21,7 +21,9 @@ How maternal deposition works
 =============================
 
 During the fertilization pipeline in EMOD, maternal deposition is applied after gamete creation and
-germline mutations, but before gametes are combined into offspring genomes. The sequence is:
+germline mutations, but before gametes are combined into offspring genomes. For more details on
+the EMOD fertilization pipeline, see :ref:`Mendelian inheritance <mendelian-inheritance>`. The
+sequence is:
 
 1. **Gene drive** — applied during gamete merging (standard drive mechanics).
 2. **Gamete creation** — eggs and sperm are generated from parent genomes.
@@ -41,8 +43,8 @@ For each ``Maternal_Deposition`` entry, the system checks how many copies of the
   rate for a homozygous mother is :math:`1 - (1 - p)^2`. For example, a 20% per-allele cutting
   rate becomes a 36% effective rate with two copies.
 
-The cutting produces only resistance alleles — it cannot produce the drive allele itself. The
-``Allele_To_Cut`` entry in ``Likelihood_Per_Cas9_gRNA_From`` represents the probability of no
+The cutting converts the wild-type allele into an allele that is resistant to the gene drive —
+``Cut_To_Allele`` entry that matches ``Allele_To_Cut`` in ``Likelihood_Per_Cas9_gRNA_From`` represents the probability of no
 effect (the allele survives uncut).
 
 
@@ -53,7 +55,7 @@ Configuration example
 
     "Maternal_Deposition": [
         {
-            "Cas9_gRNA_From": "Ad",
+            "Cas9_gRNA_From": "Cd",
             "Allele_To_Cut": "Aw",
             "Likelihood_Per_Cas9_gRNA_From": [
                 {
@@ -62,16 +64,36 @@ Configuration example
                 },
                 {
                     "Cut_To_Allele": "Am",
-                    "Likelihood": 0.2
+                    "Likelihood": 0.15
+                },
+                {
+                    "Cut_To_Allele": "Ax",
+                    "Likelihood": 0.05
                 }
             ]
         }
     ]
 
-In this example, when a mother carries the drive allele ``Ad``, the wild-type allele ``Aw`` in
-the gametes has a 20% chance per maternal Cas9 copy of being cut into the resistance allele
-``Am``, and an 80% chance of remaining ``Aw`` (no effect). If the mother is homozygous for
-``Ad``, the effective cutting rate is :math:`1 - (0.8)^2 = 0.36` (36%).
+In this example, we have a maternal deposition derived from an :ref:`INTEGRAL_AUTONOMOUS <integral-autonomous-drive>` drive.
+When a mother carries the drive allele ``Cd``, the wild-type allele ``Aw`` in the gametes has a
+15% chance per maternal Cas9 copy of being cut into the drive resistance allele ``Am``, a 5%
+chance of being cut into the drive resistance allele ``Ax``, and an 80% chance of remaining
+``Aw`` (no effect).
+
+If the mother is homozygous for the ``Cd`` allele (``Cd``/``Cd``), the maternal deposition
+probabilities are applied twice to each ``Aw`` allele. After the first application, ``Aw``
+splits into ``Aw`` at 0.8, ``Am`` at 0.15, and ``Ax`` at 0.05. The second application acts
+only on the remaining ``Aw`` fraction, so:
+
+- ``Aw`` = 0.8 × 0.8 = 0.64
+- ``Am`` = 0.8 × 0.15 = 0.12
+- ``Ax`` = 0.8 × 0.05 = 0.04
+
+The final proportions for the A-locus alleles after maternal deposition are:
+
+- ``Aw`` = 0.64
+- ``Am`` = 0.15 + 0.12 = 0.27
+- ``Ax`` = 0.05 + 0.04 = 0.09
 
 Multiple ``Maternal_Deposition`` entries can target different alleles from the same or different
 Cas9 sources. Each entry is evaluated independently.
