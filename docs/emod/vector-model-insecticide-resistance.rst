@@ -214,8 +214,8 @@ insecticide.
 
 Note: When calculating resistance effects based on the alleles present in a vector, more specifically
 defined resistances are applied first, and each allele can contribute to a resistance effect only once.
-For example, if a vector has the genotype (a1, a1) and there are resistance effects defined for both (a1, *)
-and (a1, a1), the (a1, a1) effect will be applied because it is the more specific match. The (a1, *)
+For example, if a vector has the genotype (a1, a1) and there are resistance effects defined for both ``(a1, *)``
+and (a1, a1), the (a1, a1) effect will be applied because it is the more specific match. The ``(a1, *)``
 effect will not be applied, since both alleles have already been accounted for.
 
 **config.json** (relevant excerpts):
