@@ -1,4 +1,4 @@
-"Adult_Life_Expectancy","float","0","730","10","The number of days an adult mosquito survives. The daily adult mortality rate is 1 / **Adult_Life_Expectancy**, in absence of vector aging. With **Enable_Vector_Aging** set to 1, **Adult_Life_Expectancy** equal to 20 days corresponds to a mean adult female mosquito lifespan of 9-9.5 days in calibrated settings. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",".. code-block:: json
+﻿"Adult_Life_Expectancy","float","0","730","10","The number of days an adult mosquito survives. The daily adult mortality rate is 1 / **Adult_Life_Expectancy**, in absence of vector aging. With **Enable_Vector_Aging** set to 1, **Adult_Life_Expectancy** equal to 20 days corresponds to a mean adult female mosquito lifespan of 9-9.5 days in calibrated settings. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",".. code-block:: json
 
     {
         ""Enable_Vector_Aging"": 1,
@@ -21,7 +21,7 @@
         ]
     }
 "
-"Cycle_Arrhenius_1","float","0","1.00E+15","4.09E+10","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
+"Cycle_Arrhenius_1","float","0","1.00E+15","4.09E+10","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -34,7 +34,7 @@
         ]
     }
 "
-"Cycle_Arrhenius_2","float","0","1.00E+15","7740","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
+"Cycle_Arrhenius_2","float","0","1.00E+15","7740","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -77,7 +77,7 @@
         ""Drought_Egg_Hatch_Delay"": 0.33
     }
 "
-"Egg_Arrhenius1","float","0","1.00E+10","6.16E+07","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
+"Egg_Arrhenius1","float","0","1.00E+10","6.16E+07","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
 
     {
         ""Enable_Temperature_Dependent_Egg_Hatching"": 1,
@@ -85,7 +85,7 @@
         ""Egg_Arrhenius2"": 5754
     }
 "
-"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
+"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
 
     {
         ""Enable_Temperature_Dependent_Egg_Hatching"": 1,

@@ -1,4 +1,4 @@
-"Aquatic_Arrhenius_1","float","0","1.00E+15","8.42E+10","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on development rate.",".. code-block:: json
+﻿"Aquatic_Arrhenius_1","float","0","1.00E+15","8.42E+10","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on development rate.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -9,7 +9,7 @@
         ]
     }
 "
-"Aquatic_Arrhenius_2","float","0","1.00E+15","8328","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a2 governs how quickly the rate changes with temperature.",".. code-block:: json
+"Aquatic_Arrhenius_2","float","0","1.00E+15","8328","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a2 governs how quickly the rate changes with temperature.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -38,7 +38,7 @@
         ""Drought_Egg_Hatch_Delay"": 0.33
     }
 "
-"Egg_Arrhenius1","float","0","1.00E+10","6.16E+07","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
+"Egg_Arrhenius1","float","0","1.00E+10","6.16E+07","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
 
     {
         ""Enable_Temperature_Dependent_Egg_Hatching"": 1,
@@ -46,7 +46,7 @@
         ""Egg_Arrhenius2"": 5754
     }
 "
-"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
+"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
 
     {
         ""Enable_Temperature_Dependent_Egg_Hatching"": 1,

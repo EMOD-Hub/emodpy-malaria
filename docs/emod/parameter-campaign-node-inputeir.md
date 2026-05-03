@@ -1,0 +1,64 @@
+# InputEIR
+
+
+The **InputEIR** intervention class enables the Entomological Inoculation Rate (EIR) to be
+configured either for each month or for each day of the year in a particular node. The EIR is the number of
+infectious mosquito bites received in a night. This number is usually calculated by taking the number of mosquito
+bites received  per night and multiplying them by the proportion of those bites that are positive for sporozoites.
+
+The probability of an individual becoming infected from the each 'infectious bite' will be affected by
+**Age_Dependent_Biting_Risk_Type** and **Enable_Demographics_Risk** settings, as well as any
+**AcquisitionBlocking** vaccines that an individual may have received.
+
+Vector control interventions will not affect the EIR delivered by this intervention.
+
+If vectors are  included when this class is implemented, this will add the EIR specified for that month or day in
+addition to the EIR provided by the vectors. Note that the **Daily EIR channel** in the [software-report-inset-chart](software-report-inset-chart.md)
+will not be impacted by this intervention.
+
+When distributing **InputEIR** to a node that already has an existing **InputEIR** intervention, the existing
+intervention will be purged and replaced with the new intervention.
+
+**Note**: **Age_Dependence** parameter has been removed from this intervention (EMOD v2.28, emod-malaria v0.77).
+Age dependent biting risk is now controlled by the **Age_Dependent_Biting_Risk_Type parameter** in the config file, same as for vector biting.
+
+At a glance:
+
+*  **Distributed to:** Nodes
+*  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
+*  **Uses insecticides:** Does Not Apply
+*  **Time-based expiration:** No.
+*  **Purge existing:** Yes. Adding a new intervention of this class will overwrite an existing intervention of the same class.
+*  **Vector killing contributes to:** Does Not Apply
+*  **Vector effects:** Does Not Apply
+*  **Vector sexes affected:** Does Not Apply
+*  **Vector life stage affected:** Does Not Apply
+
+{% include "../reuse/warning-case.txt" %}
+
+{% include "../reuse/campaign-example-intro.txt" %}
+
+{{ read_csv("csv/campaign-inputeir.csv") }}
+
+```json
+{
+     "Use_Defaults": 1,
+     "Campaign_Name": "Constant EIR challenge",
+     "Events": [{
+          "class": "CampaignEvent",
+          "Event_Name": "Input EIR intervention",
+          "Start_Day": 0,
+          "Nodeset_Config": {
+               "class": "NodeSetAll"
+          },
+          "Event_Coordinator_Config": {
+               "class": "StandardInterventionDistributionEventCoordinator",
+               "Number_Repetitions": 1,
+               "Intervention_Config": {
+                    "class": "InputEIR",
+                    "Monthly_EIR": [0.39, 0.19, 0.77, 0, 0, 0, 6.4, 2.2, 4.7, 3.9, 0.87, 0.58]
+               }
+          }
+     }]
+}
+```

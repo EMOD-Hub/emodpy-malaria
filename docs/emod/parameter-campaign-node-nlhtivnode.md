@@ -1,0 +1,51 @@
+# NLHTIVNode
+
+
+The **NLHTIVNode** intervention class distributes node-level interventions to nodes when a specific
+user-defined node event occurs. For example, **NLHTIVNode** can be configured to have
+**SurveillanceEventCoordinator** set to listen for **NewInfectionEvents**, and then broadcast a
+node event when a certain number of events is reached, such as distributing **IndoorSpaceSpraying**
+to a node with a high number of new infections.
+
+**NLHTIVNode** is similar to [parameter-campaign-node-nodelevelhealthtriggerediv](parameter-campaign-node-nodelevelhealthtriggerediv.md) but **NLHTIVNode**
+is focused on *node* interventions and events while **NodeLevelHealthTriggeredIV** is focused on
+*individual* interventions and events.
+
+{% include "../reuse/warning-case.txt" %}
+
+{% include "../reuse/campaign-example-intro.txt" %}
+
+{{ read_csv("csv/campaign-nlhtivnode.csv") }}
+
+```json
+{
+    "Events": [{
+        "comment": "No infections, Negative_Event_Node",
+        "class": "CampaignEvent",
+        "Start_Day": 1,
+        "Nodeset_Config": {
+            "class": "NodeSetAll"
+        },
+        "Event_Coordinator_Config": {
+            "class": "StandardInterventionDistributionEventCoordinator",
+            "Intervention_Config": {
+                "class": "NLHTIVNode",
+                "Trigger_Condition_List": ["SheddingComplete"],
+                "Duration": 1000,
+                "Blackout_Event_Trigger": "Blackout",
+                "Blackout_Period": 100.0,
+                "Blackout_On_First_Occurrence": 0,
+                "Actual_NodeIntervention_Config": {
+                    "class": "EnvironmentalDiagnostic",
+                    "Sample_Threshold": 0.0,
+                    "Environment_IP_Key_Value": "Risk:High",
+                    "Base_Specificity": 1.0,
+                    "Base_Sensitivity": 1.0,
+                    "Negative_Diagnostic_Event": "Negative_Event_Node",
+                    "Positive_Diagnostic_Event": "Positive_Event_Node"
+                }
+            }
+        }
+    }]
+}
+```

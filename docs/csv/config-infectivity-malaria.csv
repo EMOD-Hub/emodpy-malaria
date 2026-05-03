@@ -1,4 +1,4 @@
-"Acquire_Modifier","float","0","1","1","Modifier of the probability of successful infection of a mosquito by an infected individual, given the individual's infectiousness.",".. code-block:: json
+﻿"Acquire_Modifier","float","0","1","1","Modifier of the probability of successful infection of a mosquito by an infected individual, given the individual's infectiousness.",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -52,7 +52,7 @@ SURFACE_AREA_DEPENDENT
         ""Base_Infectivity"": 0.5
     }
 "
-"Enable_Heterogeneous_Intranode_Transmission","boolean","0","1","0","Controls whether or not individuals experience heterogeneous disease transmission within a node. When set to true (1), individual property definitions and the :math:`\beta` matrix must be specified in the demographics file (see :ref:`demo-properties` parameters). The :math:`\beta` values are multiplied with the :math:`\beta` :sub:`0` value configured by **Base_Infectivity**.
+"Enable_Heterogeneous_Intranode_Transmission","boolean","0","1","0","Controls whether or not individuals experience heterogeneous disease transmission within a node. When set to true (1), individual property definitions and the $\\beta$ matrix must be specified in the demographics file (see :ref:`demo-properties` parameters). The $\\beta$ values are multiplied with the $\\beta$ :sub:`0` value configured by **Base_Infectivity**.
 
 This is used only in generic, environmental, and typhoid simulations, but must be set to false (0) for all other simulation types. Heterogeneous transmission for other diseases uses other mechanistic parameters included with the simulation type.",".. code-block:: json
 
@@ -100,7 +100,7 @@ This is used only in generic, environmental, and typhoid simulations, but must b
         ""Minimum_End_Time"": 3650
     }
 "
-"Infected_Arrhenius_1","float","0","1.00E+15","1.17E+11","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a1 is a temperature-independent scale factor on the progression rate to infectiousness. ",".. code-block:: json
+"Infected_Arrhenius_1","float","0","1.00E+15","1.17E+11","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a1 is a temperature-independent scale factor on the progression rate to infectiousness. ",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [
@@ -134,7 +134,7 @@ This is used only in generic, environmental, and typhoid simulations, but must b
         ]
     }
 "
-"Infected_Arrhenius_2","float","0","1.00E+15","8340","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a2 is a temperature-dependent scale factor on the progression rate to infectiousness.  ",".. code-block:: json
+"Infected_Arrhenius_2","float","0","1.00E+15","8340","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a2 is a temperature-dependent scale factor on the progression rate to infectiousness.  ",".. code-block:: json
 
     {
         ""Vector_Species_Params"": [

@@ -1,0 +1,91 @@
+# MultiInsecticideUsageDependentBednet
+
+
+The **MultiInsecticideUsageDependentBednet** intervention class is an individual-level intervention
+that is similar to the [parameter-campaign-individual-usagedependentbednet](parameter-campaign-individual-usagedependentbednet.md)
+class but allows the addition of multiple insecticides.
+
+The effectiveness of the intervention is combined using the following equation:
+
+Total efficacy = 1.0 – (1.0 – efficacy_1) * (1.0 – efficacy_2) * … * (1.0 – efficacy_n)
+
+At a glance:
+
+*  **Distributed to:** Individuals
+*  **Serialized:** Yes, if it has been distributed to a person.
+*  **Uses insecticides:** Yes. Insecticides can be used to target specific species or other subgroups.
+*  **Time-based expiration:** No, but it will expire if the WaningEffect expires (WaningEffectRandomBox and WaningEffectMapLinear expire).
+*  **Purge existing:** Yes. Adding a new bednet intervention of any type will replace any other bednet intervention in an individual. The Intervention_Name parameter does not change this behavior.
+*  **Vector killing contributes to:** Indoor Die Before Feeding
+*  **Vector effects:** Repelling, blocking, killing
+*  **Vector sexes affected:** Indoor meal-seeking females only.
+*  **Vector life stage affected:** Adult
+
+{% include "../reuse/warning-case.txt" %}
+
+{% include "../reuse/campaign-example-intro.txt" %}
+
+{{ read_csv("csv/campaign-multiinsecticideusagedependentbednet.csv") }}
+
+```json
+{
+    "Events": [{
+            "class": "MultiInsecticideUsageDependentBednet",
+            "Cost_To_Consumer": 5,
+            "Insecticides": [{
+                    "Insecticide_Name": "pyrethroid",
+                    "Repelling_Config": {
+                        "Box_Duration": 300,
+                        "Initial_Effect": 0.25,
+                        "class": "WaningEffectBox"
+                    },
+                    "Killing_Config": {
+                        "Box_Duration": 300,
+                        "Initial_Effect": 1.0,
+                        "class": "WaningEffectBox"
+                    }
+                },
+                {
+                    "Insecticide_Name": "carbamate",
+                    "Repelling_Config": {
+                        "Box_Duration": 300,
+                        "Initial_Effect": 0.25,
+                        "class": "WaningEffectBox"
+                    },
+                    "Killing_Config": {
+                        "Box_Duration": 300,
+                        "Initial_Effect": 1.0,
+                        "class": "WaningEffectBox"
+                    }
+                }
+            ],
+            "Usage_Config_List": [{
+                    "Durability_Map": {
+                        "Times": [0.0, 12.99, 13.0, 125.0],
+                        "Values": [0.0, 0.00, 1.0, 1.0]
+                    },
+                    "Initial_Effect": 1.0,
+                    "class": "WaningEffectMapLinearAge"
+                },
+                {
+                    "Durability_Map": {
+                        "Times": [0.0, 20.0, 21.0, 30.0, 31.0, 365.0],
+                        "Values": [1.0, 1.0, 0.0, 0.0, 1.0, 1.0]
+                    },
+                    "Initial_Effect": 1.0,
+                    "class": "WaningEffectMapLinearSeasonal"
+                }
+            ],
+            "Received_Event": "Bednet_Got_New_One",
+            "Using_Event": "Bednet_Using",
+            "Discard_Event": "Bednet_Discarded",
+            "Expiration_Period_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
+            "Expiration_Period_Mean_1": 60,
+            "Expiration_Period_Mean_2": 50,
+            "Expiration_Period_Proportion_1": 1.0
+        }
+
+    ],
+    "Use_Defaults": 1
+}
+```

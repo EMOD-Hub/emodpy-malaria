@@ -1,9 +1,9 @@
-"Custom_Reports_Filename","string","NA","NA","UNINITIALIZED STRING","The name of the file containing custom report configuration parameters. Omitting this parameter or setting it to RunAllCustomReports will load all reporters found that are valid for the given simulation type. The file must be in JSON format.",".. code-block:: json
+﻿"Custom_Reports_Filename","string","NA","NA","UNINITIALIZED STRING","The name of the file containing custom report configuration parameters. Omitting this parameter or setting it to RunAllCustomReports will load all reporters found that are valid for the given simulation type. The file must be in JSON format.",".. code-block:: json
 
     {  
         ""Custom_Reports_Filename"": ""custom_reports.json""
     }"
-"Cycle_Arrhenius_1","float","0","1.00E+15","4.09E+10","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
+"Cycle_Arrhenius_1","float","0","1.00E+15","4.09E+10","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
 
     {
         ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE"",
@@ -14,7 +14,7 @@
             }
         }
     }"
-"Cycle_Arrhenius_2","float","0","1.00E+15","7740","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
+"Cycle_Arrhenius_2","float","0","1.00E+15","7740","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
 
     {
         ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE"",
@@ -48,7 +48,7 @@
         ""Egg_Arrhenius1"": 61599956,
         ""Egg_Arrhenius2"": 5754
     }"
-"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
+"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
 
     {
         ""Enable_Temperature_Dependent_Egg_Hatching"": 1,     

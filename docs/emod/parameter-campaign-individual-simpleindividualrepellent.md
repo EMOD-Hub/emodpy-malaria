@@ -1,0 +1,51 @@
+# SimpleIndividualRepellent
+
+
+The **SimpleIndividualRepellent** intervention class provides protection to individuals against both
+indoor-feeding and outdoor-feeding mosquito bites.
+
+At a glance:
+
+*  **Distributed to:** Individuals
+*  **Serialized:** Yes, when it has been distributed to individuals.
+*  **Uses insecticides:** Yes. The vector genome can be used to target specific vectors.
+*  **Time-based expiration:** No. It will continue to exist even if efficacy is zero.
+*  **Purge existing:** Yes and No. Adding a new intervention of this class will overwrite any existing intervention of the same class with the same **Intervention_Name**. If **Intervention_Name** is different, both interventions will coexist and their efficacies will combine 1-(1-prob1)*(1-prob2) etc.
+*  **Vector killing contributes to:** No killing
+*  **Vector effects:** Repelling.
+*  **Vector sexes affected:** All meal-seeking females
+*  **Vector life stage affected:** Adult
+
+{% include "../reuse/warning-case.txt" %}
+
+{% include "../reuse/campaign-example-intro.txt" %}
+
+{{ read_csv("csv/campaign-simpleindividualrepellent.csv") }}
+
+```json
+{
+    "Events": [{
+        "class": "CampaignEvent",
+        "Nodeset_Config": {
+            "class": "NodeSetAll"
+        },
+        "Start_Day": 120,
+        "Event_Coordinator_Config": {
+            "class": "StandardInterventionDistributionEventCoordinator",
+            "Target_Demographic": "Everyone",
+            "Demographic_Coverage": 0.5,
+            "Intervention_Config": {
+                "class": "SimpleIndividualRepellent",
+                "Repelling_Config": {
+                    "Box_Duration": 100,
+                    "Decay_Time_Constant": 150,
+                    "Initial_Effect": 0.8,
+                    "class": "WaningEffectBoxExponential"
+                },
+                "Cost_To_Consumer": 10.0
+            }
+        }
+    }],
+    "Use_Defaults": 1
+}
+```
