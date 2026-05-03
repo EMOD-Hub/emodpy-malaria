@@ -24,7 +24,7 @@ def add_community_health_worker(campaign,
         Sets up a CommunityHealthWorkerEventCoordinator with the passed in intervention
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         trigger_condition_list: The list of individual events that are of interest to the community health worker (CHW).
             If one of these events occurs, the individual or node is put into a queue to receive the CHW's intervention.

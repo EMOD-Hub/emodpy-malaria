@@ -15,9 +15,9 @@ def add_outdoorrestkill(campaign,
         Adds a node-targeted OutdoorRestKill intervention to the campaign
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: the day on which to distribute the intervention
-        insecticide :The name of the insecticide defined in config.Insecticides for this intervention.
+        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
@@ -27,7 +27,7 @@ def add_outdoorrestkill(campaign,
         node_ids: List of nodes to which to distribute the intervention. None or empty list implies "all nodes".
 
     Returns:
-        configured campaign object
+        (emodpy.campaign.emod_campaign.EMODCampaign): configured campaign object
     """
     schema_path = campaign.schema_path
     intervention = s2c.get_class_with_defaults("OutdoorRestKill", schema_path)

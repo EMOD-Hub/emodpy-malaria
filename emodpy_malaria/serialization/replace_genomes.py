@@ -124,10 +124,10 @@ def replace_genomes(input_file, next_barcode_fn, output_file):
         Replaces genomes in infected individuals and vectors.
 
     Args:
-        input_file:  Input serialized population file
-        next_barcode_fn: Function that return the next barcode. The function is called once for every infection of an
+        input_file (str):  Input serialized population file
+        next_barcode_fn (Callable): Function that return the next barcode. The function is called once for every infection of an
             individual and once for every vector in the vector population.
-        output_file: Output file with replaced genomes.
+        output_file (str): Output file with replaced genomes.
     """
 
     if not os.path.exists(input_file):

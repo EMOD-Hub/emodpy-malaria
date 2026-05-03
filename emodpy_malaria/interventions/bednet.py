@@ -33,7 +33,7 @@ def _simple_bednet(campaign,
 todo: how to describe usage_ effects? how to make usage default WaningEffectConstant
 
     Args:
-        campaign:
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign):
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -89,13 +89,13 @@ def new_intervention_as_file(campaign, start_day, filename=None):
     Write a campaign file to disk with a single bednet event, using defaults. Useful for testing and learning.
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
-        start_day: The day of the simulation on which the bednets are distributed. We recommend
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
+        start_day (float): The day of the simulation on which the bednets are distributed. We recommend
             aligning this with the start of the simulation.
-        filename: The campaign filename; can be omitted and default will be used and returned to user.
+        filename (str): The campaign filename; can be omitted and default will be used and returned to user.
 
     Returns:
-        The campaign filename written to disk.
+        (str): The campaign filename written to disk.
     """
     add_itn_scheduled(campaign=campaign, start_day=start_day)
     if filename is None:
@@ -134,7 +134,7 @@ def add_itn_scheduled(campaign,
         Add a scheduled SimpleBednet intervention.
 
     Args:
-        campaign: object for building, modifying, and writing campaign configuration files.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
         start_day: Start day of intervention.
         coverage_by_ages: A list of dictionaries defining the coverage per
             age group. For example, ``[{"coverage":1,"min": 1, "max": 10},
@@ -255,7 +255,7 @@ def add_itn_triggered(campaign,
         Adds a triggered SimpleBednet intervention
 
     Args:
-        campaign: object for building, modifying, and writing campaign configuration files.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by

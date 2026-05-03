@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, Iterable, NoReturn, Union
 
 
-def invert_dict(in_dict: Dict, sort=False, single_value=False) -> Dict:
+def invert_dict(in_dict: dict, sort: bool = False, single_value: bool = False) -> Dict:
     """
     Invert a dictionary by grouping keys by value. In the resulting dictionary keys are unique value from the original
     dictionary (including individual element of value lists) and values are lists of original dictionary keys.
@@ -78,10 +78,6 @@ def save_json(content: Dict[str, str], file_path: Union[str, Path]) -> NoReturn:
     Args:
         content: Content in the form of a dictionary.
         file_path: The path of the output weather metadata file.
-
-        Returns:
-            None
-
     """
     with open(str(file_path), "wt") as file:
         json.dump(content, file, indent=2, separators=(",", ": "))

@@ -9,40 +9,8 @@ def add_scale_larval_habitats(campaign, df=None,
     Reduce available larval habitat in a node-specific way.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
-        df: The dataframe containing habitat scale factors. **Examples**::
-
-            Scale TEMPORARY_RAINFALL by 3-fold for all nodes, all species:
-            df = pd.DataFrame({ 'TEMPORARY_RAINFALL': [3]})
-
-            Scale TEMPORARY_RAINFALL by 3-fold for all nodes, arabiensis only:
-            df = pd.DataFrame({ 'TEMPORARY_RAINFALL.arabiensis': [3]})
-
-            Scale differently by node ID:
-            df = pd.DataFrame({ 'NodeID' : [0, 1, 2, 3, 4],
-                                'CONSTANT': [1, 0, 1, 1, 1],
-                                'TEMPORARY_RAINFALL': [1, 1, 0, 1, 0]})
-
-            Scale differently by both node ID and species:
-            df = pd.DataFrame({ 'NodeID' : [0, 1, 2, 3, 4],
-                                'CONSTANT.arabiensis': [1, 0, 1, 1, 1],
-                                'TEMPORARY_RAINFALL.arabiensis': [1, 1, 0, 1, 0],
-                                'CONSTANT.funestus': [1, 0, 1, 1, 1]})
-
-            Scale some habitats by species and others same for all species:
-            df = pd.DataFrame({ 'NodeID' : [0, 1, 2, 3, 4],
-                                'CONSTANT.arabiensis': [1, 0, 1, 1, 1],
-                                'TEMPORARY_RAINFALL.arabiensis': [1, 1, 0, 1, 0],
-                                'CONSTANT.funestus': [1, 0, 1, 1, 1],
-                                'LINEAR_SPLINE': [1, 1, 0, 1, 0]})
-
-            Scale nodes at different dates:
-            df = pd.DataFrame({  'NodeID' : [0, 1, 2, 3, 4],
-                                 'CONSTANT': [1, 0, 1, 1, 1],
-                                 'TEMPORARY_RAINFALL': [1, 1, 0, 1, 0],
-                                 'Start_Day': [0, 30, 60, 65, 65]
-                                 })
-
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
+        df (pd.DataFrame): The dataframe containing habitat scale factors.
         start_day: The date that habitats are scaled for all scaling
             actions specified in **df**. Used only if there is no
             Start_Day column in **df**.
@@ -118,7 +86,7 @@ def add_habitat_reduction_event(campaign, start_day: int, node_ids: list, habita
         Add a campaign event to reduce vector's larval habitat(s).
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention

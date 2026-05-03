@@ -1,6 +1,7 @@
 import emod_api.config.default_from_schema_no_validation as dfs
 import math
 import os
+from types import ModuleType
 from emodpy_malaria.malaria_vector_species_params import species_params
 from enum import Enum
 
@@ -47,11 +48,11 @@ def set_team_defaults(config, manifest):
     Set configuration defaults using team-wide values, including drugs and vector species.
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
 
     Returns:
-        configured config
+        (dict): configured config
     """
 
     # INFECTION
@@ -110,11 +111,11 @@ def get_species_params(config, species: str = None):
     Returns the species parameters dictionary with the matching species **Name**
 
     Args:
-        config: schema-backed config smart dict
+        config (dict): schema-backed config smart dict
         species: Species to look up
 
     Returns:
-        Dictionary of species parameters with the matching name
+        (dict): Dictionary of species parameters with the matching name
     """
     if not species:
         raise ValueError("Please define a species.")
@@ -130,11 +131,11 @@ def set_species_param(config, species, parameter, value, overwrite=False):
         Raises value error if species not found
 
     Args:
-        config: schema-backed config smart dict
-        species: name of species for which to set the parameter
-        parameter: parameter to set
-        value: value to set the parameter to
-        overwrite: if set to True and parameter is a list, overwrites the parameter with value, appends by default
+        config (dict): schema-backed config smart dict
+        species (str): name of species for which to set the parameter
+        parameter (str): parameter to set
+        value (Union[Any, list[Any]]): value to set the parameter to
+        overwrite (bool): if set to True and parameter is a list, overwrites the parameter with value, appends by default
     """
 
     vector_species = get_species_params(config, species)
@@ -165,7 +166,7 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
         Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters
 
     Args:
-        manifest:  manifest file containing the schema path
+        manifest (ModuleType):  manifest file containing the schema path
         max_larval_capacity:  The maximum larval capacity. Sets **Max_Larval_Capacity**
         capacity_distribution_number_of_years:  The total length of time in
             years for the scaling.  If the simulation goes longer than this time, the pattern will repeat.  Ideally,
@@ -185,7 +186,7 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
                 }
 
     Returns:
-        Configured Habitat_Type: "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
+        (dict): "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
     """
     if not capacity_distribution_over_time or "Times" not in capacity_distribution_over_time or "Values" not in capacity_distribution_over_time:
         raise ValueError("Please define capacity_distribution_over_time as a dictionary: {'Times':[], 'Values':[]}.\n")
@@ -215,13 +216,13 @@ def add_species(config, manifest, species_to_select):
     name not found - "gambiae" parameters are added and the new species name assigned.
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
-        species_to_select: a list of species or a name of a single species you'd like to set from
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
+        species_to_select (Union[str, list[str]): a list of species or a name of a single species you'd like to set from
             malaria_vector_species_params.py
 
     Returns:
-        configured config
+        (dict): configured config
     """
 
     if type(species_to_select) is str:
@@ -243,54 +244,19 @@ def add_species(config, manifest, species_to_select):
 
 def add_genes_and_alleles(config, manifest, species: str = None, alleles: list = None):
     """
-        Adds alleles to a species
-
-        **Example**::
-
-            "Genes": [
-                {
-                    "Alleles": [
-                        {
-                            "Name": "X1",
-                            "Initial_Allele_Frequency": 0.5,
-                            "Is_Y_Chromosome": 0
-                        },
-                        {
-                            "Name": "X2",
-                            "Initial_Allele_Frequency": 0.25,
-                            "Is_Y_Chromosome": 0
-                        },
-                        {
-                            "Name": "Y1",
-                            "Initial_Allele_Frequency": 0.15,
-                            "Is_Y_Chromosome": 1
-                        },
-                        {
-                            "Name": "Y2",
-                            "Initial_Allele_Frequency": 0.1,
-                            "Is_Y_Chromosome": 1
-                        }
-                    ],
-                    "Is_Gender_Gene": 1,
-                    "Mutations": []
-                }
-            ]
+    Adds alleles to a species
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
         species: species to which to assign the alleles
         alleles: List of tuples of (**Name**, **Initial_Allele_Frequency**, **Is_Y_Chromosome**) for a set of alleles
             or (**Name**, **Initial_Allele_Frequency**), 1/0 or True/False can be used for Is_Y_Chromosome,
             third parameter is assumed False (0). If the third parameter is set to 1 in any of the tuples,
             we assume, this is a gender gene.
-            **Example**::
-
-                [("X1", 0.25), ("X2", 0.35), ("Y1", 0.15), ("Y2", 0.25)]
-                [("X1", 0.25, 0), ("X2", 0.35, 0), ("Y1", 0.15, 1), ("Y2", 0.25, 1)]
 
     Returns:
-        configured config
+        (dict): configured config
     """
 
     if not species or not alleles or not config or not manifest:
@@ -318,16 +284,16 @@ def add_mutation(config, manifest, species, mutate_from, mutate_to, probability)
     Adds to **Mutations** parameter in a Gene which has the matching **Alleles**
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
-        species: Name of vector species to which we're adding mutations
-        mutate_from: The allele in the gamete that could mutate
-        mutate_to: The allele that this locus will change to during gamete generation
-        probability: The probability that the allele will mutate from one allele to the other during the
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
+        species (str): Name of vector species to which we're adding mutations
+        mutate_from (str): The allele in the gamete that could mutate
+        mutate_to (str): The allele that this locus will change to during gamete generation
+        probability (float): The probability that the allele will mutate from one allele to the other during the
             creation of the gametes
 
     Returns:
-        configured config
+        (dict): configured config
     """
 
     species_params = get_species_params(config, species)
@@ -354,10 +320,10 @@ def create_trait(manifest, trait: str = None, modifier: float = None,
                  sporozoite_barcode_string: str = None, gametocyte_a_barcode_string: str = None,
                  gametocyte_b_barcode_string: str = None):
     """
-        Configures and returns a modifier trait.
+    Configures and returns a modifier trait.
 
     Args:
-        manifest: manifest file containing the schema path
+        manifest (ModuleType): manifest file containing the schema path
         trait: The trait to be modified of vectors with the given allele combination.
             Available traits are: "INFECTED_BY_HUMAN", "FECUNDITY", "FEMALE_EGG_RATIO", "STERILITY",
             "TRANSMISSION_TO_HUMAN", "ADJUST_FERTILE_EGGS", "MORTALITY", "INFECTED_PROGRESS", "OOCYST_PROGRESSION",
@@ -368,7 +334,7 @@ def create_trait(manifest, trait: str = None, modifier: float = None,
         gametocyte_b_barcode_string: TBD
 
     Returns:
-        trait parameters that can be added to a list and passed to add_trait() function
+        (dict): trait parameters that can be added to a list and passed to add_trait() function
     """
     traits_available = ["INFECTED_BY_HUMAN", "FECUNDITY", "FEMALE_EGG_RATIO", "STERILITY", "TRANSMISSION_TO_HUMAN",
                         "ADJUST_FERTILE_EGGS", "MORTALITY", "INFECTED_PROGRESS", "OOCYST_PROGRESSION",
@@ -400,25 +366,11 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
     """
     Use this function to add traits as part of vector genetics configuration, the trait is assigned to the
     species' **Gene_To_Trait_Modifiers** parameter
-    Should produce something like **Example**::
-
-                {
-                    "Allele_Combinations" : [
-                        [  "X",  "X" ],
-                        [ "a0", "a1" ]
-                    ],
-                    "Trait_Modifiers" : [
-                        {
-                            "Trait" : "FECUNDITY",
-                            "Modifier": 0.7
-                        }
-                    ]
-                }
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
-        species: **Name** of species for which to add this  **Gene_To_Trait_Modifiers**
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
+        species (str): **Name** of species for which to add this  **Gene_To_Trait_Modifiers**
         allele_combo: List of lists, This defines a possible subset of allele pairs that a vector could have.
             Each pair are alleles from one gene.  If the vector has this subset, then the associated traits will
             be adjusted.  Order does not matter.  '*' is allowed when only the occurrence of one allele is important.
@@ -429,7 +381,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
         trait_modifiers: list of trait modifier parameters created with create_trait() function.
 
     Returns:
-        configured config
+        (dict): configured config
     """
     species_params = get_species_params(config, species)
     _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
@@ -474,8 +426,8 @@ def add_blood_meal_mortality(config, manifest,
     to the user to specify the probability for specific combinations.
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest module containing the schema path
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest module containing the schema path
         default_probability_of_death: The probability used if the genome of the mosquito does not
             match any of the defined allele combinations in Genetic_Probabilities.
         species: Name of the species of vectors to give the specific probability to.
@@ -491,7 +443,7 @@ def add_blood_meal_mortality(config, manifest,
             has the matching Allele_Combinations.  The default is zero.
 
     Returns:
-        configured config
+        (dict): configured config
     """
 
     # checks if species name is valid
@@ -526,32 +478,10 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
     """
         Use this function to add to the list of **Resistances** parameter for a specific insecticide
         Add each resistance separately.
-        **Example**::
-
-            Insecticides = [
-            {
-              "Name": "pyrethroid",
-              "Resistances": [
-                {
-                  "Allele_Combinations": [
-                  [
-                    "a1",
-                    "a1"
-                  ]
-                 ],
-                "Blocking_Modifier": 1.0,
-                "Killing_Modifier": 0.85,
-                "Repelling_Modifier": 0.72,
-                "Larval_Killing_Modifier": 0,
-                "Species": "gambiae"
-              }
-             ]
-            },
-            {..}
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
         insecticide_name: The name of the insecticide to which attach the resistance.
         species: Name of the species of vectors.
         allele_combo: List of combination of alleles that vectors must have in order to be resistant.
@@ -561,7 +491,7 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
         larval_killing: The value used to modify (multiply) the larval killing effectivity of an intervention.
 
     Returns:
-        configured config
+        (dict): configured config
     """
 
     # checks if species name is valid
@@ -601,60 +531,9 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
         Adds one **Alleles_Driven** item to the **Alleles_Driven** list, using 'driving_allele' as key if matching one
         already exists.
 
-        **Example**::
-
-            {
-                "Driver_Type": "INTEGRAL_AUTONOMOUS",
-                "Driving_Allele": "Ad",
-                "Alleles_Driven": [
-                    {
-                        "Allele_To_Copy": "Ad",
-                        "Allele_To_Replace": "Aw",
-                        "Copy_To_Likelihood": [
-                            {
-                                "Copy_To_Allele": "Aw",
-                                "Likelihood": 0.1
-                            },
-                            {
-                                "Copy_To_Allele": "Ad",
-                                "Likelihood": 0.3
-                            },
-                            {
-                                "Copy_To_Allele": "Am",
-                                "Likelihood": 0.6
-                            }
-                        ]
-                    },
-            {
-                "Driver_Type" : "X_SHRED",
-                "Driving_Allele" : "Ad",
-                "Driving_Allele_Params" : {
-                    "Allele_To_Copy"    : "Ad",
-                    "Allele_To_Replace" : "Aw",
-                    "Copy_To_Likelihood" : [
-                        {
-                            "Copy_To_Allele" : "Ad",
-                            "Likelihood" : 1.0
-                        },
-                        {
-                            "Copy_To_Allele" : "Aw",
-                            "Likelihood" : 0.0
-                        }
-                    ]
-                },
-                "Shredding_Alleles" : {
-                    "Allele_Required"    : "Yw",
-                    "Allele_To_Shred"    : "Xw",
-                    "Allele_To_Shred_To" : "Xm",
-                    "Allele_Shredding_Fraction": 0.97,
-                    "Allele_To_Shred_To_Surviving_Fraction" : 0.05
-                }
-                ]
-            }
-
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
         species: Name of the species for which we're setting the drivers
         driving_allele: This is the allele that is known as the driver
         driver_type: This indicates the type of driver.
@@ -689,7 +568,7 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
             means all of the 'shredded' alleles survive.
 
     Returns:
-        configured config
+        (dict): configured config
     """
     if not config or not manifest or not species or not driving_allele or not to_copy or not to_replace or not likelihood_list:
         raise ValueError("Please define all the parameters for this function (except shredding, unless you're using them).\n")
@@ -791,8 +670,8 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
         resistance alleles.
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
         species: Name of the species for which we're adding the maternal deposition element.
         cas9_grna_from: This is an allele for presence of which in the mother we will be checking to see if additional
             resistance alleles will be formed. This is the allele must be one of the 'driving_alleles' from
@@ -804,7 +683,7 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
             'cas9_grna_from' present in the mother. The sum of likelihoods should be equal to 1.
 
     Returns:
-        Config object with maternal deposition parameters added for the specified species.
+        (dict): Config object with maternal deposition parameters added for the specified species.
     """
 
     sp_params = get_species_params(config, species)
@@ -857,15 +736,13 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
 
 def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity):
     """
-    Set the Max_Larval_Capacity for a given species and habitat. Effectively doing something like:
-    simulation.task.config.parameters.Vector_Species_Params[i]["Habitats"][j]["Max_Larval_Capacity"] = max_larval_capacity
-    where i is index of species_name and j is index of habitat_type.
-
+    Set the Max_Larval_Capacity for a given species and habitat.
+    
     Args:
-        config: schema-backed config smart dict
-        species_name: string. Species_Name to target.
-        habitat_type: enum. Habitat_Type to target.
-        max_larval_capacity: integer. New value of Max_Larval_Capacity.
+        config (dict): schema-backed config smart dict
+        species_name (str): string. Species_Name to target.
+        habitat_type (str): Habitat_Type to target.
+        max_larval_capacity (int): New value of Max_Larval_Capacity.
     """
 
     habitats = get_species_params(config, species_name).Habitats
@@ -893,8 +770,8 @@ def add_microsporidia(config, manifest, species_name: str = None,
         Adds microsporidia parameters to the named species' parameters.
 
     Args:
-        config: schema-backed config dictionary, written to config.json
-        manifest: file that contains path to the schema file
+        config (dict): schema-backed config dictionary, written to config.json
+        manifest (ModuleType): file that contains path to the schema file
         species_name: Species to target, **Name** parameter
         strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
             Cannot be empty string
@@ -984,7 +861,7 @@ def add_vector_migration(task,
         common_assets in task
 
     Args:
-        task: contains config to edit and assets to add migration file to
+        task (emodpy.emod_task.EMODTask): contains config to edit and assets to add migration file to
         species: Species to target, **Name** parameter
         vector_migration_filename_path: Path with the filename of the migration file to use for
             **Vector_Migration_Filename**

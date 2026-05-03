@@ -25,7 +25,7 @@ def _sugar_trap(campaign,
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         cost_to_consumer: Per unit cost when distributed
         expiration_config: (Optional) A dictionary of parameters that define a distribution from which a duration will be
             selected for when the trap expires. If the trap is distributed on day 1 and has a duration of 10,
@@ -57,7 +57,7 @@ def _sugar_trap(campaign,
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
 
     Returns:
-        Configured SugarTrap intervention
+        (dict): Configured SugarTrap intervention
     """
     schema_path = campaign.schema_path
     intervention = s2c.get_class_with_defaults("SugarTrap", schema_path)
@@ -102,7 +102,7 @@ def add_scheduled_sugar_trap(
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
@@ -162,12 +162,12 @@ def new_intervention_as_file(campaign, start_day: int = 0, filename: str = "Suga
     Create new campaign file with a single event which distributes a SugarTrap
     intervention mostly with defaults. Useful for sanity testing and first time users.
     Args:
-        campaign: campaign builder.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign builder.
         start_day: the day to distribute the SpaceSpraying intervention
         filename: name of the filename created
 
     Returns:
-        Filename of the file created.
+        (str): Filename of the file created.
     """
 
     add_scheduled_sugar_trap(campaign=campaign, start_day=start_day)

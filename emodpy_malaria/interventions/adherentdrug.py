@@ -11,7 +11,7 @@ def adherent_drug(campaign, cost: int = 1, doses: list = None, dose_interval: in
         intervention which extends the **AntimalarialDrug** class.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         cost: Unit cost per drug.
         doses: Lists of drugs for each dose. For example,
             ``[["DrugA", DrugB"], ["DrugB"], [], ["DrugB"]]``. The empty list,

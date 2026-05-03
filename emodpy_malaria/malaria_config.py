@@ -1,6 +1,7 @@
 import math
 import csv
 import os
+from types import ModuleType
 
 import emod_api.config.default_from_schema_no_validation as dfs
 from emodpy_malaria.malaria_vector_species_params import species_params
@@ -177,12 +178,12 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
     Malaria_Model = "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS"
 
     Args:
-        config: schema-backed config smart dict
-        manifest: schema path container
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): schema path container
         var_gene_randomness_type: possible values are "FIXED_NEIGHBORHOOD", "FIXED_MSP", "ALL_RANDOM" (default)
 
     Returns:
-        configured config
+        (dict): configured config
     """
     set_team_defaults(config, manifest)
     config.parameters.pop("Malaria_Strain_Model")  # removing incompatible Malaria_Strain_Model parameter
@@ -318,7 +319,7 @@ def set_drug_param(config, drug_name: str = None, parameter: str = None, value: 
          set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
 
     Args:
-        config: schema-backed config smart dict
+        config (dict): schema-backed config smart dict
         drug_name: The drug that has a parameter to set
         parameter: The parameter to set
         value: The new value to set
@@ -339,8 +340,8 @@ def add_drug_resistance(config, manifest, drugname: str = None, drug_resistant_s
     Adds drug resistances by drug name and parameters
 
     Args:
-        config: schema-backed config smart dict
-        manifest: manifest file containing the schema path
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
         drugname: name of the drug for which to assign resistances
         drug_resistant_string: A series of nucleotide base letters (A, C, G, T) that represent the drug resistant
             values at locations in the genome
@@ -350,7 +351,7 @@ def add_drug_resistance(config, manifest, drugname: str = None, drug_resistant_s
             'Max_Drug_IRBC_Kill' value of the drug.  Genomes with multiple markers will be simply multiplied together
 
     Returns:
-        configured config
+        (dict): configured config
     """
 
     drugmod = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:DrugModifier"])
@@ -415,12 +416,10 @@ def get_species_params(config, species: str = None):
 
 def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_larval_capacity: int):
     """
-    Set the Max_Larval_Capacity for a given species and habitat. Effectively doing something like:
-    simulation.task.config.parameters.Vector_Species_Params[i]["Habitats"][j]["Max_Larval_Capacity"] = max_larval_capacity
-    where i is index of species_name and j is index of habitat_type.
+    Set the Max_Larval_Capacity for a given species and habitat. 
 
     Args:
-        config: schema-backed config smart dict
+        config (dict): schema-backed config smart dict
         species_name: string. Species_Name to target.
         habitat_type: enum. Habitat_Type to target.
         max_larval_capacity: integer. New value of Max_Larval_Capacity.
@@ -443,8 +442,8 @@ def add_microsporidia(config, manifest, species_name: str = None,
         Adds microsporidia parameters to the named species' parameters.
 
     Args:
-        config: schema-backed config dictionary, written to config.json
-        manifest: file that contains path to the schema file
+        config (dict): schema-backed config dictionary, written to config.json
+        manifest (ModuleType): file that contains path to the schema file
         species_name: Species to target, **Name** parameter
         strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
             Cannot be empty string
@@ -462,25 +461,11 @@ def add_microsporidia(config, manifest, species_name: str = None,
             **Times** is an array of days in ascending order that represent the number of days since the vector became
             infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
             probability that the vector will acquire malaria due to Microsporidia.
-
-             **Example**::
-
-                {
-                    "Times": [    0,   3,   6,   9 ],
-                    "Values": [ 1.0, 1.0, 0.5, 0.0 ]
-                }
         duration_to_disease_transmission_modification: **Microsporidia_Duration_To_Disease_Transmission_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will transmit malaria.
             **Times** is an array of days in ascending order that represent the number of days since the vector became
             infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
             probability that the vector will acquire malaria due to Microsporidia.
-
-             **Example**::
-
-                {
-                    "Times": [    0,   3,   6,   9 ],
-                    "Values": [ 1.0, 1.0, 0.75, 0.5]
-                }
         larval_growth_modifier: **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
             dependent, larval growth progress.
         female_mortality_modifier: **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
@@ -509,7 +494,7 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
         Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters
 
     Args:
-        manifest:  manifest file containing the schema path
+        manifest (ModuleType):  manifest file containing the schema path
         max_larval_capacity:  The maximum larval capacity. Sets **Max_Larval_Capacity**
         capacity_distribution_number_of_years:  The total length of time in
             years for the scaling.  If the simulation goes longer than this time, the pattern will repeat.  Ideally,
@@ -529,7 +514,7 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
                 }
 
     Returns:
-        Configured Habitat_Type: "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
+        (dict): "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
     """
     return vector_config.configure_linear_spline(manifest, max_larval_capacity, capacity_distribution_number_of_years,
                                                  capacity_distribution_over_time)

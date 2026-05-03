@@ -107,7 +107,7 @@ def add_treatment_seeking(campaign,
     rate = 0, no delay, seek treatment immediately
 
     Args:
-        campaign: object for building, modifying, and writing campaign configuration files.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
         start_day: Start day of intervention.
         targets: List of dictionaries defining the trigger event and coverage for and
             properties of individuals to target with the intervention. "trigger" must be defined, other defaults are as

@@ -17,7 +17,7 @@ def _larval_microsporidia(
     Create a LarvalMicrosporidiaIntervention to be used in a campaign event.
 
     Args:
-        campaign: The campaign object to which the intervention will be added. Provides the schema path.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The campaign object to which the intervention will be added. Provides the schema path.
         strain_name: The microsporidia strain with which to treat the habitat. This must be a known strain defined in
             the vector species parameters. This parameter is required to create the intervention, and there is no default value.
         habitat_coverage: Portion of habitat that is treated with the intervention. Values must be between 0 and 1. Default is 1.0.
@@ -88,7 +88,7 @@ def add_larval_microsporidia(
 
 
     Args:
-        campaign: The campaign object to which the intervention will be added. Provides the schema path.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The campaign object to which the intervention will be added. Provides the schema path.
         strain_name: The microsporidia strain with which to treat the habitat. This must be a known strain defined in the vector species parameters.
         start_day: the day to distribute the LarvalMicrosporidiaIntervention
         num_repetitions: Number of times to distribute the intervention. If num_repetitions > 1,

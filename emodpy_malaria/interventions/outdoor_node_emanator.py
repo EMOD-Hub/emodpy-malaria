@@ -27,7 +27,7 @@ def _outdoor_node_emanator(campaign,
 
 
     Args:
-        campaign:
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign):
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -91,7 +91,7 @@ def add_outdoor_node_emanator_scheduled(campaign,
         Add a scheduled OutdoorNodeEmanator intervention.
 
     Args:
-        campaign: object for building, modifying, and writing campaign configuration files.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
         start_day: The day the intervention is given out.
         node_ids: List of node ids representing nodes to target with the intervention. [] or None indicates all
             nodes will be targeted.

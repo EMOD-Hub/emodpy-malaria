@@ -21,7 +21,7 @@ def _mosquito_release(campaign,
         mosquitoes.
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple MosquitoRelease interventions
             if they have different Intervention_Name values.
@@ -98,7 +98,7 @@ def add_scheduled_mosquito_release(
         Microsporidia-infected mosquitoes.
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         start_day: The day to release the vectors.
         node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
@@ -127,9 +127,6 @@ def add_scheduled_mosquito_release(
             Released_Mate_Genome.
         released_microsporidia: The Strain_Name from the Microsporidia list defined for this species.
             Each species has its own strains. Empty String means no microsporidia.
-
-    Returns:
-        Formatted intervention
     """
 
     node_intervention = _mosquito_release(campaign=campaign,
@@ -154,12 +151,12 @@ def new_intervention_as_file(campaign, start_day: int = 1, filename: str = "Mosq
         Creates a campaign file with a MosquitoRelease intervention
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         start_day: The day to release the vectors.
         filename: name of campaign filename to be created
 
     Returns:
-        returns filename
+        (str): returns filename
     """
     add_scheduled_mosquito_release(campaign=campaign, start_day=start_day, released_number=1)
     campaign.save(filename)

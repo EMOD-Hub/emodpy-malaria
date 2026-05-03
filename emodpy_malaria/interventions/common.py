@@ -12,7 +12,7 @@ def _malaria_diagnostic(
         Configures individual-targeted MalariaDiagnostic intervention
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
             will be added.
         diagnostic_type: The setting for **Diagnostic_Type** in
             :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
@@ -71,7 +71,7 @@ def add_triggered_campaign_delay_event(campaign,
         Create and add campaign event that responds to a trigger after an optional delay with an intervention.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         trigger_condition_list: A list of the events that will trigger intervention distribution.
         listening_duration: The number of time steps that the distributed event will monitor for triggers.
@@ -159,7 +159,7 @@ def add_campaign_event(campaign,
         Adds a campaign event to the campaign with a passed in intervention.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by

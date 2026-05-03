@@ -37,7 +37,7 @@ def add_diagnostic_survey(
         These events can trigger other listening interventions.
 
         Args:
-            camp: The :py:obj:`emod_api:emod_api.campaign` object for building,
+            campaign (emod_api.campaign): object for building,
                 modifying, and writing campaign configuration files.
 
             coverage: The probability an individual receives the diagnostic.

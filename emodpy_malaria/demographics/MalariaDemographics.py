@@ -14,18 +14,18 @@ class MalariaDemographics(Demog.Demographics):
     and sets certain defaults for malaria in construction.
 
     Args:
-        nodes: The number of nodes to create.
-        idref: Method describing how the latitude and longitude values are created
+        nodes (int): The number of nodes to create.
+        idref (str): Method describing how the latitude and longitude values are created
             for each of the nodes in a simulation. "Gridded world" values use a grid
             overlaid across the globe at some arcsec resolution. You may also generate
             the grid using another tool or coordinate system. For more information,
             see :ref:`demo-metadata`.
-        base_file: A basic demographics file used as a starting point for
+        base_file (str): A basic demographics file used as a starting point for
             creating more complicated demographics files. For example,
             using a single node file to create a multi-node file for spatial
             simulations.
-        init_prev: The initial malaria prevalence of the population. Defaults to 0%.
-        include_biting_heterogeneity: variable biting rates. Defaults to on.
+        init_prev (float): The initial malaria prevalence of the population. Defaults to 0%.
+        include_biting_heterogeneity (bool): variable biting rates. Defaults to on.
      """
 
     def __init__(self, nodes, idref="Gridded world grump2.5arcmin", base_file=None, init_prev=0.0,
@@ -57,11 +57,11 @@ class MalariaDemographics(Demog.Demographics):
             Add LarvalHabitatMultiplier to node(s).
 
             Args:
-                schema: Path to schema.json.
-                hab_type: Habitat type.
-                multiplier: Multiplier or Factor.
-                species: Specific species (defaults to ALL).
-                node_id: Nodes for this LHM. Defaults to all.
+                schema (str): Path to schema.json.
+                hab_type (str): Habitat type.
+                multiplier (float): Multiplier or Factor.
+                species (str): Specific species (defaults to ALL).
+                node_id (int): Nodes for this LHM. Defaults to all.
         """
 
         lhm = dfs.schema_to_config_subnode(schema, ["idmTypes", "idmType:LarvalHabitatMultiplierSpec"])
@@ -91,9 +91,9 @@ class MalariaDemographics(Demog.Demographics):
         Add an InitialVectorsForSpecies configuration for all nodes or just a set of nodes.
 
         Args:
-            init_vector_species: Dictionary of vector species (strings) to initial populations. There is no
+            init_vector_species (dict): Dictionary of vector species (strings) to initial populations. There is no
                 checking for coherence of species named in other input settings.
-            node_ids: Array of node ids. Defaults to None for all nodes.
+            node_ids (Union[None, list[int]]): Array of node ids. Defaults to None for all nodes.
         """
         if node_ids is None:
             ivs_dict = dict()
@@ -110,7 +110,7 @@ class MalariaDemographics(Demog.Demographics):
             Add initial vector species population to 'demographics' nodes from a csv file.
 
         Args:
-            csv_path: Path to CSV file with the initial vector species populations for each node.
+            csv_path (str): Path to CSV file with the initial vector species populations for each node.
         """
         import csv
         if not os.path.exists(csv_path):
@@ -132,7 +132,7 @@ class MalariaDemographics(Demog.Demographics):
         Set the innate immune distribution for individuals in all nodes.
 
         Args:
-            distribution_flag: Integer flag to select the distribution type.
+            distribution_flag (int): Integer flag to select the distribution type.
                 0 (Constant, everyone in the population has the same innate immune coefficient.)
                 1 (Uniform, innate immune coefficient is randomly drawn between a minimum and maximum value.)
                 2 (Gaussian)
@@ -141,7 +141,7 @@ class MalariaDemographics(Demog.Demographics):
                 5 (Log normal)
                 6 (Bimodal, non-continuous with some individuals having a innate immune coefficient of 1 and others a user-defined innate immune coefficient.)
                 7 (Weibull)
-            param1: First parameter for the distribution (meaning depends on distribution type).
+            param1 (int): First parameter for the distribution (meaning depends on distribution type).
                 0, Innate immune coefficient value to assign.
                 1, Minimum innate immune coefficient for a uniform distribution.
                 2, Mean innate immune coefficient for a Gaussian distribution.
@@ -150,7 +150,7 @@ class MalariaDemographics(Demog.Demographics):
                 5, Mu (the mean of the natural log) for a log normal distribution.
                 6, ""Proportion of individuals in the second, user-defined innate immune coefficient bin vs. the first innate immune coefficient bin (value of 1) for a bimodal distribution. Must be between 0 and 1.""
                 7, Scale parameter for a Weibull distribution.
-            param2: Second parameter for the distribution (meaning depends on distribution type).
+            param2 (int): Second parameter for the distribution (meaning depends on distribution type).
                 0, NA, set to 0.
                 1, Maximum innate immune coefficient for a uniform distribution.
                 2, Standard deviation in innate immune coefficient for a Gaussian distribution.
@@ -172,16 +172,16 @@ def from_template_node(lat=0, lon=0, pop=1e6, name=1, forced_id=1, init_prev=0.2
     instance from the parameters you supply.
 
     Args:
-        lat: Latitude of the centroid of the node to create.
-        lon: Longitude of the centroid of the node to create.
-        pop: Human population of the node.
-        name: The name of the node. This may be a characteristic of the
+        lat (float): Latitude of the centroid of the node to create.
+        lon (float): Longitude of the centroid of the node to create.
+        pop (int): Human population of the node.
+        name (str): The name of the node. This may be a characteristic of the
             node, such as "rural" or "urban", or an identifying integer.
-        forced_id: The node ID for the single node.
-        init_prev: The initial malaria prevalence of the node.
+        forced_id (int): The node ID for the single node.
+        init_prev (float): The initial malaria prevalence of the node.
 
     Returns:
-        A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance.
+        (MalariaDemographics): Demographics object
     """
     new_nodes = [Demog.Node(lat=lat, lon=lon, pop=pop, name=name, forced_id=forced_id)]
     return MalariaDemographics(nodes=new_nodes, init_prev=init_prev,
@@ -194,12 +194,12 @@ def from_pop_csv(pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", si
     instance from a CSV file describing a population.
 
     Args:
-        pop_filename_in: The path to the demographics file to ingest.
-        pop_filename_out: The path to the file to output.
-        site: A string to identify the country, village, or trial site.
+        pop_filename_in (str): The path to the demographics file to ingest.
+        pop_filename_out (str): The path to the file to output.
+        site (str): A string to identify the country, village, or trial site.
 
     Returns:
-        A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance
+        (MalariaDemographics): Demographics object
     """
     if not os.path.exists(pop_filename_in):
         raise ValueError(f"Can't find input data file {pop_filename_in}")
@@ -217,14 +217,14 @@ def from_csv(input_file, res=30 / 3600, id_ref="from_csv", init_prev=0.0, includ
     instance from a CSV file describing a population.
 
     Args:
-        input_file: The path to the csv file to ingest.
-        res: Resolution.
-        id_ref: A string to identify the file, needs to match other input files.
-        init_prev: The initial malaria prevalence of the population. Defaults to 0%.
-        include_biting_heterogeneity: variable biting rates. Defaults to on.
+        input_file (str): The path to the csv file to ingest.
+        res (float): Resolution.
+        id_ref (str): A string to identify the file, needs to match other input files.
+        init_prev (float): The initial malaria prevalence of the population. Defaults to 0%.
+        include_biting_heterogeneity (bool): variable biting rates. Defaults to on.
 
     Returns:
-        A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance
+        (MalariaDemographics): Demographics object
     """
     if not os.path.exists(input_file):
         raise ValueError(f"Can't find input data file {input_file}")
@@ -245,18 +245,18 @@ def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"
     instance as a synthetic population based on a few parameters.
 
     Args:
-        tot_pop: The total human population in the node.
-        num_nodes: The number of nodes to create.
-        frac_rural: The fraction of the population that will be distributed between
+        tot_pop (int): The total human population in the node.
+        num_nodes (int): The number of nodes to create.
+        frac_rural (float): The fraction of the population that will be distributed between
             nodes 2 and higher
-        id_ref: Method describing how the latitude and longitude values are created
+        id_ref (str): Method describing how the latitude and longitude values are created
             for each of the nodes in a simulation. "Gridded world" values use a grid
             overlaid across the globe at some arcsec resolution. You may also generate
             the grid using another tool or coordinate system. For more information,
             see :ref:`demo-metadata`.
 
     Returns:
-        A :py:class:`~emodpy_malaria.demographics.MalariaDemographics` instance.
+        (MalariaDemographics): Demographics object
     """
     generic_demog = Demog.from_params(tot_pop, num_nodes, frac_rural, id_ref)
     nodes = generic_demog.nodes

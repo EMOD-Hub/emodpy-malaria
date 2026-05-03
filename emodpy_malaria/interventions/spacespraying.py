@@ -28,7 +28,7 @@ def add_scheduled_space_spraying(
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
@@ -82,7 +82,7 @@ def _space_spraying(campaign,
         Configures the node-targeted SpaceSpraying intervention
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         spray_coverage: The portion of the node that has been sprayed.  This value is multiplied by the current
             efficacy of the WaningEffect
         insecticide: The name of the insecticide defined in <config.Insecticides> for this intervention.
@@ -121,12 +121,12 @@ def new_intervention_as_file(campaign, start_day: int = 0, filename: str = "Spac
         Creates a file with SpaceSpray intervention
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: the day to distribute the SpaceSpraying intervention
         filename: name of the filename created
 
     Returns:
-        filename of the file created
+        (str): filename of the file created
     """
     add_scheduled_space_spraying(campaign=campaign, start_day=start_day)
     campaign.save(filename)

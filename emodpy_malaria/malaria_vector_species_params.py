@@ -1,4 +1,5 @@
 import emod_api.config.default_from_schema_no_validation as dfs
+from types import ModuleType
 
 
 def species_params(manifest, species: str = None):
@@ -7,7 +8,7 @@ def species_params(manifest, species: str = None):
 
     Args:
 
-        manifest: file that contains path to the schema file
+        manifest (ModuleType): file that contains path to the schema file
         species: species, configuration for which, we will be adding to the simulation.
 
     Returns:

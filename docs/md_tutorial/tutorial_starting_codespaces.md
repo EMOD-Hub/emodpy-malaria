@@ -17,7 +17,7 @@ See the following link for more information:
 
 https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
 
-**WARNING: Codespaces can [cost money](/.devcontainer/README.md#-cost-of-using-codespaces-)**
+**WARNING: Codespaces can cost money**
 
 ## Start Codespaces
 
@@ -57,8 +57,7 @@ https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
 ## Stopping and deleting a Codespace
 
 When you are done, you should stop and delete your Codespace so that you do not occur
-any added expenses.  When it is time, please follow these
-[instructions](/.devcontainer/README.md#stopping--deleting-a-codespace)
+any added expenses.
 
 ## Running EMOD
 
