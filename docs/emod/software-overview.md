@@ -29,7 +29,7 @@ the probability of particular outcomes.
 ## Simulation types
 
 
-|EMOD_s| currently supports the following simulation types for modeling a variety of diseases:
+EMOD currently supports the following simulation types for modeling a variety of diseases:
 
 * Generic disease (GENERIC_SIM), which can be used for modeling a variety of diseases such as
   influenza or measles

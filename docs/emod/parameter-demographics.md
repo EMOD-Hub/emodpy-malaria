@@ -8,7 +8,7 @@ distribution for age, gender, immunity, risk, and mortality. These parameters wo
 generally control whether certain events, such as births or deaths, are enabled in a simulation.
 
 Generally, you will download a demographics file and modify it to meet the needs of your
-simulation. You can use |COMPS_l| to generate demographics and climate files for a particular
+simulation. You can use COMPS to generate demographics and climate files for a particular
 region. By convention, these are named using the name of the region appended with
 "_demographics.json", but you may name the file anything you like.
 
@@ -42,12 +42,12 @@ The tables below contain only parameters available when using the malaria *simul
 
 
 Metadata provides information about data provenance. **IdReference** is the
-only parameter used by |EMOD_s|, but you are encouraged to include information for your
+only parameter used by EMOD, but you are encouraged to include information for your
 own reference. For example, author, date created, tool used, NodeCount and more are commonly included
 in the **Metadata** section. You can include any information you like here provided it is
 in valid JSON format.  **IDReference** is used to connect the files together; the climate, migration, and demographics files all have **IdReference** so that there is some way to know that they go together (i.e. know about the same nodes).
 
-If you generate :term:`input files` using |COMPS_s|, the following **IdReference** values are
+If you generate :term:`input files` using COMPS, the following **IdReference** values are
 possible and indicate how the **NodeID** values are generated:
 
 Gridded world grump30arcsec

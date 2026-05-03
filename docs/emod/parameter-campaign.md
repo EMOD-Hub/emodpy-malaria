@@ -16,56 +16,53 @@ contains a JSON object describing the event coordinator, which in turn contains 
 describing the intervention. At the same level as the **Events** array is the boolean
 **Use_Defaults** to indicate whether or not to use the default values for required parameters that
 are not included in the file. It is common to include JSON keys for campaign name, event name, or
-intervention name; these are informational only and not used by |EMOD_s|.
+intervention name; these are informational only and not used by EMOD.
 
 The skeletal JSON example below illustrates the basic file structure (this does not include all
 required parameters for each object). Note that the nested JSON elements have been organized to best
-illustrate their hierarchy, but that many files in the |EMOD_s| GitHub
+illustrate their hierarchy, but that many files in the EMOD GitHub
 repository list the parameters and nested objects differently.
 
-.. code-block:: json
-
-    {
-        "Campaign_Name": "Campaign example",
-        "Use_Defaults": 1,
-        "Events": [{
-            "Event_Name": "The first event",
-            "class": "CampaignEvent",
-            "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config": {
-                    "Intervention_Name": "The vaccine",
-                    "class": "SimpleVaccine"
-                }
+```json
+{
+    "Campaign_Name": "Campaign example",
+    "Use_Defaults": 1,
+    "Events": [{
+        "Event_Name": "The first event",
+        "class": "CampaignEvent",
+        "Event_Coordinator_Config": {
+            "class": "StandardInterventionDistributionEventCoordinator",
+            "Intervention_Config": {
+                "Intervention_Name": "The vaccine",
+                "class": "SimpleVaccine"
             }
-        }, {
-            "Event_Name": "The second event",
-            "class": "CampaignEvent",
-            "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config": {
-                    "Intervention_Name": "The disease outbreak",
-                    "class": "OutbreakIndividual"
-                }
+        }
+    }, {
+        "Event_Name": "The second event",
+        "class": "CampaignEvent",
+        "Event_Coordinator_Config": {
+            "class": "StandardInterventionDistributionEventCoordinator",
+            "Intervention_Config": {
+                "Intervention_Name": "The disease outbreak",
+                "class": "OutbreakIndividual"
             }
-        }]
-    }
-
-
+        }
+    }]
+}
+```
 .. _Regression: https://github.com/EMOD-Hub/EMOD/tree/master/Regression
 
 .. _Regression/defaults: https://github.com/EMOD-Hub/EMOD/tree/master/Regression/defaults
 
 The topics below contain only parameters available when using the malaria *simulation type*.
 
-.. note::
-
+!!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.
     Minimum, maximum, or default values of "NA" indicate that those values are not applicable for
     that parameter.
 
-    |EMOD_s| does not use true defaults; that is, if the dependency relationships indicate that a parameter is required, you must supply a value for it. However, many of the tools used to work with |EMOD_s| will use the default values provided below.
+    EMOD does not use true defaults; that is, if the dependency relationships indicate that a parameter is required, you must supply a value for it. However, many of the tools used to work with EMOD will use the default values provided below.
 
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
-    information to your files. Any keys that are not |EMOD_s| parameter names will be ignored by the
+    information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
