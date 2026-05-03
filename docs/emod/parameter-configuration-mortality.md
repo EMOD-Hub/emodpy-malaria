@@ -18,4 +18,5 @@ parasite counts lead to severe malaria and mortality.
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 {{ read_csv("csv/config-mortality-malaria.csv") }}

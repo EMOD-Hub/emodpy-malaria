@@ -46,7 +46,7 @@ DatavalueCount, integer, "(Used by EMOD.) The number of outbound data values per
 DateCreated, string, The day the file was created.
 IdReference, string, "(Used by EMOD.) A unique, user-selected string that indicates the method used by EMOD for generating **NodeID** values in the input files. For more information, see :doc:`software-inputs`."
 NodeCount, integer, (Used by EMOD.) The number of nodes to expect in this file.
-NodeOffsets, string, "(Used by EMOD.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
+NodeOffsets, string, "(Used by EMOD.) A string that is **NodeCount** $\\times$ 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
 Tool, string, The script used to create the file.
 ```
 
@@ -95,7 +95,7 @@ MigrationType, enum, "The type of migration the data describes. Accepted values 
     * SEA_MIGRATION
 "    
 NodeCount, integer, (Used by EMOD.) The number of nodes to expect in this file.
-NodeOffsets, string, "(Used by EMOD.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
+NodeOffsets, string, "(Used by EMOD.) A string that is **NodeCount** $\\times$ 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
 Tool, string, The script used to create the file.
 ```
 

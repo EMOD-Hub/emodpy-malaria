@@ -26,28 +26,15 @@ Report_Version, string, The format version of the report.
 Timesteps, integer, The number of timesteps in this simulation.
 Channels, integer, The number of channels in the simulation.
 Subchannel_Metadata, nested JSON object, "Metadata that describes the bins and axis information. The metadata includes the following parameters:
-
-.. list-table::
-   :header-rows: 1
-
-   * - Parameter
-     - Data type
-     - Description
-   * - AxisLabels
-     - array of strings
-     - 'The name of the axis, Vector Species.'
-   * - NumBinsPerAxis
-     - array of integers
-     - 'The number of bins per axis, one for each species.'
-   * - ValuesPerAxis
-     - array of integers
-     - 'Not applicable for this report, always 0.'
-   * - MeaningPerAxis
-     - array of strings
-     - 'The name of each species as defined in **Vector_Species_Params**.'
-
- "
 ```
+
+| Parameter | Data type | Description |
+| --- | --- | --- |
+| AxisLabels | array of strings | The name of the axis, Vector Species. |
+| NumBinsPerAxis | array of integers | The number of bins per axis, one for each species. |
+| ValuesPerAxis | array of integers | Not applicable for this report, always 0. |
+| MeaningPerAxis | array of strings | The name of each species as defined in **Vector_Species_Params**.  |
+
 
 ## Channels
 

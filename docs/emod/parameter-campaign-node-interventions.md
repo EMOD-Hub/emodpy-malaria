@@ -21,22 +21,20 @@ Vector control
 The following node-level interventions are commonly used for vector control.
 
 
- .. csv-table::
-   :header: "Intervention", "Target life stage", "Target biting preference", "Target biting location", "Effect"
-
-   :doc:`parameter-campaign-node-animalfeedkill`,node,feeding cycle,animal,killing
-   :doc:`parameter-campaign-node-artificialdiet`,feeding cycle,human,all,blocking
-   :doc:`parameter-campaign-node-larvicides`,larva,all,all,"killing, reduction"
-   :doc:`parameter-campaign-node-mosquitorelease`,,,,
-   :doc:`parameter-campaign-node-spatialrepellent`, feeding cycle,all ,all ,"blocking"
-   :doc:`parameter-campaign-node-outdoorrestkill`, "feeding cycle, males",human,all,killing
-   :doc:`parameter-campaign-node-outdoornodeemanator`,"feeding cycle, males", all,all, "repelling,killing"
-   :doc:`parameter-campaign-node-ovipositiontrap`,feeding cycle,all,all,killing
-   :doc:`parameter-campaign-node-scalelarvalhabitat`,larva,all,all,reduction
-   :doc:`parameter-campaign-node-spacespraying`,feeding cycle,human ,outdoor ,killing
-   :doc:`parameter-campaign-node-spatialrepellent`,feeding cycle,all ,outdoor ,blocking
-   :doc:`parameter-campaign-node-sugartrap`,adults,all,all,killing
-
+| Intervention | Target life stage | Target biting preference | Target biting location | Effect |
+| --- | --- | --- | --- | --- |
+| [AnimalFeedKill](parameter-campaign-node-animalfeedkill.md) | node | feeding cycle | animal | killing |
+| [ArtificialDiet](parameter-campaign-node-artificialdiet.md) | feeding cycle | human | all | blocking |
+| [Larvicides](parameter-campaign-node-larvicides.md) | larva | all | all | killing, reduction |
+| [MosquitoRelease](parameter-campaign-node-mosquitorelease.md) |  |  |  |  |
+| [SpatialRepellent](parameter-campaign-node-spatialrepellent.md) | feeding cycle | all | all | blocking |
+| [OutdoorRestKill](parameter-campaign-node-outdoorrestkill.md) | "feeding cycle | males" | human | all |
+| [OutdoorNodeEmanator](parameter-campaign-node-outdoornodeemanator.md) | feeding cycle, males | all | all | "repelling |
+| [OvipositionTrap](parameter-campaign-node-ovipositiontrap.md) | feeding cycle | all | all | killing |
+| [ScaleLarvalHabitat](parameter-campaign-node-scalelarvalhabitat.md) | larva | all | all | reduction |
+| [SpaceSpraying](parameter-campaign-node-spacespraying.md) | feeding cycle | human | outdoor | killing |
+| [SpatialRepellent](parameter-campaign-node-spatialrepellent.md) | feeding cycle | all | outdoor | blocking |
+| [SugarTrap](parameter-campaign-node-sugartrap.md) | adults | all | all | killing |
 .. taken from Jaline's wiki page,
 .. https://wiki.idmod.org/pages/viewpage.action?spaceKey=EMOD&postingDay=2016%2F7%2F15&title=Vector+control+interventions+in+DTK
 
@@ -46,28 +44,27 @@ Summary table of node-level interventions
 The following table provides an at-a-glance overview of the node-level interventions.
 
 
- .. csv-table::
-   :header: "Intervention", "Short description", "Able to be serialized?", "Uses insecticides", "Time-based expiration?", Purge existing?, "Vector killing contributes to:", "Vector effects"
-
-   :doc:`parameter-campaign-node-animalfeedkill`,Kill vectors when feeding on animals,,Y,,Y,Die Before Attempting Human Feed,Killing
-   :doc:`parameter-campaign-node-artificialdiet`,Kill vectors when feeding on artificial diet,,,,Y,,Attract
-   :doc:`parameter-campaign-node-broadcastnodeevent`,Send a node event to node,,,,,,
-   :doc:`parameter-campaign-node-indoorspacespraying`,IRS for people within a node,,Y,,Y,Indoor Die After Feeding,Killing
-   :doc:`parameter-campaign-node-inputeir`,Deliver infectious bites without vectors,,,,Y,,
-   :doc:`parameter-campaign-node-larvicides`,Kill larva in node,,Y,,Y,Larva,Larval killing
-   :doc:`parameter-campaign-node-malariachallenge`,Deliver infectious bites or sporozoites with out vectors,,,,,,
-   :doc:`parameter-campaign-node-migratefamily`,Schedule trip for family groups in a node,,,,,,
-   :doc:`parameter-campaign-node-mosquitorelease`,Add vectors to a node,,,,,,
-   :doc:`parameter-campaign-node-multiinsecticideindoorspacespraying`,Node IRS involving multiple insecticides,,Y,,Y,Indoor Die After Feeding,Killing
-   :doc:`parameter-campaign-node-multiinsecticidespacespraying`,Outdoor spraying involving multiple insecticides,,Y,,Y,"Die Without Attempting To Feed, Die Before Attempting Human Feed",Killing
-   :doc:`parameter-campaign-node-multinodeinterventiondistributor`,Distribute multiple interventions instead of one,,,Y/N,,,
-   :doc:`parameter-campaign-node-nlhtivnode`,Distribute node intervention on node event,,,Y/N,,,
-   :doc:`parameter-campaign-node-nodelevelhealthtriggerediv`,Distribute individual intervention on individual event,,,Y,,,
-   :doc:`parameter-campaign-node-nodepropertyvaluechanger`,Change the **NodeProperty** of a node,,,,,,
-   :doc:`parameter-campaign-node-outbreak`,Not tested with Malaria,,,,,,
-   :doc:`parameter-campaign-node-outdoorrestkill`,Kill vector after feeding outdoors,,,,Y,Outdoor Die After Feeding,Killing
-   :doc:`parameter-campaign-node-ovipositiontrap`,Kill vector attempting to lay eggs,,,,Y,Die Laying Eggs,Killing
-   :doc:`parameter-campaign-node-scalelarvalhabitat`,Modify capacity of larval habitat,,,,Sort of,,
-   :doc:`parameter-campaign-node-spacespraying`,Outdoor insecticide spraying,,Y,,Y,"Die Without Attempting To Feed, Die Before Attempting Human Feed",Killing
-   :doc:`parameter-campaign-node-spatialrepellent`,Block vectors before they can attempt to feed on humans,,Y,,Y,,Repelling
-   :doc:`parameter-campaign-node-sugartrap`,kill vectors when sugar feeding,,Y,Y,Y,"Emerging, Trap Feeding",Killing
+| Intervention | Short description | Able to be serialized? | Uses insecticides | Time-based expiration? | Purge existing? | Vector killing contributes to: | Vector effects |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [AnimalFeedKill](parameter-campaign-node-animalfeedkill.md) | Kill vectors when feeding on animals |  | Y |  | Y | Die Before Attempting Human Feed | Killing |
+| [ArtificialDiet](parameter-campaign-node-artificialdiet.md) | Kill vectors when feeding on artificial diet |  |  |  | Y |  | Attract |
+| [BroadcastNodeEvent](parameter-campaign-node-broadcastnodeevent.md) | Send a node event to node |  |  |  |  |  |  |
+| [IndoorSpaceSpraying](parameter-campaign-node-indoorspacespraying.md) | IRS for people within a node |  | Y |  | Y | Indoor Die After Feeding | Killing |
+| [InputEIR](parameter-campaign-node-inputeir.md) | Deliver infectious bites without vectors |  |  |  | Y |  |  |
+| [Larvicides](parameter-campaign-node-larvicides.md) | Kill larva in node |  | Y |  | Y | Larva | Larval killing |
+| [MalariaChallenge](parameter-campaign-node-malariachallenge.md) | Deliver infectious bites or sporozoites with out vectors |  |  |  |  |  |  |
+| [MigrateFamily](parameter-campaign-node-migratefamily.md) | Schedule trip for family groups in a node |  |  |  |  |  |  |
+| [MosquitoRelease](parameter-campaign-node-mosquitorelease.md) | Add vectors to a node |  |  |  |  |  |  |
+| [MultiInsecticideIndoorSpaceSpraying](parameter-campaign-node-multiinsecticideindoorspacespraying.md) | Node IRS involving multiple insecticides |  | Y |  | Y | Indoor Die After Feeding | Killing |
+| [MultiInsecticideSpaceSpraying](parameter-campaign-node-multiinsecticidespacespraying.md) | Outdoor spraying involving multiple insecticides |  | Y |  | Y | Die Without Attempting To Feed, Die Before Attempting Human Feed | Killing |
+| [MultiNodeInterventionDistributor](parameter-campaign-node-multinodeinterventiondistributor.md) | Distribute multiple interventions instead of one |  |  | Y/N |  |  |  |
+| [NLHTIVNode](parameter-campaign-node-nlhtivnode.md) | Distribute node intervention on node event |  |  | Y/N |  |  |  |
+| [NodeLevelHealthTriggeredIV](parameter-campaign-node-nodelevelhealthtriggerediv.md) | Distribute individual intervention on individual event |  |  | Y |  |  |  |
+| [NodePropertyValueChanger](parameter-campaign-node-nodepropertyvaluechanger.md) | Change the **NodeProperty** of a node |  |  |  |  |  |  |
+| [Outbreak](parameter-campaign-node-outbreak.md) | Not tested with Malaria |  |  |  |  |  |  |
+| [OutdoorRestKill](parameter-campaign-node-outdoorrestkill.md) | Kill vector after feeding outdoors |  |  |  | Y | Outdoor Die After Feeding | Killing |
+| [OvipositionTrap](parameter-campaign-node-ovipositiontrap.md) | Kill vector attempting to lay eggs |  |  |  | Y | Die Laying Eggs | Killing |
+| [ScaleLarvalHabitat](parameter-campaign-node-scalelarvalhabitat.md) | Modify capacity of larval habitat |  |  |  | Sort of |  |  |
+| [SpaceSpraying](parameter-campaign-node-spacespraying.md) | Outdoor insecticide spraying |  | Y |  | Y | Die Without Attempting To Feed, Die Before Attempting Human Feed | Killing |
+| [SpatialRepellent](parameter-campaign-node-spatialrepellent.md) | Block vectors before they can attempt to feed on humans |  | Y |  | Y |  | Repelling |
+| [SugarTrap](parameter-campaign-node-sugartrap.md) | kill vectors when sugar feeding |  | Y | Y | Y | Emerging, Trap Feeding | Killing |
