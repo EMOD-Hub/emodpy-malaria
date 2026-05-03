@@ -39,4 +39,4 @@ InfectionDuration, float, "The duration in days of the infection that cleared."
 
 The following is an example of ReportInfectionDuration.csv.
 
-{{ read_csv("csv/ReportInfectionDuration.csv") }}
+{{ read_csv("csv/report-infection-duration.csv") }}

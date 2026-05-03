@@ -45,4 +45,4 @@ STATE_EGG, integer, "The number of eggs (male and female)."
 
 The following is an example of ReportMicrosporidia.csv.
 
-{{ read_csv("csv/ReportMicrosporidia.csv") }}
+{{ read_csv("csv/report-microsporidia.csv") }}

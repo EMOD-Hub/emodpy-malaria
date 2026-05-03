@@ -61,4 +61,4 @@ Gametocytes, integer, "The total number of mature gametocytes (male and female c
 
 The following is an example of ReportInfectionStatsMalaria.csv.
 
-{{ read_csv("csv/ReportInfectionStatsMalaria.csv") }}
+{{ read_csv("csv/report-infection-stats-malaria.csv") }}

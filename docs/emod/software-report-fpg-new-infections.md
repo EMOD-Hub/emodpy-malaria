@@ -78,8 +78,8 @@ GenomeCrossoverLocations, "array of integers", The genome locations of crossover
 
 The following is an example of ReportFpgNewInfections.csv with Report_Crossover_Data_Instead = 0
 
-{{ read_csv("csv/ReportFpgNewInfections.csv") }}
+{{ read_csv("csv/report-fpg-new-infections.csv") }}
 
 The following is an example of ReportFpgNewInfections.csv with Report_Crossover_Data_Instead = 1
 
-{{ read_csv("csv/ReportFpgNewInfections_Crossovers.csv") }}
+{{ read_csv("csv/report-fpg-new-infections-crossovers.csv") }}

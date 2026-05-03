@@ -79,12 +79,12 @@ The following are examples of ReportVectorGenetics.csv files.  The Death By Stat
 
 This table is stratified by genome and female vectors.
 
-{{ read_csv("../csv/ReportVectorGenetics-genome-female.csv") }}
+{{ read_csv("csv/report-vector-genetics-genome-female.csv") }}
 
 This table is stratified by genome and male vectors.
 
-{{ read_csv("../csv/ReportVectorGenetics-genome-male.csv") }}
+{{ read_csv("csv/report-vector-genetics-genome-male.csv") }}
 
 This table is stratified by allele and female vectors, with vector state columns included.
 
-{{ read_csv("../csv/ReportVectorGenetics-allele-female.csv") }}
+{{ read_csv("csv/report-vector-genetics-allele-female.csv") }}

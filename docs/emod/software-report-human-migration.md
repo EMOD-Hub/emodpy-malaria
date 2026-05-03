@@ -36,4 +36,4 @@ Event, enum, "Possible values are Emigrating, NonDiseaseDeaths, DiseaseDeaths, o
 
 The following is an example of ReportHumanMigrationTracking.csv.
 
-{{ read_csv("../csv/reporthumanmigration.csv") }}
+{{ read_csv("csv/report-human-migration.csv") }}

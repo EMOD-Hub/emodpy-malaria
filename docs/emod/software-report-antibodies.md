@@ -64,6 +64,6 @@ PfEMP1_X, float, "There will be m number of columns named 'PfEMP1_0' to 'PfEMP1_
 
 The following are examples of ReportAntibodiesConcentration.csv and ReportAntibodiesCapacity.csv files.
 
-{{ read_csv("csv/ReportAntibodiesCapacity.csv") }}
+{{ read_csv("csv/report-antibodies-capacity.csv") }}
 
-{{ read_csv("csv/ReportAntibodiesConcentration.csv") }}
+{{ read_csv("csv/report-antibodies-concentration.csv") }}
