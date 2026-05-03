@@ -1,14 +1,14 @@
-====================
+﻿====================
 Load-balancing files
 ====================
 
 If you are running a large simulation with multiple nodes, you may want to use a load balancing file
 to distribute the computing load among multiple cores. This can be especially helpful if the nodes
 vary considerably in size and, therefore, processing time. If no load balancing file is submitted,
-the |exe_s| allocates simulation nodes to cores according to a checkerboard pattern.
+the Eradication.exe allocates simulation nodes to cores according to a checkerboard pattern.
 
 For each simulation, the load balancing file contains information about the relative level of
-processing time required for each geographical :term:`node`. The |exe_s| can then allocate nodes to
+processing time required for each geographical :term:`node`. The Eradication.exe can then allocate nodes to
 processors in such a way that the total processing required is evenly distributed across all
 processors.
 

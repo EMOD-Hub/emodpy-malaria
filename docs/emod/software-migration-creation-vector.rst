@@ -1,8 +1,8 @@
-====================================
+﻿====================================
 How to create vector migration files
 ====================================
 
-You can create the JSON metadata and binary migration files needed by |EMOD_s| to run simulations
+You can create the JSON metadata and binary migration files needed by EMOD to run simulations
 from CSV data using the Python script below. You can assign the same probability of migration to
 each vector in a :term:`node` or you can assign different migration rates based on gender or genetics of the vector.
 
@@ -153,7 +153,7 @@ JSON metadata file
 
 The metadata file is a JSON-formatted file that includes a metadata section and a node offsets
 section. The **Metadata** section contains a :term:`JSON (JavaScript Object Notation)` with parameters that help
-|EMOD_s| interpret the migration binary file. You are encouraged to add your own parameters to the section to remind
+EMOD interpret the migration binary file. You are encouraged to add your own parameters to the section to remind
 your selves about the source, reason, and purpose of the binary file and the data it contains. Non-required parameters
 are ignored.
 

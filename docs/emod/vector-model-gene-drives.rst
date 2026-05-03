@@ -1,4 +1,4 @@
-===========
+﻿===========
 Gene Drives
 ===========
 
@@ -44,7 +44,7 @@ A further distinction is between **self-sustaining** drives, which are designed 
 indefinitely once released, and **self-limiting** drives, which are engineered to dissipate
 over time — an important consideration for ecological containment and regulatory approval.
 
-|EMOD_s| supports five gene drive types that model these different strategies. Gene drives
+EMOD supports five gene drive types that model these different strategies. Gene drives
 are configured in the ``Drivers`` array within each species entry in ``Vector_Species_Params``.
 
 .. note::

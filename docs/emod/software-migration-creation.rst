@@ -1,9 +1,9 @@
-=============================
+﻿=============================
 How to create migration files
 =============================
 
-You can create the JSON metadata and binary migration files needed by |EMOD_s| to run simulations
-from either CSV or JSON data using Python scripts provided by |IDM_s|. You can assign the same
+You can create the JSON metadata and binary migration files needed by EMOD to run simulations
+from either CSV or JSON data using Python scripts provided by IDM. You can assign the same
 probability of migration to each individual in a node (vector or human), or you can assign different
 migration rates based on age and/or gender (human only).
 
@@ -46,7 +46,7 @@ To use the same average migration rate for every individual in a node, create th
         python -m emodpy_malaria.migration.convert_txt_to_bin [input-migration-csv] [output-bin] [migration-type] [idreference]
 
 
-This will create both the metadata and binary file needed by |EMOD_s|. 
+This will create both the metadata and binary file needed by EMOD. 
 
 Example file
 ------------
@@ -65,7 +65,7 @@ To vary the average migration rate based on age and/or gender, create the migrat
 
         python -m emodpy_malaria.migration.convert_json_to_bin [input-json] [output-bin] [migration-type]
 
-This will create both the metadata and binary file needed by |EMOD_s|. 
+This will create both the metadata and binary file needed by EMOD. 
 
 
 JSON parameters

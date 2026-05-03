@@ -1,4 +1,4 @@
-==============================
+﻿==============================
 CoverageByNodeEventCoordinator
 ==============================
 
@@ -10,7 +10,7 @@ parameters for this event coordinator.
 
 .. note::
 
-   This can only be used with individual-level interventions, but |EMOD_s| will not produce an error
+   This can only be used with individual-level interventions, but EMOD will not produce an error
    if you attempt to use it with an node-level intervention.
 
 .. include:: ../reuse/warning-case.txt

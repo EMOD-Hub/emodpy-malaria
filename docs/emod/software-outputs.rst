@@ -1,4 +1,4 @@
-======================
+﻿======================
 Output files (reports)
 ======================
 
@@ -10,11 +10,11 @@ averages of disease prevalence at each :term:`time step`.
 After running a simulation, the simulation data is extracted, aggregated, and saved as an
 :term:`output report` to the output directory in the working directory. Depending on your
 configuration, one or more output reports will be created, each of which summarize different data
-from the simulation. Output reports can be in JSON, CSV, or binary file formats. |EMOD_s| also
+from the simulation. Output reports can be in JSON, CSV, or binary file formats. EMOD also
 creates logging or error output files.
 
-The |EMOD_s| functionality that produces an output report is known as a :term:`reporter`. |EMOD_s|
-provides several built-in reporters for outputting data from simulations. By default, |EMOD_s| will
+The EMOD functionality that produces an output report is known as a :term:`reporter`. EMOD
+provides several built-in reporters for outputting data from simulations. By default, EMOD will
 always generate the report InsetChart.json, which contains the simulation-wide average disease
 prevalence by :term:`time step`. If none of the provided reports generates the output report that
 you require, you can create a custom reporter.
@@ -22,8 +22,8 @@ you require, you can create a custom reporter.
 .. image:: ../images/intro/output.png
    :scale: 60%
 
-If you want to visualize the data output from an |EMOD_s| simulation, you must use graphing
-software to plot the output reports. In addition to output reports, |EMOD_s| will generate error
+If you want to visualize the data output from an EMOD simulation, you must use graphing
+software to plot the output reports. In addition to output reports, EMOD will generate error
 and logging files to help troubleshoot any issues you may encounter.
 
 Using output reports
@@ -31,11 +31,11 @@ Using output reports
 
 By default, the output report InsetChart.json is always produced, which contains per-
 time step values accumulated over the simulation in a variety of reporting channels, such as new infections, 
-prevalence, and recovered. |EMOD_s| provides several other
+prevalence, and recovered. EMOD provides several other
 built-in reports that you can produce if you enable them in the :term:`configuration file`
 with the :doc:`parameter-configuration-output` parameters. Reports are generally in JSON or CSV format.
 
-In order to interpret the output of |EMOD_s| simulations, you will find it useful to parse the output
+In order to interpret the output of EMOD simulations, you will find it useful to parse the output
 reports into an analyzable structure. For example, you can use a Python or R script to create graphs
 and charts for analysis.
 
@@ -210,8 +210,8 @@ Other
 =====
 
 - :doc:`Error and logging files <software-error-logging>` — Describes the error and logging files generated when running a simulation.
-- **stdout.txt** — Contains the logging output written by |EMOD_s| to standard output during a simulation run.
-- **stderr.txt** — Contains error messages written by |EMOD_s| or Python to standard error during a simulation run.
+- **stdout.txt** — Contains the logging output written by EMOD to standard output during a simulation run.
+- **stderr.txt** — Contains error messages written by EMOD or Python to standard error during a simulation run.
 - :doc:`Troubleshooting <troubleshooting>` — Lists common exceptions and errors encountered when running simulations and explains how to resolve them.
 
 .. toctree::

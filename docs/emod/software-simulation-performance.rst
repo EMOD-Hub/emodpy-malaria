@@ -1,5 +1,5 @@
-=============================
-Speed up |EMOD_s| simulations
+﻿=============================
+Speed up EMOD simulations
 =============================
 
 While small simulations can be run quickly on a local computer, the time and memory needed to complete a
@@ -10,14 +10,14 @@ complete in approximately the same amount of time.
 
 As your simulations grow, you will likely want to run simulations on an HPC cluster or take other
 steps to improve performance and reduce processing time. This topic describes many of the steps you
-can take to speed up |EMOD_s| simulations.
+can take to speed up EMOD simulations.
 
 Parallel processing
 ===================
 
-|EMOD_s| supports parallel processing across multiple cores. When **Num_Cores** is set to a
+EMOD supports parallel processing across multiple cores. When **Num_Cores** is set to a
 value greater than 1 (but less than or equal to the number of nodes in the simulation),
-|EMODPY_malaria| will automatically run |EMOD_s| in parallel. This can significantly reduce
+emodpy-malaria will automatically run EMOD in parallel. This can significantly reduce
 simulation time for large, spatially distributed simulations.
 
 Parameter settings

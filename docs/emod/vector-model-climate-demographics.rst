@@ -1,4 +1,4 @@
-=====================================
+﻿=====================================
 Climate and demographics spatial data
 =====================================
 
@@ -25,13 +25,13 @@ off of monthly totals averaged per day. In the simulation configuration file, th
 with the same daily mean. This preserves approximate monthly totals, but produces a more realistic
 rainfall pattern for the simulation. For more information on how to configure climate, see
 :doc:`software-climate`. And for more information on the particular habitat types that are configurable
-in |EMOD_s| see :doc:`vector-model-larval-habitat`.
+in EMOD see :doc:`vector-model-larval-habitat`.
 
 
 
 .. figure:: ../images/vector-malaria/Malaria-climate.png
 
-  The |EMOD_s| vector model utilizes site-specific climate and demographics data to accurately simulate
+  The EMOD vector model utilizes site-specific climate and demographics data to accurately simulate
   vector transmission in a given geographic location.
 
 .. make sure this picture is ok; it's from comps, so not sure we want to show the input file creator??

@@ -1,11 +1,11 @@
-==========
+﻿==========
 InsetChart
 ==========
 
 The inset chart (InsetChart.json) is an output report that is automatically generated with every simulation.
 It contains simulation-wide averages, one per time step, for a wide number of data :term:`channel`\ s.
 The channels are fully specified by the simulation type and cannot be altered without making changes
-to the |EMOD_s| source code. Python or other tools can be used to create charts out of the information
+to the EMOD source code. Python or other tools can be used to create charts out of the information
 contained in the file (see the example charts provided at the end of this page.)
 
 Configuration
@@ -28,7 +28,7 @@ When running malaria simulations, the header section will contain the following 
    :widths: 8, 5, 10
 
    DateTime, string, The time stamp indicating when the report was generated.
-   DTK_Version, string, The version of |EMOD_s| used.
+   DTK_Version, string, The version of EMOD used.
    Report_Type, string, The type of output report.
    Report_Version, string, The format version of the report.
    Start_Time, integer, The time in days when the simulation begins.

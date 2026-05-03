@@ -1,4 +1,4 @@
-===========================================
+﻿===========================================
 Creating and editing serialized populations
 ===========================================
 
@@ -56,7 +56,7 @@ Starting from
 =============
 
 You include and use serialized population files in a simulation by configuring the following
-parameters. If you do not specify an accurate path and filename, |EMOD_s| generates an error.
+parameters. If you do not specify an accurate path and filename, EMOD generates an error.
 
 
 

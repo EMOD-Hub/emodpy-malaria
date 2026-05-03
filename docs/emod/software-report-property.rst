@@ -1,4 +1,4 @@
-==============
+﻿==============
 PropertyReport
 ==============
 
@@ -24,7 +24,7 @@ The header section contains the following parameters.
    :widths: 10,5,20
 
    DateTime, string, The time stamp indicating when the report was generated.
-   DTK_Version, string, The version of |EMOD_s| used.
+   DTK_Version, string, The version of EMOD used.
    Report_Type, string, The type of output report.
    Report_Version, string, The format version of the report.
    Start_Time, integer, The time noted in days when the simulation begins.

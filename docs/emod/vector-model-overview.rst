@@ -1,15 +1,15 @@
-=====================
+﻿=====================
 Vector biology
 =====================
 
-The |EMOD_s| vector model inherits the generic model functionality and introduces vector
+The EMOD vector model inherits the generic model functionality and introduces vector
 transmission and mosquito population dynamics. Interventions can be deployed within simulations for
 a variety of transmission settings with different transmission intensities, vector behaviors, and
 seasonally-driven ecologies. Climate data is necessary to simulate the effect of climatalogical
 impacts on vector biology. To use the vector model, set the configuration parameter
 **Simulation_Type** to VECTOR_SIM.
 
-The figure below demonstrates the main components of the vector |EMOD_s| :term:`simulation type`.
+The figure below demonstrates the main components of the vector EMOD :term:`simulation type`.
 
 
 .. figure:: ../images/vector-malaria/malariaSIR.png
@@ -20,7 +20,7 @@ human - vector. For a vector-borne disease, the SEIR model would appear as follo
 
 .. figure:: ../images/vector-malaria/DTKSchematic_vectors.png
 
-While |EMOD_s| is an agent-based model, both the simulated humans and vectors move through the
+While EMOD is an agent-based model, both the simulated humans and vectors move through the
 various infection states analogously to the compartmental model illustrated above. 
 
 The core of the simulation consists of :term:`solvers` for mosquito population dynamics and pathogen
@@ -74,10 +74,10 @@ Spatial-scale dynamics and migration
 ====================================
 
 Extensive multi-:term:`node` simulations with location-specific climate, intervention deployments,
-larval habitat, and migration may be configured within the |EMOD_s| framework. Nodes can be
+larval habitat, and migration may be configured within the EMOD framework. Nodes can be
 configured to best represent the spatial scale being simulated: a node can be at the household
 level, village level, county level, national level, or other desired geographic scale. Migration can
-be enabled between nodes (for both humans and mosquitoes), such that |EMOD_s| can most accurately
+be enabled between nodes (for both humans and mosquitoes), such that EMOD can most accurately
 represent the dynamics of the location. By varying spatial-scale resolution, relevant factors for
 transmission dynamics can be more clearly elucidated. For information on configuring nodes and
 migration parameters, see :doc:`parameter-configuration-migration`.

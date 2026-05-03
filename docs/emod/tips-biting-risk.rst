@@ -1,8 +1,8 @@
-=========================
+﻿=========================
 Heterogeneous biting risk
 =========================
 
-This page provides an overview of how and when to use the |EMOD_s| features for heterogeneous
+This page provides an overview of how and when to use the EMOD features for heterogeneous
 biting risk.
 
 
@@ -19,7 +19,7 @@ age, physiology, behavior, and location (`Irvine et al 2018 <https://www.ncbi.nl
 `Cooper et al 2019 <https://www.nature.com/articles/s41467-019-11861-y>`__). Including biting
 risk heterogeneity in malaria transmission models is important for accurately capturing prevalence,
 incidence, probability of elimination, and other important simulation outcomes. To capture this
-heterogeneity in |EMOD_s|, we specify both age-specific risks and individual relative risks, which
+heterogeneity in EMOD, we specify both age-specific risks and individual relative risks, which
 can increase or decrease the number of bites an individual tends to experience relative to the mean
 risk in the population.
 
@@ -31,7 +31,7 @@ a relative biting rate, the exact values assigned do not matter, only their rela
 all risks in the population. For example, giving everyone a value of 10 is the same as giving
 everyone a value of 1.
 
-A brief description of the different ways of specifying heterogeneous biting in |EMOD_s| is given
+A brief description of the different ways of specifying heterogeneous biting in EMOD is given
 below, along with links to the main documentation pages for each type.
 
 

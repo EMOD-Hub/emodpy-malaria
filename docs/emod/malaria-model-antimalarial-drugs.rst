@@ -1,4 +1,4 @@
-==================
+﻿==================
 Antimalarial drugs
 ==================
 
@@ -59,7 +59,7 @@ To model a double exponential PK, set the parameter **PKPD\_Model** to CONCENTRA
 The double exponential PK approximates a one- or two-compartment PK model. To model a drug with
 1-compartment PK, set **Drug\_Decay\_T2** equal to **Drug\_Decay\_T1** (**Drug\_Vd** becomes
 irrelevant). For PD, the **Drug\_PKPD\_C50** determines the drug concentrations where parasite
-killing is effective (drug concentration > C50) and ineffective (drug concentration < C50). |EMOD_s|
+killing is effective (drug concentration > C50) and ineffective (drug concentration < C50). EMOD
 sets the shape of the parasite killing curve based on parasite kill rate and C50. **Drug\_Cmax**,
 **Drug\_Decay\_T1**, **Drug\_Decay\_T2**, **Drug\_Vd**, and **Drug\_PKPD\_C50** together determine
 when the drug is effectively killing parasites. Changing each of these parameters will affect how
@@ -75,7 +75,7 @@ of **Bodyweight\_Exponent**. See the paper on drug PK and PD ( `Mass campaigns w
 a modelling comparison of artemether-lumefantrine and DHA-piperaquine with and without primaquine as
 tools for malaria control and elimination
 <http://www.biomedcentral.com/1471-2334/15/144/abstract>`__) for more details on how to set PK and
-PD parameter values in |EMOD_s|.
+PD parameter values in EMOD.
 
 .. figure:: ../images/vector-malaria/Antimalarial_Drugs_Concentration_vs_time_PK_profile.png
 

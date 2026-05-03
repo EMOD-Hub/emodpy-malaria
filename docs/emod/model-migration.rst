@@ -1,8 +1,8 @@
-====================
+﻿====================
 Geographic migration
 ====================
 
-Human migration is a important factor in the spread of disease across a geographic region. |EMOD_s|
+Human migration is a important factor in the spread of disease across a geographic region. EMOD
 represents geography using nodes. Migration occurs when individuals move from one :term:`node` to
 another; disease transmission occurs *within* nodes. Therefore, infected individuals can migrate to
 nodes without disease and introduce disease transmission into that node. Nodes are very flexible and

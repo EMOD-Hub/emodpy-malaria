@@ -1,4 +1,4 @@
-========
+﻿========
 Glossary
 ========
 
@@ -58,33 +58,33 @@ Glossary
     demographics file
         A :term:`JSON (JavaScript Object Notation)` formatted file that contains the parameters that
         specify the demographics of a population, such as age distribution, risk, birthrate, and more.
-        |IDM_s| provides demographics files for many geographic regions. This file is typically named <region>_demographics.json.
+        IDM provides demographics files for many geographic regions. This file is typically named <region>_demographics.json.
 
     destination node
         The node an individual or group is traveling to for each leg of the migration. The destination updates as individuals
         move between nodes.
     
     disease-specific build
-        A build of the |exe_l| built using SCons without any dynamic link libraries (DLLs).
+        A build of the EMOD executable (Eradication.exe) built using SCons without any dynamic link libraries (DLLs).
 
     dynamic link library (DLL)
-        Microsoft's implementation of a shared library, separate from the |exe_l|, that can be
+        Microsoft's implementation of a shared library, separate from the EMOD executable (Eradication.exe), that can be
         dynamically loaded (and unloaded when unneeded) at runtime. This loading can be explicit or
         implicit.
 
     EMODule
-        A modular component of |EMOD_s| that are consumed and used by the |exe_l|.
-        Under Windows, a |module| is implemented as a :term:`dynamic link library (DLL)` and,
-        under Linux, |modules| are currently not supported. |modules| are primarily custom reporters.
+        A modular component of EMOD that are consumed and used by the EMOD executable (Eradication.exe).
+        Under Windows, a EMODule is implemented as a :term:`dynamic link library (DLL)` and,
+        under Linux, EMODules are currently not supported. EMODules are primarily custom reporters.
 
     Epidemiological MODeling software (EMOD)
-        The modeling software from the |IDM_l| for disease researchers and developers to investigate
+        The modeling software from the Institute for Disease Modeling (IDM) for disease researchers and developers to investigate
         disease dynamics, and to assist in combating a host of infectious diseases. You may see
         this referred to as Disease Transmission Kernel (DTK) in the source code.
 
     Eradication.exe
-        Typical (default) name for the |exe_l|, whether built using monolithic build or
-        modular (|module|-enabled) build.
+        Typical (default) name for the EMOD executable (Eradication.exe), whether built using monolithic build or
+        modular (EMODule-enabled) build.
 
     event coordinator
         A JSON object that determines who will receive a particular intervention during a campaign.
@@ -93,7 +93,7 @@ Glossary
         A single campaign or configuration file created by combining a default file with one or more
         overlay files. Multiple files must be flattened prior to running a simulation. Configuration
         files are flattened to a single-depth JSON file without nesting, the format required for
-        consumption by the |exe_l|. Separating the parameters into multiple files is primarily
+        consumption by the EMOD executable (Eradication.exe). Separating the parameters into multiple files is primarily
         used for testing and experimentation.
 
     Heterogeneous Intra-Node Transmission (HINT)
@@ -113,13 +113,13 @@ Glossary
         cascade.
 
     input files
-        The JSON and binary files used as inputs to an |EMOD_s| simulation. The primary input files
+        The JSON and binary files used as inputs to an EMOD simulation. The primary input files
         are the JSON-formatted configuration, demographics, and campaign files. They may also
         include the binary files for migration, climate, population serialization, or load-
         balancing.
 
     inset chart
-        The default JSON output report for |EMOD_s| that includes multiple channels that contain
+        The default JSON output report for EMOD that includes multiple channels that contain
         data at each time step of the simulation. These channels include number of new infections,
         prevalence, number of recovered, and more.
 
@@ -151,11 +151,11 @@ Glossary
 
     Message Passing Interface (MPI)
         An interface used to pass information between computing cores in parallel simulations. One
-        example is the migration of individuals from one geographic location to another within |EMOD_s|
+        example is the migration of individuals from one geographic location to another within EMOD
         simulations.
 
     microsolver
-        A type of "miniature model" that operates within the framework of |EMOD_s|
+        A type of "miniature model" that operates within the framework of EMOD
         to compute a particular set of parameters. Each microsolver, in effect, is creating a
         microsimulation in order to accurately capture the dynamics of that particular aspect of the
         model.
@@ -166,13 +166,13 @@ Glossary
         more realistic way of describing uncertainty.
 
     monolithic build
-        A single |exe_l| with no DLLs that includes all components as part of |exe_s| itself. You
-        can still use |modules| with the monolithic build; for example, a
-        custom reporter is a common type of |module|. View the documentation on |modules| and
-        emodules_map.json for more information about creation and use of |modules|.
+        A single EMOD executable (Eradication.exe) with no DLLs that includes all components as part of Eradication.exe itself. You
+        can still use EMODules with the monolithic build; for example, a
+        custom reporter is a common type of EMODule. View the documentation on EMODules and
+        emodules_map.json for more information about creation and use of EMODules.
 
     node
-        A grid size that is used for modeling geographies. Within |EMOD_s|, a node is a geographic
+        A grid size that is used for modeling geographies. Within EMOD, a node is a geographic
         region containing simulated individuals. Individuals migrate between nodes either
         temporarily or permanently using mobility patterns driven by local, regional, and long-
         distance transportation.
@@ -192,7 +192,7 @@ Glossary
         The "starting point" node fo reach leg of a migration trip. The origin updates as individuals move between nodes.
     
     output report
-        A file that is the output from an |EMOD_s| simulation. Output reports are in JSON, CSV, or binary
+        A file that is the output from an EMOD simulation. Output reports are in JSON, CSV, or binary
         file format. You must pass the data from an output report to graphing software if you want to
         visualize the output of a simulation.
 
@@ -207,11 +207,11 @@ Glossary
     preview
         Software that undergoes a shorter testing cycle in order to make it available
         more quickly. Previews may contain software defects that could result in unexpected
-        behavior. Use |EMOD_s| previews at your own discretion.
+        behavior. Use EMOD previews at your own discretion.
 
     regression test
-        A test to verify that existing |EMOD_s| functionality works with new
-        updates, located in the Regression subdirectory of the |EMOD_s| source code repository. Directory names of each
+        A test to verify that existing EMOD functionality works with new
+        updates, located in the Regression subdirectory of the EMOD source code repository. Directory names of each
         subdirectory  in Regression describe the main regression attributes, for example,
         "1_Generic_Seattle_MultiNode". Also can refer to the process of regression testing of
         software.
@@ -219,24 +219,24 @@ Glossary
     release
         Software that includes new functionality, scientific tutorials leveraging new or existing
         functionality, and/or bug fixes that have been thoroughly tested so that any defects have
-        been fixed before release. |EMOD_s| releases undergo full regression testing.
+        been fixed before release. EMOD releases undergo full regression testing.
 
     reporter
         Functionality that extracts simulation data, aggregates it, and saves it as an
-        :term:`output report`. |EMOD_s| provides several built-in reporters for outputting data from
+        :term:`output report`. EMOD provides several built-in reporters for outputting data from
         simulations and you also have the ability to create a custom reporter.
 
     scenario
         A collection of input files that describes a real-world example of a disease outbreak and
-        interventions. Scenarios are included with |EMOD_s| source installations to help users
+        interventions. Scenarios are included with EMOD source installations to help users
         learn more about epidemiology and disease modeling.
 
     schema
-        A text or JSON file that can be generated from the |exe_l| that defines all
+        A text or JSON file that can be generated from the EMOD executable (Eradication.exe) that defines all
         configuration and campaign parameters.
 
     simulation
-        An execution of the |EMOD_s| software using an associated set of input files.
+        An execution of the EMOD software using an associated set of input files.
 
     simulation type
         The disease or disease class to model.
@@ -276,7 +276,7 @@ Glossary
 
     working directory
         The directory that contains the configuration and campaign files for a simulation. You must
-        be in this directory when you invoke |exe_s| at the command line to run a simulation.
+        be in this directory when you invoke Eradication.exe at the command line to run a simulation.
 
     antibodies
         See :term:`antibody`.
@@ -374,7 +374,7 @@ Glossary
         A system based on the concept that native vegetation is a good expression of climate. Thus,
         climate zone boundaries have been selected with vegetation distribution in mind. It combines
         average annual and monthly temperatures and precipitation, and the seasonality of
-        precipitation. |EMOD_s| has several options for configuring the climate, namely air
+        precipitation. EMOD has several options for configuring the climate, namely air
         temperature, rainfall, and humidity.
 
         One option utilizes input files that associate
@@ -496,7 +496,7 @@ Glossary
         groups. WAIFW is an abbreviation for Who Acquires Infection From Whom.
 
     Weibull distribution
-        A probability distribution often used in |EMOD_s| and that requires both a shape parameter
+        A probability distribution often used in EMOD and that requires both a shape parameter
         and a scale parameter. The shape parameter governs the shape of the density function. When
         the shape parameter is equal to 1, it is an exponential distribution. For shape parameters
         above 1, it forms a unimodal (hump-shaped) density function. As the shape parameter becomes
@@ -667,7 +667,7 @@ Glossary
         gametocytes from infected humans by producing viable sporozoites in mosquitoes.
 
     vaccine intervention types
-        In |EMOD_s|, vaccine intervention types are either "AcquisitionBlocking",
+        In EMOD, vaccine intervention types are either "AcquisitionBlocking",
         "TransmissionBlocking" or "MortalityBlocking". For example, "mode-of-action", "targeted
         parasite stages", (such as pre-erythrocytic, asexual, or sexual), etc.
 

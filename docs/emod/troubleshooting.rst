@@ -1,15 +1,15 @@
-====================================
-Troubleshooting |EMOD_s| simulations
+﻿====================================
+Troubleshooting EMOD simulations
 ====================================
 
-If you encounter any of the following problems when attempting to run |EMOD_s| simulations, see the
+If you encounter any of the following problems when attempting to run EMOD simulations, see the
 information below to resolve the issue.
 
 If you need assistance, you can contact support for help with solving issues. You can contact
-|IDM_l| support at idmsupport@gatesfoundation.org. When submitting the issue, please include any error
+Institute for Disease Modeling (IDM) support at idmsupport@gatesfoundation.org. When submitting the issue, please include any error
 information. 
 
-See :doc:`emod:dev-debugging-overview` for troubleshooting issues when attempting to build |exe_s| or |linux_binary|.
+See :doc:`emod:dev-debugging-overview` for troubleshooting issues when attempting to build Eradication.exe or Eradication binary for Linux.
 
 .. contents:: Contents
    :local:
@@ -17,9 +17,9 @@ See :doc:`emod:dev-debugging-overview` for troubleshooting issues when attemptin
 Exceptions
 ==========
 
-Whenever |EMOD_s| encounters an error condition while running a simulation, it should throw an
+Whenever EMOD encounters an error condition while running a simulation, it should throw an
 exception. These exceptions are designed to help you diagnose any problems so that you can quickly
-resolve the issue. You can find the exceptions code in the utils directory of the |EMOD_s| source
+resolve the issue. You can find the exceptions code in the utils directory of the EMOD source
 code within the files Exceptions.h and Exceptions.cpp.
 
 Each exception will return, at a minimum, the following information:
@@ -57,13 +57,13 @@ This exception is thrown when there is a standard template library (STL) mapping
 this occurs where spatial output channel names are specified in the configuration file
 if an unrecognized channel name is used.
 
-If you have not modified the |EMOD_s| source code or used an unrecognized channel name, this error
+If you have not modified the EMOD source code or used an unrecognized channel name, this error
 could signal an internal problem with the code. Please visit our discussion board at https://github.com/orgs/EMOD-Hub/discussions.
 
 CalculatedValueOutOfRangeException
 ----------------------------------
 
-|EMOD_s| performs a large number of mathematical operations on parameter values. Therefore, it is
+EMOD performs a large number of mathematical operations on parameter values. Therefore, it is
 possible that, despite original parameter values being with range, the values resulting from these
 multiple calculations may end up outside its valid range. For example, a probability value (range: 0
 to 1.0) that after multiple calculations during a simulation now exceeds 1.0.
@@ -82,22 +82,22 @@ value, not enumeration value, read from a configuration file.
 DllLoadingException
 -------------------
 
-The |EMOD_s| architecture is modularized and can be built as a core |exe_s| along with a series of
-custom reporter |modules|, as opposed to a single monolithic |exe_s|. This exception indicates that
-|EMOD_s| couldn't load on of the |module| DLLs.
+The EMOD architecture is modularized and can be built as a core Eradication.exe along with a series of
+custom reporter EMODules, as opposed to a single monolithic Eradication.exe. This exception indicates that
+EMOD couldn't load on of the EMODule DLLs.
 
 This situation could occur for several reasons:
 
-* |EMOD_s| couldn't find the |module|
+* EMOD couldn't find the EMODule
 * Unresolved symbols were found (Windows)
-* |EMOD_s| could not find the necessary symbol during the **GetProcAddress** call
-* The custom reporter |modules| were built using a version of Visual Studio that is no longer
-  supported. Rebuild the |modules| using |VS_supp|.
+* EMOD could not find the necessary symbol during the **GetProcAddress** call
+* The custom reporter EMODules were built using a version of Visual Studio that is no longer
+  supported. Rebuild the EMODules using Visual Studio 2022 (Professional, Premium, or Ultimate).
 
 FactoryCreateFromJsonException
 -------------------------------
 
-|EMOD_s| implements class factories that instantiate objects at run time and use information from
+EMOD implements class factories that instantiate objects at run time and use information from
 JSON- based configuration information in the creation of these objects. The exception indicates
 something is incorrect with the JSON information.
 
@@ -109,7 +109,7 @@ instantiation, but this information might not be correct. If that happens, then 
 throw this exception.
 
 Campaign files often have this kind of nested hierarchical structure, so it's important to t verify
-that the hierarchy is set up correctly. For example, if the class name were mistyped and |EMOD_s|
+that the hierarchy is set up correctly. For example, if the class name were mistyped and EMOD
 had no implementation of that class, this exception will be thrown.
 
 FileIOException
@@ -198,7 +198,7 @@ NotYetImplementedException
 --------------------------
 
 This exception is thrown if an attempt is made to execute code that is not yet implemented.
-For example, there are areas of |EMOD_s| where placeholder enumeration values are defined but not
+For example, there are areas of EMOD where placeholder enumeration values are defined but not
 yet implemented.  If you specify a value like this, it is considered within a valid range, but this
 exception will be thrown in response. Verify that any enumeration values use one of the available
 values as described in the documentation and do not contain any typos.
@@ -227,11 +227,11 @@ calculation, the CalculatedValueOutOfRangeException is thrown instead.
 QueryInterfaceException
 -----------------------
 
-The |EMOD_s| architecture is modularized and many components now implement **QueryInterface**. This
+The EMOD architecture is modularized and many components now implement **QueryInterface**. This
 exception is thrown when a required interface is queried on an object and the object that returns
 that the interface is not supported.
 
-If you have not modified the |EMOD_s| source code and receive this error, it could signal an
+If you have not modified the EMOD source code and receive this error, it could signal an
 internal problem with the code. Please visit our discussion board at https://github.com/orgs/EMOD-Hub/discussions.
 
 SerializationException
@@ -244,23 +244,23 @@ and this exception is thrown.
 Linux environment
 =================
 
-The following problems are specific to running simulations using the |linux_binary| on |Linux_supp|.
+The following problems are specific to running simulations using the Eradication binary for Linux on Ubuntu 22.04 (Jammy Jellyfish).
 
 Regression test graphs differ when run on Linux
 -----------------------------------------------
 
-After you run regression simulations on |Linux_supp| using runemod.sh in the Scripts directory, it
+After you run regression simulations on Ubuntu 22.04 (Jammy Jellyfish) using runemod.sh in the Scripts directory, it
 plots graphs from the simulation output data with a red line for the reference output and a blue
 line for the new output. The reference output was created by running the simulation on Windows,
-which in some cases may be slightly different than the output from |Linux_supp|.
+which in some cases may be slightly different than the output from Ubuntu 22.04 (Jammy Jellyfish).
 
 For simulations that plot a baseline, you can override the Windows reference output by modifying
 runemod.sh to use output/InsetChart.linux.json as the output location. In that case, the red
 reference plots should always be completely covered by the blue plots.
 
-|linux_binary| cannot locate the input files
+Eradication binary for Linux cannot locate the input files
 --------------------------------------------
 
-If you chose not to have the PrepareLinuxEnvironment.sh script download the |EMOD_s| source code and
+If you chose not to have the PrepareLinuxEnvironment.sh script download the EMOD source code and
 input files, you need to set up the environment variable, path and symlink that are needed
-to run simulations on |Linux_supp|. See :doc:`install-linux`.
+to run simulations on Ubuntu 22.04 (Jammy Jellyfish). See :doc:`install-linux`.

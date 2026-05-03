@@ -1,4 +1,4 @@
-==========================
+﻿==========================
 Demographics overlay files
 ==========================
 
@@ -44,7 +44,7 @@ To use an overlay file:
     comma-delimited list of demographics files, listing the base layer file first.
 
 An example base layer demographics file and an overlay file is below. You can see that the overlay
-adds the **TransmissionMatrix** for |HINT_l| to only three of the five nodes (which correspond to
+adds the **TransmissionMatrix** for Heterogeneous Intra-Node Transmission (HINT) to only three of the five nodes (which correspond to
 Washington state counties).
 
 .. literalinclude:: ../json/howto-demographics-base-layer.json

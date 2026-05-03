@@ -1,4 +1,4 @@
-==============
+﻿==============
 Larval habitat
 ==============
 
@@ -29,7 +29,7 @@ The creation of the habitat model is described in further detail in the articles
 `Eckhoff, Malaria Journal 2012, 11:419 <http://www.malariajournal.com/content/11/1/419>`__, and
 `Eckhoff, Am. J. Trop. Med. Hyg. 2013, 88(5) <https://doi.org/10.4269/ajtmh.12-0007>`__.
 The following sections provide information regarding specific larval habitat types and how to
-configure these parameters in |EMOD_s|.
+configure these parameters in EMOD.
 
 See :doc:`parameter-configuration-larval` and :doc:`parameter-configuration-vector-lifecycle` parameters for more information on
 configuring the various vector species.
@@ -335,7 +335,7 @@ within particular habitat types in the Nodes array of the demographics file (see
 
 It should be noted that **LarvalHabitatMultiplier** enables habitat availability to be modified
 independently for each species within a shared habitat. This is an upgrade over previous versions
-of |EMOD_s| in which the modifier would be applied equally to all species within a shared habitat.
+of EMOD in which the modifier would be applied equally to all species within a shared habitat.
 
 
 Basic species configuration

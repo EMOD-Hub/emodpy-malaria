@@ -1,8 +1,8 @@
-=============================================
+﻿=============================================
 Disease outbreaks, reservoirs, and endemicity
 =============================================
 
-To configure disease outbreaks in |EMOD_s| simulations, you have a few different options. Generally,
+To configure disease outbreaks in EMOD simulations, you have a few different options. Generally,
 you will configure an outbreak event to occur at some point during the simulation. For zoonotic diseases, you can also introduce the disease through an animal reservoir.
 
 Outbreak events
@@ -50,7 +50,7 @@ population when a disease is endemic.
 Alternatively, you can run a simulation for a period of time until the disease dynamics reach
 a steady state and disregard simulation output prior to that point. This is known as :term:`simulation burn-in`,
 a modeling concept borrowed from the electronics industry where the first items produced by a manufacturing
-process are discarded. |EMOD_s| enables you to then serialize the population state at this point
+process are discarded. EMOD enables you to then serialize the population state at this point
 so you can reload in subsequent simulations to analyze the effect of interventions on an endemic
 disease. See :doc:`parameter-configuration-setup` for serialization parameters.
 

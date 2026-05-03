@@ -1,4 +1,4 @@
-=============
+﻿=============
 Campaign file
 =============
 
@@ -13,7 +13,7 @@ control the following:
 * Diagnostic tests to use
 * The cost and timing of interventions
 
-Much of the power and flexibility of |EMOD_s| comes from the customizable
+Much of the power and flexibility of EMOD comes from the customizable
 campaign interventions. Briefly, campaigns are created through the hierarchical organization of
 parameter groups. It is hierarchically organized into logical groups of parameters that can have
 arbitrary levels of nesting. Typically, the file is named campaign.json. The relative path to this

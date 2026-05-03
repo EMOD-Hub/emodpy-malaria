@@ -1,4 +1,4 @@
-===========================================
+﻿===========================================
 Population density and transmission scaling
 ===========================================
 
@@ -10,7 +10,7 @@ transmission scaling.
 Frequency-dependent scaling
 ===========================
 
-By default, |EMOD_s| uses frequency-dependent transmission and the overall transmissibility does not
+By default, EMOD uses frequency-dependent transmission and the overall transmissibility does not
 change with population size or density. An infected individual will infect the same number of people
 either in a small village or in a metropolitan area.  For this case,
 
@@ -45,7 +45,7 @@ Saturating function of population density
 Based on existing evidence, it is possible that neither a frequency-dependent nor a density-
 dependent mechanism may adequately describe the correct scaling over the entire population density
 spectrum, but that more closely follows a non-linear scaling function. That is, contact rates tend
-to increase with density but saturate at high densities. |EMOD_s| allows the transmission rate to
+to increase with density but saturate at high densities. EMOD allows the transmission rate to
 scale as a saturating function of population density. The force of infection contributed by each
 infected individual under these two cases of transmission scaling are as follows:
 
@@ -73,7 +73,7 @@ the area of a node located at (lat, long) is computed based on the corresponding
 
 where :math:`R=6371.2213` km is the radius of Earth.
 
-The saturating function of density is enabled by setting the |EMOD_s| configuration parameter
+The saturating function of density is enabled by setting the EMOD configuration parameter
 **Population_Density_Infectivity_Correction** to SATURATING_FUNCTION_OF_DENSITY.
 Finally, the :math:`\rho_{50}` parameter is configured using the configuration parameter
 **Population_Density_C50**. For more information, see :doc:`parameter-configuration-infectivity` parameters.

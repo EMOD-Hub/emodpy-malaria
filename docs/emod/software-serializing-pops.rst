@@ -1,4 +1,4 @@
-=======================
+﻿=======================
 Serializing populations
 =======================
 
@@ -6,7 +6,7 @@ Some simulations can take a long time to run and the part you are really interes
 isn't until closer to the end. You'd like to save the state of the simulation just before the
 interesting stuff and then restart from that spot.  This would allow you to iterate more quickly on
 different intervention strategies or just trying to understand what the simulation is doing better.
-|EMOD_s| supports this ability with a feature called "serialized populations."
+EMOD supports this ability with a feature called "serialized populations."
 
 Serializing is the idea of saving the state of object so that there is enough information to
 recreate that object later. Deserializing is the reverse, where you create a new object but
@@ -15,7 +15,7 @@ initialize it with the state that was saved.  For more information,  see
 feature in your computer: when you put it to sleep, it serializes data of the objects running the system;
 when you start it back up again, it recreates what was running from that saved state.
 
-The serialized population feature in |EMOD_s| allows you to save the state of the people and restart
+The serialized population feature in EMOD allows you to save the state of the people and restart
 from that saved state. This state includes the person's health, infections, any interventions that
 they have, and more. This is especially useful when you need to create a population that has natural
 immunity to a pathogen (i.e. the pathogen is not novel and the population is not naive.) It is important
@@ -150,7 +150,7 @@ number of cores.
 Upgrading to new executable
 ---------------------------
 
-There is a strong dependency between the program code and the serialized file. Changing the |EMOD_s|
+There is a strong dependency between the program code and the serialized file. Changing the EMOD
 executable or modifying source code (especially removing, renaming or adding variables) will require
 a rerun of the burn-in.
 

@@ -1,10 +1,10 @@
-===============
+﻿===============
 Migration files
 ===============
 
 Migration files describe the rate of migration of individuals *out* of a geographic :term:`node`.
 There are additional configuration parameters you can set to define the migration patterns and
-return time. There are four types of migration files that can be used by |EMOD_s|, namely, local
+return time. There are four types of migration files that can be used by EMOD, namely, local
 migration, regional migration, air migration and sea migration files. The demographics file can be
 configured to exclude some nodes from certain types of travel.
 
@@ -33,7 +33,7 @@ JSON metadata file
 
 The metadata file is a JSON-formatted file that includes a metadata section and a node offsets
 section. The **Metadata** section contains a JSON object with parameters, some of which are
-strictly  informational and some of which are used by |EMOD_s|. However, the informational ones may
+strictly  informational and some of which are used by EMOD. However, the informational ones may
 still be important to understand the provenance and meaning of the data.
 
 Simple Migration File Parameters
@@ -46,11 +46,11 @@ The following parameters can be included in the simple migration metadata file:
     :widths: 10,5,20
 
     Author, string, The author of the file.
-    DatavalueCount, integer, "(Used by |EMOD_s|.) The number of outbound data values per node (max 100). The number must be the same across every node in the binary file."
+    DatavalueCount, integer, "(Used by EMOD.) The number of outbound data values per node (max 100). The number must be the same across every node in the binary file."
     DateCreated, string, The day the file was created.
-    IdReference, string, "(Used by |EMOD_s|.) A unique, user-selected string that indicates the method used by |EMOD_s| for generating **NodeID** values in the input files. For more information, see :doc:`software-inputs`."
-    NodeCount, integer, (Used by |EMOD_s|.) The number of nodes to expect in this file.
-    NodeOffsets, string, "(Used by |EMOD_s|.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
+    IdReference, string, "(Used by EMOD.) A unique, user-selected string that indicates the method used by EMOD for generating **NodeID** values in the input files. For more information, see :doc:`software-inputs`."
+    NodeCount, integer, (Used by EMOD.) The number of nodes to expect in this file.
+    NodeOffsets, string, "(Used by EMOD.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
     Tool, string, The script used to create the file.
 
 Example
@@ -70,7 +70,7 @@ The following parameters can be included in the by-gender by-age migration metad
 
     AgesYears, array, An array that defines the age bins by which to separate the population and define migration rates.
     Author, string, The author of the file.
-    DatavalueCount, integer, "(Used by |EMOD_s|.) The number of outbound data values per node (max 100). The number must be the same across every node in the binary file. If you are using an older file that does not include this parameter, each migration type has the following maximum data values:
+    DatavalueCount, integer, "(Used by EMOD.) The number of outbound data values per node (max 100). The number must be the same across every node in the binary file. If you are using an older file that does not include this parameter, each migration type has the following maximum data values:
 
         * LOCAL_MIGRATION: 8
         * REGIONAL_MIGRATION: 30
@@ -79,7 +79,7 @@ The following parameters can be included in the by-gender by-age migration metad
     "    
     DateCreated, string, The day the file was created.
     GenderDataType, enum, Whether age data is provided for each gender separately or is the same for both. Accepted values are ONE_FOR_BOTH_GENDERS and ONE_FOR_EACH_GENDER.
-    IdReference, string, "(Used by |EMOD_s|.) A unique, user-selected string that indicates the method used by |EMOD_s| for generating **NodeID** values in the input files. For more information, see :doc:`software-inputs`."
+    IdReference, string, "(Used by EMOD.) A unique, user-selected string that indicates the method used by EMOD for generating **NodeID** values in the input files. For more information, see :doc:`software-inputs`."
     InterpolationType, enum, The method by which to interpolate the age-dependent rate data. Accepted values are LINEAR_INTERPOLATION and PIECEWISE_CONSTANT.
     MigrationType, enum, "The type of migration the data describes. Accepted values are: 
 
@@ -88,8 +88,8 @@ The following parameters can be included in the by-gender by-age migration metad
         * REGIONAL_MIGRATION
         * SEA_MIGRATION
     "    
-    NodeCount, integer, (Used by |EMOD_s|.) The number of nodes to expect in this file.
-    NodeOffsets, string, "(Used by |EMOD_s|.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
+    NodeCount, integer, (Used by EMOD.) The number of nodes to expect in this file.
+    NodeOffsets, string, "(Used by EMOD.) A string that is **NodeCount** :math:`\times` 16 characters long. For each node, the first 8 characters are the origin **NodeID** in hexadecimal. The second 8 characters are the byte offset in hex to the location in the binary file where the destination **NodeIDs** and migration rates appear."
     Tool, string, The script used to create the file.
 
 Example

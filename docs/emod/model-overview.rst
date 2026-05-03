@@ -1,4 +1,4 @@
-==============
+﻿==============
 Model overview
 ==============
 
@@ -22,12 +22,12 @@ take the `Epidemics`_ course from The Pennsylvania State University through Cour
 Agent-based models
 ==================
 
-|EMOD_l| is an :term:`agent-based model` (ABM), another powerful tool used to help understand the
-complexity inherent in disease transmission systems. |EMOD_s| is a discrete time, :term:`Monte Carlo
+Epidemiological MODeling software (EMOD) is an :term:`agent-based model` (ABM), another powerful tool used to help understand the
+complexity inherent in disease transmission systems. EMOD is a discrete time, :term:`Monte Carlo
 method`  simulator that simulates the simultaneous interactions of agents in an effort to recreate
 complex phenomena. Each agent (such as a human or vector) can be assigned a variety of properties
 (for example, age, gender, etc.), and their behavior and interactions with one another are
-determined using decision rules. |EMOD_s| and other ABMs must be run many times to produce
+determined using decision rules. EMOD and other ABMs must be run many times to produce
 probability distributions of potential outcomes, better capturing uncertainty than compartmental
 models.
 
@@ -37,18 +37,18 @@ interactions or "adapt" to their environment. As a result, ABMs are excellent fo
 emerging properties of the system: patterns that are not explicitly modeled, but instead occur as
 a consequence of the rules that govern the agents.
 
-|EMOD_s| can be calibrated to particular geographic locations, and the :term:`microsolver` framework
+EMOD can be calibrated to particular geographic locations, and the :term:`microsolver` framework
 enables the model's functionality to be highly modifiable. Further, the framework includes the
 ability to add intervention campaigns, and those interventions can be specified to target particular
 populations or sub-populations of human or vector groups. This intervention targeting is capable of
-simulating complex cascade of care systems. |EMOD_s| is
+simulating complex cascade of care systems. EMOD is
 very useful for determining the best intervention strategies to use in particular areas for burden
 reduction or elimination.
 
-|EMOD_s| supports different simulation types for various diseases and transmission types. |EMOD_s|
+EMOD supports different simulation types for various diseases and transmission types. EMOD
 uses a layered architecture in which the base functionality is contained in the generic model and
 inherited by the transmission-level models that in turn are inherited by specific disease models.
-Because the |EMOD_s| modeling software can simulate all of these diseases, each "model" is more
+Because the EMOD modeling software can simulate all of these diseases, each "model" is more
 accurately referred to as a :term:`simulation type`. For more information on the software architecture and
 inheritance, see :doc:`software-overview`.
 
@@ -58,13 +58,13 @@ inheritance, see :doc:`software-overview`.
 
 .. _Epidemics: https://www.coursera.org/learn/epidemics/home/welcome
 
-The |EMOD_s| generic model forms the foundation for all other disease models in |EMOD_s|. It
+The EMOD generic model forms the foundation for all other disease models in EMOD. It
 provides the fundamental logic for contact-based disease transmission and interventions aimed at
 controlling the spread of disease that are targeted to individuals or geographic nodes. You can
 easily add heterogeneity to your simulation by configuring he infectivity of the disease,
 susceptibility of individuals, and more.
 
-The figure below demonstrates the main components of the generic |EMOD_s| :term:`simulation type`.
+The figure below demonstrates the main components of the generic EMOD :term:`simulation type`.
 Individuals reside in geographic nodes and can migrate from one node to another. Infected
 individuals shed contagion into a pool that can infect susceptible individuals. When modeling malaria,
 vector and malaria parasite biology is added to the model to simulate disease transmission rather than 

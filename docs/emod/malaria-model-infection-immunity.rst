@@ -1,9 +1,9 @@
-==================================
+﻿==================================
 Malaria infection and immune model
 ==================================
 
 To study aspects of malaria infections and population dynamics that do not fit into the framework of
-a simple :term:`SEIRS model` with enhancements, |EMOD_s| contains a detailed :term:`microsolver`
+a simple :term:`SEIRS model` with enhancements, EMOD contains a detailed :term:`microsolver`
 using within-host parasite dynamics. In the microsolver, the development of clinical and
 parasitological immunity is tracked through innate and adaptive immune responses to specific
 antigens. A detailed parasite count over time is tracked for each infected individual. This permits
@@ -44,7 +44,7 @@ Gametocyte development
 The model advances gametocytes through five stages of development that are characterized by
 different drug susceptibilities. A fraction of gametocytes die at each developmental stage, and
 gametocytes can be inactivated by cytokines after uptake in a blood meal. Gametocytes reach maturity
-after ten days and remain in the bloodstream with a 2.5-day half-life. |EMOD_s| does not model acquired
+after ten days and remain in the bloodstream with a 2.5-day half-life. EMOD does not model acquired
 immunity to gametocytes.
 
 .. figure:: ../images/vector-malaria/Malaria_Infection_gametocyte_development.png

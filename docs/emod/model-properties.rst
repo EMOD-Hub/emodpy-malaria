@@ -1,4 +1,4 @@
-==============================
+﻿==============================
 Individual and node properties
 ==============================
 
@@ -28,7 +28,7 @@ demographics file. See :doc:`parameter-demographics` for a list of supported pro
 you assign to properties are user-defined and can be applied to individuals in all nodes or only in
 particular nodes in a simulation.
 
-Note that although |EMOD_s| provides several different properties, such as risk and accessibility,
+Note that although EMOD provides several different properties, such as risk and accessibility,
 these properties do not add logic, in and of themselves, to the simulation. For example, if you
 define individuals as high and low risk, that does not add different risk factors to the
 individuals. Higher prevalence or any other differences must be configured separately. Therefore,
@@ -66,7 +66,7 @@ Create properties for age ranges
 Creating properties based on age ranges works a little differently than other properties.
 **Age_Bin** is tied to the simulated age of an individual rather than being an independent property.
 Some of its characteristics, such as initial distribution and transitions, are dependent on
-information from the demographics file and |EMOD_s| that manages individual aging during the
+information from the demographics file and EMOD that manages individual aging during the
 simulation.
 
 #.  In the demographics file, add the **IndividualProperties** parameter and set it to an empty array.

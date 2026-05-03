@@ -1,4 +1,4 @@
-==================
+﻿==================
 Configuration file
 ==================
 
@@ -26,7 +26,7 @@ Configuration files
 =============================
 
 A configuration file is a single-depth JSON file with configuration parameters
-listed alphabetically. This is the configuration file format required by |EMOD_s|.
+listed alphabetically. This is the configuration file format required by EMOD.
 
 However, there may be some hierarchical elements in the flattened version. For example,
 **Vector_Species_Params** and **Malaria_Drug_Params** have nested JSON objects.

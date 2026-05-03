@@ -1,8 +1,8 @@
-====================
+﻿====================
 Adding heterogeneity
 ====================
 
-One of the benefits of an agent-based model like |EMOD_s| over compartmental models is that the the
+One of the benefits of an agent-based model like EMOD over compartmental models is that the the
 model can be configured to capture heterogeneity in population demographics, migration patterns,
 disease transmissibility, climate, interventions, and more. This heterogeneity can affect the
 overall course of the disease outbreak and campaign interventions aimed at controlling it.
@@ -11,7 +11,7 @@ overall course of the disease outbreak and campaign interventions aimed at contr
 Demographics 
 ============
 
-Built-in demographics options are available for running |EMOD_s| simulations, or you can create
+Built-in demographics options are available for running EMOD simulations, or you can create
 customized demographics files to represent particular locations. It is generally 
 recommended that you create a demographics file instead of using built-in demographics. 
 
@@ -24,7 +24,7 @@ after the beginning of the simulation) and include gender, time of birth, time o
 Vital dynamics
 ==============
 
-Vital dynamics within |EMOD_s| are derived from fertility and mortality tables that
+Vital dynamics within EMOD are derived from fertility and mortality tables that
 are passed to the model as input. Input demographic data can be used to construct a cumulative
 probability distribution function (CDF) of death date based on individuals' birth dates. Then, in
 the model, individual agents will be sampled stochastically from this CDF using an inverse transform
@@ -41,7 +41,7 @@ For more information on the demographics file, see :doc:`software-demographics`.
 Individual and node properties
 ==============================
 
-One of the most powerful and flexible features of |EMOD_s| is the ability to assign properties to
+One of the most powerful and flexible features of EMOD is the ability to assign properties to
 nodes or individuals that can then be used to target interventions or move individuals through a
 health care system. For example, you might assign various degrees of risk, socioeconomic status,
 intervention status, and more. In the generic, environmental, typhoid, airborne, and TBHIV simulation types, these
@@ -52,19 +52,19 @@ children.
 Transmission
 ============
 
-In |EMOD_s|, transmission can only happen within a geographic node, and the population is "well-mixed" in each node. Heterogeneous transmission is modeled through biologically
+In EMOD, transmission can only happen within a geographic node, and the population is "well-mixed" in each node. Heterogeneous transmission is modeled through biologically
 mechanistic parameters that control aspects of the simulation such as parasite density, symptom
 severity, mosquito bites, and more. 
 
 See :doc:`parameter-configuration-infectivity` parameters for more information on configuring transmission in
-this simulation type. Because |HINT_s| cannot be used with this simulation type, the parameter
+this simulation type. Because HINT cannot be used with this simulation type, the parameter
 **Enable_Heterogeneous_Intranode_Transmission** in the configuration file must be set to 0
 (zero).
 
 Migration
 =========
 
-|EMOD_s| can also simulate human and vector migration, which can be important in the transmission of
+EMOD can also simulate human and vector migration, which can be important in the transmission of
 many diseases. You can assign different characteristics to each geographic :term:`node` to control
 how the disease spreads.
 

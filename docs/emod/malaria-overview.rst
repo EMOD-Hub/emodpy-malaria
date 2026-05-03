@@ -1,11 +1,11 @@
-=========================
+﻿=========================
 Malaria disease overview
 =========================
 
-|IDM_s| is committed to supporting data-driven malaria control and elimination efforts. This page
+IDM is committed to supporting data-driven malaria control and elimination efforts. This page
 provide information about malaria itself: the biology, symptoms, treatment, and prevention.  See
-:doc:`malaria-model-overview` for information about the |EMOD_l| MALARIA simulation type developed
-by |IDM_s| to aid in malaria elimination.
+:doc:`malaria-model-overview` for information about the Epidemiological MODeling software (EMOD) MALARIA simulation type developed
+by IDM to aid in malaria elimination.
 
 .. contents:: Contents
    :local:
@@ -162,10 +162,10 @@ target of mathematical models tasked with providing solutions to ease the burden
 history of malaria models, see
 `Smith et al. PLOS Pathogens 2012 8(4) <http://dx.doi.org/10.1371/journal.ppat.1002588>`__,
 and  `Smith et al. Trans R Soc Trop Med Hyg 2014 108(4) <https://doi.org/10.1093/trstmh/tru026>`__.
-The |EMOD_s| malaria model builds upon this rich history of disease modeling to provide a novel and
+The EMOD malaria model builds upon this rich history of disease modeling to provide a novel and
 rigorous approach to help guide efforts towards malaria elimination and eradication.  To fully
-understand the strengths of |EMOD_s|, it is helpful to understand the modeling background from which
-|EMOD_s| developed.
+understand the strengths of EMOD, it is helpful to understand the modeling background from which
+EMOD developed.
 
 Arguably, the quantitative analysis of mosquito-borne diseases, specifically malaria,
 began with Ronald Ross. In 1897 Ross confirmed that mosquitoes serve as the vector for malaria
@@ -227,8 +227,8 @@ Modern research has continued to improve our understanding of both parasite biol
 as well as within-host immune system interactions.  To fully understand the complex nature of
 malaria epidemiology and how to control it, it is important to include these aspects into models.
 
-The malaria |EMOD_s| leverages the history of malaria modeling by staring with these important
-fundamentals and building upon them. |EMOD_s| combines detailed vector population dynamics and
+The malaria EMOD leverages the history of malaria modeling by staring with these important
+fundamentals and building upon them. EMOD combines detailed vector population dynamics and
 interactions with human populations, and includes microsimulations for human immunity and within-
 host parasite dynamics. The model builds on the work of Ross and MacDonald, leverages the Garki
 model, and incorporates current modeling efforts to model multiple vector species simultaneously

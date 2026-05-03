@@ -1,4 +1,4 @@
-==========================
+﻿==========================
 Serialized population file
 ==========================
 
@@ -16,7 +16,7 @@ large populations. Indeed, for endemic disease present at low absolute prevalenc
 simulate a larger population size that allows a small number of infected individuals to be
 represented.
 
-|EMOD_s| avoids the need to run the burn-in period again and again with each simulation by using
+EMOD avoids the need to run the burn-in period again and again with each simulation by using
 serialization to save the population state after it reaches equilibrium. Then, when you  want to
 begin a subsequent simulation investigating the outcome of a particular set of interventions, you
 can begin the simulation at that point rather than needing to re-run the burn-in period. You can
@@ -48,7 +48,7 @@ File format
 ===========
 
 Serialized population files are saved in JSON format. The file structure reflects the hierarchical
-structure of the objects in |EMOD_s|. Each file starts with a header and then contains
+structure of the objects in EMOD. Each file starts with a header and then contains
 information about the simulation and the nodes. The following figure gives a rough overview of the
 JSON file structure (note that only vector or malaria simulations will have larval habitats, vector
 populations, or vector life cycles).
@@ -71,7 +71,7 @@ ISerializable interface can write itself to a buffer. It depends on the chosen w
 buffer is written and where it is written. Here we assume that a JSON writer is used and that the
 writer adds variable names and formatting characters so that a valid JSON file is generated. A
 similar mechanism is at play when a simulation is loaded again from a file. The names of variables
-and their values are used to re-instantiate the same objects. Mind that |EMOD_s| is written in a compiled
+and their values are used to re-instantiate the same objects. Mind that EMOD is written in a compiled
 language, so the description of data and objects (classes and variable types) in the source code
 must match the data types in the serialized population file, e.g. if a variable is of type integer
 changing its value to a float won’t have the anticipated effect.
@@ -81,7 +81,7 @@ Multi-core
 ----------
 
 If the simulation is run on several cores, each core saves one file at the configured timestep(s).
-To continue the simulation one |EMOD_S| file must be defined per node.
+To continue the simulation one EMOD file must be defined per node.
 
 
 File Name
@@ -94,7 +94,7 @@ The format for multi-core is: state-timestep-core.dtk e.g. state-00100-001.dtk
 
 Header
 ------
-Each |EMOD_s| file starts with a header in JSON format that contains information about the data in the file.
+Each EMOD file starts with a header in JSON format that contains information about the data in the file.
 
 Version 2 and 3
 

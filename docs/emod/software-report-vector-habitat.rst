@@ -1,4 +1,4 @@
-===================
+﻿===================
 VectorHabitatReport
 ===================
 
@@ -30,7 +30,7 @@ The header section contains the following parameters:
 
     Channels, integer, "The number of statistics in the report; this should always be equal to 7."
     DateTime, string, The date and time the report was created.
-    DTK_Version, string, "The version of |EMOD_s| that was used."
+    DTK_Version, string, "The version of EMOD that was used."
     Report_Version, string, The format version of the report.
     Timesteps, integer, "The number of time steps in the simulation (which should be the number of entries in the inner dimension of the data)."
     Subchannel_Metadata, nested JSON object, "A collection of parameters defining the contents of the channel data. It includes the following parameters:

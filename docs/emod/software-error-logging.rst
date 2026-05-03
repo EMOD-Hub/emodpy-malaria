@@ -1,8 +1,8 @@
-=======================
+﻿=======================
 Error and logging files
 =======================
 
-When you run a simulation, |EMOD_s| will output basic error and logging information to help track
+When you run a simulation, EMOD will output basic error and logging information to help track
 the progress and help debug any issues that may occur. If you run the simulation on an HPC
 cluster, the cluster will generate additional logging and error files. See :doc:`troubleshooting`
 if you need help resolving an error.
@@ -73,7 +73,7 @@ Standard output
 When you run a simulation, it will generate a standard output logging file
 (StdOut.txt) in the working directory that captures all standard output messages.
 
-The file contains information about a particular simulation, such as the |EMOD_s| version used and
+The file contains information about a particular simulation, such as the EMOD version used and
 the files in use, as well as other initialization information, including the default logging level
 and the logging levels set for particular modules. The file follows that information
 with log output using the following format: <timestep><HPC rank><log level><module><message>.

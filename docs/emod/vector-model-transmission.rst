@@ -1,4 +1,4 @@
-=========================
+﻿=========================
 Vector transmission model
 =========================
 
@@ -15,7 +15,7 @@ For example, vector blood-feeding branches into various probabilities that are c
 :term:`time step`. These calculations are based on species parameters and aggregated vector
 interventions (see :ref:`feeding decision tree <tree>`).
 
-Vector transmission can be thought of in terms of vector ecology, and in the |EMOD_s| framework is
+Vector transmission can be thought of in terms of vector ecology, and in the EMOD framework is
 comprised of several components:
 
 #.  :ref:`tracking`,

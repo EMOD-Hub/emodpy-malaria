@@ -1,4 +1,4 @@
-================
+﻿================
 Vector genetics
 ================
 
@@ -9,7 +9,7 @@ new strategies such as gene drives — genetic elements that bias their own inhe
 through a population within a few generations — have been proposed as a way to either suppress
 vector populations or replace them with vectors that are unable to transmit malaria.
 
-|EMOD_s|'s vector genetics system provides a stochastic, agent-based framework for simulating
+EMOD's vector genetics system provides a stochastic, agent-based framework for simulating
 the inheritance and phenotypic effects of genetic loci in mosquito populations. Each mosquito
 carries a diploid genome composed of up to 9 genetic loci with up to 8 alleles per locus. The
 system supports Mendelian inheritance, germline mutations, insecticide resistance, gene drives,
@@ -26,7 +26,7 @@ evaluate malaria transmission and elimination <https://doi.org/10.1371/journal.p
 .. figure:: ../images/vector-genetics/fig1-inheritance.png
    :scale: 75%
 
-   Overview of the vector genetics system in |EMOD_s|: a female and male each carry a diploid
+   Overview of the vector genetics system in EMOD: a female and male each carry a diploid
    genome; the F1 offspring inherits one gamete from each parent. The labels illustrate three
    consequences modeled by the genetics system: (a) allele combinations can modify phenotypic
    traits such as lifespan (see :ref:`trait-modifiers`), (b) spontaneous germline mutations can
@@ -92,7 +92,7 @@ set of named alleles with initial population frequencies to be used at simulatio
 
 **Gender gene**: If defined, the gender gene must be listed first. It partitions alleles into
 X-chromosome alleles (``Is_Y_Chromosome`` = 0 (false)) and Y-chromosome alleles
-(``Is_Y_Chromosome`` = 1 (true)). If no gender gene is explicitly defined, |EMOD_s| creates a default
+(``Is_Y_Chromosome`` = 1 (true)). If no gender gene is explicitly defined, EMOD creates a default
 one with a single X allele and a single Y allele, with XX and XY combinations being generated at
 about 50/50 frequencies.
 
@@ -379,7 +379,7 @@ Gene drives
 ===========
 
 Gene drives are genetic elements that bias their own inheritance, spreading through a population
-at rates exceeding standard Mendelian expectations. |EMOD_s| supports five gene drive types, each
+at rates exceeding standard Mendelian expectations. EMOD supports five gene drive types, each
 modeling a different mechanism.
 
 Note that gene drive is applied before gamete creation. A single parent genome is first expanded
@@ -422,7 +422,7 @@ which causes Wolbachia to spread through a population over time once introduced.
 effects — reduced lifespan, parasite inhibition, and self-sustaining spread — make Wolbachia a
 candidate tool for reducing malaria transmission without eliminating mosquitoes.
 
-|EMOD_s| models Wolbachia as a discrete state per vector with four possible values: none, strain
+EMOD models Wolbachia as a discrete state per vector with four possible values: none, strain
 A, strain B, or both strains A and B. This is a simplification — in reality, Wolbachia dynamics
 involve variable bacterial loads, incomplete maternal transmission, and strain-specific effects
 that are more nuanced than the model captures.

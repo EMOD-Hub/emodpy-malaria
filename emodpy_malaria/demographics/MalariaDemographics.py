@@ -1,6 +1,6 @@
 """
 This module contains the classes and functions for creating demographics files
-for malaria simulations. For more information on |EMOD_s| demographics files,
+for malaria simulations. For more information on EMOD demographics files,
 see :doc:`emod/software-demographics`.
 """
 import os

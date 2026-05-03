@@ -1,4 +1,4 @@
-===============
+﻿===============
 Cascade of care
 ===============
 
@@ -7,7 +7,7 @@ navigate. For example, going from testing to diagnosis, receiving medical counse
 antiretroviral therapy, and achieving viral suppression. Other life events, such as pregnancy,
 migration, relationship changes, or diagnostic criteria may trigger different medical interventions.
 
-Health care in |EMOD_s| can be applied to individuals, such as through a vaccination campaign, or be
+Health care in EMOD can be applied to individuals, such as through a vaccination campaign, or be
 sought out by various triggering events including birth, pregnancy, or symptoms. A potential problem
 created by this structure is that an individual could end up in care multiple times. For example, an
 individual might have an antenatal care (ANC) visit and, in the same time step, seek health care for

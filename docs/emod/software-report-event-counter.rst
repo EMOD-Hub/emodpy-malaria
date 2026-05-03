@@ -1,4 +1,4 @@
-==================
+﻿==================
 ReportEventCounter
 ==================
 
@@ -63,7 +63,7 @@ The header section contains the following parameters:
     :widths: 8, 5, 20
 
     Channels, integer, "The number of entries in the 'Channels' map (e.g. the number of events that the report is counting)."
-    DTK_Version, string, The version of |EMOD_s| that was used.
+    DTK_Version, string, The version of EMOD that was used.
     DateTime, string, The date and time the report was created.
     Report_Type, string, "The type of report created (it should always be InsetChart/Channel Report)."
     Report_Version, string, The version of the report format.

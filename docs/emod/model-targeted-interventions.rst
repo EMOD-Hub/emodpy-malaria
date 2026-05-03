@@ -1,4 +1,4 @@
-===============================================
+﻿===============================================
 Targeting interventions to nodes or individuals
 ===============================================
 
@@ -175,7 +175,7 @@ In this example, the intervention is targeted at urban individuals who are also 
 .. image:: ../images/general/howto-targeted-6.png
 
 However, to create property value criteria in AND/OR combinations as above, you can use the Age_Bin
-property with **Property_Restrictions_Within_Node** instead. |EMOD_s| automatically creates
+property with **Property_Restrictions_Within_Node** instead. EMOD automatically creates
 **Age_Bin_Property_From_X_To_Y** values when you use the **Age_Bin_Edges_In_Years** demographics
 parameter.
 
@@ -201,7 +201,7 @@ medium risk, or 13-125 who are high risk.
     }
 
 
-The following graphs show the property reports for a |HINT_s| simulation with both age and
+The following graphs show the property reports for a HINT simulation with both age and
 accessibility properties in which transmission is lower for hard-to-access individuals and there are an equal number of "easy" and "hard" to access individuals. The first graph shows the effect of targeting
 vaccination to children aged 6 to 10. The second graph shows the effect of instead targeting it to
 all individuals who are easy to access.

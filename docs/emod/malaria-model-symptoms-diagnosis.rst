@@ -1,8 +1,8 @@
-================================
+﻿================================
 Malaria symptoms and diagnostics
 ================================
 
-In |EMOD_s|, parameters for multiple types of malaria symptoms are included. Symptoms indicate the
+In EMOD, parameters for multiple types of malaria symptoms are included. Symptoms indicate the
 presence of disease, and one of the most prevalent types of data used to inform models is case data.
 By leveraging such data, models can help elucidate the processes that cause disease and enable
 calculations of the likely percent of the population that is infected (or infectious). Similarly,
