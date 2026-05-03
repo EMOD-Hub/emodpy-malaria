@@ -84,22 +84,4 @@ The example below shows how to set up several property values based on disease r
 place. It also defines three age bins: 0 to 5 years, older than 5 to 13, and older than 13 to the
 maximum age.
 
-```json
-{
-    "Defaults": {
-        "IndividualProperties": [{
-            "Property": "Risk",
-            "Values": ["Low", "Medium", "High"],
-            "Initial_Distribution": [0.7, 0.2, 0.1]
-        }, {
-            "Property": "Place",
-            "Values": ["Community", "School", "Work", "Vacation"],
-            "Initial_Distribution": [0.3, 0.2, 0.4, 0.1]
-        }, {
-            "Property": "Age_Bin",
-            "Age_Bin_Edges_In_Years": [0, 5, 13, -1],
-            "Transitions": []
-        }]
-    }
-}
-```
+[link](../json/model-properties.json)

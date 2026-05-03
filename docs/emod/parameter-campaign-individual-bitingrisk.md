@@ -36,12 +36,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-bitingrisk.csv") }}
 
-```json
-{
-  "Intervention_Config": {
-    "class": "BitingRisk",
-    "Risk_Distribution": "CONSTANT_DISTRIBUTION",
-    "Risk_Constant": 0.1
-  }
-}
-```
+[link](../json/parameter-campaign-individual-bitingrisk.json)

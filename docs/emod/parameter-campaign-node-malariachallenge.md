@@ -20,25 +20,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-malariachallenge.csv") }}
 
-```json
-{
-    "Use_Defaults": 1,
-    "Events": [{
-        "class": "CampaignEvent",
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Start_Day": 40,
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Intervention_Config": {
-                "class": "MalariaChallenge",
-                "Challenge_Type": "InfectiousBites",
-                "Coverage": 1.0,
-                "Infectious_Bite_Count": 2,
-                "Sporozoite_Count": 3
-            }
-        }
-    }]
-}
-```
+[link](../json/parameter-campaign-node-malariachallenge.json)

@@ -1,0 +1,12 @@
+{
+    "Metadata": {
+        "Author": "JDoe",
+        "Tool": "convert_txt_to_bin.py",
+        "IdReference": "Household-Scenario-Small",
+        "DateCreated": "Fri Aug 21 08:20:26 2015",
+        "NodeCount": 7,
+        "MigrationType": "LOCAL_MIGRATION",
+        "DatavalueCount": 8
+    },
+    "NodeOffsets": "0000000100000000000000020000006000000003000000C00000000400000120000000050000018000000006000001E00000000700000240"
+}

@@ -17,31 +17,7 @@ To generate this report, the following parameters must be configured in the cust
 **Stratify_By_Gender**, boolean, NA, NA, 1, "Set to true (1) to stratify by gender; a value of 0 will not stratify by gender."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportNodeDemographics",
-            "Age_Bins": [
-                10,
-                20,
-                30,
-                40,
-                50,
-                60,
-                70,
-                80,
-                90,
-                100,
-                125
-            ],
-            "IP_Key_To_Collect": "",
-            "Stratify_by_Gender": 1
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-node-demographics.json)
 
 ## Output file data
 

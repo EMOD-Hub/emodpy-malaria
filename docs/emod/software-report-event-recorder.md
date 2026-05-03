@@ -32,22 +32,7 @@ Report_Event_Recorder_Must_Have_IP_Key_Value,"string","NA","NA",\"\","An individ
 Report_Event_Recorder_Must_Have_Intervention,"string","NA","NA",\"\","The name of the intervention that the individual must have in order to be included in the report. Leave the string empty (default value) to not include interventions in the selection criteria. See [Individual-level interventions](parameter-campaign-individual-interventions.md) for more information."
 ```
 
-```json
-{
-    "Report_Event_Recorder": 1,
-    "Report_Event_Recorder_Events": [],
-    "Report_Event_Recorder_Ignore_Events_In_List": 1,
-    "Report_Event_Recorder_Individual_Properties": ["Risk"],
-    "Report_Event_Recorder_Start_Day": 1,
-    "Report_Event_Recorder_End_Day": 300,
-    "Report_Event_Recorder_Node_IDs_Of_Interest": [ 1, 2, 3 ],
-    "Report_Event_Recorder_PropertyChange_IP_Key_Of_Interest": "",
-    "Report_Event_Recorder_Min_Age_Years": 20,
-    "Report_Event_Recorder_Max_Age_Years": 60,
-    "Report_Event_Recorder_Must_Have_IP_Key_Value": "Risk:HIGH",
-    "Report_Event_Recorder_Must_Have_Intervention": "",
-}
-```
+[link](../json/software-report-event-recorder.json)
 
 ## Output file data
 

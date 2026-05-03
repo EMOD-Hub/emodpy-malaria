@@ -30,25 +30,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-rtssvaccine.csv") }}
 
-```json
-{
-    "Events": [{
-        "class": "CampaignEvent",
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Start_Day": 20,
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Target_Demographic": "Everyone",
-            "Demographic_Coverage": 0.8,
-            "Intervention_Config": {
-                "class": "RTSSVaccine",
-                "Boosted_Antibody_Concentration": 1200,
-                "Cost_To_Consumer": 1.0
-            }
-        }
-    }],
-    "Use_Defaults": 1
-}
-```
+[link](../json/parameter-campaign-individual-rtssvaccine.json)

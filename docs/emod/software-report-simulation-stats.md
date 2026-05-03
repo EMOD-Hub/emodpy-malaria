@@ -25,16 +25,7 @@ campaign file and investigate whether a campaign event is responsible.
 To generate this report, add the following to the custom_reports.json file. This report has no
 configurable parameters beyond the class name.
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportSimulationStats"
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-simulation-stats.json)
 
 ## Output file data
 

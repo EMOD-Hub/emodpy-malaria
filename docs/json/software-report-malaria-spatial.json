@@ -1,0 +1,20 @@
+{
+    "class": "SpatialReportMalariaFiltered",
+    "Filename_Suffix": "NewCases",
+    "Start_Day": 0,
+    "End_Day": 85,
+    "Node_IDs_Of_Interest": [1, 2, 3, 4, 5, 6, 7, 8],
+    "Min_Age_Years": 5,
+    "Max_Age_Years": 10,
+    "Must_Have_IP_Key_Value": "Risk:HIGH",
+    "Must_Have_Intervention": "UsageDependentBednet",
+    "Reporting_Interval": 1,
+    "Spatial_Output_Channels": [
+        "Population",
+        "New_Infections",
+        "Prevalence",
+        "Adult_Vectors",
+        "New_Diagnostic_Prevalence",
+        "New_Clinical_Cases"
+    ]
+}

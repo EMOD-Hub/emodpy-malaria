@@ -47,30 +47,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-ovipositiontrap.csv") }}
 
-```json
-{
-    "Events": [{
-        "class": "CampaignEvent",
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Start_Day": 140,
-        "Event_Coordinator_Config": {
-            "Target_Demographic": "Everyone",
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Intervention_Config": {
-                "class": "OvipositionTrap",
-                "Cost_To_Consumer": 3.75,
-                "Habitat_Target": "WATER_VEGETATION",
-                "Killing_Config": {
-                    "class": "WaningEffectExponential",
-                    "Decay_Time_Constant": 2190,
-                    "Initial_Effect": 0.95
-                },
-                "Reduction": 0
-            }
-        }
-    }],
-    "Use_Defaults": 1
-}
-```
+[link](../json/parameter-campaign-node-ovipositiontrap.json)

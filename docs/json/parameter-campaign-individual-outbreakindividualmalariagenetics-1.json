@@ -1,0 +1,6 @@
+{
+    "class": "OutbreakIndividualMalariaGenetics",
+    "Create_Nucleotide_Squence_From": "BARCODE_STRING",
+    "Barcode_String": "ACGTACGTACGTACGTACGTACGT",
+    "Drug_Resistant_String": "AAT"
+}

@@ -32,36 +32,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-femalecontraceptive.csv") }}
 
-```json
-{
-    "Use_Defaults": 1,
-    "Events": [{
-        "class": "CampaignEvent",
-        "Start_Day": 1,
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Intervention_Config": {
-                "class": "NodeLevelHealthTriggeredIV",
-                "Trigger_Condition_List": ["NewClinicalCase"],
-                "Demographic_Coverage": 0.5,
-                "Target_Gender": "Female",
-                "Actual_IndividualIntervention_Config": {
-                    "class": "FemaleContraceptive",
-                    "Cost_To_Consumer": 5,
-                    "Usage_Duration_Distribution": "CONSTANT_DISTRIBUTION",
-                    "Usage_Duration_Constant": 180,
-                    "Usage_Expiration_Event": "ContraceptiveExpired",
-                    "Waning_Config": {
-                        "class": "WaningEffectBox",
-                        "Box_Duration": 180,
-                        "Initial_Effect": 0.95
-                    }
-                }
-            }
-        }
-    }]
-}
-```
+[link](../json/parameter-campaign-individual-femalecontraceptive.json)

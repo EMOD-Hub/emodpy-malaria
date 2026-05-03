@@ -1,0 +1,30 @@
+{
+    "Events": [
+        {
+            "class": "CampaignEvent",
+            "Start_Day": 365,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class": "SimpleBednet",
+                    "Insecticide_Name": "pyrethroid",
+                    "Killing_Config": {
+                        "class": "WaningEffectExponential",
+                        "Initial_Effect": 0.8,
+                        "Decay_Time_Constant": 400
+                    },
+                    "Blocking_Config": {
+                        "class": "WaningEffectExponential",
+                        "Initial_Effect": 0.6,
+                        "Decay_Time_Constant": 750
+                    },
+                    "Repelling_Config": {
+                        "class": "WaningEffectExponential",
+                        "Initial_Effect": 0.2,
+                        "Decay_Time_Constant": 300
+                    }
+                }
+            }
+        }
+    ]
+}

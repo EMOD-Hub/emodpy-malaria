@@ -28,24 +28,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-standardinterventiondistributioneventcoordinator.csv") }}
 
-```json
-{
-    "Use_Defaults": 1,
-    "Events": [{
-        "Event_Name": "Outbreak",
-        "class": "CampaignEvent",
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Start_Day": 1,
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Demographic_Coverage": 0.005,
-            "Intervention_Config": {
-                "Outbreak_Source": "PrevalenceIncrease",
-                "class": "OutbreakIndividual"
-            }
-        }
-    }]
-}
-```
+[link](../json/parameter-campaign-event-standardinterventiondistributioneventcoordinator.json)

@@ -1,0 +1,15 @@
+{
+    "Reports": [{
+        "class": "ReportSimpleMalariaTransmissionJSON",
+        "Filename_Suffix": "Node1",
+        "Start_Day": 365,
+        "End_Day": 465,
+        "Node_IDs_Of_Interest": [ 1 ],
+        "Min_Age_Years": 5,
+        "Max_Age_Years": 10,
+        "Must_Have_IP_Key_Value": "Accessibility:YES",
+        "Must_Have_Intervention": "UsageDependentBednet"
+        "Pretty_Format": 1
+    }],
+    "Use_Defaults": 1
+}

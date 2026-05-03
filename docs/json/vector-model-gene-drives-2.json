@@ -1,0 +1,24 @@
+"Drivers": [
+    {
+        "Driver_Type": "INTEGRAL_AUTONOMOUS",
+        "Driving_Allele": "a1",
+        "Alleles_Driven": [
+            {
+                "Allele_To_Copy": "a1",
+                "Allele_To_Replace": "a0",
+                "Copy_To_Likelihood": [
+                    { "Copy_To_Allele": "a1", "Likelihood": 0.9 },
+                    { "Copy_To_Allele": "a0", "Likelihood": 0.1 }
+                ]
+            },
+            {
+                "Allele_To_Copy": "b1",
+                "Allele_To_Replace": "b0",
+                "Copy_To_Likelihood": [
+                    { "Copy_To_Allele": "b1", "Likelihood": 0.9 },
+                    { "Copy_To_Allele": "b0", "Likelihood": 0.1 }
+                ]
+            }
+        ]
+    }
+]

@@ -73,24 +73,7 @@ A classic drive at a single locus. The `drive_a` allele bundles Cas9 + gRNA and 
 over the wild-type allele `wild_a` with 95% efficiency. The remaining 5% produce a resistance
 allele through NHEJ:
 
-```json
-"Drivers": [
-    {
-        "Driver_Type": "CLASSIC",
-        "Driving_Allele": "drive_a",
-        "Alleles_Driven": [
-            {
-                "Allele_To_Copy": "drive_a",
-                "Allele_To_Replace": "wild_a",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "drive_a", "Likelihood": 0.95 },
-                    { "Copy_To_Allele": "resist_a", "Likelihood": 0.05 }
-                ]
-            }
-        ]
-    }
-]
-```
+[link](../json/vector-model-gene-drives-1.json)
 
 
 ## INTEGRAL_AUTONOMOUS
@@ -118,32 +101,7 @@ An autonomous drive with one driver locus (`a1`) and one effector locus (`b1`). 
 even if the driver allele itself fails to copy, and vice versa (the driver can be driven
 even if the effector fails to copy):
 
-```json
-"Drivers": [
-    {
-        "Driver_Type": "INTEGRAL_AUTONOMOUS",
-        "Driving_Allele": "a1",
-        "Alleles_Driven": [
-            {
-                "Allele_To_Copy": "a1",
-                "Allele_To_Replace": "a0",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "a1", "Likelihood": 0.9 },
-                    { "Copy_To_Allele": "a0", "Likelihood": 0.1 }
-                ]
-            },
-            {
-                "Allele_To_Copy": "b1",
-                "Allele_To_Replace": "b0",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "b1", "Likelihood": 0.9 },
-                    { "Copy_To_Allele": "b0", "Likelihood": 0.1 }
-                ]
-            }
-        ]
-    }
-]
-```
+[link](../json/vector-model-gene-drives-2.json)
 
 ## DAISY_CHAIN
 
@@ -170,52 +128,7 @@ through Mendelian dilution over time, making the drive self-limiting.
     set the `Copy_To_Likelihood` for that entry to 100% failure (`Likelihood: 1.0` for
     the `Allele_To_Replace`), as shown below for `Bt` and `Ct`.
 
-```json
-"Drivers": [
-    {
-        "Driver_Type": "DAISY_CHAIN",
-        "Driving_Allele": "Bt",
-        "Alleles_Driven": [
-            {
-                "Allele_To_Copy": "At",
-                "Allele_To_Replace": "Aw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Aw", "Likelihood": 0.0 },
-                    { "Copy_To_Allele": "At", "Likelihood": 1.0 }
-                ]
-            },
-            {
-                "Allele_To_Copy": "Bt",
-                "Allele_To_Replace": "Bw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Bw", "Likelihood": 1.0 }
-                ]
-            }
-        ]
-    },
-    {
-        "Driver_Type": "DAISY_CHAIN",
-        "Driving_Allele": "Ct",
-        "Alleles_Driven": [
-            {
-                "Allele_To_Copy": "Bt",
-                "Allele_To_Replace": "Bw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Bw", "Likelihood": 0.0 },
-                    { "Copy_To_Allele": "Bt", "Likelihood": 1.0 }
-                ]
-            },
-            {
-                "Allele_To_Copy": "Ct",
-                "Allele_To_Replace": "Cw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Cw", "Likelihood": 1.0 }
-                ]
-            }
-        ]
-    }
-]
-```
+[link](../json/vector-model-gene-drives-3.json)
 
 ## X_SHRED and Y_SHRED
 
@@ -250,29 +163,7 @@ non-gender locus. When a male carrying `Ad` also has the Y-chromosome allele `Yw
 (`Allele_Required`), his X-bearing sperm carrying `Xw` (`Allele_To_Shred`) are destroyed.
 `Driving_Allele_Params` specifies how the drive allele itself is inherited:
 
-```json
-"Drivers": [
-    {
-        "Driver_Type": "X_SHRED",
-        "Driving_Allele": "Ad",
-        "Driving_Allele_Params": {
-            "Allele_To_Copy": "Ad",
-            "Allele_To_Replace": "Aw",
-            "Copy_To_Likelihood": [
-                { "Copy_To_Allele": "Ad", "Likelihood": 1.0 },
-                { "Copy_To_Allele": "Aw", "Likelihood": 0.0 }
-            ]
-        },
-        "Shredding_Alleles": {
-            "Allele_Required": "Yw",
-            "Allele_To_Shred": "Xw",
-            "Allele_To_Shred_To": "Xm",
-            "Allele_Shredding_Fraction": 1.0,
-            "Allele_To_Shred_To_Surviving_Fraction": 0.0
-        }
-    }
-]
-```
+[link](../json/vector-model-gene-drives-4.json)
 
 With `Allele_Shredding_Fraction` = 1.0 and `Allele_To_Shred_To_Surviving_Fraction` = 0.0,
 all X-bearing sperm are destroyed and none survive as the `Xm` allele.
@@ -283,29 +174,7 @@ A Y-shredding drive that biases offspring toward females. When a male carrying `
 the X-chromosome allele `Xw` (`Allele_Required`), his Y-bearing sperm carrying `Yw`
 (`Allele_To_Shred`) are destroyed:
 
-```json
-"Drivers": [
-    {
-        "Driver_Type": "Y_SHRED",
-        "Driving_Allele": "Ad",
-        "Driving_Allele_Params": {
-            "Allele_To_Copy": "Ad",
-            "Allele_To_Replace": "Aw",
-            "Copy_To_Likelihood": [
-                { "Copy_To_Allele": "Ad", "Likelihood": 1.0 },
-                { "Copy_To_Allele": "Aw", "Likelihood": 0.0 }
-            ]
-        },
-        "Shredding_Alleles": {
-            "Allele_Required": "Xw",
-            "Allele_To_Shred": "Yw",
-            "Allele_To_Shred_To": "Ym",
-            "Allele_Shredding_Fraction": 1.0,
-            "Allele_To_Shred_To_Surviving_Fraction": 0.0
-        }
-    }
-]
-```
+[link](../json/vector-model-gene-drives-5.json)
 
 ## Configuration parameters
 

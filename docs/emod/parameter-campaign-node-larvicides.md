@@ -32,29 +32,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-larvicides.csv") }}
 
-```json
-{
-    "Events": [{
-        "class": "CampaignEvent",
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Start_Day": 140,
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Intervention_Config": {
-                "Cost_To_Consumer": 3.75,
-                "Spray_Coverage": 0.6,
-                "Habitat_Target": "ALL_HABITATS",
-                "Larval_Killing_Config": {
-                    "Box_Duration": 3650,
-                    "Initial_Effect": 0.1,
-                    "class": "WaningEffectBox"
-                },
-                "class": "Larvicides"
-            }
-        }
-    }],
-    "Use_Defaults": 1
-}
-```
+[link](../json/parameter-campaign-node-larvicides.json)

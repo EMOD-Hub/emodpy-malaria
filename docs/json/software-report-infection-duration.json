@@ -1,0 +1,10 @@
+{
+    "Reports": [
+        {
+            "class": "ReportInfectionDuration",
+            "Start_Day": 3855,
+            "End_Day": 4000
+        }
+    ],
+    "Use_Defaults": 1
+}

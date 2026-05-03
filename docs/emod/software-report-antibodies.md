@@ -31,27 +31,7 @@ Must_Have_IP_Key_Value, string, NA, NA, (empty string), "A Key:Value pair that t
 Must_Have_Intervention, string, NA, NA, (empty string), "The name of the intervention that the person must have in order to be included. Empty string means to not include interventions in the selection criteria."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportAntibodies",
-            "Filename_Suffix": "Node1",
-            "Start_Day": 365,
-            "End_Day": 465,
-            "Node_IDs_Of_Interest": [ 1 ],
-            "Min_Age_Years": 5,
-            "Max_Age_Years": 10,
-            "Must_Have_IP_Key_Value": "Risk:LOW",
-            "Must_Have_Intervention": "UsageDependentBednet",
-            "Reporting_Interval": 10.0,
-            "Contain_Capacity_Data": 1,
-            "Infected_Only": 0
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-antibodies.json)
 
 ### Stratification columns
 

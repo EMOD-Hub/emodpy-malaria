@@ -1,0 +1,16 @@
+{
+    "Reports": [
+        {
+            "class": "ReportInterventionPopAvg",
+            "Filename_Suffix": "AllNodes",
+            "Start_Day": 90,
+            "End_Day": 1000,
+            "Node_IDs_Of_Interest": [],
+            "Min_Age_Years": 5,
+            "Max_Age_Years": 10,
+            "Must_Have_IP_Key_Value": "Risk:HIGH",
+            "Must_Have_Intervention": "UsageDependentBednet"
+        }
+    ],
+    "Use_Defaults": 1
+}

@@ -24,35 +24,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-vectorsurveillanceeventcoordinator.csv") }}
 
-```json
-{
-    "Use_Defaults": 1,
-    "Events": [{
-        "class": "CampaignEvent",
-        "Start_Day": 1,
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Event_Coordinator_Config": {
-            "class": "VectorSurveillanceEventCoordinator",
-            "Coordinator_Name": "Allele_Frequency_Monitor",
-            "Duration": -1,
-            "Start_Trigger_Condition_List": [
-                "Start_Vector_Surveillance"
-            ],
-            "Stop_Trigger_Condition_List": [],
-            "Counter": {
-                "Count_Type": "ALLELE_FREQ",
-                "Species": "gambiae",
-                "Gender": "VECTOR_FEMALE",
-                "Sample_Size_Distribution": "CONSTANT_DISTRIBUTION",
-                "Sample_Size_Constant": 100,
-                "Update_Period": 30
-            },
-            "Responder": {
-                "Survey_Completed_Event": "Vector_Survey_Done"
-            }
-        }
-    }]
-}
-```
+[link](../json/parameter-campaign-event-vectorsurveillanceeventcoordinator.json)

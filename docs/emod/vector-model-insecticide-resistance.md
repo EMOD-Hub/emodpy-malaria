@@ -80,44 +80,9 @@ Insecticides are defined in the `Insecticides` array in config.json, at the same
 {{ read_csv("csv/config-insecticides-malaria.csv") }}
 
 Example:
-```json
-```
+[link](../json/vector-model-insecticide-resistance-1.json)
 
-```json
-{
-    "Insecticides": [
-        {
-            "Name": "pyrethroid",
-            "Resistances": [
-                {
-                    "Species" : "arabiensis",
-                    "Allele_Combinations": [
-                        [ "kdr", "kdr" ]
-                    ],
-                    "Killing_Modifier": 0.1,
-                    "Blocking_Modifier": 0.8,
-                    "Repelling_Modifier": 1.0,
-                    "Larval_Killing_Modifier": 0.3
-                },
-                {
-                    "Species" : "funestus",
-                    "Allele_Combinations": [
-                        [ "a1", "*" ]
-                    ],
-                    "Killing_Modifier": 0.5,
-                    "Blocking_Modifier": 1.0,
-                    "Repelling_Modifier": 1.0,
-                    "Larval_Killing_Modifier": 1.0
-                }
-            ]
-        },
-        {
-            "Name": "organophosphate",
-            "Resistances": []
-        }
-    ]
-}
-```
+[link](../json/vector-model-insecticide-resistance-2.json)
 
 In this example, the insecticide "pyrethroid" has two resistance entries. "Arabiensis" vectors homozygous for
 the `kdr` allele (`kdr/kdr`) have strong resistance to killing of adults and larva (modifiers 0.1 and 0.3 respectively, meaning only
@@ -254,96 +219,11 @@ effect will not be applied, since both alleles have already been accounted for.
 
 **config.json** (relevant excerpts):
 
-```json
-{
-    "Vector_Species_Params": [
-        {
-            "Name": "gambiae",
-            "Genes": [
-                {
-                    "Is_Gender_Gene": 0,
-                    "Alleles": [
-                        { "Name": "wt", "Initial_Allele_Frequency": 0.95, "Is_Y_Chromosome": 0 },
-                        { "Name": "kdr", "Initial_Allele_Frequency": 0.05, "Is_Y_Chromosome": 0 }
-                    ]
-                }
-            ],
-            "Gene_To_Trait_Modifiers": [
-                {
-                    "Allele_Combinations": [
-                        [ "kdr", "kdr" ]
-                    ],
-                    "Trait_Modifiers": [
-                        { "Trait": "MORTALITY", "Modifier": 1.1 }
-                    ]
-                }
-            ]
-        }
-    ],
-    "Insecticides": [
-        {
-            "Name": "pyrethroid",
-            "Resistances": [
-                {
-                    "Species": "gambiae",
-                    "Allele_Combinations": [
-                        [ "kdr", "kdr" ]
-                    ],
-                    "Killing_Modifier": 0.1,
-                    "Blocking_Modifier": 0.8,
-                    "Repelling_Modifier": 1.0,
-                    "Larval_Killing_Modifier": 0.3
-                },
-                {
-                    "Species": "gambiae",
-                    "Allele_Combinations": [
-                        [ "kdr", "*" ]
-                    ],
-                    "Killing_Modifier": 0.5,
-                    "Blocking_Modifier": 0.9,
-                    "Repelling_Modifier": 1.0,
-                    "Larval_Killing_Modifier": 0.6
-                }
-            ]
-        }
-    ]
-}
-```
+[link](../json/vector-model-insecticide-resistance-3.json)
 
 **campaign.json** (relevant excerpt):
 
-```json
-{
-    "Events": [
-        {
-            "class": "CampaignEvent",
-            "Start_Day": 365,
-            "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config": {
-                    "class": "SimpleBednet",
-                    "Insecticide_Name": "pyrethroid",
-                    "Killing_Config": {
-                        "class": "WaningEffectExponential",
-                        "Initial_Effect": 0.8,
-                        "Decay_Time_Constant": 400
-                    },
-                    "Blocking_Config": {
-                        "class": "WaningEffectExponential",
-                        "Initial_Effect": 0.6,
-                        "Decay_Time_Constant": 750
-                    },
-                    "Repelling_Config": {
-                        "class": "WaningEffectExponential",
-                        "Initial_Effect": 0.2,
-                        "Decay_Time_Constant": 300
-                    }
-                }
-            }
-        }
-    ]
-}
-```
+[link](../json/vector-model-insecticide-resistance-4.json)
 
 With this configuration:
 

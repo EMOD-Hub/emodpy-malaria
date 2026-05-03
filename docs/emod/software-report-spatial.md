@@ -27,17 +27,7 @@ The following diagram shows the format for data in the spatial output report fil
 The following is an example of a spatial output channel configuration (config.json), and the
 following table defines the spatial output channels you can add to this report.
 
-```json
-{
-    "Enable_Spatial_Output": 1,
-    "Spatial_Output_Channels": [
-        "Population",
-        "New_Infections",
-        "Prevalence",
-        "Births"
-    ]
-}
-```
+[link](../json/software-report-spatial.json)
 
 ## Output file data
 

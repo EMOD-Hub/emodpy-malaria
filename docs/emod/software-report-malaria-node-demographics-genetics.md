@@ -26,34 +26,7 @@ To generate this report, the following parameters must be configured in the cust
 **Stratify_By_Has_Clinical_Symptoms**, bool, NA, NA, 1, "If set to 1, the data will have an extra stratification for people who have clinical symptoms and those that do not.  Default is 0 or no extra stratification."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "Class": "ReportNodeDemographicsMalariaGenetics",
-            "Age_Bins": [
-                10,
-                100
-            ],
-            "Barcodes": [
-                "TA",
-                "AT",
-                "TT"
-            ],
-            "Drug_Resistant_Stat_Type": "NUM_INFECTIONS",
-            "Drug_Resistant_Strings": [
-                "TA",
-                "AT",
-                "TT"
-            ],
-            "IP_Key_To_Collect": "",
-            "Stratify_By_Gender": 0,
-            "Stratify_By_Has_Clinical_Symptoms": 0
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-malaria-node-demographics-genetics.json)
 
 ## Output file data
 

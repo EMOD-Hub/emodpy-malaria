@@ -43,26 +43,7 @@ Sampling_Period,"float","1","3.40282e+38","1","The number of days between sampli
 Include_Genome_IDs,"boolean","NA","NA","0","If true (1), an additional genome_ids column is appended to the CSV output containing EMOD's internal ID for the genome of each infection's parasite. This ID can be used to cross-reference genome data with other EMOD reports that include genome IDs."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportFpgOutputForObservationalModel",
-            "Start_Day": 3650,
-            "End_Day": 4381,
-            "Node_IDs_Of_Interest": [1, 3],
-            "Min_Age_Years": 0,
-            "Max_Age_Years": 5,
-            "Must_Have_IP_Key_Value": "Accessibility:YES",
-            "Must_Have_Intervention": "AntimalarialDrug",
-            "Minimum_Parasite_Density": 1.0,
-            "Sampling_Period": 30.4166667,
-            "Include_Genome_IDs": 0
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-fpg-output-observational-model.json)
 
 This example collects data after running for 10 years and collects it for the next 2 years. It only
 collects data from nodes 1 and 3 for children 5 and under who have accessibility to healthcare and are

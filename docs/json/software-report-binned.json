@@ -1,0 +1,81 @@
+{
+    "Header": {
+        "DateTime": "Mon Dec 21 11:33:27 2020",
+        "DTK_Version": " Malaria-Ongoing (bb265ad) Dec 21 2020 11:15:31",
+        "Report_Version": "2.1",
+        "Timesteps": 730,
+        "Subchannel_Metadata": {
+            "AxisLabels": [
+                [
+                    "Age"
+                ]
+            ],
+            "NumBinsPerAxis": [
+                [
+                    21
+                ]
+            ],
+            "ValuesPerAxis": [
+                [
+                    [
+                        1825,
+                        3650,
+                        5475
+                    ]
+                ]
+            ],
+            "MeaningPerAxis": [
+                [
+                    [
+                        "<5",
+                        "55-59",
+                        "95-99"
+                    ]
+                ]
+            ]
+        },
+        "Channels": 19
+    },
+    "Channels": {
+        "Blood Smear Gametocyte Positive": {
+            "Units": "",
+            "Data": [
+                [
+                    380,
+                    300,
+                    1670
+                ]
+            ]
+        },
+        "Blood Smear Parasite Positive": {
+            "Units": "",
+            "Data": [
+                [
+                    90,
+                    80,
+                    90
+                ]
+            ]
+        },
+        "Fever Positive": {
+            "Units": "",
+            "Data": [
+                [
+                    1700,
+                    1760,
+                    1660
+                ]
+            ]
+        },
+        "Infected": {
+            "Units": "",
+            "Data": [
+                [
+                    1790,
+                    1090,
+                    1723
+                ]
+            ]
+        }
+    }
+}

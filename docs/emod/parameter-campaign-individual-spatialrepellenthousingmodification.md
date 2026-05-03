@@ -41,32 +41,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-spatialrepellenthousingmodification.csv") }}
 
-```json
-{
-    "Events": [
-        {
-            "class": "CampaignEvent",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Day": 120,
-            "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Target_Demographic": "Everyone",
-                "Demographic_Coverage": 0.8,
-                "Intervention_Config": {
-                    "class": "SpatialRepellentHousingModification",
-                    "Cost_To_Consumer": 1.0,
-                    "Repelling_Config": {
-                        "Box_Duration": 100,
-                        "Decay_Time_Constant": 150,
-                        "Initial_Effect": 0.1,
-                        "class": "WaningEffectBoxExponential"
-                    }
-                }
-            }
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/parameter-campaign-individual-spatialrepellenthousingmodification.json)

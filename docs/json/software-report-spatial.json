@@ -1,0 +1,9 @@
+{
+    "Enable_Spatial_Output": 1,
+    "Spatial_Output_Channels": [
+        "Population",
+        "New_Infections",
+        "Prevalence",
+        "Births"
+    ]
+}

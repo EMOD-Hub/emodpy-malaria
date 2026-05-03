@@ -1,0 +1,13 @@
+{
+    "Reports": [
+        {
+            "Include_Drug_Status_Table": 1,
+            "Include_Health_Table": 1,
+            "Include_Infection_Data_Table": 1,
+            "Start_Day": 100,
+            "End_Day": 900,
+            "class": "SqlReportMalariaGenetics"
+        }
+    ],
+    "Use_Defaults": 1
+}

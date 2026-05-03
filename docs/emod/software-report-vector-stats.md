@@ -21,25 +21,7 @@ Include_Death_By_State_Columns, boolean, NA, NA, 0, "Adds columns for the number
 Include_Microsporidia_Columns, boolean, NA, NA, 0, "If set to true (1), columns will be added for each state and the value in the column will be the number of vectors that have microsporidia in that state during this time step."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportVectorStats",
-            "Species_List":  [
-                "arabiensis",
-                "funestus"
-            ],
-            "Stratify_By_Species": 1,
-            "Include_Wolbachia_Columns": 0,
-            "Include_Gestation_Columns": 1,
-            "Include_Microsporidia_Columns": 0,
-            "Include_Death_By_State_Columns": 1
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-vector-stats.json)
 
 ## Output file data
 

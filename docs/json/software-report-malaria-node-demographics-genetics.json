@@ -1,0 +1,26 @@
+{
+    "Reports": [
+        {
+            "Class": "ReportNodeDemographicsMalariaGenetics",
+            "Age_Bins": [
+                10,
+                100
+            ],
+            "Barcodes": [
+                "TA",
+                "AT",
+                "TT"
+            ],
+            "Drug_Resistant_Stat_Type": "NUM_INFECTIONS",
+            "Drug_Resistant_Strings": [
+                "TA",
+                "AT",
+                "TT"
+            ],
+            "IP_Key_To_Collect": "",
+            "Stratify_By_Gender": 0,
+            "Stratify_By_Has_Clinical_Symptoms": 0
+        }
+    ],
+    "Use_Defaults": 1
+}

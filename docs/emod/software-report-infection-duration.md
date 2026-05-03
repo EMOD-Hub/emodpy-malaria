@@ -18,18 +18,7 @@ To generate this report, configure the following parameters in the custom_report
 **End_Day**, float, 0, 3.40E+38, 3.40E+38, "The day of the simulation to stop collecting data."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportInfectionDuration",
-            "Start_Day": 3855,
-            "End_Day": 4000
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-infection-duration.json)
 
 ## Output file data
 

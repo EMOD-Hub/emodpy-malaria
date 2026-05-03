@@ -20,81 +20,12 @@ but also on things such as whether or not they have a particular intervention or
 Below is a simple example where we want to distribute a vaccine to 20% of the people that do not
 already have the vaccine on the 100th day of the simulation.
 
-```json
-{
-    "class": "CampaignEvent",
-    "Start_Day": 100,
-    "Nodeset_Config": {
-        "class": "NodeSetAll"
-    },
-    "Event_Coordinator_Config": {
-        "class": "StandardInterventionDistributionEventCoordinator",
-        "Target_Demographic": "Everyone",
-        "Demographic_Coverage": 0.2,
-        "Targeting_Config": {
-            "class": "HasIntervention",
-            "Is_Equal_To": 0,
-            "Intervention_Name": "MyVaccine"
-        },
-        "Intervention_Config": {
-            "class": "SimpleVaccine",
-            "Intervention_Name" : "MyVaccine",
-            "Cost_To_Consumer": 1,
-            "Vaccine_Take": 1,
-            "Vaccine_Type": "AcquisitionBlocking",
-            "Waning_Config": {
-                "class": "WaningEffectConstant",
-                "Initial_Effect" : 1.0
-            }
-        }
-    }
-}
-```
+[link](../json/parameter-campaign-targeting-config-1.json)
 
 Below is a slightly more complicated example where we want to distribute a diagnostic to people
 that are either high risk or have not been vaccinated.
 
-```json
-{
-    "class": "CampaignEvent",
-    "Start_Day": 100,
-    "Nodeset_Config": {
-        "class": "NodeSetAll"
-    },
-    "Event_Coordinator_Config": {
-        "class": "StandardInterventionDistributionEventCoordinator",
-        "Target_Demographic": "Everyone",
-        "Demographic_Coverage": 0.2,
-        "Targeting_Config": {
-            "class" : "TargetingLogic",
-            "Logic" : [
-                [
-                    {
-                        "class": "HasIntervention",
-                        "Is_Equal_To": 0,
-                        "Intervention_Name": "MyVaccine"
-                    }
-                ],
-                [
-                    {
-                        "class": "HasIP",
-                        "Is_Equal_To": 1,
-                        "IP_Key_Value": "Risk:HIGH"
-                    }
-                ]
-            ]
-        },
-        "Intervention_Config": {
-            "class": "SimpleDiagnostic",
-            "Treatment_Fraction": 1.0,
-            "Base_Sensitivity": 1.0,
-            "Base_Specificity": 1.0,
-            "Event_Or_Config": "Event",
-            "Positive_Diagnosis_Event": "TestedPositive"
-        }
-    }
-}
-```
+[link](../json/parameter-campaign-targeting-config-2.json)
 
 ## HasIntervention
 
@@ -116,13 +47,7 @@ interventions like **BroadcastEvent** since it does not persist.
 
 Select the person if they do NOT have the MyVaccine intervention.
 
-```json
-"Targeting_Config": {
-    "class": "HasIntervention",
-    "Is_Equal_To": 0,
-    "Intervention_Name": "MyVaccine"
-}
-```
+[link](../json/parameter-campaign-targeting-config-3.json)
 
 ## HasIP
 
@@ -143,13 +68,7 @@ This is especially needed when determining if a partner has a particular IP (see
 
 Select the person if their **Risk** property is HIGH.
 
-```json
-"Targeting_Config": {
-    "class": "HasIP",
-    "Is_Equal_To": 1,
-    "IP_Key_Value": "Risk:HIGH"
-}
-```
+[link](../json/parameter-campaign-targeting-config-4.json)
 
 ## TargetingLogic
 
@@ -177,48 +96,10 @@ Select the person if they do not have the MyVaccine intervention OR do not have 
 Notice that **Logic** 2x1 where the first dimention contains two arrays with one JSON object.  These two
 arrays are OR'd together.
 
-```json
-"Targeting_Config": {
-    "class" : "TargetingLogic",
-    "Logic" : [
-        [
-            {
-                "class": "HasIntervention",
-                "Is_Equal_To": 0,
-                "Intervention_Name": "MyVaccine"
-            }
-        ],
-        [
-            {
-                "class": "HasIP",
-                "Is_Equal_To": 0,
-                "IP_Key_Value": "Risk:HIGH"
-            }
-        ]
-    ]
-}
-```
+[link](../json/parameter-campaign-targeting-config-5.json)
 
 Select the person if they do not have the MyVaccine intervention AND do not have their **Risk** property set to HIGH.
 Notice that **Logic** is 1x2 where the first dimension contains a single array with two JSON objects.  These two
 objects are AND'd together.
 
-```json
-"Targeting_Config": {
-    "class" : "TargetingLogic",
-    "Logic" : [
-        [
-            {
-                "class": "HasIntervention",
-                "Is_Equal_To": 0,
-                "Intervention_Name": "MyVaccine"
-            },
-            {
-                "class": "HasIP",
-                "Is_Equal_To": 0,
-                "IP_Key_Value": "Risk:HIGH"
-            }
-        ]
-    ]
-}
-```
+[link](../json/parameter-campaign-targeting-config-6.json)

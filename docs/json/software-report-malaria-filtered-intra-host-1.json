@@ -1,0 +1,18 @@
+{
+    "Reports": [
+        {
+            "class": "ReportMalariaFilteredIntraHost",
+            "Filename_Suffix": "kids_400",
+            "Start_Day": 0,
+            "End_Day": 3.40282e+38,
+            "Node_IDs_Of_Interest": [],
+            "Min_Age_Years": 0,
+            "Max_Age_Years": 10,
+            "Must_Have_IP_Key_Value": "",
+            "Must_Have_Intervention": "",
+            "Has_Interventions": [],
+            "Include_30Day_Avg_Infection_Duration": 1
+        }
+    ],
+    "Use_Defaults": 1
+}

@@ -1,0 +1,5 @@
+"Targeting_Config": {
+    "class": "HasIP",
+    "Is_Equal_To": 1,
+    "IP_Key_Value": "Risk:HIGH"
+}

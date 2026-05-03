@@ -42,34 +42,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-humanhostseekingtrap.csv") }}
 
-```json
-{
-    "Events": [{
-        "class": "CampaignEvent",
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Start_Day": 140,
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Target_Demographic": "Everyone",
-            "Demographic_Coverage": 0.7,
-            "Intervention_Config": {
-                "class": "HumanHostSeekingTrap",
-                "Cost_To_Consumer": 3.75,
-                "Attract_Config": {
-                    "Box_Duration": 3650,
-                    "Initial_Effect": 0.6,
-                    "class": "WaningEffectBox"
-                },
-                "Killing_Config": {
-                    "Box_Duration": 3650,
-                    "Initial_Effect": 0.9,
-                    "class": "WaningEffectBox"
-                }
-            }
-        }
-    }],
-    "Use_Defaults": 1
-}
-```
+[link](../json/parameter-campaign-individual-humanhostseekingtrap.json)

@@ -55,28 +55,7 @@ element on the X chromosome suppresses Y-bearing sperm.
 Genes are defined in the `Genes` array within each species' configuration. Each gene declares a
 set of named alleles with initial population frequencies to be used at simulation initialization.
 
-```json
-"Vector_Species_Params": [
-    {
-        "Name": "gambiae",
-        "Genes": [
-            {
-                "Is_Gender_Gene": 1,
-                "Alleles": [
-                    { "Name": "X", "Initial_Allele_Frequency": 0.75, "Is_Y_Chromosome": 0 },
-                    { "Name": "Y", "Initial_Allele_Frequency": 0.25, "Is_Y_Chromosome": 1 }
-                ]
-            },
-            {
-                "Alleles": [
-                    { "Name": "a0", "Initial_Allele_Frequency": 0.9, "Is_Y_Chromosome": 0 },
-                    { "Name": "a1", "Initial_Allele_Frequency": 0.1, "Is_Y_Chromosome": 0 }
-                ]
-            }
-        ]
-    }
-]
-```
+[link](../json/vector-model-genetics-1.json)
 
 **Gender gene**: If defined, the gender gene must be listed first. It partitions alleles into
 X-chromosome alleles (`Is_Y_Chromosome` = 0 (false)) and Y-chromosome alleles
@@ -252,23 +231,7 @@ involve a variety of mechanisms (point mutations, insertions, deletions, etc.) t
 here into a single probability of one named allele converting to another. Mutations are defined
 per gene:
 
-```json
-"Genes": [
-    {
-        "Alleles": [
-            { "Name": "a0", "Initial_Allele_Frequency": 0.95 },
-            { "Name": "a1", "Initial_Allele_Frequency": 0.05 }
-        ],
-        "Mutations": [
-            {
-                "Mutate_From": "a0",
-                "Mutate_To": "a1",
-                "Probability_Of_Mutation": 0.005
-            }
-        ]
-    }
-]
-```
+[link](../json/vector-model-genetics-2.json)
 
 When gametes are created, each allele has the configured probability of mutating to the specified
 target. The mutation is applied after standard Mendelian segregation but before fertilization.
@@ -292,18 +255,7 @@ simplifies this to direct multipliers on specific traits for specified allele co
 Each modifier specifies one or more `Allele_Combinations` (the genotypes it applies to) and one
 or more `Trait_Modifiers` (the traits it affects and by how much):
 
-```json
-"Gene_To_Trait_Modifiers": [
-    {
-        "Allele_Combinations": [
-            [ "a1", "a1" ]
-        ],
-        "Trait_Modifiers": [
-            { "Trait": "MORTALITY", "Modifier": 1.5 }
-        ]
-    }
-]
-```
+[link](../json/vector-model-genetics-3.json)
 
 In this example, mosquitoes homozygous for `a1` at a given locus have 1.5x the baseline
 mortality rate.

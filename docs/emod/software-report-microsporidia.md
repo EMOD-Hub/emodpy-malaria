@@ -16,16 +16,7 @@ This report is available for `VECTOR_SIM` and `MALARIA_SIM` simulations.
 To generate this report, add the following to the custom_reports.json file. This report has no
 configurable parameters beyond the class name.
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportMicrosporidia"
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-microsporidia.json)
 
 ## Output file data
 

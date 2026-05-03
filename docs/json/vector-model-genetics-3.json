@@ -1,0 +1,10 @@
+"Gene_To_Trait_Modifiers": [
+    {
+        "Allele_Combinations": [
+            [ "a1", "a1" ]
+        ],
+        "Trait_Modifiers": [
+            { "Trait": "MORTALITY", "Modifier": 1.5 }
+        ]
+    }
+]

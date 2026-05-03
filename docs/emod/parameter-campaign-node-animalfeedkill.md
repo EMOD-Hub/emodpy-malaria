@@ -33,28 +33,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-animalfeedkill.csv") }}
 
-```json
-{
-    "Events": [{
-        "class": "CampaignEvent",
-        "Start_Day": 120,
-        "Nodeset_Config": {
-            "class": "NodeSetAlld"
-        },
-        "Event_Coordinator_Config": {
-            "class": "NodeEventCoordinator",
-            "Intervention_Config": {
-                "class": "AnimalFeedKill",
-                "Cost_To_Consumer": 10.0,
-                "Killing_Config": {
-                    "Box_Duration": 100,
-                    "Decay_Time_Constant": 150,
-                    "Initial_Effect": 0.2,
-                    "class": "WaningEffectBoxExponential"
-                }
-            }
-        }
-    }],
-    "Use_Defaults": 1
-}
-```
+[link](../json/parameter-campaign-node-animalfeedkill.json)

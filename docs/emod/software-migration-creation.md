@@ -105,48 +105,6 @@ Avg_Num_Trips_Per_Day_Male, array, The array that lists the average number of tr
 ### Example files
 
 
-```json
-{
-    "IdReference": "ABC",
-    "Interpolation_Type": "PIECEWISE_CONSTANT",
-    "Gender_Data_Type": "ONE_FOR_EACH_GENDER",
-    "Ages_Years": [14.99, 15, 45, 75, 105],
-    "Node_Data": [{
-        "From_Node_ID": 1,
-        "Rate_Data": [{
-            "To_Node_ID": 2,
-            "Avg_Num_Trips_Per_Day_Male": [0.0, 0.1, 0.2, 0.3, 0.0],
-            "Avg_Num_Trips_Per_Day_Female": [0.0, 0.3, 0.2, 0.1, 0.0]
-        }]
-    }, {
-        "From_Node_ID": 2,
-        "Rate_Data": [{
-            "To_Node_ID": 1,
-            "Avg_Num_Trips_Per_Day_Male": [0.0, 0.2, 0.5, 0.3, 0.0],
-            "Avg_Num_Trips_Per_Day_Female": [0.0, 0.5, 0.3, 0.2, 0.0]
-        }]
-    }]
-}
-```
+[link](../json/software-migration-creation-1.json)
 
-```json
-{
-    "IdReference": "ABC",
-    "Interpolation_Type": "PIECEWISE_CONSTANT",
-    "Gender_Data_Type": "ONE_FOR_BOTH_GENDERS",
-    "Ages_Years": [14.99, 15, 45, 75, 105],
-    "Node_Data": [{
-        "From_Node_ID": 1,
-        "Rate_Data": [{
-            "To_Node_ID": 2,
-            "Avg_Num_Trips_Per_Day_Both": [0.0, 0.1, 0.2, 0.3, 0.0]
-        }]
-    }, {
-        "From_Node_ID": 2,
-        "Rate_Data": [{
-            "To_Node_ID": 1,
-            "Avg_Num_Trips_Per_Day_Both": [0.0, 0.2, 0.5, 0.3, 0.0]
-        }]
-    }]
-}
-```
+[link](../json/software-migration-creation-2.json)

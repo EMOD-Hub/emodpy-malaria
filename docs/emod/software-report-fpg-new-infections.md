@@ -28,25 +28,7 @@ Must_Have_Intervention, string, NA, NA, (empty string), "The name of the interve
 Report_Crossover_Data_Instead, boolean, NA, NA, False, "If true (1), instead of reporting new infections in detail, the report will contain basic new infection information with the crossover locations that created this infection's genome."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "Start_Day": 500,
-            "End_Day": 1000,
-            "Filename_Suffix":"Crossovers",
-            "Node_IDs_Of_Interest": [],
-            "Min_Age_Years": 0,
-            "Max_Age_Years": 1000,
-            "Must_Have_IP_Key_Value": "",
-            "Must_Have_Intervention": "",
-            "Report_Crossover_Data_Instead": 1,
-            "class": "ReportFpgNewInfections"
-        },
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-fpg-new-infections.json)
 
 ## Output data with Report_Crossover_Data_Instead = 0
 

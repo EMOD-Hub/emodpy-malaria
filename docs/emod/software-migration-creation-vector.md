@@ -203,18 +203,4 @@ User-created parameter, string, (Informational for user only) Example of a user-
 ### Example
 
 
-```json
-{
-    "Metadata": {
-        "IdReference": "9-nodes",
-        "DateCreated": "Thu Nov 21 17:41:47 2024",
-        "Tool": "convert_csv_to_bin_vector_migration.py",
-        "DatavalueCount": 8,
-        "GenderDataType": "VECTOR_MIGRATION_BY_GENETICS",
-        "AlleleCombinations": [[], [["X1","Y2"]], [["a1","a1"], ["b1","b0"], ["X1","X1"]], [["*","a0"], ["X1","Y1"]], [["a1","a1"],["b1","b1"]]],
-        "NodeCount": 3,
-        "Project": "Migration based on Dr. Acula research."
-    },
-    "NodeOffsets": "0000000500000000000000010000006000000003000000C0"
-}
-```
+[link](../json/software-migration-creation-vector.json)

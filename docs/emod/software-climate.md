@@ -68,23 +68,7 @@ UpdateResolution, enum, "The time resolution of the climate file. Available valu
 
 An example of climate by data metadata is as follows:
 
-```json
-{
-    "Metadata": {
-        "DateCreated": "Sun Sep 25 19:02:09 2011",
-        "Tool": "createclimateheader.py",
-        "Author": "authorName",
-        "IdReference": "Gridded world grump2.5arcmin",
-        "NodeCount": 1,
-        "DatavalueCount": 3650,
-        "UpdateResolution": "CLIMATE_UPDATE_DAY",
-        "OriginalDataYears": "1990-1993",
-        "StartDayOfYear": "January 1",
-        "DataProvenance": "47 consecutive months of data were used to generate one average year of data that is repeated for 10 years"
-    },
-    "NodeOffsets": "144B07A400000000"
-}
-```
+[link](../json/software-climate-1.json)
 
 ### Binary file
 
@@ -125,19 +109,7 @@ NodeCount, integer, The number of nodes to expect in this file.
 
 An example of climate by Koppen metadata is as follows:
 
-```json
-{
-    "Metadata": {
-        "DateCreated": "Sun Sep 25 19:08:52 2011",
-        "Tool": "createclimateheader.py",
-        "Author": "authorName",
-        "IdReference": "Gridded world grump2.5arcmin",
-        "NodeCount": 2,
-        "DataProvenance": "Köppen-Geiger Classification System from http://koeppen-geiger.vu-wien.ac.at/"
-    },
-    "NodeOffsets": "157D075200000000157E07520000000"
-}
-```
+[link](../json/software-climate-2.json)
 
 ### Binary file
 

@@ -1,0 +1,19 @@
+{
+    "Reports": [
+        {
+            "Species_List": [
+                "arabiensis",
+                "funestus"
+            ],
+            "Stratify_By_Species": 1,
+            "Include_Wolbachia_Columns": 0,
+            "Include_Gestation_Columns": 1,
+            "Barcodes": [
+                "AAAAAA",
+                "AAAATTA"
+            ],
+            "class": "ReportVectorStatsMalariaGenetics"
+        }
+    ],
+    "Use_Defaults": 1
+}

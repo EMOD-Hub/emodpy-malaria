@@ -1,0 +1,28 @@
+{
+    "Events": [
+        {
+            "class": "CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Day": 120,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Number_Repetitions": 5,
+                "Target_Demographic": "Everyone",
+                "Timesteps_Between_Repetitions": 3,
+                "Demographic_Coverage": 0.8,
+                "Intervention_Config": {
+                    "class": "Ivermectin",
+                    "Cost_To_Consumer": 1,
+                    "Killing_Config": {
+                        "Box_Duration": 3,
+                        "Initial_Effect": 1,
+                        "class": "WaningEffectBox"
+                    }
+                }
+            }
+        }
+    ],
+    "Use_Defaults": 1
+}

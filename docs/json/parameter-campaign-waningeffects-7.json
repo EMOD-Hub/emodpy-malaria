@@ -1,0 +1,13 @@
+{
+    "Intervention_Config": {
+        "class": "AdherentDrug",
+        "Waning_Config": {
+            "class": "WaningEffectMapCount",
+            "Initial_Effect": 1.0,
+            "Durability_Map": {
+                "Times": [1.0, 2.0, 3.0, 4.0],
+                "Values": [0.4, 0.3, 0.2, 0.1]
+            }
+        }
+    }
+}

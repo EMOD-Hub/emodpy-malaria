@@ -50,28 +50,7 @@ effect (the allele survives uncut).
 ## Configuration example
 
 
-```json
-"Maternal_Deposition": [
-    {
-        "Cas9_gRNA_From": "Cd",
-        "Allele_To_Cut": "Aw",
-        "Likelihood_Per_Cas9_gRNA_From": [
-            {
-                "Cut_To_Allele": "Aw",
-                "Likelihood": 0.8
-            },
-            {
-                "Cut_To_Allele": "Am",
-                "Likelihood": 0.15
-            },
-            {
-                "Cut_To_Allele": "Ax",
-                "Likelihood": 0.05
-            }
-        ]
-    }
-]
-```
+[link](../json/vector-model-maternal-deposition-1.json)
 
 In this example, we have a maternal deposition derived from an [INTEGRAL_AUTONOMOUS](#integral-autonomous-drive) drive.
 When a mother carries the drive allele `Cd`, the wild-type allele `Aw` in the gametes has a
@@ -117,59 +96,7 @@ The following example shows a complete configuration including the gene, driver,
 deposition for an *An. gambiae* population with a classic gene drive and maternal Cas9
 deposition.
 
-```json
-{
-    "Vector_Species_Params": [
-        {
-            "Name": "gambiae",
-            "Genes": [
-                {
-                    "Is_Gender_Gene": 1,
-                    "Alleles": [
-                        { "Name": "X", "Initial_Allele_Frequency": 0.5, "Is_Y_Chromosome": 0 },
-                        { "Name": "Y", "Initial_Allele_Frequency": 0.5, "Is_Y_Chromosome": 1 }
-                    ]
-                },
-                {
-                    "Is_Gender_Gene": 0,
-                    "Alleles": [
-                        { "Name": "Aw", "Initial_Allele_Frequency": 0.95, "Is_Y_Chromosome": 0 },
-                        { "Name": "Ad", "Initial_Allele_Frequency": 0.05, "Is_Y_Chromosome": 0 },
-                        { "Name": "Am", "Initial_Allele_Frequency": 0.0, "Is_Y_Chromosome": 0 }
-                    ]
-                }
-            ],
-            "Drivers": [
-                {
-                    "Driving_Allele": "Ad",
-                    "Driver_Type": "CLASSIC",
-                    "Alleles_Driven": [
-                        {
-                            "Allele_To_Copy": "Ad",
-                            "Allele_To_Replace": "Aw",
-                            "Copy_To_Likelihood": [
-                                { "Copy_To_Allele": "Ad", "Likelihood": 0.95 },
-                                { "Copy_To_Allele": "Aw", "Likelihood": 0.03 },
-                                { "Copy_To_Allele": "Am", "Likelihood": 0.02 }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            "Maternal_Deposition": [
-                {
-                    "Cas9_gRNA_From": "Ad",
-                    "Allele_To_Cut": "Aw",
-                    "Likelihood_Per_Cas9_gRNA_From": [
-                        { "Cut_To_Allele": "Aw", "Likelihood": 0.8 },
-                        { "Cut_To_Allele": "Am", "Likelihood": 0.2 }
-                    ]
-                }
-            ]
-        }
-    ]
-}
-```
+[link](../json/vector-model-maternal-deposition-2.json)
 
 ## Validation rules
 

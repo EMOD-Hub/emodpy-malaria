@@ -23,33 +23,7 @@ required parameters for each object). Note that the nested JSON elements have be
 illustrate their hierarchy, but that many files in the EMOD GitHub
 repository list the parameters and nested objects differently.
 
-```json
-{
-    "Campaign_Name": "Campaign example",
-    "Use_Defaults": 1,
-    "Events": [{
-        "Event_Name": "The first event",
-        "class": "CampaignEvent",
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Intervention_Config": {
-                "Intervention_Name": "The vaccine",
-                "class": "SimpleVaccine"
-            }
-        }
-    }, {
-        "Event_Name": "The second event",
-        "class": "CampaignEvent",
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Intervention_Config": {
-                "Intervention_Name": "The disease outbreak",
-                "class": "OutbreakIndividual"
-            }
-        }
-    }]
-}
-```
+[link](../json/parameter-campaign.json)
 
 The topics below contain only parameters available when using the malaria *simulation type*.
 

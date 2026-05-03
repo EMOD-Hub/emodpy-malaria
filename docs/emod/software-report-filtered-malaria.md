@@ -26,26 +26,7 @@ To generate this report, the following parameters must be configured in the cust
 **Include_30Day_Avg_Infection_Duration**, boolean, NA, NA, 1, "If set to true (1), the 30-Day Avg Infection channel is included in the report."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportMalariaFiltered",
-            "Filename_Suffix": "AllNodes",
-            "Start_Day": 365,
-            "End_Day": 1000,
-            "Node_IDs_Of_Interest": [],
-            "Min_Age_Years": 5,
-            "Max_Age_Years": 10,
-            "Must_Have_IP_Key_Value": "Risk:HIGH",
-            "Must_Have_Intervention": "UsageDependentBednet",
-            "Has_Interventions": ["SimpleVaccine","IRSHousingModification"],
-            "Include_30Day_Avg_Infection_Duration": 1
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-filtered-malaria.json)
 
 ## Output file data
 

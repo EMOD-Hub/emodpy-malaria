@@ -50,36 +50,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-multiinsecticideirshousingmodification.csv") }}
 
-```json
-{
-    "class": "MultiInsecticideIRSHousingModification",
-    "Cost_To_Consumer": 1.0,
-    "Insecticides": [{
-            "Insecticide_Name": "pyrethroid",
-            "Repelling_Config": {
-                "Box_Duration": 300,
-                "Initial_Effect": 0.25,
-                "class": "WaningEffectBox"
-            },
-            "Killing_Config": {
-                "Box_Duration": 300,
-                "Initial_Effect": 1.0,
-                "class": "WaningEffectBox"
-            }
-        },
-        {
-            "Insecticide_Name": "carbamate",
-            "Repelling_Config": {
-                "Box_Duration": 300,
-                "Initial_Effect": 0.25,
-                "class": "WaningEffectBox"
-            },
-            "Killing_Config": {
-                "Box_Duration": 300,
-                "Initial_Effect": 1.0,
-                "class": "WaningEffectBox"
-            }
-        }
-    ]
-}
-```
+[link](../json/parameter-campaign-individual-multiinsecticideirshousingmodification.json)

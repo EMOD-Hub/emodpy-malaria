@@ -38,29 +38,4 @@ example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-multiinsecticideindoorspacespraying.csv") }}
 
-```json
-{
-    "class": "MultiInsecticideIndoorSpaceSpraying",
-    "Cost_To_Consumer": 1.0,
-    "Spray_Coverage": 1.0,
-    "Insecticides": [{
-            "Insecticide_Name": "pyrethroid_homo",
-            "Killing_Config": {
-                "Box_Duration": 100,
-                "Decay_Time_Constant": 150,
-                "Initial_Effect": 0.95,
-                "class": "WaningEffectBoxExponential"
-            }
-        },
-        {
-            "Insecticide_Name": "carbamate_homo",
-            "Killing_Config": {
-                "Box_Duration": 100,
-                "Decay_Time_Constant": 150,
-                "Initial_Effect": 0.95,
-                "class": "WaningEffectBoxExponential"
-            }
-        }
-    ]
-}
-```
+[link](../json/parameter-campaign-node-multiinsecticideindoorspacespraying.json)

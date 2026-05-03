@@ -53,20 +53,7 @@ Tool, string, The script used to create the file.
 ### Example
 
 
-```json
-{
-    "Metadata": {
-        "Author": "JDoe",
-        "Tool": "convert_txt_to_bin.py",
-        "IdReference": "Household-Scenario-Small",
-        "DateCreated": "Fri Aug 21 08:20:26 2015",
-        "NodeCount": 7,
-        "MigrationType": "LOCAL_MIGRATION",
-        "DatavalueCount": 8
-    },
-    "NodeOffsets": "0000000100000000000000020000006000000003000000C00000000400000120000000050000018000000006000001E00000000700000240"
-}
-```
+[link](../json/software-migration-1.json)
 
 ### By Gender By Age Migration File Parameters
 
@@ -102,28 +89,7 @@ Tool, string, The script used to create the file.
 ### Example
 
 
-```json
-{
-    "Metadata": {
-        "Tool": "PythonApplication1.py", 
-        "IdReference": "ABC", 
-        "DateCreated": "Wed Dec  2 14:08:48 2015", 
-        "InterpolationType": "PIECEWISE_CONSTANT", 
-        "GenderDataType": "SAME_FOR_BOTH_GENDERS", 
-        "NodeCount": 4, 
-        "MigrationType": "LOCAL_MIGRATION", 
-        "AgesYears": [
-            14.99, 
-            15, 
-            45, 
-            75, 
-            105
-        ], 
-        "DatavalueCount": 3
-    }, 
-    "NodeOffsets": "000000010000000000000002000000240000000300000048000000040000006C"
-}
-```
+[link](../json/software-migration-2.json)
 
 
 ## Binary file

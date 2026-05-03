@@ -43,26 +43,7 @@ A few important details to call out when creating JSON files:
 
 The following is an example of a JSON formatted file.
 
-```json
-{
-    "A_Complex_Key": {
-        "An_Array_with_a_Nested_Object_Value": [
-            {
-                "A_Simple_Key": "Value",
-                "A_Simple_Array": [ "Value1", "Value2" ],
-                "An_Array_with_Number_Values": [ 0.1, 0.2 ],
-                "A_Nested_Object": {
-                    "Another_Simple_Key": "Value",
-                    "Nested_Arrays": [
-                        [ 10, 0.1 ],
-                        [ 0.1, 1 ]
-                    ]
-                }
-            }
-        ]
-    }
-}
-```
+[link](../json/parameter-overview.json)
 
 ## JSON resources
 

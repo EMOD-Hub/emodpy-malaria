@@ -1,0 +1,9 @@
+{
+    "Dose_Interval": 2,
+    "Doses": [
+        [ "DrugA", "DrugA", "DrugB" ],
+        [ "DrugA"                   ],
+        [ "DrugA",          "DrugB" ],
+        [ "DrugA"                   ]
+    ]
+}

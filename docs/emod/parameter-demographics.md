@@ -25,36 +25,7 @@ than actual modeling of disease.
 Demographics files are organized into four main sections: **Metadata**, **NodeProperties**,
 **Defaults**, and **Nodes**. The following example shows the skeletal format of a demographics file.
 
-```json
-{
-     "Metadata": {
-          "DateCreated": "dateTime",
-          "Tool": "scriptUsedToGenerate",
-          "Author": "author",
-          "IdReference": "Gridded world grump2.5arcmin",
-          "NodeCount": 2
-     },
-     "NodeProperties": [
-          {}
-     ],
-     "Defaults": {
-          "NodeAttributes": {},
-          "IndividualAttributes": {},
-          "IndividualProperties": {},
-     },
-     "Nodes": [{
-          "NodeID": 1,
-          "NodeAttributes": {},
-          "IndividualAttributes": {},
-          "IndividualProperties": {},
-     }, {
-          "NodeID": 2,
-          "NodeAttributes": {},
-          "IndividualAttributes": {},
-          "IndividualProperties": {},
-     }]
-}
-```
+[link](../json/parameter-demographics.json)
 
 All parameters except those in the **Metadata** and **NodeProperties** sections below can appear in
 either the **Defaults** section or the **Nodes** section of the demographics file. Parameters under

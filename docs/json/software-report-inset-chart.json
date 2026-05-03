@@ -1,0 +1,138 @@
+{
+    "Header": {
+        "DateTime": "Thu Jun 10 07:01:07 2021",
+        "DTK_Version": "0 unknown-branch (unknown) Jun  9 2021 11:19:20",
+        "Report_Type": "InsetChart",
+        "Report_Version": "3.2",
+        "Start_Time": 0,
+        "Simulation_Timestep": 1,
+        "Timesteps": 2850,
+        "Channels": 31
+    },
+    "Channels": {
+        "30-day Avg Infection Duration": {
+            "Units": "Days",
+            "Data": [3729.955566406, 3697.680664063, 3650.832519531, 3629.385742188, 3646.3359375]
+        },
+        "Adult Vectors": {
+            "Units": "Average Count/Node",
+            "Data": [1027.041625977, 1027.176391602, 1027.213378906, 1026.593139648, 1026.565429688]
+        },
+        "Air Temperature": {
+            "Units": "degrees Celsius",
+            "Data": [22, 22, 22, 22, 22]
+        },
+        "Avg Num Infections": {
+            "Units": "Count",
+            "Data": [2.812913894653, 2.819536447525, 2.817204236984, 2.809917449951, 2.80363035202]
+        },
+        "Births": {
+            "Units": "Count",
+            "Data": [2515, 2515, 2517, 2520, 2521]
+        },
+        "Blood Smear Gametocyte Prevalence": {
+            "Units": "Fraction Detected Infected",
+            "Data": [0.1729622334242, 0.1707532554865, 0.1703867465258, 0.1688397824764, 0.1727031767368]
+        },
+        "Blood Smear Parasite Prevalence": {
+            "Units": "Fraction Detected Infected",
+            "Data": [0.2233267128468, 0.2217804342508, 0.223646402359, 0.2238674014807, 0.2206272035837]
+        },
+        "Campaign Cost": {
+            "Units": "USD",
+            "Data": [5486.75, 5488.75, 5490.75, 5494.75, 5498.75]
+        },
+        "Daily Bites per Human": {
+            "Units": "Bites/Day/Human",
+            "Data": [113.6352996826, 113.5904541016, 113.3630905151, 113.5420913696, 113.4094543457]
+        },
+        "Daily EIR": {
+            "Units": "Infectious Bites/Day",
+            "Data": [0.3297989964485, 0.3540976345539, 0.3334806859493, 0.3672928214073, 0.3440812528133]
+        },
+        "Disease Deaths": {
+            "Units": "Count",
+            "Data": [0, 0, 0, 0, 0]
+        },
+        "Fever Prevalence": {
+            "Units": "Fraction Detected Infected",
+            "Data": [0.008614976890385, 0.008614976890385, 0.008839778602123, 0.005966851022094, 0.005962897557765]
+        },
+        "Human Infectious Reservoir": {
+            "Units": "Infectivity/Person",
+            "Data": [0.005706539843231, 0.005738727282733, 0.005730483215302, 0.005793820600957, 0.005701572168618]
+        },
+        "Infected": {
+            "Units": "Infected Fraction",
+            "Data": [0.2666224837303, 0.2668433785439, 0.2669613361359, 0.2671823203564, 0.2672261595726]
+        },
+        "Infectious Vectors": {
+            "Units": "Infectious Fraction",
+            "Data": [0.00372875877656, 0.003818936413154, 0.003874097252265, 0.003857779549435, 0.003872038796544]
+        },
+        "Land Temperature": {
+            "Units": "degrees Celsius",
+            "Data": [26, 26, 26, 26, 26]
+        },
+        "Log Prevalence": {
+            "Units": "Log Prevalence",
+            "Data": [-0.5741032361984, -0.5737435817719, -0.5735516548157, -0.5731922984123, -0.5731210112572]
+        },
+        "Mean Parasitemia": {
+            "Units": "Geo. mean parasites/microliter",
+            "Data": [409.4178161621, 426.9133300781, 387.6334228516, 402.7696838379, 379.7192382813]
+        },
+        "New Clinical Cases": {
+            "Units": "Count",
+            "Data": [9, 13, 9, 7, 5]
+        },
+        "New Infections": {
+            "Units": "Count",
+            "Data": [32, 31, 25, 17, 21]
+        },
+        "New Severe Cases": {
+            "Units": "Count",
+            "Data": [ 0, 0, 0, 3, 1]
+        },
+        "Newly Symptomatic": {
+            "Units": "Count",
+            "Data": [19, 15, 16, 5, 11]
+        },
+        "PCR Gametocyte Prevalence": {
+            "Units": "% Detected Infected",
+            "Data": [0.2491716295481, 0.2476253658533, 0.2495027631521, 0.2466298341751, 0.2495582997799]
+        },
+        "PCR Parasite Prevalence": {
+            "Units": "% Detected Infected",
+            "Data": [0.2540313601494, 0.2529268860817, 0.2519336938858, 0.2514917254448, 0.2526501715183]
+        },
+        "PfHRP2 Prevalence": {
+            "Units": "% Detected Infected",
+            "Data": [0.248729839921, 0.2491716295481, 0.2481767982244, 0.2497237622738, 0.25]
+        },
+        "Rainfall": {
+            "Units": "mm/day",
+            "Data": [9.999994277954, 9.999994277954, 9.999994277954, 9.999994277954, 9.999994277954]
+        },
+        "Relative Humidity": {
+            "Units": "",
+            "Data": [0.75, 0.75, 0.75, 0.75, 0.75]
+        },
+        "Statistical Population": {
+            "Units": "Population",
+            "Data": [4527, 4527, 4525, 4525, 4528]
+        },
+        "Symptomatic Population": {
+            "Units": "Count",
+            "Data": [0, 0, 0, 0, 0]
+        },
+        "True Prevalence": {
+            "Units": "% Detected Infected",
+            "Data": [0.2622045576572, 0.2622045576572, 0.2618784606457, 0.2616574466228, 0.2617049515247]
+        },
+        "Variant Fraction-PfEMP1 Major": {
+            "Units": "Fraction",
+            "Data": [0.1735506355762, 0.1736092269421, 0.1737322509289, 0.1737831532955, 0.173709705472]
+        }
+    }
+}

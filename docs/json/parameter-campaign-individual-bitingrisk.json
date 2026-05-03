@@ -1,0 +1,7 @@
+{
+  "Intervention_Config": {
+    "class": "BitingRisk",
+    "Risk_Distribution": "CONSTANT_DISTRIBUTION",
+    "Risk_Constant": 0.1
+  }
+}

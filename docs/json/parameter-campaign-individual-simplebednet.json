@@ -1,0 +1,38 @@
+{
+    "Events": [{
+        "class": "CampaignEvent",
+        "Nodeset_Config": {
+            "class": "NodeSetAll"
+        },
+        "Start_Day": 1460,
+        "Event_Coordinator_Config": {
+            "class": "StandardInterventionDistributionEventCoordinator",
+            "Target_Demographic": "Everyone",
+            "Demographic_Coverage": 0.7,
+            "Intervention_Config": {
+                "class": "SimpleBednet",
+                "Cost_To_Consumer": 3.75,
+                "Repelling_Config": {
+                    "Initial_Effect": 0.1,
+                    "Decay_Time_Constant": 730,
+                    "class": "WaningEffectExponential"
+                },
+                "Killing_Config": {
+                    "Initial_Effect": 0.6,
+                    "Decay_Time_Constant": 1460,
+                    "class": "WaningEffectExponential"
+                },
+                "Blocking_Config": {
+                    "Initial_Effect": 0.9,
+                    "Decay_Time_Constant": 730,
+                    "class": "WaningEffectExponential"
+                },
+                "Usage_Config": {
+                    "class": "WaningEffectConstant",
+                    "Initial_Effect": 1.0
+                }
+            }
+        }
+    }],
+    "Use_Defaults": 1
+}

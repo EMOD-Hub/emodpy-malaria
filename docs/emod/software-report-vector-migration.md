@@ -24,26 +24,7 @@ To generate the report, configure the following parameters in the custom_reports
 **Filename_Suffix**, string, NA, NA, (empty string), "Augments the filename of the report. If multiple reports are being generated, this allows you to distinguish among the multiple reports."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportVectorMigration",
-            "Start_Day": 366.0,
-            "End_Day": 375.0,
-            "Include_Genome_Data": 1,
-            "Must_Be_In_State": ["STATE_INFECTIOUS", "STATE_INFECTED"],
-            "Must_Be_From_Node": [23, 24],
-            "Must_Be_To_Node": [23, 24],
-            "Species_List": [
-                "funestus"
-            ],
-            "Filename_Suffix": "funestus"
-        },
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-vector-migration.json)
 
 ## Report structure and data channel descriptions
 

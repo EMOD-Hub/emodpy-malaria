@@ -1,0 +1,53 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "gambiae",
+            "Genes": [
+                {
+                    "Is_Gender_Gene": 0,
+                    "Alleles": [
+                        { "Name": "wt", "Initial_Allele_Frequency": 0.95, "Is_Y_Chromosome": 0 },
+                        { "Name": "kdr", "Initial_Allele_Frequency": 0.05, "Is_Y_Chromosome": 0 }
+                    ]
+                }
+            ],
+            "Gene_To_Trait_Modifiers": [
+                {
+                    "Allele_Combinations": [
+                        [ "kdr", "kdr" ]
+                    ],
+                    "Trait_Modifiers": [
+                        { "Trait": "MORTALITY", "Modifier": 1.1 }
+                    ]
+                }
+            ]
+        }
+    ],
+    "Insecticides": [
+        {
+            "Name": "pyrethroid",
+            "Resistances": [
+                {
+                    "Species": "gambiae",
+                    "Allele_Combinations": [
+                        [ "kdr", "kdr" ]
+                    ],
+                    "Killing_Modifier": 0.1,
+                    "Blocking_Modifier": 0.8,
+                    "Repelling_Modifier": 1.0,
+                    "Larval_Killing_Modifier": 0.3
+                },
+                {
+                    "Species": "gambiae",
+                    "Allele_Combinations": [
+                        [ "kdr", "*" ]
+                    ],
+                    "Killing_Modifier": 0.5,
+                    "Blocking_Modifier": 0.9,
+                    "Repelling_Modifier": 1.0,
+                    "Larval_Killing_Modifier": 0.6
+                }
+            ]
+        }
+    ]
+}

@@ -20,21 +20,7 @@ To generate this report, configure the following parameters in the custom_report
 **Start_Day**, float, 0, 3.40E+38, 0, "The day to start collecting data."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "Include_Drug_Status_Table": 1,
-            "Include_Health_Table": 1,
-            "Include_Infection_Data_Table": 1,
-            "Start_Day": 100,
-            "End_Day": 900,
-            "class": "SqlReportMalariaGenetics"
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-sql-malaria-genetics.json)
 
 ## SQL database and table structures
 

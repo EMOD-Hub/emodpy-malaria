@@ -1,0 +1,20 @@
+"Maternal_Deposition": [
+    {
+        "Cas9_gRNA_From": "Cd",
+        "Allele_To_Cut": "Aw",
+        "Likelihood_Per_Cas9_gRNA_From": [
+            {
+                "Cut_To_Allele": "Aw",
+                "Likelihood": 0.8
+            },
+            {
+                "Cut_To_Allele": "Am",
+                "Likelihood": 0.15
+            },
+            {
+                "Cut_To_Allele": "Ax",
+                "Likelihood": 0.05
+            }
+        ]
+    }
+]

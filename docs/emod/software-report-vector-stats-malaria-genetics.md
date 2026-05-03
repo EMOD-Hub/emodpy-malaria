@@ -24,27 +24,7 @@ To generate this report, the following parameters must be configured in the cust
 **Barcodes**, array of strings, NA, NA, empty list, "A list of barcode strings where a column will be created with the number of vectors with sporozoites with that barcode. Use '*' for a wild card. An **OtherBarcodes** column will be created for those not defined."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "Species_List": [
-                "arabiensis",
-                "funestus"
-            ],
-            "Stratify_By_Species": 1,
-            "Include_Wolbachia_Columns": 0,
-            "Include_Gestation_Columns": 1,
-            "Barcodes": [
-                "AAAAAA",
-                "AAAATTA"
-            ],
-            "class": "ReportVectorStatsMalariaGenetics"
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-vector-stats-malaria-genetics.json)
 
 ## Output file data
 

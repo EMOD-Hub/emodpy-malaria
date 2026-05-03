@@ -20,18 +20,7 @@ To generate this report, configure the following parameters in the custom_report
 **Start_Day**, float, 0, 3.40E+38, 0, The day to start collecting data for the report.
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "Start_Day": 300,
-            "End_Day": 900,
-            "class": "ReportDrugStatus"
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-drug-status.json)
 
 ## Output data
 

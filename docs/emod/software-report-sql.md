@@ -23,20 +23,7 @@ Start_Day, float, 0, 3.40E+38, 0, "The day to start collecting data."
 End_Day, float, 0, 3.40E+38, 3.40E+38, "The day to stop collecting data."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "SqlReport",
-            "Include_Health_Table": 1,
-            "Include_Infection_Data_Table": 1,
-            "Start_Day": 100,
-            "End_Day": 900
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-sql.json)
 
 ## SQL database and table structures
 

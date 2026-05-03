@@ -1,0 +1,31 @@
+{
+    "class": "CampaignEvent",
+    "Start_Day": 30,
+    "Nodeset_Config": {
+        "class": "NodeSetNodeList",
+        "Node_List": [7]
+    },
+    "Event_Coordinator_Config": {
+        "class": "StandardInterventionDistributionEventCoordinator",
+        "Number_Repetitions": 1,
+        "Timesteps_Between_Repetitions": 0,
+        "Target_Demographic": "Everyone",
+        "Demographic_Coverage": 1,
+        "Intervention_Config": {
+            "class": "MultiPackComboDrug",
+            "Dont_Allow_Duplicates": 0,
+            "Cost_To_Consumer": 1,
+            "Dose_Interval": 12,
+            "Doses": [
+                ["TestDrugA", "TestDrugA", "TestDrugB"],
+                ["TestDrugBA"],
+                ["TestDrugA", "TestDrugB"],
+                ["TestDrugBA"],
+                ["TestDrugAB"],
+                [],
+                ["TestDrugAB"]
+            ]
+
+        }
+    }
+}

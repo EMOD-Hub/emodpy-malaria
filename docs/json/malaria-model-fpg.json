@@ -1,0 +1,36 @@
+"Malaria_Drug_Params": [
+    {
+        "Name": "Artemether",
+        "PKPD_Model": "CONCENTRATION_VERSUS_TIME",
+        "Bodyweight_Exponent": 1.0,
+        "Drug_Cmax": 114.0,
+        "Drug_Decay_T1": 0.12,
+        "Drug_Decay_T2": 0.12,
+        "Drug_Dose_Interval": 0.5,
+        "Drug_Fulltreatment_Doses": 6.0,
+        "Drug_Gametocyte02_Killrate": 2.5,
+        "Drug_Gametocyte34_Killrate": 1.5,
+        "Drug_GametocyteM_Killrate": 0.7,
+        "Drug_Hepatocyte_Killrate": 0,
+        "Drug_PKPD_C50": 0.6,
+        "Drug_Vd": 1.0,
+        "Max_Drug_IRBC_Kill": 8.9,
+        "Fractional_Dose_By_Upper_Age": [
+            {"Fraction_Of_Adult_Dose": 0.25, "Upper_Age_In_Years": 3.0},
+            {"Fraction_Of_Adult_Dose": 0.5,  "Upper_Age_In_Years": 6.0},
+            {"Fraction_Of_Adult_Dose": 0.75, "Upper_Age_In_Years": 10.0}
+        ],
+        "Resistances": [
+            {
+                "Drug_Resistant_String": "T*",
+                "PKPD_C50_Modifier": 1.0,
+                "Max_IRBC_Kill_Modifier": 0.05
+            },
+            {
+                "Drug_Resistant_String": "*A",
+                "PKPD_C50_Modifier": 0.44,
+                "Max_IRBC_Kill_Modifier": 0.77
+            }
+        ]
+    }
+]

@@ -27,26 +27,7 @@ The following parameters need to be configured to generate the report:
 **Event_Trigger_List**, list of strings, NA, NA, NA, "The list of event triggers for the events included in the report.  There will be a channel in the report for each event."
 ```
 
-```json
-{
-    "Reports": [{
-        "class": "ReportEventCounter",
-        "Filename_Suffix": "Node1",
-        "Start_Day": 365,
-        "End_Day": 465,
-        "Node_IDs_Of_Interest": [ 1 ],
-        "Min_Age_Years": 5,
-        "Max_Age_Years": 10,
-        "Must_Have_IP_Key_Value": "Risk:HIGH",
-        "Must_Have_Intervention": "SimpleVaccine",
-        "Event_Trigger_List": [
-            "NewInfectionEvent",
-            "NewClinicalCase"
-        ]
-    }],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-event-counter-1.json)
 
 ## Header
 
@@ -79,51 +60,4 @@ Units, string, "Empty string, but it is the 'event count'."
 
 The following is an example of ReportEventCounter.json.
 
-```json
-{
-    "Header": {
-        "Channels": 4,
-        "DTK_Version": "4148 Malaria-Ongoing (bb265ad) May 16 2019 09:39:35",
-        "DateTime": "Tue Mar 12 15:16:08 2019",
-        "Report_Type": "InsetChart",
-        "Report_Version": "3.2",
-        "Simulation_Timestep": 1,
-        "Start_Time": 0,
-        "Timesteps": 3
-    },
-    "Channels": {
-        "Births": {
-            "Data": [
-                0,
-                1,
-                1
-            ],
-            "Units": ""
-        },
-        "EveryUpdate": {
-            "Data": [
-                1000,
-                1001,
-                1002
-            ],
-            "Units": ""
-        },
-        "NewInfectionEvent": {
-            "Data": [
-                110,
-                0,
-                2
-            ],
-            "Units": ""
-        },
-        "NonDiseaseDeaths": {
-            "Data": [
-                0,
-                0,
-                0
-            ],
-            "Units": ""
-        }
-    }
-}
-```
+[link](../json/software-report-event-counter-2.json)

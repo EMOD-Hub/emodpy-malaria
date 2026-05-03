@@ -34,25 +34,7 @@ To generate this report, configure the following parameters in the custom_report
     A row is only written if every enabled column meets its corresponding threshold. If any
     enabled threshold is not met, the entire row is omitted.
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportInfectionStatsMalaria",
-            "Start_Day": 3860,
-            "End_Day": 3880,
-            "Reporting_Interval": 1,
-            "Include_Column_Hepatocyte": 1,
-            "Include_Column_IRBC": 1,
-            "Include_Column_Gametocyte": 1,
-            "Include_Data_Threshold_Hepatocytes": 0,
-            "Include_Data_Threshold_IRBC": 0,
-            "Include_Data_Threshold_Gametocytes": 0
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-infection-stats-malaria.json)
 
 ## Output file data
 

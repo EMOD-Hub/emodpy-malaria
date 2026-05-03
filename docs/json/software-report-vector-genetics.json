@@ -1,0 +1,71 @@
+{
+    "Reports": [{
+            "class": "ReportVectorGenetics",
+            "Species": "arabiensis2",
+            "Gender": "VECTOR_FEMALE",
+            "Stratify_By": "GENOME",
+            "Start_Day": 365,
+            "End_Day": 465,
+            "Filename_Suffix": "Node1",
+            "Node_IDs_Of_Interest": [ 1 ]
+        },
+        {
+            "class": "ReportVectorGenetics",
+            "Species": "arabiensis2",
+            "Gender": "VECTOR_BOTH_GENDERS",
+            "Stratify_By": "ALLELE_FREQ",
+            "Alleles_For_Stratification" : [ "a0", "a1", "b0", "b1" ],
+            "Filename_Suffix": "Test67"
+        },
+        {
+            "class": "ReportVectorGenetics",
+            "Species": "arabiensis2",
+            "Gender": "VECTOR_FEMALE",
+            "Stratify_By": "ALLELE",
+            "Allele_Combinations_For_Stratification": [
+                [ "a0", "b0" ],
+                [ "a1", "b1" ]
+            ],
+            "Include_Vector_State_Columns": 0
+        },
+        {
+            "class": "ReportVectorGenetics",
+            "Species": "arabiensis2",
+            "Stratify_By": "SPECIFIC_GENOME",
+            "Gender": "VECTOR_FEMALE",
+            "Specific_Genome_Combinations_For_Stratification": [
+                {
+                    "Allele_Combination": [
+                        [  "X",  "X" ],
+                        [ "a0",  "*" ],
+                        [ "b1", "b0" ]
+                    ]
+                },
+                {
+                    "Allele_Combination": [
+                        [  "X",  "X" ],
+                        [ "a1", "a0" ],
+                        [ "b0",  "*" ]
+                    ]
+                },
+                {
+                    "Allele_Combination": [
+                        [  "X",  "X" ],
+                        [ "a1",  "*" ],
+                        [ "b1", "b0" ]
+                    ]
+                },
+                {
+                    "Allele_Combination": [
+                        [  "X",  "X" ],
+                        [ "a1", "a0" ],
+                        [ "b1",  "*" ]
+                    ]
+                }
+            ],
+            "Combine_Similar_Genomes": 1,
+            "Include_Vector_State_Columns": 1
+        }
+    ],
+    "Use_Defaults": 1
+}

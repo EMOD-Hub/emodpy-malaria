@@ -1,0 +1,16 @@
+"Drivers": [
+    {
+        "Driver_Type": "CLASSIC",
+        "Driving_Allele": "drive_a",
+        "Alleles_Driven": [
+            {
+                "Allele_To_Copy": "drive_a",
+                "Allele_To_Replace": "wild_a",
+                "Copy_To_Likelihood": [
+                    { "Copy_To_Allele": "drive_a", "Likelihood": 0.95 },
+                    { "Copy_To_Allele": "resist_a", "Likelihood": 0.05 }
+                ]
+            }
+        ]
+    }
+]

@@ -29,23 +29,7 @@ To generate this report, the following parameters must be configured in the cust
 **Include_Human_To_Vector_Transmission**, boolean, NA, NA, 0, "If set to true (1), Human-to-Vector transmission events will be included. One can identify these events because the 'acquireIndividualId'=0 and transmitTime=acquireTime. WARNING: This can make the file size quite large."
 ```
 
-```json
-{
-    "Reports": [{
-        "class": "ReportSimpleMalariaTransmissionJSON",
-        "Filename_Suffix": "Node1",
-        "Start_Day": 365,
-        "End_Day": 465,
-        "Node_IDs_Of_Interest": [ 1 ],
-        "Min_Age_Years": 5,
-        "Max_Age_Years": 10,
-        "Must_Have_IP_Key_Value": "Accessibility:YES",
-        "Must_Have_Intervention": "UsageDependentBednet"
-        "Pretty_Format": 1
-    }],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-simple-malaria-transmission-1.json)
 
 
 ## Output file data
@@ -74,68 +58,4 @@ vectorId, integer, "The ID of the vector that was infected by the transmitIndivi
 
 The following is an example of a ReportSimpleMalariaTransmission file.
 
-```json
-{
-    "transmissions": [{
-            "node_id": 1,
-            "transmitTime": 0,
-            "transmitIndividualId": 0,
-            "transmitInfectionIds": [],
-            "transmitGametocyteDensities": [],
-            "vectorId": 0,
-            "acquireTime": 100,
-            "acquireIndividualId": 6,
-            "acquireInfectionIds": [
-                1
-            ],
-            "concurrentInfectionIds": []
-        },
-        {
-            "node_id": 1,
-            "transmitTime": 231,
-            "transmitIndividualId": 62,
-            "transmitInfectionIds": [
-                579,
-                625,
-                693,
-                715,
-                747,
-                785,
-                819,
-                865,
-                935,
-                965
-            ],
-            "transmitGametocyteDensities": [
-                1154.381591797,
-                935.8335571289,
-                1806.419799805,
-                60.45545959473,
-                59.96842575073,
-                57.74061584473,
-                3.254687070847,
-                2.291612148285,
-                0.1661687344313,
-                0.005024351645261
-            ],
-            "vectorId": 204416,
-            "acquireTime": 249,
-            "acquireIndividualId": 50,
-            "acquireInfectionIds": [
-                1557
-            ],
-            "concurrentInfectionIds": [
-                603,
-                645,
-                667,
-                691,
-                739,
-                769,
-                807,
-                849,
-                1551
-            ]
-        }
-    ]
-}
-```
+[link](../json/software-report-simple-malaria-transmission-2.json)

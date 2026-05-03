@@ -38,24 +38,7 @@ To generate this report, the following parameters must be configured in the cust
 **Must_Have_Intervention**, string, NA, NA, (empty string), "The name of the intervention that the person must have in order to be included. Empty string means to not include interventions in the selection criteria."
 ```
 
-```json
-{
-    "Reports": [
-        {
-            "class": "ReportInterventionPopAvg",
-            "Filename_Suffix": "AllNodes",
-            "Start_Day": 90,
-            "End_Day": 1000,
-            "Node_IDs_Of_Interest": [],
-            "Min_Age_Years": 5,
-            "Max_Age_Years": 10,
-            "Must_Have_IP_Key_Value": "Risk:HIGH",
-            "Must_Have_Intervention": "UsageDependentBednet"
-        }
-    ],
-    "Use_Defaults": 1
-}
-```
+[link](../json/software-report-intervention-population-average.json)
 
 ## Output file data
 
