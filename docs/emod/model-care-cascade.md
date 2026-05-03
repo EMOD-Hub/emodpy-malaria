@@ -13,7 +13,7 @@ individual might have an antenatal care (ANC) visit and, in the same time step, 
 AIDS symptoms, both leading to HIV testing and staging.
 
 To avoid this situation, you can configure interventions using the InterventionStatus individual
-property in the demographics file (see [demo-properties](#demo-properties) for more information). In the
+property in the demographics file (see [NodeProperties and IndividualProperties](parameter-demographics.md:nodeproperties-and-individualproperties) for more information). In the
 demographics file, create as many property values as necessary to describe the care cascade. For
 example, undiagnosed, positive diagnosis, on therapy, lost to care, etc.
 

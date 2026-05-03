@@ -20,7 +20,7 @@ or all nodes contained within a defined polygon. For more information, see
 
 To target interventions to particular individuals or nodes based on their property values, you must
 first define those properties in the *demographics file* using **IndividualProperties** or
-**NodeProperties**. See [demo-properties](#demo-properties) parameters for more information. Then, in the
+**NodeProperties**. See [NodeProperties and IndividualProperties](parameter-demographics.md:nodeproperties-and-individualproperties) parameters for more information. Then, in the
 *event coordinator* in the campaign file, you can target an intervention or outbreak to
 particular individuals or nodes based on the properties applied to them. You can target the
 intervention based on one or more combinations of property values. For example, you may target

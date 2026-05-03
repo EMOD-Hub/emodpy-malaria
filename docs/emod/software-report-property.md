@@ -3,7 +3,7 @@
 
 The property output report  (PropertyReport.json) is a JSON-formatted file with the *channel*
 output results of the simulation, defined by the groups set up using **IndividualProperties** in the
-demographics file. See [demo-properties](#demo-properties) for more information.   The report contains the count
+demographics file. See [NodeProperties and IndividualProperties](parameter-demographics.md:nodeproperties-and-individualproperties) for more information.   The report contains the count
 of individuals with each possible IP key-value combination. The < channel-title > tells you the
 statistic and property that are being counted. For example, it allows you to compare disease deaths
 for people in the high risk group versus the low risk group.

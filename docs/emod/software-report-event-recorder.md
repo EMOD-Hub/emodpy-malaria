@@ -4,7 +4,7 @@
 The health events and interventions report (ReportEventRecorder.csv) provides information on each
 individual's demographics and health status at the time of an event. Additionally, it is possible to
 see the value of specific **IndividualProperties**, as assigned in the demographics file (see
-[demo-properties](#demo-properties) for more information).
+[NodeProperties and IndividualProperties](parameter-demographics.md:nodeproperties-and-individualproperties) for more information).
 
 This report is highly customizable; see the Configuration section, below, for details and instructions.
 Disease-specific information and examples are provided at the end of page.

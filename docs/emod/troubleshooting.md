@@ -238,27 +238,3 @@ internal problem with the code. Please visit our discussion board at https://git
 This exception is thrown when there is a serialization (or de-serialization) issue. For example, if
 data is being passed over the network (MPI) and the connection drops, then the serialization fails
 and this exception is thrown.
-
-## Linux environment
-
-
-The following problems are specific to running simulations using the Eradication binary for Linux on Ubuntu 22.04 (Jammy Jellyfish).
-
-### Regression test graphs differ when run on Linux
-
-
-After you run regression simulations on Ubuntu 22.04 (Jammy Jellyfish) using runemod.sh in the Scripts directory, it
-plots graphs from the simulation output data with a red line for the reference output and a blue
-line for the new output. The reference output was created by running the simulation on Windows,
-which in some cases may be slightly different than the output from Ubuntu 22.04 (Jammy Jellyfish).
-
-For simulations that plot a baseline, you can override the Windows reference output by modifying
-runemod.sh to use output/InsetChart.linux.json as the output location. In that case, the red
-reference plots should always be completely covered by the blue plots.
-
-Eradication binary for Linux cannot locate the input files
---------------------------------------------
-
-If you chose not to have the PrepareLinuxEnvironment.sh script download the EMOD source code and
-input files, you need to set up the environment variable, path and symlink that are needed
-to run simulations on Ubuntu 22.04 (Jammy Jellyfish). See [install-linux](install-linux.md).

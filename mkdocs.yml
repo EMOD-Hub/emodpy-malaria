@@ -30,11 +30,25 @@ theme:
 
 nav:
   - Home: index.md
+  - Software:
+    - Overview: emod/software-overview.md
+  - Model:
+    - Overview: emod/model-overview.md
+  - Malaria: emod/malaria-overview.md
+  - Parameters:
+    - Demographics: emod/parameter-demographics.md
+    - Configuration:
+      - Overview: emod/parameter-configuration.md
+    - Campaign:
+      - Overview: emod/parameter-campaign.md
+    - Schema: emod/parameter-schema.md
+    - Reports: emod/software-outputs.md
   - Tutorial:
     - Getting Started: md_tutorial/tutorial_getting_started.md
     - md_tutorial/tutorial_starting_codespaces.md
     - md_tutorial/tutorial_run_simple_example.md
     - md_tutorial/tutorial_interpret_results.md
+  - Glossary: glossary.md
   - API reference: autoapi/
   - Related projects: https://emod.idmod.org/
 

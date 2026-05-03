@@ -17,19 +17,18 @@ interventions (see [feeding decision tree](#tree)).
 Vector transmission can be thought of in terms of vector ecology, and in the EMOD framework is
 comprised of several components:
 
-1. [tracking](#tracking),
+1. [Vector tracking](#vector-tracking-and-the-mosquito-life-cycle),
 
-1. Mosquito behavior, which involves feeding (see [feeding](#feeding)).
+1. Mosquito behavior, which involves [feeding](#modeling-feeding-cycle-outcomes).
 
 1. Transmission of malaria-causing *Plasmodium* parasites between humans and mosquitoes
-    (see [transmission](#transmission)). Each of these components is described in more detail below.
+    (see [transmission](#transmission-between-humans-and-vectors)).
 
 For a complete list of configuration parameters that are used in the malaria model, see the
 [parameter-configuration](parameter-configuration.md).
 
 
 ## Vector tracking and the mosquito life-cycle
-
 
 Populations are tracked as cohorts throughout the full mosquito life-cycle:
 
@@ -50,7 +49,6 @@ Life-cycle progression is modulated through a set of required species-specific p
 
 
 ## Modeling feeding cycle outcomes
-
 
 Adult vectors enter a cycle of host-seeking, feeding, and egg-laying that continues until death.
 Successful vector blood-feeding branches into various probabilities that are calculated once per
@@ -78,9 +76,10 @@ the ITN, which may also kill a subset of the blocked fraction. Those mosquitoes 
 feeding attempt may be killed by IRS post-feed. This is how deterrent and toxic effects of multiple
 interventions can be represented simultaneously.
 
-
 To interact with these parameters and visualize the workings of this microsolver, see the decision
 tree visualization below:
+
+<iframe src="https://institutefordiseasemodeling.github.io/UnityVisualization/" height="680" width="1000"></iframe>
 
 To get started, press the play button. You can also pause the visualization at any time.  Parameters
 in blue are vector species parameters, while parameters in  green are types of campaign
@@ -116,15 +115,13 @@ based on insecticide properties and coverage of blood resources for mosquitoes
 2014, *Malaria Journal* 13:146, and [A global bionomic database for the dominant vectors of human malaria](https://www.nature.com/articles/sdata201614#data-records), by Massey *et al*., 2016, *Nature*.
 
 
-
 ## Transmission between humans and vectors
-
 
 Transmission between humans and vectors can only occur when mosquitoes successfully feed on humans
 (see Modeling feeding cycle outcomes).
 
-### Microsporidia and transmission interference
 
+### Microsporidia and transmission interference
 
 The standard vector transmission model has been extended with a
 [microsporidia endosymbiont model](vector-model-microsporidia.md) that captures how
@@ -139,9 +136,8 @@ interventions such as IRS and ITNs.
 See [vector-model-microsporidia](vector-model-microsporidia.md) for full details on transmission mechanisms, phenotypic
 effects, configuration parameters, and associated interventions.
 
+
 ## Relevant IDM publications
-
-
 
 * Eckhoff, 2013. [Mathematical models of within-host and transmission dynamics to determine effects of   malaria interventions in a variety of transmission settings](https://www.ncbi.nlm.nih.gov/pubmed/23589530).
   *Am J Trop Med Hyg*. 88(5):817-27

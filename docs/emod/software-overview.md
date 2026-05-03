@@ -29,7 +29,16 @@ the probability of particular outcomes.
 ## Simulation types
 
 
-{% include "../reuse/sim-types.txt" %}
+|EMOD_s| currently supports the following simulation types for modeling a variety of diseases:
+
+* Generic disease (GENERIC_SIM), which can be used for modeling a variety of diseases such as
+  influenza or measles
+* Vector-borne diseases (VECTOR_SIM), which can be used for modeling vector-borne diseases such as 
+  dengue
+* Malaria (MALARIA_SIM), which adds features specific to malaria biology and treatment
+* Sexually transmitted infections (STI_SIM), which adds features for sexual relationship 
+  networks
+* HIV (HIV_SIM), which adds features specific to HIV biology and treatment
 
 The illustration below shows how the simulation types are built upon one another. With a few
 exceptions, all parameters available to configure the simulation in the generic *simulation type*

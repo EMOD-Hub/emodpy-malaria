@@ -9,9 +9,20 @@ parameter.) Once a node is found with the desired NP, the coordinator event is b
 coordinator event can be broadcast if the desired NP is NOT found.
 
 
-{% include "../reuse/warning-case.txt" %}
+.. note::
 
-{% include "../reuse/campaign-example-intro.txt" %}
+    Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.
+    Minimum, maximum, or default values of "NA" indicate that those values are not applicable for
+    that parameter.
+
+    |EMOD_s| does not use true defaults; that is, if the dependency relationships indicate that a parameter is required, you must supply a value for it. However, many of the tools used to work with |EMOD_s| will use the default values provided below.
+
+    JSON format does not permit comments, but you can add "dummy" parameters to add contextual
+    information to your files. Any keys that are not |EMOD_s| parameter names will be ignored by the
+    model.
+
+The table below describes all possible parameters with which this class can be configured. The JSON
+example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-firstnodewithnodepropertyeventcoordinator.csv") }}
 

@@ -16,7 +16,6 @@ are compiled binary files.
 
 ## Primary files
 
-
 The primary files used for EMOD simulations are the following: 
 
 *demographics file*
@@ -32,8 +31,8 @@ The primary files used for EMOD simulations are the following:
     Defines the events that occur during the simulation. Primarily, these are the various disease
     interventions that will take place, but they also include the disease outbreaks. 
 
-## Supplementary files
 
+## Supplementary files
 
 There are other optional files that EMOD can use as inputs to the simulation. These files are
 not necessary for every simulation or every disease. For example, climate files are only used for
@@ -45,12 +44,10 @@ power. Load-balancing and serialization files are for managing computing resourc
 These files use both a JSON file for metadata and an associated binary file that contains the actual
 data. You will typically use these input files in their default state. 
 
+
 ## Input file IDs
 
-
-The Institute for Disease Modeling (IDM) provides collections of climate and demographics files for many different locations in
-the world for download on GitHub. For instructions, see [install-overview](install-overview.md).  Some input files
-were prepared using CIESIN Gridded Population of the World (GPW) population distribution and a
+Some input files were prepared using CIESIN Gridded Population of the World (GPW) population distribution and a
 corresponding spatial resolution grid (for example, 2.5 arc minutes) to define the initial
 population and extent of the nodes for country-wide input files. Therefore, the naming convention
 for this files usually leads with the geographic location, followed by the spatial resolution, and

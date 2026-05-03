@@ -229,7 +229,7 @@ the portions exchanged between the two chromatids at the crossover point.
 ![crossovers.png](../images/crossovers.png)
 
 
-## Seeding infections with specific genomes
+## Seeding infections
 
 
 `OutbreakIndividualMalariaGenetics` is the FPG counterpart to EMOD's standard

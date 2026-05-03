@@ -19,11 +19,31 @@ At a glance:
 *  **Vector life stage affected:** Adult
 
 
-{% include "../reuse/warning-housing-mods.txt" %}
+.. warning::
 
-{% include "../reuse/warning-case.txt" %}
+    |EMOD_s| simulations models nodes and individuals within nodes; they do not
+    model houses. Therefore, housing modifications are received by individuals, not houses.
 
-{% include "../reuse/campaign-example-intro.txt" %}
+    Use of this class and other housing modification classes requires caution because they can have 
+    unintended effects. For example, individuals in the same household may receive different housing
+    modification interventions.  An individual receiving a housing modification intervention who
+    then migrates to another node will continue to receive that intervention. We recommend that you 
+    configure your simulation to take these logical inconsistencies into account. 
+
+.. note::
+
+    Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.
+    Minimum, maximum, or default values of "NA" indicate that those values are not applicable for
+    that parameter.
+
+    |EMOD_s| does not use true defaults; that is, if the dependency relationships indicate that a parameter is required, you must supply a value for it. However, many of the tools used to work with |EMOD_s| will use the default values provided below.
+
+    JSON format does not permit comments, but you can add "dummy" parameters to add contextual
+    information to your files. Any keys that are not |EMOD_s| parameter names will be ignored by the
+    model.
+
+The table below describes all possible parameters with which this class can be configured. The JSON
+example that follows shows one potential configuration.
 
 {{ read_csv("csv/campaign-screeninghousingmodification.csv") }}
 
