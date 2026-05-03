@@ -15,13 +15,13 @@
         },
         "Intervention_Config": {
             "class": "SimpleVaccine",
-            "Intervention_Name" : "MyVaccine",
+            "Intervention_Name": "MyVaccine",
             "Cost_To_Consumer": 1,
             "Vaccine_Take": 1,
             "Vaccine_Type": "AcquisitionBlocking",
             "Waning_Config": {
                 "class": "WaningEffectConstant",
-                "Initial_Effect" : 1.0
+                "Initial_Effect": 1.0
             }
         }
     }

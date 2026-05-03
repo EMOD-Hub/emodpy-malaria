@@ -1,44 +1,64 @@
-"Drivers": [
-    {
-        "Driver_Type": "DAISY_CHAIN",
-        "Driving_Allele": "Bt",
-        "Alleles_Driven": [
-            {
-                "Allele_To_Copy": "At",
-                "Allele_To_Replace": "Aw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Aw", "Likelihood": 0.0 },
-                    { "Copy_To_Allele": "At", "Likelihood": 1.0 }
-                ]
-            },
-            {
-                "Allele_To_Copy": "Bt",
-                "Allele_To_Replace": "Bw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Bw", "Likelihood": 1.0 }
-                ]
-            }
-        ]
-    },
-    {
-        "Driver_Type": "DAISY_CHAIN",
-        "Driving_Allele": "Ct",
-        "Alleles_Driven": [
-            {
-                "Allele_To_Copy": "Bt",
-                "Allele_To_Replace": "Bw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Bw", "Likelihood": 0.0 },
-                    { "Copy_To_Allele": "Bt", "Likelihood": 1.0 }
-                ]
-            },
-            {
-                "Allele_To_Copy": "Ct",
-                "Allele_To_Replace": "Cw",
-                "Copy_To_Likelihood": [
-                    { "Copy_To_Allele": "Cw", "Likelihood": 1.0 }
-                ]
-            }
-        ]
-    }
-]
+{
+    "Drivers": [
+        {
+            "Driver_Type": "DAISY_CHAIN",
+            "Driving_Allele": "Bt",
+            "Alleles_Driven": [
+                {
+                    "Allele_To_Copy": "At",
+                    "Allele_To_Replace": "Aw",
+                    "Copy_To_Likelihood": [
+                        {
+                            "Copy_To_Allele": "Aw",
+                            "Likelihood": 0.0
+                        },
+                        {
+                            "Copy_To_Allele": "At",
+                            "Likelihood": 1.0
+                        }
+                    ]
+                },
+                {
+                    "Allele_To_Copy": "Bt",
+                    "Allele_To_Replace": "Bw",
+                    "Copy_To_Likelihood": [
+                        {
+                            "Copy_To_Allele": "Bw",
+                            "Likelihood": 1.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Driver_Type": "DAISY_CHAIN",
+            "Driving_Allele": "Ct",
+            "Alleles_Driven": [
+                {
+                    "Allele_To_Copy": "Bt",
+                    "Allele_To_Replace": "Bw",
+                    "Copy_To_Likelihood": [
+                        {
+                            "Copy_To_Allele": "Bw",
+                            "Likelihood": 0.0
+                        },
+                        {
+                            "Copy_To_Allele": "Bt",
+                            "Likelihood": 1.0
+                        }
+                    ]
+                },
+                {
+                    "Allele_To_Copy": "Ct",
+                    "Allele_To_Replace": "Cw",
+                    "Copy_To_Likelihood": [
+                        {
+                            "Copy_To_Allele": "Cw",
+                            "Likelihood": 1.0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

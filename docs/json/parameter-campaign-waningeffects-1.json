@@ -18,10 +18,10 @@
                     "Usage_Config": {
                         "class": "WaningEffectRandomBox",
                         "Initial_Effect": 1.0,
-                        "Expected_Discard_Time" : 60
+                        "Expected_Discard_Time": 60
                     },
                     "Blocking_Config": {
-                        "class": "WaningEffectExponential",                        
+                        "class": "WaningEffectExponential",
                         "Decay_Time_Constant": 150,
                         "Initial_Effect": 0.5
                     },

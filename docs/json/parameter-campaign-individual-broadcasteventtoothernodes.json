@@ -1,6 +1,7 @@
 {
     "Use_Defaults": 1,
-    "Events": [{
+    "Events": [
+        {
             "Event_Name": "Broadcast to Other Households If Person Infected",
             "class": "CampaignEvent",
             "Start_Day": 0,
@@ -12,7 +13,9 @@
                 "Demographic_Coverage": 1,
                 "Intervention_Config": {
                     "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": ["NewClinicalCase"],
+                    "Trigger_Condition_List": [
+                        "NewClinicalCase"
+                    ],
                     "Blackout_Event_Trigger": "Blackout",
                     "Blackout_Period": 0.0,
                     "Blackout_On_First_Occurrence": 0,
@@ -38,7 +41,9 @@
                 "Demographic_Coverage": 1,
                 "Intervention_Config": {
                     "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": ["VaccinateNeighbors"],
+                    "Trigger_Condition_List": [
+                        "VaccinateNeighbors"
+                    ],
                     "Blackout_Event_Trigger": "Blackout",
                     "Blackout_Period": 0.0,
                     "Blackout_On_First_Occurrence": 0,

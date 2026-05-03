@@ -5,10 +5,12 @@
             "Filename_Suffix": "Node1",
             "Start_Day": 365,
             "End_Day": 465,
-            "Use_True_Density_Vs_Threshold" : 0,
-            "Node_IDs_Of_Interest": [ 1 ],
+            "Use_True_Density_Vs_Threshold": 0,
+            "Node_IDs_Of_Interest": [
+                1
+            ],
             "Must_Have_IP_Key_Value": "Risk:LOW",
-            "Must_Have_Intervention": "UsageDependentBednet"
+            "Must_Have_Intervention": "UsageDependentBednet",
             "Reporting_Interval": 10,
             "Max_Number_Reports": 1,
             "Pretty_Format": 1,
@@ -38,15 +40,15 @@
                 80,
                 100
             ],
-            "Individual_Property_Filter": "Risk:High"
-        },
-        "Include_DataByTimeAndPfPRBinsAndAgeBins": 0,
-        "Include_DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins": 0,
-        "Add_True_Density_Vs_Threshold": 1,
-        "Detection_Threshold_True_Parasite_Density": 40.0,
-        "Detection_Threshold_True_Gametocyte_Density":, 1.0,
-        "Add_Prevalence_By_HRP2": 1,
-        "Detection_Threshold_True_HRP2":, 1000000.0
+            "Individual_Property_Filter": "Risk:High",
+            "Include_DataByTimeAndPfPRBinsAndAgeBins": 0,
+            "Include_DataByTimeAndInfectiousnessBinsAndPfPRBinsAndAgeBins": 0,
+            "Add_True_Density_Vs_Threshold": 1,
+            "Detection_Threshold_True_Parasite_Density": 40.0,
+            "Detection_Threshold_True_Gametocyte_Density": 1.0,
+            "Add_Prevalence_By_HRP2": 1,
+            "Detection_Threshold_True_HRP2": 1000000.0
+        }
     ],
     "Use_Defaults": 1
 }

@@ -1,6 +1,7 @@
 {
     "ntsteps": 73,
-    "patient_array": [{
+    "patient_array": [
+        {
             "id": 5,
             "node_id": 340461476,
             "initial_age": 2497.267822266,

@@ -1,8 +1,10 @@
 {
-    "Events": [{
+    "Events": [
+        {
             "class": "MultiInsecticideUsageDependentBednet",
             "Cost_To_Consumer": 5,
-            "Insecticides": [{
+            "Insecticides": [
+                {
                     "Insecticide_Name": "pyrethroid",
                     "Repelling_Config": {
                         "Box_Duration": 300,
@@ -29,18 +31,43 @@
                     }
                 }
             ],
-            "Usage_Config_List": [{
+            "Usage_Config_List": [
+                {
                     "Durability_Map": {
-                        "Times": [0.0, 12.99, 13.0, 125.0],
-                        "Values": [0.0, 0.00, 1.0, 1.0]
+                        "Times": [
+                            0.0,
+                            12.99,
+                            13.0,
+                            125.0
+                        ],
+                        "Values": [
+                            0.0,
+                            0.0,
+                            1.0,
+                            1.0
+                        ]
                     },
                     "Initial_Effect": 1.0,
                     "class": "WaningEffectMapLinearAge"
                 },
                 {
                     "Durability_Map": {
-                        "Times": [0.0, 20.0, 21.0, 30.0, 31.0, 365.0],
-                        "Values": [1.0, 1.0, 0.0, 0.0, 1.0, 1.0]
+                        "Times": [
+                            0.0,
+                            20.0,
+                            21.0,
+                            30.0,
+                            31.0,
+                            365.0
+                        ],
+                        "Values": [
+                            1.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            1.0
+                        ]
                     },
                     "Initial_Effect": 1.0,
                     "class": "WaningEffectMapLinearSeasonal"
@@ -54,7 +81,6 @@
             "Expiration_Period_Mean_2": 50,
             "Expiration_Period_Proportion_1": 1.0
         }
-
     ],
     "Use_Defaults": 1
 }

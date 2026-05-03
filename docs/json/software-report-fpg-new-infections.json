@@ -3,7 +3,7 @@
         {
             "Start_Day": 500,
             "End_Day": 1000,
-            "Filename_Suffix":"Crossovers",
+            "Filename_Suffix": "Crossovers",
             "Node_IDs_Of_Interest": [],
             "Min_Age_Years": 0,
             "Max_Age_Years": 1000,
@@ -11,7 +11,7 @@
             "Must_Have_Intervention": "",
             "Report_Crossover_Data_Instead": 1,
             "class": "ReportFpgNewInfections"
-        },
+        }
     ],
     "Use_Defaults": 1
 }

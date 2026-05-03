@@ -10,25 +10,54 @@
         "IndividualProperties": [
             {
                 "Property": "Accessibility",
-                "Values": [ "VaccineTake", "VaccineRefuse"],
-                "Initial_Distribution": [ 0.85, 0.15],
+                "Values": [
+                    "VaccineTake",
+                    "VaccineRefuse"
+                ],
+                "Initial_Distribution": [
+                    0.85,
+                    0.15
+                ],
                 "TransmissionMatrix": {
                     "Route": "Contact",
                     "Matrix": [
-                        [1.1, 0.3],
-                        [0.3, 5.0]
+                        [
+                            1.1,
+                            0.3
+                        ],
+                        [
+                            0.3,
+                            5.0
+                        ]
                     ]
                 }
             },
             {
                 "Property": "Age_Bin",
-                "Age_Bin_Edges_In_Years": [ 0, 5, 13, -1 ],
+                "Age_Bin_Edges_In_Years": [
+                    0,
+                    5,
+                    13,
+                    -1
+                ],
                 "TransmissionMatrix": {
                     "Route": "Contact",
                     "Matrix": [
-                        [1.4, 1.0, 1.0],
-                        [1.0, 2.5, 0.7],
-                        [1.0, 0.7, 1.0]
+                        [
+                            1.4,
+                            1.0,
+                            1.0
+                        ],
+                        [
+                            1.0,
+                            2.5,
+                            0.7
+                        ],
+                        [
+                            1.0,
+                            0.7,
+                            1.0
+                        ]
                     ]
                 }
             }

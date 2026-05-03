@@ -9,8 +9,8 @@
         "Target_Demographic": "Everyone",
         "Demographic_Coverage": 0.2,
         "Targeting_Config": {
-            "class" : "TargetingLogic",
-            "Logic" : [
+            "class": "TargetingLogic",
+            "Logic": [
                 [
                     {
                         "class": "HasIntervention",

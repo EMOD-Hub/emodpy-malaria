@@ -1,18 +1,22 @@
 {
-    "Reports": [{
-        "class": "ReportEventCounter",
-        "Filename_Suffix": "Node1",
-        "Start_Day": 365,
-        "End_Day": 465,
-        "Node_IDs_Of_Interest": [ 1 ],
-        "Min_Age_Years": 5,
-        "Max_Age_Years": 10,
-        "Must_Have_IP_Key_Value": "Risk:HIGH",
-        "Must_Have_Intervention": "SimpleVaccine",
-        "Event_Trigger_List": [
-            "NewInfectionEvent",
-            "NewClinicalCase"
-        ]
-    }],
+    "Reports": [
+        {
+            "class": "ReportEventCounter",
+            "Filename_Suffix": "Node1",
+            "Start_Day": 365,
+            "End_Day": 465,
+            "Node_IDs_Of_Interest": [
+                1
+            ],
+            "Min_Age_Years": 5,
+            "Max_Age_Years": 10,
+            "Must_Have_IP_Key_Value": "Risk:HIGH",
+            "Must_Have_Intervention": "SimpleVaccine",
+            "Event_Trigger_List": [
+                "NewInfectionEvent",
+                "NewClinicalCase"
+            ]
+        }
+    ],
     "Use_Defaults": 1
 }

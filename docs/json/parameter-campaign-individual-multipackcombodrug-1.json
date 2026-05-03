@@ -3,7 +3,9 @@
     "Start_Day": 30,
     "Nodeset_Config": {
         "class": "NodeSetNodeList",
-        "Node_List": [7]
+        "Node_List": [
+            7
+        ]
     },
     "Event_Coordinator_Config": {
         "class": "StandardInterventionDistributionEventCoordinator",
@@ -17,15 +19,29 @@
             "Cost_To_Consumer": 1,
             "Dose_Interval": 12,
             "Doses": [
-                ["TestDrugA", "TestDrugA", "TestDrugB"],
-                ["TestDrugBA"],
-                ["TestDrugA", "TestDrugB"],
-                ["TestDrugBA"],
-                ["TestDrugAB"],
+                [
+                    "TestDrugA",
+                    "TestDrugA",
+                    "TestDrugB"
+                ],
+                [
+                    "TestDrugBA"
+                ],
+                [
+                    "TestDrugA",
+                    "TestDrugB"
+                ],
+                [
+                    "TestDrugBA"
+                ],
+                [
+                    "TestDrugAB"
+                ],
                 [],
-                ["TestDrugAB"]
+                [
+                    "TestDrugAB"
+                ]
             ]
-
         }
     }
 }

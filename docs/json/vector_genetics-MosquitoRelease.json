@@ -8,9 +8,21 @@
     "Released_Number": 77,
     "Released_Wolbachia_Status": "WOLBACHIA_FREE",
     "Released_Genome": [
-        ["X", "Y"],
-        ["Wild", "Modified"],
-        ["b1", "b0"],
-        ["c0", "c1"]
+        [
+            "X",
+            "Y"
+        ],
+        [
+            "Wild",
+            "Modified"
+        ],
+        [
+            "b1",
+            "b0"
+        ],
+        [
+            "c0",
+            "c1"
+        ]
     ]
 }

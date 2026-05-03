@@ -102,7 +102,13 @@
         },
         "Log Prevalence": {
             "Units": "Log Prevalence",
-            "Data": [-10, -10, -10, -10, -10]
+            "Data": [
+                -10,
+                -10,
+                -10,
+                -10,
+                -10
+            ]
         },
         "New Infections": {
             "Units": "",

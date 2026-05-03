@@ -1,7 +1,7 @@
 {
     "class": "IndoorSpaceSpraying",
     "Insecticide_Name": "pyrethroid",
-    "Spray_Coverage" : 0.9,
+    "Spray_Coverage": 0.9,
     "Killing_Config": {
         "class": "WaningEffectBoxExponential",
         "Box_Duration": 100,

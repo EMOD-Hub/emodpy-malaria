@@ -1,6 +1,10 @@
 {
-  "Property_Restrictions_Within_Node": [
-      {"Risk": "Low"},
-      { "Place": "Suburban" }
-  ]
+    "Property_Restrictions_Within_Node": [
+        {
+            "Risk": "Low"
+        },
+        {
+            "Place": "Suburban"
+        }
+    ]
 }

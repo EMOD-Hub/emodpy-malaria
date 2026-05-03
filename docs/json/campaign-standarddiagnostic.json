@@ -1,5 +1,6 @@
 {
-    "Events": [{
+    "Events": [
+        {
             "class": "StandardDiagnostic",
             "Base_Sensitivity": 1.0,
             "Base_Specificity": 1.0,
@@ -9,7 +10,7 @@
             "Event_Or_Config": "Config",
             "Positive_Diagnosis_Config": {
                 "class": "BroadcastEvent",
-                "Broadcast_Event" : "TestedPositive"
+                "Broadcast_Event": "TestedPositive"
             },
             "Negative_Diagnosis_Config": {
                 "class": "SimpleVaccine",
@@ -18,10 +19,11 @@
                 "Vaccine_Type": "AcquisitionBlocking",
                 "Waning_Config": {
                     "class": "WaningEffectBox",
-                    "Box_Duration": 40, 
+                    "Box_Duration": 40,
                     "Initial_Effect": 0.75
                 }
             }
-        }],
+        }
+    ],
     "Use_Defaults": 1
 }

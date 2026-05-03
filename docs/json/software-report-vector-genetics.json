@@ -1,5 +1,6 @@
 {
-    "Reports": [{
+    "Reports": [
+        {
             "class": "ReportVectorGenetics",
             "Species": "arabiensis2",
             "Gender": "VECTOR_FEMALE",
@@ -7,14 +8,21 @@
             "Start_Day": 365,
             "End_Day": 465,
             "Filename_Suffix": "Node1",
-            "Node_IDs_Of_Interest": [ 1 ]
+            "Node_IDs_Of_Interest": [
+                1
+            ]
         },
         {
             "class": "ReportVectorGenetics",
             "Species": "arabiensis2",
             "Gender": "VECTOR_BOTH_GENDERS",
             "Stratify_By": "ALLELE_FREQ",
-            "Alleles_For_Stratification" : [ "a0", "a1", "b0", "b1" ],
+            "Alleles_For_Stratification": [
+                "a0",
+                "a1",
+                "b0",
+                "b1"
+            ],
             "Filename_Suffix": "Test67"
         },
         {
@@ -23,8 +31,14 @@
             "Gender": "VECTOR_FEMALE",
             "Stratify_By": "ALLELE",
             "Allele_Combinations_For_Stratification": [
-                [ "a0", "b0" ],
-                [ "a1", "b1" ]
+                [
+                    "a0",
+                    "b0"
+                ],
+                [
+                    "a1",
+                    "b1"
+                ]
             ],
             "Include_Vector_State_Columns": 0
         },
@@ -36,30 +50,66 @@
             "Specific_Genome_Combinations_For_Stratification": [
                 {
                     "Allele_Combination": [
-                        [  "X",  "X" ],
-                        [ "a0",  "*" ],
-                        [ "b1", "b0" ]
+                        [
+                            "X",
+                            "X"
+                        ],
+                        [
+                            "a0",
+                            "*"
+                        ],
+                        [
+                            "b1",
+                            "b0"
+                        ]
                     ]
                 },
                 {
                     "Allele_Combination": [
-                        [  "X",  "X" ],
-                        [ "a1", "a0" ],
-                        [ "b0",  "*" ]
+                        [
+                            "X",
+                            "X"
+                        ],
+                        [
+                            "a1",
+                            "a0"
+                        ],
+                        [
+                            "b0",
+                            "*"
+                        ]
                     ]
                 },
                 {
                     "Allele_Combination": [
-                        [  "X",  "X" ],
-                        [ "a1",  "*" ],
-                        [ "b1", "b0" ]
+                        [
+                            "X",
+                            "X"
+                        ],
+                        [
+                            "a1",
+                            "*"
+                        ],
+                        [
+                            "b1",
+                            "b0"
+                        ]
                     ]
                 },
                 {
                     "Allele_Combination": [
-                        [  "X",  "X" ],
-                        [ "a1", "a0" ],
-                        [ "b1",  "*" ]
+                        [
+                            "X",
+                            "X"
+                        ],
+                        [
+                            "a1",
+                            "a0"
+                        ],
+                        [
+                            "b1",
+                            "*"
+                        ]
                     ]
                 }
             ],

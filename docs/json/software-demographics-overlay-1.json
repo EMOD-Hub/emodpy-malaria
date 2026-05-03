@@ -10,52 +10,108 @@
         "NodeAttributes": {
             "BirthRate_DESCRIPTION": "Replacement of stable age distribution: Birth_Rate_Dependence=DEMOGRAPHIC_DEP_RATE (i.e. 14-45 year-old PossibleMothers)",
             "BirthRate": 0.00017675,
-
             "Airport": 0,
             "Region": 1,
             "Altitude": 0,
             "Seaport": 0
         },
         "IndividualAttributes": {
-
             "AgeDistribution_DESCRIPTION": "Box between age 0 and 60 years: Age_Initialization_Distribution_Type=DISTRIBUTION_SIMPLE",
             "AgeDistributionFlag": 1,
             "AgeDistribution1": 0,
             "AgeDistribution2": 21900,
-
             "PrevalenceDistribution_DESCRIPTION": "No initial infections",
             "PrevalenceDistributionFlag": 0,
             "PrevalenceDistribution1": 0,
             "PrevalenceDistribution2": 0,
-
             "RiskDistributionFlag": 0,
             "RiskDistribution1": 1,
             "RiskDistribution2": 0,
-
             "SusceptibilityDistributionFlag": 0,
             "SusceptibilityDistribution1": 1,
             "SusceptibilityDistribution2": 0,
-
             "MigrationHeterogeneityDistributionFlag": 0,
             "MigrationHeterogeneityDistribution1": 1,
             "MigrationHeterogeneityDistribution2": 0,
-
             "MortalityDistribution_DESCRIPTION": "WA state (1999-2010).  Source: wonder.cdc.gov",
             "MortalityDistribution": {
                 "NumDistributionAxes": 2,
-                "AxisNames": [ "gender", "age" ],
-                "AxisUnits": [ "male=0,female=1", "years" ],
-                "AxisScaleFactors": [ 1, 365 ],
-                "NumPopulationGroups": [ 2, 15 ],
+                "AxisNames": [
+                    "gender",
+                    "age"
+                ],
+                "AxisUnits": [
+                    "male=0,female=1",
+                    "years"
+                ],
+                "AxisScaleFactors": [
+                    1,
+                    365
+                ],
+                "NumPopulationGroups": [
+                    2,
+                    15
+                ],
                 "PopulationGroups": [
-                    [ 0, 1 ],
-                    [ 0, 1, 2.5, 7.5, 12.5, 17.5, 22.5, 30, 40, 50, 60, 70, 80, 90, 120 ]
+                    [
+                        0,
+                        1
+                    ],
+                    [
+                        0,
+                        1,
+                        2.5,
+                        7.5,
+                        12.5,
+                        17.5,
+                        22.5,
+                        30,
+                        40,
+                        50,
+                        60,
+                        70,
+                        80,
+                        90,
+                        120
+                    ]
                 ],
                 "ResultUnits": "annual deaths per 1000 individuals",
-                "ResultScaleFactor": 0.00000273972602739726027397260273973,
+                "ResultScaleFactor": 2.7397260273972604e-06,
                 "ResultValues": [
-                    [ 4.8, 0.2, 0.1, 0.2, 0.5, 1.1, 1.1, 1.7, 4.1, 9.2, 19.8, 53.7, 154.2, 1000, 1000 ],
-                    [ 4.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.5, 1.1, 2.6, 5.5, 14.3, 40.1, 129.3, 1000, 1000 ]
+                    [
+                        4.8,
+                        0.2,
+                        0.1,
+                        0.2,
+                        0.5,
+                        1.1,
+                        1.1,
+                        1.7,
+                        4.1,
+                        9.2,
+                        19.8,
+                        53.7,
+                        154.2,
+                        1000,
+                        1000
+                    ],
+                    [
+                        4.2,
+                        0.2,
+                        0.2,
+                        0.2,
+                        0.2,
+                        0.4,
+                        0.5,
+                        1.1,
+                        2.6,
+                        5.5,
+                        14.3,
+                        40.1,
+                        129.3,
+                        1000,
+                        1000
+                    ]
                 ]
             }
         }

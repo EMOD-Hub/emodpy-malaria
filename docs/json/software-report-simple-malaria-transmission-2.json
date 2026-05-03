@@ -1,5 +1,6 @@
 {
-    "transmissions": [{
+    "transmissions": [
+        {
             "node_id": 1,
             "transmitTime": 0,
             "transmitIndividualId": 0,

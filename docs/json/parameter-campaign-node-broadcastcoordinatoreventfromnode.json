@@ -17,7 +17,7 @@
                     "Demographic_Coverage": 1.0,
                     "Actual_NodeIntervention_Config": {
                         "class": "BroadcastCoordinatorEventFromNode",
-                        "Broadcast_Event" : "Distribute_Vaccine"
+                        "Broadcast_Event": "Distribute_Vaccine"
                     }
                 }
             }
@@ -31,7 +31,9 @@
             "Event_Coordinator_Config": {
                 "class": "TriggeredEventCoordinator",
                 "Coordinator_Name": "VaccineDistributor",
-                "Start_Trigger_Condition_List": [ "Distribute_Vaccine" ],
+                "Start_Trigger_Condition_List": [
+                    "Distribute_Vaccine"
+                ],
                 "Stop_Trigger_Condition_List": [],
                 "Number_Repetitions": 1,
                 "Target_Demographic": "Everyone",

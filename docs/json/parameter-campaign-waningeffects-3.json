@@ -1,4 +1,4 @@
-  {
+{
     "Intervention_Config": {
         "Reduction_Config": {
             "class": "WaningEffectBoxExponential",
@@ -7,4 +7,4 @@
             "Initial_Effect": 0.1
         }
     }
-  }
+}

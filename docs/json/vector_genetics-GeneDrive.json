@@ -1,10 +1,12 @@
 {
     "Vector_Species_Params": {
         "arabiensis": {
-            "Drivers": [{
+            "Drivers": [
+                {
                     "Driver_Type": "INTEGRAL_AUTONOMOUS",
                     "Driving_Allele": "a1",
-                    "Alleles_Driven": [{
+                    "Alleles_Driven": [
+                        {
                             "Allele_To_Copy": "a1",
                             "Allele_To_Replace": "a0",
                             "Copy_To_Likelihood": {
@@ -25,20 +27,23 @@
                 {
                     "Driver_Type": "INTEGRAL_NON_AUTONOMOUS",
                     "Driving_Allele": "b1",
-                    "Alleles_Driven": [{
-                        "Allele_To_Copy": "b1",
-                        "Allele_To_Replace": "b0",
-                        "Copy_To_Likelihood": {
-                            "b0": 0.2,
-                            "b1": 0.7,
-                            "b3": 0.1
+                    "Alleles_Driven": [
+                        {
+                            "Allele_To_Copy": "b1",
+                            "Allele_To_Replace": "b0",
+                            "Copy_To_Likelihood": {
+                                "b0": 0.2,
+                                "b1": 0.7,
+                                "b3": 0.1
+                            }
                         }
-                    }]
+                    ]
                 },
                 {
                     "Driver_Type": "CLASSIC",
                     "Driving_Allele": "c1",
-                    "Alleles_Driven": [{
+                    "Alleles_Driven": [
+                        {
                             "Allele_To_Copy": "c1",
                             "Allele_To_Replace": "c0",
                             "Copy_To_Likelihood": {

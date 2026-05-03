@@ -2,7 +2,8 @@
     "Event_Coordinator_Config": {
         "Demographic_Coverage": 0.03,
         "Intervention_Config": {
-            "Intervention_List": [{
+            "Intervention_List": [
+                {
                     "Bednet_Type": "ITN",
                     "Blocking_Rate": 0.9,
                     "Cost_To_Consumer": 3.75,

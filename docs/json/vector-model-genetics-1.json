@@ -1,20 +1,38 @@
-"Vector_Species_Params": [
-    {
-        "Name": "gambiae",
-        "Genes": [
-            {
-                "Is_Gender_Gene": 1,
-                "Alleles": [
-                    { "Name": "X", "Initial_Allele_Frequency": 0.75, "Is_Y_Chromosome": 0 },
-                    { "Name": "Y", "Initial_Allele_Frequency": 0.25, "Is_Y_Chromosome": 1 }
-                ]
-            },
-            {
-                "Alleles": [
-                    { "Name": "a0", "Initial_Allele_Frequency": 0.9, "Is_Y_Chromosome": 0 },
-                    { "Name": "a1", "Initial_Allele_Frequency": 0.1, "Is_Y_Chromosome": 0 }
-                ]
-            }
-        ]
-    }
-]
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "gambiae",
+            "Genes": [
+                {
+                    "Is_Gender_Gene": 1,
+                    "Alleles": [
+                        {
+                            "Name": "X",
+                            "Initial_Allele_Frequency": 0.75,
+                            "Is_Y_Chromosome": 0
+                        },
+                        {
+                            "Name": "Y",
+                            "Initial_Allele_Frequency": 0.25,
+                            "Is_Y_Chromosome": 1
+                        }
+                    ]
+                },
+                {
+                    "Alleles": [
+                        {
+                            "Name": "a0",
+                            "Initial_Allele_Frequency": 0.9,
+                            "Is_Y_Chromosome": 0
+                        },
+                        {
+                            "Name": "a1",
+                            "Initial_Allele_Frequency": 0.1,
+                            "Is_Y_Chromosome": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

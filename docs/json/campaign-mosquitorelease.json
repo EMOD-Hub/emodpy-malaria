@@ -10,8 +10,15 @@
                     "Released_Infectious": 0.5,
                     "Released_Species": "SillySkeeter",
                     "Released_Wolbachia": "VECTOR_WOLBACHIA_FREE",
-                    "Released_Genome" : [
-                        ["X", "Y" ], ["a1", "a1"]
+                    "Released_Genome": [
+                        [
+                            "X",
+                            "Y"
+                        ],
+                        [
+                            "a1",
+                            "a1"
+                        ]
                     ]
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
@@ -32,8 +39,15 @@
                     "Released_Number": 35000,
                     "Released_Species": "SillySkeeter",
                     "Released_Wolbachia": "VECTOR_WOLBACHIA_A",
-                    "Released_Genome" : [
-                        ["X", "X"], ["b0", "b0"]
+                    "Released_Genome": [
+                        [
+                            "X",
+                            "X"
+                        ],
+                        [
+                            "b0",
+                            "b0"
+                        ]
                     ]
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
@@ -54,8 +68,15 @@
                     "Released_Number": 50000,
                     "Released_Species": "gambiae",
                     "Released_Microsporidia_Strain": "Strain_A",
-                    "Released_Genome" : [
-                        ["X", "X"], ["a1", "a1"]
+                    "Released_Genome": [
+                        [
+                            "X",
+                            "X"
+                        ],
+                        [
+                            "a1",
+                            "a1"
+                        ]
                     ]
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
@@ -66,7 +87,6 @@
             },
             "Start_Day": 200,
             "class": "CampaignEvent"
-        }
         },
         {
             "Event_Coordinator_Config": {
@@ -76,11 +96,25 @@
                     "Released_Type": "FIXED_NUMBER",
                     "Released_Number": 20000,
                     "Released_Species": "SillySkeeter",
-                    "Released_Genome" : [
-                        ["X", "X"], ["a1", "a1"]
+                    "Released_Genome": [
+                        [
+                            "X",
+                            "X"
+                        ],
+                        [
+                            "a1",
+                            "a1"
+                        ]
                     ],
-                    "Released_Mate_Genome" : [
-                        ["X", "Y"], ["a1", "a1"]
+                    "Released_Mate_Genome": [
+                        [
+                            "X",
+                            "Y"
+                        ],
+                        [
+                            "a1",
+                            "a1"
+                        ]
                     ]
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"

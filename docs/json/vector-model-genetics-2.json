@@ -1,15 +1,23 @@
-"Genes": [
-    {
-        "Alleles": [
-            { "Name": "a0", "Initial_Allele_Frequency": 0.95 },
-            { "Name": "a1", "Initial_Allele_Frequency": 0.05 }
-        ],
-        "Mutations": [
-            {
-                "Mutate_From": "a0",
-                "Mutate_To": "a1",
-                "Probability_Of_Mutation": 0.005
-            }
-        ]
-    }
-]
+{
+    "Genes": [
+        {
+            "Alleles": [
+                {
+                    "Name": "a0",
+                    "Initial_Allele_Frequency": 0.95
+                },
+                {
+                    "Name": "a1",
+                    "Initial_Allele_Frequency": 0.05
+                }
+            ],
+            "Mutations": [
+                {
+                    "Mutate_From": "a0",
+                    "Mutate_To": "a1",
+                    "Probability_Of_Mutation": 0.005
+                }
+            ]
+        }
+    ]
+}

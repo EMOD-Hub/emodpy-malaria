@@ -2,7 +2,8 @@
     "class": "MultiInsecticideIndoorSpaceSpraying",
     "Cost_To_Consumer": 1.0,
     "Spray_Coverage": 1.0,
-    "Insecticides": [{
+    "Insecticides": [
+        {
             "Insecticide_Name": "pyrethroid_homo",
             "Killing_Config": {
                 "Box_Duration": 100,

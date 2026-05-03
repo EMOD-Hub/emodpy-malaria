@@ -4,7 +4,9 @@
         {
             "class": "CampaignEvent",
             "Start_Day": 3000,
-            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Target_Demographic": "Everyone",
@@ -12,9 +14,19 @@
                 "Intervention_Config": {
                     "class": "IndividualNonDiseaseDeathRateModifier",
                     "Cost_To_Consumer": 1,
-                    "Duration_To_Modifier" : {
-                        "Times" : [ 0.0, 365.0, 730.0, 1095.0 ],
-                        "Values": [ 2.0,   1.0,   0.5,    0.0 ]
+                    "Duration_To_Modifier": {
+                        "Times": [
+                            0.0,
+                            365.0,
+                            730.0,
+                            1095.0
+                        ],
+                        "Values": [
+                            2.0,
+                            1.0,
+                            0.5,
+                            0.0
+                        ]
                     },
                     "Expiration_Duration_Distribution": "CONSTANT_DISTRIBUTION",
                     "Expiration_Duration_Constant": 1000,

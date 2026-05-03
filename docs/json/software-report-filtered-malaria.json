@@ -10,7 +10,10 @@
             "Max_Age_Years": 10,
             "Must_Have_IP_Key_Value": "Risk:HIGH",
             "Must_Have_Intervention": "UsageDependentBednet",
-            "Has_Interventions": ["SimpleVaccine","IRSHousingModification"],
+            "Has_Interventions": [
+                "SimpleVaccine",
+                "IRSHousingModification"
+            ],
             "Include_30Day_Avg_Infection_Duration": 1
         }
     ],

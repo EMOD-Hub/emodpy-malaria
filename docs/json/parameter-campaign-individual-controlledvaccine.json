@@ -1,6 +1,7 @@
 {
     "Use_Defaults": 1,
-    "Events": [{
+    "Events": [
+        {
             "COMMENT": "Vaccinate Everyone with VaccineA",
             "class": "CampaignEvent",
             "Start_Day": 1,
@@ -22,8 +23,16 @@
                         "Initial_Effect": 1.0,
                         "Expire_At_Durability_Map_End": 1,
                         "Durability_Map": {
-                            "Times": [0, 25, 50],
-                            "Values": [1.0, 1.0, 0.0]
+                            "Times": [
+                                0,
+                                25,
+                                50
+                            ],
+                            "Values": [
+                                1.0,
+                                1.0,
+                                0.0
+                            ]
                         }
                     },
                     "Distributed_Event_Trigger": "VaccinatedA",
@@ -54,8 +63,16 @@
                         "Initial_Effect": 1.0,
                         "Expire_At_Durability_Map_End": 1,
                         "Durability_Map": {
-                            "Times": [0, 25, 50],
-                            "Values": [1.0, 1.0, 0.0]
+                            "Times": [
+                                0,
+                                25,
+                                50
+                            ],
+                            "Values": [
+                                1.0,
+                                1.0,
+                                0.0
+                            ]
                         }
                     },
                     "Distributed_Event_Trigger": "VaccinatedB",

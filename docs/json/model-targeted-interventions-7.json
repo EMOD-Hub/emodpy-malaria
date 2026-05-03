@@ -1,5 +1,6 @@
 {
-    "Property_Restrictions_Within_Node": [{
+    "Property_Restrictions_Within_Node": [
+        {
             "Risk": "LOW",
             "Age_Bin": "Age_Bin_Property_From_0_To_5"
         },

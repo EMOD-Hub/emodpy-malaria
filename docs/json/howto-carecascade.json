@@ -1,6 +1,7 @@
 {
     "Use_Defaults": 1,
-    "Events": [{
+    "Events": [
+        {
             "class": "CampaignEvent",
             "Start_Day": 1,
             "Nodeset_Config": {

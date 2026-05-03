@@ -1,7 +1,8 @@
 {
     "ReportVectorGenetics": {
         "Enabled": 1,
-        "Reports": [{
+        "Reports": [
+            {
                 "Species": "arabiensis",
                 "Gender": "VECTOR_FEMALE"
             },
@@ -11,7 +12,10 @@
                 "Include_Vector_State_Columns": 0,
                 "Stratify_By_Genome_Contains_Allele": 1,
                 "Allele_Combinations_For_Stratification": [
-                    ["Ad", "Bd"]
+                    [
+                        "Ad",
+                        "Bd"
+                    ]
                 ]
             }
         ]

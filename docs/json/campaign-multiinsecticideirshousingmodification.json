@@ -1,7 +1,8 @@
 {
     "class": "MultiInsecticideIRSHousingModification",
     "Cost_To_Consumer": 1.0,
-    "Insecticides": [{
+    "Insecticides": [
+        {
             "Insecticide_Name": "pyrethroid",
             "Repelling_Config": {
                 "Box_Duration": 300,

@@ -2,7 +2,7 @@
     "Reports": [
         {
             "class": "ReportVectorStats",
-            "Species_List":  [
+            "Species_List": [
                 "arabiensis",
                 "funestus"
             ],

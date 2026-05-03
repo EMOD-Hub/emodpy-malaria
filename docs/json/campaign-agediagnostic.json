@@ -4,17 +4,13 @@
         {
             "class": "CampaignEvent",
             "Start_Day": 360,
-            "Nodeset_Config":
-            {
+            "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-
-            "Event_Coordinator_Config":
-            {
+            "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Demographic_Coverage": 1,
-                "Intervention_Config":
-                {
+                "Intervention_Config": {
                     "class": "AgeDiagnostic",
                     "Age_Thresholds": [
                         {
