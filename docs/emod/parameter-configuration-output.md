@@ -3,7 +3,7 @@
 
 The following parameters configure whether or not output reports are created for the simulation,
 such as reports detailing spatial or demographic data at each time step. By default, the
-:doc:`software-report-inset-chart` is always created.
+[InsetChart](software-report-inset-chart.md) is always created.
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

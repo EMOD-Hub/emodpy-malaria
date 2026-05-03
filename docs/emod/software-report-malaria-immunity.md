@@ -4,8 +4,7 @@
 The malaria immunity report (MalariaImmunityReport.json) is a JSON-formatted file that provides
 statistics for several antibody types for specified age bins over a specified reporting duration.
 Specifically, the report tracks the average and standard deviation in the fraction of observed
-antibodies for *merozoite surface protein (MSP)*, :term:`Plasmodium falciparum erythrocyte
-membrane protein 1 (PfEMP1)`, and non-specific (and less immunogenic) minor surface epitopes. The
+antibodies for *merozoite surface protein (MSP)*, Plasmodium falciparum erythrocyte membrane protein 1 (PfEMP1), and non-specific (and less immunogenic) minor surface epitopes. The
 total amount possible is determined by the parameters **Falciparum_MSP_Variants**,
 **Falciparum_PfEMP1_Variants**, and **Falciparum_Nonspecific_Types**. The greater the fraction, the
 more antibodies the individual has against possible new infections. The smaller the fraction, the

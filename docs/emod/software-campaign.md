@@ -23,12 +23,12 @@ To distribute an intervention, you must configure the following nested JSON obje
 campaign event
 Campaign events determine *when* and *where* an intervention is distributed during a campaign. "When"
 can be the number of days after the beginning of the simulation or at a point during a particular
-calendar year. "Where" is the geographic :term:`node` or nodes in which the event takes place.
+calendar year. "Where" is the geographic node or nodes in which the event takes place.
 
 event coordinator
 Event coordinators are nested within the campaign event JSON object and determine *who* receives the
 intervention. "Who" is determined by filtering on age, gender, or on the individual properties
-configured in the demographics files, such as risk group or sociodemographic category. See :doc:`model-properties`.
+configured in the demographics files, such as risk group or sociodemographic category. See [Individual and node properties](model-properties.md).
 
 individual-level intervention
 Individual-level interventions determine *what* will be distributed to individuals to reduce the
@@ -40,7 +40,7 @@ by adding trigger conditions to the intervention. For example, interventions can
 notifications broadcast after some an event, such as Births (the individual’s own
 birth), GaveBirth, NewInfectionEvent, and more. It's also possible to have one intervention trigger
 another intervention by asking the first intervention to broadcast a unique string, and having the
-second intervention be triggered upon receipt of that string. See :doc:`parameter-campaign-event-list`.
+second intervention be triggered upon receipt of that string. See [Event list](parameter-campaign-event-list.md).
 
 Individual-level interventions can be used as part of configuring a cascade of care along with the individual
 properties set in the demographics file. Use **Disqualifying_Properties** to disqualify individuals
@@ -50,7 +50,7 @@ first-line treatment for a disease and prevent anyone from receiving the second-
 unless they have that property value and are still symptomatic.
 
 node-level intervention
-Node-level interventions determine *what* will be distributed to each :term:`node` to reduce the spread of a
+Node-level interventions determine *what* will be distributed to each node to reduce the spread of a
 disease. For example, spraying larvicide in a village to kill mosquito larvae is a node-level malaria
 intervention. Sometimes this can be an intermediate intervention that schedules another
 intervention. Node-level disease outbreaks are also configured as "interventions". In the schema,
@@ -61,7 +61,7 @@ by adding trigger conditions to the intervention. For example, interventions can
 notifications broadcast after some an event, such as Births, NewInfectionEvent, and more. It's also
 possible to have one intervention trigger another intervention by asking the first intervention to
 broadcast a unique string, and having the second intervention be triggered upon receipt of that
-string. See :doc:`parameter-campaign-event-list`.
+string. See [Event list](parameter-campaign-event-list.md).
 
 [model-campaign](model-campaign.md) describes some ways to configure a campaign file to target individuals with
 particular characteristics, repeat interventions, and more. See [parameter-campaign](parameter-campaign.md) for a

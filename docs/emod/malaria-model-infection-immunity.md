@@ -26,8 +26,7 @@ For a complete list of configuration parameters that are used in the malaria mod
 Within the microsolver framework, each new infection begins with a hepatic (liver-stage) latency of
 fixed duration (7 days) and proceeds through cycles of asexual replication (with a fixed duration of
 2 days) and *gametocyte* production (which takes 10 days). The model accounts for several
-antigenic components to which the immune system may develop immunity: the :term:`merozoite surface
-protein (MSP)` variant, the *Plasmodium falciparum erythrocyte membrane protein 1 (PfEMP1)*
+antigenic components to which the immune system may develop immunity: the merozoite surface protein (MSP) variant, the *Plasmodium falciparum erythrocyte membrane protein 1 (PfEMP1)*
 presented on the surface of the infected red-blood cell (IRBC), and less immunogenic minor surface
 epitopes (nonspecific epitopes).
 

@@ -10,7 +10,7 @@ by adding trigger conditions to the intervention. For example, interventions can
 notifications broadcast after some an event, such as Births (the individual’s own
 birth), GaveBirth, NewInfectionEvent, and more. It's also possible to have one intervention trigger
 another intervention by asking the first intervention to broadcast a unique string, and having the
-second intervention be triggered upon receipt of that string. See :doc:`parameter-campaign-event-list`.
+second intervention be triggered upon receipt of that string. See [Event list](parameter-campaign-event-list.md).
 
 Individual-level interventions can be used as part of configuring a cascade of care along with the individual
 properties set in the demographics file. Use **Disqualifying_Properties** to disqualify individuals

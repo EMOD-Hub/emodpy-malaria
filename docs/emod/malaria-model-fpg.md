@@ -457,7 +457,7 @@ Barcode_Genome_Locations, list of integers, "Genome positions of barcode SNP loc
 Drug_Resistant_Genome_Locations, list of integers, "Genome positions of drug resistance loci. These locations and their allele values can be referenced in ``Malaria_Drug_Params.Resistances`` to modify drug efficacy based on parasite genotype."
 HRP_Genome_Locations, list of integers, "Genome positions of HRP (histidine-rich protein) loci. An allele value of ``A`` at a position indicates the HRP gene is present (functional); any other value (``C``, ``G``, ``T``) indicates the gene is deleted at that position. An infection is HRP-deleted only when all positions carry a non-``A`` allele. See the HRP2/3 Deletion section for details."
 MSP_Genome_Location, integer, "Genome position of the MSP locus. Only used when ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD`` or ``FIXED_MSP``."
-PfEMP1_Variants_Genome_Locations, list of integers, "Genome positions of PfEMP1 major epitope loci. Must define exactly 50 locations corresponding to the 50 PfEMP1 variants in each clonal infection's repertoire (see :doc:`malaria-model-infection-immunity`). Only used when ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD``."
+PfEMP1_Variants_Genome_Locations, list of integers, "Genome positions of PfEMP1 major epitope loci. Must define exactly 50 locations corresponding to the 50 PfEMP1 variants in each clonal infection's repertoire (see [Malaria infection and immune model](malaria-model-infection-immunity.md)). Only used when ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD``."
 ```
 
 The total number of tracked positions — barcode + drug resistance + HRP (+ MSP and PfEMP1 if
@@ -468,7 +468,7 @@ more memory and increase simulation time.
 
 
 ```
-Var_Gene_Randomness_Type, enum, ALL_RANDOM, "Controls how MSP and PfEMP1 major epitope antigens are assigned to each new infection. ``ALL_RANDOM``: MSP and PfEMP1 major epitope antigens are both randomly assigned for every infection, matching base model behavior. ``FIXED_MSP``: MSP is genome-determined; PfEMP1 major epitopes remain random. ``FIXED_NEIGHBORHOOD``: both MSP and PfEMP1 major epitopes are genome-determined. In all modes minor epitopes (the five nonspecific epitopes associated with each PfEMP1 variant; see :doc:`malaria-model-infection-immunity`) are always randomly assigned."
+Var_Gene_Randomness_Type, enum, ALL_RANDOM, "Controls how MSP and PfEMP1 major epitope antigens are assigned to each new infection. ``ALL_RANDOM``: MSP and PfEMP1 major epitope antigens are both randomly assigned for every infection, matching base model behavior. ``FIXED_MSP``: MSP is genome-determined; PfEMP1 major epitopes remain random. ``FIXED_NEIGHBORHOOD``: both MSP and PfEMP1 major epitopes are genome-determined. In all modes minor epitopes (the five nonspecific epitopes associated with each PfEMP1 variant; see [Malaria infection and immune model](malaria-model-infection-immunity.md)) are always randomly assigned."
 Neighborhood_Size_MSP, integer, 4, "When ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD`` or ``FIXED_MSP``, the number of adjacent MSP variants from which the strain's MSP value is drawn. Must not exceed ``Falciparum_MSP_Variants``."
 Neighborhood_Size_PfEMP1, integer, 10, "When ``Var_Gene_Randomness_Type`` is ``FIXED_NEIGHBORHOOD``, the number of adjacent PfEMP1 variants from which each epitope value is drawn. Must not exceed ``Falciparum_PfEMP1_Variants``."
 ```

@@ -1,7 +1,7 @@
 # Migration
 
 
-The following parameters determine aspects of population migration into and outside of a :term:`node`,
+The following parameters determine aspects of population migration into and outside of a node,
 including daily commutes, seasonal migration, and one-way moves. Modes of transport includes travel
 by foot, automobile, sea, or air. Migration can also be configured to move all individuals in a
 family at the same time.

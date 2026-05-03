@@ -52,7 +52,7 @@ AgeYears, integer, The max age in years of the age bin for the individual.
 Infected, boolean, "A true value (1) indicates the individual is infected and a false value (0) indicates the individual is not infected."
 Infectiousness, float, "A value from 0 to 1 that indicates how infectious an individual is, with 0 = not infectious and 1 = very infectious. This is the probability that an individual will infect a mosquito during a successful blood meal."
 DrugName, string, "The name of the drug indicated in the intervention (**Malaria_Drug_Params** in config.json). Depending on the intervention, this might be a concatenated value when an individual takes multiple pills in one dose."
-CurrentEfficacy, float, "The current efficacy of the drug(s). The efficacy is determined by the selected PKPD model; see :doc:`malaria-model-antimalarial-drugs` for more information."
+CurrentEfficacy, float, "The current efficacy of the drug(s). The efficacy is determined by the selected PKPD model; see [Antimalarial drugs](malaria-model-antimalarial-drugs.md) for more information."
 NumRemainingDoses, integer, The number of remaining doses the individual will receive.
 ```
 

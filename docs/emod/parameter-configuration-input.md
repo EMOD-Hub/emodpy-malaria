@@ -1,8 +1,7 @@
 # Input files
 
 
-The following parameters set the paths to the the :term:`campaign file` and the :term:`input
-files` for climate, migration, demographics, and load-balancing.
+The following parameters set the paths to the the campaign file and the input files for climate, migration, demographics, and load-balancing.
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

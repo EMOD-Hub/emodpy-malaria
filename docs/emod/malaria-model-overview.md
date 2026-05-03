@@ -50,8 +50,7 @@ describe in detail how the structural components function.
 
 As new technology arises and novel types of interventions become available, it will be
 relatively seamless to integrate them into the current model structure. For example, as genetic
-technology improves and testing the utility of utilizing GM mosquitoes (such as a :term:`gene
-drive mosquito`) in control efforts becomes important, EMOD will have no difficulty
+technology improves and testing the utility of utilizing GM mosquitoes (such as a gene drive mosquito) in control efforts becomes important, EMOD will have no difficulty
 integrating this novel intervention into simulations.
 
 The following pages describe the structure of the model and explore each of the model components.

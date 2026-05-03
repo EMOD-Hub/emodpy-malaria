@@ -1,10 +1,10 @@
 # Demographics parameters
 
 
-The parameters described in this reference section can be added to the :term:`JSON (JavaScript Object Notation)` formatted demographics file to determine the demographics of the population within
-each geographic :term:`node` in a simulation. For example, the number of individuals and the
+The parameters described in this reference section can be added to the JSON (JavaScript Object Notation) formatted demographics file to determine the demographics of the population within
+each geographic node in a simulation. For example, the number of individuals and the
 distribution for age, gender, immunity, risk, and mortality. These parameters work closely with the
-:doc:`parameter-configuration-population` parameters in the :term:`configuration file`, which are simulation-wide and
+[Population dynamics](parameter-configuration-population.md) parameters in the configuration file, which are simulation-wide and
 generally control whether certain events, such as births or deaths, are enabled in a simulation.
 
 Generally, you will download a demographics file and modify it to meet the needs of your
@@ -15,18 +15,46 @@ region. By convention, these are named using the name of the region appended wit
 Additionally, you can use more than one demographics file, with one serving as the base layer and
 the one or more others acting as overlays that override the values in the base layer. This can be
 helpful if you want to experiment with different values in the overlay without modifying your base
-file. For more information, see :doc:`software-demographics`.
+file. For more information, see [Demographics file](software-demographics.md).
 
 At least one demographics file is required for every simulation unless you set the parameter
-**Enable_Demographics_Builtin** to 1 (one) in the :term:`configuration file`. This setting does not
+**Enable_Demographics_Builtin** to 1 (one) in the configuration file. This setting does not
 represent a real location and is generally only used for testing and validating code pathways rather
 than actual modeling of disease.
 
 Demographics files are organized into four main sections: **Metadata**, **NodeProperties**,
 **Defaults**, and **Nodes**. The following example shows the skeletal format of a demographics file.
 
-.. literalinclude:: ../json/demographics-skeletal.json
-   :language: json
+```json
+{
+     "Metadata": {
+          "DateCreated": "dateTime",
+          "Tool": "scriptUsedToGenerate",
+          "Author": "author",
+          "IdReference": "Gridded world grump2.5arcmin",
+          "NodeCount": 2
+     },
+     "NodeProperties": [
+          {}
+     ],
+     "Defaults": {
+          "NodeAttributes": {},
+          "IndividualAttributes": {},
+          "IndividualProperties": {},
+     },
+     "Nodes": [{
+          "NodeID": 1,
+          "NodeAttributes": {},
+          "IndividualAttributes": {},
+          "IndividualProperties": {},
+     }, {
+          "NodeID": 2,
+          "NodeAttributes": {},
+          "IndividualAttributes": {},
+          "IndividualProperties": {},
+     }]
+}
+```
 
 All parameters except those in the **Metadata** and **NodeProperties** sections below can appear in
 either the **Defaults** section or the **Nodes** section of the demographics file. Parameters under
@@ -47,7 +75,7 @@ own reference. For example, author, date created, tool used, NodeCount and more 
 in the **Metadata** section. You can include any information you like here provided it is
 in valid JSON format.  **IDReference** is used to connect the files together; the climate, migration, and demographics files all have **IdReference** so that there is some way to know that they go together (i.e. know about the same nodes).
 
-If you generate :term:`input files` using COMPS, the following **IdReference** values are
+If you generate input files using COMPS, the following **IdReference** values are
 possible and indicate how the **NodeID** values are generated:
 
 Gridded world grump30arcsec
@@ -93,7 +121,7 @@ that contains parameters that assign properties to nodes in a simulation. The
 **IndividualProperties** section is under either **Defaults** or **Nodes** and contains parameters
 that assign properties to individuals in a simulation.
 
-:doc:`model-properties` provides more guidance.
+[Individual and node properties](model-properties.md) provides more guidance.
 
 {{ read_csv("csv/demo-properties-malaria.csv") }}
 

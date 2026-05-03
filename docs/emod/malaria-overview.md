@@ -115,8 +115,7 @@ For malaria, mathematical modeling and simulations are key to achieving eradicat
 specific vector ecology is a fundamental driver of transmission, and transmission is also impacted by
 the interactions of climate, human behavior, and land usage, across varying spatial scales. Modeling
 these factors enables accurate representations of baseline transmission, which in turn provides a
-platform to test various interventions (such as *insecticide-treated nets (ITN)*, :term:`indoor
-residual spraying (IRS)`, or *mass drug administration (MDA)*) and combinations of interventions.
+platform to test various interventions (such as *insecticide-treated nets (ITN)*, indoor residual spraying (IRS), or *mass drug administration (MDA)*) and combinations of interventions.
 These simulation results can inform policy to develop effective--and cost effective--strategies by
 exploring the many possible dimensions of coverage, frequency of distribution, and combinations of
 interventions targeted to particular locations.
@@ -166,8 +165,7 @@ model (see [Reiner et al. 2013, Journal of the Royal Society Interface](http://r
 
 The Garki project was a major milestone in malaria research.  From 1969 to 1976 this study was
 conducted by the World Health Organization (WHO) and the local government of the Jigawa State,
-Nigeria, to understand the impacts of *indoor residual spraying (IRS)* and :term:`mass drug
-administration (MDA)` on malaria transmission, as well as to evaluate the utility of mathematical
+Nigeria, to understand the impacts of *indoor residual spraying (IRS)* and mass drug administration (MDA) on malaria transmission, as well as to evaluate the utility of mathematical
 modeling. While the interventions used did not interrupt transmission at the desired level, the
 model proved to be a success. The epidemiology of the *Plasmodium* parasite was realistically
 replicated, even with a simplistic model, and as a result understanding of the parasite’s

@@ -21,8 +21,7 @@ take the [Epidemics](https://www.coursera.org/learn/epidemics/home/welcome) cour
 
 
 Epidemiological MODeling software (EMOD) is an *agent-based model* (ABM), another powerful tool used to help understand the
-complexity inherent in disease transmission systems. EMOD is a discrete time, :term:`Monte Carlo
-method`  simulator that simulates the simultaneous interactions of agents in an effort to recreate
+complexity inherent in disease transmission systems. EMOD is a discrete time, Monte Carlo method  simulator that simulates the simultaneous interactions of agents in an effort to recreate
 complex phenomena. Each agent (such as a human or vector) can be assigned a variety of properties
 (for example, age, gender, etc.), and their behavior and interactions with one another are
 determined using decision rules. EMOD and other ABMs must be run many times to produce

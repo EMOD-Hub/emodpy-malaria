@@ -54,7 +54,7 @@ DataProvenance, string, The source of the data.
 The following parameters in the metadata section are used by EMOD:
 
 ```
-IdReference, string, "A unique, user-selected string that indicates the method used for generating **NodeID** values in the input file. For more information, see :doc:`software-inputs`."
+IdReference, string, "A unique, user-selected string that indicates the method used for generating **NodeID** values in the input file. For more information, see [Input files](software-inputs.md)."
 NodeCount, integer, The number of nodes to expect in this file.
 DatavalueCount, integer, The number of data values per node. The number must be the same across every node in the binary file.
 UpdateResolution, enum, "The time resolution of the climate file. Available values are:
@@ -119,7 +119,7 @@ Tool, string, The script used to create the file.
 The following parameters in the metadata section are used by EMOD:
 
 ```
-IdReference, string, "A unique, user-selected string that indicates the method used for generating **NodeID** values in the input file. For more information, see :doc:`software-inputs`."
+IdReference, string, "A unique, user-selected string that indicates the method used for generating **NodeID** values in the input file. For more information, see [Input files](software-inputs.md)."
 NodeCount, integer, The number of nodes to expect in this file.
 ```
 
