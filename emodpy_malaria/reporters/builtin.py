@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from types import ModuleType
 
 from emodpy.reporters.base import BuiltInReporter
 from emod_api import schema_to_class as s2c

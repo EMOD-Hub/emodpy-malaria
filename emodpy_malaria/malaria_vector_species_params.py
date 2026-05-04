@@ -1,5 +1,4 @@
 import emod_api.config.default_from_schema_no_validation as dfs
-from types import ModuleType
 
 
 def species_params(manifest, species: str = None):

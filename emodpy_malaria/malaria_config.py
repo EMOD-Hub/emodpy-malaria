@@ -1,7 +1,6 @@
 import math
 import csv
 import os
-from types import ModuleType
 
 import emod_api.config.default_from_schema_no_validation as dfs
 from emodpy_malaria.malaria_vector_species_params import species_params
@@ -416,7 +415,7 @@ def get_species_params(config, species: str = None):
 
 def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_larval_capacity: int):
     """
-    Set the Max_Larval_Capacity for a given species and habitat. 
+    Set the Max_Larval_Capacity for a given species and habitat.
 
     Args:
         config (dict): schema-backed config smart dict

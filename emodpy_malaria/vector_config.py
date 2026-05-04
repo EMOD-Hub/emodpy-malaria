@@ -1,8 +1,10 @@
-import emod_api.config.default_from_schema_no_validation as dfs
 import math
 import os
-from types import ModuleType
+
+import emod_api.config.default_from_schema_no_validation as dfs
+
 from emodpy_malaria.malaria_vector_species_params import species_params
+
 from enum import Enum
 
 
@@ -737,7 +739,7 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
 def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity):
     """
     Set the Max_Larval_Capacity for a given species and habitat.
-    
+
     Args:
         config (dict): schema-backed config smart dict
         species_name (str): string. Species_Name to target.
