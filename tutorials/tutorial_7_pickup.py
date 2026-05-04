@@ -178,13 +178,15 @@ def get_burnin_df(platform):
     link each pickup simulation to the correct burnin replicate.
 
     Path resolution differs by platform:
-      Container / SLURM  simulation.get_directory() returns the local or
-                         shared-filesystem path directly.
-      COMPS              files live on a remote cluster filesystem; the
-                         cluster-side path comes from hpc_jobs[0].working_directory.
-                         The substitutions below convert the Windows UNC path to
-                         the Linux mount path used by COMPS compute nodes — adjust
-                         them if your COMPS instance uses different mount paths.
+      Container  get_directory() returns the host filesystem path, but EMOD
+                 runs inside Docker where job_directory is mounted at
+                 data_mount (default /home/container_data). map_container_path
+                 converts the host path to the container-side path.
+      SLURM      get_directory() returns the shared-filesystem path directly.
+      COMPS      files live on a remote cluster filesystem; the cluster-side
+                 path comes from hpc_jobs[0].working_directory. The
+                 substitutions below convert the Windows UNC path to the
+                 Linux mount path — adjust for your COMPS instance.
     """
     platform_type = platform.get_platform_type()
     children = (["tags", "configuration", "files", "hpc_jobs"]
@@ -203,12 +205,22 @@ def get_burnin_df(platform):
             path = path.replace("\\", "/")
             path = path.replace("internal.idm.ctr", "mnt")
             path = path.replace("IDM2", "idm2")
+            outpath = path + "/output"
+        elif hasattr(platform, 'data_mount'):
+            # Container platform: EMOD runs inside Docker, so we must convert
+            # the host path to the path as seen from inside the container.
+            from idmtools_platform_container.utils.general import map_container_path
+            host_path = str(sim.get_directory())
+            container_path = map_container_path(
+                platform.job_directory, platform.data_mount, host_path
+            )
+            outpath = container_path + "/output"   # already unix-style
         else:
-            path = str(sim.get_directory())
+            outpath = os.path.join(str(sim.get_directory()), "output")
 
         records.append({
             "run_number": int(sim.tags.get("Run_Number", 0)),
-            "outpath":    os.path.join(path, "output"),
+            "outpath":    outpath,
         })
 
     return pd.DataFrame(records).sort_values("run_number").reset_index(drop=True)
