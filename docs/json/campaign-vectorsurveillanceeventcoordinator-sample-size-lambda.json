@@ -1,0 +1,7 @@
+{
+  "Counter": {
+    "Sample_Size_Distribution": "WEIBULL_DISTRIBUTION",
+    "Sample_Size_Kappa": 0.9,
+    "Sample_Size_Lambda": 1.5
+  }
+}

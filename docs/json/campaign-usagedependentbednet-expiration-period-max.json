@@ -1,0 +1,5 @@
+{
+  "Expiration_Period_Distribution": "UNIFORM_DISTRIBUTION",
+  "Expiration_Period_Min": 2,
+  "Expiration_Period_Max": 7
+}

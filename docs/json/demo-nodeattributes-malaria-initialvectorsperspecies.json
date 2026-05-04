@@ -1,0 +1,14 @@
+{
+    "Nodes": [
+        {
+            "NodeID": 340461476,
+            "NodeAttributes": {
+                "InitialVectorsPerSpecies": {
+                    "aegypti": 100,
+                    "funestus": 0,
+                    "gambiae": 0
+                }
+            }
+        }
+    ]
+}

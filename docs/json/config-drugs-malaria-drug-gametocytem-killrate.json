@@ -1,0 +1,10 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Chloroquine",
+            "Drug_Gametocyte02_Killrate": 0,
+            "Drug_Gametocyte34_Killrate": 0,
+            "Drug_GametocyteM_Killrate": 0
+        }
+    ]
+}

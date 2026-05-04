@@ -1,0 +1,10 @@
+{
+  "Released_Genome": [
+    ["X", "X"],
+    ["a1", "a1"]
+  ],
+  "Released_Mate_Genome": [
+    ["X", "Y"],
+    ["a1", "a1"]
+  ]
+}

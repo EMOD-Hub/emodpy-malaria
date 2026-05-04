@@ -1,0 +1,8 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "arabiensis",
+            "Egg_Batch_Size": 100
+        }
+    ]
+}

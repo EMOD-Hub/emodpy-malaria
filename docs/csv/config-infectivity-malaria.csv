@@ -1,29 +1,14 @@
 Parameter,Type,Min,Max,Default,Description,Example
-﻿"Acquire_Modifier","float","0","1","1","Modifier of the probability of successful infection of a mosquito by an infected individual, given the individual's infectiousness.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""aegypti"",
-                ""Acquire_Modifier"": 1
-            }
-        ]
-    }
-"
-"Age_Dependent_Biting_Risk_Type","enum","NA","NA","OFF","The type of functional form for age-dependent biting risk. Possible values are: 
+"﻿""Acquire_Modifier""",float,0,1,1,"Modifier of the probability of successful infection of a mosquito by an infected individual, given the individual's infectiousness.",[link](../json/config-infectivity-malaria-acquire-modifier.json)
+Age_Dependent_Biting_Risk_Type,enum,NA,NA,OFF,"The type of functional form for age-dependent biting risk. Possible values are: 
 
 OFF
     This is the default value. 
 LINEAR
     The biting risk is 20% of the adult exposure rising linearly until age 20. 
 SURFACE_AREA_DEPENDENT
-    The biting risk rises linearly from 7% to 23% over the first two years of life and then rises with a shallower linear slope to the adult value at age 20.",".. code-block:: json
-
-    {
-        ""Age_Dependent_Biting_Risk_Type"": ""SURFACE_AREA_DEPENDENT""
-    }
-"
-"Base_Infectivity","float","0","1000","0.3","The base infectiousness of individuals before accounting for transmission-blocking effects of acquired immunity and/or campaign interventions.
+    The biting risk rises linearly from 7% to 23% over the first two years of life and then rises with a shallower linear slope to the adult value at age 20.",[link](../json/config-infectivity-malaria-age-dependent-biting-risk-type.json)
+Base_Infectivity,float,0,1000,0.3,"The base infectiousness of individuals before accounting for transmission-blocking effects of acquired immunity and/or campaign interventions.
 
 .. only:: generic
     
@@ -47,210 +32,30 @@ SURFACE_AREA_DEPENDENT
 
 .. only:: typhoid 
 
-     This parameter is not used. ",".. code-block:: json
+     This parameter is not used. ",[link](../json/config-infectivity-malaria-base-infectivity.json)
+Enable_Heterogeneous_Intranode_Transmission,boolean,0,1,0,"Controls whether or not individuals experience heterogeneous disease transmission within a node. When set to true (1), individual property definitions and the $\\beta$ matrix must be specified in the demographics file (see :ref:`demo-properties` parameters). The $\\beta$ values are multiplied with the $\\beta$ :sub:`0` value configured by **Base_Infectivity**.
 
-    {
-        ""Base_Infectivity"": 0.5
-    }
-"
-"Enable_Heterogeneous_Intranode_Transmission","boolean","0","1","0","Controls whether or not individuals experience heterogeneous disease transmission within a node. When set to true (1), individual property definitions and the $\\beta$ matrix must be specified in the demographics file (see :ref:`demo-properties` parameters). The $\\beta$ values are multiplied with the $\\beta$ :sub:`0` value configured by **Base_Infectivity**.
-
-This is used only in generic, environmental, and typhoid simulations, but must be set to false (0) for all other simulation types. Heterogeneous transmission for other diseases uses other mechanistic parameters included with the simulation type.",".. code-block:: json
-
-    {
-        ""Enable_Heterogeneous_Intranode_Transmission"": 1
-    }
-"
-"Enable_Infectivity_Reservoir","boolean","0","1","0","Controls whether or not an exogeneous reservoir of infectivity will be included in the simulation and allows for the infectivity in a node to be increased additively. When set to 1 (true), the demographics parameter **InfectivityReservoirSize** is expected in **NodeAtttributes** for each node.
+This is used only in generic, environmental, and typhoid simulations, but must be set to false (0) for all other simulation types. Heterogeneous transmission for other diseases uses other mechanistic parameters included with the simulation type.",[link](../json/config-infectivity-malaria-enable-heterogeneous-intranode-transmission.json)
+Enable_Infectivity_Reservoir,boolean,0,1,0,"Controls whether or not an exogeneous reservoir of infectivity will be included in the simulation and allows for the infectivity in a node to be increased additively. When set to 1 (true), the demographics parameter **InfectivityReservoirSize** is expected in **NodeAtttributes** for each node.
 
 .. warning::
 
-    Do not set both **Enable_Infectivity_Reservoir** and  **Enable_Strain_Tracking** to true (1) - as this combination will cause an exception error.",".. code-block:: json
-
-    {
-        ""Enable_Infectivity_Reservoir"": 1
-    }
-"
-"Enable_Initial_Prevalence","boolean","0","1","0","Controls whether or not parameters in the demographics file are used to define a distribution for the number of infected people per node at the beginning of the simulation. Set the distribution under :ref:`demo-nodeattributes` using **PrevalenceDistributionFlag**, **PrevalenceDistribution1**, and **PrevalenceDistribution2**.
+    Do not set both **Enable_Infectivity_Reservoir** and  **Enable_Strain_Tracking** to true (1) - as this combination will cause an exception error.",[link](../json/config-infectivity-malaria-enable-infectivity-reservoir.json)
+Enable_Initial_Prevalence,boolean,0,1,0,"Controls whether or not parameters in the demographics file are used to define a distribution for the number of infected people per node at the beginning of the simulation. Set the distribution under :ref:`demo-nodeattributes` using **PrevalenceDistributionFlag**, **PrevalenceDistribution1**, and **PrevalenceDistribution2**.
 
 
-    ",".. code-block:: json
-
-    {
-        ""Enable_Initial_Prevalence"": 1
-    }
-"
-"Enable_Skipping","boolean","0","1","0","Controls whether or not the simulation uses an optimization that can increase performance by up to 50% in some cases by probabilistically exposing individuals rather than exposing every single person. Useful in low-prevalence, high-population scenarios.
-",".. code-block:: json
-
-    {
-        ""Enable_Skipping"": 0
-    }
-"
-"Enable_Superinfection","boolean","0","1","0","Controls whether or not an individual can have multiple infections simultaneously. Set to true (1) to allow for multiple simultaneous infections; set to false (0) if multiple infections are not possible. Set the **Max_Individual_Infections** parameter.",".. code-block:: json
-
-    {
-        ""Enable_Superinfection"": 1,
-        ""Max_Individual_Infections"": 2
-    }
-"
-"Enable_Termination_On_Zero_Total_Infectivity","boolean","0","1","0","Controls whether or not the simulation should be ended when total infectivity falls to zero. Supported only in single-node simulations. ",".. code-block:: json
-
-    {
-        ""Enable_Termination_On_Zero_Total_Infectivity"": 1,
-        ""Minimum_End_Time"": 3650
-    }
-"
-"Infected_Arrhenius_1","float","0","1.00E+15","1.17E+11","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a1 is a temperature-independent scale factor on the progression rate to infectiousness. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Acquire_Modifier"": 0.2,
-                ""Adult_Life_Expectancy"": 20,
-                ""Anthropophily"": 0.65,
-                ""Aquatic_Arrhenius_1"": 84200000000,
-                ""Aquatic_Arrhenius_2"": 8328,
-                ""Aquatic_Mortality_Rate"": 0.1,
-                ""Days_Between_Feeds"": 3,
-                ""Egg_Batch_Size"": 100,
-                ""Habitats"": [
-                    {
-                        ""Habitat_Type"": ""TEMPORARY_RAINFALL"",
-                        ""Max_Larval_Capacity"": 11250000000
-                    }
-                ],
-                ""Immature_Duration"": 2,
-                ""Indoor_Feeding_Fraction"": 1,
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336,
-                ""Infected_Egg_Batch_Factor"": 0.8,
-                ""Infectious_Human_Feed_Mortality_Factor"": 1.5,
-                ""Male_Life_Expectancy"": 10,
-                ""Temperature_Dependent_Feeding_Cycle"": ""NO_TEMPERATURE_DEPENDENCE"",
-                ""Transmission_Rate"": 0.5,
-                ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE""
-            }
-        ]
-    }
-"
-"Infected_Arrhenius_2","float","0","1.00E+15","8340","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a2 is a temperature-dependent scale factor on the progression rate to infectiousness.  ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Acquire_Modifier"": 0.2,
-                ""Adult_Life_Expectancy"": 20,
-                ""Anthropophily"": 0.65,
-                ""Aquatic_Arrhenius_1"": 84200000000,
-                ""Aquatic_Arrhenius_2"": 8328,
-                ""Aquatic_Mortality_Rate"": 0.1,
-                ""Days_Between_Feeds"": 3,
-                ""Egg_Batch_Size"": 100,
-                ""Habitats"": [
-                    {
-                        ""Habitat_Type"": ""TEMPORARY_RAINFALL"",
-                        ""Max_Larval_Capacity"": 11250000000
-                    }
-                ],
-                ""Immature_Duration"": 2,
-                ""Indoor_Feeding_Fraction"": 1,
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336,
-                ""Infected_Egg_Batch_Factor"": 0.8,
-                ""Infectious_Human_Feed_Mortality_Factor"": 1.5,
-                ""Male_Life_Expectancy"": 10,
-                ""Temperature_Dependent_Feeding_Cycle"": ""NO_TEMPERATURE_DEPENDENCE"",
-                ""Transmission_Rate"": 0.5,
-                ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE""
-            }
-        ]
-    }
-"
-"Infected_Egg_Batch_Factor","float","0","10","0.8","The dimensionless factor used to modify mosquito egg batch size  in order to account for reduced fertility effects arising due to infection (e.g. when females undergo sporogony).",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Acquire_Modifier"": 0.2,
-                ""Adult_Life_Expectancy"": 20,
-                ""Anthropophily"": 0.65,
-                ""Aquatic_Arrhenius_1"": 84200000000,
-                ""Aquatic_Arrhenius_2"": 8328,
-                ""Aquatic_Mortality_Rate"": 0.1,
-                ""Days_Between_Feeds"": 3,
-                ""Egg_Batch_Size"": 100,
-                ""Habitats"": [
-                    {
-                        ""Habitat_Type"": ""TEMPORARY_RAINFALL"",
-                        ""Max_Larval_Capacity"": 11250000000
-                    }
-                ],
-                ""Immature_Duration"": 2,
-                ""Indoor_Feeding_Fraction"": 1,
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336,
-                ""Infected_Egg_Batch_Factor"": 0.8,
-                ""Infectious_Human_Feed_Mortality_Factor"": 1.5,
-                ""Male_Life_Expectancy"": 10,
-                ""Temperature_Dependent_Feeding_Cycle"": ""NO_TEMPERATURE_DEPENDENCE"",
-                ""Transmission_Rate"": 0.5,
-                ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE""
-            }
-        ]
-    }
-"
-"Infection_Updates_Per_Timestep","integer","0","144","1","The number of infection updates executed during each timestep; note that a timestep defaults to one day.",".. code-block:: json
-
-    {
-        ""Infection_Updates_Per_Timestep"": 1
-    }
-"
-"Infectious_Human_Feed_Mortality_Factor","float","0","1000","1.5","The (dimensionless) factor used to modify the death rate of mosquitoes when feeding on humans, to account for the higher mortality rate infected mosquitoes experience during human feeds versus uninfected mosquitoes. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Acquire_Modifier"": 0.2,
-                ""Adult_Life_Expectancy"": 20,
-                ""Anthropophily"": 0.65,
-                ""Aquatic_Arrhenius_1"": 84200000000,
-                ""Aquatic_Arrhenius_2"": 8328,
-                ""Aquatic_Mortality_Rate"": 0.1,
-                ""Days_Between_Feeds"": 3,
-                ""Egg_Batch_Size"": 100,
-                ""Habitats"": [
-                    {
-                        ""Habitat_Type"": ""TEMPORARY_RAINFALL"",
-                        ""Max_Larval_Capacity"": 11250000000
-                    }
-                ],
-                ""Immature_Duration"": 2,
-                ""Indoor_Feeding_Fraction"": 1,
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336,
-                ""Infected_Egg_Batch_Factor"": 0.8,
-                ""Infectious_Human_Feed_Mortality_Factor"": 1.5,
-                ""Male_Life_Expectancy"": 10,
-                ""Temperature_Dependent_Feeding_Cycle"": ""NO_TEMPERATURE_DEPENDENCE"",
-                ""Transmission_Rate"": 0.5,
-                ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE""
-            }
-        ]
-    }
-"
-"Infectious_Period_Constant","float","0","3.40282E+38","-1","The infectious period to use for all individuals, in days, when **Infectious_Period_Distribution** is set to CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Infectious_Period_Constant"": 8
-    }
-"
-"Infectious_Period_Distribution","enum","NA","NA","NOT_INITIALIZED","The distribution type to use for assigning the infectious period to each individual in the population. Each individual's value is a random draw from the distribution.
+    ",[link](../json/config-infectivity-malaria-enable-initial-prevalence.json)
+Enable_Skipping,boolean,0,1,0,"Controls whether or not the simulation uses an optimization that can increase performance by up to 50% in some cases by probabilistically exposing individuals rather than exposing every single person. Useful in low-prevalence, high-population scenarios.
+",[link](../json/config-infectivity-malaria-enable-skipping.json)
+Enable_Superinfection,boolean,0,1,0,Controls whether or not an individual can have multiple infections simultaneously. Set to true (1) to allow for multiple simultaneous infections; set to false (0) if multiple infections are not possible. Set the **Max_Individual_Infections** parameter.,[link](../json/config-infectivity-malaria-enable-superinfection.json)
+Enable_Termination_On_Zero_Total_Infectivity,boolean,0,1,0,Controls whether or not the simulation should be ended when total infectivity falls to zero. Supported only in single-node simulations. ,[link](../json/config-infectivity-malaria-enable-termination-on-zero-total-infectivity.json)
+Infected_Arrhenius_1,float,0,1.00E+15,1.17E+11,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a1 is a temperature-independent scale factor on the progression rate to infectiousness. ",[link](../json/config-infectivity-malaria-infected-arrhenius-1.json)
+Infected_Arrhenius_2,float,0,1.00E+15,8340,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a2 is a temperature-dependent scale factor on the progression rate to infectiousness.  ",[link](../json/config-infectivity-malaria-infected-arrhenius-2.json)
+Infected_Egg_Batch_Factor,float,0,10,0.8,The dimensionless factor used to modify mosquito egg batch size  in order to account for reduced fertility effects arising due to infection (e.g. when females undergo sporogony).,[link](../json/config-infectivity-malaria-infected-egg-batch-factor.json)
+Infection_Updates_Per_Timestep,integer,0,144,1,The number of infection updates executed during each timestep; note that a timestep defaults to one day.,[link](../json/config-infectivity-malaria-infection-updates-per-timestep.json)
+Infectious_Human_Feed_Mortality_Factor,float,0,1000,1.5,"The (dimensionless) factor used to modify the death rate of mosquitoes when feeding on humans, to account for the higher mortality rate infected mosquitoes experience during human feeds versus uninfected mosquitoes. ",[link](../json/config-infectivity-malaria-infectious-human-feed-mortality-factor.json)
+Infectious_Period_Constant,float,0,3.40282E+38,-1,"The infectious period to use for all individuals, in days, when **Infectious_Period_Distribution** is set to CONSTANT_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-constant.json)
+Infectious_Period_Distribution,enum,NA,NA,NOT_INITIALIZED,"The distribution type to use for assigning the infectious period to each individual in the population. Each individual's value is a random draw from the distribution.
 
 Possible values are:
 
@@ -288,145 +93,24 @@ DUAL_EXPONENTIAL_DISTRIBUTION
 
 .. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution
 
-",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""GAUSSIAN_DISTRIBUTION"",
-        ""Infectious_Period_Gaussian_Mean"": 4,
-        ""Infectious_Period_Gaussian_Std_Dev"": 1
-    }
-"
-"Infectious_Period_Exponential","float","0","3.40282E+38","-1","The mean infectious period, in days, when **Infectious_Period_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""EXPONENTIAL_DISTRIBUTION"",
-        ""Infectious_Period_Exponential"": 4.25
-    }
-"
-"Infectious_Period_Gaussian_Mean","float","0","3.40282E+38","-1","The mean infectious period, in days, when **Infectious_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""GAUSSIAN_DISTRIBUTION"",
-        ""Infectious_Period_Gaussian_Mean"": 4,
-        ""Infectious_Period_Gaussian_Std_Dev"": 1
-    }
-"
-"Infectious_Period_Gaussian_Std_Dev","float","1.17549E-38","3.40282E+38","-1","The standard deviation of the infectious period, in days, when **Infectious_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""GAUSSIAN_DISTRIBUTION"",
-        ""Infectious_Period_Gaussian_Mean"": 4,
-        ""Infectious_Period_Gaussian_Std_Dev"": 1
-    }
-"
-"Infectious_Period_Kappa","float","1.17549E-38","3.40282E+38","-1","The shape value for the infectious period, in days, when **Infectious_Period_Distribution** is set to WEIBULL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""WEIBULL_DISTRIBUTION"",
-        ""Infectious_Period_Kappa"": 0.9,
-        ""Infectious_Period_Lambda"": 1.5
-    }
-"
-"Infectious_Period_Lambda","float","1.17549E-38","3.40282E+38","-1","The scale value for the infectious period, in days, when **Infectious_Period_Distribution** is set to WEIBULL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""WEIBULL_DISTRIBUTION"",
-        ""Infectious_Period_Kappa"": 0.9,
-        ""Infectious_Period_Lambda"": 1.5
-    }
-"
-"Infectious_Period_Log_Normal_Mu","float","-3.40282e+38","1.70141e+38","3.40282e+38","The mean of the natural log of the infectious period, in days, when **Infectious_Period_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""LOG_NORMAL_DISTRIBUTION"",
-        ""Infectious_Period_Log_Normal_Mu"": 9,
-        ""Infectious_Period_Log_Normal_Sigma"": 2
-    }
-"
-"Infectious_Period_Log_Normal_Sigma","float","-3.40282e+38","1.70141e+38","3.40282e+38","The standard deviation of the natural log of the infectious period, in days, when **Infectious_Period_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""LOG_NORMAL_DISTRIBUTION"",
-        ""Infectious_Period_Log_Normal_Mu"": 9,
-        ""Infectious_Period_Log_Normal_Sigma"": 2
-    }
-"
-"Infectious_Period_Max","float","0","3.40282E+38","-1","The maximum infectious period, in days, when **Infectious_Period_Distribution** is set to UNIFORM_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""UNIFORM_DISTRIBUTION"",
-        ""Infectious_Period_Min"": 2,
-        ""Infectious_Period_Max"": 7
-    }
-"
-"Infectious_Period_Mean_1","float","1.17549E-38","3.4E+38","-1","The mean of the first exponential distribution, in days, when **Infectious_Period_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-        ""Infectious_Period_Mean_1"": 4,
-        ""Infectious_Period_Mean_2"": 12,
-        ""Infectious_Period_Proportion_1"": 0.2
-    }
-"
-"Infectious_Period_Mean_2","float","1.17549E-38","3.40282E+38","-1","The mean of the second exponential distribution, in days, when **Infectious_Period_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-        ""Infectious_Period_Mean_1"": 4,
-        ""Infectious_Period_Mean_2"": 12,
-        ""Infectious_Period_Proportion_1"": 0.2
-    }
-"
-"Infectious_Period_Min","float","0","3.40282E+38","-1","The minimum infectious period, in days, when **Infectious_Period_Distribution** is set to UNIFORM_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""UNIFORM_DISTRIBUTION"",
-        ""Infectious_Period_Min"": 2,
-        ""Infectious_Period_Max"": 7
-    }
-"
-"Infectious_Period_Peak_2_Value","float","0","3.40282E+38","-1","The infectious period value, in days, to assign to the remaining individuals when **Infectious_Period_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""DUAL_CONSTANT_DISTRIBUTION"",
-        ""Infectious_Period_Proportion_0"": 0.25,
-        ""Infectious_Period_Peak_2_Value"": 5
-    }
-"
-"Infectious_Period_Poisson_Mean","float","0","3.40282E+38","-1","The mean of the infectious period, in days, when **Infectious_Period_Distribution** is set to POISSON_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""POISSON_DISTRIBUTION"",
-        ""Infectious_Period_Poisson_Mean"": 5
-    }
-"
-"Infectious_Period_Proportion_0","float","0","1","-1","The proportion of individuals to assign a value of zero days infectiousness when **Infectious_Period_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""DUAL_CONSTANT_DISTRIBUTION"",
-        ""Infectious_Period_Proportion_0"": 0.25,
-        ""Infectious_Period_Peak_2_Value"": 5
-    }
-"
-"Infectious_Period_Proportion_1","float","0","1","-1","The proportion of individuals in the first exponential distribution when **Infectious_Period_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-        ""Infectious_Period_Mean_1"": 4,
-        ""Infectious_Period_Mean_2"": 12,
-        ""Infectious_Period_Proportion_1"": 0.2
-    }
-"
-"Infectivity_Exponential_Baseline","float","0","1","0","The scale factor applied to **Base_Infectivity** at the beginning of a simulation, before the infectivity begins to grow exponentially. **Infectivity_Scale_Type** must be set to EXPONENTIAL_FUNCTION_OF_TIME.",".. code-block:: json
-
-    {
-        ""Infectivity_Exponential_Baseline"": 0.1,
-        ""Infectivity_Exponential_Delay"": 90,
-        ""Infectivity_Exponential_Rate"": 45,
-        ""Infectivity_Scale_Type"": ""EXPONENTIAL_FUNCTION_OF_TIME""
-    }
-"
-"Malaria_Strain_Model","enum","NA","NA","FALCIPARUM_NONRANDOM_STRAIN","The generator that is used to construct the antigenic repertoire of a malaria infection. To create parasite diversity, various antigenic strains are created by conducting draws for :term:`merozoite surface protein (MSP)` variants, :term:`Plasmodium falciparum erythrocyte membrane protein 1 (PfEMP1)` variants, and minor surface epitopes, out of available populations. Each possible value for this parameter utilizes different settings for the available population draws.
+",[link](../json/config-infectivity-malaria-infectious-period-distribution.json)
+Infectious_Period_Exponential,float,0,3.40282E+38,-1,"The mean infectious period, in days, when **Infectious_Period_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-exponential.json)
+Infectious_Period_Gaussian_Mean,float,0,3.40282E+38,-1,"The mean infectious period, in days, when **Infectious_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-gaussian-mean.json)
+Infectious_Period_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,-1,"The standard deviation of the infectious period, in days, when **Infectious_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-gaussian-std-dev.json)
+Infectious_Period_Kappa,float,1.17549E-38,3.40282E+38,-1,"The shape value for the infectious period, in days, when **Infectious_Period_Distribution** is set to WEIBULL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-kappa.json)
+Infectious_Period_Lambda,float,1.17549E-38,3.40282E+38,-1,"The scale value for the infectious period, in days, when **Infectious_Period_Distribution** is set to WEIBULL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-lambda.json)
+Infectious_Period_Log_Normal_Mu,float,-3.40282e+38,1.70141e+38,3.40282e+38,"The mean of the natural log of the infectious period, in days, when **Infectious_Period_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-log-normal-mu.json)
+Infectious_Period_Log_Normal_Sigma,float,-3.40282e+38,1.70141e+38,3.40282e+38,"The standard deviation of the natural log of the infectious period, in days, when **Infectious_Period_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-log-normal-sigma.json)
+Infectious_Period_Max,float,0,3.40282E+38,-1,"The maximum infectious period, in days, when **Infectious_Period_Distribution** is set to UNIFORM_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-max.json)
+Infectious_Period_Mean_1,float,1.17549E-38,3.4E+38,-1,"The mean of the first exponential distribution, in days, when **Infectious_Period_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-mean-1.json)
+Infectious_Period_Mean_2,float,1.17549E-38,3.40282E+38,-1,"The mean of the second exponential distribution, in days, when **Infectious_Period_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-mean-2.json)
+Infectious_Period_Min,float,0,3.40282E+38,-1,"The minimum infectious period, in days, when **Infectious_Period_Distribution** is set to UNIFORM_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-min.json)
+Infectious_Period_Peak_2_Value,float,0,3.40282E+38,-1,"The infectious period value, in days, to assign to the remaining individuals when **Infectious_Period_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-peak-2-value.json)
+Infectious_Period_Poisson_Mean,float,0,3.40282E+38,-1,"The mean of the infectious period, in days, when **Infectious_Period_Distribution** is set to POISSON_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-poisson-mean.json)
+Infectious_Period_Proportion_0,float,0,1,-1,The proportion of individuals to assign a value of zero days infectiousness when **Infectious_Period_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.,[link](../json/config-infectivity-malaria-infectious-period-proportion-0.json)
+Infectious_Period_Proportion_1,float,0,1,-1,The proportion of individuals in the first exponential distribution when **Infectious_Period_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.,[link](../json/config-infectivity-malaria-infectious-period-proportion-1.json)
+Infectivity_Exponential_Baseline,float,0,1,0,"The scale factor applied to **Base_Infectivity** at the beginning of a simulation, before the infectivity begins to grow exponentially. **Infectivity_Scale_Type** must be set to EXPONENTIAL_FUNCTION_OF_TIME.",[link](../json/config-infectivity-malaria-infectivity-exponential-baseline.json)
+Malaria_Strain_Model,enum,NA,NA,FALCIPARUM_NONRANDOM_STRAIN,"The generator that is used to construct the antigenic repertoire of a malaria infection. To create parasite diversity, various antigenic strains are created by conducting draws for :term:`merozoite surface protein (MSP)` variants, :term:`Plasmodium falciparum erythrocyte membrane protein 1 (PfEMP1)` variants, and minor surface epitopes, out of available populations. Each possible value for this parameter utilizes different settings for the available population draws.
 Possible values are: 
 
 FALCIPARUM_NONRANDOM_STRAIN
@@ -436,35 +120,15 @@ FALCIPARUM_RANDOM50_STRAIN
 FALCIPARUM_RANDOM_STRAIN
     The MSP variant is drawn from the population set by the parameter **Falciparum_MSP_Variants**, a repertoire of 50 PfEMP1 variants is drawn from the population set by the parameter **Falciparum_PfEMP1_Variants**, and the set of five minor surface protein epitope variants is drawn from the population set by the parameter **Falciparum_Nonspecific_Types**.
 FALCIPARUM_STRAIN_GENERATOR
-    This is an exploratory effort created to provide a pseudo-random generation of strains similar to FALCIPARUM_RANDOM_STRAIN, but with variant indices deterministically assigned according to the strain ID.",".. code-block:: json
-
-    {
-        ""Malaria_Strain_Model"": ""FALCIPARUM_STRAIN_GENERATOR""
-    }
-"
-"Maternal_Infection_Transmission_Probability","float","0","1","0","The probability of transmission of infection from mother to infant at birth. **Enable_Maternal_Infection_Transmission** must be set to 1. 
+    This is an exploratory effort created to provide a pseudo-random generation of strains similar to FALCIPARUM_RANDOM_STRAIN, but with variant indices deterministically assigned according to the strain ID.",[link](../json/config-infectivity-malaria-malaria-strain-model.json)
+Maternal_Infection_Transmission_Probability,float,0,1,0,"The probability of transmission of infection from mother to infant at birth. **Enable_Maternal_Infection_Transmission** must be set to 1. 
 
 .. note::
 
-    For malaria and vector simulations, set this to 0. Instead, use the **Maternal_Antibody_Protection**, **Maternal_Antibody_Decay_Rate**, and **Maternal_Antibodies_Type** parameters.  ",".. code-block:: json
-
-    {
-        ""Maternal_Infection_Transmission_Probability"": 0.3
-    }
-"
-"Max_Individual_Infections","integer","0","1000","1","The limit on the number of infections that an individual can have simultaneously. **Enable_Superinfection** must be set to 1.",".. code-block:: json
-
-    {
-        ""Max_Individual_Infections"": 5
-    }
-"
-"Population_Density_C50","float","0","3.40E+38","10","The population density at which R0 for a 2.5-arc minute square reaches half of its initial value. **Population_Density_Infectivity_Correction** must be set to SATURATING_FUNCTION_OF_DENSITY.",".. code-block:: json
-
-    {
-        ""Population_Density_C50"": 30
-    }
-"
-"Population_Density_Infectivity_Correction","enum","NA","NA","CONSTANT_INFECTIVITY","Correction to alter infectivity by population density set in the **Population_Density_C50** parameter. Measured in people per square kilometer. 
+    For malaria and vector simulations, set this to 0. Instead, use the **Maternal_Antibody_Protection**, **Maternal_Antibody_Decay_Rate**, and **Maternal_Antibodies_Type** parameters.  ",[link](../json/config-infectivity-malaria-maternal-infection-transmission-probability.json)
+Max_Individual_Infections,integer,0,1000,1,The limit on the number of infections that an individual can have simultaneously. **Enable_Superinfection** must be set to 1.,[link](../json/config-infectivity-malaria-max-individual-infections.json)
+Population_Density_C50,float,0,3.40E+38,10,The population density at which R0 for a 2.5-arc minute square reaches half of its initial value. **Population_Density_Infectivity_Correction** must be set to SATURATING_FUNCTION_OF_DENSITY.,[link](../json/config-infectivity-malaria-population-density-c50.json)
+Population_Density_Infectivity_Correction,enum,NA,NA,CONSTANT_INFECTIVITY,"Correction to alter infectivity by population density set in the **Population_Density_C50** parameter. Measured in people per square kilometer. 
 Possible values are:
 
 * CONSTANT_INFECTIVITY
@@ -472,90 +136,16 @@ Possible values are:
   
 .. note::
 
-   Sparsely populated areas have a lower infectivity, while densely populated areas have a higher infectivity, which rises to saturate at the **Base_Infectivity** value.",".. code-block:: json
-
-    {
-        ""Population_Density_Infectivity_Correction"": ""SATURATING_FUNCTION_OF_DENSITY""
-    }
-"
-"Pyrogenic_Threshold","float","0.1","20000","1000","The level of bloodstream infection, measured in IRBC per microliter, at which stimulation of the innate inflammatory immune response is half its maximum value.",".. code-block:: json
-
-    {
-        ""Pyrogenic_Threshold"": 15000
-    }
-"
-"Relative_Sample_Rate_Immune","float","0.001","1","0.1","The relative sampling rate for people who have acquired immunity through recovery or vaccination. The immune threshold at which to downsample is set by **Immune_Threshold_For_Downsampling**. If set to 1, this will have no effect, even if the individual's immunity modifier is below threshold. This can be a useful sanity check while learning this feature. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_IMMUNE_STATE. ",".. code-block:: json
-
-    {
-        ""Relative_Sample_Rate_Immune"": 0.1,
-        ""Immune_Threshold_For_Downsampling"": 0.8,
-        ""Individual_Sampling_Type"": ""ADAPTED_SAMPLING_BY_IMMUNE_STATE""
-    }
-"
-"Susceptibility_Type","enum","NA","NA","FRACTIONAL","Controls implementation of an individual's susceptibility. Currently only relevant to **Maternal_Protection_Type** parameter. Possible values are:
+   Sparsely populated areas have a lower infectivity, while densely populated areas have a higher infectivity, which rises to saturate at the **Base_Infectivity** value.",[link](../json/config-infectivity-malaria-population-density-infectivity-correction.json)
+Pyrogenic_Threshold,float,0.1,20000,1000,"The level of bloodstream infection, measured in IRBC per microliter, at which stimulation of the innate inflammatory immune response is half its maximum value.",[link](../json/config-infectivity-malaria-pyrogenic-threshold.json)
+Relative_Sample_Rate_Immune,float,0.001,1,0.1,"The relative sampling rate for people who have acquired immunity through recovery or vaccination. The immune threshold at which to downsample is set by **Immune_Threshold_For_Downsampling**. If set to 1, this will have no effect, even if the individual's immunity modifier is below threshold. This can be a useful sanity check while learning this feature. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_IMMUNE_STATE. ",[link](../json/config-infectivity-malaria-relative-sample-rate-immune.json)
+Susceptibility_Type,enum,NA,NA,FRACTIONAL,"Controls implementation of an individual's susceptibility. Currently only relevant to **Maternal_Protection_Type** parameter. Possible values are:
 
 FRACTIONAL
     All agents are assigned equal values between 0 and 1 according to a governing equation as specified by **Maternal_Protection_Type**.
 BINARY
-    Agents receive a value of either 0 or 1 (complete immunity or susceptibility) with the probability determined by a governing equation as specified by **Maternal_Protection_Type**. ",".. code-block:: json
-
-    {
-        ""Susceptibility_Type"": ""FRACTIONAL"",
-        ""Enable_Maternal_Protection"": 1,
-        ""Maternal_Protection_Type"": ""LINEAR_FRACTIONAL""
-    }
-"
-"Symptomatic_Infectious_Offset","float","-3.40282e+38","3.40282e+38","3.40282e+38","Amount of time, in days, after the infectious period starts that symptoms appear. Negative values imply an individual is symptomatic before infectious. If this offset is greater than the infectious duration, the infection will not be symptomatic. For example, if **Incubation_Period_Constant** is set to 10 and **Symptomatic_Infectious_Offset** is set to 4, then an infected person would become symptomatic 14 days after transmission.",".. code-block:: json
-
-    {
-        ""Infectious_Period_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Symptomatic_Infectious_Offset"": 4,
-        ""Incubation_Period_Constant"": 10
-    }
-"
-"Transmission_Blocking_Immunity_Decay_Rate","float","0","1000","0.001","The rate at which transmission-blocking immunity decays after the base transmission-blocking immunity offset period. Used only when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
-
-    {
-        ""Transmission_Blocking_Immunity_Decay_Rate"": 0.01
-    }
-"
-"Transmission_Blocking_Immunity_Duration_Before_Decay","float","0","45000","0","The number of days after infection until transmission-blocking immunity begins to decay. Only used when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).",".. code-block:: json
-
-    {
-        ""Transmission_Blocking_Immunity_Duration_Before_Decay"": 90
-    }
-"
-"Transmission_Rate","float","0","1","0.5","The probability that the bite of an infected mosquito establishes a new infection in an immunologically naive and uninfected individual, or the modifier of the probability of success for an individual with pre-erythrocytic immunity. Note that each mosquito species will have their own **Transmission_Rate** parameter. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Acquire_Modifier"": 0.2,
-                ""Adult_Life_Expectancy"": 20,
-                ""Anthropophily"": 0.65,
-                ""Aquatic_Arrhenius_1"": 84200000000,
-                ""Aquatic_Arrhenius_2"": 8328,
-                ""Aquatic_Mortality_Rate"": 0.1,
-                ""Days_Between_Feeds"": 3,
-                ""Egg_Batch_Size"": 100,
-                ""Habitats"": [
-                    {
-                        ""Habitat_Type"": ""TEMPORARY_RAINFALL"",
-                        ""Max_Larval_Capacity"": 11250000000
-                    }
-                ],
-                ""Immature_Duration"": 2,
-                ""Indoor_Feeding_Fraction"": 1,
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336,
-                ""Infected_Egg_Batch_Factor"": 0.8,
-                ""Infectious_Human_Feed_Mortality_Factor"": 1.5,
-                ""Male_Life_Expectancy"": 10,
-                ""Temperature_Dependent_Feeding_Cycle"": ""NO_TEMPERATURE_DEPENDENCE"",
-                ""Transmission_Rate"": 0.5,
-                ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE""
-            }
-        ]
-    }
-"
+    Agents receive a value of either 0 or 1 (complete immunity or susceptibility) with the probability determined by a governing equation as specified by **Maternal_Protection_Type**. ",[link](../json/config-infectivity-malaria-susceptibility-type.json)
+Symptomatic_Infectious_Offset,float,-3.40282e+38,3.40282e+38,3.40282e+38,"Amount of time, in days, after the infectious period starts that symptoms appear. Negative values imply an individual is symptomatic before infectious. If this offset is greater than the infectious duration, the infection will not be symptomatic. For example, if **Incubation_Period_Constant** is set to 10 and **Symptomatic_Infectious_Offset** is set to 4, then an infected person would become symptomatic 14 days after transmission.",[link](../json/config-infectivity-malaria-symptomatic-infectious-offset.json)
+Transmission_Blocking_Immunity_Decay_Rate,float,0,1000,0.001,The rate at which transmission-blocking immunity decays after the base transmission-blocking immunity offset period. Used only when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).,[link](../json/config-infectivity-malaria-transmission-blocking-immunity-decay-rate.json)
+Transmission_Blocking_Immunity_Duration_Before_Decay,float,0,45000,0,The number of days after infection until transmission-blocking immunity begins to decay. Only used when **Enable_Immunity** and **Enable_Immune_Decay** parameters are set to true (1).,[link](../json/config-infectivity-malaria-transmission-blocking-immunity-duration-before-decay.json)
+Transmission_Rate,float,0,1,0.5,"The probability that the bite of an infected mosquito establishes a new infection in an immunologically naive and uninfected individual, or the modifier of the probability of success for an individual with pre-erythrocytic immunity. Note that each mosquito species will have their own **Transmission_Rate** parameter. ",[link](../json/config-infectivity-malaria-transmission-rate.json)

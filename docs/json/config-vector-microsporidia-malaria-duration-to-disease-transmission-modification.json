@@ -1,0 +1,16 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "gambiae",
+            "Microsporidia": [
+                {
+                    "Strain_Name": "Strain_A",
+                    "Duration_To_Disease_Transmission_Modification": {
+                        "Times": [0, 3, 7],
+                        "Values": [1.0, 0.5, 0.1]
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,13 +1,3 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Bodyweight_Exponent","float","0","100000","0","Effect of body weight on maximum drug concentration in an individual patient.",".. code-block:: json
-
-    {
-      ""Bodyweight_Exponent"": 0
-    }
-"
-"Primary_Decay_Time_Constant","float","0","1.00E+00","0","The primary decay time constant (in days) of the decay profile.",".. code-block:: json
-
-    {
-      ""Primary_Decay_Time_Constant"": 180
-    }
-"
+Bodyweight_Exponent,float,0,100000,0,Effect of body weight on maximum drug concentration in an individual patient.,[link](../json/campaign-drugs-bodyweight-exponent.json)
+Primary_Decay_Time_Constant,float,0,1.00E+00,0,The primary decay time constant (in days) of the decay profile.,[link](../json/campaign-drugs-primary-decay-time-constant.json)

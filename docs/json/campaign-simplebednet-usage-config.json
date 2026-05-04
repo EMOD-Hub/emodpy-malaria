@@ -1,0 +1,6 @@
+{
+  "Usage_Config": {
+    "class": "WaningEffectConstant",
+    "Initial_Effect": 1.0
+  }
+}

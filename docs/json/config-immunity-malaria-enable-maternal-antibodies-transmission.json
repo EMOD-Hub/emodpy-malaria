@@ -1,0 +1,6 @@
+{
+  "Enable_Maternal_Antibodies_Transmission": 1,
+  "Maternal_Antibodies_Type": "SIMPLE_WANING",
+  "Maternal_Antibody_Protection": 0.23,
+  "Maternal_Antibody_Decay_Rate": 0.03
+}

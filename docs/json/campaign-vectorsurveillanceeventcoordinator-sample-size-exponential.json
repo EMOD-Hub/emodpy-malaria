@@ -1,0 +1,6 @@
+{
+  "Counter": {
+    "Sample_Size_Distribution": "EXPONENTIAL_DISTRIBUTION",
+    "Sample_Size_Exponential": 50
+  }
+}

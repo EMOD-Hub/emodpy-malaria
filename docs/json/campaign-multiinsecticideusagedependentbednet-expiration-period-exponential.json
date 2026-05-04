@@ -1,0 +1,4 @@
+{
+  "Expiration_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+  "Expiration_Period_Exponential": 4.25
+}

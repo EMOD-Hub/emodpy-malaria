@@ -1,0 +1,21 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "arabiensis",
+            "Habitats": [
+                {
+                    "Habitat_Type": "BRACKISH_SWAMP",
+                    "Max_Larval_Capacity": 30000000
+                },
+                {
+                    "Habitat_Type": "TEMPORARY_RAINFALL",
+                    "Max_Larval_Capacity": 11250000000
+                },
+                {
+                    "Habitat_Type": "WATER_VEGETATION",
+                    "Max_Larval_Capacity": 6000000000
+                }
+            ]
+        }
+    ]
+}

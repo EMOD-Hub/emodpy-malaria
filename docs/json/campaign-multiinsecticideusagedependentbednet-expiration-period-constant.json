@@ -1,0 +1,4 @@
+{
+  "Expiration_Period_Distribution": "CONSTANT_DISTRIBUTION",
+  "Expiration_Period_Constant": 8
+}

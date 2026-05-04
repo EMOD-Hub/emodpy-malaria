@@ -1,0 +1,6 @@
+{
+  "Intervention_Config": {
+    "class": "SimpleIndividualRepellent",
+    "Intervention_Name": "Individual DEET usage"
+  }
+}

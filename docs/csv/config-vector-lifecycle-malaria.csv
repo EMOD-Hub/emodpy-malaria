@@ -1,214 +1,43 @@
 Parameter,Type,Min,Max,Default,Description,Example
-﻿"Adult_Life_Expectancy","float","0","730","10","The number of days an adult mosquito survives. The daily adult mortality rate is 1 / **Adult_Life_Expectancy**, in absence of vector aging. With **Enable_Vector_Aging** set to 1, **Adult_Life_Expectancy** equal to 20 days corresponds to a mean adult female mosquito lifespan of 9-9.5 days in calibrated settings. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",".. code-block:: json
-
-    {
-        ""Enable_Vector_Aging"": 1,
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Adult_Life_Expectancy"": 18
-            }
-        ]
-    }
-"
-"Anthropophily","float","0","1","1","Mosquito preference for humans over animals, measured as a fraction of blood meals from human hosts. This dimensionless propensity is important in differentiating between mosquito species.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Anthropophily"": 0.95
-            }
-        ]
-    }
-"
-"Cycle_Arrhenius_1","float","0","1.00E+15","4.09E+10","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Cycle_Arrhenius_1"": 99,
-                ""Cycle_Arrhenius_2"": 88,
-                ""Name"": ""arabiensis"",
-                ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE""
-            }
-        ]
-    }
-"
-"Cycle_Arrhenius_2","float","0","1.00E+15","7740","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Cycle_Arrhenius_1"": 99,
-                ""Cycle_Arrhenius_2"": 88,
-                ""Name"": ""arabiensis"",
-                ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE""
-            }
-        ]
-    }
-"
-"Cycle_Arrhenius_Reduction_Factor","float","0","1","1","The scale factor applied to cycle duration (from oviposition to oviposition) to reduce the duration when primary follicles are at stage II rather than I in the case of newly emerged females. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Cycle_Arrhenius_Reduction_Factor"": 0.44,
-                ""Name"": ""arabiensis"",
-                ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE""
-            }
-        ]
-    }
-"
-"Days_Between_Feeds","float","0","730","2","The number of days between female mosquito feeding attempts. In the cohort model, this value is converted to a feeding rate, equal to  1/(value of this parameter), and is used to determine the probability that one of each of the various feeding modes (animal host, human host, indoor, outdoor, etc) occurs. In the individual model, this parameter determines the number of days a vector waits between feeds. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Days_Between_Feeds"": 3
-            }
-        ]
-    }
-"
-"Drought_Egg_Hatch_Delay","float","0","1","0.33","Proportion of regular egg hatching that still occurs when habitat dries up. **Enable_Drought_Egg_Hatch_Delay** must be set to 1.",".. code-block:: json
-
-    {
-        ""Enable_Drought_Egg_Hatch_Delay"": 1,
-        ""Drought_Egg_Hatch_Delay"": 0.33
-    }
-"
-"Egg_Arrhenius1","float","0","1.00E+10","6.16E+07","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
-
-    {
-        ""Enable_Temperature_Dependent_Egg_Hatching"": 1,
-        ""Egg_Arrhenius1"": 61599956,
-        ""Egg_Arrhenius2"": 5754
-    }
-"
-"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
-
-    {
-        ""Enable_Temperature_Dependent_Egg_Hatching"": 1,
-        ""Egg_Arrhenius1"": 61599956,
-        ""Egg_Arrhenius2"": 5754
-    }
-"
-"Egg_Batch_Size","float","0","10000","100","Number of eggs laid by one female mosquito that has fed successfully. The value of **Egg_Batch_Size** is used for both the number of female eggs and for the number of male eggs. For example, the default value of 100 means that there are 100 female eggs and 100 male eggs.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Egg_Batch_Size"": 100
-            }
-        ]
-    }
-"
-"Egg_Hatch_Delay_Distribution","enum","NA","NA","NO_DELAY","The distribution of the delay from oviposition to egg hatching. Possible values are: 
+"﻿""Adult_Life_Expectancy""",float,0,730,10,"The number of days an adult mosquito survives. The daily adult mortality rate is 1 / **Adult_Life_Expectancy**, in absence of vector aging. With **Enable_Vector_Aging** set to 1, **Adult_Life_Expectancy** equal to 20 days corresponds to a mean adult female mosquito lifespan of 9-9.5 days in calibrated settings. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",[link](../json/config-vector-lifecycle-malaria-adult-life-expectancy.json)
+Anthropophily,float,0,1,1,"Mosquito preference for humans over animals, measured as a fraction of blood meals from human hosts. This dimensionless propensity is important in differentiating between mosquito species.",[link](../json/config-vector-lifecycle-malaria-anthropophily.json)
+Cycle_Arrhenius_1,float,0,1.00E+15,4.09E+10,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",[link](../json/config-vector-lifecycle-malaria-cycle-arrhenius-1.json)
+Cycle_Arrhenius_2,float,0,1.00E+15,7740,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",[link](../json/config-vector-lifecycle-malaria-cycle-arrhenius-2.json)
+Cycle_Arrhenius_Reduction_Factor,float,0,1,1,The scale factor applied to cycle duration (from oviposition to oviposition) to reduce the duration when primary follicles are at stage II rather than I in the case of newly emerged females. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.,[link](../json/config-vector-lifecycle-malaria-cycle-arrhenius-reduction-factor.json)
+Days_Between_Feeds,float,0,730,2,"The number of days between female mosquito feeding attempts. In the cohort model, this value is converted to a feeding rate, equal to  1/(value of this parameter), and is used to determine the probability that one of each of the various feeding modes (animal host, human host, indoor, outdoor, etc) occurs. In the individual model, this parameter determines the number of days a vector waits between feeds. ",[link](../json/config-vector-lifecycle-malaria-days-between-feeds.json)
+Drought_Egg_Hatch_Delay,float,0,1,0.33,Proportion of regular egg hatching that still occurs when habitat dries up. **Enable_Drought_Egg_Hatch_Delay** must be set to 1.,[link](../json/config-vector-lifecycle-malaria-drought-egg-hatch-delay.json)
+Egg_Arrhenius1,float,0,1.00E+10,6.16E+07,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",[link](../json/config-vector-lifecycle-malaria-egg-arrhenius1.json)
+Egg_Arrhenius2,float,0,1.00E+10,5754.03,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",[link](../json/config-vector-lifecycle-malaria-egg-arrhenius2.json)
+Egg_Batch_Size,float,0,10000,100,"Number of eggs laid by one female mosquito that has fed successfully. The value of **Egg_Batch_Size** is used for both the number of female eggs and for the number of male eggs. For example, the default value of 100 means that there are 100 female eggs and 100 male eggs.",[link](../json/config-vector-lifecycle-malaria-egg-batch-size.json)
+Egg_Hatch_Delay_Distribution,enum,NA,NA,NO_DELAY,"The distribution of the delay from oviposition to egg hatching. Possible values are: 
 
 NO_DELAY
     No delay between oviposition and egg hatching.
 EXPONENTIAL_DISTRIBUTION
-    There is a delay that follows an exponential distribution. Set the mean delay in **Mean_Egg_Hatch_Delay**.",".. code-block:: json
-
-    {
-        ""Egg_Hatch_Delay_Distribution"": ""EXPONENTIAL_DISTRIBUTION"",
-        ""Mean_Egg_Hatch_Delay"": 2
-    }
-"
-"Egg_Hatch_Density_Dependence","enum","NA","NA","NO_DENSITY_DEPENDENCE","The effect of larval density on egg hatching rate. Possible values are: 
+    There is a delay that follows an exponential distribution. Set the mean delay in **Mean_Egg_Hatch_Delay**.",[link](../json/config-vector-lifecycle-malaria-egg-hatch-delay-distribution.json)
+Egg_Hatch_Density_Dependence,enum,NA,NA,NO_DENSITY_DEPENDENCE,"The effect of larval density on egg hatching rate. Possible values are: 
 
 DENSITY_DEPENDENCE
    Egg hatching is reduced when the habitat is nearing its carrying capacity.
 NO_DENSITY_DEPENDENCE
-   Egg hatching is not dependent upon larval density.",".. code-block:: json
-
-    {
-        ""Egg_Hatch_Density_Dependence"": ""NO_DENSITY_DEPENDENCE""
-    }
-"
-"Egg_Saturation_At_Oviposition","enum","NA","NA","NO_SATURATION","If laying all eggs from ovipositing females would overflow the larval habitat capacity on a given day, the means by which the viable eggs become saturated.  Possible values are: 
+   Egg hatching is not dependent upon larval density.",[link](../json/config-vector-lifecycle-malaria-egg-hatch-density-dependence.json)
+Egg_Saturation_At_Oviposition,enum,NA,NA,NO_SATURATION,"If laying all eggs from ovipositing females would overflow the larval habitat capacity on a given day, the means by which the viable eggs become saturated.  Possible values are: 
 
 NO_SATURATION
     Egg number does not saturate; all eggs are laid.
 SATURATION_AT_OVIPOSITION
     Eggs are saturated at oviposition; habitat is filled to capacity and excess eggs are discarded.
 SIGMOIDAL_SATURATION
-    Eggs are saturated along a sigmoidal curve; proportionately fewer eggs are laid depending on how oversubscribed the habitat would be.",".. code-block:: json
-
-    {
-        ""Egg_Saturation_At_Oviposition"": ""SATURATION_AT_OVIPOSITION""
-    }
-"
-"Enable_Egg_Mortality","boolean","0","1","0","Controls whether or not to include a daily mortality rate on the egg population, which is independent of climatic factors. ",".. code-block:: json
-
-    {
-        ""Enable_Egg_Mortality"": 1
-    }
-"
-"Enable_Temperature_Dependent_Egg_Hatching","boolean","0","1","0","Controls whether or not temperature has an effect on egg hatching, defined by **Egg_Arrhenius_1** and **Egg_Arrhenius_2**.",".. code-block:: json
-
-    {
-        ""Enable_Temperature_Dependent_Egg_Hatching"": 1,
-        ""Egg_Arrhenius1"": 61599956.864,
-        ""Egg_Arrhenius2"": 5754.033
-    }
-"
-"Enable_Vector_Aging","boolean","0","1","0","Controls whether or not vectors senesce as they get older. When enabled, the daily mortality rate (1/**Adult_Life_Expectancy**) is modified by environmental conditions such as dry heat, feeding on humans, etc. With vector aging enabled, **Adult_Life_Expectancy** equal to 20 days corresponds to a mean adult female mosquito lifespan of 9-9.5 days in calibrated settings. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",".. code-block:: json
-
-    {
-        ""Enable_Vector_Aging"": 1,
-        ""Adult_Life_Expectancy"": 20
-    }
-"
-"Enable_Vector_Mortality","boolean","0","1","1","Controls whether or not vectors can die. **Vector_Sampling_Type** must be set to TRACK_ALL_VECTORS.",".. code-block:: json
-
-    {
-        ""Vector_Sampling_Type"": ""TRACK_ALL_VECTORS"",
-        ""Enable_Vector_Mortality"": 1
-    }
-"
-"Human_Feeding_Mortality","float","0","1","0.1","The fraction of mosquitoes, for all species, that die while feeding on a human.",".. code-block:: json
-
-    {
-        ""Human_Feeding_Mortality"": 0.15
-    }
-"
-"Immature_Duration","float","0","730","2","The number of days for larvae to develop into adult mosquitoes. The value is used to calculate mosquito development rate, which equals 1 / (value of this parameter). Development from immature to adult is not dependent on temperature.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Immature_Duration"": 4
-            }
-        ]
-    }
-"
-"Indoor_Feeding_Fraction","float","0","1","1","The fraction (dimensionless) of feeds in which mosquitoes feed on humans indoors;  the fraction of feeds on humans that occur outdoors equals 1 - (value of this parameter).",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Indoor_Feeding_Fraction"": 1
-            }
-        ]
-    }
-"
-"Infected_Egg_Batch_Factor","float","0","10","0.8","The dimensionless factor used to modify mosquito egg batch size  in order to account for reduced fertility effects arising due to infection (e.g. when females undergo sporogony).",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Infected_Egg_Batch_Factor"": 0.8
-            }
-        ]
-    }
-"
-"Larval_Density_Dependence","enum","NA","NA","UNIFORM_WHEN_OVERPOPULATION","The functional form of mortality and growth delay for mosquito larvae based on population density.  
+    Eggs are saturated along a sigmoidal curve; proportionately fewer eggs are laid depending on how oversubscribed the habitat would be.",[link](../json/config-vector-lifecycle-malaria-egg-saturation-at-oviposition.json)
+Enable_Egg_Mortality,boolean,0,1,0,"Controls whether or not to include a daily mortality rate on the egg population, which is independent of climatic factors. ",[link](../json/config-vector-lifecycle-malaria-enable-egg-mortality.json)
+Enable_Temperature_Dependent_Egg_Hatching,boolean,0,1,0,"Controls whether or not temperature has an effect on egg hatching, defined by **Egg_Arrhenius_1** and **Egg_Arrhenius_2**.",[link](../json/config-vector-lifecycle-malaria-enable-temperature-dependent-egg-hatching.json)
+Enable_Vector_Aging,boolean,0,1,0,"Controls whether or not vectors senesce as they get older. When enabled, the daily mortality rate (1/**Adult_Life_Expectancy**) is modified by environmental conditions such as dry heat, feeding on humans, etc. With vector aging enabled, **Adult_Life_Expectancy** equal to 20 days corresponds to a mean adult female mosquito lifespan of 9-9.5 days in calibrated settings. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",[link](../json/config-vector-lifecycle-malaria-enable-vector-aging.json)
+Enable_Vector_Mortality,boolean,0,1,1,Controls whether or not vectors can die. **Vector_Sampling_Type** must be set to TRACK_ALL_VECTORS.,[link](../json/config-vector-lifecycle-malaria-enable-vector-mortality.json)
+Human_Feeding_Mortality,float,0,1,0.1,"The fraction of mosquitoes, for all species, that die while feeding on a human.",[link](../json/config-vector-lifecycle-malaria-human-feeding-mortality.json)
+Immature_Duration,float,0,730,2,"The number of days for larvae to develop into adult mosquitoes. The value is used to calculate mosquito development rate, which equals 1 / (value of this parameter). Development from immature to adult is not dependent on temperature.",[link](../json/config-vector-lifecycle-malaria-immature-duration.json)
+Indoor_Feeding_Fraction,float,0,1,1,The fraction (dimensionless) of feeds in which mosquitoes feed on humans indoors;  the fraction of feeds on humans that occur outdoors equals 1 - (value of this parameter).,[link](../json/config-vector-lifecycle-malaria-indoor-feeding-fraction.json)
+Infected_Egg_Batch_Factor,float,0,10,0.8,The dimensionless factor used to modify mosquito egg batch size  in order to account for reduced fertility effects arising due to infection (e.g. when females undergo sporogony).,[link](../json/config-vector-lifecycle-malaria-infected-egg-batch-factor.json)
+Larval_Density_Dependence,enum,NA,NA,UNIFORM_WHEN_OVERPOPULATION,"The functional form of mortality and growth delay for mosquito larvae based on population density.  
 Possible values are: 
 
 UNIFORM_WHEN_OVERPOPULATION
@@ -220,44 +49,12 @@ LARVAL_AGE_DENSITY_DEPENDENT_MORTALITY_ONLY
 DENSITY_DELAYED_GROWTH_NOT_MORTALITY
     There is no mortality, only delayed growth in larvae. 
 NO_DENSITY_DEPENDENCE
-    There is no additional larval density-dependent mortality factor.",".. code-block:: json
-
-    {
-        ""Larval_Density_Dependence"": ""GRADUAL_INSTAR_SPECIFIC""
-    }
-"
-"Larval_Density_Mortality_Offset","float","0.0001","1000","0.1","An offset factor in the formula determining the larval-age-dependent mortality for the GRADUAL_INSTAR_SPECIFIC and LARVAL_AGE_DENSITY_DEPENDENT_MORTALITY_ONLY models.",".. code-block:: json
-
-    {
-        ""Larval_Density_Mortality_Offset"": 0.001
-    }
-"
-"Larval_Density_Mortality_Scalar","float","0.01","1000","10","A scale factor in the formula determining the larval-age-dependent mortality for the GRADUAL_INSTAR_SPECIFIC and LARVAL_AGE_DENSITY_DEPENDENT_MORTALITY_ONLY models.",".. code-block:: json
-
-    {
-        ""Larval_Density_Mortality_Scalar"": 1.0
-    }
-"
-"Male_Life_Expectancy","float","0","730","10","The number of days an adult male mosquito survives. The daily male mortality rate is 1 / **Male_Life_Expectancy**, in absence of vector aging. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",".. code-block:: json
-
-    {
-        ""Enable_Vector_Aging"": 1,
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Male_Life_Expectancy"": 10
-            }
-        ]
-    }
-"
-"Mean_Egg_Hatch_Delay","float","0","120","0","The mean delay in egg hatch time, in days, from the time of oviposition. Set the delay distribution with **Egg_Hatch_Delay_Distribution**. ",".. code-block:: json
-
-    {
-        ""Egg_Hatch_Delay_Distribution"": ""EXPONENTIAL_DURATION"",
-        ""Mean_Egg_Hatch_Delay"": 2
-    }
-"
-"Temperature_Dependent_Feeding_Cycle","enum","NA","NA","NO_TEMPERATURE_DEPENDENCE","The effect of temperature on the duration between blood feeds. 
+    There is no additional larval density-dependent mortality factor.",[link](../json/config-vector-lifecycle-malaria-larval-density-dependence.json)
+Larval_Density_Mortality_Offset,float,0.0001,1000,0.1,An offset factor in the formula determining the larval-age-dependent mortality for the GRADUAL_INSTAR_SPECIFIC and LARVAL_AGE_DENSITY_DEPENDENT_MORTALITY_ONLY models.,[link](../json/config-vector-lifecycle-malaria-larval-density-mortality-offset.json)
+Larval_Density_Mortality_Scalar,float,0.01,1000,10,A scale factor in the formula determining the larval-age-dependent mortality for the GRADUAL_INSTAR_SPECIFIC and LARVAL_AGE_DENSITY_DEPENDENT_MORTALITY_ONLY models.,[link](../json/config-vector-lifecycle-malaria-larval-density-mortality-scalar.json)
+Male_Life_Expectancy,float,0,730,10,"The number of days an adult male mosquito survives. The daily male mortality rate is 1 / **Male_Life_Expectancy**, in absence of vector aging. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",[link](../json/config-vector-lifecycle-malaria-male-life-expectancy.json)
+Mean_Egg_Hatch_Delay,float,0,120,0,"The mean delay in egg hatch time, in days, from the time of oviposition. Set the delay distribution with **Egg_Hatch_Delay_Distribution**. ",[link](../json/config-vector-lifecycle-malaria-mean-egg-hatch-delay.json)
+Temperature_Dependent_Feeding_Cycle,enum,NA,NA,NO_TEMPERATURE_DEPENDENCE,"The effect of temperature on the duration between blood feeds. 
 Possible values are: 
 
 NO_TEMPERATURE_DEPENDENCE 
@@ -265,119 +62,17 @@ NO_TEMPERATURE_DEPENDENCE
 ARRHENIUS_DEPENDENCE
     Use the Arrhenius equation with parameters **Cycle_Arrhenius_1** and **Cycle_Arrhenius_2**. 
 BOUNDED_DEPENDENCE
-    Use an equation bounded at 10 days at 15C and use **Days_Between_Feeds** to set the duration at 30C. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Temperature_Dependent_Feeding_Cycle"": ""BOUNDED_DEPENDENCE""
-            }
-        ]
-    }
-"
-"Vector_Migration_Filename","string","NA","NA","","The path to the vector migration file which defines patterns of vector migration to other nodes. The file must be in .bin format.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Filename"": ""5x5_Households_Local_Vector_Migration.bin""
-            }
-        ]
-    }
-"
-"Vector_Migration_Food_Modifier","float","0","3.40E+38","0","The preference of a female vector to migrate toward a node currently occupied by humans, independent of the number of humans in the node. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Food_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"Vector_Migration_Habitat_Modifier","float","0","3.40E+38","0","The preference of a female vector to migrate toward a node with more habitat. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Habitat_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"Vector_Migration_Modifier_Equation","enum","NA","NA","LINEAR","The functional form of female vector migration modifiers. **Vector_Migration_Filename** must be defined.
+    Use an equation bounded at 10 days at 15C and use **Days_Between_Feeds** to set the duration at 30C. ",[link](../json/config-vector-lifecycle-malaria-temperature-dependent-feeding-cycle.json)
+Vector_Migration_Filename,string,NA,NA,,The path to the vector migration file which defines patterns of vector migration to other nodes. The file must be in .bin format.,[link](../json/config-vector-lifecycle-malaria-vector-migration-filename.json)
+Vector_Migration_Food_Modifier,float,0,3.40E+38,0,"The preference of a female vector to migrate toward a node currently occupied by humans, independent of the number of humans in the node. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",[link](../json/config-vector-lifecycle-malaria-vector-migration-food-modifier.json)
+Vector_Migration_Habitat_Modifier,float,0,3.40E+38,0,The preference of a female vector to migrate toward a node with more habitat. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ,[link](../json/config-vector-lifecycle-malaria-vector-migration-habitat-modifier.json)
+Vector_Migration_Modifier_Equation,enum,NA,NA,LINEAR,"The functional form of female vector migration modifiers. **Vector_Migration_Filename** must be defined.
 Possible values are:
 LINEAR
-EXPONENTIAL",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Modifier_Equation"": ""EXPONENTIAL"",
-                ""Vector_Migration_Habitat_Modifier"": 1.0,
-                ""Vector_Migration_Food_Modifier"": 1.0,
-                ""Vector_Migration_Stay_Put_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"Vector_Migration_Stay_Put_Modifier","float","0","3.40E+38","0","The preference of a female vector to remain in its current node rather than migrate to another node.  Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Stay_Put_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"Vector_Species_Params","array of json objects","NA","NA","NA","An array of JSON objects where each object represents the parameters for a particular species. The species listed will be those in the simulation.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Acquire_Modifier"": 0.2,
-                ""Adult_Life_Expectancy"": 20,
-                ""Anthropophily"": 0.65,
-                ""Aquatic_Arrhenius_1"": 84200000000,
-                ""Aquatic_Arrhenius_2"": 8328,
-                ""Aquatic_Mortality_Rate"": 0.1,
-                ""Days_Between_Feeds"": 3,
-                ""Egg_Batch_Size"": 100,
-                ""Habitats"": [
-                    {
-                        ""Habitat_Type"": ""TEMPORARY_RAINFALL"",
-                        ""Max_Larval_Capacity"": 11250000000
-                    }
-                ],
-                ""Immature_Duration"": 2,
-                ""Indoor_Feeding_Fraction"": 1,
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336,
-                ""Infected_Egg_Batch_Factor"": 0.8,
-                ""Infectious_Human_Feed_Mortality_Factor"": 1.5,
-                ""Male_Life_Expectancy"": 10,
-                ""Temperature_Dependent_Feeding_Cycle"": ""NO_TEMPERATURE_DEPENDENCE"",
-                ""Transmission_Rate"": 0.5,
-                ""Vector_Migration_Filename"": """",
-                ""Vector_Migration_Food_Modifier"": 0,
-                ""Vector_Migration_Habitat_Modifier"": 0,
-                ""Vector_Migration_Modifier_Equation"": ""EXPONENTIAL"",
-                ""Vector_Migration_Stay_Put_Modifier"": 0,
-                ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE"",
-                ""x_Vector_Migration"": 1
-            }
-        ]
-    }
-"
-"Vector_Sugar_Feeding_Frequency","enum","NA","NA","VECTOR_SUGAR_FEEDING_NONE","The frequency of sugar feeding by a female mosquito. Used is used in conjunction with the **SugarTrap** and **OvipositionTrap** interventions. **Vector_Sampling_Type** must be set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS. Possible values are: 
+EXPONENTIAL",[link](../json/config-vector-lifecycle-malaria-vector-migration-modifier-equation.json)
+Vector_Migration_Stay_Put_Modifier,float,0,3.40E+38,0,The preference of a female vector to remain in its current node rather than migrate to another node.  Only affects female vector migration. **Vector_Migration_Filename** must be defined. ,[link](../json/config-vector-lifecycle-malaria-vector-migration-stay-put-modifier.json)
+Vector_Species_Params,array of json objects,NA,NA,NA,An array of JSON objects where each object represents the parameters for a particular species. The species listed will be those in the simulation.,[link](../json/config-vector-lifecycle-malaria-vector-species-params.json)
+Vector_Sugar_Feeding_Frequency,enum,NA,NA,VECTOR_SUGAR_FEEDING_NONE,"The frequency of sugar feeding by a female mosquito. Used is used in conjunction with the **SugarTrap** and **OvipositionTrap** interventions. **Vector_Sampling_Type** must be set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS. Possible values are: 
 
 VECTOR_SUGAR_FEEDING_NONE
     No sugar feeding. 
@@ -386,26 +81,5 @@ VECTOR_SUGAR_FEEDING_ON_EMERGENCE_ONLY
 VECTOR_SUGAR_FEEDING_EVERY_FEED
     Sugar feeding occurs once per blood meal. 
 VECTOR_SUGAR_FEEDING_EVERY_DAY
-    Sugar feeding occurs every day.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE""
-            }
-        ]
-    }
-"
-"x_Vector_Migration","float","0","3.40E+38","1","Scale factor for the rate of vector migration to other nodes, as provided by the vector migration file. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Filename"": ""5x5_Households_Local_Vector_Migration.bin"",
-                ""x_Vector_Migration"": 1.0
-            }
-        ]
-    }
-"
+    Sugar feeding occurs every day.",[link](../json/config-vector-lifecycle-malaria-vector-sugar-feeding-frequency.json)
+x_Vector_Migration,float,0,3.40E+38,1,"Scale factor for the rate of vector migration to other nodes, as provided by the vector migration file. **Vector_Migration_Filename** must be defined. ",[link](../json/config-vector-lifecycle-malaria-x-vector-migration.json)

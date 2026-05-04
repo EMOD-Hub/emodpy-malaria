@@ -1,0 +1,8 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "arabiensis",
+            "Vector_Migration_Filename": "5x5_Households_Local_Vector_Migration.bin"
+        }
+    ]
+}

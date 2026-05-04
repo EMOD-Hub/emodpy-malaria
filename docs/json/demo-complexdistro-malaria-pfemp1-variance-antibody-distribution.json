@@ -1,0 +1,48 @@
+{
+    "IndividualAttributes": {
+        "PfEMP1_variance_antibody_distribution": {
+            "AxisNames": [
+                "age"
+            ],
+            "AxisUnits": [
+                "years"
+            ],
+            "AxisScaleFactors": [
+                365
+            ],
+            "NumPopulationGroups": [
+                11
+            ],
+            "PopulationGroups": [
+                [
+                    0,
+                    0.5,
+                    1.5,
+                    2.5,
+                    3.5,
+                    4.5,
+                    7.5,
+                    15,
+                    25,
+                    35,
+                    60
+                ]
+            ],
+            "ResultUnits": "mean fraction of antibody variants",
+            "ResultScaleFactor": 1,
+            "ResultValues": [
+                0,
+                0.0606,
+                0.0509,
+                0.0386,
+                0.0334,
+                0.0274,
+                0.0575,
+                0.0261,
+                0.005,
+                0.0045,
+                0.0044
+            ]
+        }
+    }
+}

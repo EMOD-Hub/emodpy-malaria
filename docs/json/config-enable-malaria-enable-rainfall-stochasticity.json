@@ -1,0 +1,7 @@
+{
+  "Enable_Climate_Stochasticity": 1,
+  "Air_Temperature_Variance": 2,
+  "Enable_Rainfall_Stochasticity": 1,
+  "Land_Temperature_Variance": 2,
+  "Relative_Humidity_Variance": 0.05
+}

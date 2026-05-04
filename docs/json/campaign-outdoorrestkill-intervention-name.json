@@ -1,0 +1,6 @@
+{
+  "Intervention_Config": {
+    "class": "OutdoorRestKill",
+    "Intervention_Name": "Insecticide post-feeding"
+  }
+}

@@ -1,57 +1,6 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Intervention_Name","string","NA","NA","MultiNodeInterventionDistributor","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""MultiNodeInterventionDistributor"",
-        ""Intervention_Name"": ""Country-wide vaccination""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""HasHealthCare:YES""
-    }
-"
-"Node_Intervention_List","array of json objects","NA","NA","NA","A list of nested JSON objects for the multi-node-level interventions to be distributed by this intervention.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""Node_Intervention_List"": [
-          {
-            ""Cost_To_Consumer"": 1,
-            ""Habitat_Target"": ""ALL_HABITATS"",
-            ""Killing_Config"": {
-              ""Decay_Time_Constant"": 90,
-              ""Initial_Effect"": 1,
-              ""class"": ""WaningEffectExponential""
-            },
-            ""class"": ""SpaceSpraying""
-          },
-          {
-            ""Daily_Probability"": 1,
-            ""Maximum_Duration"": 0,
-            ""Revert"": 90,
-            ""Target_NP_Key_Value"": ""InterventionStatus:RECENT_SPRAY"",
-            ""class"": ""NodePropertyValueChanger""
-          }
-        ],
-        ""class"": ""MultiNodeInterventionDistributor""
-      }
-    }
-"
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-multinodeinterventiondistributor-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-multinodeinterventiondistributor-dont-allow-duplicates.json)
+Intervention_Name,string,NA,NA,MultiNodeInterventionDistributor,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-multinodeinterventiondistributor-intervention-name.json)
+New_Property_Value,string,NA,NA,"""""",An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.,[link](../json/campaign-multinodeinterventiondistributor-new-property-value.json)
+Node_Intervention_List,array of json objects,NA,NA,NA,A list of nested JSON objects for the multi-node-level interventions to be distributed by this intervention.,[link](../json/campaign-multinodeinterventiondistributor-node-intervention-list.json)

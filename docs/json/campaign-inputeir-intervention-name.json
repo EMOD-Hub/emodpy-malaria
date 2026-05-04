@@ -1,0 +1,6 @@
+{
+  "Intervention_Config": {
+    "class": "InputEIR",
+    "Intervention_Name": "Entomological Inoculation Rate config"
+  }
+}

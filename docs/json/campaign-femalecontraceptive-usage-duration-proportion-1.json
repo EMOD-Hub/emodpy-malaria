@@ -1,0 +1,6 @@
+{
+  "Usage_Duration_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
+  "Usage_Duration_Mean_1": 90,
+  "Usage_Duration_Mean_2": 365,
+  "Usage_Duration_Proportion_1": 0.3
+}

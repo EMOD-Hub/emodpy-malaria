@@ -1,0 +1,18 @@
+{
+  "Doses": [
+    [
+      "TestDrugA",
+      "TestDrugB"
+    ],
+    [
+      "TestDrugA"
+    ],
+    [
+      "TestDrugA",
+      "TestDrugB"
+    ],
+    [
+      "TestDrugB"
+    ]
+  ]
+}

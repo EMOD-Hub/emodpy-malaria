@@ -1,0 +1,9 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether",
+            "Drug_Decay_T1": 1,
+            "Drug_Decay_T2": 1
+        }
+    ]
+}

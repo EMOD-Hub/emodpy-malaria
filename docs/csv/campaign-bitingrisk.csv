@@ -1,41 +1,10 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Intervention_Name","string","NA","NA","BitingRisk","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""BitingRisk"",
-        ""Intervention_Name"": ""Relative biting risk with bednet usage""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""InterventionStatus:None""
-    }
-"
-"Risk_Constant","float","0","3.40282E+38","6","The risk to use for all individuals when **Risk_Distribution** is set to CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""CONSTANT_DISTRIBUTION"",
-      ""Risk_Constant"": 8
-    }
-"
-"Risk_Distribution","enum","NA","NA","NOT_INITIALIZED","The distribution type to use for assigning the relative risk of being bitten by a mosquito to each individual. Each assigned value is a random draw from the distribution.
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-bitingrisk-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-bitingrisk-dont-allow-duplicates.json)
+Intervention_Name,string,NA,NA,BitingRisk,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-bitingrisk-intervention-name.json)
+New_Property_Value,string,NA,NA,"""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",[link](../json/campaign-bitingrisk-new-property-value.json)
+Risk_Constant,float,0,3.40282E+38,6,The risk to use for all individuals when **Risk_Distribution** is set to CONSTANT_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-constant.json)
+Risk_Distribution,enum,NA,NA,NOT_INITIALIZED,"The distribution type to use for assigning the relative risk of being bitten by a mosquito to each individual. Each assigned value is a random draw from the distribution.
 
 Possible values are:
 
@@ -73,132 +42,19 @@ DUAL_EXPONENTIAL_DISTRIBUTION
 
 .. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution
 
-",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""WEIBULL_DISTRIBUTION"",
-      ""Risk_Kappa"": 0.9,
-      ""Risk_Lambda"": 1.5
-    }
-"
-"Risk_Exponential","float","0","3.40282E+38","-1","The mean of the biting risk when **Risk_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""EXPONENTIAL_DISTRIBUTION"",
-      ""Risk_Exponential"": 4.25
-    }
-"
-"Risk_Gaussian_Mean","float","0","3.40282E+38","-1","The mean of the biting risk when **Risk_Distribution** is set to GAUSSIAN_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""GAUSSIAN_DISTRIBUTION"",
-      ""Risk_Gaussian_Mean"": 8,
-      ""Risk_Gaussian_Std_Dev"": 1.5
-    }
-"
-"Risk_Gaussian_Std_Dev","float","1.17549E-38","3.40282E+38","-1","The standard deviation of the biting risk when **Risk_Distribution** is set to GAUSSIAN_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""GAUSSIAN_DISTRIBUTION"",
-      ""Risk_Gaussian_Mean"": 8,
-      ""Risk_Gaussian_Std_Dev"": 1.5
-    }
-"
-"Risk_Kappa","float","1.17549E-38","3.40282E+38","-1","The shape value for the biting risk when **Risk_Distribution** is set to WEIBULL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""WEIBULL_DISTRIBUTION"",
-      ""Risk_Kappa"": 0.9,
-      ""Risk_Lambda"": 1.5
-    }
-"
-"Risk_Lambda","float","1.17549E-38","3.40282E+38","-1","The scale value for the biting risk when **Risk_Distribution** is set to WEIBULL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""WEIBULL_DISTRIBUTION"",
-      ""Risk_Kappa"": 0.9,
-      ""Risk_Lambda"": 1.5
-    }
-"
-"Risk_Log_Normal_Mu","float","-3.40282e+38","1.70141e+38","3.40282E+38","The mean of the biting risk when **Risk_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""LOG_NORMAL_DISTRIBUTION"",
-      ""Risk_Log_Normal_Mu"": 9,
-      ""Risk_Log_Normal_Sigma"": 2
-    }
-"
-"Risk_Log_Normal_Sigma","float","-3.40282e+38","1.70141e+38","3.40282E+38","The width of the biting risk when **Risk_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""LOG_NORMAL_DISTRIBUTION"",
-      ""Risk_Log_Normal_Mu"": 9,
-      ""Risk_Log_Normal_Sigma"": 2
-    }
-"
-"Risk_Max","float","0","3.40282E+38","-1","The maximum biting risk when **Risk_Distribution** is set to UNIFORM_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""UNIFORM_DISTRIBUTION"",
-      ""Risk_Min"": 2,
-      ""Risk_Max"": 7
-    }
-"
-"Risk_Mean_1","float","1.17549E-38","3.40282E+38","-1","The mean of the first exponential distribution when **Risk_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-      ""Risk_Mean_1"": 4,
-      ""Risk_Mean_2"": 12,
-      ""Risk_Proportion_1"": 0.2
-    }
-"
-"Risk_Mean_2","float","1.17549E-38","3.40282E+38","-1","The mean of the second exponential distribution when **Risk_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-      ""Risk_Mean_1"": 4,
-      ""Risk_Mean_2"": 12,
-      ""Risk_Proportion_1"": 0.2
-    }
-"
-"Risk_Min","float","0","3.40282E+38","-1","The minimum biting risk when **Risk_Distribution** is set to UNIFORM_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""UNIFORM_DISTRIBUTION"",
-      ""Risk_Min"": 2,
-      ""Risk_Max"": 7
-    }
-"
-"Risk_Peak_2_Value","float","0","3.40282E+38","-1","The biting risk value to assign to the remaining individuals when **Risk_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""DUAL_CONSTANT_DISTRIBUTION"",
-      ""Risk_Proportion_0"": 0.25,
-      ""Risk_Peak_2_Value"": 5
-    }
-"
-"Risk_Poisson_Mean","float","0","3.40282E+38","-1","The mean of the biting risk when **Risk_Distribution** is set to POISSON_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""POISSON_DISTRIBUTION"",
-      ""Risk_Poisson_Mean"": 5
-    }
-"
-"Risk_Proportion_0","float","0","1","-1","The proportion of individuals to assign a value of zero biting risk when **Risk_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""DUAL_CONSTANT_DISTRIBUTION"",
-      ""Risk_Proportion_0"": 0.25,
-      ""Risk_Peak_2_Value"": 5
-    }
-"
-"Risk_Proportion_1","float","0","1","-1","The proportion of individuals in the first exponential distribution when **Risk_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Risk_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-      ""Risk_Mean_1"": 4,
-      ""Risk_Mean_2"": 12,
-      ""Risk_Proportion_1"": 0.2
-    }
-"
+",[link](../json/campaign-bitingrisk-risk-distribution.json)
+Risk_Exponential,float,0,3.40282E+38,-1,The mean of the biting risk when **Risk_Distribution** is set to EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-exponential.json)
+Risk_Gaussian_Mean,float,0,3.40282E+38,-1,The mean of the biting risk when **Risk_Distribution** is set to GAUSSIAN_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-gaussian-mean.json)
+Risk_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,-1,The standard deviation of the biting risk when **Risk_Distribution** is set to GAUSSIAN_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-gaussian-std-dev.json)
+Risk_Kappa,float,1.17549E-38,3.40282E+38,-1,The shape value for the biting risk when **Risk_Distribution** is set to WEIBULL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-kappa.json)
+Risk_Lambda,float,1.17549E-38,3.40282E+38,-1,The scale value for the biting risk when **Risk_Distribution** is set to WEIBULL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-lambda.json)
+Risk_Log_Normal_Mu,float,-3.40282e+38,1.70141e+38,3.40282E+38,The mean of the biting risk when **Risk_Distribution** is set to LOG_NORMAL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-log-normal-mu.json)
+Risk_Log_Normal_Sigma,float,-3.40282e+38,1.70141e+38,3.40282E+38,The width of the biting risk when **Risk_Distribution** is set to LOG_NORMAL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-log-normal-sigma.json)
+Risk_Max,float,0,3.40282E+38,-1,The maximum biting risk when **Risk_Distribution** is set to UNIFORM_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-max.json)
+Risk_Mean_1,float,1.17549E-38,3.40282E+38,-1,The mean of the first exponential distribution when **Risk_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-mean-1.json)
+Risk_Mean_2,float,1.17549E-38,3.40282E+38,-1,The mean of the second exponential distribution when **Risk_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-mean-2.json)
+Risk_Min,float,0,3.40282E+38,-1,The minimum biting risk when **Risk_Distribution** is set to UNIFORM_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-min.json)
+Risk_Peak_2_Value,float,0,3.40282E+38,-1,The biting risk value to assign to the remaining individuals when **Risk_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-peak-2-value.json)
+Risk_Poisson_Mean,float,0,3.40282E+38,-1,The mean of the biting risk when **Risk_Distribution** is set to POISSON_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-poisson-mean.json)
+Risk_Proportion_0,float,0,1,-1,The proportion of individuals to assign a value of zero biting risk when **Risk_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-proportion-0.json)
+Risk_Proportion_1,float,0,1,-1,The proportion of individuals in the first exponential distribution when **Risk_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-bitingrisk-risk-proportion-1.json)

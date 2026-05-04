@@ -1,0 +1,5 @@
+{
+  "Expiration_Distribution": "DUAL_CONSTANT_DISTRIBUTION",
+  "Expiration_Proportion_0": 0.25,
+  "Expiration_Peak_2_Value": 5
+}

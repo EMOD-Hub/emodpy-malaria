@@ -1,0 +1,5 @@
+{
+  "Enable_Is_Symptomatic": 1,
+  "Base_Specificity": 0.85,
+  "Base_Sensitivity": 0.92
+}

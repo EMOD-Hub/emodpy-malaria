@@ -1,0 +1,5 @@
+{
+  "Risk_Distribution": "GAUSSIAN_DISTRIBUTION",
+  "Risk_Gaussian_Mean": 8,
+  "Risk_Gaussian_Std_Dev": 1.5
+}

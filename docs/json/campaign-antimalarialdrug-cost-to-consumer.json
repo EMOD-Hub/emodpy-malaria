@@ -1,0 +1,7 @@
+{
+  "Intervention_Config": {
+    "Cost_To_Consumer": 3.75,
+    "Drug_Type": "Chloroquine",
+    "class": "AntimalarialDrug"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "Insecticides": [
+    {
+      "Insecticide_Name": "pyrethroid",
+      "Repelling_Config": {
+        "Box_Duration": 300,
+        "Initial_Effect": 0.25,
+        "class": "WaningEffectBox"
+      },
+      "Killing_Config": {
+        "Box_Duration": 300,
+        "Initial_Effect": 1.0,
+        "class": "WaningEffectBox"
+      }
+    },
+    {
+      "Insecticide_Name": "carbamate",
+      "Repelling_Config": {
+        "Box_Duration": 300,
+        "Initial_Effect": 0.25,
+        "class": "WaningEffectBox"
+      },
+      "Killing_Config": {
+        "Box_Duration": 300,
+        "Initial_Effect": 1.0,
+        "class": "WaningEffectBox"
+      }
+    }
+  ]
+}

@@ -1,52 +1,12 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Air_Temperature_Filename","string","NA","NA","\_add-your-air-temperature-file\_.bin","The path to the input file that defines air temperature data measured two meters above ground. **Climate_Model** must be set to CLIMATE_BY_DATA. The file must be in .bin format.",".. code-block:: json
-
-    {
-        ""Climate_Model"": ""CLIMATE_BY_DATA"",
-        ""Air_Temperature_Filename"": ""Namawala_single_node_air_temperature_daily.bin""
-    }
-"
-"Air_Temperature_Offset","float","-20","20","0","The linear shift of air temperature in degrees Celsius. **Climate_Model** must be set to CLIMATE_BY_DATA.",".. code-block:: json
-
-    {
-        ""Air_Temperature_Offset"": 1
-    }
-"
-"Air_Temperature_Variance","float","0","-16","2","The standard deviation (in degrees Celsius) for normally distributed noise applied to the daily air temperature values when **Climate_Model** is configured as CLIMATE_CONSTANT or CLIMATE_BY_DATA. **Enable_Climate_Stochasticity** must be set to true (1).",".. code-block:: json
-
-    {
-        ""Enable_Climate_Stochasticity"": 1,
-        ""Air_Temperature_Variance"": 2
-    }
-"
-"Base_Air_Temperature","float","-55","45","22","The air temperature, in degrees Celsius, where **Climate_Model** is set to CLIMATE_CONSTANT.",".. code-block:: json
-
-    {
-        ""Climate_Model"": ""CLIMATE_CONSTANT"",
-        ""Base_Air_Temperature"": 30
-    }
-"
-"Base_Land_Temperature","float","-55","60","26","The land temperature, in degrees Celsius, where **Climate_Model** is set to CLIMATE_CONSTANT.",".. code-block:: json
-
-    {
-        ""Climate_Model"": ""CLIMATE_CONSTANT"",
-        ""Base_Land_Temperature"": 20
-    }
-"
-"Base_Rainfall","float","0","150","10","The value of rainfall per day in millimeters when **Climate_Model** is set to CLIMATE_CONSTANT.",".. code-block:: json
-
-    {
-        ""Climate_Model"": ""CLIMATE_CONSTANT"",
-        ""Base_Rainfall"": 20
-    }
-"
-"Base_Relative_Humidity","float","0","1","0.75","The value of humidity where **Climate_Model** is set to CLIMATE_CONSTANT.",".. code-block:: json
-
-    {
-        ""Base_Relative_Humidity"": 0.1
-    }
-"
-"Climate_Model","enum","NA","NA","CLIMATE_OFF","How and from what files the climate of a simulation is configured. The possible values are: 
+Air_Temperature_Filename,string,NA,NA,\_add-your-air-temperature-file\_.bin,The path to the input file that defines air temperature data measured two meters above ground. **Climate_Model** must be set to CLIMATE_BY_DATA. The file must be in .bin format.,[link](../json/config-env-malaria-air-temperature-filename.json)
+Air_Temperature_Offset,float,-20,20,0,The linear shift of air temperature in degrees Celsius. **Climate_Model** must be set to CLIMATE_BY_DATA.,[link](../json/config-env-malaria-air-temperature-offset.json)
+Air_Temperature_Variance,float,0,-16,2,The standard deviation (in degrees Celsius) for normally distributed noise applied to the daily air temperature values when **Climate_Model** is configured as CLIMATE_CONSTANT or CLIMATE_BY_DATA. **Enable_Climate_Stochasticity** must be set to true (1).,[link](../json/config-env-malaria-air-temperature-variance.json)
+Base_Air_Temperature,float,-55,45,22,"The air temperature, in degrees Celsius, where **Climate_Model** is set to CLIMATE_CONSTANT.",[link](../json/config-env-malaria-base-air-temperature.json)
+Base_Land_Temperature,float,-55,60,26,"The land temperature, in degrees Celsius, where **Climate_Model** is set to CLIMATE_CONSTANT.",[link](../json/config-env-malaria-base-land-temperature.json)
+Base_Rainfall,float,0,150,10,The value of rainfall per day in millimeters when **Climate_Model** is set to CLIMATE_CONSTANT.,[link](../json/config-env-malaria-base-rainfall.json)
+Base_Relative_Humidity,float,0,1,0.75,The value of humidity where **Climate_Model** is set to CLIMATE_CONSTANT.,[link](../json/config-env-malaria-base-relative-humidity.json)
+Climate_Model,enum,NA,NA,CLIMATE_OFF,"How and from what files the climate of a simulation is configured. The possible values are: 
 
 CLIMATE_OFF
     No climate files used.  
@@ -55,13 +15,8 @@ CLIMATE_CONSTANT
 CLIMATE_KOPPEN
     Uses an input file that decodes Koppen codes by geographic location. 
 CLIMATE_BY_DATA
-    Reads everything out of several input files with additional parameters that allow the addition of stochasticity or scale offsets.",".. code-block:: json
-
-    {
-        ""Climate_Model"": ""CLIMATE_CONSTANT""
-    }
-"
-"Climate_Update_Resolution","enum","NA","NA","CLIMATE_UPDATE_YEAR","The  resolution of data in climate files. **Climate_Model** must be set to CLIMATE_CONSTANT, CLIMATE_BY_DATA, or CLIMATE_KOPPEN.
+    Reads everything out of several input files with additional parameters that allow the addition of stochasticity or scale offsets.",[link](../json/config-env-malaria-climate-model.json)
+Climate_Update_Resolution,enum,NA,NA,CLIMATE_UPDATE_YEAR,"The  resolution of data in climate files. **Climate_Model** must be set to CLIMATE_CONSTANT, CLIMATE_BY_DATA, or CLIMATE_KOPPEN.
 Possible values are: 
 
 CLIMATE_UPDATE_YEAR
@@ -69,116 +24,23 @@ CLIMATE_UPDATE_MONTH
 CLIMATE_UPDATE_WEEK
 CLIMATE_UPDATE_DAY
 CLIMATE_UPDATE_HOUR 
-",".. code-block:: json
-
-    {
-        ""Climate_Update_Resolution"": ""CLIMATE_UPDATE_DAY""
-    }
-"
-"Default_Geography_Initial_Node_Population","integer","0","1000000","1000","When using the built-in demographics for default geography, the initial number of individuals in each node. Note that the built-in demographics feature does not represent a real geographical location and is mostly used for testing. **Enable_Demographics_Builtin** must be set to true (1).",".. code-block:: json
-
-    {
-        ""Enable_Demographics_Builtin"": 1,
-        ""Default_Geography_Initial_Node_Population"": 1000,
-        ""Default_Geography_Torus_Size"": 3
-    }
-"
-"Default_Geography_Torus_Size","integer","3","100","10","When using the built-in demographics for default geography, the square root of the number of nodes in the simulation. The simulation uses an N x N square grid of nodes with N specified by this parameter. If migration is enabled, the N x N nodes are assumed to be a torus and individuals can migrate from any node to all four adjacent nodes. 
+",[link](../json/config-env-malaria-climate-update-resolution.json)
+Default_Geography_Initial_Node_Population,integer,0,1000000,1000,"When using the built-in demographics for default geography, the initial number of individuals in each node. Note that the built-in demographics feature does not represent a real geographical location and is mostly used for testing. **Enable_Demographics_Builtin** must be set to true (1).",[link](../json/config-env-malaria-default-geography-initial-node-population.json)
+Default_Geography_Torus_Size,integer,3,100,10,"When using the built-in demographics for default geography, the square root of the number of nodes in the simulation. The simulation uses an N x N square grid of nodes with N specified by this parameter. If migration is enabled, the N x N nodes are assumed to be a torus and individuals can migrate from any node to all four adjacent nodes. 
 
 To enable migration, set **Migration_Model** to FIXED_RATE_MIGRATION. Built-in migration is a form of ""local"" migration where individuals only migrate to the adjacent nodes. You can use the **x_Local_Migration** parameter to control the rate of migration. The other migration parameters are ignored. Note that the built-in demographics feature does not represent a real geographical location and is mostly used for testing. 
 
-**Enable_Demographics_Builtin** must be set to true (1).",".. code-block:: json
-
-    {
-        ""Enable_Demographics_Builtin"": 1,
-        ""Default_Geography_Initial_Node_Population"": 1000,
-        ""Default_Geography_Torus_Size"": 3
-    }
-"
-"Enable_Climate_Stochasticity","boolean","0","1","0","Controls whether or not the climate has stochasticity. **Climate_Model** must be set to CLIMATE_CONSTANT or CLIMATE_BY_DATA. Set the variance using the parameters **Air_Temperature_Variance**,  **Land_Temperature_Variance**, **Enable_Rainfall_Stochasticity**, and **Relative_Humidity_Variance**. ",".. code-block:: json
-
-    {
-        ""Climate_Model"": ""CLIMATE_BY_DATA"",
-        ""Enable_Climate_Stochasticity"": 1,
-        ""Air_Temperature_Variance"": 2,
-        ""Enable_Rainfall_Stochasticity"": 1,
-        ""Land_Temperature_Variance"": 2,
-        ""Relative_Humidity_Variance"": 0.05
-    }
-"
-"Enable_Rainfall_Stochasticity","boolean","0","1","1","Controls whether or not there is stochastic variation in rainfall; set to  true (1) for stochastic variation of rainfall that is drawn from an exponential distribution (with a mean value as the daily rainfall from the  **Climate_Model** values CLIMATE_CONSTANT or CLIMATE_BY_DATA), or set to false (0) to disable rainfall stochasticity. ",".. code-block:: json
-
-    {
-        ""Enable_Climate_Stochasticity"": 1,
-        ""Air_Temperature_Variance"": 2,
-        ""Enable_Rainfall_Stochasticity"": 1,
-        ""Land_Temperature_Variance"": 2,
-        ""Relative_Humidity_Variance"": 0.05
-    }
-"
-"Koppen_Filename","string","NA","NA","\_add-your-koppen-climate-file\_.json","The path to the input file used to specify Koppen climate classifications. **Climate_Model** must be set to CLIMATE_KOPPEN. ",".. code-block:: json
-
-    {
-        ""Koppen_Filename"": ""Mad_2_5arcminute_koppen.dat""
-    }
-"
-"Land_Temperature_Filename","string","NA","NA","\_add-your-land-temp-file\_.bin","The path of the input file defining temperature data measured at land surface; used only when **Climate_Model** is set to CLIMATE_BY_DATA. The file must be in .bin format.",".. code-block:: json
-
-    {
-        ""Land_Temperature_Filename"": ""Namawala_single_node_land_temperature_daily.bin""
-    }
-"
-"Land_Temperature_Offset","float","-20","20","0","The linear shift of land surface temperature in degrees Celsius; only used  when **Climate_Model** is set to CLIMATE_BY_DATA.",".. code-block:: json
-
-    {
-        ""Land_Temperature_Offset"": 0
-    }
-"
-"Land_Temperature_Variance","float","0","7","2","The standard deviation (in degrees Celsius) for normally distributed noise applied to the daily land temperature values when **Climate_Model** is configured to CLIMATE_CONSTANT or CLIMATE_BY_DATA; only used if the **Enable_Climate_Stochasticity** is set to true (1).",".. code-block:: json
-
-    {
-        ""Land_Temperature_Variance"": 1.5
-    }
-"
-"Node_Grid_Size","float","0.00416","90","0.004167","The spatial resolution indicating the node grid size for a simulation in degrees.",".. code-block:: json
-
-    {
-        ""Node_Grid_Size"": 0.042
-    }
-"
-"Rainfall_Filename","string","NA","NA","\_add-your-rainfall-file\_.bin","The path of the input file which defines rainfall data. **Climate_Model** must be set to CLIMATE_BY_DATA. The file must be in .bin format.",".. code-block:: json
-
-    {
-        ""Rainfall_Filename"": ""Namawala_single_node_rainfall_daily.bin""
-    }
-"
-"Rainfall_In_mm_To_Fill_Swamp","float","1","10000","1000","Millimeters of rain to fill larval habitat to capacity.  This is only used for vector species with **Habitats** set to BRACKISH_SWAMP.",".. code-block:: json
-
-    {
-        ""Rainfall_In_mm_To_Fill_Swamp"": 1000.0
-    }
-"
-"Rainfall_Scale_Factor","float","0.1","10","1","The scale factor used in multiplying rainfall value(s). **Climate_Model** must be set to CLIMATE_BY_DATA.",".. code-block:: json
-
-    {
-        ""Rainfall_Scale_Factor"": 1
-    }
-"
-"Relative_Humidity_Filename","string","NA","NA","\_add-your-relative-humidity-file\_\_hum.bin","The path of the input file which defines relative humidity data measured 2 meters above ground. **Climate_Model** must be set to CLIMATE_BY_DATA. The file must be in .bin format.",".. code-block:: json
-
-    {
-        ""Relative_Humidity_Filename"": ""Namawala_single_node_relative_humidity_daily.bin""
-    }
-"
-"Relative_Humidity_Scale_Factor","float","0.1","10","1","The scale factor used in multiplying relative humidity values. **Climate_Model** must be set to CLIMATE_BY_DATA.",".. code-block:: json
-
-    {
-        ""Relative_Humidity_Scale_Factor"": 1
-    }
-"
-"Relative_Humidity_Variance","float","0","0.12","0.05","The standard deviation (in percentage) for normally distributed noise applied to the daily relative humidity values when **Climate_Model** is configured as CLIMATE_CONSTANT or CLIMATE_BY_DATA.   **Enable_Climate_Stochasticity** must be set to true (1).",".. code-block:: json
-
-    {
-        ""Relative_Humidity_Variance"": 0.05
-    }
-"
+**Enable_Demographics_Builtin** must be set to true (1).",[link](../json/config-env-malaria-default-geography-torus-size.json)
+Enable_Climate_Stochasticity,boolean,0,1,0,"Controls whether or not the climate has stochasticity. **Climate_Model** must be set to CLIMATE_CONSTANT or CLIMATE_BY_DATA. Set the variance using the parameters **Air_Temperature_Variance**,  **Land_Temperature_Variance**, **Enable_Rainfall_Stochasticity**, and **Relative_Humidity_Variance**. ",[link](../json/config-env-malaria-enable-climate-stochasticity.json)
+Enable_Rainfall_Stochasticity,boolean,0,1,1,"Controls whether or not there is stochastic variation in rainfall; set to  true (1) for stochastic variation of rainfall that is drawn from an exponential distribution (with a mean value as the daily rainfall from the  **Climate_Model** values CLIMATE_CONSTANT or CLIMATE_BY_DATA), or set to false (0) to disable rainfall stochasticity. ",[link](../json/config-env-malaria-enable-rainfall-stochasticity.json)
+Koppen_Filename,string,NA,NA,\_add-your-koppen-climate-file\_.json,The path to the input file used to specify Koppen climate classifications. **Climate_Model** must be set to CLIMATE_KOPPEN. ,[link](../json/config-env-malaria-koppen-filename.json)
+Land_Temperature_Filename,string,NA,NA,\_add-your-land-temp-file\_.bin,The path of the input file defining temperature data measured at land surface; used only when **Climate_Model** is set to CLIMATE_BY_DATA. The file must be in .bin format.,[link](../json/config-env-malaria-land-temperature-filename.json)
+Land_Temperature_Offset,float,-20,20,0,The linear shift of land surface temperature in degrees Celsius; only used  when **Climate_Model** is set to CLIMATE_BY_DATA.,[link](../json/config-env-malaria-land-temperature-offset.json)
+Land_Temperature_Variance,float,0,7,2,The standard deviation (in degrees Celsius) for normally distributed noise applied to the daily land temperature values when **Climate_Model** is configured to CLIMATE_CONSTANT or CLIMATE_BY_DATA; only used if the **Enable_Climate_Stochasticity** is set to true (1).,[link](../json/config-env-malaria-land-temperature-variance.json)
+Node_Grid_Size,float,0.00416,90,0.004167,The spatial resolution indicating the node grid size for a simulation in degrees.,[link](../json/config-env-malaria-node-grid-size.json)
+Rainfall_Filename,string,NA,NA,\_add-your-rainfall-file\_.bin,The path of the input file which defines rainfall data. **Climate_Model** must be set to CLIMATE_BY_DATA. The file must be in .bin format.,[link](../json/config-env-malaria-rainfall-filename.json)
+Rainfall_In_mm_To_Fill_Swamp,float,1,10000,1000,Millimeters of rain to fill larval habitat to capacity.  This is only used for vector species with **Habitats** set to BRACKISH_SWAMP.,[link](../json/config-env-malaria-rainfall-in-mm-to-fill-swamp.json)
+Rainfall_Scale_Factor,float,0.1,10,1,The scale factor used in multiplying rainfall value(s). **Climate_Model** must be set to CLIMATE_BY_DATA.,[link](../json/config-env-malaria-rainfall-scale-factor.json)
+Relative_Humidity_Filename,string,NA,NA,\_add-your-relative-humidity-file\_\_hum.bin,The path of the input file which defines relative humidity data measured 2 meters above ground. **Climate_Model** must be set to CLIMATE_BY_DATA. The file must be in .bin format.,[link](../json/config-env-malaria-relative-humidity-filename.json)
+Relative_Humidity_Scale_Factor,float,0.1,10,1,The scale factor used in multiplying relative humidity values. **Climate_Model** must be set to CLIMATE_BY_DATA.,[link](../json/config-env-malaria-relative-humidity-scale-factor.json)
+Relative_Humidity_Variance,float,0,0.12,0.05,The standard deviation (in percentage) for normally distributed noise applied to the daily relative humidity values when **Climate_Model** is configured as CLIMATE_CONSTANT or CLIMATE_BY_DATA.   **Enable_Climate_Stochasticity** must be set to true (1).,[link](../json/config-env-malaria-relative-humidity-variance.json)

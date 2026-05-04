@@ -1,0 +1,14 @@
+{
+  "Resistances": [
+    {
+      "Species": "arabiensis",
+      "Allele_Combinations": [
+        ["kdr", "kdr"]
+      ],
+      "Killing_Modifier": 0.1,
+      "Blocking_Modifier": 0.8,
+      "Repelling_Modifier": 1.0,
+      "Larval_Killing_Modifier": 0.3
+    }
+  ]
+}

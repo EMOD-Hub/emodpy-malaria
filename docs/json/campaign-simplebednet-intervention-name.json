@@ -1,0 +1,6 @@
+{
+  "Intervention_Config": {
+    "class": "SimpleBednet",
+    "Intervention_Name": "Northern region bednet distribution"
+  }
+}

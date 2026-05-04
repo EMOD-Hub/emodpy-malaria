@@ -1,0 +1,9 @@
+{
+    "Enable_Vector_Aging": 1,
+    "Vector_Species_Params": [
+        {
+            "Name": "arabiensis",
+            "Adult_Life_Expectancy": 18
+        }
+    ]
+}

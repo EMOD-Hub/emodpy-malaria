@@ -1,19 +1,7 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Base_Individual_Sample_Rate","float","0.001","1","1","The base rate of sampling for individuals, equal to the fraction of individuals in each node being sampled. Reducing the sampling rate will reduce the time needed to run simulations. **Individual_Sampling_Type** must be set to FIXED_SAMPLING or ADAPTED_SAMPLING_BY_IMMUNE_STATE.",".. code-block:: json
-
-    {
-        ""Base_Individual_Sample_Rate"": 0.01
-    }
-"
-"Immune_Threshold_For_Downsampling","float","0","1","0","The threshold on acquisition immunity at which to apply immunity-dependent downsampling; individuals who are more immune than this this threshold are downsampled. A value of 1 is equivalent to full susceptibility and 0 is equivalent to full immunity. If the acquisition immunity modifier is larger than the threshold, no downsampling occurs. **Individual_Sampling_Type** must set to ADAPTED_SAMPLING_BY_IMMUNE_STATE.",".. code-block:: json
-
-    {
-        ""Relative_Sample_Rate_Immune"": 0.1,
-        ""Immune_Threshold_For_Downsampling"": 0.5,
-        ""Individual_Sampling_Type"": ""ADAPTED_SAMPLING_BY_IMMUNE_STATE""
-    }
-"
-"Individual_Sampling_Type","enum","NA","NA","TRACK_ALL","The type of individual human sampling to use, which can be used to down sample large populations, certain age groups, or the immune population that does not contribute to transmission. Possible values are: 
+Base_Individual_Sample_Rate,float,0.001,1,1,"The base rate of sampling for individuals, equal to the fraction of individuals in each node being sampled. Reducing the sampling rate will reduce the time needed to run simulations. **Individual_Sampling_Type** must be set to FIXED_SAMPLING or ADAPTED_SAMPLING_BY_IMMUNE_STATE.",[link](../json/config-sampling-malaria-base-individual-sample-rate.json)
+Immune_Threshold_For_Downsampling,float,0,1,0,"The threshold on acquisition immunity at which to apply immunity-dependent downsampling; individuals who are more immune than this this threshold are downsampled. A value of 1 is equivalent to full susceptibility and 0 is equivalent to full immunity. If the acquisition immunity modifier is larger than the threshold, no downsampling occurs. **Individual_Sampling_Type** must set to ADAPTED_SAMPLING_BY_IMMUNE_STATE.",[link](../json/config-sampling-malaria-immune-threshold-for-downsampling.json)
+Individual_Sampling_Type,enum,NA,NA,TRACK_ALL,"The type of individual human sampling to use, which can be used to down sample large populations, certain age groups, or the immune population that does not contribute to transmission. Possible values are: 
 
 TRACK_ALL
     Each person in the population is tracked as a single Individual object with a sampling weight of 1.
@@ -26,95 +14,18 @@ ADAPTED_SAMPLING_BY_AGE_GROUP
 ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE
     Each node has a maximum number of Individual objects as described in ADAPTED_SAMPLING_BY_POPULATION_SIZE, but when the population grows beyond that threshold, sampling is not done at a fixed rate, but varies by age as described in ADAPTED_SAMPLING_BY_AGE_GROUP. 
 ADAPTED_SAMPLING_BY_IMMUNE_STATE
-    Individuals who have acquired immunity are sampled at a lower rate as defined by **Relative_Sample_Rate_Immune** and **Immune_Threshold_For_Downsampling** parameters. This converges with regular sampling when those parameters are set to 1 or 0, respectively. ","The following example shows how to sampling immune individuals at a lower rate.
-
-.. code-block:: json
-
-    {
-        ""Individual_Sampling_Type"": ""ADAPTED_SAMPLING_BY_IMMUNE_STATE"",
-        ""Immune_Threshold_For_Downsampling"": 0.5,
-        ""Relative_Sample_Rate_Immune"": 0.1
-    }
-
-The following example shows how to sampling older individuals at a lower rate.
-
-.. code-block:: json
-
-    {
-        ""Individual_Sampling_Type"": ""ADAPTED_SAMPLING_BY_AGE_GROUP"",
-        ""Sample_Rate_0_18mo"": 1,
-        ""Sample_Rate_10_14"": 0.5,
-        ""Sample_Rate_15_19"": 0.3,
-        ""Sample_Rate_18mo_4yr"": 1,
-        ""Sample_Rate_20_Plus"": 0.2,
-        ""Sample_Rate_5_9"": 1,
-        ""Sample_Rate_Birth"": 1
-    }
-"
-"Max_Node_Population_Samples","float","1","3.40E+38","30","The maximum number of individuals to track in a node. When the population exceeds this number, the sampling rate will drop according to the value set in **Individual_Sampling_Type**. ",".. code-block:: json
-
-    {
-        ""Individual_Sampling_Type"": ""ADAPTED_SAMPLING_BY_POPULATION_SIZE"",
-        ""Max_Node_Population_Samples"": 100000
-    }
-"
-"Mosquito_Weight","integer","1","10000","1","The value indicating how many mosquitoes are represented by a sample mosquito in the simulation. **Vector_Sampling_Type** must be set to SAMPLE_IND_VECTORS.",".. code-block:: json
-
-    {
-        ""Mosquito_Weight"": 10
-    }
-"
-"Relative_Sample_Rate_Immune","float","0.001","1","0.1","The relative sampling rate for people who have acquired immunity through recovery or vaccination. The immune threshold at which to downsample is set by **Immune_Threshold_For_Downsampling**. If set to 1, this will have no effect, even if the individual's immunity modifier is below threshold. This can be a useful sanity check while learning this feature. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_IMMUNE_STATE. ",".. code-block:: json
-
-    {
-        ""Relative_Sample_Rate_Immune"": 0.1,
-        ""Immune_Threshold_For_Downsampling"": 0.8,
-        ""Individual_Sampling_Type"": ""ADAPTED_SAMPLING_BY_IMMUNE_STATE""
-    }
-"
-"Sample_Rate_0_18mo","float","0.001","1000","1","For age-adapted sampling, the relative sampling rate for infants age 0 to 18 months. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",".. code-block:: json
-
-    {
-        ""Sample_Rate_0_18mo"": 1
-    }
-"
-"Sample_Rate_10_14","float","0.001","1000","1","For age-adapted sampling, the relative sampling rate for children age 10 to 14 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",".. code-block:: json
-
-    {
-        ""Sample_Rate_10_14"": 1
-    }
-"
-"Sample_Rate_15_19","float","0.001","1000","1","For age-adapted sampling, the relative sampling rate for adolescents age 15 to 19 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",".. code-block:: json
-
-    {
-        ""Sample_Rate_15_19"": 1
-    }
-"
-"Sample_Rate_18mo_4yr","float","0.001","1000","1","For age-adapted sampling, the relative sampling rate for children age 18 months to 4 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",".. code-block:: json
-
-    {
-        ""Sample_Rate_18mo_4yr"": 1
-    }
-"
-"Sample_Rate_20_plus","float","0.001","1000","1","For age-adapted sampling, the relative sampling rate for adults age 20 and older. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",".. code-block:: json
-
-    {
-        ""Sample_Rate_20_plus"": 1
-    }
-"
-"Sample_Rate_5_9","float","0.001","1000","1","For age-adapted sampling, the relative sampling rate for children age 5 to 9 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",".. code-block:: json
-
-    {
-        ""Sample_Rate_5_9"": 1
-    }
-"
-"Sample_Rate_Birth","float","0.001","1000","1","For age-adapted sampling, the relative sampling rate for births. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",".. code-block:: json
-
-    {
-        ""Sample_Rate_Birth"": 1
-    }
-"
-"Vector_Sampling_Type","enum","NA","NA","TRACK_ALL_VECTORS","The type of vector sampling used. 
+    Individuals who have acquired immunity are sampled at a lower rate as defined by **Relative_Sample_Rate_Immune** and **Immune_Threshold_For_Downsampling** parameters. This converges with regular sampling when those parameters are set to 1 or 0, respectively. ","[link](../json/config-sampling-malaria-individual-sampling-type-1.json), [link](../json/config-sampling-malaria-individual-sampling-type-2.json)"
+Max_Node_Population_Samples,float,1,3.40E+38,30,"The maximum number of individuals to track in a node. When the population exceeds this number, the sampling rate will drop according to the value set in **Individual_Sampling_Type**. ",[link](../json/config-sampling-malaria-max-node-population-samples.json)
+Mosquito_Weight,integer,1,10000,1,The value indicating how many mosquitoes are represented by a sample mosquito in the simulation. **Vector_Sampling_Type** must be set to SAMPLE_IND_VECTORS.,[link](../json/config-sampling-malaria-mosquito-weight.json)
+Relative_Sample_Rate_Immune,float,0.001,1,0.1,"The relative sampling rate for people who have acquired immunity through recovery or vaccination. The immune threshold at which to downsample is set by **Immune_Threshold_For_Downsampling**. If set to 1, this will have no effect, even if the individual's immunity modifier is below threshold. This can be a useful sanity check while learning this feature. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_IMMUNE_STATE. ",[link](../json/config-sampling-malaria-relative-sample-rate-immune.json)
+Sample_Rate_0_18mo,float,0.001,1000,1,"For age-adapted sampling, the relative sampling rate for infants age 0 to 18 months. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",[link](../json/config-sampling-malaria-sample-rate-0-18mo.json)
+Sample_Rate_10_14,float,0.001,1000,1,"For age-adapted sampling, the relative sampling rate for children age 10 to 14 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",[link](../json/config-sampling-malaria-sample-rate-10-14.json)
+Sample_Rate_15_19,float,0.001,1000,1,"For age-adapted sampling, the relative sampling rate for adolescents age 15 to 19 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",[link](../json/config-sampling-malaria-sample-rate-15-19.json)
+Sample_Rate_18mo_4yr,float,0.001,1000,1,"For age-adapted sampling, the relative sampling rate for children age 18 months to 4 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",[link](../json/config-sampling-malaria-sample-rate-18mo-4yr.json)
+Sample_Rate_20_plus,float,0.001,1000,1,"For age-adapted sampling, the relative sampling rate for adults age 20 and older. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",[link](../json/config-sampling-malaria-sample-rate-20-plus.json)
+Sample_Rate_5_9,float,0.001,1000,1,"For age-adapted sampling, the relative sampling rate for children age 5 to 9 years. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",[link](../json/config-sampling-malaria-sample-rate-5-9.json)
+Sample_Rate_Birth,float,0.001,1000,1,"For age-adapted sampling, the relative sampling rate for births. **Individual_Sampling_Type** must be set to ADAPTED_SAMPLING_BY_AGE_GROUP or ADAPTED_SAMPLING_BY_AGE_GROUP_AND_POP_SIZE.",[link](../json/config-sampling-malaria-sample-rate-birth.json)
+Vector_Sampling_Type,enum,NA,NA,TRACK_ALL_VECTORS,"The type of vector sampling used. 
 Possible values are: 
 
 TRACK_ALL_VECTORS 
@@ -124,9 +35,4 @@ SAMPLE_IND_VECTORS
 VECTOR_COMPARTMENTS_NUMBER
     Does not track every vector individually, but provides a compartment for every possible entry in state space and tracks the number of vectors in each compartment.  This successfully accounts for each vector, but does not distinguish between vectors that have identical states, just counts how many identical vectors of each state are present at a location.
 VECTOR_COMPARTMENTS_PERCENT 
-    Similar to VECTOR_COMPARTMENTS_NUMBER, but it only tracks the percentage of the population in each state.  Less useful, but included for comparison to other models.",".. code-block:: json
-
-    {
-        ""Vector_Sampling_Type"": ""TRACK_ALL_VECTORS""
-    }
-"
+    Similar to VECTOR_COMPARTMENTS_NUMBER, but it only tracks the percentage of the population in each state.  Less useful, but included for comparison to other models.",[link](../json/config-sampling-malaria-vector-sampling-type.json)

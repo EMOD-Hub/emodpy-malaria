@@ -1,82 +1,21 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Coordinator_Name","string","NA","NA","VectorSurveillanceEventCoordinator","The name of the event coordinator, which is useful in output reports such as ReportCoordinatorEventRecorder.csv and ReportSurveillanceEventRecorder.csv. EMOD does not ensure that this name is unique.",".. code-block:: json
-
-    {
-      ""Coordinator_Name"": ""Vector_Surveillance_1""
-    }
-"
-"Count_Type","enum","NA","NA","ALLELE_FREQ","The attribute to count in the mosquitoes being sampled. Possible values are:
+Coordinator_Name,string,NA,NA,VectorSurveillanceEventCoordinator,"The name of the event coordinator, which is useful in output reports such as ReportCoordinatorEventRecorder.csv and ReportSurveillanceEventRecorder.csv. EMOD does not ensure that this name is unique.",[link](../json/campaign-vectorsurveillanceeventcoordinator-coordinator-name.json)
+Count_Type,enum,NA,NA,ALLELE_FREQ,"The attribute to count in the mosquitoes being sampled. Possible values are:
 
 ALLELE_FREQ
     Calculates the frequency of every allele in the sampled population. This accounts for the occurrences of the allele where there can be two per vector (i.e. you can get 0, 1, or 2 from each vector).
 GENOME_FRACTION
-    Calculates the fraction of each (grouped by similar) genome in the sampled population.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Count_Type"": ""ALLELE_FREQ"",
-        ""Species"": ""gambiae"",
-        ""Gender"": ""VECTOR_FEMALE"",
-        ""Sample_Size_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Constant"": 100,
-        ""Update_Period"": 30
-      }
-    }
-"
-"Counter","json object","NA","NA","NA","Configuration dictionary of the sampling parameters for the vector population. This object uses the **VectorCounter** type which includes parameters for species, gender, count type, sample size, and update period.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Count_Type"": ""ALLELE_FREQ"",
-        ""Species"": ""gambiae"",
-        ""Gender"": ""VECTOR_FEMALE"",
-        ""Sample_Size_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Constant"": 100,
-        ""Update_Period"": 30
-      }
-    }
-"
-"Duration","float","-1","3.40282E+38","-1","The number of days from the creation of the coordinator until coordinator expires. Once this number of days has passed, the event coordinator will unregister for events and expire. A value of -1 (the default) keeps the coordinator running indefinitely.",".. code-block:: json
-
-    {
-      ""Duration"": -1
-    }
-"
-"Gender","enum","NA","NA","VECTOR_FEMALE","The sex of the vectors to sample. Possible values are:
+    Calculates the fraction of each (grouped by similar) genome in the sampled population.",[link](../json/campaign-vectorsurveillanceeventcoordinator-count-type.json)
+Counter,json object,NA,NA,NA,"Configuration dictionary of the sampling parameters for the vector population. This object uses the **VectorCounter** type which includes parameters for species, gender, count type, sample size, and update period.",[link](../json/campaign-vectorsurveillanceeventcoordinator-counter.json)
+Duration,float,-1,3.40282E+38,-1,"The number of days from the creation of the coordinator until coordinator expires. Once this number of days has passed, the event coordinator will unregister for events and expire. A value of -1 (the default) keeps the coordinator running indefinitely.",[link](../json/campaign-vectorsurveillanceeventcoordinator-duration.json)
+Gender,enum,NA,NA,VECTOR_FEMALE,"The sex of the vectors to sample. Possible values are:
 
 * VECTOR_MALE
 * VECTOR_FEMALE
-* VECTOR_BOTH_GENDERS",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Gender"": ""VECTOR_BOTH_GENDERS"",
-        ""Species"": ""gambiae"",
-        ""Count_Type"": ""ALLELE_FREQ"",
-        ""Sample_Size_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Constant"": 100,
-        ""Update_Period"": 30
-      }
-    }
-"
-"Responder","json object","NA","NA","NA","A JSON object for specifying additional parameters on how the coordinator reacts to the counting of the vectors. This is in addition to the coordinator broadcasting the coordinator events returned by the user's Python code.",".. code-block:: json
-
-    {
-      ""Responder"": {
-        ""Survey_Completed_Event"": ""Survey_Done""
-      }
-    }
-"
-"Sample_Size_Constant","float","0","3.40282E+38","6","The number of vectors to sample when **Sample_Size_Distribution** is set to CONSTANT_DISTRIBUTION. If the population is less than this number, then the entire population will be selected.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Constant"": 100
-      }
-    }
-"
-"Sample_Size_Distribution","enum","NA","NA","NOT_INITIALIZED","The distribution type to use for determining the number of vectors in the sample for each sampling. If the population is less than the drawn number, then the entire population will be selected.
+* VECTOR_BOTH_GENDERS",[link](../json/campaign-vectorsurveillanceeventcoordinator-gender.json)
+Responder,json object,NA,NA,NA,A JSON object for specifying additional parameters on how the coordinator reacts to the counting of the vectors. This is in addition to the coordinator broadcasting the coordinator events returned by the user's Python code.,[link](../json/campaign-vectorsurveillanceeventcoordinator-responder.json)
+Sample_Size_Constant,float,0,3.40282E+38,6,"The number of vectors to sample when **Sample_Size_Distribution** is set to CONSTANT_DISTRIBUTION. If the population is less than this number, then the entire population will be selected.",[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-constant.json)
+Sample_Size_Distribution,enum,NA,NA,NOT_INITIALIZED,"The distribution type to use for determining the number of vectors in the sample for each sampling. If the population is less than the drawn number, then the entire population will be selected.
 
 Possible values are:
 
@@ -113,208 +52,24 @@ DUAL_EXPONENTIAL_DISTRIBUTION
 
 .. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution
 
-",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Constant"": 100
-      }
-    }
-"
-"Sample_Size_Exponential","float","0","3.40282E+38","6","The mean sample size when **Sample_Size_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""EXPONENTIAL_DISTRIBUTION"",
-        ""Sample_Size_Exponential"": 50
-      }
-    }
-"
-"Sample_Size_Gaussian_Mean","float","0","3.40282E+38","6","The mean sample size when **Sample_Size_Distribution** is set to GAUSSIAN_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""GAUSSIAN_DISTRIBUTION"",
-        ""Sample_Size_Gaussian_Mean"": 100,
-        ""Sample_Size_Gaussian_Std_Dev"": 20
-      }
-    }
-"
-"Sample_Size_Gaussian_Std_Dev","float","1.17549E-38","3.40282E+38","1","The standard deviation of the sample size when **Sample_Size_Distribution** is set to GAUSSIAN_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""GAUSSIAN_DISTRIBUTION"",
-        ""Sample_Size_Gaussian_Mean"": 100,
-        ""Sample_Size_Gaussian_Std_Dev"": 20
-      }
-    }
-"
-"Sample_Size_Kappa","float","1.17549E-38","3.40282E+38","1","The shape value for the sample size when **Sample_Size_Distribution** is set to WEIBULL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""WEIBULL_DISTRIBUTION"",
-        ""Sample_Size_Kappa"": 0.9,
-        ""Sample_Size_Lambda"": 1.5
-      }
-    }
-"
-"Sample_Size_Lambda","float","1.17549E-38","3.40282E+38","1","The scale value for the sample size when **Sample_Size_Distribution** is set to WEIBULL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""WEIBULL_DISTRIBUTION"",
-        ""Sample_Size_Kappa"": 0.9,
-        ""Sample_Size_Lambda"": 1.5
-      }
-    }
-"
-"Sample_Size_Log_Normal_Mu","float","-3.40282E+38","3.40282E+38","6","The mean of the sample size when **Sample_Size_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""LOG_NORMAL_DISTRIBUTION"",
-        ""Sample_Size_Log_Normal_Mu"": 4,
-        ""Sample_Size_Log_Normal_Sigma"": 0.5
-      }
-    }
-"
-"Sample_Size_Log_Normal_Sigma","float","-3.40282E+38","3.40282E+38","1","The width of the sample size when **Sample_Size_Distribution** is set to LOG_NORMAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""LOG_NORMAL_DISTRIBUTION"",
-        ""Sample_Size_Log_Normal_Mu"": 4,
-        ""Sample_Size_Log_Normal_Sigma"": 0.5
-      }
-    }
-"
-"Sample_Size_Max","float","0","3.40282E+38","1","The maximum sample size when **Sample_Size_Distribution** is set to UNIFORM_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""UNIFORM_DISTRIBUTION"",
-        ""Sample_Size_Min"": 50,
-        ""Sample_Size_Max"": 200
-      }
-    }
-"
-"Sample_Size_Mean_1","float","1.17549E-38","3.40282E+38","1","The mean of the first exponential distribution when **Sample_Size_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-        ""Sample_Size_Mean_1"": 50,
-        ""Sample_Size_Mean_2"": 200,
-        ""Sample_Size_Proportion_1"": 0.3
-      }
-    }
-"
-"Sample_Size_Mean_2","float","1.17549E-38","3.40282E+38","1","The mean of the second exponential distribution when **Sample_Size_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-        ""Sample_Size_Mean_1"": 50,
-        ""Sample_Size_Mean_2"": 200,
-        ""Sample_Size_Proportion_1"": 0.3
-      }
-    }
-"
-"Sample_Size_Min","float","0","3.40282E+38","0","The minimum sample size when **Sample_Size_Distribution** is set to UNIFORM_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""UNIFORM_DISTRIBUTION"",
-        ""Sample_Size_Min"": 50,
-        ""Sample_Size_Max"": 200
-      }
-    }
-"
-"Sample_Size_Peak_2_Value","float","0","3.40282E+38","1","The sample size value to assign to the remaining instances when **Sample_Size_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""DUAL_CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Proportion_0"": 0.25,
-        ""Sample_Size_Peak_2_Value"": 100
-      }
-    }
-"
-"Sample_Size_Poisson_Mean","float","0","3.40282E+38","6","The mean sample size when **Sample_Size_Distribution** is set to POISSON_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""POISSON_DISTRIBUTION"",
-        ""Sample_Size_Poisson_Mean"": 100
-      }
-    }
-"
-"Sample_Size_Proportion_0","float","0","1","1","The proportion of instances to assign a value of zero when **Sample_Size_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""DUAL_CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Proportion_0"": 0.25,
-        ""Sample_Size_Peak_2_Value"": 100
-      }
-    }
-"
-"Sample_Size_Proportion_1","float","0","1","1","The proportion of instances in the first exponential distribution when **Sample_Size_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Sample_Size_Distribution"": ""DUAL_EXPONENTIAL_DISTRIBUTION"",
-        ""Sample_Size_Mean_1"": 50,
-        ""Sample_Size_Mean_2"": 200,
-        ""Sample_Size_Proportion_1"": 0.3
-      }
-    }
-"
-"Species","string","NA","NA","UNINITIALIZED STRING","The name of the vector species to sample. This must match a species name defined in the **Vector_Species_Params** configuration parameters.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Species"": ""gambiae"",
-        ""Count_Type"": ""ALLELE_FREQ"",
-        ""Gender"": ""VECTOR_FEMALE"",
-        ""Sample_Size_Distribution"": ""CONSTANT_DISTRIBUTION"",
-        ""Sample_Size_Constant"": 100,
-        ""Update_Period"": 30
-      }
-    }
-"
-"Start_Trigger_Condition_List","array of strings","NA","NA","[]","A list of coordinator events that when heard will start the VectorSurveillanceEventCoordinator sampling every **Update_Period**, starting at the time the trigger is received. The events must be defined in **Custom_Coordinator_Events** in the simulation configuration file.",".. code-block:: json
-
-    {
-      ""Start_Trigger_Condition_List"": [
-        ""Start_Vector_Surveillance""
-      ]
-    }
-"
-"Stop_Trigger_Condition_List","array of strings","NA","NA","[]","A list of coordinator events that when heard will cause the **Counter** to stop sampling and will keep the **Responder** from responding. The coordinator does not expire until the **Duration** has expired. The list can be empty. The events must be defined in **Custom_Coordinator_Events** in the simulation configuration file.",".. code-block:: json
-
-    {
-      ""Stop_Trigger_Condition_List"": [
-        ""Stop_Vector_Surveillance""
-      ]
-    }
-"
-"Survey_Completed_Event","string","NA","NA","""""","Optional coordinator-level event that will be broadcast every time the VectorSurveillanceEventCoordinator surveys the vector population. The event must be defined in **Custom_Coordinator_Events** in the simulation configuration file.",".. code-block:: json
-
-    {
-      ""Responder"": {
-        ""Survey_Completed_Event"": ""Survey_Done""
-      }
-    }
-"
-"Update_Period","float","0","999999","30","The number of days between sampling of the mosquito population. If the mosquitoes are sampled on day 1 and the period is 30, then the next sample will be taken on day 31.",".. code-block:: json
-
-    {
-      ""Counter"": {
-        ""Update_Period"": 30
-      }
-    }
-"
+",[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-distribution.json)
+Sample_Size_Exponential,float,0,3.40282E+38,6,The mean sample size when **Sample_Size_Distribution** is set to EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-exponential.json)
+Sample_Size_Gaussian_Mean,float,0,3.40282E+38,6,The mean sample size when **Sample_Size_Distribution** is set to GAUSSIAN_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-gaussian-mean.json)
+Sample_Size_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,1,The standard deviation of the sample size when **Sample_Size_Distribution** is set to GAUSSIAN_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-gaussian-std-dev.json)
+Sample_Size_Kappa,float,1.17549E-38,3.40282E+38,1,The shape value for the sample size when **Sample_Size_Distribution** is set to WEIBULL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-kappa.json)
+Sample_Size_Lambda,float,1.17549E-38,3.40282E+38,1,The scale value for the sample size when **Sample_Size_Distribution** is set to WEIBULL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-lambda.json)
+Sample_Size_Log_Normal_Mu,float,-3.40282E+38,3.40282E+38,6,The mean of the sample size when **Sample_Size_Distribution** is set to LOG_NORMAL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-log-normal-mu.json)
+Sample_Size_Log_Normal_Sigma,float,-3.40282E+38,3.40282E+38,1,The width of the sample size when **Sample_Size_Distribution** is set to LOG_NORMAL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-log-normal-sigma.json)
+Sample_Size_Max,float,0,3.40282E+38,1,The maximum sample size when **Sample_Size_Distribution** is set to UNIFORM_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-max.json)
+Sample_Size_Mean_1,float,1.17549E-38,3.40282E+38,1,The mean of the first exponential distribution when **Sample_Size_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-mean-1.json)
+Sample_Size_Mean_2,float,1.17549E-38,3.40282E+38,1,The mean of the second exponential distribution when **Sample_Size_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-mean-2.json)
+Sample_Size_Min,float,0,3.40282E+38,0,The minimum sample size when **Sample_Size_Distribution** is set to UNIFORM_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-min.json)
+Sample_Size_Peak_2_Value,float,0,3.40282E+38,1,The sample size value to assign to the remaining instances when **Sample_Size_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-peak-2-value.json)
+Sample_Size_Poisson_Mean,float,0,3.40282E+38,6,The mean sample size when **Sample_Size_Distribution** is set to POISSON_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-poisson-mean.json)
+Sample_Size_Proportion_0,float,0,1,1,The proportion of instances to assign a value of zero when **Sample_Size_Distribution** is set to DUAL_CONSTANT_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-proportion-0.json)
+Sample_Size_Proportion_1,float,0,1,1,The proportion of instances in the first exponential distribution when **Sample_Size_Distribution** is set to DUAL_EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-proportion-1.json)
+Species,string,NA,NA,UNINITIALIZED STRING,The name of the vector species to sample. This must match a species name defined in the **Vector_Species_Params** configuration parameters.,[link](../json/campaign-vectorsurveillanceeventcoordinator-species.json)
+Start_Trigger_Condition_List,array of strings,NA,NA,[],"A list of coordinator events that when heard will start the VectorSurveillanceEventCoordinator sampling every **Update_Period**, starting at the time the trigger is received. The events must be defined in **Custom_Coordinator_Events** in the simulation configuration file.",[link](../json/campaign-vectorsurveillanceeventcoordinator-start-trigger-condition-list.json)
+Stop_Trigger_Condition_List,array of strings,NA,NA,[],A list of coordinator events that when heard will cause the **Counter** to stop sampling and will keep the **Responder** from responding. The coordinator does not expire until the **Duration** has expired. The list can be empty. The events must be defined in **Custom_Coordinator_Events** in the simulation configuration file.,[link](../json/campaign-vectorsurveillanceeventcoordinator-stop-trigger-condition-list.json)
+Survey_Completed_Event,string,NA,NA,"""""",Optional coordinator-level event that will be broadcast every time the VectorSurveillanceEventCoordinator surveys the vector population. The event must be defined in **Custom_Coordinator_Events** in the simulation configuration file.,[link](../json/campaign-vectorsurveillanceeventcoordinator-survey-completed-event.json)
+Update_Period,float,0,999999,30,"The number of days between sampling of the mosquito population. If the mosquitoes are sampled on day 1 and the period is 30, then the next sample will be taken on day 31.",[link](../json/campaign-vectorsurveillanceeventcoordinator-update-period.json)

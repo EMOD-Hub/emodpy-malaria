@@ -1,0 +1,7 @@
+{
+  "Repelling_Config": {
+    "Box_Duration": 3650,
+    "Initial_Effect": 0.0,
+    "class": "WaningEffectBox"
+  }
+}

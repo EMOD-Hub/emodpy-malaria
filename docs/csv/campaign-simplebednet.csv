@@ -1,81 +1,11 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Blocking_Config","json object","NA","NA","NA","Defines a waning effect that determines the probability that a host-seeking vector is blocked from reaching a human host. Blocked vectors are then elligble to be killed according to the **Killing_Config** parameter. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
-
-    {
-      ""Blocking_Config"": {
-        ""Box_Duration"": 3650,
-        ""Initial_Effect"": 0,
-        ""class"": ""WaningEffectBox""
-      }
-    }
-"
-"Cost_To_Consumer","float","0","999999","3.75","The unit cost per bednet (unamortized)",".. code-block:: json
-
-    {
-      ""Cost_To_Consumer"": 4.5
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Insecticide_Name","string","NA","NA","UNINITIALIZED STRING","The name of the insecticide defined in the configuration parameter **Insecticides**  for this intervention.  If insecticides are being used,  this must be defined as one of those values; if they are not being used this can be empty.  It cannot have a value if you did not configure the configuration parameter **Insecticides**.",".. code-block:: json
-
-    {
-      ""Insecticide_Name"": ""carbamate""
-    }
-"
-"Intervention_Name","string","NA","NA","SimpleBednet","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""SimpleBednet"",
-        ""Intervention_Name"": ""Northern region bednet distribution""
-      }
-    }
-"
-"Killing_Config","json object","NA","NA","NA","Defines a waning effect that determines the probability that a blocked vector is killed due to the intervention. Killing is conditional on being blocked: only blocked vectors are able to be killed.  Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
-
-    {
-      ""Killing_Config"": {
-        ""Box_Duration"": 3650,
-        ""Initial_Effect"": 0.53429,
-        ""class"": ""WaningEffectBox""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""InterventionStatus:None""
-    }
-"
-"Repelling_Config","json object","NA","NA","NA","Defines a waning effect that determines the probability that a vector is repelled due to the intervention. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
-
-    {
-      ""Repelling_Config"": {
-        ""Box_Duration"": 3650,
-        ""Initial_Effect"": 0,
-        ""class"": ""WaningEffectBox""
-      }
-    }
-"
-"Usage_Config","json object","NA","NA","NA","The user-defined **WaningEffects** to determine when and if an individual is using a bed net. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
-
-    {
-      ""Usage_Config"": {
-        ""class"": ""WaningEffectConstant"",
-        ""Initial_Effect"": 1.0
-      }
-    }
-"
+Blocking_Config,json object,NA,NA,NA,Defines a waning effect that determines the probability that a host-seeking vector is blocked from reaching a human host. Blocked vectors are then elligble to be killed according to the **Killing_Config** parameter. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.,[link](../json/campaign-simplebednet-blocking-config.json)
+Cost_To_Consumer,float,0,999999,3.75,The unit cost per bednet (unamortized),[link](../json/campaign-simplebednet-cost-to-consumer.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-simplebednet-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-simplebednet-dont-allow-duplicates.json)
+Insecticide_Name,string,NA,NA,UNINITIALIZED STRING,"The name of the insecticide defined in the configuration parameter **Insecticides**  for this intervention.  If insecticides are being used,  this must be defined as one of those values; if they are not being used this can be empty.  It cannot have a value if you did not configure the configuration parameter **Insecticides**.",[link](../json/campaign-simplebednet-insecticide-name.json)
+Intervention_Name,string,NA,NA,SimpleBednet,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-simplebednet-intervention-name.json)
+Killing_Config,json object,NA,NA,NA,Defines a waning effect that determines the probability that a blocked vector is killed due to the intervention. Killing is conditional on being blocked: only blocked vectors are able to be killed.  Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.,[link](../json/campaign-simplebednet-killing-config.json)
+New_Property_Value,string,NA,NA,"""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",[link](../json/campaign-simplebednet-new-property-value.json)
+Repelling_Config,json object,NA,NA,NA,Defines a waning effect that determines the probability that a vector is repelled due to the intervention. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.,[link](../json/campaign-simplebednet-repelling-config.json)
+Usage_Config,json object,NA,NA,NA,The user-defined **WaningEffects** to determine when and if an individual is using a bed net. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.,[link](../json/campaign-simplebednet-usage-config.json)

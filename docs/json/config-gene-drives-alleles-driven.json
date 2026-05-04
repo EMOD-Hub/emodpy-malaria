@@ -1,0 +1,9 @@
+{
+    "Alleles_Driven": [
+        {
+            "Allele_To_Copy": "drive_a",
+            "Allele_To_Replace": "wild_a",
+            "Copy_To_Likelihood": []
+        }
+    ]
+}

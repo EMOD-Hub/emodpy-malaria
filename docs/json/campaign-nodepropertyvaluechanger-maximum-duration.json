@@ -1,0 +1,9 @@
+{
+  "Intervention_Config": {
+    "class": "NodePropertyValueChanger",
+    "Target_NP_Key_Value": "InterventionStatus:STOP_VACCINATING",
+    "Daily_Probability": 1,
+    "Maximum_Duration": 0,
+    "Revert": 0
+  }
+}

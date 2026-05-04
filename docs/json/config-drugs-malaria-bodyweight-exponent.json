@@ -1,0 +1,8 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether",
+            "Bodyweight_Exponent": 2
+        }
+    ]
+}

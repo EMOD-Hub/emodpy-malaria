@@ -1,0 +1,8 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether",
+            "Drug_Fulltreatment_Doses": 3
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "Shredding_Alleles": {
+        "Allele_Required": "Yw",
+        "Allele_To_Shred": "Xw",
+        "Allele_To_Shred_To": "Xm",
+        "Allele_Shredding_Fraction": 1.0,
+        "Allele_To_Shred_To_Surviving_Fraction": 0.0
+    }
+}

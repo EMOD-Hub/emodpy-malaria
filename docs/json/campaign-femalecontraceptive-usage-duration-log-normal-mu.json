@@ -1,0 +1,5 @@
+{
+  "Usage_Duration_Distribution": "LOG_NORMAL_DISTRIBUTION",
+  "Usage_Duration_Log_Normal_Mu": 5,
+  "Usage_Duration_Log_Normal_Sigma": 0.5
+}

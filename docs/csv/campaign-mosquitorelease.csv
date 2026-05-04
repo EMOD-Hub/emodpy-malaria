@@ -1,112 +1,20 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Cost_To_Consumer","float","0","999999","0","The cost of each mosquito release.",".. code-block:: json
-
-    {
-      ""Cost_To_Consumer"": 1.5
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","bool","NA","NA","0","If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the node.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Intervention_Name","string","NA","NA","MosquitoRelease","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""MosquitoRelease"",
-        ""Intervention_Name"": ""Sterile male mosquito release""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""HasHealthCare:YES""
-    }
-"
-"Released_Ratio","float","0","3.40E+038","0","The number of released mosquitoes is proportional to the mosquito population from the previous timestep, specifically considering mosquitoes of the same gender as those being released. This approach is used when on Released_Type is set to RATIO.",".. code-block:: json
-
-    {
-      ""Released_type"": ""RATIO"",
-      ""Released_Ratio"": 0.4
-    }
-"
-"Released_Genome","array of strings","NA","NA","[]","This defines the alleles of the genome of the vectors to be released. It must define all of the alleles including the gender gene. '*' is not allowed. See **Vector_Species_Params** for more information.",".. code-block:: json
-
-    {
-      ""Released_Genome"": [
-        [
-          ""X"",
-          ""X""
-        ],
-        [
-          ""b0"",
-          ""b0""
-        ]
-      ]
-    }
-"
-"Released_Mate_Genome","array of string arrays","NA","NA","[]","Optional parameter which defines the alleles of the genome of the mate for pre-mated female releases. The **Released_Mate_Genome** must be male and **Released_Genome** must be female. It must define all of the alleles including the gender gene. ``*`` is not allowed. When this parameter is defined, the released female vectors will be fully gestated and ready to lay eggs, which will be the product of **Released_Genome** and **Released_Mate_Genome**.",".. code-block:: json
-
-    {
-      ""Released_Genome"": [
-        [""X"", ""X""],
-        [""a1"", ""a1""]
-      ],
-      ""Released_Mate_Genome"": [
-        [""X"", ""Y""],
-        [""a1"", ""a1""]
-      ]
-    }
-"
-"Released_Infectious","float","0","1","0","The fraction of vectors released that are to be infectious. You can only use this feature when **Malaria_Model** is NOT set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.",".. code-block:: json
-
-    {
-      ""Released_Infectious"": 0.6
-    }
-"
-"Released_Microsporidia_Strain","string","NA","NA","""""","The name of the microsporidia strain for the released mosquitoes. The strain name must match a strain defined in **Vector_Species_Params**, **Microsporidia** for the species being released. An empty string indicates no microsporidia infection.",".. code-block:: json
-
-    {
-      ""Released_Microsporidia_Strain"": ""Strain_A""
-    }
-"
-"Released_Number","integer","1","100000000.0","10000","The number of mosquitoes released in the intervention.",".. code-block:: json
-
-    {
-      ""Released_Number"": 10000
-    }
-"
-"Released_Species","string","NA","NA","NA","The name of the released mosquito species, such as *arabiensis*. The simulation configuration parameter, **Vector_Species_Params**, needs to contain that specific mosquito species.",".. code-block:: json
-
-    {
-      ""Released_Species"": ""gambiae""
-    }
-"
-"Released_Type","enum","NA","NA","FIXED_NUMBER","Specifies the number of mosquitoes to release. Possible values are FRACTION and FIXED_NUMBER. When set to FRACTION, this specifies the fraction of the current population to release. When set to FIXED_NUMBER, specifies an exact count of mosquitoes to release.",".. code-block:: json
-
-    {
-      ""Released_Type"": ""FIXED_NUMBER""
-    }
-"
-"Released_Wolbachia","enum","NA","NA","WOLBACHIA_FREE","The Wolbachia type of released mosquitoes. Possible values are:
+Cost_To_Consumer,float,0,999999,0,The cost of each mosquito release.,[link](../json/campaign-mosquitorelease-cost-to-consumer.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-mosquitorelease-disqualifying-properties.json)
+Dont_Allow_Duplicates,bool,NA,NA,0,"If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the node.",[link](../json/campaign-mosquitorelease-dont-allow-duplicates.json)
+Intervention_Name,string,NA,NA,MosquitoRelease,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-mosquitorelease-intervention-name.json)
+New_Property_Value,string,NA,NA,"""""",An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.,[link](../json/campaign-mosquitorelease-new-property-value.json)
+Released_Ratio,float,0,3.40E+038,0,"The number of released mosquitoes is proportional to the mosquito population from the previous timestep, specifically considering mosquitoes of the same gender as those being released. This approach is used when on Released_Type is set to RATIO.",[link](../json/campaign-mosquitorelease-released-ratio.json)
+Released_Genome,array of strings,NA,NA,[],This defines the alleles of the genome of the vectors to be released. It must define all of the alleles including the gender gene. '*' is not allowed. See **Vector_Species_Params** for more information.,[link](../json/campaign-mosquitorelease-released-genome.json)
+Released_Mate_Genome,array of string arrays,NA,NA,[],"Optional parameter which defines the alleles of the genome of the mate for pre-mated female releases. The **Released_Mate_Genome** must be male and **Released_Genome** must be female. It must define all of the alleles including the gender gene. ``*`` is not allowed. When this parameter is defined, the released female vectors will be fully gestated and ready to lay eggs, which will be the product of **Released_Genome** and **Released_Mate_Genome**.",[link](../json/campaign-mosquitorelease-released-mate-genome.json)
+Released_Infectious,float,0,1,0,The fraction of vectors released that are to be infectious. You can only use this feature when **Malaria_Model** is NOT set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.,[link](../json/campaign-mosquitorelease-released-infectious.json)
+Released_Microsporidia_Strain,string,NA,NA,"""""","The name of the microsporidia strain for the released mosquitoes. The strain name must match a strain defined in **Vector_Species_Params**, **Microsporidia** for the species being released. An empty string indicates no microsporidia infection.",[link](../json/campaign-mosquitorelease-released-microsporidia-strain.json)
+Released_Number,integer,1,100000000.0,10000,The number of mosquitoes released in the intervention.,[link](../json/campaign-mosquitorelease-released-number.json)
+Released_Species,string,NA,NA,NA,"The name of the released mosquito species, such as *arabiensis*. The simulation configuration parameter, **Vector_Species_Params**, needs to contain that specific mosquito species.",[link](../json/campaign-mosquitorelease-released-species.json)
+Released_Type,enum,NA,NA,FIXED_NUMBER,"Specifies the number of mosquitoes to release. Possible values are FRACTION and FIXED_NUMBER. When set to FRACTION, this specifies the fraction of the current population to release. When set to FIXED_NUMBER, specifies an exact count of mosquitoes to release.",[link](../json/campaign-mosquitorelease-released-type.json)
+Released_Wolbachia,enum,NA,NA,WOLBACHIA_FREE,"The Wolbachia type of released mosquitoes. Possible values are:
 
 * WOLBACHIA_FREE
 * VECTOR_WOLBACHIA_A
 * VECTOR_WOLBACHIA_B
-* VECTOR_WOLBACHIA_AB",".. code-block:: json
-
-    {
-      ""Released_Wolbachia"": ""VECTOR_WOLBACHIA_A""
-    }
-"
+* VECTOR_WOLBACHIA_AB",[link](../json/campaign-mosquitorelease-released-wolbachia.json)

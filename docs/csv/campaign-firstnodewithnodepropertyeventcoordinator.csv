@@ -1,43 +1,6 @@
 Parameter,Type,Min,Max,Default,Description,Example
-"Coordinator_Name","string","NA","NA","FirstNodeWithNodePropertyEventCoordinator","The unique identifying coordinator name used to identify the different coordinators in reports.",".. code-block:: json
-
-    {
-      ""Coordinator_Name"": ""FirstNodeWithNodePropertyEventCoordinator""
-    }
-"
-"Node_ID_To_Coordinator_Event_List","array of json objects","","","[]","The list of Node ID & Coordinator Event pairs to find the first node id that has the given **NodeProperty**.",".. code-block:: json
-
-    {
-      ""Node_ID_To_Coordinator_Event_List"": [
-        {
-          ""Coordinator_Event_To_Broadcast"": ""Send_People_To_Node_2"",
-          ""Node_ID"": 2
-        },
-        {
-          ""Coordinator_Event_To_Broadcast"": ""Send_People_To_Node_3"",
-          ""Node_ID"": 3
-        }
-      ]
-    }
-"
-"Node_Property_Key_Value_To_Have","string","NA","NA","""""","The **NodeProperty** key:value pair that the node must have to get its event broadcasted.",".. code-block:: json
-
-    {
-      ""Node_Property_Key_Value_To_Have"": ""Place:URBAN""
-    }
-"
-"Not_Found_Coordinator_Event","string","NA","NA","""""","Coordinator event to broadcast when a node with the given **NodeProperty** key:value pair is not found. The events contained in the list are defined in **Custom_Coordinator_Events** in the simulation configuration file.",".. code-block:: json
-
-    {
-      ""Not_Found_Coordinator_Event"": ""My_Not_Found_Event""
-    }
-"
-"Start_Trigger_Condition_List","array of strings","NA","NA","[]","If one of the coordinator events in this list is heard, the coordinator will start and attempt to send an event based on the selection of a node. The events contained in the list are defined in **Custom_Coordinator_Events** in the simulation configuration file.",".. code-block:: json
-
-    {
-      ""Start_Trigger_Condition_List"": [
-        ""My_Trigger_Event_1"",
-        ""My_Trigger_Event_2""
-      ]
-    }
-"
+Coordinator_Name,string,NA,NA,FirstNodeWithNodePropertyEventCoordinator,The unique identifying coordinator name used to identify the different coordinators in reports.,[link](../json/campaign-firstnodewithnodepropertyeventcoordinator-coordinator-name.json)
+Node_ID_To_Coordinator_Event_List,array of json objects,,,[],The list of Node ID & Coordinator Event pairs to find the first node id that has the given **NodeProperty**.,[link](../json/campaign-firstnodewithnodepropertyeventcoordinator-node-id-to-coordinator-event-list.json)
+Node_Property_Key_Value_To_Have,string,NA,NA,"""""",The **NodeProperty** key:value pair that the node must have to get its event broadcasted.,[link](../json/campaign-firstnodewithnodepropertyeventcoordinator-node-property-key-value-to-have.json)
+Not_Found_Coordinator_Event,string,NA,NA,"""""",Coordinator event to broadcast when a node with the given **NodeProperty** key:value pair is not found. The events contained in the list are defined in **Custom_Coordinator_Events** in the simulation configuration file.,[link](../json/campaign-firstnodewithnodepropertyeventcoordinator-not-found-coordinator-event.json)
+Start_Trigger_Condition_List,array of strings,NA,NA,[],"If one of the coordinator events in this list is heard, the coordinator will start and attempt to send an event based on the selection of a node. The events contained in the list are defined in **Custom_Coordinator_Events** in the simulation configuration file.",[link](../json/campaign-firstnodewithnodepropertyeventcoordinator-start-trigger-condition-list.json)

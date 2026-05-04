@@ -1,0 +1,7 @@
+{
+  "Counter": {
+    "Sample_Size_Distribution": "GAUSSIAN_DISTRIBUTION",
+    "Sample_Size_Gaussian_Mean": 100,
+    "Sample_Size_Gaussian_Std_Dev": 20
+  }
+}
