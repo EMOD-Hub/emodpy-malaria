@@ -50,6 +50,7 @@ accurately referred to as a *simulation type*. For more information on the softw
 inheritance, see [software-overview](software-overview.md).
 
 ![Simulation type inheritance](../images/intro/simulation-types.png)
+
 *Simulation type inheritance*
 
 

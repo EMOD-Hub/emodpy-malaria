@@ -146,6 +146,7 @@ vaccination to children aged 6 to 10. The second graph shows the effect of inste
 all individuals who are easy to access.
 
 ![Figure 1: Age-targeted vaccination](../images/general/HINT_AgeAndAccess_PropertyReport_agetargeted.png)
+
 *Figure 1: Age-targeted vaccination*
 
 In this example, the outbreak begins in the easily accessible population and vaccination is targeted
@@ -154,6 +155,7 @@ the vaccination of this group. Compare infections in other ages, noting the over
 infection across age groups even though only 6 to 10 year olds were vaccinated.
 
 ![Figure 2: Access-targeted vaccination](../images/general/HINT_AgeAndAccess_PropertyReport_accesstargeted.png)
+
 *Figure 2: Access-targeted vaccination*
 
 In this example, the outbreak begins in the inaccessible population and vaccination is targeted to

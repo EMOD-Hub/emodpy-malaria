@@ -1,24 +1,15 @@
 Parameter,Type,Min,Max,Default,Description,Example
 Anemia_Mortality_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
 This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for anemia.",[link](../json/config-symptoms-malaria-anemia-mortality-inverse-width.json)
 Anemia_Mortality_Threshold,double,NA,NA,3,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
 This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for hemoglobin count in grams per deciliter (g/dL) at which 50% of individuals die per day.",[link](../json/config-symptoms-malaria-anemia-mortality-threshold.json)
 Anemia_Severe_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-
 This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for anemia.",[link](../json/config-symptoms-malaria-anemia-severe-inverse-width.json)
 Anemia_Severe_Threshold,float,0,100,5,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
 This parameter configures the severe disease threshold level for anemia. Threshold units are in grams per deciliter (g/dL).",[link](../json/config-symptoms-malaria-anemia-severe-threshold.json)
 Clinical_Fever_Threshold_High,float,0,15,1,The fever threshold (in degrees Celsius above normal) to start a clinical incident.,[link](../json/config-symptoms-malaria-clinical-fever-threshold-high.json)
 Clinical_Fever_Threshold_Low,float,0,5,1,The fever threshold (in degrees Celsius above normal) to end a clinical incident.,[link](../json/config-symptoms-malaria-clinical-fever-threshold-low.json)
@@ -27,25 +18,16 @@ Fever_Detection_Threshold,float,0.5,5,1,"The level of body temperature above nor
 Fever_IRBC_Kill_Rate,float,0,1000,0.15,"The maximum kill rate for infected red blood cells due to the inflammatory innate immune response. As fever increases above 38.5 degrees Celsius, the kill rate becomes successively higher along a sigmoidal curve approaching this rate.
 ",[link](../json/config-symptoms-malaria-fever-irbc-kill-rate.json)
 Fever_Mortality_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
 This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for fever.",[link](../json/config-symptoms-malaria-fever-mortality-inverse-width.json)
 Fever_Mortality_Threshold,double,NA,NA,3,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
 This parameter configures the fever mortality threshold, in units of degrees Celsius above normal body temperature (defined as 37 C).",[link](../json/config-symptoms-malaria-fever-mortality-threshold.json)
 Fever_Severe_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
 This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for fever.",[link](../json/config-symptoms-malaria-fever-severe-inverse-width.json)
 Fever_Severe_Threshold,float,0,10,1.5,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-
 This parameter configures the threshold (in degrees Celsius above normal) for fever indicating severe disease.",[link](../json/config-symptoms-malaria-fever-severe-threshold.json)
 Min_Days_Between_Clinical_Incidents,float,0,1000000,3,"The number of days with fever below the low-threshold before a new incident can start, when fever again exceeds the high-threshold.",[link](../json/config-symptoms-malaria-min-days-between-clinical-incidents.json)
 New_Diagnostic_Sensitivity,float,0.0001,100000,0.01,The number of microliters of blood tested to find single parasites in a new diagnostic (corresponds to inverse parasites/microliters sensitivity).,[link](../json/config-symptoms-malaria-new-diagnostic-sensitivity.json)

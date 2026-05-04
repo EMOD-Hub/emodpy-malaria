@@ -82,7 +82,10 @@ reservoir, as shown in the log prevalence chart.
 
 
 ![Figure 1: Zoonotic disease outbreak and animal reservoir](../images/general/Zoonosis_InsetChart_default.png)
+
 *Figure 1: Zoonotic disease outbreak and animal reservoir*
 
 ![Figure 2: All output channels showing re-seeding caused by zoonosis and waning immunity](../images/general/Zoonosis_AllCharts_default.png)
+
 *Figure 2: All output channels showing re-seeding caused by zoonosis and waning immunity*
+

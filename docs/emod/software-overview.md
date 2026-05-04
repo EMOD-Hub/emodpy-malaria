@@ -49,6 +49,7 @@ parameters are available for you to use. In addition, simulation types for broad
 disease can be extended to build your own disease-specific model.
 
 ![Simulation type inheritance](../images/intro/simulation-types.png)
+
 *Simulation type inheritance*
 
 EMOD utilizes object-oriented programming design principles such as interfaces, factories, and
@@ -71,6 +72,7 @@ on a multi-node cluster, there is also a Message Passing Interface (MPI) compone
 between multiple instances of EMOD.
 
 ![High-level EMOD system architecture](../images/intro/architecture.png)
+
 *High-level EMOD system architecture*
 
 

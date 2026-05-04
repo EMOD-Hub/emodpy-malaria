@@ -49,3 +49,4 @@ node9 would be the following: 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 and 1.
 The following diagram shows the format for the binary load-balancing file data:
 
 ![loadbalancingBFF.jpg](../images/file-structure/loadbalancingBFF.jpg)
+

@@ -1,10 +1,8 @@
 Parameter,Type,Min,Max,Default,Description,Example
 Antigen,integer,0,10,0,The antigenic base strain ID of the outbreak infection.,[link](../json/campaign-outbreak-antigen.json)
-Genome,integer,-1,1.67E+07,0,The genome ID of the outbreak infection. Together with the clade ID (**Clade**) they represent an infection as a unitary object. Values for **Genome** may range from -1 to 2\ :sup:`Log2_Number_of_Genomes_per_Clade-1`. Set this to -1 to create a random number generator.,[link](../json/campaign-outbreak-genome.json)
+Genome,integer,-1,1.67E+07,0,The genome ID of the outbreak infection. Together with the clade ID (**Clade**) they represent an infection as a unitary object. Values for **Genome** may range from -1 to $2^{Log2\_Number\_of\_Genomes\_per\_Clade-1}$. Set this to -1 to create a random number generator.,[link](../json/campaign-outbreak-genome.json)
 Import_Age,float,0,43800,365,The age (in days) of imported individuals.,[link](../json/campaign-outbreak-import-age.json)
 Number_Cases_Per_Node,integer,0,2147480000.0,1,"The number of new imported individuals.
-
-.. note::
-
+!!! note
     This will increase the population with demographics of 50/50 male/female and user-defined ages",[link](../json/campaign-outbreak-number-cases-per-node.json)
 Probability_Of_Infection,float,0,1,1,The probability that new individuals are infected. 1.0 implies all new individuals are infected while 0.0 adds all of the people as susceptible individuals.,[link](../json/campaign-outbreak-probability-of-infection.json)

@@ -1,9 +1,8 @@
 Parameter,Type,Min,Max,Default,Description,Example
-Disqualifying_Properties,array of strings,NA,NA,[],"A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-scalelarvalhabitat-disqualifying-properties.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-scalelarvalhabitat-disqualifying-properties.json)
 Dont_Allow_Duplicates,boolean,0,1,0,Prevents individual from receiving a new intervention with the same Intervetion_Name.,[link](../json/campaign-scalelarvalhabitat-dont-allow-duplicates.json)
 Factor,float,0,3.40E+38,1,The multiplier by which to scale the larval habitat availability.,[link](../json/campaign-scalelarvalhabitat-factor.json)
-Habitat,enum,NA,NA,NONE,"The name of the habitat for which to specify a larval habitat multiplier. See :doc:`parameter-configuration-larval` parameters for more information. Possible values are:
-
+Habitat,enum,NA,NA,NONE,"The name of the habitat for which to specify a larval habitat multiplier. See [Larval habitat](parameter-configuration-larval.md) parameters for more information. Possible values are:
 * NONE (default but not allowed; it must be configured to a habitat type)
 * TEMPORARY_RAINFALL
 * WATER_VEGETATION
@@ -12,9 +11,8 @@ Habitat,enum,NA,NA,NONE,"The name of the habitat for which to specify a larval h
 * CONSTANT
 * BRACKISH_SWAMP
 * LINEAR_SPLINE
-* ALL_HABITATS
-",[link](../json/campaign-scalelarvalhabitat-habitat.json)
+* ALL_HABITATS",[link](../json/campaign-scalelarvalhabitat-habitat.json)
 Intervention_Name,string,NA,NA,ScaleLarvalHabitat,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-scalelarvalhabitat-intervention-name.json)
-Larval_Habitat_Multiplier,array of json objects,NA,NA,NA,"The value by which to scale the larval habitat availability (specified in **Habitats** in the configuration file) per intervention, across all habitat types, for specific habitat types, or for specific mosquito species within each habitat type. See :doc:`parameter-configuration-larval` parameters for more information.","[link](../json/campaign-scalelarvalhabitat-larval-habitat-multiplier-1.json), [link](../json/campaign-scalelarvalhabitat-larval-habitat-multiplier-2.json), [link](../json/campaign-scalelarvalhabitat-larval-habitat-multiplier-3.json)"
-New_Property_Value,string,NA,NA,"""""",An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.,[link](../json/campaign-scalelarvalhabitat-new-property-value.json)
+Larval_Habitat_Multiplier,array of json objects,NA,NA,NA,"The value by which to scale the larval habitat availability (specified in **Habitats** in the configuration file) per intervention, across all habitat types, for specific habitat types, or for specific mosquito species within each habitat type. See [Larval habitat](parameter-configuration-larval.md) parameters for more information.","[link](../json/campaign-scalelarvalhabitat-larval-habitat-multiplier-1.json), [link](../json/campaign-scalelarvalhabitat-larval-habitat-multiplier-2.json), [link](../json/campaign-scalelarvalhabitat-larval-habitat-multiplier-3.json)"
+New_Property_Value,string,NA,NA,"""""",An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.,[link](../json/campaign-scalelarvalhabitat-new-property-value.json)
 Species,string,NA,NA,ALL_SPECIES,The name of the species for which to specify a larval habitat multiplier. This must be one of the names specified in the configuration parameter **Vector_Species_Params** or set to ALL_SPECIES.,[link](../json/campaign-scalelarvalhabitat-species.json)

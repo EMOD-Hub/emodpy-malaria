@@ -22,6 +22,7 @@ For more details on the modeling approach and example applications, see Selvaraj
 [Vector genetics, insecticide resistance and gene drives: An agent-based modeling approach to evaluate malaria transmission and elimination](https://doi.org/10.1371/journal.pcbi.1008121).
 
 ![Overview of the vector genetics system in EMOD: a female and male each carry a diploid genome; the F1 offspring inherits one gamete from each parent. The labels illustrate three consequences modeled by the genetics system: (a) allele combinations can modify phenotypic traits such as lifespan (see [trait-modifiers](#trait-modifiers)), (b) spontaneous germline mutations can introduce new allele variants (see [germline-mutations](#germline-mutations)), and (c) allele combinations can alter vector competence such as infectability (see [trait-modifiers](#trait-modifiers)). From Selvaraj et al. (2020), [doi:10.1371/journal.pcbi.1008121](https://doi.org/10.1371/journal.pcbi.1008121).](../images/vector-genetics/fig1-inheritance.png)
+
 *Overview of the vector genetics system in EMOD: a female and male each carry a diploid genome; the F1 offspring inherits one gamete from each parent. The labels illustrate three consequences modeled by the genetics system: (a) allele combinations can modify phenotypic traits such as lifespan (see [trait-modifiers](#trait-modifiers)), (b) spontaneous germline mutations can introduce new allele variants (see [germline-mutations](#germline-mutations)), and (c) allele combinations can alter vector competence such as infectability (see [trait-modifiers](#trait-modifiers)). From Selvaraj et al. (2020), [doi:10.1371/journal.pcbi.1008121](https://doi.org/10.1371/journal.pcbi.1008121).*
 
 Vector genetics is configured per species under `Vector_Species_Params` in config.json. Each
@@ -40,6 +41,7 @@ loci most relevant to the dynamics being studied. A mosquito's Wolbachia status 
 strain are also tracked per individual alongside the genetic information.
 
 ![Example diploid genome: two gametes (rows), each carrying one allele per locus. The first column is the gender locus; the remaining columns are user-defined genes with named alleles.](../images/vector-genetics/genome-example.png)
+
 *Example diploid genome: two gametes (rows), each carrying one allele per locus. The first column is the gender locus; the remaining columns are user-defined genes with named alleles.*
 
 One locus is always reserved as the gender gene. A mosquito's sex is always determined by the

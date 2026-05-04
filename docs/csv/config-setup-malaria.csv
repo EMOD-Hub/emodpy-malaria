@@ -1,7 +1,7 @@
 Parameter,Type,Min,Max,Default,Description,Example
 Config_Name,string,NA,NA,UNINITIALIZED STRING,"The optional, user-supplied title naming a configuration file.",[link](../json/config-setup-malaria-config-name.json)
 Custom_Coordinator_Events,array of strings,NA,NA,[],"The list of valid, user-defined Coordinator Events that will be included in the campaign. These are specifically events which apply with **EventCoordinators**, such completing distribution of a collection of interventions. Any event used in the campaign must be in this list.",[link](../json/config-setup-malaria-custom-coordinator-events.json)
-Custom_Individual_Events,array of strings,NA,NA,[],"The list of valid, user-defined Individual Events that will be included in the campaign. These are specifically events which apply at an individual level, such as receiving a vaccine. Any individual event used in the campaign must either be one of the built-in events or in this list. See :doc:`parameter-campaign-event-list` for a list of all possible built-in events.",[link](../json/config-setup-malaria-custom-individual-events.json)
+Custom_Individual_Events,array of strings,NA,NA,[],"The list of valid, user-defined Individual Events that will be included in the campaign. These are specifically events which apply at an individual level, such as receiving a vaccine. Any individual event used in the campaign must either be one of the built-in events or in this list. See [Event list](parameter-campaign-event-list.md) for a list of all possible built-in events.",[link](../json/config-setup-malaria-custom-individual-events.json)
 Custom_Node_Events,array of strings,NA,NA,[],"The list of valid, user-defined Node Events that will be included in the campaign. These are specifically events which apply at the node/location level, such as finishing using an **EnvironmentalDiagnostic**. Any event used in the campaign must be in this list.",[link](../json/config-setup-malaria-custom-node-events.json)
 Enable_Interventions,boolean,0,1,0,Controls whether or not campaign interventions will be used in the simulation. Set **Campaign_Filename** to the path of the file that contains the campaign interventions.,[link](../json/config-setup-malaria-enable-interventions.json)
 Enable_Random_Generator_From_Serialized_Population,boolean,0,1,0,Determines if the random number generator(s) should be extracted from a serialized population file. Enabling this will start a simulation from this file with the exact same random number stream and location in that stream as when the file was serialized.,[link](../json/config-setup-malaria-enable-random-generator-from-serialized-population.json)
@@ -11,38 +11,31 @@ Enable_Termination_On_Zero_Total_Infectivity,boolean,0,1,0,Controls whether or n
 Listed_Events,array of strings,NA,NA,[],"The list of valid, user-defined events that will be included in the campaign. Any event used in the campaign must either be one of the built-in events or in this list.",[link](../json/config-setup-malaria-listed-events.json)
 Malaria_Model,enum,NA,NA,MALARIA_MECHANISTIC_MODEL,"The type of malaria model used in a simulation. 
 Possible values are:  
-
 * MALARIA_MECHANISTIC_MODEL
 * MALARIA_MECHANISTIC_MODEL_WITH_CO_TRANSMISSION
 * MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS
-
-.. note::
-    
-    Most malaria simulations should use MALARIA_MECHANISTIC_MODEL.
-",[link](../json/config-setup-malaria-malaria-model.json)
+!!! note
+    Most malaria simulations should use MALARIA_MECHANISTIC_MODEL.",[link](../json/config-setup-malaria-malaria-model.json)
 Memory_Usage_Halting_Threshold_Working_Set_MB,integer,0,1.00E+06,8000,The maximum size (in MB) of working set memory before the system throws an exception and halts. ,[link](../json/config-setup-malaria-memory-usage-halting-threshold-working-set-mb.json)
 Memory_Usage_Warning_Threshold_Working_Set_MB,integer,0,1.00E+06,7000,The maximum size (in MB) of working set memory before memory usage statistics are written to the log regardless of log level.,[link](../json/config-setup-malaria-memory-usage-warning-threshold-working-set-mb.json)
 Minimum_End_Time,float,0,1000000,0,The minimum time that the simulation must reach before checking for early termination conditions. **Enable_Abort_Zero_Infectivity** must be set to 1 (true).,[link](../json/config-setup-malaria-minimum-end-time.json)
 Node_Grid_Size,float,0.00416,90,0.004167,The spatial resolution indicating the node grid size for a simulation in degrees.,[link](../json/config-setup-malaria-node-grid-size.json)
 Random_Number_Generator_Policy,enum,NA,NA,ONE_PER_CORE,"The policy that determines if random numbers are generated for objects in a simulation on a per-core or per-node basis.  The following values are available:
-
 ONE_PER_CORE
-    A random number generator (RNG) is created for each computing core running a simulation. When running a simulation on a single core, there will be only one RNG. If running the single simulation on multiple cores, each core will have its own RNG. The RNGs on the different cores start out such that they will not generate the same stream of random numbers. Prior to |EMOD_s| 2.19, all simulations used this policy. 
+    A random number generator (RNG) is created for each computing core running a simulation. When running a simulation on a single core, there will be only one RNG. If running the single simulation on multiple cores, each core will have its own RNG. The RNGs on the different cores start out such that they will not generate the same stream of random numbers. Prior to EMOD 2.19, all simulations used this policy. 
 ONE_PER_NODE
    An RNG is created for each geographic node in the simulation. The advantages of this policy are that 1) an event that causes a random number to be drawn in one node does not cause things to change in another node and 2) changing a simulation from single core to multi-core will not change the results. The RNGs on the different nodesstart out such that they will not generate the same stream of random numbers.",[link](../json/config-setup-malaria-random-number-generator-policy.json)
 Random_Number_Generator_Type,enum,NA,NA,USE_PSEUDO_DES,"The type of random number generator to use for objects in a simulation. Must set the RNG seed in **Run_Number**. The following values are available:
-
 USE_PSEUDO_DES
-    Based on `Numerical Recipes in C. The Art of Scientific Computing <https://en.wikipedia.org/wiki/Numerical_Recipes>`_, 2nd ed. Press, William H. et. al, 1992. Prior to |EMOD_s| 2.19, this was the only generator available.
+    Based on [Numerical Recipes in C. The Art of Scientific Computing](https://en.wikipedia.org/wiki/Numerical_Recipes), 2nd ed. Press, William H. et. al, 1992. Prior to EMOD 2.19, this was the only generator available.
 USE_LINEAR_CONGRUENTIAL
-    Based on `The Structure of Linear Congruential Sequences <https://www.researchgate.net/publication/242477888_The_Structure_of_Linear_Congruential_Sequences>`_, Marsaglia, George, 1972. 
+    Based on [The Structure of Linear Congruential Sequences](https://www.researchgate.net/publication/242477888_The_Structure_of_Linear_Congruential_Sequences), Marsaglia, George, 1972. 
 USE_AES_COUNTER
-    Based on AES in CTR Mode encryption as implemented in `Intel (R) Advanced Encryption Standard (AES) New Instruction Set <https://software.intel.com/sites/default/files/article/165683/aes-wp-2012-09-22-v01.pdf>`_.",[link](../json/config-setup-malaria-random-number-generator-type.json)
+    Based on AES in CTR Mode encryption as implemented in [Intel (R) Advanced Encryption Standard (AES) New Instruction Set](https://software.intel.com/sites/default/files/article/165683/aes-wp-2012-09-22-v01.pdf).",[link](../json/config-setup-malaria-random-number-generator-type.json)
 Run_Number,integer,0,65535,1,Sets the random number seed used with **Random_Number_Generator_Type** and **Random_Number_Generator_Policy** to assign random numbers to objects in a simulation. This value must be different for each simulation run to ensure model stochasticity. ,[link](../json/config-setup-malaria-run-number.json)
 Serialization_Times,array of floats,,,0,"The list of times at which to save the serialized state to file. 0 indicates the initial state before simulation, n indicates the time to serialize in terms of start time and step size, and will be rounded up to the nearest time step. The serialized population files can then be loaded at the beginning of a simulation using **Serialized_Population_Filenames** and **Serialized_Population_Path**.",[link](../json/config-setup-malaria-serialization-times.json)
 Serialization_Time_Steps,array of integers,0,2.15E+09,,"The list of time steps after which to save the serialized state to file. 0 (zero) indicates the initial state before simulation, n indicates after the nth time step. **Serialization_Type** must be set to TIMESTEP. The serialized population files can then be loaded at the beginning of a simulation using **Serialized_Population_Filenames** and **Serialized_Population_Path**.",[link](../json/config-setup-malaria-serialization-time-steps.json)
 Serialization_Type,enum,NA,NA,NONE,"The type of serialization to perform. Serialization saves the population state at particular times so you can start from that state in other simulations. Accepted values are:
-
 NONE
     No serialization.
 TIME
@@ -54,7 +47,6 @@ Serialized_Population_Path,string,NA,NA,.,The root path for the serialized popul
 Simulation_Duration,float,0,1000000,1,The elapsed time (in days) from the start to the end of a simulation.,[link](../json/config-setup-malaria-simulation-duration.json)
 Simulation_Timestep,float,0,1000000,1,"The duration of a simulation time step, in days.",[link](../json/config-setup-malaria-simulation-timestep.json)
 Simulation_Type,enum,NA,NA,GENERIC_SIM,"The type of disease being simulated. Possible IDM-supported values are:
-
 * GENERIC_SIM
 * VECTOR_SIM
 * MALARIA_SIM
@@ -64,8 +56,5 @@ Simulation_Type,enum,NA,NA,GENERIC_SIM,"The type of disease being simulated. Pos
 * ENVIRONMENTAL_SIM
 * TYPHOID_SIM",[link](../json/config-setup-malaria-simulation-type.json)
 Start_Time,float,0,1000000,1,"The time, in days, when the simulation begins. This time is used to identify the starting values of the temporal input data, such as specifying which day's climate values should be used for the first day of the simulation. 
-
-.. note::
-
-   The **Start_Day** of campaign events is in absolute time, so time relative to the beginning of the simulation depends on this parameter.
-",[link](../json/config-setup-malaria-start-time.json)
+!!! note
+    The **Start_Day** of campaign events is in absolute time, so time relative to the beginning of the simulation depends on this parameter.",[link](../json/config-setup-malaria-start-time.json)

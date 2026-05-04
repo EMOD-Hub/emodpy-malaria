@@ -44,6 +44,7 @@ describe in detail how the structural components function.
 
 
 ![Network diagram illustrating the malaria model and its constituent components.](../images/vector-malaria/malaria_network_schematic.png)
+
 *Network diagram illustrating the malaria model and its constituent components.*
 
 

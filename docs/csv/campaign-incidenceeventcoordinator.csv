@@ -3,24 +3,20 @@ Action_List,array of json objects,,,[],"List (array) of JSON objects, including 
 Coordinator_Name,string,NA,NA,"""""","The unique identifying coordinator name, which is useful with the output report, ReportCoordinatorEventRecorder.csv.",
 Count_Events_For_Num_Timesteps,boolean,0,1,1,"If set to true (1), then the waning effect values, as specified in the Effect_List list of objects for the WaningEffectCombo classes, are added together. If set to false (0), the waning effect values are multiplied. The resulting waning effect value cannot be greater than 1.",[link](../json/campaign-incidenceeventcoordinator-count-events-for-num-timesteps.json)
 Demographic_Coverage,float,0,1,1,The fraction of individuals in the target demographic that are counted.,[link](../json/campaign-incidenceeventcoordinator-demographic-coverage.json)
-Event_To_Broadcast,string,NA,NA,"""""",The action event to occur when the specified trigger value in the **Threshold** parameter is met. At least one action must be defined for **Event_To_Broadcast**. The events contained in the list can be built-in events (see :doc:`parameter-campaign-event-list` for possible events).,[link](../json/campaign-incidenceeventcoordinator-event-to-broadcast.json)
+Event_To_Broadcast,string,NA,NA,"""""",The action event to occur when the specified trigger value in the **Threshold** parameter is met. At least one action must be defined for **Event_To_Broadcast**. The events contained in the list can be built-in events (see [Event list](parameter-campaign-event-list.md) for possible events).,[link](../json/campaign-incidenceeventcoordinator-event-to-broadcast.json)
 Event_Type,string,NA,NA,INDIVIDUAL,"The type of event to be broadcast.  Possible values are:
-
 * COORDINATOR
 * INDIVIDUAL
 * NODE",[link](../json/campaign-incidenceeventcoordinator-event-type.json)
 Incidence_Counter,array of json objects,NA,NA,NA,"List of JSON objects for specifying the conditions and parameters that must be met for an incidence to be counted. Some of the values are specified in the following parameters: **Count_Events_For_Num_Timesteps**, **Trigger_Condition_List**, **Node_Property_Restrictions**.
 ",[link](../json/campaign-incidenceeventcoordinator-incidence-counter.json)
-Node_Property_Restrictions,array of json objects,NA,NA,NA,"A list of the **NodeProperty** key:value pairs, as defined in the demographics file, that nodes must have to be targeted by the intervention. See :ref:`demo-properties` parameters for more information.",[link](../json/campaign-incidenceeventcoordinator-node-property-restrictions.json)
+Node_Property_Restrictions,array of json objects,NA,NA,NA,"A list of the **NodeProperty** key:value pairs, as defined in the demographics file, that nodes must have to be targeted by the intervention. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.",[link](../json/campaign-incidenceeventcoordinator-node-property-restrictions.json)
 Number_Repetitions,integer,-1,10000,1,"The number of times an intervention is given, used with **Timesteps_Between_Repetitions**. A value of -1 implies an infinite number of repetitions.",[link](../json/campaign-incidenceeventcoordinator-number-repetitions.json)
-Property_Restrictions,array of json objects,NA,NA,NA,"A list of the **IndividualProperty** key:value pairs, as defined in the demographics file, that individuals must have to be targeted by this intervention. See :ref:`demo-properties` parameters for more information.
-
+Property_Restrictions,array of json objects,NA,NA,NA,"A list of the **IndividualProperty** key:value pairs, as defined in the demographics file, that individuals must have to be targeted by this intervention. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.
 To specify AND and OR combinations of key:value pairs, use **Property_Restrictions_Within_Node**. You cannot use both of these parameters in the same event coordinator.",[link](../json/campaign-incidenceeventcoordinator-property-restrictions.json)
-Property_Restrictions_Within_Node,array of json objects,NA,NA,NA,"A list of the **IndividualProperty** key:value pairs, as defined in the demographics file, that individuals must have to be targeted by this intervention. See :ref:`demo-properties` parameters for more information.
-
+Property_Restrictions_Within_Node,array of json objects,NA,NA,NA,"A list of the **IndividualProperty** key:value pairs, as defined in the demographics file, that individuals must have to be targeted by this intervention. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.
 This parameter allows you to specify AND and OR combinations of key:value pairs. You may specify individual property restrictions using either this parameter or **Property_Restrictions**, but not both.",[link](../json/campaign-incidenceeventcoordinator-property-restrictions-within-node.json)
 Responder,array of json objects,NA,NA,NA,"List of JSON objects for specifying the threshold type, values, and the actions to take when the specified conditions and parameters have been met, as configured in the **Incidence_Counter** parameter. Some of the values are specified in the following parameters:
-
 * **Threshold_Type**
 * **Action_List**
 * **Threshold**
@@ -28,22 +24,19 @@ Responder,array of json objects,NA,NA,NA,"List of JSON objects for specifying th
 Target_Age_Max,float,-3,9.32E+35,9.32E+35,"The upper end of ages targeted for an intervention, in years. Used when **Target_Demographic** is set to ExplicitAgeRanges or ExplicitAgeRangesAndGender.",[link](../json/campaign-incidenceeventcoordinator-target-age-max.json)
 Target_Age_Min,float,0,9.3228e+35,0,"The lower end of ages targeted for an intervention, in years. Used when **Target_Demographic** is set to ExplicitAgeRanges or ExplicitAgeRangesAndGender.",[link](../json/campaign-incidenceeventcoordinator-target-age-min.json)
 Target_Demographic,enum,NA,NA,Everyone,"The target demographic group. Possible values are:
-
 * Everyone
 * ExplicitAgeRanges
 * ExplicitAgeRangesAndGender
 * ExplicitGender
 * ExplicitDiseaseState",[link](../json/campaign-incidenceeventcoordinator-target-demographic.json)
 Target_Gender,enum,NA,NA,All,"Specifies the gender restriction for the intervention. Possible values are:
-
 * Male
 * Female
 * All",[link](../json/campaign-incidenceeventcoordinator-target-gender.json)
 Target_Residents_Only,boolean,0,1,0,"When set to true (1), the intervention is only distributed to individuals that began the simulation in the node (i.e. those that claim the node as their residence).",[link](../json/campaign-incidenceeventcoordinator-target-residents-only.json)
-Targeting_Config,json object,NA,NA,NA,Be more selective of individuals by using the :doc:`parameter-campaign-targeting-config`.,[link](../json/campaign-incidenceeventcoordinator-targeting-config.json)
+Targeting_Config,json object,NA,NA,NA,Be more selective of individuals by using the [Targeting_Config classes](parameter-campaign-targeting-config.md).,[link](../json/campaign-incidenceeventcoordinator-targeting-config.json)
 Threshold,float,0,3.40282e+38,0,The threshold value that triggers the specified action for the **Event_To_Broadcast** parameter. When you use the **Threshold** parameter you must also use the **Event_To_Broadcast** parameter.,[link](../json/campaign-incidenceeventcoordinator-threshold.json)
 Threshold_Type,enum,NA,NA,COUNT,"Threshold type to indicate how **Responder** handles the count of events from **Incidence_Counter** and the thresholds in **Action_List**. Possible values are:
-
 * COUNT
 * PERCENTAGE.",[link](../json/campaign-incidenceeventcoordinator-threshold-type.json)
 Timesteps_Between_Repetitions,integer,-1,1000,-1,The repetition interval.,[link](../json/campaign-incidenceeventcoordinator-timesteps-between-repetitions.json)

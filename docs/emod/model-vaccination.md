@@ -68,9 +68,11 @@ apart. The vaccine has 100% take and 50% demographic coverage. With this configu
 of immune people is above herd immunity and the outbreak does not spread.
 
 ![Figure 1: Baseline SIR outbreak](../images/general/Vaccination_InsetChart_baseline.png)
+
 *Figure 1: Baseline SIR outbreak*
 
 ![Figure 2: Broad vaccination campaign achieving herd immunity](../images/general/Vaccination_InsetChart_broad.png)
+
 *Figure 2: Broad vaccination campaign achieving herd immunity*
 
 However, this is usually not the case. In recent polio eradication campaigns, the number of
@@ -99,4 +101,6 @@ The following graph shows the same SIR outbreak when 30% of the population is ch
 missed by the vaccination campaign, allowing the outbreak to persist.
 
 ![Figure 3: Vaccination campaign that misses 30% of the population](../images/general/Vaccination_InsetChart_access.png)
+
 *Figure 3: Vaccination campaign that misses 30% of the population*
+

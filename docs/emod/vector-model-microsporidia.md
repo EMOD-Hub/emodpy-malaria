@@ -19,6 +19,7 @@ with similar dynamics.
 The microsporidia model implements four core transmission processes:
 
 ![Microsporidia transmission and disease interference in the vector lifecycle](../images/vector-malaria/microsporidia_illustration.png)
+
 *Microsporidia transmission and disease interference in the vector lifecycle*
 
 - **Vertical transmission**: Infected parents transmit microsporidia to their offspring through both maternal (female-to-egg) and paternal (male-to-egg) routes with strain-specific probabilities.

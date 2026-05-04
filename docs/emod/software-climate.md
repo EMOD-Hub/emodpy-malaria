@@ -123,3 +123,4 @@ KoppenIndexX, "integer, 4 bytes", "The Koppen Index value, with X running from 1
 The binary format is as follows:
 
 ![climate-by-koppen-binary.jpg](../images/file-structure/climate-by-koppen-binary.jpg)
+

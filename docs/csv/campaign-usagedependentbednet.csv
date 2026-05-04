@@ -1,48 +1,38 @@
 Parameter,Type,Min,Max,Default,Description,Example
-Blocking_Config,json object,NA,NA,NA,Configures the rate of blocking for indoor mosquito feeds on individuals with an ITN. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.,[link](../json/campaign-usagedependentbednet-blocking-config.json)
+Blocking_Config,json object,NA,NA,NA,Configures the rate of blocking for indoor mosquito feeds on individuals with an ITN. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).,[link](../json/campaign-usagedependentbednet-blocking-config.json)
 Cost_To_Consumer,float,0,999999,3.75,The unit cost per bednet (unamortized),[link](../json/campaign-usagedependentbednet-cost-to-consumer.json)
-Discard_Event,enum,NA,NA,"""""","The event that is broadcast when an individual discards their bed net, either by replacing an existing net or due to the expiration timer. See :doc:`parameter-campaign-event-list` for possible values, or you can use a custom event (defined in the **Custom_Individudual_Events** list in the config file).",[link](../json/campaign-usagedependentbednet-discard-event.json)
-Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-usagedependentbednet-disqualifying-properties.json)
+Discard_Event,enum,NA,NA,"""""","The event that is broadcast when an individual discards their bed net, either by replacing an existing net or due to the expiration timer. See [Event list](parameter-campaign-event-list.md) for possible values, or you can use a custom event (defined in the **Custom_Individudual_Events** list in the config file).",[link](../json/campaign-usagedependentbednet-discard-event.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-usagedependentbednet-disqualifying-properties.json)
 Dont_Allow_Duplicates,bool,NA,NA,0,"If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the individual.",[link](../json/campaign-usagedependentbednet-dont-allow-duplicates.json)
 Expiration_Period_Constant,float,0,3.40282E+38,-1,"The expiration period to use for all bednets, in days, when **Expiration_Period_Distribution** is set to CONSTANT_DISTRIBUTION.",[link](../json/campaign-usagedependentbednet-expiration-period-constant.json)
 Expiration_Period_Distribution,enum,NA,NA,NOT_INITIALIZED,"The distribution type to use for assigning the expiration period to a usage-dependent bednet. Each assigned value is a random draw from the distribution.
-
 Possible values are:
-
 NOT_INITIALIZED
     No distribution set. 
 CONSTANT_DISTRIBUTION
     Use the same value for each individual. Set **Expiration_Period_Constant**.
 UNIFORM_DISTRIBUTION
-    Use a `uniform`_ distribution with a given minimum and maximum. Set **Expiration_Period_Max** and **Expiration_Period_Min**.
+    Use a uniform distribution with a given minimum and maximum. Set **Expiration_Period_Max** and **Expiration_Period_Min**.
 GAUSSIAN_DISTRIBUTION
-    The distribution is `Gaussian`_ (or normal). Values are resampled to ensure >= 0. Set **Expiration_Period_Gaussian_Mean** and **Expiration_Period_Gaussian_Std_Dev**.
+    The distribution is Gaussian (or normal). Values are resampled to ensure >= 0. Set **Expiration_Period_Gaussian_Mean** and **Expiration_Period_Gaussian_Std_Dev**.
 EXPONENTIAL_DISTRIBUTION
-    The distribution is `exponential`_ with a given mean. Set **Expiration_Period_Exponential**.
+    The distribution is exponential with a given mean. Set **Expiration_Period_Exponential**.
 WEIBULL_DISTRIBUTION
-    Use a `Weibull`_ distribution with a given shape and scale. Set **Expiration_Period_Kappa** and **Expiration_Period_Lambda**.
+    Use a Weibull distribution with a given shape and scale. Set **Expiration_Period_Kappa** and **Expiration_Period_Lambda**.
 LOG_NORMAL_DISTRIBUTION
-    Use a `log-normal`_ distribution with a given mean and width. Set **Expiration_Period_Log_Normal_Mu** and **Expiration_Period_Log_Normal_Sigma**.
+    Use a log-normal distribution with a given mean and width. Set **Expiration_Period_Log_Normal_Mu** and **Expiration_Period_Log_Normal_Sigma**.
 POISSON_DISTRIBUTION
-    Use a `Poisson`_ distribution with a given mean. Set **Expiration_Period_Poisson_Mean**. 
+    Use a Poisson distribution with a given mean. Set **Expiration_Period_Poisson_Mean**. 
 DUAL_CONSTANT_DISTRIBUTION
     Use a distribution where some individuals are set to a value of zero and the rest to a given value. Set **Expiration_Period_Proportion_0** and **Peak_2_Value**. This distribution does not use the parameters set for CONSTANT_DISTRIBUTION.
 DUAL_EXPONENTIAL_DISTRIBUTION
-    Use two `exponential`_ distributions with given means. Set **Expiration_Period_Mean_1**, **Expiration_Period_Mean_2**, and **Expiration_Period_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.
-
+    Use two exponential distributions with given means. Set **Expiration_Period_Mean_1**, **Expiration_Period_Mean_2**, and **Expiration_Period_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.
 .. _Gaussian: https://en.wikipedia.org/wiki/Normal_distribution
-
 .. _exponential: https://en.wikipedia.org/wiki/Exponential_distribution
-
 .. _Weibull: https://en.wikipedia.org/wiki/Weibull_distribution
-
 .. _log-normal: https://en.wikipedia.org/wiki/Log-normal_distribution
-
 .. _uniform: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
-
-.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution
-
-",[link](../json/campaign-usagedependentbednet-expiration-period-distribution.json)
+.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution",[link](../json/campaign-usagedependentbednet-expiration-period-distribution.json)
 Expiration_Period_Exponential,float,0,3.40282E+38,-1,"The mean of the expiration period, in days, when **Expiration_Period_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",[link](../json/campaign-usagedependentbednet-expiration-period-exponential.json)
 Expiration_Period_Gaussian_Mean,float,0,3.40282E+38,-1,"The mean of the expiration period, in days, when **Expiration_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-usagedependentbednet-expiration-period-gaussian-mean.json)
 Expiration_Period_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,-1,"The standard deviation of the expiration period, in days, when **Expiration_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-usagedependentbednet-expiration-period-gaussian-std-dev.json)
@@ -60,11 +50,11 @@ Expiration_Period_Proportion_0,float,0,1,-1,The proportion of bednets to assign 
 Expiration_Period_Proportion_1,float,0,1,-1,The proportion of bednets in the first exponential distribution.,[link](../json/campaign-usagedependentbednet-expiration-period-proportion-1.json)
 Insecticide_Name,string,NA,NA,UNINITIALIZED STRING,"The name of the insecticide defined in  <config.Insecticides>  for this intervention.  If insecticides are being used,  this must be defined as one of those values; if they are not being used this can be empty.  It cannot have a value if you did not configure <config.Insecticides>.",[link](../json/campaign-usagedependentbednet-insecticide-name.json)
 Intervention_Name,string,NA,NA,UsageDependentBednet,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-usagedependentbednet-intervention-name.json)
-Killing_Config,json object,NA,NA,NA,"The configuration of the rate at which mosquitoes die, conditional on a successfully blocked feed.  Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",[link](../json/campaign-usagedependentbednet-killing-config.json)
-New_Property_Value,string,NA,NA,"""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",[link](../json/campaign-usagedependentbednet-new-property-value.json)
-Received_Event,enum,NA,NA,"""""","This parameter broadcasts when a new net is received, either the first net or a replacement net. See :doc:`parameter-campaign-event-list` for possible values.
+Killing_Config,json object,NA,NA,NA,"The configuration of the rate at which mosquitoes die, conditional on a successfully blocked feed.  Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).",[link](../json/campaign-usagedependentbednet-killing-config.json)
+New_Property_Value,string,NA,NA,"""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",[link](../json/campaign-usagedependentbednet-new-property-value.json)
+Received_Event,enum,NA,NA,"""""","This parameter broadcasts when a new net is received, either the first net or a replacement net. See [Event list](parameter-campaign-event-list.md) for possible values.
 ",[link](../json/campaign-usagedependentbednet-received-event.json)
-Repelling_Config,json object,NA,NA,NA,Defines a waning effect that determines the probability that a vector is repelled due to the intervention. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.,[link](../json/campaign-usagedependentbednet-repelling-config.json)
-Usage_Config_List,array of json objects,NA,NA,NA,The list of **WaningEffects** whose effects are multiplied together to get the usage effect. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.,[link](../json/campaign-usagedependentbednet-usage-config-list.json)
-Using_Event,enum,NA,NA,NA,"This parameter broadcasts each time step in which a bed net is used. See :doc:`parameter-campaign-event-list` for possible values.
+Repelling_Config,json object,NA,NA,NA,Defines a waning effect that determines the probability that a vector is repelled due to the intervention. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).,[link](../json/campaign-usagedependentbednet-repelling-config.json)
+Usage_Config_List,array of json objects,NA,NA,NA,The list of **WaningEffects** whose effects are multiplied together to get the usage effect. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).,[link](../json/campaign-usagedependentbednet-usage-config-list.json)
+Using_Event,enum,NA,NA,NA,"This parameter broadcasts each time step in which a bed net is used. See [Event list](parameter-campaign-event-list.md) for possible values.
 ",[link](../json/campaign-usagedependentbednet-using-event.json)

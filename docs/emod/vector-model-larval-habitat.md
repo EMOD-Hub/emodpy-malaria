@@ -204,6 +204,7 @@ The carrying capacity for BRACKISH_SWAMP is the number of larvae per Degree$^2$.
 
 
 ![Rainfall-driven mortality during swamp flushing](../images/vector-malaria/Rainfall_Driven_Mortality_Flushing_of_Swamp.png)
+
 *Rainfall-driven mortality during swamp flushing*
 
 ### Human population
@@ -288,6 +289,7 @@ population size and biting rate by a similar factor.
 
 
 ![Effect of varying the habitat scalar, **Habitats**](../images/vector-malaria/Vary_Habitat_Scalar.png){#hab-scalar-fig}
+
 *Effect of varying the habitat scalar, **Habitats***
 
 Lowering $k_\text{tempdecay}$ causes the resulting rainfall-driven habitat to decay at a slower
@@ -296,6 +298,7 @@ larval habitat on average, and higher resulting adult population biting rates.
 
 
 ![Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)](../images/vector-malaria/Vary_Temporary_Habitat_Scalar.png){#decay-rate-fig}
+
 *Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)*
 
 These two parameters can be co-varied to produce an appropriate temporal profile. If rainfall is

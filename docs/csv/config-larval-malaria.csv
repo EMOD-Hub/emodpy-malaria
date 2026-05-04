@@ -6,13 +6,11 @@ Drought_Egg_Hatch_Delay,float,0,1,0.33,Proportion of regular egg hatching that s
 Egg_Arrhenius1,float,0,1.00E+10,6.16E+07,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",[link](../json/config-larval-malaria-egg-arrhenius1.json)
 Egg_Arrhenius2,float,0,1.00E+10,5754.03,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",[link](../json/config-larval-malaria-egg-arrhenius2.json)
 Egg_Hatch_Density_Dependence,enum,NA,NA,NO_DENSITY_DEPENDENCE,"The effect of larval density on egg hatching rate. Possible values are: 
-
 DENSITY_DEPENDENCE
    Egg hatching is reduced when the habitat is nearing its carrying capacity.
 NO_DENSITY_DEPENDENCE
    Egg hatching is not dependent upon larval density.",[link](../json/config-larval-malaria-egg-hatch-density-dependence.json)
 Egg_Saturation_At_Oviposition,enum,NA,NA,NO_SATURATION,"If laying all eggs from ovipositing females would overflow the larval habitat capacity on a given day, the means by which the viable eggs become saturated.  Possible values are: 
-
 NO_SATURATION
     Egg number does not saturate; all eggs are laid.
 SATURATION_AT_OVIPOSITION
@@ -22,9 +20,8 @@ SIGMOIDAL_SATURATION
 Enable_Drought_Egg_Hatch_Delay,boolean,0,1,0,"Controls whether or not eggs hatch at delayed rates, set by **Drought_Egg_Hatch_Delay**, when the habitat dries up completely.",[link](../json/config-larval-malaria-enable-drought-egg-hatch-delay.json)
 Enable_Egg_Mortality,boolean,0,1,0,"Controls whether or not to include a daily mortality rate on the egg population, which is independent of climatic factors. ",[link](../json/config-larval-malaria-enable-egg-mortality.json)
 Enable_Temperature_Dependent_Egg_Hatching,boolean,0,1,0,"Controls whether or not temperature has an effect on egg hatching, defined by **Egg_Arrhenius_1** and **Egg_Arrhenius_2**.",[link](../json/config-larval-malaria-enable-temperature-dependent-egg-hatching.json)
-Habitats,array of json objects,NA,NA,NA,"A measure of the habitat type and scale factors used to estimate larval population. This parameter is an array of JSON objects where each object specifies scale factor for a given habitat type or, for LINEAR_SPLINE, with a more detailed configuration for scaling.  The numeric scaling value represents larval density with the number of larvae in a 1x1-degree area. The factor multiplicatively scales the resulting weather or population-dependent functional form. See :doc:`vector-model-larval-habitat` for more information.
+Habitats,array of json objects,NA,NA,NA,"A measure of the habitat type and scale factors used to estimate larval population. This parameter is an array of JSON objects where each object specifies scale factor for a given habitat type or, for LINEAR_SPLINE, with a more detailed configuration for scaling.  The numeric scaling value represents larval density with the number of larvae in a 1x1-degree area. The factor multiplicatively scales the resulting weather or population-dependent functional form. See [Larval habitat](vector-model-larval-habitat.md) for more information.
 Possible habitat values are: 
-
 CONSTANT
     Larval carrying capacity is constant throughout the year and does not depend on weather. However, mosquito abundance will exhibit a seasonal signal due to the effects of temperature on aquatic developmental rates.
 TEMPORARY_RAINFALL
@@ -39,13 +36,9 @@ LINEAR_SPLINE
     The LINEAR_SPLINE configuration specifies the day of year, larval value, and larval capacity scaling number. The model linearly interpolates the values to estimate the habitat availability for each vector species without requiring climatological data.
 ALL_HABITATS
     Scale equally across all habitat types.
-
-The values set here can be scaled per node using **LarvalHabitatMultiplier** in the demographics file (see :ref:`demo-nodeattributes`) or per intervention using **Larval_Habitat_Multiplier** in the campaign file (see :doc:`parameter-campaign-node-scalelarvalhabitat`).
-
-","[link](../json/config-larval-malaria-habitats-1.json), [link](../json/config-larval-malaria-habitats-2.json)"
+The values set here can be scaled per node using **LarvalHabitatMultiplier** in the demographics file (see [NodeAttributes](parameter-demographics.md#nodeattributes)) or per intervention using **Larval_Habitat_Multiplier** in the campaign file (see [parameter-campaign-node-scalelarvalhabitat](parameter-campaign-node-scalelarvalhabitat.md)).","[link](../json/config-larval-malaria-habitats-1.json), [link](../json/config-larval-malaria-habitats-2.json)"
 Larval_Density_Dependence,enum,NA,NA,UNIFORM_WHEN_OVERPOPULATION,"The functional form of mortality and growth delay for mosquito larvae based on population density.  
 Possible values are: 
-
 UNIFORM_WHEN_OVERPOPULATION
     Mortality is uniformly applied to all larvae when the population exceeds the specified carrying capacity for that habitat. 
 GRADUAL_INSTAR_SPECIFIC
@@ -62,8 +55,6 @@ Semipermanent_Habitat_Decay_Rate,float,0.0001,100,0.01,Daily rate of larval habi
 Temporary_Habitat_Decay_Factor,float,0.001,100,0.05,The factor to convert raw evaporation rate (ignoring boundary layer effects) to the daily rate of larval habitat loss for temporary habitats (**Habitats** set to TEMPORARY_RAINFALL). Units are (larval carrying capacity per day) / (kg per square meter per second).,[link](../json/config-larval-malaria-temporary-habitat-decay-factor.json)
 Vector_Larval_Rainfall_Mortality,enum,NA,NA,NONE,"The type of vector larval mortality function due to rainfall.
 Possible values are: 
-
-
 NONE
    No larval mortality due to rainfall.
 SIGMOID

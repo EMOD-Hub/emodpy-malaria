@@ -1,24 +1,18 @@
 Parameter,Type,Min,Max,Default,Description,Example
 Bodyweight_Exponent,float,0,100000,0,The effect of bodyweight on maximum drug concentration in an individual patient. **Drug_Cmax** is divided by patient bodyweight raised to the power of **Bodyweight_Exponent** to account for the influence of body size on volume of distribution.,[link](../json/config-drugs-malaria-bodyweight-exponent.json)
 Drug_Cmax,float,0,100000,1000,"The maximum drug concentration used.
-
-.. note::
-
-    This parameter and the **Drug_PKPD_C50** parameter must use the same units.
-
-",[link](../json/config-drugs-malaria-drug-cmax.json)
+!!! note
+    This parameter and the **Drug_PKPD_C50** parameter must use the same units.",[link](../json/config-drugs-malaria-drug-cmax.json)
 Drug_Decay_T1,float,0,100000,1,"The primary drug decay rate, in days.",[link](../json/config-drugs-malaria-drug-decay-t1.json)
 Drug_Decay_T2,float,0,100000,1,"The secondary drug decay rate, in days.",[link](../json/config-drugs-malaria-drug-decay-t2.json)
 Drug_Dose_Interval,float,0,100000,1,"The interval between doses of drugs, in days.",[link](../json/config-drugs-malaria-drug-dose-interval.json)
 Drug_Fulltreatment_Doses,float,1,100000,3,The number of doses for a full treatment of a drug.,[link](../json/config-drugs-malaria-drug-fulltreatment-doses.json)
 Drug_Gametocyte02_Killrate,float,0,100000,0,The log reduction per day in early-stage gametocytes.,[link](../json/config-drugs-malaria-drug-gametocyte02-killrate.json)
 Drug_Gametocyte34_Killrate,float,0,100000,0,The log reduction per day in late-stage gametocytes.,[link](../json/config-drugs-malaria-drug-gametocyte34-killrate.json)
-Drug_GametocyteM_Killrate,float,0,100000,0,The log reduction per day in mature :term:`gametocyte` numbers at saturated drug concentrations.,[link](../json/config-drugs-malaria-drug-gametocytem-killrate.json)
-Drug_Hepatocyte_Killrate,float,0,100000,0,The log reduction in :term:`hepatocyte` numbers per day.,[link](../json/config-drugs-malaria-drug-hepatocyte-killrate.json)
+Drug_GametocyteM_Killrate,float,0,100000,0,The log reduction per day in mature [gametocyte](../glossary.md) numbers at saturated drug concentrations.,[link](../json/config-drugs-malaria-drug-gametocytem-killrate.json)
+Drug_Hepatocyte_Killrate,float,0,100000,0,The log reduction in [hepatocyte](../glossary.md) numbers per day.,[link](../json/config-drugs-malaria-drug-hepatocyte-killrate.json)
 Drug_PKPD_C50,float,0,100000,100,"The concentration at which drug killing rates are half of the maximum.
-
-.. note::
-
+!!! note
     This parameter and the **Drug_Cmax** parameter must use the same units.",[link](../json/config-drugs-malaria-drug-pkpd-c50.json)
 Drug_Vd,float,0,100000,10,The volume of drug distribution in a pharmacokinetic two compartment model. The first compartment comprises central organs and tissues and the second compartment comprises peripheral tissues. This value is the ratio of the volume of the second compartment to that of the first.,[link](../json/config-drugs-malaria-drug-vd.json)
 Fractional_Dose_By_Upper_Age,array of json objects,NA,NA,NA,An array to specify the fraction of the adult dose to use for children at various ages. Contains **Upper_Age_In_Years** and **Fraction_Of_Adult_Dose** values.,[link](../json/config-drugs-malaria-fractional-dose-by-upper-age.json)
@@ -27,10 +21,8 @@ Malaria_Drug_Params,array of json objects,NA,NA,NA,This is an array of JSON obje
 Max_Drug_IRBC_Kill,float,5,100000,5,The maximum log reduction in IRBCs per day due to treatment.,[link](../json/config-drugs-malaria-max-drug-irbc-kill.json)
 PKPD_Model,enum,NA,NA,FIXED_DURATION_CONSTANT_EFFECT,"Determines which pharmacokinetic pharmacodynamic model to use.
 Possible values are:
- 
 **FIXED_DURATION_CONSTANT_EFFECT**
     This is the simplified model of drug action.  Each dose of the drug has a constant effect for a fixed duration of time, after which the effect is zero.
 **CONCENTRATION_VERSUS_TIME**
-    This model of drug action uses continuous pharmacokinetics with two-compartment decay.  Effects of each drug depend on the concentration at that point in time.
-",[link](../json/config-drugs-malaria-pkpd-model.json)
+    This model of drug action uses continuous pharmacokinetics with two-compartment decay.  Effects of each drug depend on the concentration at that point in time.",[link](../json/config-drugs-malaria-pkpd-model.json)
 Upper_Age_In_Years,float,0,125,NA,"The age, in years, below which children are given a fraction of the adult drug dose, as defined in **Fraction_Of_Adult_Dose**. Note that this parameter can be specified for each drug included in the configuration file, and different fractional doses may be used for different age groups.",[link](../json/config-drugs-malaria-upper-age-in-years.json)

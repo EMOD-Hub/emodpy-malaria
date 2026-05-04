@@ -42,6 +42,7 @@ caption for an illustrated description of this process.
 
 
 ![*Plasmodium* life cycle, adapted from the CDC, [Malaria Biology](https://www.cdc.gov/malaria/about/biology/index.html). During a blood meal, a malaria-infected female *Anopheles* mosquito inoculates sporozoites into the human host (1) . Sporozoites infect liver cells (2) and mature into schizonts (3), which rupture and release merozoites (4). After this initial replication in the liver (exo-erythrocytic schizogony, "A"), the parasites undergo asexual multiplication in the erythrocytes (erythrocytic schizogony, "B"). Merozoites infect red blood cells (5). Some parasites differentiate into sexual erythrocytic stages (gametocytes) (7). The gametocytes are ingested by an Anopheles mosquito during a blood meal (8). The parasites’ multiplication in the mosquito is known as the sporogonic cycle, "C". While in the mosquito's stomach, the gametocytes generate zygotes (9). The zygotes in turn become motile and elongated (ookinetes) (10) which invade the midgut wall of the mosquito where they develop into oocysts (11). The oocysts grow, rupture, and release sporozoites (12), which make their way to the mosquito's salivary glands. Inoculation of the sporozoites into a new human host (1) perpetuates the malaria life cycle.](../images/vector-malaria/malaria_lifecycle.gif)
+
 **Plasmodium* life cycle, adapted from the CDC, [Malaria Biology](https://www.cdc.gov/malaria/about/biology/index.html). During a blood meal, a malaria-infected female *Anopheles* mosquito inoculates sporozoites into the human host (1) . Sporozoites infect liver cells (2) and mature into schizonts (3), which rupture and release merozoites (4). After this initial replication in the liver (exo-erythrocytic schizogony, "A"), the parasites undergo asexual multiplication in the erythrocytes (erythrocytic schizogony, "B"). Merozoites infect red blood cells (5). Some parasites differentiate into sexual erythrocytic stages (gametocytes) (7). The gametocytes are ingested by an Anopheles mosquito during a blood meal (8). The parasites’ multiplication in the mosquito is known as the sporogonic cycle, "C". While in the mosquito's stomach, the gametocytes generate zygotes (9). The zygotes in turn become motile and elongated (ookinetes) (10) which invade the midgut wall of the mosquito where they develop into oocysts (11). The oocysts grow, rupture, and release sporozoites (12), which make their way to the mosquito's salivary glands. Inoculation of the sporozoites into a new human host (1) perpetuates the malaria life cycle.*
 
 ## Symptoms
@@ -64,6 +65,7 @@ below microscopic image.  In highly endemic areas, treatment typically occurs pr
 confirmation, as malaria is more easily cured with prompt treatment.
 
 ![Human red blood cells infected with *Plasmodium falciparum* (the parasite is shown in dark purple). Photo credit Le Roch lab, UC Riverside.](../images/vector-malaria/malaria-blood-smear.jpg)
+
 *Human red blood cells infected with *Plasmodium falciparum* (the parasite is shown in dark purple). Photo credit Le Roch lab, UC Riverside.*
 
 ## Prevention & control efforts

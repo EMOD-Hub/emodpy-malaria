@@ -34,6 +34,7 @@ separation (**Drug\_Dose\_Interval**) is shorter than **Drug\_Decay\_T1**, the b
 dose such that drug killing is switched off after time **Drug\_Decay\_T1** after the last dose.
 
 ![Modeling drug killing effects with a box profile. (A) A single dose of drug kills parasites at maximum efficacy for duration set by **Drug\_Decay\_T1**. (B) A drug given in multiple doses results in multiple parasite killing pulses of duration **Drug\_Decay\_T1** if the dose separation **Drug\_Dose\_Interval** is longer than **Drug\_Decay\_T1**. (C) If a drug’s dosing regimen results in doses taken before time **Drug\_Decay\_T1** has elapsed, the drug kills parasites at maximum efficacy the entire time between the first dose and time **Drug\_Decay\_T1** after the last dose.](../images/vector-malaria/Antimalarial_Drugs__Box_PK_profile.png)
+
 *Modeling drug killing effects with a box profile. (A) A single dose of drug kills parasites at maximum efficacy for duration set by **Drug\_Decay\_T1**. (B) A drug given in multiple doses results in multiple parasite killing pulses of duration **Drug\_Decay\_T1** if the dose separation **Drug\_Dose\_Interval** is longer than **Drug\_Decay\_T1**. (C) If a drug’s dosing regimen results in doses taken before time **Drug\_Decay\_T1** has elapsed, the drug kills parasites at maximum efficacy the entire time between the first dose and time **Drug\_Decay\_T1** after the last dose.*
 
 The following example provides the syntax:
@@ -88,6 +89,7 @@ tools for malaria control and elimination
 PD parameter values in EMOD.
 
 ![Modeling drug killing effects with a double exponential PK and sigmoid PD. (A) Two-compartment PK models include both distribution and elimination of drug. One-compartment models do not have a distribution phase. (B) A double exponential PK approximates the distribution and elimination phases of a two- compartment model. (C) Parasite killing is determined by drug concentration, **Drug\_PKPD\_C50**, and parasite stage- specific maximum kill rates. (D) PK and PD together determine the duration over which a dose of drug is effective.](../images/vector-malaria/Antimalarial_Drugs_Concentration_vs_time_PK_profile.png)
+
 *Modeling drug killing effects with a double exponential PK and sigmoid PD. (A) Two-compartment PK models include both distribution and elimination of drug. One-compartment models do not have a distribution phase. (B) A double exponential PK approximates the distribution and elimination phases of a two- compartment model. (C) Parasite killing is determined by drug concentration, **Drug\_PKPD\_C50**, and parasite stage- specific maximum kill rates. (D) PK and PD together determine the duration over which a dose of drug is effective.*
 
 ## Relevant IDM publications

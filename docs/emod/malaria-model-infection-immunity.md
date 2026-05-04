@@ -31,6 +31,7 @@ presented on the surface of the infected red-blood cell (IRBC), and less immunog
 epitopes (nonspecific epitopes).
 
 ![Within-host dynamics](../images/vector-malaria/Malaria_Infection_within_host_parasite_dynamics.png)
+
 *Within-host dynamics*
 
 ## Gametocyte development
@@ -43,6 +44,7 @@ after ten days and remain in the bloodstream with a 2.5-day half-life. EMOD does
 immunity to gametocytes.
 
 ![Gametocyte development](../images/vector-malaria/Malaria_Infection_gametocyte_development.png)
+
 *Gametocyte development*
 
 ## Modeling a single clonal infection
@@ -61,6 +63,7 @@ evasion strategy, the model imposes a constant per-parasite switching rate on th
 merozoites to advance to subsequent antigenic variants in the repertoire.
 
 ![Parasite strain switching](../images/vector-malaria/Malaria_Infection_parasite_strain_switching.png)
+
 *Parasite strain switching*
 
 ### Population-level variants
@@ -89,6 +92,7 @@ capacity to respond will decay over time.  The larger the antigenic population, 
 and thus time, it takes to acquire broad parasitological immunity.
 
 ![Innate and adaptive immunity work together to limit asexual parasite numbers](../images/vector-malaria/Malaria_Infection_immunity_effects_on_course_of_infection.png)
+
 *Innate and adaptive immunity work together to limit asexual parasite numbers*
 
 ### Innate immune response
@@ -101,6 +105,7 @@ suppressed by the presence of specific antibodies is responsible for driving feb
 broad-spectrum parasite suppression.
 
 ![Innate immune response](../images/vector-malaria/Malaria_Infection_immunity_innate_immune_response.png)
+
 *Innate immune response*
 
 ### Adaptive immune response
@@ -116,12 +121,15 @@ After a predefined numbers of days since the antibody has been active, we start 
 of the concentration.
 
 ![Adaptive immune response to PfEMP1 and minor epitopes](../images/vector-malaria/Malaria_Infection_immunity_adaptive_response_to_variable_epitopes.png)
+
 *Adaptive immune response to PfEMP1 and minor epitopes*
 
 ![Adaptive immune response to MSP antigens](../images/vector-malaria/Malaria_Infection_immunity_anti_MSP_immunity.png)
+
 *Adaptive immune response to MSP antigens*
 
 ![Adaptive immune response to CSP](../images/vector-malaria/Malaria_Infection_immunity_anti_CSP_immunity.png)
+
 *Adaptive immune response to CSP*
 
 ## Relevant IDM publications
