@@ -105,8 +105,10 @@ def set_param_fn(config):
                                          seasonal_habitat, overwrite=True)
 
     # Write a population snapshot at the end of the simulation.
-    # The .dtk file will be named state-NNNNN-000.dtk where NNNNN is the
-    # timestep zero-padded to 5 digits (e.g. state-18250-000.dtk for day 18250).
+    # The .dtk file will be named state-NNNNN.dtk where NNNNN is the
+    # timestep zero-padded to 5 digits (e.g. state-18250.dtk for day 18250).
+    # Multi-core simulations append a node index (state-18250-000.dtk) but
+    # these tutorials run single-core.
     config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
     config.parameters.Serialization_Time_Steps           = [serialize_years * 365]
     config.parameters.Serialization_Mask_Node_Write      = 0
