@@ -60,7 +60,7 @@ import manifest
 # ============================================================
 CALIBRATED_X_LARVAL_HABITAT = 0.0245
 
-serialize_years = 5   # years to simulate before serializing
+serialize_years = 50   # years to simulate before serializing
 N_BURNIN_RUNS   = 3    # number of stochastic replicates to serialize
 
 
