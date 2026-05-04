@@ -100,10 +100,10 @@ def run_experiment():
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
-    platform = Platform("Container", job_directory=manifest.job_dir,
-                        docker_image=manifest.plat_image)
+    #platform = Platform("Container", job_directory=manifest.job_dir,
+    #                    docker_image=manifest.plat_image)
 
-    # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
+    platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
     # platform = Platform("SLURM_LOCAL",
     #                     job_directory=manifest.job_dir,
@@ -132,7 +132,7 @@ def run_experiment():
     # For COMPS and SLURM, the image is a Singularity Image File (SIF);
     # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path, platform)
+        task.set_sif(manifest.comps_sif_path)           # no platform arg: loads AssetCollection from .id file
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
