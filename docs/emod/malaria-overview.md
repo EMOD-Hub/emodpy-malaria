@@ -177,8 +177,8 @@ While the project was largely considered a failure in terms of malaria control, 
 the project. Basic tenets of malaria control were learned-- namely, that malaria ecology needs to be
 fundamentally altered: either by modification of mosquito ecology, or by changing human ecology such
 as by improving housing conditions. A *superinfection*,  a fundamental malaria concept modeled by
-Macdonald in his first malaria model publication [Macdonald-1950]_, was more correctly described by
-Dietz [Dietz-1974]_. Further, the data set from the project is publicly available, and has become a
+Macdonald in his first malaria model publication (Macdonald 1950), was more correctly described by
+Dietz (Dietz 1974). Further, the data set from the project is publicly available, and has become a
 fundamental tool for use in malaria modeling.  For more information on this project, see
 [The Garki Project][garki-project].
 
@@ -210,13 +210,3 @@ interactions with human populations, and includes microsimulations for human imm
 host parasite dynamics. The model builds on the work of Ross and MacDonald, leverages the Garki
 model, and incorporates current modeling efforts to model multiple vector species simultaneously
 interacting with a human population.
-
-
-
-#### References
-
-
-
-
-
-

@@ -34,7 +34,7 @@ FPG tracks four core processes:
 
 
 FPG models the *P. falciparum* genome as 14 chromosomes spanning 22,790,000 base pairs in total,
-following the reference assembly of Gardner et al. (2002) [#gardnerref]_. Because genome length
+following the reference assembly of Gardner et al. (2002). Because genome length
 estimates vary across sources, positions in the model should be understood as coordinates in this
 specific reference assembly rather than as universal genomic positions. FPG represents each parasite
 genome as two parallel arrays, each with one entry per tracked SNP
@@ -349,7 +349,7 @@ reflecting the cross-reactivity of pfhrp3 with HRP2-targeting RDTs.
 
 Each time step, the host's circulating HRP2 level is updated from the IRBCs of HRP-expressing
 infections only. HRP-deleted infections contribute zero IRBCs to this sum. The dynamics follow
-Marquart et al. (2012) [#hrp2ref]_:
+Marquart et al. (2012):
 
 $$\frac{d[\text{HRP2}]}{dt} = B \cdot \text{IRBC}_{HRP} - D \cdot [\text{HRP2}]$$
 
@@ -558,6 +558,3 @@ and an IBx distributions JSON file with pairwise relatedness distributions.
 An end-to-end example of running FPG with EMOD and invoking the FPGObservationalModel via
 post-processing is provided in the emodpy-malaria repository at `examples-container/fpg_example`,
 where it is called from the `dtk_post_process.py` script after the simulation completes.
-
-
-

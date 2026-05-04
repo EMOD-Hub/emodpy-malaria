@@ -1,6 +1,5 @@
 # Individual-level interventions
 
-
 Individual-level interventions determine *what* will be distributed to individuals to reduce the
 spread of a disease. For example, distributing vaccines or drugs are individual-level interventions.
 In the schema, these are labeled as **IndividualTargeted**.  
@@ -20,11 +19,9 @@ first-line treatment for a disease and prevent anyone from receiving the second-
 unless they have that property value and are still symptomatic.
 
 
-Vector control
-==============
+## Vector control
 
 The following individual-level interventions are commonly used for vector control.
-
 
 | Intervention | Target life stage | Target biting preference | Target biting location | Effect |
 | --- | --- | --- | --- | --- |
@@ -36,14 +33,11 @@ The following individual-level interventions are commonly used for vector contro
 | [SimpleBednet](parameter-campaign-individual-simplebednet.md) | feeding cycle | human | indoor | killing, blocking |
 | [SimpleIndividualRepellent](parameter-campaign-individual-simpleindividualrepellent.md) | feeding cycle | human | all | blocking |
 | [SpatialRepellentHousingModification](parameter-campaign-individual-spatialrepellenthousingmodification.md) | feeding cycle | human | indoor | killing, blocking |
-.. taken from Jaline's wiki page,
-.. https://wiki.idmod.org/pages/viewpage.action?spaceKey=EMOD&postingDay=2016%2F7%2F15&title=Vector+control+interventions+in+DTK
 
-Summary table of individual-level interventions
-===============================================
+
+## Summary table of individual-level interventions
 
 The following table provides an at-a-glance overview of the individual-level interventions.
-
 
 | Intervention | Short description | Able to be serialized? | Uses insecticides | Time-based expiration? | Purge existing? | Vector killing contributes to: | Vector effects |
 | --- | --- | --- | --- | --- | --- | --- | --- |

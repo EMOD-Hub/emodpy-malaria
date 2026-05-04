@@ -7,7 +7,7 @@ malaria to whom. The report can only be used when the simulation setup parameter
 set to MALARIA_MECHANISTIC_MODEL_WITH_CO_TRANSMISSION. This report is typically used as input to the
 GenEpi model. See the [output](#output-file-data) section for more details.
 
-..To do: need section on co-transmission!
+<!-- TODO: need section on co-transmission! -->
 
 
 ## Configuration

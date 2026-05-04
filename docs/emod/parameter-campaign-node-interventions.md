@@ -1,6 +1,5 @@
 # Node-level interventions
 
-
 Node-level interventions determine *what* will be distributed to each node to reduce the spread of a
 disease. For example, spraying larvicide in a village to kill mosquito larvae is a node-level malaria
 intervention. Sometimes this can be an intermediate intervention that schedules another
@@ -15,11 +14,9 @@ broadcast a unique string, and having the second intervention be triggered upon 
 string. See [Event list](parameter-campaign-event-list.md).
 
 
-Vector control
-==============
+## Vector control
 
 The following node-level interventions are commonly used for vector control.
-
 
 | Intervention | Target life stage | Target biting preference | Target biting location | Effect |
 | --- | --- | --- | --- | --- |
@@ -35,14 +32,11 @@ The following node-level interventions are commonly used for vector control.
 | [SpaceSpraying](parameter-campaign-node-spacespraying.md) | feeding cycle | human | outdoor | killing |
 | [SpatialRepellent](parameter-campaign-node-spatialrepellent.md) | feeding cycle | all | outdoor | blocking |
 | [SugarTrap](parameter-campaign-node-sugartrap.md) | adults | all | all | killing |
-.. taken from Jaline's wiki page,
-.. https://wiki.idmod.org/pages/viewpage.action?spaceKey=EMOD&postingDay=2016%2F7%2F15&title=Vector+control+interventions+in+DTK
 
-Summary table of node-level interventions
-===============================================
+
+## Summary table of node-level interventions
 
 The following table provides an at-a-glance overview of the node-level interventions.
-
 
 | Intervention | Short description | Able to be serialized? | Uses insecticides | Time-based expiration? | Purge existing? | Vector killing contributes to: | Vector effects |
 | --- | --- | --- | --- | --- | --- | --- | --- |

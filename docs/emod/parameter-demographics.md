@@ -59,11 +59,13 @@ Gridded world grump1degree
     Nodes are approximately square regions defined by a 1-degree grid and the **NodeID** values are
     generated from the latitude and longitude of the northwest corner.
 
-The algorithm for encoding latitude and longitude into a **NodeID** is as follows::
+The algorithm for encoding latitude and longitude into a **NodeID** is as follows:
 
-   unsigned int xpix = math.floor((lon + 180.0) / resolution)
-   unsigned int ypix = math.floor((lat + 90.0) / resolution)
-   unsigned int NodeID = (xpix << 16) + ypix + 1
+```
+unsigned int xpix = math.floor((lon + 180.0) / resolution)
+unsigned int ypix = math.floor((lat + 90.0) / resolution)
+unsigned int NodeID = (xpix << 16) + ypix + 1
+```
 
 This generates a **NodeID** that is a 4-byte unsigned integer; the first two bytes represent the
 longitude of the node and the second two bytes represent the latitude. To reserve 0 to be used as a
