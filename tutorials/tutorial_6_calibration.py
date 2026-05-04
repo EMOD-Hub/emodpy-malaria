@@ -52,6 +52,7 @@ Select the correct platform in run_calibration() and update manifest.py if
 using SLURM. See tutorial_1_intro.py for full platform details.
 """
 import os
+import glob
 import pathlib
 import numpy as np
 import pandas as pd
@@ -107,66 +108,104 @@ def map_sample_to_model_input(simulation, sample):
     return {"x_Temporary_Larval_Habitat": value}
 
 
-def plot_iteration(iteration, sim_records, ref_pfpr, plot_dir):
+def plot_all_iterations(calib_dir, ref_pfpr):
     """
-    Save a two-panel figure for one calibration iteration.
+    Save a two-panel figure showing all calibration iterations completed so far.
 
-    Left panel: every simulated PfPR seasonal curve overlaid on the reference,
-    colored green-to-red by RMSE so the best fits stand out at a glance.
-    Right panel: x_Temporary_Larval_Habitat vs RMSE with the best sample
-    marked by a green star.
+    Each iteration's records are saved to its CalibManager directory (iter0/,
+    iter1/, ...) as pfpr_records.csv. This function reads all of them so every
+    plot shows the full history — you can watch the samples converge toward the
+    reference as iterations progress.
 
-    Plots accumulate in plot_dir (one file per iteration) so you can review
-    convergence as it happens and stop early once the fit looks close enough.
-    There is no automated stopping criterion — that judgment is yours.
+    Left panel: past-iteration curves in grey; current iteration colored
+    green-to-red by RMSE so fit quality is visible at a glance.
+    Right panel: x_Temporary_Larval_Habitat vs RMSE for all iterations,
+    colored by iteration number (dark=early, bright=late). The best sample
+    across all iterations is marked with a green star.
+
+    There is no automated stopping criterion — stop when the fit looks close enough.
     """
     import matplotlib
-    matplotlib.use("Agg")           # non-interactive backend; safe on headless servers
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import matplotlib.colors as mcolors
 
-    months = list(range(12))
-    params = [r["param"] for r in sim_records]
-    rmses  = [r["rmse"]  for r in sim_records]
-    curves = [r["pfpr"]  for r in sim_records]
+    data_files = sorted(glob.glob(os.path.join(calib_dir, "iter*", "pfpr_records.csv")))
+    if not data_files:
+        return
 
-    vmin, vmax = min(rmses), max(rmses)
-    if vmax == vmin:                # all samples clipped to same value — avoid flat colormap
-        vmax = vmin + 1e-6
-    norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
-    cmap = plt.cm.RdYlGn_r         # low RMSE → green (good), high RMSE → red (bad)
+    all_dfs = []
+    for f in data_files:
+        iter_name = os.path.basename(os.path.dirname(f))  # "iter0", "iter1", ...
+        it = int(iter_name.replace("iter", "")) + 1        # convert to 1-based
+        df = pd.read_csv(f)
+        df["iteration"] = it
+        all_dfs.append(df)
+
+    df_all    = pd.concat(all_dfs, ignore_index=True)
+    cur_iter  = df_all["iteration"].max()
+    months    = list(range(12))
+    pfpr_cols = [f"pfpr_{m}" for m in months]
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    fig.suptitle(f"Calibration — Iteration {iteration}", fontsize=13)
+    fig.suptitle(f"Calibration — through Iteration {cur_iter}", fontsize=13)
 
     # --- Left panel: PfPR curves ---
-    for param, rmse, pfpr in zip(params, rmses, curves):
-        axes[0].plot(months, pfpr, color=cmap(norm(rmse)), alpha=0.75, linewidth=1.2)
+    cur_df   = df_all[df_all["iteration"] == cur_iter]
+    vmin     = cur_df["rmse"].min()
+    vmax     = cur_df["rmse"].max()
+    if vmax == vmin:
+        vmax = vmin + 1e-6
+    norm_rmse = mcolors.Normalize(vmin=vmin, vmax=vmax)
+    cmap_rmse = plt.cm.RdYlGn_r      # low RMSE → green, high RMSE → red
+
+    for it in sorted(df_all["iteration"].unique()):
+        sub = df_all[df_all["iteration"] == it]
+        for _, row in sub.iterrows():
+            pfpr = [row[c] for c in pfpr_cols]
+            if it < cur_iter:
+                axes[0].plot(months, pfpr, color="grey", alpha=0.25, linewidth=0.8)
+            else:
+                axes[0].plot(months, pfpr,
+                             color=cmap_rmse(norm_rmse(row["rmse"])),
+                             alpha=0.85, linewidth=1.4)
+
     axes[0].plot(months, ref_pfpr, "k-", linewidth=2.5, marker="o",
                  markersize=5, label="Reference", zorder=5)
-    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm = plt.cm.ScalarMappable(cmap=cmap_rmse, norm=norm_rmse)
     sm.set_array([])
-    plt.colorbar(sm, ax=axes[0], label="RMSE")
+    plt.colorbar(sm, ax=axes[0], label="RMSE (current iteration)")
     axes[0].set_xlabel("Month")
     axes[0].set_ylabel("PfPR (under 5)")
     axes[0].set_xticks(months)
     axes[0].set_title("Simulated vs Reference PfPR")
     axes[0].legend(loc="upper left")
 
-    # --- Right panel: parameter vs RMSE ---
-    best_i = rmses.index(min(rmses))
-    axes[1].scatter(params, rmses, color="steelblue", s=60, zorder=3)
-    axes[1].scatter([params[best_i]], [rmses[best_i]], color="green", s=150,
-                    marker="*", zorder=4,
-                    label=f"Best  x={params[best_i]:.3f}  RMSE={rmses[best_i]:.4f}")
+    # --- Right panel: parameter vs RMSE, colored by iteration ---
+    iter_norm = mcolors.Normalize(vmin=1, vmax=max(cur_iter, 2))
+    iter_cmap = plt.cm.viridis
+    for it in sorted(df_all["iteration"].unique()):
+        sub = df_all[df_all["iteration"] == it]
+        axes[1].scatter(sub["param"], sub["rmse"],
+                        color=iter_cmap(iter_norm(it)), s=50, alpha=0.8, zorder=3)
+
+    best_idx = df_all["rmse"].idxmin()
+    best     = df_all.loc[best_idx]
+    axes[1].scatter([best["param"]], [best["rmse"]], color="green", s=180,
+                    marker="*", zorder=5,
+                    label=f"Best  x={best['param']:.3f}  RMSE={best['rmse']:.4f}")
+    sm2 = plt.cm.ScalarMappable(cmap=iter_cmap, norm=iter_norm)
+    sm2.set_array([])
+    plt.colorbar(sm2, ax=axes[1], label="Iteration")
     axes[1].set_xscale("log")
     axes[1].set_xlabel("x_Temporary_Larval_Habitat")
     axes[1].set_ylabel("RMSE")
-    axes[1].set_title("Parameter vs RMSE")
+    axes[1].set_title("Parameter vs RMSE (all iterations)")
     axes[1].legend()
 
+    plot_dir = os.path.join(calib_dir, "plots")
     os.makedirs(plot_dir, exist_ok=True)
-    out_path = os.path.join(plot_dir, f"iteration_{iteration:02d}.png")
+    out_path = os.path.join(plot_dir, f"iteration_{cur_iter:02d}.png")
     fig.tight_layout()
     fig.savefig(out_path, dpi=100)
     plt.close(fig)
@@ -183,13 +222,7 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
     With age_bins=[0.25, 5, 115], index 1 is the under-5 age group (0.25-5 years).
 
     Calibra maximizes the score, so reduce() returns 1/RMSE: higher is better.
-
-    _iteration is a class-level variable (not instance) because CalibManager
-    calls site.get_analyzers() fresh each iteration, creating a new instance
-    each time. A class variable persists across those instances.
     """
-
-    _iteration = 0  # incremented in reduce(); survives instance re-creation
 
     def __init__(self, site, uid=None):
         super().__init__(
@@ -211,18 +244,25 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
 
     def reduce(self, all_data):
         """
-        Compute a score per parameter sample, save an iteration plot, and return scores.
+        Compute a score per parameter sample, save this iteration's records to
+        disk, update the cumulative plot, and return scores.
 
-        all_data maps each simulation object to the dict returned by map().
-        simulation.tags["__sample_index__"] identifies which parameter set
-        produced that simulation; simulation.tags["x_Temporary_Larval_Habitat"]
-        gives the parameter value used, which is needed for the plot.
+        self.working_dir is set by CalibManager to the per-iteration directory
+        it creates (iter0/, iter1/, ...). The iteration number is parsed from
+        that path, which avoids any in-memory state that would reset when
+        CalibManager creates a new analyzer instance each iteration.
+
+        Per-iteration records are saved as pfpr_records.csv inside
+        self.working_dir. plot_all_iterations() reads all iter*/pfpr_records.csv
+        files so every plot shows the full calibration history.
 
         Returns a pandas Series indexed by sample index. Calibra maximizes the
         score, so return 1/RMSE (not RMSE) — closer match = higher score.
         """
-        MalariaSummaryAnalyzer._iteration += 1
-        iteration = MalariaSummaryAnalyzer._iteration
+        iter_dir  = os.path.normpath(self.working_dir)
+        iteration = int(os.path.basename(iter_dir).replace("iter", "")) + 1
+        calib_dir = os.path.dirname(iter_dir)
+
         ref_pfpr = np.array(self.reference_data["pfpr_u5"])
         rmse_by_sample = {}
         sim_records = []
@@ -230,16 +270,18 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
         for simulation, result in all_data.items():
             idx   = int(simulation.tags.get("__sample_index__", 0))
             param = float(simulation.tags.get("x_Temporary_Larval_Habitat", 1.0))
-            rmse  = float(np.sqrt(np.mean((np.array(result["sim_pfpr"]) - ref_pfpr) ** 2)))
+            pfpr  = result["sim_pfpr"]
+            rmse  = float(np.sqrt(np.mean((np.array(pfpr) - ref_pfpr) ** 2)))
             rmse_by_sample.setdefault(idx, []).append(rmse)
-            sim_records.append({"param": param, "rmse": rmse, "pfpr": result["sim_pfpr"]})
+            row = {"param": param, "rmse": rmse}
+            row.update({f"pfpr_{m}": v for m, v in enumerate(pfpr)})
+            sim_records.append(row)
 
-        plot_iteration(
-            iteration=iteration,
-            sim_records=sim_records,
-            ref_pfpr=ref_pfpr.tolist(),
-            plot_dir=os.path.join("tutorial_6_calibration", "plots"),
+        pd.DataFrame(sim_records).to_csv(
+            os.path.join(iter_dir, "pfpr_records.csv"), index=False
         )
+
+        plot_all_iterations(calib_dir, ref_pfpr.tolist())
 
         return pd.Series({
             idx: 1.0 / (float(np.mean(vals)) + 1e-9)
@@ -369,7 +411,7 @@ def run_calibration():
     # ============================================================
     platform = Platform("Container", job_directory=manifest.job_dir,
                         docker_image=manifest.plat_image,
-                        max_jobs=4)
+                        max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
