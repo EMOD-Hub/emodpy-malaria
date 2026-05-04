@@ -21,7 +21,7 @@ drives and [vector-model-genetics](vector-model-genetics.md) for the broader vec
 
 During the fertilization pipeline in EMOD, maternal deposition is applied after gamete creation and
 germline mutations, but before gametes are combined into offspring genomes. For more details on
-the EMOD fertilization pipeline, see [Mendelian inheritance](#mendelian-inheritance). The
+the EMOD fertilization pipeline, see [Mendelian inheritance](vector-model-genetics.md#mendelian-inheritance). The
 sequence is:
 
 1. **Gene drive** — applied during gamete merging (standard drive mechanics).
@@ -52,7 +52,8 @@ effect (the allele survives uncut).
 
 [link](../json/vector-model-maternal-deposition-1.json)
 
-In this example, we have a maternal deposition derived from an [INTEGRAL_AUTONOMOUS](#integral-autonomous-drive) drive.
+In this example, we have a maternal deposition derived from an [INTEGRAL_AUTONOMOUS](vector-model-gene-drives.md#integral-autonomous) drive.
+                                                                                     vector-model-gene-drives.md#integral-autonomous
 When a mother carries the drive allele `Cd`, the wild-type allele `Aw` in the gametes has a
 15% chance per maternal Cas9 copy of being cut into the drive resistance allele `Am`, a 5%
 chance of being cut into the drive resistance allele `Ax`, and an 80% chance of remaining

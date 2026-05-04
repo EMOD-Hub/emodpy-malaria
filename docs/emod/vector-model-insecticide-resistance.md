@@ -101,7 +101,7 @@ vector cohort. Each intervention may use a different insecticide, so each one co
 killing, blocking, and repelling probabilities independently. The effects are then cumulatively
 applied using independent probability combination:
 
-P_{combined} = 1 - (1 - P_1)(1 - P_2) \cdots (1 - P_n)
+$$P_{combined} = 1 - (1 - P_1)(1 - P_2) \cdots (1 - P_n)$$
 
 where each $P_i$ is the genome-specific probability from one intervention. Because each
 intervention's insecticide has its own resistance modifiers, the effective probability $P_i$

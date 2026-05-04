@@ -351,7 +351,7 @@ Each time step, the host's circulating HRP2 level is updated from the IRBCs of H
 infections only. HRP-deleted infections contribute zero IRBCs to this sum. The dynamics follow
 Marquart et al. (2012) [#hrp2ref]_:
 
-\frac{d[\text{HRP2}]}{dt} = B \cdot \text{IRBC}_{HRP} - D \cdot [\text{HRP2}]
+$$\frac{d[\text{HRP2}]}{dt} = B \cdot \text{IRBC}_{HRP} - D \cdot [\text{HRP2}]$$
 
 where $[\text{HRP2}]$ is the circulating HRP2 protein level (pg), $\text{IRBC}_{HRP}$
 is the total number of infected red blood cells from HRP-expressing infections, $B$ is

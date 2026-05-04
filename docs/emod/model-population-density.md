@@ -13,7 +13,7 @@ By default, EMOD uses frequency-dependent transmission and the overall transmiss
 change with population size or density. An infected individual will infect the same number of people
 either in a small village or in a metropolitan area.  For this case,
 
-\text{Transmission} \propto \frac{\text{Number of effective contacts per unit time}}{\text{Current size of the node population}},
+$$\text{Transmission} \propto \frac{\text{Number of effective contacts per unit time}}{\text{Current size of the node population}},$$
 
 so that the transmission rate *inversely proportional* to $N(t)$. The dynamics are frequency-
 dependent because the $\beta_0$ parameter is divided by the current node population,
@@ -28,7 +28,7 @@ single highly-infectious cough would infect more people if the number of people 
 (population density) was higher. The number of effective contacts per person per time is
 proportional to the population. For this case,
 
-\text{Transmission} \propto \frac{\text{Number of effective contacts per unit time}}{\text{Fixed population size}},
+$$\text{Transmission} \propto \frac{\text{Number of effective contacts per unit time}}{\text{Fixed population size}},$$
 
 Usually, the denominator is taken as $N(t=0)$, the initial node population. Note that the
 transmission rate per capita is a constant in this case. Density-dependent transmission is often
@@ -44,12 +44,12 @@ to increase with density but saturate at high densities. EMOD allows the transmi
 scale as a saturating function of population density. The force of infection contributed by each
 infected individual under these two cases of transmission scaling are as follows:
 
-\text{Force per infected} = \left\{
+$$\text{Force per infected} = \left\{
     \begin{array}{ll}
         \frac{\beta_0}{N} & \text{Frequency dependence} \\
         \left[1 - \exp\left(- \frac{\rho}{\rho_{50}}\right)\right] \frac{\beta_0}{N} & \text{Saturating function of density}
     \end{array}
-\right.
+\right.$$
 
 Here, $\rho$ is the population density and $\rho_{50}$ is an input parameter the governs the
 transition from density to frequency dependence. The population density is computed as $\rho =\frac{N}{A}$
@@ -59,7 +59,7 @@ is assumed that all nodes have equal size in terms of the degrees of latitude an
 determined by configuration parameter **Node_Grid_Size**. Denoting this node grid size by $w$,
 the area of a node located at (lat, long) is computed based on the corresponding area of a sphere,
 
-A = R^2\Big\lbrace\Big[\text{cos}\Big(\Big(90-\text{lat}-\frac{w}{2}\Big)\frac{\pi}{180}\Big)- \text{cos}\Big(\Big(90-\text{lat}+\frac{w}{2}\Big)\frac{\pi}{180}\Big)\Big]\frac{w\pi}{180}\Big\rbrace,
+$$A = R^2\Big\lbrace\Big[\text{cos}\Big(\Big(90-\text{lat}-\frac{w}{2}\Big)\frac{\pi}{180}\Big)- \text{cos}\Big(\Big(90-\text{lat}+\frac{w}{2}\Big)\frac{\pi}{180}\Big)\Big]\frac{w\pi}{180}\Big\rbrace,$$
 
 where $R=6371.2213$ km is the radius of Earth.
 
@@ -78,29 +78,24 @@ with population density for the infectious disease models
 *Figure 1: Effect of population density on transmissibility*
 
 The table below shows how setting **Node_Grid_Size** to 0.1, 0.15, and 0.3 affects
-population density and R\ `0` \ values.
+population density and $R_0$ values.
 
-+------------+-------------+------------+----------------+------------+---------+------------------+
-| Simulation | Population  | Latitude,  | Node_Grid_Size | Node Area  | Density | R\ `0`\     |
-|            |             | Longitude  |                |            |         |                  |
-+============+=============+============+================+============+=========+==================+
-|  1         |  10,000     |   0, 0     |  0.1           |  124       |  80     | R\ `0`\ > 1 |
-+------------+-------------+------------+----------------+------------+---------+------------------+
-|  2         |  10,000     |   0, 0     |  0.15          |  278       |  36     | R\ `0`\ ~ 1 |
-+------------+-------------+------------+----------------+------------+---------+------------------+
-|  3         |  10,000     |   0, 0     |  0.3           |  1112      |  9      | R\ `0`\ < 1 |
-+------------+-------------+------------+----------------+------------+---------+------------------+
+| Simulation | Population | Latitude, Longitude | Node_Grid_Size | Node Area | Density | $R_0$ |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 10,000 | 0, 0 | 0.1 | 124 | 80 | $R_0$ > 1 |
+| 2 | 10,000 | 0, 0 | 0.15 | 278 | 36 | $R_0$ ~ 1 |
+| 3 | 10,000 | 0, 0 | 0.3 | 1112 | 9 | $R_0$ < 1 |
 
 
 The following graphs show the effect of population density on transmissibility, in terms of
 maintaining endemic status. When population density is large enough, it is easy to maintain an
 endemic status while in lower density is difficult to do so.
 
-![Figure 2: Node_Grid_Size = 0.1, population density 80/km\ `2`\ and R\ `0`\  > 1](../images/general/Density_default.png)
-*Figure 2: Node_Grid_Size = 0.1, population density 80/km\ `2`\ and R\ `0`\  > 1*
+![Figure 2: Node_Grid_Size = 0.1, population density 80/km$^2$ and $R_0$  > 1](../images/general/Density_default.png)
+*Figure 2: Node_Grid_Size = 0.1, population density 80/km$^2$ and $R_0$  > 1*
 
-![Figure 3: Node_Grid_Size = 0.15, population density 36/km\ `2`\ and R\ `0`\  ~ 1](../images/general/Density_15.png)
-*Figure 3: Node_Grid_Size = 0.15, population density 36/km\ `2`\ and R\ `0`\  ~ 1*
+![Figure 3: Node_Grid_Size = 0.15, population density 36/km$^2$ and $R_0$  ~ 1](../images/general/Density_15.png)
+*Figure 3: Node_Grid_Size = 0.15, population density 36/km$^2$ and $R_0$  ~ 1*
 
-![Figure 4: Node_Grid_Size = 0.3, population density 9/km\ `2`\ and R\ `0`\  < 1](../images/general/Density_3.png)
-*Figure 4: Node_Grid_Size = 0.3, population density 9/km\ `2`\ and R\ `0`\  < 1*
+![Figure 4: Node_Grid_Size = 0.3, population density 9/km$^2$ and $R_0$  < 1](../images/general/Density_3.png)
+*Figure 4: Node_Grid_Size = 0.3, population density 9/km$^2$ and $R_0$  < 1*

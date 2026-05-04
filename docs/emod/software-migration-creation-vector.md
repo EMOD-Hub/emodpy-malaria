@@ -172,7 +172,7 @@ FromNodeID,ToNodeID,[],"[[""X1"",""Y2""]]","[[""a1"", ""a1""],[""b1"",""b0""], [
 ## Migration binary file
 
 
-For information, see [binary_migration_file](#binary-migration-file).
+For information, see [binary files](software-migration.md#binary-file).
 
 
 ## JSON metadata file

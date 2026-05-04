@@ -12,7 +12,7 @@ adult mosquitoes.
 
 For example, vector blood-feeding branches into various probabilities that are calculated once per
 *time step*. These calculations are based on species parameters and aggregated vector
-interventions (see [feeding decision tree](#tree)).
+interventions (see [feeding decision tree](#tree-movie)).
 
 Vector transmission can be thought of in terms of vector ecology, and in the EMOD framework is
 comprised of several components:
@@ -79,7 +79,7 @@ interventions can be represented simultaneously.
 To interact with these parameters and visualize the workings of this microsolver, see the decision
 tree visualization below:
 
-<iframe src="https://institutefordiseasemodeling.github.io/UnityVisualization/" height="680" width="1000"></iframe>
+<iframe src="https://institutefordiseasemodeling.github.io/UnityVisualization/" height="680" width="1000"></iframe>[](){#tree-movie}
 
 To get started, press the play button. You can also pause the visualization at any time.  Parameters
 in blue are vector species parameters, while parameters in  green are types of campaign

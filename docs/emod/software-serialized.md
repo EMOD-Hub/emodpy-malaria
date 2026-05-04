@@ -95,57 +95,40 @@ Each EMOD file starts with a header in JSON format that contains information abo
 
 Version 2 and 3
 
-+----------------+---------------------------+------------------+----------------------------------------+
-|  Magic Number  |  IDTK                     | 4 byte           |                                        |
-+----------------+---------------------------+------------------+----------------------------------------+
-| Header  Size   | 160                       | Integer          | Size of header in bytes                |
-+----------------+---------------------------+------------------+----------------------------------------+
+| Field | Value | Type | Description |
+| --- | --- | --- | --- |
+| Magic Number | IDTK | 4 byte | |
+| Header Size | 160 | Integer | Size of header in bytes |
 
- Metadata
+Metadata
 
-+----------------+---------------------------+------------------+----------------------------------------+
-| Parameter      | Example                   | Type             | Description                            |
-+================+===========================+==================+========================================+
-| version        | 2/3                       | Integer          | Version number                         |
-+----------------+---------------------------+------------------+----------------------------------------+
-| date           | Day Mon day HH:MM:SS year | String           | A string                               |
-+----------------+---------------------------+------------------+----------------------------------------+
-| compressed     | True                      | Boolean          | Content compressed                     |
-+----------------+---------------------------+------------------+----------------------------------------+
-| engine         | LZ4                       | String           | Compression engine                     |
-+----------------+---------------------------+------------------+----------------------------------------+
-| bytecount      | 285140                    | Integer          | Total number of bytes in file          |
-+----------------+---------------------------+------------------+----------------------------------------+
-| chunkcount     | 3                         | Integer          | Number of chunks                       |
-+----------------+---------------------------+------------------+----------------------------------------+
-| chunksizes     | [368,141552,143220]       | List of Integers | List of chunk sizes                    |
-+----------------+---------------------------+------------------+----------------------------------------+
+| Parameter | Example | Type | Description |
+| --- | --- | --- | --- |
+| version | 2/3 | Integer | Version number |
+| date | Day Mon day HH:MM:SS year | String | A string |
+| compressed | True | Boolean | Content compressed |
+| engine | LZ4 | String | Compression engine |
+| bytecount | 285140 | Integer | Total number of bytes in file |
+| chunkcount | 3 | Integer | Number of chunks |
+| chunksizes | [368,141552,143220] | List of Integers | List of chunk sizes |
 
 
 
 
 Version 4
 
-+----------------+---------------------------+------------------+----------------------------------------+
-|  Magic Number  |  IDTK                     | 4 byte           |                                        |
-+----------------+---------------------------+------------------+----------------------------------------+
-| Header  Size   | 160                       | Integer          | Size of header in bytes                |
-+----------------+---------------------------+------------------+----------------------------------------+
+| Field | Value | Type | Description |
+| --- | --- | --- | --- |
+| Magic Number | IDTK | 4 byte | |
+| Header Size | 160 | Integer | Size of header in bytes |
 
- Metadata
+Metadata
 
-+----------------+---------------------------+------------------+----------------------------------------+
-| Parameter      | Example                   | Type             | Description                            |
-+================+===========================+==================+========================================+
-| version        | 4                         | Integer          | Version number                         |
-+----------------+---------------------------+------------------+----------------------------------------+
-| date           | Day Mon day HH:MM:SS year | String           | A string                               |
-+----------------+---------------------------+------------------+----------------------------------------+
-| compression    | LZ4                       | NONE, LZ4, SNAPPY| Content compressed                     |
-+----------------+---------------------------+------------------+----------------------------------------+
-| bytecount      | 285140                    | Integer          | Total number of bytes in file          |
-+----------------+---------------------------+------------------+----------------------------------------+
-| chunkcount     | 3                         | Integer          | Number of chunks                       |
-+----------------+---------------------------+------------------+----------------------------------------+
-| chunksizes     | [368,141552,143220]       | List of Integers | List of chunk sizes                    |
-+----------------+---------------------------+------------------+----------------------------------------+
+| Parameter | Example | Type | Description |
+| --- | --- | --- | --- |
+| version | 4 | Integer | Version number |
+| date | Day Mon day HH:MM:SS year | String | A string |
+| compression | LZ4 | NONE, LZ4, SNAPPY | Content compressed |
+| bytecount | 285140 | Integer | Total number of bytes in file |
+| chunkcount | 3 | Integer | Number of chunks |
+| chunksizes | [368,141552,143220] | List of Integers | List of chunk sizes |

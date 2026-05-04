@@ -66,7 +66,7 @@ Modeling microsporidia infections is essential for:
 When vector migration is used, microsporidia infections migrate with their hosts, enabling
 spatial spread modeling between different vector populations and metapopulation analysis.
 The model does not currently include environmental transmission pathways (e.g., spore contamination of larval habitats)
-beyond the **LarvalMicrosporidiaIntervention**, see [larval-microsporidia-intervention](#larval-microsporidia-intervention) below for details.
+beyond the **LarvalMicrosporidiaIntervention**, see [larval-microsporidia-intervention](#larvalmicrosporidiaintervention) below for details.
 
 
 ### Intra-population transmission
@@ -94,13 +94,13 @@ Microsporidia transmit from infected parents to their offspring through vertical
 
 When both parents are infected, the combined transmission probability is calculated as:
 
-P_{combined} = 1 - (1 - P_{female}) \times (1 - P_{male})
+$$P_{combined} = 1 - (1 - P_{female}) \times (1 - P_{male})$$
 
 For eggs that become infected through this combined mechanism, the strain is determined by the relative contribution of each parent:
 
-P_{female\_strain} = \frac{P_{female}}{P_{female} + P_{male}}
+$$P_{female\_strain} = \frac{P_{female}}{P_{female} + P_{male}}$$
 
-P_{male\_strain} = 1 - P_{female\_strain}
+$$P_{male\_strain} = 1 - P_{female\_strain}$$
 
 The model uses binomial approximation to determine how many eggs become infected and which strain they carry.
 
@@ -109,7 +109,7 @@ The model uses binomial approximation to determine how many eggs become infected
 
 Microsporidia can also be introduced directly into larval habitats through the **LarvalMicrosporidiaIntervention**.
 This intervention mimics environmental seeding of water bodies with microsporidia spores, allowing larvae to become
-infected through ingestion or contact with contaminated water. See [larval-microsporidia-intervention](#larval-microsporidia-intervention) below for details.
+infected through ingestion or contact with contaminated water. See [larval-microsporidia-intervention](#larvalmicrosporidiaintervention) below for details.
 
 
 ## Phenotypic effects

@@ -17,7 +17,7 @@ and densities of other larvae.
 In the present model, different models for larval habitat are developed for temporary, semi-
 permanent, permanent, and human-driven habitats. The duration of larval development is a decreasing
 function of temperature, and the present model utilizes an Arrhenius temperature-dependent rate
-a\ `1`\ `(a2/TK)`. In some cases, this temperature-dependent rate must be modified by local
+$a_1(a_2/T_K)$. In some cases, this temperature-dependent rate must be modified by local
 larval density. Rainfall and temperature then combine through habitat creation and larval
 development to create varying local patterns of distribution by larval instar, and larval mortality
 and development duration determine pupal rates.
@@ -36,8 +36,6 @@ configuring the various vector species.
 
 ## Modeling mosquito life cycles and larval habitat
 
-
-
 The framework facilitates simulating multiple species of *Anopheles* mosquitoes simultaneously. This
 allows for a mechanistic description of vector abundances through the effects of
 climate and weather on different preferred larval habitats. Each species is configured separately
@@ -51,13 +49,15 @@ implemented to capture the non-linear rain-to-habitat relationship.
 
 
 ![Vector abundance depends on larval habitat availability](../images/vector-malaria/Vector_Transmission_abundance.png)
+
 *Vector abundance depends on larval habitat availability*
 
 ![Larval habitat type determines how rainfall and temperature influence vector populations](../images/vector-malaria/Vector_Transmission_larval_habitats.png)
+
 *Larval habitat type determines how rainfall and temperature influence vector populations*
 
-## Habitats
 
+## Habitats
 
 The parameter **Habitats**  is an array of JSON objects that contains one or more objects
 that define a habitat. The user indicates the vector species, habitat type(s), and the array of scaling factors
@@ -106,19 +106,19 @@ the larval carrying capacity which scale the functional form for evaporation rat
 relationship in which evaporation and infiltration are higher when the weather is hot and dry.
 
 The basic update equations appear in the article [Eckhoff, Malaria Journal 2011, 10:303](http://www.malariajournal.com/content/10/1/303) and are as
-follows: Temporary habitat H\ `temp`\  in a grid of diameter D\ `cell`\  increases with
-rainfall P\ `rain`\  and decays with a rate $\tau$\ `temp`\  proportional to the
+follows: Temporary habitat $H_\text{temp}$ in a grid of diameter $D_\text{cell}$ increases with
+rainfall $P_\text{rain}$ and decays with a rate $\tau_\text{temp}$ proportional to the
 evaporation rate driven by temperature in Kelvin T and humidity RH:
 
-H_{temp} += P_{rain}K_{temp}D^2_{cell} - H_{temp}\left(\frac{\Delta t}{\tau_{temp}}\right)
+$$H_{temp} += P_{rain}K_{temp}D^2_{cell} - H_{temp}\left(\frac{\Delta t}{\tau_{temp}}\right)$$
 
-\frac{1}{\tau_{temp}} = \left(5.1\times 10^{11} Pa\right)\mathrm{e}^{-\frac{5628.1 K}{T}} k_{tempdecay}\sqrt{\frac{0.018kg / mol}{2\pi R T}}(1-RH)
+$$\frac{1}{\tau_{temp}} = \left(5.1\times 10^{11} Pa\right)\mathrm{e}^{-\frac{5628.1 K}{T}} k_{tempdecay}\sqrt{\frac{0.018kg / mol}{2\pi R T}}(1-RH)$$
 
-in which K\ `temp`\ refers to species-specific maximum larval habitat capacity defined in **Vector_Species_Params**,
+in which $K_\text{temp}$ refers to species-specific maximum larval habitat capacity defined in **Vector_Species_Params**,
 the exponential results from the *Clausius-Clayperon relation*, the root is from the
 expression for vapor evaporation rates due to molecular mass given a partial pressure, and the
 constant is the Clausius-Clayperon integration constant multiplied by a factor
-k\ `tempdecay`\  to relate mass evaporation per unity area to habitat loss. Note that the R in the denominator
+$k_\text{tempdecay}$ to relate mass evaporation per unity area to habitat loss. Note that the R in the denominator
 of the square root refers to the noble gas constant, and is neither a variable nor related to the relative humidity term RH.
 
 Examining the two equations more closely, the first is a *time step* update equation, in which
@@ -128,31 +128,29 @@ of a 1 km square node. Then existing habitat decays with a time constant defined
 equation. The basic functional form is based on an equation for evaporation rates, which is not
 fully realistic in that it neglects boundary layer effects. However, we are looking for a rate of
 habitat loss, not the rate of evaporation, and we also want to take infiltration into account.
-The parameter k\ `tempdecay`\  converts raw evaporation rates in kg/m^2/s into habitat loss
+The parameter $k_\text{tempdecay}$ converts raw evaporation rates in kg/m^2/s into habitat loss
 per day.
 
-The value of k\ `tempdecay`\  is initially chosen to set the habitat half-lives near 1 day for
+The value of $k_\text{tempdecay}$ is initially chosen to set the habitat half-lives near 1 day for
 hot and dry conditions and 2-3 weeks for more tropical conditions. The parameter
-k\ `tempdecay`\  in the article [Eckhoff, Malaria Journal 2011, 10:303](http://www.malariajournal.com/content/10/1/303) corresponds to
+$k_\text{tempdecay}$ in the article [Eckhoff, Malaria Journal 2011, 10:303](http://www.malariajournal.com/content/10/1/303) corresponds to
 **Temporary_Habitat_Decay_Factor** in the simulation configuration file, and it applies to all local
 species using temporary habitat. Each species in a given location can adjust the parameter
-K\ `temp`\  from the paper, or equivalently the scaling factor value in **Habitats**
+$K_\text{temp}$ from the paper, or equivalently the scaling factor value in **Habitats**
 in the simulation configuration file (nested under the species name), to adjust the overall scaling
-of the time series. So K\ `temp`\  is specific for each species, but k\ `tempdecay`\  is a
+of the time series. So $K_\text{temp}$ is specific for each species, but $k_\text{tempdecay}$ is a
 single value for all temporary habitat species in that location. Basically, the local weather and
-k\ `tempdecay`\  set the overall time profile for larval habitat which can feed-forward into
-adult population levels and biting rates. k\ `tempdecay`\  can be adjusted to achieve a best fit
+$k_\text{tempdecay}$ set the overall time profile for larval habitat which can feed-forward into
+adult population levels and biting rates. $k_\text{tempdecay}$ can be adjusted to achieve a best fit
 for the time profile for a given location. Factors such as how sandy or clay-like the soil is will
-affect this value. Once the time profile is correct, K\ `temp`\  can be adjusted to yield the
+affect this value. Once the time profile is correct, $K_\text{temp}$ can be adjusted to yield the
 correct annual *entomological inoculation rate (EIR)* for that species.
 
-The carrying capacity for TEMPORARY_RAINFALL is the number of larvae per [R * Degree\ `2`]
+The carrying capacity for TEMPORARY_RAINFALL is the number of larvae per [R * Degree$^2$]
 where R is accumulated rainfall (in meters).
 
 
-
 ### Semi-permanent water vegetation
-
 
 The second type of larval habitat, WATER_VEGETATION, is a semi-permanent habitat, which corresponds
 to developing vegetation on the edges of semi-permanent habitat. This could be seen for swamp-like
@@ -161,20 +159,18 @@ closest to its peak towards the end of the rainy season. The decay is specified 
 per day, and this slower decay constant means that species with this habitat type will tend to have
 a proportionately higher dry-season population relative to the temporary habitat species.
 
-In the model, semi-permanent habitat increases with a constant K\ `semi`\ D\ `cell`\ 2P\
-`rain`\  and decays with a longer time constant $\tau$\ `semi`\
+In the model, semi-permanent habitat increases with a constant $K_\text{semi} D_\text{cell}^2 P_\text{rain}$ and decays with a longer time constant $\tau_\text{semi}$
 (**Semipermanent_Habitat_Decay_Rate** in the simulation configuration file): 
 
-H_{semi} += P_{rain}K_{semi}D^2_{cell} - H_{semi}\Delta t\tau_{semi}
+$$H_{semi} += P_{rain}K_{semi}D^2_{cell} - H_{semi}\Delta t\tau_{semi}$$
 
-The parameter K\
-`semi`\  is the maximum larval capacity in **Habitats** for species with a
+The parameter $K_\text{semi}$ is the maximum larval capacity in **Habitats** for species with a
 **Habitats** of "WATER_VEGETATION". 
-The values of $\tau$\ `semi`\ and  K\ `semi`\ 
+The values of $\tau_\text{semi}$ and  $K_\text{semi}$ 
 can be fit to local data on vector abundance by species over time or to local data on
 EIR to tailor a simulation to a specific setting.
 
-The carrying capacity for WATER_VEGETATION is the number of larvae per [R * Degree\ `2`]
+The carrying capacity for WATER_VEGETATION is the number of larvae per [R * Degree$^2$]
 where R is accumulated rainfall (in meters).
 
 
@@ -186,9 +182,9 @@ depend on weather. However, there will be a seasonal signal in adult population 
 effects of temperature upon aquatic development times. For a given carrying capacity, a faster
 development time will allow a local habitat to have a higher larval "through-put" with corresponding
 impacts on the adult population. The scaling factor value in the **Habitats** parameter
-is used to specify the carrying capacity per unit area D\ `cell`\ 2. 
+is used to specify the carrying capacity per unit area $D_\text{cell}^2$. 
 
-The carrying capacity for CONSTANT is the number of larvae per Degree\ `2`.
+The carrying capacity for CONSTANT is the number of larvae per Degree$^2$.
 
 
 ### Brackish swamp
@@ -203,7 +199,7 @@ biting rates. So, an additional rainfall-driven larval mortality term has been i
 captures the non-linear rain-to- habitat relationship. This habitat uses the same decay rate as the
 semi-permanent water vegetation habitat.
 
-The carrying capacity for BRACKISH_SWAMP is the number of larvae per Degree\ `2`.
+The carrying capacity for BRACKISH_SWAMP is the number of larvae per Degree$^2$.
 
 
 
@@ -267,7 +263,7 @@ linearly interpolates the values to estimate the habitat availability for each v
 without requiring climatological data. It is required that the first value under **Times** is equal
 to zero.
 
-The carrying capacity for LINEAR_SPLINE is the number of larvae per Degree\ `2`.
+The carrying capacity for LINEAR_SPLINE is the number of larvae per Degree$^2$.
 
 
 
@@ -286,30 +282,30 @@ initial parameters are set, you can modify habitat with overall scaling paramete
 
 
 The following two figures demonstrate the effects of varying the habitat scalar
-(**Habitats**) and the **Temporary_Habitat_Decay_Factor** (k\ `tempdecay`\)  for a
+(**Habitats**) and the **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)  for a
 single species with temporary habitat. Changing the habitat scalar will scale the resulting adult
 population size and biting rate by a similar factor.
 
 
-![Effect of varying the habitat scalar, **Habitats**](../images/vector-malaria/Vary_Habitat_Scalar.png)
+![Effect of varying the habitat scalar, **Habitats**](../images/vector-malaria/Vary_Habitat_Scalar.png){#hab-scalar-fig}
 *Effect of varying the habitat scalar, **Habitats***
 
-Lowering k\ `tempdecay`\  causes the resulting rainfall-driven habitat to decay at a slower
-rate and thus increases $\tau$\ `temp`\.  A slower decay rate will result in higher
+Lowering $k_\text{tempdecay}$ causes the resulting rainfall-driven habitat to decay at a slower
+rate and thus increases $\tau_\text{temp}$.  A slower decay rate will result in higher
 larval habitat on average, and higher resulting adult population biting rates.
 
 
-![Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** (k\ `tempdecay`\)](../images/vector-malaria/Vary_Temporary_Habitat_Scalar.png)
-*Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** (k\ `tempdecay`\)*
+![Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)](../images/vector-malaria/Vary_Temporary_Habitat_Scalar.png){#decay-rate-fig}
+*Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)*
 
 These two parameters can be co-varied to produce an appropriate temporal profile. If rainfall is
 constant, there is only one degree of freedom, as the habitat is always at equilibrium. The two
 degrees of freedom become important when there is a distinct rainy season. For example, scaling
 habitat produces the same ratio between biting rates in the wet season and dry season as seen in
-[habitat-scalar-figure](#habitat-scalar-figure).
+[habitat scalar figure](#hab-scalar-fig).
 
 However, when varying the decay rate, the ratio between habitats is different in the wet season
-versus the dry season. As seen in the graph [decay-rate-figure](#decay-rate-figure), a
+versus the dry season. As seen in the graph [decay rate variation](#decay-rate-fig), a
 given ratio in rainy season will become exaggerated in the start of dry season (with a higher ratio
 the drier the season), as the slower decay rate extends habitat longer into the dry season.
 

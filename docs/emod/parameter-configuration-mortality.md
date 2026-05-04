@@ -4,7 +4,7 @@
 The following parameter determine mortality and survival characteristics of the disease being modeled
 and the population in general (non-disease mortality).
 
-See [malaria-severe-mortality](#malaria-severe-mortality) for more information about how fever, anemia, and
+See [Severe disease and mortality](malaria-model-symptoms-diagnosis.md#severe-disease-and-mortality) for more information about how fever, anemia, and
 parasite counts lead to severe malaria and mortality.
 
 
