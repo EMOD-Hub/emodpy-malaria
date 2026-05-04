@@ -56,7 +56,7 @@ and **Daily EIR** don't get started until day 40.  Why do the plots have the sha
 
 EMOD is one of the only malaria models that includes the mosquitoes as its own set of agents.
 EMOD models the mosquito through its life cycle from eggs to larve to adult and back again.
-Please see [EMOD Vector Biology](https://emod.idmod.org/emodpy-malaria/emod/vector-model-overview.html)
+Please see [EMOD Vector Biology](../emod/vector-model-overview.md)
 for more information.
 
 **Adult Vectors** - These are the adult female mosquitoes in the simulation. The scenario initializes with three species,
@@ -87,8 +87,8 @@ To avoid some of these vector start up issues as well as establish immunity in t
 users will do a simulation "burn-in".  This is where they will run the simulation for many
 years to let the vectors and immunity to stabilize.  When that simulation finishes, they have
 it create a "serialized population file".  This file is then used for new simulations.
-please see [Serializing Populaitons](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-serializing-pops.html) 
-or more information.
+please see [Serializing Populations](../emod/software-serializing-pops.md)
+for more information.
 
 ![](../figures/tutorial/tutorial_19_vectors.png)
 
@@ -139,7 +139,7 @@ three concurrent infections in these simulations.
 immunity against specific parasite variants. Think of it as measuring the population's
 antibody levels against the parasite. Initially, the population has no immunity, but
 antibody development accelerates rapidly once infections begin spreading. See the section on
-[Malaria infection and immune model](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-infection-immunity.html)
+[Malaria infection and immune model](../emod/malaria-model-infection-immunity.md)
 for more information.
 
 ![](../figures/tutorial/tutorial_21_prevalence.png)
@@ -166,7 +166,7 @@ short amount of time.  We had one simulation with one severe case.
 or other complications. Given the short 80-day simulation timeframe, severe cases remain rare - only
 one simulation run recorded a single severe case. Longer simulation periods would typically show
 more severe case development.  Please see
-[Malaria symptoms and diagnostics](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/malaria-model-symptoms-diagnosis.html)
+[Malaria symptoms and diagnostics](../emod/malaria-model-symptoms-diagnosis.md)
 for more information.
 
 ![](../figures/tutorial/tutorial_22_cases.png)
@@ -189,5 +189,5 @@ infectious.
 ![](../figures/tutorial/tutorial_23_diagnostics.png)
 
 For more on InsetChart, please our
-[documetation](https://docs.idmod.org/projects/emodpy-malaria/en/latest/emod/software-report-inset-chart.html).
+[documentation](../emod/software-report-inset-chart.md).
 

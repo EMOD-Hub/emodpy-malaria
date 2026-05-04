@@ -3,7 +3,7 @@
 
 The SqlReportMalaria report extends [software-report-sql](software-report-sql.md) with malaria-specific health and
 infection data. It is only available when **Simulation_Type** is MALARIA_SIM. The output is a
-multi-table SQLite relational database (see [DB Browser for SQLite](https://sqlitebrowser.org/)
+multi-table SQLite relational database (see [DB Browser for SQLite][sqlite-browser]
 for more information). Use the configuration parameters to manage the size of the database.
 
 `SqlReportMalariaGenetics` extends this report with parasite genetics data for FPG simulations.

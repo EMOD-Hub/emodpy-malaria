@@ -24,9 +24,9 @@ and development duration determine pupal rates.
 
 
 The creation of the habitat model is described in further detail in the articles
-[Eckhoff, Malaria Journal 2011, 10:303](http://www.malariajournal.com/content/10/1/303),
-[Eckhoff, Malaria Journal 2012, 11:419](http://www.malariajournal.com/content/11/1/419), and
-[Eckhoff, Am. J. Trop. Med. Hyg. 2013, 88(5)](https://doi.org/10.4269/ajtmh.12-0007).
+[Eckhoff, Malaria Journal 2011, 10:303][eckhoff-2011],
+[Eckhoff, Malaria Journal 2012, 11:419][eckhoff-2012-mj], and
+[Eckhoff, Am. J. Trop. Med. Hyg. 2013, 88(5)][eckhoff-2013].
 The following sections provide information regarding specific larval habitat types and how to
 configure these parameters in EMOD.
 
@@ -90,7 +90,7 @@ and drain through evaporation and infiltration. We have developed a series of up
 the larval carrying capacity which scale the functional form for evaporation rates. This creates a
 relationship in which evaporation and infiltration are higher when the weather is hot and dry.
 
-The basic update equations appear in the article [Eckhoff, Malaria Journal 2011, 10:303](http://www.malariajournal.com/content/10/1/303) and are as
+The basic update equations appear in the article [Eckhoff, Malaria Journal 2011, 10:303][eckhoff-2011] and are as
 follows: Temporary habitat $H_\text{temp}$ in a grid of diameter $D_\text{cell}$ increases with
 rainfall $P_\text{rain}$ and decays with a rate $\tau_\text{temp}$ proportional to the
 evaporation rate driven by temperature in Kelvin T and humidity RH:
@@ -118,7 +118,7 @@ per day.
 
 The value of $k_\text{tempdecay}$ is initially chosen to set the habitat half-lives near 1 day for
 hot and dry conditions and 2-3 weeks for more tropical conditions. The parameter
-$k_\text{tempdecay}$ in the article [Eckhoff, Malaria Journal 2011, 10:303](http://www.malariajournal.com/content/10/1/303) corresponds to
+$k_\text{tempdecay}$ in the article [Eckhoff, Malaria Journal 2011, 10:303][eckhoff-2011] corresponds to
 **Temporary_Habitat_Decay_Factor** in the simulation configuration file, and it applies to all local
 species using temporary habitat. Each species in a given location can adjust the parameter
 $K_\text{temp}$ from the paper, or equivalently the scaling factor value in **Habitats**

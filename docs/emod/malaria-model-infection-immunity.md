@@ -139,33 +139,32 @@ of the concentration.
 ### Infection and immunity: Within-host parasite dynamics
 
 
-* Lawniczak & Eckhoff, 2016. [A computational lens for sexual-stage transmission, reproduction, fitness and kinetics in   Plasmodium falciparum](http://malariajournal.biomedcentral.com/articles/10.1186/s12936-016-1538-5).
+* Lawniczak & Eckhoff, 2016. [A computational lens for sexual-stage transmission, reproduction, fitness and kinetics in   Plasmodium falciparum][lawniczak-2016].
   *Malaria Journal*. 15:487
 
-* Cameron, *et al*., 2015. [Defining the relationship between infection prevalence and clinical incidence of   Plasmodium falciparum malaria](http://www.nature.com/articles/ncomms9170). *Nature Communications*. 6:8170
+* Cameron, *et al*., 2015. [Defining the relationship between infection prevalence and clinical incidence of   Plasmodium falciparum malaria][cameron-2015]. *Nature Communications*. 6:8170
 
-* Ouedraogo, *et al*., 2015. [Dynamics of the Human Infectious Reservoir for Malaria Determined by Mosquito Feeding Assays and   Ultrasensitive Malaria Diagnosis in Burkina Faso](https://academic.oup.com/jid/article-lookup/doi/10.1093/infdis/jiv370).
+* Ouedraogo, *et al*., 2015. [Dynamics of the Human Infectious Reservoir for Malaria Determined by Mosquito Feeding Assays and   Ultrasensitive Malaria Diagnosis in Burkina Faso][ouedraogo-2015].
   *Journal of Infectious Diseases*. 213(1):90-99
 
-* Gerardin, Ouedraogo, McCarthy, Eckhoff and Wenger, 2015. `Characterization of the infectious reservoir of malaria
-  with an agent-based model calibrated to age-stratified parasite densities and infectiousness
-  <http://malariajournal.biomedcentral.com/articles/10.1186/s12936-015-0751-y>`__. *Malaria Journal*. 14:231
+* Gerardin, Ouedraogo, McCarthy, Eckhoff and Wenger, 2015. [Characterization of the infectious reservoir of malaria
+  with an agent-based model calibrated to age-stratified parasite densities and infectiousness][gerardin-2015-reservoir]. *Malaria Journal*. 14:231
 
-* Eckhoff, 2012. [Malaria parasite diversity and transmission intensity affect development of parasitological   immunity in a mathematical model](https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-11-419).
+* Eckhoff, 2012. [Malaria parasite diversity and transmission intensity affect development of parasitological   immunity in a mathematical model][eckhoff-2012-mj].
   *Malaria Journal*. 11:419
 
-* Eckhoff, 2012. [P. falciparum Infection Durations and Infectiousness Are Shaped by Antigenic Variation   and Innate and Adaptive Host Immunity in a Mathematical Model](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0044950).
+* Eckhoff, 2012. [P. falciparum Infection Durations and Infectiousness Are Shaped by Antigenic Variation   and Innate and Adaptive Host Immunity in a Mathematical Model][eckhoff-2012-plos].
   *PLOS one*. 7(9)
 
 
 ### Outcrossing of parasite genetics
 
 
-* Daniels, *et al*., 2015. [Modeling malaria genomics reveals transmission decline and rebound in Senegal](http://www.pnas.org/content/112/22/7067.full.pdf). *PNAS*. 112(22):7067-7072
+* Daniels, *et al*., 2015. [Modeling malaria genomics reveals transmission decline and rebound in Senegal][daniels-2015]. *PNAS*. 112(22):7067-7072
 
 
 ### Interventions
 
 
-* Eckhoff, Wenger, Godfray and Burt, 2016. [Impact of mosquito gene drive on malaria elimination in a computational model with   explicit spatial and temporal dynamics](http://www.pnas.org/content/114/2/E255.full.pdf). *PNAS*. 114(2)
+* Eckhoff, Wenger, Godfray and Burt, 2016. [Impact of mosquito gene drive on malaria elimination in a computational model with   explicit spatial and temporal dynamics][eckhoff-2016-gene-drive]. *PNAS*. 114(2)
 

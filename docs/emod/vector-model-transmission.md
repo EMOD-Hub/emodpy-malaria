@@ -110,10 +110,9 @@ transmission can be controlled.  You can also manipulate the species parameters 
 ecology impacts the need for particular types of interventions.
 
 If you are interested in simulating other mosquito species, more information on their relevant attributes
-can be found in the articles `Made-to-measure malaria vector control strategies: rational design
-based on insecticide properties and coverage of blood resources for mosquitoes
-<https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-13-146>`__, by Killeen *et al*.,
-2014, *Malaria Journal* 13:146, and [A global bionomic database for the dominant vectors of human malaria](https://www.nature.com/articles/sdata201614#data-records), by Massey *et al*., 2016, *Nature*.
+can be found in the articles [Made-to-measure malaria vector control strategies: rational design
+based on insecticide properties and coverage of blood resources for mosquitoes][killeen-2014], by Killeen *et al*.,
+2014, *Malaria Journal* 13:146, and [A global bionomic database for the dominant vectors of human malaria][massey-2016], by Massey *et al*., 2016, *Nature*.
 
 
 ## Transmission between humans and vectors
@@ -140,8 +139,8 @@ effects, configuration parameters, and associated interventions.
 
 ## Relevant IDM publications
 
-* Eckhoff, 2013. [Mathematical models of within-host and transmission dynamics to determine effects of   malaria interventions in a variety of transmission settings](https://www.ncbi.nlm.nih.gov/pubmed/23589530).
+* Eckhoff, 2013. [Mathematical models of within-host and transmission dynamics to determine effects of   malaria interventions in a variety of transmission settings][eckhoff-2013-ncbi].
   *Am J Trop Med Hyg*. 88(5):817-27
 
-* Eckhoff, 2011. [A malaria transmission-directed model of mosquito life cycle and ecology](https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-10-303).
+* Eckhoff, 2011. [A malaria transmission-directed model of mosquito life cycle and ecology][eckhoff-2011].
   *Malaria Journal*. 10:303

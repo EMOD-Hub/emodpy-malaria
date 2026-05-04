@@ -3,7 +3,7 @@
 
 The SqlReport report outputs individual-level epidemiological data for any EMOD simulation type.
 Because of the quantity and complexity of the data, the report output is a multi-table SQLite
-relational database (see [DB Browser for SQLite](https://sqlitebrowser.org/) for more
+relational database (see [DB Browser for SQLite][sqlite-browser] for more
 information). Use the configuration parameters to manage the size of the database.
 
 `SqlReportMalaria` extends this report with malaria-specific health and infection data. See

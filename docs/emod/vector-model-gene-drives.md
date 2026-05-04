@@ -14,9 +14,9 @@ overcomes this: most or all offspring of a heterozygous carrier inherit the driv
 allowing it to spread rapidly to high frequency within a population over just a few generations
 (Figure 1).
 
-![Figure 1. Mendelian inheritance (top) versus gene drive inheritance (bottom). Under Mendelian inheritance, a modified mosquito (red) mated with a wild mosquito (blue) produces 50% modified offspring, so the modification stays rare or is lost. A gene drive causes most or all offspring to inherit the drive element, enabling rapid population-wide spread. From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880](https://doi.org/10.1080/20477724.2018.1438880).](../figures/vector-genetics/mendelian-vs-gene-drive.png)
+![Figure 1. Mendelian inheritance (top) versus gene drive inheritance (bottom). Under Mendelian inheritance, a modified mosquito (red) mated with a wild mosquito (blue) produces 50% modified offspring, so the modification stays rare or is lost. A gene drive causes most or all offspring to inherit the drive element, enabling rapid population-wide spread. From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880][hammond-galizi-2017].](../figures/vector-genetics/mendelian-vs-gene-drive.png)
 
-*Figure 1. Mendelian inheritance (top) versus gene drive inheritance (bottom). Under Mendelian inheritance, a modified mosquito (red) mated with a wild mosquito (blue) produces 50% modified offspring, so the modification stays rare or is lost. A gene drive causes most or all offspring to inherit the drive element, enabling rapid population-wide spread. From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880](https://doi.org/10.1080/20477724.2018.1438880).*
+*Figure 1. Mendelian inheritance (top) versus gene drive inheritance (bottom). Under Mendelian inheritance, a modified mosquito (red) mated with a wild mosquito (blue) produces 50% modified offspring, so the modification stays rare or is lost. A gene drive causes most or all offspring to inherit the drive element, enabling rapid population-wide spread. From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880][hammond-galizi-2017].*
 
 Two broad strategies have been proposed for gene-drive-based malaria control (Figure 2).
 **Population suppression** drives are designed to reduce mosquito reproductive capacity —
@@ -25,9 +25,9 @@ below the threshold required to sustain transmission. **Population replacement**
 a refractory trait (inability to transmit malaria) through the population, leaving mosquito
 numbers intact but eliminating their capacity to transmit disease.
 
-![Figure 2. Population suppression (left) reduces the total vector population over time. Population replacement (right) maintains population size but converts wild mosquitoes (blue) to modified, malaria-refractory mosquitoes (red). From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880](https://doi.org/10.1080/20477724.2018.1438880).](../figures/vector-genetics/suppression-vs-replacement.png)
+![Figure 2. Population suppression (left) reduces the total vector population over time. Population replacement (right) maintains population size but converts wild mosquitoes (blue) to modified, malaria-refractory mosquitoes (red). From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880][hammond-galizi-2017].](../figures/vector-genetics/suppression-vs-replacement.png)
 
-*Figure 2. Population suppression (left) reduces the total vector population over time. Population replacement (right) maintains population size but converts wild mosquitoes (blue) to modified, malaria-refractory mosquitoes (red). From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880](https://doi.org/10.1080/20477724.2018.1438880).*
+*Figure 2. Population suppression (left) reduces the total vector population over time. Population replacement (right) maintains population size but converts wild mosquitoes (blue) to modified, malaria-refractory mosquitoes (red). From Hammond and Galizi (2017), [doi:10.1080/20477724.2018.1438880][hammond-galizi-2017].*
 
 A further distinction is between **self-sustaining** drives, which are designed to spread
 indefinitely once released, and **self-limiting** drives, which are engineered to dissipate
@@ -66,9 +66,9 @@ at the cut site:
   longer be cut, preventing future drive conversion at that locus.
 - **No change**: The cut fails entirely.
 
-![Classic gene drive system. A drive mosquito mates with a wild-type mosquito; in the offspring germline, the Cas9 and gRNA cut the wild-type chromosome at the target site and homology-directed repair copies the complete construct. Possible alleles in offspring: wild type (no copy), complete construct (successful copy), or resistant (non-homologous end joining creates a mutated target site the drive can no longer recognize). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2](https://doi.org/10.1186/s12936-022-04242-2).](../figures/vector-genetics/classic-gene-drive.png)
+![Classic gene drive system. A drive mosquito mates with a wild-type mosquito; in the offspring germline, the Cas9 and gRNA cut the wild-type chromosome at the target site and homology-directed repair copies the complete construct. Possible alleles in offspring: wild type (no copy), complete construct (successful copy), or resistant (non-homologous end joining creates a mutated target site the drive can no longer recognize). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2][leung-2022].](../figures/vector-genetics/classic-gene-drive.png)
 
-*Classic gene drive system. A drive mosquito mates with a wild-type mosquito; in the offspring germline, the Cas9 and gRNA cut the wild-type chromosome at the target site and homology-directed repair copies the complete construct. Possible alleles in offspring: wild type (no copy), complete construct (successful copy), or resistant (non-homologous end joining creates a mutated target site the drive can no longer recognize). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2](https://doi.org/10.1186/s12936-022-04242-2).*
+*Classic gene drive system. A drive mosquito mates with a wild-type mosquito; in the offspring germline, the Cas9 and gRNA cut the wild-type chromosome at the target site and homology-directed repair copies the complete construct. Possible alleles in offspring: wild type (no copy), complete construct (successful copy), or resistant (non-homologous end joining creates a mutated target site the drive can no longer recognize). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2][leung-2022].*
 
 ### Example configuration
 
@@ -93,9 +93,9 @@ it does not require heterozygosity at the driven locus. For each driven locus, t
 `Allele_To_Replace` must exist in the other gamete. If one of these conditions is not met for
 a particular locus, nothing happens at that locus, but other loci can still be driven.
 
-![Integral gene drive system. Driver and effector are on separate loci, each with their own gRNA, allowing each to be copied independently. Possible alleles at each locus: wild type, the introduced construct, resistant (drive can no longer recognize the target site), or loss-of-function (lethal mutation at an essential gene target site). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2](https://doi.org/10.1186/s12936-022-04242-2).](../figures/vector-genetics/integral-gene-drive.png)
+![Integral gene drive system. Driver and effector are on separate loci, each with their own gRNA, allowing each to be copied independently. Possible alleles at each locus: wild type, the introduced construct, resistant (drive can no longer recognize the target site), or loss-of-function (lethal mutation at an essential gene target site). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2][leung-2022].](../figures/vector-genetics/integral-gene-drive.png)
 
-*Integral gene drive system. Driver and effector are on separate loci, each with their own gRNA, allowing each to be copied independently. Possible alleles at each locus: wild type, the introduced construct, resistant (drive can no longer recognize the target site), or loss-of-function (lethal mutation at an essential gene target site). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2](https://doi.org/10.1186/s12936-022-04242-2).*
+*Integral gene drive system. Driver and effector are on separate loci, each with their own gRNA, allowing each to be copied independently. Possible alleles at each locus: wild type, the introduced construct, resistant (drive can no longer recognize the target site), or loss-of-function (lethal mutation at an essential gene target site). From Leung et al. (2022), [doi:10.1186/s12936-022-04242-2][leung-2022].*
 
 ### Example configuration
 
@@ -116,9 +116,9 @@ the first element is lost from the population through standard Mendelian dilutio
 eventually removes the driving force from downstream elements. Daisy chain drives are modeled as
 a variant of the autonomous drive with specific locus dependencies.
 
-![Daisy chain drive. (a) CRISPR components are separated so each element drives the next: C drives B, B drives A. C is not driven and is lost in half of offspring; once C is gone, B loses its driver and is lost in turn, continuing until the drive stops. (b) The loss of non-driving elements is analogous to gravity on a rocket — adding more elements allows the system to spread further before it runs out of genetic fuel. From Esvelt and Gemmell (2017), [doi:10.1371/journal.pbio.2003850](https://doi.org/10.1371/journal.pbio.2003850).](../figures/vector-genetics/daisy-chain.png)
+![Daisy chain drive. (a) CRISPR components are separated so each element drives the next: C drives B, B drives A. C is not driven and is lost in half of offspring; once C is gone, B loses its driver and is lost in turn, continuing until the drive stops. (b) The loss of non-driving elements is analogous to gravity on a rocket — adding more elements allows the system to spread further before it runs out of genetic fuel. From Esvelt and Gemmell (2017), [doi:10.1371/journal.pbio.2003850][esvelt-gemmell-2017].](../figures/vector-genetics/daisy-chain.png)
 
-*Daisy chain drive. (a) CRISPR components are separated so each element drives the next: C drives B, B drives A. C is not driven and is lost in half of offspring; once C is gone, B loses its driver and is lost in turn, continuing until the drive stops. (b) The loss of non-driving elements is analogous to gravity on a rocket — adding more elements allows the system to spread further before it runs out of genetic fuel. From Esvelt and Gemmell (2017), [doi:10.1371/journal.pbio.2003850](https://doi.org/10.1371/journal.pbio.2003850).*
+*Daisy chain drive. (a) CRISPR components are separated so each element drives the next: C drives B, B drives A. C is not driven and is lost in half of offspring; once C is gone, B loses its driver and is lost in turn, continuing until the drive stops. (b) The loss of non-driving elements is analogous to gravity on a rocket — adding more elements allows the system to spread further before it runs out of genetic fuel. From Esvelt and Gemmell (2017), [doi:10.1371/journal.pbio.2003850][esvelt-gemmell-2017].*
 
 ### Example configuration
 
@@ -157,9 +157,9 @@ Each shredding drive specifies:
 - `Allele_To_Shred_To_Surviving_Fraction` — the fraction of shredded gametes that survive as
   the `Allele_To_Shred_To` allele rather than being eliminated (0.0--1.0, default 0.0)
 
-![X-shredding (top) and Y-shredding (bottom) during male meiosis. In X-shredding, an endonuclease (I-PpoI) damages X-bearing sperm during meiotic division, leaving primarily Y-bearing sperm viable and producing approximately 95% male-biased offspring. In Y-shredding, a Cas9/gRNA construct targets and damages Y-bearing sperm, leaving primarily X-bearing sperm viable and producing approximately 99% female-biased offspring. From Vitale, M. (2024), Target Malaria, [Y-chromosome shredding in Anopheles gambiae](https://targetmalaria.org/latest/blog/y-chromosome-shredding-in-anopheles-gambiae-a-new-genetic-sexing-strain-reveals-novel-insight-into-the-biology-of-synthetic-sex-ratio-distorters/).](../figures/vector-genetics/x-shred-y-shred-gene-drive.png)
+![X-shredding (top) and Y-shredding (bottom) during male meiosis. In X-shredding, an endonuclease (I-PpoI) damages X-bearing sperm during meiotic division, leaving primarily Y-bearing sperm viable and producing approximately 95% male-biased offspring. In Y-shredding, a Cas9/gRNA construct targets and damages Y-bearing sperm, leaving primarily X-bearing sperm viable and producing approximately 99% female-biased offspring. From Vitale, M. (2024), Target Malaria, [Y-chromosome shredding in Anopheles gambiae][vitale-2024].](../figures/vector-genetics/x-shred-y-shred-gene-drive.png)
 
-*X-shredding (top) and Y-shredding (bottom) during male meiosis. In X-shredding, an endonuclease (I-PpoI) damages X-bearing sperm during meiotic division, leaving primarily Y-bearing sperm viable and producing approximately 95% male-biased offspring. In Y-shredding, a Cas9/gRNA construct targets and damages Y-bearing sperm, leaving primarily X-bearing sperm viable and producing approximately 99% female-biased offspring. From Vitale, M. (2024), Target Malaria, [Y-chromosome shredding in Anopheles gambiae](https://targetmalaria.org/latest/blog/y-chromosome-shredding-in-anopheles-gambiae-a-new-genetic-sexing-strain-reveals-novel-insight-into-the-biology-of-synthetic-sex-ratio-distorters/).*
+*X-shredding (top) and Y-shredding (bottom) during male meiosis. In X-shredding, an endonuclease (I-PpoI) damages X-bearing sperm during meiotic division, leaving primarily Y-bearing sperm viable and producing approximately 95% male-biased offspring. In Y-shredding, a Cas9/gRNA construct targets and damages Y-bearing sperm, leaving primarily X-bearing sperm viable and producing approximately 99% female-biased offspring. From Vitale, M. (2024), Target Malaria, [Y-chromosome shredding in Anopheles gambiae][vitale-2024].*
 
 ### Example configuration
 

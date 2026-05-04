@@ -30,7 +30,7 @@ will notice that each of these files begins with a left brace ({) and ends with 
 (}).
 
 A value can be a string, number, Boolean, array, or an object. The campaign and data input files
-often use nested objects and arrays. See www.json.org_ for more information on JSON.
+often use nested objects and arrays. See [json.org][json-org] for more information on JSON.
 
 
 A few important details to call out when creating JSON files:
@@ -48,7 +48,7 @@ The following is an example of a JSON formatted file.
 ## JSON resources
 
 
-The website https://jsonlint.com provides validation of JSON formatting. This can be very helpful in
+The website [jsonlint.com][jsonlint] provides validation of JSON formatting. This can be very helpful in
 identifying missing commas, unbalanced curly braces, missing quotation marks, and other common JSON
-syntax errors. Another helpful site is http://jsondiff.com/, which highlights differences between
+syntax errors. Another helpful site is [jsondiff.com][jsondiff], which highlights differences between
 two uploaded JSON files.

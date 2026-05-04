@@ -60,10 +60,7 @@ Children can be dosed with a fraction of the adult dose according to
 children receiving that dose. Depending on specific PK characteristics of each drug, bodyweight may
 affect the rate of drug clearance. In the double exponential PK model, bodyweight is directly
 determined by age, and **Drug\_Cmax** is multiplied by the inverse of the bodyweight raised to the power
-of **Bodyweight\_Exponent**. See the paper on drug PK and PD ( `Mass campaigns with antimalarial drugs:
-a modelling comparison of artemether-lumefantrine and DHA-piperaquine with and without primaquine as
-tools for malaria control and elimination
-<http://www.biomedcentral.com/1471-2334/15/144/abstract>`__) for more details on how to set PK and
+of **Bodyweight\_Exponent**. See the paper on drug PK and PD ([Mass campaigns with antimalarial drugs: a modelling comparison of artemether-lumefantrine and DHA-piperaquine with and without primaquine as tools for malaria control and elimination][gerardin-2015-mda-abstract]) for more details on how to set PK and
 PD parameter values in EMOD.
 
 ![Modeling drug killing effects with a double exponential PK and sigmoid PD. (A) Two-compartment PK models include both distribution and elimination of drug. One-compartment models do not have a distribution phase. (B) A double exponential PK approximates the distribution and elimination phases of a two- compartment model. (C) Parasite killing is determined by drug concentration, **Drug\_PKPD\_C50**, and parasite stage- specific maximum kill rates. (D) PK and PD together determine the duration over which a dose of drug is effective.](../figures/vector-malaria/Antimalarial_Drugs_Concentration_vs_time_PK_profile.png)
@@ -77,24 +74,23 @@ PD parameter values in EMOD.
 ### Antimalarial drugs
 
 
-* Bellinger, *et al*., 2016. [Oral, ultra--long-lasting drug delivery: Application toward malaria elimination goals](http://stm.sciencemag.org/content/8/365/365ra157). *Science Translational Medicine*.  8(365).
+* Bellinger, *et al*., 2016. [Oral, ultra--long-lasting drug delivery: Application toward malaria elimination goals][bellinger-2016]. *Science Translational Medicine*.  8(365).
 
-* Gerardin, Eckhoff and Wenger, 2015. `Mass campaigns with antimalarial drugs: a modeling comparison of
+* Gerardin, Eckhoff and Wenger, 2015. [Mass campaigns with antimalarial drugs: a modeling comparison of
   artemether-lumefantrine and DHA-piperaquine with and without primaquine as tools for malaria control and
-  elimination <http://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-015-0887-y>`__.
+  elimination][gerardin-2015-mda].
   *BMC Infectious Diseases*. 15:144
 
 
 ### Vaccines
 
 
-* Penny, *et al*., 2016. `Public health impact and cost-effectiveness of the RTS,S/AS01 malaria vaccine:
-  a systematic comparison of predictions from four mathematical models
-  <http://thelancet.com/journals/lancet/article/PIIS0140-6736(15)00725-4/fulltext?rss=yes>`__.
+* Penny, *et al*., 2016. [Public health impact and cost-effectiveness of the RTS,S/AS01 malaria vaccine:
+  a systematic comparison of predictions from four mathematical models][penny-2016].
   *The Lancet*. 387(100016): 367-375
 
-* McCarthy, Wenger, Huynh and Eckhoff, 2015. [Calibration of an intrahost malaria model and parameter   ensemble evaluation of a pre-erythrocytic vaccine](http://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-14-6).
+* McCarthy, Wenger, Huynh and Eckhoff, 2015. [Calibration of an intrahost malaria model and parameter   ensemble evaluation of a pre-erythrocytic vaccine][mccarthy-2015].
   *Malaria Journal*. 14:6
 
-* Wenger & Eckhoff, 2013. [A mathematical model of the impact of present and future malaria vaccines](https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-12-126). *Malaria Journal*. 12:126
+* Wenger & Eckhoff, 2013. [A mathematical model of the impact of present and future malaria vaccines][wenger-2013]. *Malaria Journal*. 12:126
 

@@ -10,7 +10,7 @@ EMOD supports this ability with a feature called "serialized populations."
 Serializing is the idea of saving the state of object so that there is enough information to
 recreate that object later. Deserializing is the reverse, where you create a new object but
 initialize it with the state that was saved.  For more information,  see
-[serialization](https://en.wikipedia.org/wiki/Serialization).  This is analogous to the sleep
+[serialization][wiki-serialization].  This is analogous to the sleep
 feature in your computer: when you put it to sleep, it serializes data of the objects running the system;
 when you start it back up again, it recreates what was running from that saved state.
 

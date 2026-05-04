@@ -56,7 +56,7 @@ integrating this novel intervention into simulations.
 
 The following pages describe the structure of the model and explore each of the model components.
 Additionally, the specifics of the model are discussed in detail in the articles
-[Eckhoff, Malaria Journal 2011, 10:303](http://www.malariajournal.com/content/10/1/303);
-[Eckhoff, Malaria Journal 2012, 11:419](http://www.malariajournal.com/content/11/1/419);
-[Eckhoff, PLoS ONE 2012, 7(9)](http://dx.doi.org/10.1371/journal.pone.0044950);  and
-[Eckhoff, Am. J. Trop. Med. Hyg. 2013, 88(5)](https://doi.org/10.4269/ajtmh.12-0007).
+[Eckhoff, Malaria Journal 2011, 10:303][eckhoff-2011];
+[Eckhoff, Malaria Journal 2012, 11:419][eckhoff-2012-mj];
+[Eckhoff, PLoS ONE 2012, 7(9)][eckhoff-2012-plos];  and
+[Eckhoff, Am. J. Trop. Med. Hyg. 2013, 88(5)][eckhoff-2013].

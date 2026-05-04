@@ -40,12 +40,12 @@ For a complete list of demographics parameters, go to [parameter-demographics](p
 ## Relevant IDM publications on spatial models
 
 
-* Nikolov, *et al*., 2016. [Malaria Elimination Campaigns in the Lake Kariba Region of Zambia: a Spatial Dynamical Model](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005192). *PLOS Computational Biology*.
+* Nikolov, *et al*., 2016. [Malaria Elimination Campaigns in the Lake Kariba Region of Zambia: a Spatial Dynamical Model][nikolov-2016]. *PLOS Computational Biology*.
 
-* Marshall, *et al*., 2016. [Key traveler groups of relevance to spatial malaria transmission: a survey of movement   patterns in four sub-Saharan African countries](http://malariajournal.biomedcentral.com/articles/10.1186/s12936-016-1252-3).
+* Marshall, *et al*., 2016. [Key traveler groups of relevance to spatial malaria transmission: a survey of movement   patterns in four sub-Saharan African countries][marshall-2016].
   *Malaria Journal*. 15(200)
 
-* Gerardin, *et al*., 2016. [Optimal Population-Level Infection Detection Strategies for Malaria Control and Elimination   in a Spatial Model of Malaria Transmission](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004707).
+* Gerardin, *et al*., 2016. [Optimal Population-Level Infection Detection Strategies for Malaria Control and Elimination   in a Spatial Model of Malaria Transmission][gerardin-2016].
   *PLOS Computational Biology*.
 
-* Eckhoff, *et al*., 2015. [From puddles to planet: modeling approaches to vector-borne diseases at varying resolution and scale](http://www.sciencedirect.com/science/article/pii/S2214574515000802). *Current Opinion in Insect Science*. 10:118-123
+* Eckhoff, *et al*., 2015. [From puddles to planet: modeling approaches to vector-borne diseases at varying resolution and scale][eckhoff-2015]. *Current Opinion in Insect Science*. 10:118-123

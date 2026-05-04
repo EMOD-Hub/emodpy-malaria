@@ -5,7 +5,7 @@ FPG simulations have complete knowledge of every parasite genome in the populati
 genomic surveillance collects data through specific sampling strategies that capture only a fraction
 of infections. `ReportFpgOutputForObservationalModel` bridges this gap by extracting the complete
 genetic data on all filtered infected individuals, allowing post-processing tools such as the
-[FPGObservationalModel](https://github.com/EMOD-Hub/FPGObservationalModel) to apply realistic
+[FPGObservationalModel][fpg-observational-model] to apply realistic
 surveillance sampling strategies and study what genetic signals different approaches can detect.
 
 Unlike most EMOD reports, which produce a single output file named after the report class, this

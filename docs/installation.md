@@ -26,7 +26,7 @@ Python 3.13.2
 ```
 
 If you do not get that, you may need to install Python 3.13. Download it from
-[python.org](https://www.python.org/downloads/) or contact your IT support.
+[python.org][python-downloads] or contact your IT support.
 
 ### Docker
 
@@ -39,9 +39,9 @@ simulations on **your own computer**, you need Docker.
 Installation may require administrative privileges. If you don't have them, you may
 need IT support. Follow the instructions on the Docker website for your operating system:
 
-- [Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
-- [Linux](https://docs.docker.com/desktop/setup/install/linux/)
-- [Mac](https://docs.docker.com/desktop/setup/install/mac-install/)
+- [Windows][docker-windows]
+- [Linux][docker-linux]
+- [Mac][docker-mac]
 
 !!! warning
     Installing Docker can require downloading close to one gigabyte of data. The first

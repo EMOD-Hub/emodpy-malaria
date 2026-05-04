@@ -531,7 +531,7 @@ PfHRP2 Prevalence, "The fraction of the population that would test positive on a
 ## FPG Observational Model
 
 
-The [FPGObservationalModel](https://github.com/EMOD-Hub/FPGObservationalModel) is a separate
+The [FPGObservationalModel][fpg-observational-model] is a separate
 Python tool that converts the output of
 [software-report-fpg-output-observational-model](software-report-fpg-output-observational-model.md) into realistic genomic surveillance data.
 Rather than analyzing the full simulated population directly, it applies configurable sampling

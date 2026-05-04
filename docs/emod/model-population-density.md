@@ -68,9 +68,8 @@ The saturating function of density is enabled by setting the EMOD configuration 
 Finally, the $\rho_{50}$ parameter is configured using the configuration parameter
 **Population_Density_C50**. For more information, see [parameter-configuration-infectivity](parameter-configuration-infectivity.md) parameters.
 
-This is described in more detail in the article `The scaling of contact rates
-with population density for the infectious disease models
-<http://www.sciencedirect.com/science/article/pii/S0025556413001235>`__, by Hu *et al*., 2013
+This is described in more detail in the article [The scaling of contact rates
+with population density for the infectious disease models][hu-2013], by Hu *et al*., 2013
 *Mathematical Biosciences*. 244(2):125-134. See the figure from that article below.
 
 

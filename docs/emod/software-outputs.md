@@ -41,7 +41,7 @@ and charts for analysis.
 
 
 The example below uses the Python package JSON_ to parse the file and the Python package
-[matplotlib.pyplot](http://matplotlib.org/api/pyplot_api.html) to plot the output. This is a very simple example and not likely the most robust
+[matplotlib.pyplot][matplotlib-pyplot] to plot the output. This is a very simple example and not likely the most robust
 or elegant. Be sure to set the actual path to your working directory.
 
 ```python

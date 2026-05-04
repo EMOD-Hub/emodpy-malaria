@@ -15,7 +15,7 @@ issues.
 
 See the following link for more information:
 
-https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
+[GitHub Codespaces documentation][github-codespaces]
 
 **WARNING: Codespaces can cost money**
 
@@ -23,7 +23,7 @@ https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
 
 1. Go to the following link in your web browser:
 
-    https://github.com/EMOD-Hub/emodpy-malaria/tree/main
+    [https://github.com/EMOD-Hub/emodpy-malaria/tree/main][emodpy-malaria-main]
 
 2. Click on the green “<> Code” button
 

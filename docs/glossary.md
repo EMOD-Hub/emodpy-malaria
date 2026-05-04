@@ -8,8 +8,8 @@ agent-based model
 
 Boost
 :   Free, peer-reviewed, portable C++ source libraries aimed at a wide range of uses including
-    parallel processing applications (Boost.MPI). For more information, please see the Boost
-    website, http://www.boost.org.
+    parallel processing applications (Boost.MPI). For more information, please see the
+    [Boost website][boost].
 
 boxcar function
 :   A mathematical function that is equal to zero over the entire real line except for a single
@@ -125,7 +125,7 @@ intervention
 JSON (JavaScript Object Notation)
 :   A human-readable, open standard, text-based file format for data interchange. It is
     typically used to represent simple data structures and associative arrays, and is
-    language-independent. For more information, see https://www.json.org.
+    language-independent. For more information, see [json.org][json-org].
 
 JSON
 :   See JavaSCript Object Notation.
@@ -254,7 +254,7 @@ Standard Template Library (STL)
 :   A library that contains a set of common C++ classes (including generic algorithms and data
     structures) that are independent of container and implemented as templates, which enables
     compile-time polymorphism (often more efficient than run-time polymorphism). For more
-    information and discussion of STL, see [Wikipedia -         Standard Template Library](https://en.wikipedia.org/wiki/Standard_Template_Library)
+    information and discussion of STL, see [Wikipedia - Standard Template Library][wiki-stl]
     for more information.
 
 state transition event
@@ -297,7 +297,7 @@ antigens
 Clausius-Clayperon relation
 :   A way of characterizing a transition between two phases of matter; provides a method to find
     a relationship between temperature and pressure along phase boundaries. Frequently used in
-    meteorology and climatology to describe the behavior of water vapor. See [Wikipedia -         Clausius-Clayperon relation](https://en.wikipedia.org/wiki/Clausius%E2%80%93Clapeyron_relation)
+    meteorology and climatology to describe the behavior of water vapor. See [Wikipedia - Clausius-Clayperon relation][wiki-clausius-clapeyron]
     for more information.
 
 compartmental model
@@ -567,8 +567,7 @@ sugar-baited trap
 
 vector
 :   Insect or other living carrier that transmits an infectious agent. The vector life cycle and
-    feeding cycle in the model are described in the article `Eckhoff, Malaria Journal 2011,
-    10:303 <Eckhoff, Malaria Journal 2011, 10:303: http://www.malariajournal.com/content/10/1/303>`__.
+    feeding cycle in the model are described in the article [Eckhoff, Malaria Journal 2011, 10:303][eckhoff-2011].
 
 vectorial capacity
 :   The daily rate of all mosquitoes that would be infected after biting a single infectious host.

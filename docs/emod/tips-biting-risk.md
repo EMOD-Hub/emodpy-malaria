@@ -10,8 +10,8 @@ biting risk.
 
 Many studies have identified substantial variance in the number of bites that individuals within a
 population experience, which may be attributable to a combination of factors, such as individuals’
-age, physiology, behavior, and location ([Irvine et al 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805933/),
-[Cooper et al 2019](https://www.nature.com/articles/s41467-019-11861-y)). Including biting
+age, physiology, behavior, and location ([Irvine et al 2018][irvine-2018],
+[Cooper et al 2019][cooper-2019]). Including biting
 risk heterogeneity in malaria transmission models is important for accurately capturing prevalence,
 incidence, probability of elimination, and other important simulation outcomes. To capture this
 heterogeneity in EMOD, we specify both age-specific risks and individual relative risks, which
@@ -156,7 +156,7 @@ population, you can use IPs and biting risk campaigns to target those individual
 
 1. What are reasonable parameters to use for the relative biting risk?
     Check out these blog posts comparing different parameterizations with data, found
-    [here](https://paper.dropbox.com/doc/MSYNC-2021-02-03-Heterogeneous-biting--BVONsYCwLtgcv9Z~CAkkEwiIAg-TWWnHaOM2OXSaMziu1m0l),  and [here](https://paper.dropbox.com/doc/2018-07-30-Setting-heterogeneous-biting-risk-parameters--BVOMld8eT9JNrkgkYn~cwu6vAg-L78dwE4aWiVzMSbHwZxeW).
+    [here][msync-2021],  and [here][biting-risk-2018].
 
     Note that you must have permission to this private folder to view the blog posts.
 

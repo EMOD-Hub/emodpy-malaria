@@ -13,7 +13,7 @@ submitting simulation jobs to a compute cluster, and more.
 EMOD is a *stochastic*, *agent-based model* (ABM), developed by IDM, that simulates the spread of infectious diseases. It models individual humans and mosquitoes and their interactions,
 making it well-suited for evaluating malaria control strategies across a wide range of transmission settings. See the [Malaria Overview](emod/malaria-overview.md) for a full description of the model.
 
-If you encounter any issues while using the software, please visit our [discussion board](https://github.com/orgs/EMOD-Hub/discussions)
+If you encounter any issues while using the software, please visit our [discussion board][discussions]
 
 ## emodpy-malaria
 
