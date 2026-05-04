@@ -439,7 +439,7 @@ def run_calibration():
     )
 
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path, platform)
+        task.set_sif(manifest.comps_sif_path)           # no platform arg: loads AssetCollection from .id file
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
