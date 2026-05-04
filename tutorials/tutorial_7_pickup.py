@@ -250,6 +250,98 @@ def update_serialize_parameters(simulation, x, df):
     }
 
 
+def process_results(experiment, platform, output_path):
+    """
+    Download output files from each simulation into a local directory.
+    """
+    import shutil
+    from idmtools.analysis.analyze_manager import AnalyzeManager
+    from idmtools.analysis.download_analyzer import DownloadAnalyzer
+
+    if os.path.exists(output_path):
+        shutil.rmtree(output_path)
+
+    filenames = [
+        "output/InsetChart.json",
+        "output/MalariaSummaryReport_monthly.json",
+    ]
+    analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
+    manager = AnalyzeManager(platform=platform, analyzers=analyzers)
+    manager.add_item(experiment)
+    manager.analyze()
+
+
+def plot_results(output_path):
+    """
+    Plot InsetChart channels and a custom monthly PfPR figure.
+
+    plot_inset_chart() overlays all simulations on the same axes so you can
+    see stochastic spread across the burnin replicates.
+
+    The PfPR plot shows monthly under-5 PfPR across the pickup period with a
+    vertical line marking when interventions start (day 365 = month 12).
+    Compare the pre-intervention months against the Tutorial 6 reference to
+    confirm the calibrated baseline carried through from the burnin.
+    """
+    import glob
+    import json
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
+
+    # InsetChart: all simulations on the same axes
+    plot_inset_chart(dir_name=output_path,
+                     title="Tutorial 7 - Pickup InsetChart",
+                     output=output_path)
+
+    # Custom monthly PfPR plot from MalariaSummaryReport
+    summary_files = sorted(glob.glob(
+        os.path.join(output_path, "**", "MalariaSummaryReport_monthly.json"),
+        recursive=True
+    ))
+    if not summary_files:
+        return
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    for f in summary_files:
+        with open(f) as fh:
+            report = json.load(fh)
+        pfpr_by_time = report["DataByTimeAndAgeBins"]["PfPR by Age Bin"]
+        # age bin index 1 = under-5 (0.25-5 years), matching Tutorial 6
+        monthly_pfpr = [step[1] for step in pfpr_by_time]
+        ax.plot(range(len(monthly_pfpr)), monthly_pfpr, alpha=0.7, linewidth=1.2)
+
+    # Mark when interventions start (day 365 = month 12 of the pickup run)
+    ax.axvline(x=12, color="red", linestyle="--", linewidth=1.5,
+               label="Interventions start (month 12)")
+    ax.set_xlabel("Month")
+    ax.set_ylabel("PfPR (under 5)")
+    ax.set_title("Tutorial 7 - Monthly PfPR Under-5 (Pickup Period)")
+    ax.legend()
+    fig.tight_layout()
+    out_path = os.path.join(output_path, "tutorial_7_pfpr.png")
+    fig.savefig(out_path, dpi=100)
+    plt.close(fig)
+    print(f"  Saved PfPR plot: {out_path}")
+
+
+def handle_results(experiment, platform):
+    """
+    Download output files and plot results. Called after the experiment finishes.
+    """
+    if experiment.succeeded:
+        print(f"\nPickup complete. Experiment {experiment.id} succeeded.")
+        output_path = "tutorial_7_results"
+        process_results(experiment, platform, output_path)
+        print(f"Downloaded results to '{output_path}'.")
+        plot_results(output_path)
+        print(f"\nLook in '{output_path}' for the plots.")
+        print(f"\nTutorial 7 is done.")
+    else:
+        print(f"\nPickup experiment {experiment.id} failed.")
+
+
 def run_experiment():
     """
     Load burnin output paths, sweep to link each pickup simulation to one
@@ -307,12 +399,7 @@ def run_experiment():
     experiment = Experiment.from_builder(builder, task, name="tutorial_7_pickup")
     experiment.run(wait_until_done=True, platform=platform)
 
-    if experiment.succeeded:
-        print(f"\nPickup complete. {n_burnin} simulations finished.")
-        print(f"Results are in the job directory under experiment {experiment.id}.")
-        print(f"\nTutorial 7 is done.")
-    else:
-        print(f"\nPickup experiment {experiment.id} failed.")
+    handle_results(experiment, platform)
 
 
 if __name__ == "__main__":

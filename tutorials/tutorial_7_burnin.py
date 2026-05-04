@@ -109,6 +109,8 @@ def set_param_fn(config):
     # timestep zero-padded to 5 digits (e.g. state-18250.dtk for day 18250).
     # Multi-core simulations append a node index (state-18250-000.dtk) but
     # these tutorials run single-core.
+    config.parameters.Enable_Default_Reporting = 1
+
     config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
     config.parameters.Serialization_Time_Steps           = [serialize_years * 365]
     config.parameters.Serialization_Mask_Node_Write      = 0
@@ -141,6 +143,53 @@ def build_camp():
 
     campaign.set_schema(manifest.schema_file)
     return campaign
+
+
+def process_results(experiment, platform, output_path):
+    """
+    Download InsetChart.json from each simulation into a local directory.
+    """
+    import shutil
+    from idmtools.analysis.analyze_manager import AnalyzeManager
+    from idmtools.analysis.download_analyzer import DownloadAnalyzer
+
+    if os.path.exists(output_path):
+        shutil.rmtree(output_path)
+
+    analyzers = [DownloadAnalyzer(filenames=["output/InsetChart.json"],
+                                  output_path=output_path)]
+    manager = AnalyzeManager(platform=platform, analyzers=analyzers)
+    manager.add_item(experiment)
+    manager.analyze()
+
+
+def plot_results(output_path):
+    """
+    Plot InsetChart channels for all burnin replicates on the same axes.
+    Overlay of N_BURNIN_RUNS lines shows the stochastic spread at equilibrium.
+    """
+    from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
+
+    plot_inset_chart(dir_name=output_path,
+                     title="Tutorial 7 - Burnin InsetChart",
+                     output=output_path)
+
+
+def handle_results(experiment, platform):
+    """
+    Download and plot results, then print the experiment ID for use in
+    tutorial_7_pickup.py.
+    """
+    if experiment.succeeded:
+        output_path = "tutorial_7_burnin_results"
+        process_results(experiment, platform, output_path)
+        print(f"Downloaded results to '{output_path}'.")
+        plot_results(output_path)
+        print(f"\nBurnin complete. {N_BURNIN_RUNS} serialized populations saved.")
+        print(f"Copy this experiment ID into tutorial_7_pickup.py:")
+        print(f"\n    BURNIN_EXP_ID = \"{experiment.id}\"\n")
+    else:
+        print(f"\nBurnin experiment {experiment.id} failed.")
 
 
 def run_experiment():
@@ -189,12 +238,7 @@ def run_experiment():
     experiment = Experiment.from_builder(builder, task, name="tutorial_7_burnin")
     experiment.run(wait_until_done=True, platform=platform)
 
-    if experiment.succeeded:
-        print(f"\nBurnin complete. {N_BURNIN_RUNS} serialized populations saved.")
-        print(f"Copy this experiment ID into tutorial_7_pickup.py:")
-        print(f"\n    BURNIN_EXP_ID = \"{experiment.id}\"\n")
-    else:
-        print(f"\nBurnin experiment {experiment.id} failed.")
+    handle_results(experiment, platform)
 
 
 if __name__ == "__main__":
