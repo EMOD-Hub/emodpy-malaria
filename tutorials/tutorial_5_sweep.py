@@ -220,24 +220,56 @@ def process_results(experiment, platform, output_path):
     manager.analyze()
 
 
-def plot_results(output_path):
+def group_by_coverage(experiment, output_path):
     """
-    Plot InsetChart from all downloaded simulations on the same axes.
+    Read the cm_coverage tag from each simulation and move its downloaded
+    directory into a subdirectory named by coverage value (e.g. cm_0.3/).
 
-    With 9 simulations (3 coverage values x 3 seeds) all lines are plotted
-    together. Simulations sharing a coverage value will cluster visually,
-    showing how stochastic variation compares to the coverage effect.
+    Using the experiment object to read tags works on all platforms — Container,
+    COMPS, and SLURM — without requiring any extra files to be written.
+
+    Returns a list of coverage subdirectory paths sorted by coverage value,
+    ready to pass directly to plot_mean().
     """
-    from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
+    import shutil
+    coverage_dirs = {}
+    for sim in experiment.simulations:
+        coverage = sim.tags.get("cm_coverage")
+        if coverage is None:
+            continue
+        sim_dir = os.path.join(output_path, str(sim.id))
+        if not os.path.exists(sim_dir):
+            continue
+        label = f"cm_{coverage}"
+        target_dir = os.path.join(output_path, label)
+        os.makedirs(target_dir, exist_ok=True)
+        shutil.move(sim_dir, os.path.join(target_dir, str(sim.id)))
+        coverage_dirs[float(coverage)] = target_dir
+    return [coverage_dirs[k] for k in sorted(coverage_dirs)]
 
-    plot_inset_chart(dir_name=output_path,
-                     title="Tutorial 5 - InsetChart",
-                     output=output_path)
+
+def plot_results(output_path, dirs):
+    """
+    Plot the mean InsetChart for each coverage group using plot_mean().
+
+    Each directory in dirs becomes one labeled series in the plot — the
+    directory name (e.g. cm_0.3) is used as the legend label. show_raw_data
+    overlays the individual simulation lines in a lighter color so the
+    stochastic spread within each group is visible alongside the mean.
+    """
+    from emodpy_malaria.plotting.plot_inset_chart_mean_compare import plot_mean
+
+    plot_mean(dir1=dirs[0],
+              dir2=dirs[1],
+              dir3=dirs[2],
+              title="Tutorial 5 - InsetChart",
+              show_raw_data=True,
+              output=output_path)
 
 
 def handle_results(experiment, platform):
     """
-    Save the experiment ID, download output files, and plot the results.
+    Save the experiment ID, download output files, group by coverage, and plot.
     Called after experiment.run() completes.
     """
     if experiment.succeeded:
@@ -249,7 +281,8 @@ def handle_results(experiment, platform):
         process_results(experiment, platform, output_path)
         print(f"Downloaded results for experiment {experiment.id}.")
 
-        plot_results(output_path)
+        dirs = group_by_coverage(experiment, output_path)
+        plot_results(output_path, dirs)
         print(f"\nLook in '{output_path}' for the plots.")
     else:
         print(f"Experiment {experiment.id} failed.")
