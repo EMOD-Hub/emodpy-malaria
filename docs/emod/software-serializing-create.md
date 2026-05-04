@@ -28,18 +28,7 @@ Serialization_Precision, enum, REDUCED, "REDUCED is used to reduce the size of t
 
 The following example will save the population on day 50 and day 100.
 
-```JSON
-{
-    "Serialized_Population_Reading_Type": "NONE",
-    "Serialized_Population_Writing_Type": "TIME",
-    "Serialization_Times": [
-        50,
-        100
-    ],
-    "Serialization_Mask_Node_Write": 0,
-    "Serialization_Precision": "REDUCED"
-}
-```
+[link](../json/software-serializing-create-1.json)
 
 ## Starting from
 
@@ -68,17 +57,7 @@ Enable_Random_Generator_From_Serialized_Population, boolean, 0, "Determines if t
 In this example a population is loaded from file ./my_files/state-00050.dtk. Everything saved in the file is read
 ("Serialization_Mask_Node_Read": 0).
 
-```JSON
-{
-    "Serialized_Population_Writing_Type": "NONE",
-    "Serialized_Population_Reading_Type": "READ",
-    "Serialized_Population_Path": ".",
-    "Serialized_Population_Filenames": [
-        "state-00050.dtk"
-    ],
-    "Serialization_Mask_Node_Read": 0
-}
-```
+[link](../json/software-serializing-create-2.json)
 
 ## Using larval habitats in the configuration file when reading from a serialized file
 

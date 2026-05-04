@@ -1,0 +1,14 @@
+{
+    "Nodes": {
+        "NodeID": 340461476,
+        "NodeAttributes": {
+            "LarvalHabitatMultiplier": [
+                {
+                    "Factor": 0.5,
+                    "Habitat": "ALL_HABITATS",
+                    "Species": "ALL_SPECIES"
+                }
+            ]
+        }
+    }
+}

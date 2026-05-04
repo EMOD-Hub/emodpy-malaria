@@ -39,29 +39,7 @@ dose such that drug killing is switched off after time **Drug\_Decay\_T1** after
 
 The following example provides the syntax:
 
-```JSON
-{
-    "Malaria_Drug_Params": [
-        {
-            "Name": "Artemether_Lumefantrine",
-            "PKPD_Model": "FIXED_DURATION_CONSTANT_EFFECT",
-            "Drug_Cmax": 1000,
-            "Drug_Decay_T1": 1,
-            "Drug_Decay_T2": 1,
-            "Drug_Dose_Interval": 1,
-            "Drug_Fulltreatment_Doses": 3,
-            "Drug_Gametocyte02_Killrate": 2.3,
-            "Drug_Gametocyte34_Killrate": 2.3,
-            "Drug_GametocyteM_Killrate": 0,
-            "Drug_Hepatocyte_Killrate": 0,
-            "Drug_PKPD_C50": 100,
-            "Drug_Vd": 10,
-            "Max_Drug_IRBC_Kill": 4.61,
-            "Bodyweight_Exponent": 0
-        }
-    ]
-}
-```
+[link](../json/malaria-model-antimalarial-drugs.json)
 
 ## Modeling a double exponential PK
 

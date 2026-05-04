@@ -1,0 +1,14 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "funestus",
+            "Habitats": [
+                {
+                    "Habitat_Type": "CONSTANT",
+                    "Max_Larval_Capacity": 10000000.0
+                }
+            ],
+            "Acquire_Modifier": 0.2
+        }
+    ]
+}

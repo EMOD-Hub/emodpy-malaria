@@ -1,0 +1,41 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "arabiensis",
+            "Acquire_Modifier": 0.2,
+            "Adult_Life_Expectancy": 20,
+            "Anthropophily": 0.65,
+            "Aquatic_Arrhenius_1": 84200000000,
+            "Aquatic_Arrhenius_2": 8328,
+            "Aquatic_Mortality_Rate": 0.1,
+            "Days_Between_Feeds": 3,
+            "Egg_Batch_Size": 100,
+            "Habitats": [
+                {
+                    "Habitat_Type": "TEMPORARY_RAINFALL",
+                    "Max_Larval_Capacity": 11250000000.0
+                },
+                {
+                    "Habitat_Type": "WATER_VEGETATION",
+                    "Max_Larval_Capacity": 6000000000.0
+                }
+            ],
+            "Immature_Duration": 2,
+            "Indoor_Feeding_Fraction": 1,
+            "Infected_Arrhenius_1": 117000000000,
+            "Infected_Arrhenius_2": 8336,
+            "Infected_Egg_Batch_Factor": 0.8,
+            "Infectious_Human_Feed_Mortality_Factor": 1.5,
+            "Male_Life_Expectancy": 10,
+            "Temperature_Dependent_Feeding_Cycle": "NO_TEMPERATURE_DEPENDENCE",
+            "Transmission_Rate": 0.5,
+            "Vector_Migration_Filename": "",
+            "Vector_Migration_Food_Modifier": 0,
+            "Vector_Migration_Habitat_Modifier": 0,
+            "Vector_Migration_Modifier_Equation": "EXPONENTIAL",
+            "Vector_Migration_Stay_Put_Modifier": 0,
+            "Vector_Sugar_Feeding_Frequency": "VECTOR_SUGAR_FEEDING_NONE",
+            "x_Vector_Migration": 1
+        }
+    ]
+}

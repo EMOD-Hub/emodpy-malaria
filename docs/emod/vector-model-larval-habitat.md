@@ -68,22 +68,7 @@ resulting weather or population dependent functional form. The following example
 this parameter, using *Anopheles funestus* as the vector and CONSTANT as the scaled habitat type.
 
 
-```JSON
-{
-    "Vector_Species_Params": [
-        {
-            "Name" : "funestus",
-            "Habitats": [
-                {
-                    "Habitat_Type" : "CONSTANT",
-                    "Max_Larval_Capacity": 10000000.0
-                }
-            ],
-            "Acquire_Modifier": 0.2
-        }
-    ]
-}
-```
+[link](../json/vector-model-larval-habitat-1.json)
 
 The following are possible values for **Habitats**. They are described in detail below.
 
@@ -235,28 +220,7 @@ LINEAR_SPLINE has different syntax than the other habitat types, as the user is 
 provide a distribution of the larval population. The following example provides the syntax for
 configuring this habitat type:
 
-```JSON
-{
-    "Vector_Species_Params": [
-        {
-            "Name" : "funestus",
-            "Habitats": [
-                {
-                    "Habitat_Type" : "LINEAR_SPLINE",
-                    "Capacity_Distribution_Number_Of_Years" : 2,
-                    "Capacity_Distribution_Over_Time": {
-                        "Times": [   0.0,  30.417,  60.833,  91.25, 121.667, 152.083, 182.5, 212.917, 243.333, 273.75, 304.167, 334.583,
-                                   365.0, 395.417, 425.833, 456.25, 486.667, 517.083, 547.5, 577.917, 608.333, 638.75, 669.167, 699.583 ],
-                        "Values": [ 0.0, 0.0, 0.0, 0.0, 0.2, 1.0, 1.0, 1.0, 0.5, 0.2, 0.0, 0.0,
-                                    0.0, 0.0, 0.0, 0.0, 0.2, 1.0, 1.0, 1.0, 0.5, 0.2, 0.0, 0.0 ]
-                    },
-                    "Max_Larval_Capacity": 10000000000.0
-                }
-            ]
-        }
-    ]
-}
-```
+[link](../json/vector-model-larval-habitat-2.json)
 
 The LINEAR_SPLINE configuration specifies the day of year (in the **Times** array), larval value (in
 the **Values** array), and larval capacity scaling number (**Max_Larval_Capacity**). The model
@@ -335,22 +299,7 @@ within particular habitat types in the Nodes array of the demographics file (see
 [parameter-demographics](parameter-demographics.md)). The following example shows the syntax:
 
 
-```JSON
-{
-    "Nodes": {
-        "NodeID": 340461476,
-        "NodeAttributes": {
-            "LarvalHabitatMultiplier": [
-                {
-                    "Factor": 0.5,
-                    "Habitat": "ALL_HABITATS",
-                    "Species": "ALL_SPECIES"
-                }
-            ]
-        }
-    }
-}
-```
+[link](../json/vector-model-larval-habitat-3.json)
 
 It should be noted that **LarvalHabitatMultiplier** enables habitat availability to be modified
 independently for each species within a shared habitat. This is an upgrade over previous versions
@@ -371,91 +320,11 @@ The following example shows the syntax for configuring species parameters for *A
 Note that you would also need to configure parameters for *An. fuenstus* and *An. gambiae*, if you are
 using a three species model as from the above example.
 
-```JSON
-{
-    "Vector_Species_Params": [
-        {
-            "Name": "arabiensis",
-            "Acquire_Modifier": 0.2,
-            "Adult_Life_Expectancy": 20,
-            "Anthropophily": 0.65,
-            "Aquatic_Arrhenius_1": 84200000000,
-            "Aquatic_Arrhenius_2": 8328,
-            "Aquatic_Mortality_Rate": 0.1,
-            "Days_Between_Feeds": 3,
-            "Egg_Batch_Size": 100,
-            "Habitats": [
-                {
-                    "Habitat_Type": "TEMPORARY_RAINFALL",
-                    "Max_Larval_Capacity": 11250000000.0
-                }
-            ],
-            "Immature_Duration": 2,
-            "Indoor_Feeding_Fraction": 1,
-            "Infected_Arrhenius_1": 117000000000,
-            "Infected_Arrhenius_2": 8336,
-            "Infected_Egg_Batch_Factor": 0.8,
-            "Infectious_Human_Feed_Mortality_Factor": 1.5,
-            "Male_Life_Expectancy": 10,
-            "Temperature_Dependent_Feeding_Cycle": "NO_TEMPERATURE_DEPENDENCE",
-            "Transmission_Rate": 0.5,
-            "Vector_Migration_Filename": "",
-            "Vector_Migration_Food_Modifier": 0,
-            "Vector_Migration_Habitat_Modifier": 0,
-            "Vector_Migration_Modifier_Equation": "EXPONENTIAL",
-            "Vector_Migration_Stay_Put_Modifier": 0,
-            "Vector_Sugar_Feeding_Frequency": "VECTOR_SUGAR_FEEDING_NONE",
-            "x_Vector_Migration": 1
-        }
-    ]
-}
-```
+[link](../json/vector-model-larval-habitat-4.json)
 
 While the above example shows the mosquito residing in one habitat, it is worth noting that mosquitoes
 can reside in multiple habitat types. This linear-combination of habitat types allows for greater
 control over local vector ecology (especially during dry seasons as habitat availability may be
 drastically different). The following example demonstrates the syntax to include several habitat types.
 
-```JSON
-{
-    "Vector_Species_Params": [
-        {
-            "Name": "arabiensis",
-            "Acquire_Modifier": 0.2,
-            "Adult_Life_Expectancy": 20,
-            "Anthropophily": 0.65,
-            "Aquatic_Arrhenius_1": 84200000000,
-            "Aquatic_Arrhenius_2": 8328,
-            "Aquatic_Mortality_Rate": 0.1,
-            "Days_Between_Feeds": 3,
-            "Egg_Batch_Size": 100,
-            "Habitats": [
-                {
-                    "Habitat_Type": "TEMPORARY_RAINFALL",
-                    "Max_Larval_Capacity": 11250000000.0
-                },
-                {
-                    "Habitat_Type": "WATER_VEGETATION",
-                    "Max_Larval_Capacity": 6000000000.0
-                }
-            ],
-            "Immature_Duration": 2,
-            "Indoor_Feeding_Fraction": 1,
-            "Infected_Arrhenius_1": 117000000000,
-            "Infected_Arrhenius_2": 8336,
-            "Infected_Egg_Batch_Factor": 0.8,
-            "Infectious_Human_Feed_Mortality_Factor": 1.5,
-            "Male_Life_Expectancy": 10,
-            "Temperature_Dependent_Feeding_Cycle": "NO_TEMPERATURE_DEPENDENCE",
-            "Transmission_Rate": 0.5,
-            "Vector_Migration_Filename": "",
-            "Vector_Migration_Food_Modifier": 0,
-            "Vector_Migration_Habitat_Modifier": 0,
-            "Vector_Migration_Modifier_Equation": "EXPONENTIAL",
-            "Vector_Migration_Stay_Put_Modifier": 0,
-            "Vector_Sugar_Feeding_Frequency": "VECTOR_SUGAR_FEEDING_NONE",
-            "x_Vector_Migration": 1
-        }
-    ]
-}
-```
+[link](../json/vector-model-larval-habitat-5.json)
