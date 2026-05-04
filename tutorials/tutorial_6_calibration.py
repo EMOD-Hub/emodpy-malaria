@@ -75,9 +75,9 @@ CALIBRATION_PARAMETERS = [
     {
         "Name": "x_Temporary_Larval_Habitat",
         "Dynamic": True,
-        "Guess": 1.0,   # default multiplier — no change from team defaults
-        "Min":   0.001,
-        "Max":  10.0,
+        "Guess": 0.01,
+        "Min":   0.0001,
+        "Max":  0.1,
     }
 ]
 
