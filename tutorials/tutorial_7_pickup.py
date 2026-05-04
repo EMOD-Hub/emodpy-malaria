@@ -235,12 +235,13 @@ def update_serialize_parameters(simulation, x, df):
     and Serialized_Population_Filenames to the .dtk snapshot written at
     the end of the burnin.
 
-    The .dtk filename format is state-NNNNN-000.dtk where NNNNN is the
+    The .dtk filename format is state-NNNNN.dtk where NNNNN is the
     timestep (simulation day) zero-padded to five digits. For a 50-year
-    burnin (18250 days) with a single node: state-18250-000.dtk.
+    burnin (18250 days): state-18250.dtk. Multi-core simulations append a
+    node index (e.g. state-18250-000.dtk) but these tutorials are single-core.
     """
     sim_path = df["outpath"][x]
-    filename = f"state-{serialize_years * 365:05d}-000.dtk"
+    filename = f"state-{serialize_years * 365:05d}.dtk"
     simulation.task.config.parameters.Serialized_Population_Path      = sim_path
     simulation.task.config.parameters.Serialized_Population_Filenames = [filename]
     return {
