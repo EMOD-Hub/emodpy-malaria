@@ -183,7 +183,13 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
     With age_bins=[0.25, 5, 115], index 1 is the under-5 age group (0.25-5 years).
 
     Calibra maximizes the score, so reduce() returns 1/RMSE: higher is better.
+
+    _iteration is a class-level variable (not instance) because CalibManager
+    calls site.get_analyzers() fresh each iteration, creating a new instance
+    each time. A class variable persists across those instances.
     """
+
+    _iteration = 0  # incremented in reduce(); survives instance re-creation
 
     def __init__(self, site, uid=None):
         super().__init__(
@@ -191,7 +197,6 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
             filenames=["output/MalariaSummaryReport_monthly.json"],
             reference_data=site.get_reference_data(),
         )
-        self._iteration = 0
 
     def map(self, data, item):
         """
@@ -216,7 +221,8 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
         Returns a pandas Series indexed by sample index. Calibra maximizes the
         score, so return 1/RMSE (not RMSE) — closer match = higher score.
         """
-        self._iteration += 1
+        MalariaSummaryAnalyzer._iteration += 1
+        iteration = MalariaSummaryAnalyzer._iteration
         ref_pfpr = np.array(self.reference_data["pfpr_u5"])
         rmse_by_sample = {}
         sim_records = []
@@ -229,7 +235,7 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
             sim_records.append({"param": param, "rmse": rmse, "pfpr": result["sim_pfpr"]})
 
         plot_iteration(
-            iteration=self._iteration,
+            iteration=iteration,
             sim_records=sim_records,
             ref_pfpr=ref_pfpr.tolist(),
             plot_dir=os.path.join("tutorial_6_calibration", "plots"),
@@ -362,7 +368,8 @@ def run_calibration():
     # UPDATE - Select the correct platform for your environment
     # ============================================================
     platform = Platform("Container", job_directory=manifest.job_dir,
-                        docker_image=manifest.plat_image)
+                        docker_image=manifest.plat_image,
+                        max_jobs=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
