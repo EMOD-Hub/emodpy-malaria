@@ -44,6 +44,7 @@ def plot_mean(dir1: str,
               dir2: str,
               dir3: str,
               title: str = None,
+              add_dir_names_to_title: bool = True,
               show_raw_data: bool = False,
               subplot_index_min: int = 0,
               subplot_index_max: int = 100,
@@ -107,13 +108,18 @@ def plot_mean(dir1: str,
     if plot_name is None:
         plot_name = "InsetChart_Compare"
 
-    if title is None:
-        title = "" + pic.create_title_string(reference=None, data_filenames=dir_names)
+    tmp_title = ""
+    if title is not None:
+        tmp_title = title
+        if add_dir_names_to_title:
+            tmp_title = tmp_title + pic.create_title_string(reference=None, data_filenames=dir_names)
+    else:
+        tmp_title = pic.create_title_string(reference=None, data_filenames=dir_names)
 
     if not show_raw_data:
         raw_data_lists = None
 
-    pic.plot_data(title=title,
+    pic.plot_data(title=tmp_title,
                   ref_data=None,
                   test_data=mean_data,
                   raw_data_list_of_lists=raw_data_lists,
