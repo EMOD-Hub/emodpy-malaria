@@ -74,7 +74,7 @@ with population density for the infectious disease models
 *Mathematical Biosciences*. 244(2):125-134. See the figure from that article below.
 
 
-![Figure 1: Effect of population density on transmissibility](../images/general/DensityScaling_orig_cropped.png)
+![Figure 1: Effect of population density on transmissibility](../figures/general/DensityScaling_orig_cropped.png)
 
 *Figure 1: Effect of population density on transmissibility*
 
@@ -92,15 +92,15 @@ The following graphs show the effect of population density on transmissibility, 
 maintaining endemic status. When population density is large enough, it is easy to maintain an
 endemic status while in lower density is difficult to do so.
 
-![Figure 2: Node_Grid_Size = 0.1, population density 80/km$^2$ and $R_0$  > 1](../images/general/Density_default.png)
+![Figure 2: Node_Grid_Size = 0.1, population density 80/km$^2$ and $R_0$  > 1](../figures/general/Density_default.png)
 
 *Figure 2: Node_Grid_Size = 0.1, population density 80/km$^2$ and $R_0$  > 1*
 
-![Figure 3: Node_Grid_Size = 0.15, population density 36/km$^2$ and $R_0$  ~ 1](../images/general/Density_15.png)
+![Figure 3: Node_Grid_Size = 0.15, population density 36/km$^2$ and $R_0$  ~ 1](../figures/general/Density_15.png)
 
 *Figure 3: Node_Grid_Size = 0.15, population density 36/km$^2$ and $R_0$  ~ 1*
 
-![Figure 4: Node_Grid_Size = 0.3, population density 9/km$^2$ and $R_0$  < 1](../images/general/Density_3.png)
+![Figure 4: Node_Grid_Size = 0.3, population density 9/km$^2$ and $R_0$  < 1](../figures/general/Density_3.png)
 
 *Figure 4: Node_Grid_Size = 0.3, population density 9/km$^2$ and $R_0$  < 1*
 

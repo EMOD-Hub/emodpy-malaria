@@ -18,7 +18,7 @@ next array contains the values at the second time step, and so on.
 
 The following diagram shows the format for data in the spatial output report file:
 
-![spatialOutputBFF.jpg](../images/file-structure/spatialOutputBFF.jpg)
+![spatialOutputBFF.jpg](../figures/file-structure/spatialOutputBFF.jpg)
 
 ## Configuration
 

@@ -48,7 +48,7 @@ malaria simulation type, which adds parameters specific to malaria biology and t
 parameters are available for you to use. In addition, simulation types for broader classes of
 disease can be extended to build your own disease-specific model.
 
-![Simulation type inheritance](../images/intro/simulation-types.png)
+![Simulation type inheritance](../figures/intro/simulation-types.png)
 
 *Simulation type inheritance*
 
@@ -71,7 +71,7 @@ diagram below shows, at a high level, how the system functions. If you run simul
 on a multi-node cluster, there is also a Message Passing Interface (MPI) component used to pass data
 between multiple instances of EMOD.
 
-![High-level EMOD system architecture](../images/intro/architecture.png)
+![High-level EMOD system architecture](../figures/intro/architecture.png)
 
 *High-level EMOD system architecture*
 

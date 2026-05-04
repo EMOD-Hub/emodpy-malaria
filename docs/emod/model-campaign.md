@@ -37,7 +37,7 @@ of the distributions and the two distributions will be independent. Therefore, e
 75% chance of receiving at least one bednet. Please note, individuals can only have one bednet at a time,
 and receiving a second bednet will replace the first one, which is not necessarily true for other interventions.
 
-![howto-multiple.png](../images/general/howto-multiple.png)
+![howto-multiple.png](../figures/general/howto-multiple.png)
 
 ## Campaign file overview
 

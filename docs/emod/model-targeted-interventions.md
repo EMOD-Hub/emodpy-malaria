@@ -64,7 +64,7 @@ This example restricts the intervention to urban individuals.
 
 [link](../json/model-targeted-interventions-1.json)
 
-![howto-targeted-1.png](../images/general/howto-targeted-1.png)
+![howto-targeted-1.png](../figures/general/howto-targeted-1.png)
 
 Even if you have multiple properties defined in the demographics file, you can target interventions
 to a single property value in the same way. Individuals can be assigned any of the values for the
@@ -74,7 +74,7 @@ In this example, the intervention targets suburban individuals, regardless of th
 
 [link](../json/model-targeted-interventions-2.json)
 
-![howto-targeted-2.png](../images/general/howto-targeted-2.png)
+![howto-targeted-2.png](../figures/general/howto-targeted-2.png)
 
 ### Single property, multiple values
 
@@ -86,7 +86,7 @@ In this example, the intervention targets both rural and urban individuals.
 
 [link](../json/model-targeted-interventions-3.json)
 
-![howto-targeted-3.png](../images/general/howto-targeted-3.png)
+![howto-targeted-3.png](../figures/general/howto-targeted-3.png)
 
 ### Multiple properties, individuals must match all values
 
@@ -99,7 +99,7 @@ both property values.
 
 [link](../json/model-targeted-interventions-4.json)
 
-![howto-targeted-4.png](../images/general/howto-targeted-4.png)
+![howto-targeted-4.png](../figures/general/howto-targeted-4.png)
 
 ### Multiple properties, individuals must match at least one value
 
@@ -112,7 +112,7 @@ In this example, the intervention is targeted at individuals who are either low 
 
 [link](../json/model-targeted-interventions-5.json)
 
-![howto-targeted-5.png](../images/general/howto-targeted-5.png)
+![howto-targeted-5.png](../figures/general/howto-targeted-5.png)
 
 ### Target an age range
 
@@ -128,7 +128,7 @@ In this example, the intervention is targeted at urban individuals who are also 
 
 [link](../json/model-targeted-interventions-6.json)
 
-![howto-targeted-6.png](../images/general/howto-targeted-6.png)
+![howto-targeted-6.png](../figures/general/howto-targeted-6.png)
 
 However, to create property value criteria in AND/OR combinations as above, you can use the Age_Bin
 property with **Property_Restrictions_Within_Node** instead. EMOD automatically creates
@@ -145,7 +145,7 @@ accessibility properties in which transmission is lower for hard-to-access indiv
 vaccination to children aged 6 to 10. The second graph shows the effect of instead targeting it to
 all individuals who are easy to access.
 
-![Figure 1: Age-targeted vaccination](../images/general/HINT_AgeAndAccess_PropertyReport_agetargeted.png)
+![Figure 1: Age-targeted vaccination](../figures/general/HINT_AgeAndAccess_PropertyReport_agetargeted.png)
 
 *Figure 1: Age-targeted vaccination*
 
@@ -154,7 +154,7 @@ to children aged 6 to 10. Notice the dramatic decrease of the infection in 6 to 
 the vaccination of this group. Compare infections in other ages, noting the overall decrease in
 infection across age groups even though only 6 to 10 year olds were vaccinated.
 
-![Figure 2: Access-targeted vaccination](../images/general/HINT_AgeAndAccess_PropertyReport_accesstargeted.png)
+![Figure 2: Access-targeted vaccination](../figures/general/HINT_AgeAndAccess_PropertyReport_accesstargeted.png)
 
 *Figure 2: Access-targeted vaccination*
 

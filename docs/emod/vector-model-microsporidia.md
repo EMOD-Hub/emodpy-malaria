@@ -18,7 +18,7 @@ with similar dynamics.
 
 The microsporidia model implements four core transmission processes:
 
-![Microsporidia transmission and disease interference in the vector lifecycle](../images/vector-malaria/microsporidia_illustration.png)
+![Microsporidia transmission and disease interference in the vector lifecycle](../figures/vector-malaria/microsporidia_illustration.png)
 
 *Microsporidia transmission and disease interference in the vector lifecycle*
 

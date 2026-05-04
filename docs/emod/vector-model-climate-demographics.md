@@ -28,7 +28,7 @@ in EMOD see [vector-model-larval-habitat](vector-model-larval-habitat.md).
 
 
 
-![The EMOD vector model utilizes site-specific climate and demographics data to accurately simulate vector transmission in a given geographic location.](../images/vector-malaria/Malaria-climate.png)
+![The EMOD vector model utilizes site-specific climate and demographics data to accurately simulate vector transmission in a given geographic location.](../figures/vector-malaria/Malaria-climate.png)
 
 *The EMOD vector model utilizes site-specific climate and demographics data to accurately simulate vector transmission in a given geographic location.*
 

@@ -11,12 +11,12 @@ impacts on vector biology. To use the vector model, set the configuration parame
 The figure below demonstrates the main components of the vector EMOD *simulation type*.
 
 
-![malariaSIR.png](../images/vector-malaria/malariaSIR.png)
+![malariaSIR.png](../figures/vector-malaria/malariaSIR.png)
 
 Vectors add a level of complexity to the interactions, as pathogens are transmitted via vector -
 human - vector. For a vector-borne disease, the SEIR model would appear as follows.
 
-![DTKSchematic_vectors.png](../images/vector-malaria/DTKSchematic_vectors.png)
+![DTKSchematic_vectors.png](../figures/vector-malaria/DTKSchematic_vectors.png)
 
 While EMOD is an agent-based model, both the simulated humans and vectors move through the
 various infection states analogously to the compartmental model illustrated above. 
@@ -83,6 +83,6 @@ migration parameters, see [parameter-configuration-migration](parameter-configur
 The following visualization shows an example of a gridded representation of malaria transmission on
 the island of Madagascar.
 
-![5_Madagascar_Vector_Daily_Bites.gif](../images/vector-malaria/5_Madagascar_Vector_Daily_Bites.gif)
+![5_Madagascar_Vector_Daily_Bites.gif](../figures/vector-malaria/5_Madagascar_Vector_Daily_Bites.gif)
 
 The following pages in this section describe the structural components of the vector model.

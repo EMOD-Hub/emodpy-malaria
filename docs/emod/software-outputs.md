@@ -18,7 +18,7 @@ always generate the report InsetChart.json, which contains the simulation-wide a
 prevalence by *time step*. If none of the provided reports generates the output report that
 you require, you can create a custom reporter.
 
-![output.png](../images/intro/output.png)
+![output.png](../figures/intro/output.png)
 
 If you want to visualize the data output from an EMOD simulation, you must use graphing
 software to plot the output reports. In addition to output reports, EMOD will generate error

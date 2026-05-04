@@ -67,11 +67,11 @@ distributed to the entire population. The vaccination campaign is repeated three
 apart. The vaccine has 100% take and 50% demographic coverage. With this configuration, the fraction
 of immune people is above herd immunity and the outbreak does not spread.
 
-![Figure 1: Baseline SIR outbreak](../images/general/Vaccination_InsetChart_baseline.png)
+![Figure 1: Baseline SIR outbreak](../figures/general/Vaccination_InsetChart_baseline.png)
 
 *Figure 1: Baseline SIR outbreak*
 
-![Figure 2: Broad vaccination campaign achieving herd immunity](../images/general/Vaccination_InsetChart_broad.png)
+![Figure 2: Broad vaccination campaign achieving herd immunity](../figures/general/Vaccination_InsetChart_broad.png)
 
 *Figure 2: Broad vaccination campaign achieving herd immunity*
 
@@ -100,7 +100,7 @@ lower. Creating campaigns that target interventions  is described in more detail
 The following graph shows the same SIR outbreak when 30% of the population is chronically
 missed by the vaccination campaign, allowing the outbreak to persist.
 
-![Figure 3: Vaccination campaign that misses 30% of the population](../images/general/Vaccination_InsetChart_access.png)
+![Figure 3: Vaccination campaign that misses 30% of the population](../figures/general/Vaccination_InsetChart_access.png)
 
 *Figure 3: Vaccination campaign that misses 30% of the population*
 

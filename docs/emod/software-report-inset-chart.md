@@ -89,5 +89,5 @@ The following is an example of a malaria-specific InsetChart.json:
 
 [link](../json/software-report-inset-chart.json)
 
-![malaria-inset-chart.png](../images/vector-malaria/malaria-inset-chart.png)
+![malaria-inset-chart.png](../figures/vector-malaria/malaria-inset-chart.png)
 

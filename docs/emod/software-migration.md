@@ -105,5 +105,5 @@ The data in the binary file is laid out in a sequential stream of 4-byte integer
 
 The following image shows how a binary file with a **DatavalueCount** value of 8 would be laid out. 
 
-![localMigrationBFF.jpg](../images/file-structure/localMigrationBFF.jpg)
+![localMigrationBFF.jpg](../figures/file-structure/localMigrationBFF.jpg)
 

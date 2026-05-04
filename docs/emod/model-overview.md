@@ -49,7 +49,7 @@ Because the EMOD modeling software can simulate all of these diseases, each "mod
 accurately referred to as a *simulation type*. For more information on the software architecture and
 inheritance, see [software-overview](software-overview.md).
 
-![Simulation type inheritance](../images/intro/simulation-types.png)
+![Simulation type inheritance](../figures/intro/simulation-types.png)
 
 *Simulation type inheritance*
 
@@ -67,7 +67,7 @@ vector and malaria parasite biology is added to the model to simulate disease tr
 a simple contact-based contagion pool. You can assign
 properties to individuals and nodes to vary how interventions are distributed.
 
-![GenericModel_Flowchart.png](../images/general/GenericModel_Flowchart.png)
+![GenericModel_Flowchart.png](../figures/general/GenericModel_Flowchart.png)
 
 The configuration of the model regarding infectivity, immune response, and other qualities is
 handled via several *JSON (JavaScript Object Notation)* files. For more information, see

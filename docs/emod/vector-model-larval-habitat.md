@@ -48,11 +48,11 @@ The temporary rainfall relationship between larval habitat and rainfall cannot r
 implemented to capture the non-linear rain-to-habitat relationship.
 
 
-![Vector abundance depends on larval habitat availability](../images/vector-malaria/Vector_Transmission_abundance.png)
+![Vector abundance depends on larval habitat availability](../figures/vector-malaria/Vector_Transmission_abundance.png)
 
 *Vector abundance depends on larval habitat availability*
 
-![Larval habitat type determines how rainfall and temperature influence vector populations](../images/vector-malaria/Vector_Transmission_larval_habitats.png)
+![Larval habitat type determines how rainfall and temperature influence vector populations](../figures/vector-malaria/Vector_Transmission_larval_habitats.png)
 
 *Larval habitat type determines how rainfall and temperature influence vector populations*
 
@@ -188,7 +188,7 @@ The carrying capacity for BRACKISH_SWAMP is the number of larvae per Degree$^2$.
 
 
 
-![Rainfall-driven mortality during swamp flushing](../images/vector-malaria/Rainfall_Driven_Mortality_Flushing_of_Swamp.png)
+![Rainfall-driven mortality during swamp flushing](../figures/vector-malaria/Rainfall_Driven_Mortality_Flushing_of_Swamp.png)
 
 *Rainfall-driven mortality during swamp flushing*
 
@@ -252,7 +252,7 @@ single species with temporary habitat. Changing the habitat scalar will scale th
 population size and biting rate by a similar factor.
 
 
-![Effect of varying the habitat scalar, **Habitats**](../images/vector-malaria/Vary_Habitat_Scalar.png){#hab-scalar-fig}
+![Effect of varying the habitat scalar, **Habitats**](../figures/vector-malaria/Vary_Habitat_Scalar.png){#hab-scalar-fig}
 
 *Effect of varying the habitat scalar, **Habitats***
 
@@ -261,7 +261,7 @@ rate and thus increases $\tau_\text{temp}$.  A slower decay rate will result in 
 larval habitat on average, and higher resulting adult population biting rates.
 
 
-![Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)](../images/vector-malaria/Vary_Temporary_Habitat_Scalar.png){#decay-rate-fig}
+![Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)](../figures/vector-malaria/Vary_Temporary_Habitat_Scalar.png){#decay-rate-fig}
 
 *Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)*
 

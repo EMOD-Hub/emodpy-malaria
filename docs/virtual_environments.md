@@ -14,7 +14,7 @@
 - Try out new packages or upgrades without affecting global Python.
 - Keeps your system environment clean and uncluttered.
 
-![virtual_environments.png](images/virtual_environments.png)
+![virtual_environments.png](figures/intro/virtual_environments.png)
 
 ## How to use virtual environments
 

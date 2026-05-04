@@ -78,7 +78,7 @@ count position for a given node, running from 1 to the maximum data count value.
 
 The binary format is as follows:
 
-![climate-by-data-binary.jpg](../images/file-structure/climate-by-data-binary.jpg)
+![climate-by-data-binary.jpg](../figures/file-structure/climate-by-data-binary.jpg)
 
 ## Climate by Koppen
 
@@ -122,5 +122,5 @@ KoppenIndexX, "integer, 4 bytes", "The Koppen Index value, with X running from 1
 
 The binary format is as follows:
 
-![climate-by-koppen-binary.jpg](../images/file-structure/climate-by-koppen-binary.jpg)
+![climate-by-koppen-binary.jpg](../figures/file-structure/climate-by-koppen-binary.jpg)
 

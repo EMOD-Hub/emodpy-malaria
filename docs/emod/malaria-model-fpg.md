@@ -226,7 +226,7 @@ Parent 2's alleles (G–J) to the right, and the complementary recombinant carry
 alleles (A–F) on the left and Parent 1's alleles (6–9) on the right. The highlighted segments show
 the portions exchanged between the two chromatids at the crossover point.
 
-![crossovers.png](../images/crossovers.png)
+![crossovers.png](../figures/vector-genetics/crossovers.png)
 
 
 ## Seeding infections

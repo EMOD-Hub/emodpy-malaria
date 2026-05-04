@@ -50,7 +50,7 @@ information about the simulation and the nodes. The following figure gives a rou
 JSON file structure (note that only vector or malaria simulations will have larval habitats, vector
 populations, or vector life cycles).
 
-![serialized_file_format.png](../images/general/serialized_file_format.png)
+![serialized_file_format.png](../figures/general/serialized_file_format.png)
 
 ### Internal state
 

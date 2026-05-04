@@ -22,7 +22,7 @@ Fever is triggered by *cytokine* production through the innate immune response. 
 when fever surpasses a certain threshold and the clinical incident continues until fever subsides
 below another threshold.
 
-![Fever and clinical case definition](../images/vector-malaria/Malaria_Symptoms_fever_and_clinical_cases.png)
+![Fever and clinical case definition](../figures/vector-malaria/Malaria_Symptoms_fever_and_clinical_cases.png)
 
 *Fever and clinical case definition*
 
@@ -32,7 +32,7 @@ below another threshold.
 Rupture of infected red blood cells (RBCs) destroys nearby RBCs and leads to anemia. Erythropoiesis is
 stimulated in anemic individuals to increase the rate of RBC production.
 
-![Anemia](../images/vector-malaria/Malaria_Symptoms_anemia.png)
+![Anemia](../figures/vector-malaria/Malaria_Symptoms_anemia.png)
 
 *Anemia*
 
@@ -42,7 +42,7 @@ stimulated in anemic individuals to increase the rate of RBC production.
 
 Excessive fever, anemia, or parasite counts can all lead to severe disease and mortality.
 
-![Severe disease and mortality](../images/vector-malaria/Malaria_Symptoms_severe_disease_and_mortality.png)
+![Severe disease and mortality](../figures/vector-malaria/Malaria_Symptoms_severe_disease_and_mortality.png)
 
 *Severe disease and mortality*
 
@@ -52,7 +52,7 @@ Excessive fever, anemia, or parasite counts can all lead to severe disease and m
 Malaria diagnostics test for the presence of asexual parasites in an individual’s blood. A parasite
 count is drawn from a Poisson distribution centered around the true asexual parasite count.
 
-![Diagnostics](../images/vector-malaria/Malaria_Symptoms_diagnostics.png)
+![Diagnostics](../figures/vector-malaria/Malaria_Symptoms_diagnostics.png)
 
 *Diagnostics*
 

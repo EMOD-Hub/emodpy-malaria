@@ -35,7 +35,7 @@ The following chart and tables describe the SQL data tables produced by this rep
 a many-to-one row relationship with the rows in another table.
 
 
-![Schematic of the SQL data tables produced by this report](../images/vector-malaria/malaria-sql-report.png)
+![Schematic of the SQL data tables produced by this report](../figures/vector-malaria/malaria-sql-report.png)
 
 *Schematic of the SQL data tables produced by this report*
 

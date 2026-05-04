@@ -44,7 +44,7 @@ Populations are tracked as cohorts throughout the full mosquito life-cycle:
 
 Life-cycle progression is modulated through a set of required species-specific parameters.
 
-![Vector life cycle](../images/vector-malaria/Vector_Transmission_life_cycle.png)
+![Vector life cycle](../figures/vector-malaria/Vector_Transmission_life_cycle.png)
 
 *Vector life cycle*
 

@@ -43,7 +43,7 @@ provide clarity in how the model functions and the components interact. The foll
 describe in detail how the structural components function.
 
 
-![Network diagram illustrating the malaria model and its constituent components.](../images/vector-malaria/malaria_network_schematic.png)
+![Network diagram illustrating the malaria model and its constituent components.](../figures/vector-malaria/malaria_network_schematic.png)
 
 *Network diagram illustrating the malaria model and its constituent components.*
 
