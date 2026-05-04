@@ -112,7 +112,7 @@ def plot_mean(dir1: str,
     if title is not None:
         tmp_title = title
         if add_dir_names_to_title:
-            tmp_title = tmp_title + pic.create_title_string(reference=None, data_filenames=dir_names)
+            tmp_title = tmp_title + "\n" + pic.create_title_string(reference=None, data_filenames=dir_names)
     else:
         tmp_title = pic.create_title_string(reference=None, data_filenames=dir_names)
 
