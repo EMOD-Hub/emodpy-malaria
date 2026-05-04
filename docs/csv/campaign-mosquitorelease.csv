@@ -12,8 +12,4 @@ Released_Microsporidia_Strain,string,NA,NA,"""""","The name of the microsporidia
 Released_Number,integer,1,100000000.0,10000,The number of mosquitoes released in the intervention.,[link](../json/campaign-mosquitorelease-released-number.json)
 Released_Species,string,NA,NA,NA,"The name of the released mosquito species, such as *arabiensis*. The simulation configuration parameter, **Vector_Species_Params**, needs to contain that specific mosquito species.",[link](../json/campaign-mosquitorelease-released-species.json)
 Released_Type,enum,NA,NA,FIXED_NUMBER,"Specifies the number of mosquitoes to release. Possible values are FRACTION and FIXED_NUMBER. When set to FRACTION, this specifies the fraction of the current population to release. When set to FIXED_NUMBER, specifies an exact count of mosquitoes to release.",[link](../json/campaign-mosquitorelease-released-type.json)
-Released_Wolbachia,enum,NA,NA,WOLBACHIA_FREE,"The Wolbachia type of released mosquitoes. Possible values are:
-* WOLBACHIA_FREE
-* VECTOR_WOLBACHIA_A
-* VECTOR_WOLBACHIA_B
-* VECTOR_WOLBACHIA_AB",[link](../json/campaign-mosquitorelease-released-wolbachia.json)
+Released_Wolbachia,enum,NA,NA,WOLBACHIA_FREE,The Wolbachia type of released mosquitoes. Possible values are:<br>* WOLBACHIA_FREE<br>* VECTOR_WOLBACHIA_A<br>* VECTOR_WOLBACHIA_B<br>* VECTOR_WOLBACHIA_AB,[link](../json/campaign-mosquitorelease-released-wolbachia.json)

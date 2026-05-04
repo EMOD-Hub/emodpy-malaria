@@ -1,8 +1,5 @@
 Parameter,Type,Min,Max,Default,Description,Example
-Artificial_Diet_Target,enum,NA,NA,AD_WithinVillage,"The targeted deployment of artificial diet. This parameter is required. 
-Possible values are:
-* AD_WithinVillage, which is impacted by both **SpaceSpraying** and **SpatialRepellent**
-* AD_OutsideVillage, which is only impacted by **SpaceSpraying**",[link](../json/campaign-artificialdiet-artificial-diet-target.json)
+Artificial_Diet_Target,enum,NA,NA,AD_WithinVillage,"The targeted deployment of artificial diet. This parameter is required. <br>Possible values are:<br>* AD_WithinVillage, which is impacted by both **SpaceSpraying** and **SpatialRepellent**<br>* AD_OutsideVillage, which is only impacted by **SpaceSpraying**",[link](../json/campaign-artificialdiet-artificial-diet-target.json)
 Attraction_Config,json object,NA,NA,NA,The fraction of vector feeds attracted to the artificial diet. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).,[link](../json/campaign-artificialdiet-attraction-config.json)
 Cost_To_Consumer,float,0,999999,10,The unit cost per vector control (unamortized).,[link](../json/campaign-artificialdiet-cost-to-consumer.json)
 Disqualifying_Properties,array of strings,NA,NA,[],"A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-artificialdiet-disqualifying-properties.json)

@@ -3,14 +3,7 @@ Cost_To_Consumer,float,0,999999,0,The unit cost per vector control (unamortized)
 Disqualifying_Properties,array of strings,NA,NA,[],A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.,[link](../json/campaign-larvalmicrosporidiaintervention-disqualifying-properties.json)
 Dont_Allow_Duplicates,boolean,0,1,0,Prevents a node from receiving a new intervention with the same **Intervention_Name**.,[link](../json/campaign-larvalmicrosporidiaintervention-dont-allow-duplicates.json)
 Habitat_Coverage,float,0,1,1,The portion of the targeted habitat that is treated with microsporidia.,[link](../json/campaign-larvalmicrosporidiaintervention-habitat-coverage.json)
-Habitat_Target,enum,NA,NA,ALL_HABITATS,"The larval habitat type to target with the intervention. If not ALL_HABITATS, the type must be one of those configured in **Vector_Species_Params**, **Habitats** for the species that the microsporidia strain infects. See [Larval habitat](parameter-configuration-larval.md) parameters for more information. Possible values are:
-* ALL_HABITATS
-* TEMPORARY_RAINFALL
-* WATER_VEGETATION
-* HUMAN_POPULATION
-* CONSTANT
-* BRACKISH_SWAMP
-* LINEAR_SPLINE",[link](../json/campaign-larvalmicrosporidiaintervention-habitat-target.json)
+Habitat_Target,enum,NA,NA,ALL_HABITATS,"The larval habitat type to target with the intervention. If not ALL_HABITATS, the type must be one of those configured in **Vector_Species_Params**, **Habitats** for the species that the microsporidia strain infects. See [Larval habitat](parameter-configuration-larval.md) parameters for more information. Possible values are:<br>* ALL_HABITATS<br>* TEMPORARY_RAINFALL<br>* WATER_VEGETATION<br>* HUMAN_POPULATION<br>* CONSTANT<br>* BRACKISH_SWAMP<br>* LINEAR_SPLINE",[link](../json/campaign-larvalmicrosporidiaintervention-habitat-target.json)
 Infectivity_Config,json object,NA,NA,NA,The configuration of the daily microsporidia infectivity applied to larvae and its waning over time. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).,[link](../json/campaign-larvalmicrosporidiaintervention-infectivity-config.json)
 Intervention_Name,string,NA,NA,LarvalMicrosporidiaIntervention,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-larvalmicrosporidiaintervention-intervention-name.json)
 New_Property_Value,string,NA,NA,"""""",An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.,[link](../json/campaign-larvalmicrosporidiaintervention-new-property-value.json)

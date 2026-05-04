@@ -1,9 +1,5 @@
 Parameter,Type,Min,Max,Default,Description,Example
-Challenge_Type,enum,NA,NA,NA,"The type of malaria challenge. Possible values are:
-InfectiousBites
-    If this value is selected, use with the corresponding **Infectious_Bite_Count** parameter.
-Sporozoites
-    If this value is selected, use with the corresponding **Sporozoite_Count** parameter.",[link](../json/campaign-malariachallenge-challenge-type.json)
+Challenge_Type,enum,NA,NA,NA,"The type of malaria challenge. Possible values are:<br>InfectiousBites<br>    If this value is selected, use with the corresponding **Infectious_Bite_Count** parameter.<br>Sporozoites<br>    If this value is selected, use with the corresponding **Sporozoite_Count** parameter.",[link](../json/campaign-malariachallenge-challenge-type.json)
 Coverage,float,0,1,1,The fraction of individuals receiving an intervention.,[link](../json/campaign-malariachallenge-coverage.json)
 Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-malariachallenge-disqualifying-properties.json)
 Dont_Allow_Duplicates,bool,NA,NA,0,"If set to true (1), does not allow any new interventions with matching **Intervention_Name** parameter value to be distributed to the individual.",[link](../json/campaign-malariachallenge-dont-allow-duplicates.json)
