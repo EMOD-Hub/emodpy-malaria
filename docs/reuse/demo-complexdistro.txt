@@ -1,5 +1,0 @@
-Complex distributions are more effort to configure, but are useful for representing real-world data
-where the distribution does not fit a standard. Individual attribute values are drawn from a piecewise
-linear distribution. The distribution is configured using arrays of axes (such as gender or age) and
-values at points along each of these axes. This allows you to have different distributions for
-different groups in the population.

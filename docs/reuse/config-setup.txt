@@ -1,3 +1,0 @@
-These parameters determine the basic setup of a simulation including the type of simulation you are
-running, such as "GENERIC_SIM" or "MALARIA_SIM", the simulation duration, and the time step
-duration.

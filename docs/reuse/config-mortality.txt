@@ -1,2 +1,0 @@
-The following parameter determine mortality and survival characteristics of the disease being modeled
-and the population in general (non-disease mortality).

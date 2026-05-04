@@ -1,6 +1,0 @@
-The **IndividualAttributes** section contains parameters that initialize the distribution of
-attributes across individuals, such as the age or immunity. An initial value for an
-individual is a randomly selected value from a given distribution. These distributions can be
-configured using a simple flag system of three parameters or a complex system of
-many more parameters. The following table contains the parameters that can be used with either
-distribution system.

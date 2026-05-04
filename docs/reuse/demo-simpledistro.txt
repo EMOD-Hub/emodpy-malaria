@@ -1,4 +1,0 @@
-Simple distributions are defined by three parameters where one is a flag for the distribution type
-and the other two are used to further define the distribution. For example, if you set the age flag
-to a uniform distribution, the initial ages of individuals in the simulation will be evenly
-distributed between some minimum and maximum value as defined by the other two parameters.

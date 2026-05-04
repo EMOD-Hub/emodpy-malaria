@@ -1,4 +1,0 @@
-.. note::
-
-    Text enclosed in angle brackets (<>) indicates placeholder text. Replace this text, including
-    the brackets, with text specific to your project.
