@@ -116,4 +116,4 @@ isolation.
 ## Next
 
 [Tutorial 4](tutorial-4.md) introduces seasonal transmission by replacing the constant larval
-habitat with a LINEAR_SPLINE and running multi-year simulations.
+habitat with a LINEAR_SPLINE.
