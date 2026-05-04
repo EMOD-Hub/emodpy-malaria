@@ -1,9 +1,9 @@
 {
-  "LarvalHabitatMultiplier": [
-    {
-      "Factor": 0.01,
-      "Habitat": "TEMPORARY_RAINFALL",
-      "Species": "gambiae"
-    }
-  ]
+    "LarvalHabitatMultiplier": [
+        {
+            "Factor": 0.01,
+            "Habitat": "TEMPORARY_RAINFALL",
+            "Species": "gambiae"
+        }
+    ]
 }

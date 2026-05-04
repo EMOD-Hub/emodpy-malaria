@@ -1,7 +1,7 @@
 {
-  "Blocking_Config": {
-    "Box_Duration": 3650,
-    "Initial_Effect": 0,
-    "class": "WaningEffectBox"
-  }
+    "Blocking_Config": {
+        "Box_Duration": 3650,
+        "Initial_Effect": 0,
+        "class": "WaningEffectBox"
+    }
 }

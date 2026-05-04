@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "OvipositionTrap",
-    "Intervention_Name": "Cedrol traps"
-  }
+    "Intervention_Config": {
+        "class": "OvipositionTrap",
+        "Intervention_Name": "Cedrol traps"
+    }
 }

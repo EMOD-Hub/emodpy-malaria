@@ -1,5 +1,5 @@
 {
-  "Received_Event": "Bednet_Got_New_One",
-  "Using_Event": "Bednet_Using",
-  "Discard_Event": "Bednet_Discarded"
+    "Received_Event": "Bednet_Got_New_One",
+    "Using_Event": "Bednet_Using",
+    "Discard_Event": "Bednet_Discarded"
 }

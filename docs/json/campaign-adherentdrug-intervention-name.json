@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "AdherentDrug",
-    "Intervention_Name": "Isoniazid with mediocre adherence"
-  }
+    "Intervention_Config": {
+        "class": "AdherentDrug",
+        "Intervention_Name": "Isoniazid with mediocre adherence"
+    }
 }

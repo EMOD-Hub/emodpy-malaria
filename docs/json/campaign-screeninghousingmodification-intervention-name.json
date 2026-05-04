@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "ScreeningHousingModification",
-    "Intervention_Name": "Window screen installation"
-  }
+    "Intervention_Config": {
+        "class": "ScreeningHousingModification",
+        "Intervention_Name": "Window screen installation"
+    }
 }

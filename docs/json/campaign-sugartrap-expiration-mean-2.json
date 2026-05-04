@@ -1,6 +1,6 @@
 {
-  "Expiration_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
-  "Expiration_Mean_1": 4,
-  "Expiration_Mean_2": 12,
-  "Expiration_Proportion_1": 0.2
+    "Expiration_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
+    "Expiration_Mean_1": 4,
+    "Expiration_Mean_2": 12,
+    "Expiration_Proportion_1": 0.2
 }

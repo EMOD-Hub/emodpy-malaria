@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "Intervention_Name": "My Intervention",
-    "class": "IndividualNonDiseaseDeathRateModifier"
-  }
+    "Intervention_Config": {
+        "Intervention_Name": "My Intervention",
+        "class": "IndividualNonDiseaseDeathRateModifier"
+    }
 }

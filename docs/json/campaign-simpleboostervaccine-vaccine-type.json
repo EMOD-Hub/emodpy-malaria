@@ -1,4 +1,4 @@
 {
-  "Vaccine_Type": "AcquisitionBlocking",
-  "class": "SimpleBoosterVaccine"
+    "Vaccine_Type": "AcquisitionBlocking",
+    "class": "SimpleBoosterVaccine"
 }

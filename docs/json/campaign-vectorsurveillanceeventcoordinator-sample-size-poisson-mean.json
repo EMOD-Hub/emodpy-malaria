@@ -1,6 +1,6 @@
 {
-  "Counter": {
-    "Sample_Size_Distribution": "POISSON_DISTRIBUTION",
-    "Sample_Size_Poisson_Mean": 100
-  }
+    "Counter": {
+        "Sample_Size_Distribution": "POISSON_DISTRIBUTION",
+        "Sample_Size_Poisson_Mean": 100
+    }
 }

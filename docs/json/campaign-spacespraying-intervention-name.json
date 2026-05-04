@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "SpaceSpraying",
-    "Intervention_Name": "Outdoor DDT spraying"
-  }
+    "Intervention_Config": {
+        "class": "SpaceSpraying",
+        "Intervention_Name": "Outdoor DDT spraying"
+    }
 }

@@ -1,14 +1,14 @@
 {
-  "Event_Or_Config": "Config",
-  "Negative_Diagnosis_Config": {
-    "class": "SimpleVaccine",
-    "Cost_To_Consumer": 1,
-    "Vaccine_Take": 1,
-    "Vaccine_Type": "AcquisitionBlocking",
-    "Waning_Config": {
-      "class": "WaningEffectBox",
-      "Box_Duration": 40,
-      "Initial_Effect": 0.75
+    "Event_Or_Config": "Config",
+    "Negative_Diagnosis_Config": {
+        "class": "SimpleVaccine",
+        "Cost_To_Consumer": 1,
+        "Vaccine_Take": 1,
+        "Vaccine_Type": "AcquisitionBlocking",
+        "Waning_Config": {
+            "class": "WaningEffectBox",
+            "Box_Duration": 40,
+            "Initial_Effect": 0.75
+        }
     }
-  }
 }

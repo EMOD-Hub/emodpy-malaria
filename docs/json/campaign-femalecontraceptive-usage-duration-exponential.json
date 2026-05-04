@@ -1,4 +1,4 @@
 {
-  "Usage_Duration_Distribution": "EXPONENTIAL_DISTRIBUTION",
-  "Usage_Duration_Exponential": 150
+    "Usage_Duration_Distribution": "EXPONENTIAL_DISTRIBUTION",
+    "Usage_Duration_Exponential": 150
 }

@@ -1,8 +1,8 @@
 {
-  "Intervention_Config": {
-    "Antigen": 0,
-    "Genome": 0,
-    "Ignore_Immunity": 0,
-    "class": "OutbreakIndividual"
-  }
+    "Intervention_Config": {
+        "Antigen": 0,
+        "Genome": 0,
+        "Ignore_Immunity": 0,
+        "class": "OutbreakIndividual"
+    }
 }

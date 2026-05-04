@@ -1,7 +1,7 @@
 {
-  "Counter": {
-    "Sample_Size_Distribution": "UNIFORM_DISTRIBUTION",
-    "Sample_Size_Min": 50,
-    "Sample_Size_Max": 200
-  }
+    "Counter": {
+        "Sample_Size_Distribution": "UNIFORM_DISTRIBUTION",
+        "Sample_Size_Min": 50,
+        "Sample_Size_Max": 200
+    }
 }

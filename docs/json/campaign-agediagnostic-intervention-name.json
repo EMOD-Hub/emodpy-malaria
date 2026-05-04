@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "Intervention_Name": "My Age Diagnostic",
-    "class": "AgeDiagnostic"
-  }
+    "Intervention_Config": {
+        "Intervention_Name": "My Age Diagnostic",
+        "class": "AgeDiagnostic"
+    }
 }

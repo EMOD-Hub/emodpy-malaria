@@ -1,5 +1,5 @@
 {
-  "Risk_Distribution": "UNIFORM_DISTRIBUTION",
-  "Risk_Min": 2,
-  "Risk_Max": 7
+    "Risk_Distribution": "UNIFORM_DISTRIBUTION",
+    "Risk_Min": 2,
+    "Risk_Max": 7
 }

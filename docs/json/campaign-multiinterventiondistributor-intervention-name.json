@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "MultiInterventionDistributor",
-    "Intervention_Name": "Complete malaria campaign"
-  }
+    "Intervention_Config": {
+        "class": "MultiInterventionDistributor",
+        "Intervention_Name": "Complete malaria campaign"
+    }
 }

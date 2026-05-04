@@ -1,4 +1,4 @@
 {
-  "Expiration_Period_Distribution": "POISSON_DISTRIBUTION",
-  "Expiration_Period_Poisson_Mean": 5
+    "Expiration_Period_Distribution": "POISSON_DISTRIBUTION",
+    "Expiration_Period_Poisson_Mean": 5
 }

@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "MultiEffectBoosterVaccine",
-    "Intervention_Name": "Tetanus booster shot"
-  }
+    "Intervention_Config": {
+        "class": "MultiEffectBoosterVaccine",
+        "Intervention_Name": "Tetanus booster shot"
+    }
 }

@@ -1,4 +1,4 @@
 {
-  "Initial_Amount_Distribution": "EXPONENTIAL_DISTRIBUTION",
-  "Initial_Amount_Exponential": 4.25
+    "Initial_Amount_Distribution": "EXPONENTIAL_DISTRIBUTION",
+    "Initial_Amount_Exponential": 4.25
 }

@@ -1,9 +1,9 @@
 {
-  "Event_Or_Config": "Config",
-  "Negative_Diagnosis_Config": {
-    "Coverage": 1,
-    "Delay_Period_Distribution": "FIXED_DURATION",
-    "Delay_Period_Fixed": 250,
-    "class": "DelayedIntervention"
-  }
+    "Event_Or_Config": "Config",
+    "Negative_Diagnosis_Config": {
+        "Coverage": 1,
+        "Delay_Period_Distribution": "FIXED_DURATION",
+        "Delay_Period_Fixed": 250,
+        "class": "DelayedIntervention"
+    }
 }

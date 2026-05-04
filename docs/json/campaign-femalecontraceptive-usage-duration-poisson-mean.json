@@ -1,4 +1,4 @@
 {
-  "Usage_Duration_Distribution": "POISSON_DISTRIBUTION",
-  "Usage_Duration_Poisson_Mean": 150
+    "Usage_Duration_Distribution": "POISSON_DISTRIBUTION",
+    "Usage_Duration_Poisson_Mean": 150
 }

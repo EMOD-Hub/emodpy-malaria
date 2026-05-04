@@ -1,5 +1,5 @@
 {
-  "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
-  "Delay_Period_Min": 2,
-  "Delay_Period_Max": 7
+    "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+    "Delay_Period_Min": 2,
+    "Delay_Period_Max": 7
 }

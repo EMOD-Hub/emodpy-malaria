@@ -1,4 +1,4 @@
 {
-  "Individual_Selection_Type": "DEMOGRAPHIC_COVERAGE",
-  "Demographic_Coverage": 0.75
+    "Individual_Selection_Type": "DEMOGRAPHIC_COVERAGE",
+    "Demographic_Coverage": 0.75
 }

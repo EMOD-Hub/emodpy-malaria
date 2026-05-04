@@ -1,18 +1,18 @@
 {
-  "Doses": [
-    [
-      "TestDrugA",
-      "TestDrugB"
-    ],
-    [
-      "TestDrugA"
-    ],
-    [
-      "TestDrugA",
-      "TestDrugB"
-    ],
-    [
-      "TestDrugB"
+    "Doses": [
+        [
+            "TestDrugA",
+            "TestDrugB"
+        ],
+        [
+            "TestDrugA"
+        ],
+        [
+            "TestDrugA",
+            "TestDrugB"
+        ],
+        [
+            "TestDrugB"
+        ]
     ]
-  ]
 }

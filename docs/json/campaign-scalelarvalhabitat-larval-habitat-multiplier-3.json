@@ -1,14 +1,14 @@
 {
-  "LarvalHabitatMultiplier": [
-    {
-      "Factor": 0.01,
-      "Habitat": "TEMPORARY_RAINFALL",
-      "Species": "gambiae"
-    },
-    {
-      "Factor": 0.02,
-      "Habitat": "BRACKISH_SWAMP",
-      "Species": "arabiensis"
-    }
-  ]
+    "LarvalHabitatMultiplier": [
+        {
+            "Factor": 0.01,
+            "Habitat": "TEMPORARY_RAINFALL",
+            "Species": "gambiae"
+        },
+        {
+            "Factor": 0.02,
+            "Habitat": "BRACKISH_SWAMP",
+            "Species": "arabiensis"
+        }
+    ]
 }

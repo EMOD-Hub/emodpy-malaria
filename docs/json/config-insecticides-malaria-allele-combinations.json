@@ -1,5 +1,8 @@
 {
-  "Allele_Combinations": [
-    ["kdr", "kdr"]
-  ]
+    "Allele_Combinations": [
+        [
+            "kdr",
+            "kdr"
+        ]
+    ]
 }

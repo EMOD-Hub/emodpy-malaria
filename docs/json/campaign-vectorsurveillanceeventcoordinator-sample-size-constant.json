@@ -1,6 +1,6 @@
 {
-  "Counter": {
-    "Sample_Size_Distribution": "CONSTANT_DISTRIBUTION",
-    "Sample_Size_Constant": 100
-  }
+    "Counter": {
+        "Sample_Size_Distribution": "CONSTANT_DISTRIBUTION",
+        "Sample_Size_Constant": 100
+    }
 }

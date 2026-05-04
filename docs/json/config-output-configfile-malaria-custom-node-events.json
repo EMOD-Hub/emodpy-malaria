@@ -1,7 +1,7 @@
 {
-  "Custom_Node_Events": [
-    "Node_Event_1",
-    "Node_Event_2",
-    "Node_Event_3"
-  ]
+    "Custom_Node_Events": [
+        "Node_Event_1",
+        "Node_Event_2",
+        "Node_Event_3"
+    ]
 }

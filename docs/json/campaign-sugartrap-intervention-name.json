@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "SugarTrap",
-    "Intervention_Name": "Mosquito sugar feeding, nationwide campaign"
-  }
+    "Intervention_Config": {
+        "class": "SugarTrap",
+        "Intervention_Name": "Mosquito sugar feeding, nationwide campaign"
+    }
 }

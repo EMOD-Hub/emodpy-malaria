@@ -1,5 +1,5 @@
 {
-  "Expiration_Distribution": "LOG_NORMAL_DISTRIBUTION",
-  "Expiration_Log_Normal_Mu": 9,
-  "Expiration_Log_Normal_Sigma": 2
+    "Expiration_Distribution": "LOG_NORMAL_DISTRIBUTION",
+    "Expiration_Log_Normal_Mu": 9,
+    "Expiration_Log_Normal_Sigma": 2
 }

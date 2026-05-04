@@ -1,5 +1,5 @@
 {
-  "Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
-  "Expiration_Gaussian_Mean": 4,
-  "Expiration_Gaussian_Std_Dev": 1
+    "Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
+    "Expiration_Gaussian_Mean": 4,
+    "Expiration_Gaussian_Std_Dev": 1
 }

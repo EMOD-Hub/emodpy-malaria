@@ -6,8 +6,18 @@
                 {
                     "Strain_Name": "Strain_A",
                     "Duration_To_Disease_Acquisition_Modification": {
-                        "Times": [0, 1, 2, 3],
-                        "Values": [1.0, 0.8, 0.3, 0.0]
+                        "Times": [
+                            0,
+                            1,
+                            2,
+                            3
+                        ],
+                        "Values": [
+                            1.0,
+                            0.8,
+                            0.3,
+                            0.0
+                        ]
                     }
                 }
             ]

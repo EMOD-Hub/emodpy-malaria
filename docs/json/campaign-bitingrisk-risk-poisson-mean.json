@@ -1,4 +1,4 @@
 {
-  "Risk_Distribution": "POISSON_DISTRIBUTION",
-  "Risk_Poisson_Mean": 5
+    "Risk_Distribution": "POISSON_DISTRIBUTION",
+    "Risk_Poisson_Mean": 5
 }

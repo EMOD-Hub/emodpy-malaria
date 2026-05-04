@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "Negative_Diagnosis_Event": "TestedNegative_IamSusceptible",
-    "Positive_Diagnosis_Event": "TestedPositive_IamImmune"
-  }
+    "Intervention_Config": {
+        "Negative_Diagnosis_Event": "TestedNegative_IamSusceptible",
+        "Positive_Diagnosis_Event": "TestedPositive_IamImmune"
+    }
 }

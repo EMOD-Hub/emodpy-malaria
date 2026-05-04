@@ -1,10 +1,10 @@
 {
-  "Counter": {
-    "Species": "gambiae",
-    "Count_Type": "ALLELE_FREQ",
-    "Gender": "VECTOR_FEMALE",
-    "Sample_Size_Distribution": "CONSTANT_DISTRIBUTION",
-    "Sample_Size_Constant": 100,
-    "Update_Period": 30
-  }
+    "Counter": {
+        "Species": "gambiae",
+        "Count_Type": "ALLELE_FREQ",
+        "Gender": "VECTOR_FEMALE",
+        "Sample_Size_Distribution": "CONSTANT_DISTRIBUTION",
+        "Sample_Size_Constant": 100,
+        "Update_Period": 30
+    }
 }

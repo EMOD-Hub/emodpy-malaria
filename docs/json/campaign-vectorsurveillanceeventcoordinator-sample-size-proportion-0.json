@@ -1,7 +1,7 @@
 {
-  "Counter": {
-    "Sample_Size_Distribution": "DUAL_CONSTANT_DISTRIBUTION",
-    "Sample_Size_Proportion_0": 0.25,
-    "Sample_Size_Peak_2_Value": 100
-  }
+    "Counter": {
+        "Sample_Size_Distribution": "DUAL_CONSTANT_DISTRIBUTION",
+        "Sample_Size_Proportion_0": 0.25,
+        "Sample_Size_Peak_2_Value": 100
+    }
 }

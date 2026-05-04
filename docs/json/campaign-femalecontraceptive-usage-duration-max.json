@@ -1,5 +1,5 @@
 {
-  "Usage_Duration_Distribution": "UNIFORM_DISTRIBUTION",
-  "Usage_Duration_Min": 90,
-  "Usage_Duration_Max": 270
+    "Usage_Duration_Distribution": "UNIFORM_DISTRIBUTION",
+    "Usage_Duration_Min": 90,
+    "Usage_Duration_Max": 270
 }

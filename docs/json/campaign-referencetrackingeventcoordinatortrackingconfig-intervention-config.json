@@ -1,8 +1,8 @@
 {
-  "Intervention_Config": {
-    "class": "MaleCircumcision",
-    "Cost_To_Consumer": 10,
-    "Circumcision_Reduced_Acquire": 0.6,
-    "Distributed_Event_Trigger": "VMMC_1"
-  }
+    "Intervention_Config": {
+        "class": "MaleCircumcision",
+        "Cost_To_Consumer": 10,
+        "Circumcision_Reduced_Acquire": 0.6,
+        "Distributed_Event_Trigger": "VMMC_1"
+    }
 }

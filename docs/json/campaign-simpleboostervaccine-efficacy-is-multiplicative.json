@@ -1,4 +1,4 @@
 {
-  "class": "SimpleBoosterVaccine",
-  "Efficacy_Is_Multiplicative": 0
+    "class": "SimpleBoosterVaccine",
+    "Efficacy_Is_Multiplicative": 0
 }

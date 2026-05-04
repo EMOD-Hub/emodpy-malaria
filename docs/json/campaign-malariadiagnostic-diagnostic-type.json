@@ -1,5 +1,5 @@
 {
-  "Diagnostic_Type": "BLOOD_SMEAR_PARASITES",
-  "Detection_Threshold": 40,
-  "Measurement_Sensitivity": 5
+    "Diagnostic_Type": "BLOOD_SMEAR_PARASITES",
+    "Detection_Threshold": 40,
+    "Measurement_Sensitivity": 5
 }

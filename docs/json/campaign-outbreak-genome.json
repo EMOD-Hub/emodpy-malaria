@@ -1,22 +1,22 @@
 {
-  "Use_Defaults": 1,
-  "Events": [
-    {
-      "class": "CampaignEvent",
-      "Start_Day": 40,
-      "Nodeset_Config": {
-        "class": "NodeSetAll"
-      },
-      "Event_Coordinator_Config": {
-        "class": "StandardInterventionDistributionEventCoordinator",
-        "Intervention_Config": {
-          "class": "Outbreak",
-          "Antigen": 0,
-          "Genome": 0,
-          "Number_Cases_Per_Node": 10,
-          "Probability_Of_Infection": 0.5
+    "Use_Defaults": 1,
+    "Events": [
+        {
+            "class": "CampaignEvent",
+            "Start_Day": 40,
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class": "Outbreak",
+                    "Antigen": 0,
+                    "Genome": 0,
+                    "Number_Cases_Per_Node": 10,
+                    "Probability_Of_Infection": 0.5
+                }
+            }
         }
-      }
-    }
-  ]
+    ]
 }

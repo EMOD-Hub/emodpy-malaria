@@ -1,4 +1,4 @@
 {
-  "Risk_Distribution": "CONSTANT_DISTRIBUTION",
-  "Risk_Constant": 8
+    "Risk_Distribution": "CONSTANT_DISTRIBUTION",
+    "Risk_Constant": 8
 }

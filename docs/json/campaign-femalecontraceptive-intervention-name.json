@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "FemaleContraceptive",
-    "Intervention_Name": "Injectable contraceptive"
-  }
+    "Intervention_Config": {
+        "class": "FemaleContraceptive",
+        "Intervention_Name": "Injectable contraceptive"
+    }
 }

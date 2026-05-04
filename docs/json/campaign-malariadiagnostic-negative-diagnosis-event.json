@@ -1,4 +1,4 @@
 {
-  "Event_Or_Config": "Event",
-  "Negative_Diagnosis_Event": "TestedNegative_IamSusceptible"
+    "Event_Or_Config": "Event",
+    "Negative_Diagnosis_Event": "TestedNegative_IamSusceptible"
 }

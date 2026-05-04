@@ -1,10 +1,10 @@
 {
-  "Counter": {
-    "Gender": "VECTOR_BOTH_GENDERS",
-    "Species": "gambiae",
-    "Count_Type": "ALLELE_FREQ",
-    "Sample_Size_Distribution": "CONSTANT_DISTRIBUTION",
-    "Sample_Size_Constant": 100,
-    "Update_Period": 30
-  }
+    "Counter": {
+        "Gender": "VECTOR_BOTH_GENDERS",
+        "Species": "gambiae",
+        "Count_Type": "ALLELE_FREQ",
+        "Sample_Size_Distribution": "CONSTANT_DISTRIBUTION",
+        "Sample_Size_Constant": 100,
+        "Update_Period": 30
+    }
 }

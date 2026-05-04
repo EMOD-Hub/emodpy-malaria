@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "OutbreakIndividualVarGenes",
-    "Ignore_Immunity": 0
-  }
+    "Intervention_Config": {
+        "class": "OutbreakIndividualVarGenes",
+        "Ignore_Immunity": 0
+    }
 }

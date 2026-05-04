@@ -1,7 +1,7 @@
 {
-  "Counter": {
-    "Sample_Size_Distribution": "LOG_NORMAL_DISTRIBUTION",
-    "Sample_Size_Log_Normal_Mu": 4,
-    "Sample_Size_Log_Normal_Sigma": 0.5
-  }
+    "Counter": {
+        "Sample_Size_Distribution": "LOG_NORMAL_DISTRIBUTION",
+        "Sample_Size_Log_Normal_Mu": 4,
+        "Sample_Size_Log_Normal_Sigma": 0.5
+    }
 }

@@ -1,6 +1,6 @@
 {
-  "Intervention_Config": {
-    "class": "SpatialRepellentHousingModification",
-    "Intervention_Name": "Pyrethroid repellent"
-  }
+    "Intervention_Config": {
+        "class": "SpatialRepellentHousingModification",
+        "Intervention_Name": "Pyrethroid repellent"
+    }
 }

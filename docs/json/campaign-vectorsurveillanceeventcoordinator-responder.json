@@ -1,5 +1,5 @@
 {
-  "Responder": {
-    "Survey_Completed_Event": "Survey_Done"
-  }
+    "Responder": {
+        "Survey_Completed_Event": "Survey_Done"
+    }
 }

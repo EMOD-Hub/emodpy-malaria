@@ -1,13 +1,13 @@
 {
-  "Incidence_Counter": {
-    "Counter_Event_Type": "NODE",
-    "Counter_Period": 14,
-    "Counter_Type": "PERIODIC",
-    "Demographic_Coverage": 1,
-    "Target_Demographic": "Everyone",
-    "Trigger_Condition_List": [
-      "Node_Event_1",
-      "Node_Event_2"
-    ]
-  }
+    "Incidence_Counter": {
+        "Counter_Event_Type": "NODE",
+        "Counter_Period": 14,
+        "Counter_Type": "PERIODIC",
+        "Demographic_Coverage": 1,
+        "Target_Demographic": "Everyone",
+        "Trigger_Condition_List": [
+            "Node_Event_1",
+            "Node_Event_2"
+        ]
+    }
 }
