@@ -23,13 +23,7 @@ POISSON_DISTRIBUTION
 DUAL_CONSTANT_DISTRIBUTION
     Use a distribution where some individuals are set to a value of zero and the rest to a given value. Set **Delay_Period_Proportion_0** and **Peak_2_Value**.
 DUAL_EXPONENTIAL_DISTRIBUTION
-    Use two exponential distributions with given means. Set **Delay_Period_Mean_1**, **Delay_Period_Mean_2**, and **Delay_Period_Proportion_1**. 
-.. _Gaussian: https://en.wikipedia.org/wiki/Normal_distribution
-.. _exponential: https://en.wikipedia.org/wiki/Exponential_distribution
-.. _Weibull: https://en.wikipedia.org/wiki/Weibull_distribution
-.. _log-normal: https://en.wikipedia.org/wiki/Log-normal_distribution
-.. _uniform: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
-.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution",[link](../json/campaign-delayedintervention-delay-period-distribution.json)
+    Use two exponential distributions with given means. Set **Delay_Period_Mean_1**, **Delay_Period_Mean_2**, and **Delay_Period_Proportion_1**. ",[link](../json/campaign-delayedintervention-delay-period-distribution.json)
 Delay_Period_Exponential,float,0,3.40282E+38,-1,"The mean of the delay period, in days, when **Delay_Period_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",[link](../json/campaign-delayedintervention-delay-period-exponential.json)
 Delay_Period_Gaussian_Mean,float,0,3.40282E+38,-1,"The mean of the delay period, in days, when **Delay_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-delayedintervention-delay-period-gaussian-mean.json)
 Delay_Period_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,-1,"The standard deviation of the delay period, in days, when **Delay_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-delayedintervention-delay-period-gaussian-std-dev.json)

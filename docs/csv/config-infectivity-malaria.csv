@@ -15,8 +15,7 @@ Enable_Infectivity_Reservoir,boolean,0,1,0,"Controls whether or not an exogeneou
 !!! warning
     Do not set both **Enable_Infectivity_Reservoir** and  **Enable_Strain_Tracking** to true (1) - as this combination will cause an exception error.",[link](../json/config-infectivity-malaria-enable-infectivity-reservoir.json)
 Enable_Initial_Prevalence,boolean,0,1,0,"Controls whether or not parameters in the demographics file are used to define a distribution for the number of infected people per node at the beginning of the simulation. Set the distribution under [NodeAttributes](parameter-demographics.md#nodeattributes) using **PrevalenceDistributionFlag**, **PrevalenceDistribution1**, and **PrevalenceDistribution2**.",[link](../json/config-infectivity-malaria-enable-initial-prevalence.json)
-Enable_Skipping,boolean,0,1,0,"Controls whether or not the simulation uses an optimization that can increase performance by up to 50% in some cases by probabilistically exposing individuals rather than exposing every single person. Useful in low-prevalence, high-population scenarios.
-",[link](../json/config-infectivity-malaria-enable-skipping.json)
+Enable_Skipping,boolean,0,1,0,"Controls whether or not the simulation uses an optimization that can increase performance by up to 50% in some cases by probabilistically exposing individuals rather than exposing every single person. Useful in low-prevalence, high-population scenarios.",[link](../json/config-infectivity-malaria-enable-skipping.json)
 Enable_Superinfection,boolean,0,1,0,Controls whether or not an individual can have multiple infections simultaneously. Set to true (1) to allow for multiple simultaneous infections; set to false (0) if multiple infections are not possible. Set the **Max_Individual_Infections** parameter.,[link](../json/config-infectivity-malaria-enable-superinfection.json)
 Enable_Termination_On_Zero_Total_Infectivity,boolean,0,1,0,Controls whether or not the simulation should be ended when total infectivity falls to zero. Supported only in single-node simulations. ,[link](../json/config-infectivity-malaria-enable-termination-on-zero-total-infectivity.json)
 Infected_Arrhenius_1,float,0,1.00E+15,1.17E+11,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a1 is a temperature-independent scale factor on the progression rate to infectiousness. ",[link](../json/config-infectivity-malaria-infected-arrhenius-1.json)
@@ -46,13 +45,7 @@ POISSON_DISTRIBUTION
 DUAL_CONSTANT_DISTRIBUTION
     Use a distribution where some individuals are set to a value of zero and the rest to a given value. Set **Infectious_Period_Proportion_0** and **Peak_2_Value**. This distribution does not use the parameters set for CONSTANT_DISTRIBUTION.
 DUAL_EXPONENTIAL_DISTRIBUTION
-    Use two exponential distributions with given means. Set **Infectious_Period_Mean_1**, **Infectious_Period_Mean_2**, and **Infectious_Period_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.
-.. _Gaussian: https://en.wikipedia.org/wiki/Normal_distribution
-.. _exponential: https://en.wikipedia.org/wiki/Exponential_distribution
-.. _Weibull: https://en.wikipedia.org/wiki/Weibull_distribution
-.. _log-normal: https://en.wikipedia.org/wiki/Log-normal_distribution
-.. _uniform: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
-.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution",[link](../json/config-infectivity-malaria-infectious-period-distribution.json)
+    Use two exponential distributions with given means. Set **Infectious_Period_Mean_1**, **Infectious_Period_Mean_2**, and **Infectious_Period_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-distribution.json)
 Infectious_Period_Exponential,float,0,3.40282E+38,-1,"The mean infectious period, in days, when **Infectious_Period_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-exponential.json)
 Infectious_Period_Gaussian_Mean,float,0,3.40282E+38,-1,"The mean infectious period, in days, when **Infectious_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-gaussian-mean.json)
 Infectious_Period_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,-1,"The standard deviation of the infectious period, in days, when **Infectious_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/config-infectivity-malaria-infectious-period-gaussian-std-dev.json)

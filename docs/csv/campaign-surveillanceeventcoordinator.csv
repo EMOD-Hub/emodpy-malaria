@@ -53,8 +53,7 @@ COUNT
 PERCENTAGE
     Counts the number of individuals that meet the restrictions and then to divide the total number of events by this number. Note that it is possible for an individual to emit an event that might not be counted in the denominator if their demographic restriction attributes changed between the time of the emitted event and the time the denominator was counted. 
 PERCENTAGE_EVENTS
-    **Percentage_Events_To_Count** lists the events that will be counted for the denominator, which will then be used with the specified event for **Trigger_Condition_List** to be counted for the numerator.
-",[link](../json/campaign-surveillanceeventcoordinator-threshold-type.json)
+    **Percentage_Events_To_Count** lists the events that will be counted for the denominator, which will then be used with the specified event for **Trigger_Condition_List** to be counted for the numerator.",[link](../json/campaign-surveillanceeventcoordinator-threshold-type.json)
 Trigger_Condition_List,array of strings,NA,NA,NA,"The list of events to count.The list cannot be empty. The type of events contained in the list is determined by **Counter_Event_Type**. Depending upon the type, the events must be defined in one of the following configuration parameters:
 * Custom_Coordinator_Events
 * Custom_Individual_Events

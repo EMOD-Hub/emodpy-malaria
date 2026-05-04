@@ -23,13 +23,7 @@ POISSON_DISTRIBUTION
 DUAL_CONSTANT_DISTRIBUTION
     Use a distribution where some individuals are set to a value of zero and the rest to a given value. Set **Duration_At_Node_Proportion_0** and **Peak_2_Value**. This distribution does not use the parameters set for CONSTANT_DISTRIBUTION.
 DUAL_EXPONENTIAL_DISTRIBUTION
-    Use two exponential distributions with given means. Set **Duration_At_Node_Mean_1**, **Duration_At_Node_Mean_2**, and **Duration_At_Node_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.
-.. _Gaussian: https://en.wikipedia.org/wiki/Normal_distribution
-.. _exponential: https://en.wikipedia.org/wiki/Exponential_distribution
-.. _Weibull: https://en.wikipedia.org/wiki/Weibull_distribution
-.. _log-normal: https://en.wikipedia.org/wiki/Log-normal_distribution
-.. _uniform: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
-.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution",[link](../json/campaign-migrateindividuals-duration-at-node-distribution.json)
+    Use two exponential distributions with given means. Set **Duration_At_Node_Mean_1**, **Duration_At_Node_Mean_2**, and **Duration_At_Node_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-at-node-distribution.json)
 Duration_At_Node_Exponential,float,0,3.40282E+38,-1,"The mean of the duration at the destination node after migration, in days, when **Duration_At_Node_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-at-node-exponential.json)
 Duration_At_Node_Gaussian_Mean,float,0,3.40282E+38,-1,"The mean of the duration at the destination node after migration, in days, when **Duration_At_Node_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-at-node-gaussian-mean.json)
 Duration_At_Node_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,-1,"The standard deviation of the duration at the destination node after migration, in days, when **Duration_At_Node_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-at-node-gaussian-std-dev.json)
@@ -67,13 +61,7 @@ POISSON_DISTRIBUTION
 DUAL_CONSTANT_DISTRIBUTION
     Use a distribution where some individuals are set to a value of zero and the rest to a given value. Set **Duration_Before_Leaving_Proportion_0** and **Peak_2_Value**. This distribution does use the parameters set for CONSTANT_DISTRIBUTION.
 DUAL_EXPONENTIAL_DISTRIBUTION
-    Use two exponential distributions with given means. Set **Duration_Before_Leaving_Mean_1**, **Duration_Before_Leaving_Mean_2**, and **Duration_Before_Leaving_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.
-.. _Gaussian: https://en.wikipedia.org/wiki/Normal_distribution
-.. _exponential: https://en.wikipedia.org/wiki/Exponential_distribution
-.. _Weibull: https://en.wikipedia.org/wiki/Weibull_distribution
-.. _log-normal: https://en.wikipedia.org/wiki/Log-normal_distribution
-.. _uniform: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
-.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution",[link](../json/campaign-migrateindividuals-duration-before-leaving-distribution.json)
+    Use two exponential distributions with given means. Set **Duration_Before_Leaving_Mean_1**, **Duration_Before_Leaving_Mean_2**, and **Duration_Before_Leaving_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-before-leaving-distribution.json)
 Duration_Before_Leaving_Exponential,float,0,3.40282E+38,-1,"The mean of the duration before leaving the origin node, in days, when **Duration_Before_Leaving_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-before-leaving-exponential.json)
 Duration_Before_Leaving_Gaussian_Mean,float,0,3.40282E+38,-1,"The mean of the duration before leaving the origin node, in days, when **Duration_Before_Leaving_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-before-leaving-gaussian-mean.json)
 Duration_Before_Leaving_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,1,"The standard deviation of the duration before leaving the origin node, in days, when **Duration_Before_Leaving_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/campaign-migrateindividuals-duration-before-leaving-gaussian-std-dev.json)

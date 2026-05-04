@@ -21,13 +21,7 @@ POISSON_DISTRIBUTION
 DUAL_CONSTANT_DISTRIBUTION
     Use a distribution where some individuals are set to a value of zero and the rest to a given value. Set **Incubation_Period_Proportion_0** and **Peak_2_Value**. This distribution does not use the parameters set for CONSTANT_DISTRIBUTION.
 DUAL_EXPONENTIAL_DISTRIBUTION
-    Use two exponential distributions with given means. Set **Incubation_Period_Mean_1**, **Incubation_Period_Mean_2**, and **Incubation_Period_Proportion_1**. This distribution does not use the parameters set for DUAL_EXPONENTIAL_DISTRIBUTION.
-.. _Gaussian: https://en.wikipedia.org/wiki/Normal_distribution
-.. _exponential: https://en.wikipedia.org/wiki/Exponential_distribution
-.. _Weibull: https://en.wikipedia.org/wiki/Weibull_distribution
-.. _log-normal: https://en.wikipedia.org/wiki/Log-normal_distribution
-.. _uniform: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
-.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution",[link](../json/config-incubation-malaria-incubation-period-distribution.json)
+    Use two exponential distributions with given means. Set **Incubation_Period_Mean_1**, **Incubation_Period_Mean_2**, and **Incubation_Period_Proportion_1**. This distribution does not use the parameters set for DUAL_EXPONENTIAL_DISTRIBUTION.",[link](../json/config-incubation-malaria-incubation-period-distribution.json)
 Incubation_Period_Exponential,float,0,3.40282E+38,-1,"The mean incubation period, in days, when **Incubation_Period_Distribution** is set to EXPONENTIAL_DISTRIBUTION.",[link](../json/config-incubation-malaria-incubation-period-exponential.json)
 Incubation_Period_Gaussian_Mean,float,0,3.40282E+38,-1,"The mean of the incubation period, in days, when **Incubation_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/config-incubation-malaria-incubation-period-gaussian-mean.json)
 Incubation_Period_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,-1,"The standard deviation of the incubation period, in days, when **Incubation_Period_Distribution** is set to GAUSSIAN_DISTRIBUTION.",[link](../json/config-incubation-malaria-incubation-period-gaussian-std-dev.json)

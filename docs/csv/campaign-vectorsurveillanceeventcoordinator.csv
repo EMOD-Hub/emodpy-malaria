@@ -34,13 +34,7 @@ POISSON_DISTRIBUTION
 DUAL_CONSTANT_DISTRIBUTION
     Use a distribution where some instances are set to a value of zero and the rest to a given value. Set **Sample_Size_Proportion_0** and **Sample_Size_Peak_2_Value**. This distribution does not use the parameters set for CONSTANT_DISTRIBUTION.
 DUAL_EXPONENTIAL_DISTRIBUTION
-    Use two exponential distributions with given means. Set **Sample_Size_Mean_1**, **Sample_Size_Mean_2**, and **Sample_Size_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.
-.. _Gaussian: https://en.wikipedia.org/wiki/Normal_distribution
-.. _exponential: https://en.wikipedia.org/wiki/Exponential_distribution
-.. _Weibull: https://en.wikipedia.org/wiki/Weibull_distribution
-.. _log-normal: https://en.wikipedia.org/wiki/Log-normal_distribution
-.. _uniform: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
-.. _Poisson: https://en.wikipedia.org/wiki/Poisson_distribution",[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-distribution.json)
+    Use two exponential distributions with given means. Set **Sample_Size_Mean_1**, **Sample_Size_Mean_2**, and **Sample_Size_Proportion_1**. This distribution does not use the parameters set for EXPONENTIAL_DISTRIBUTION.",[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-distribution.json)
 Sample_Size_Exponential,float,0,3.40282E+38,6,The mean sample size when **Sample_Size_Distribution** is set to EXPONENTIAL_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-exponential.json)
 Sample_Size_Gaussian_Mean,float,0,3.40282E+38,6,The mean sample size when **Sample_Size_Distribution** is set to GAUSSIAN_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-gaussian-mean.json)
 Sample_Size_Gaussian_Std_Dev,float,1.17549E-38,3.40282E+38,1,The standard deviation of the sample size when **Sample_Size_Distribution** is set to GAUSSIAN_DISTRIBUTION.,[link](../json/campaign-vectorsurveillanceeventcoordinator-sample-size-gaussian-std-dev.json)
