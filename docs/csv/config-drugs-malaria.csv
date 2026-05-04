@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Bodyweight_Exponent","float","0","100000","0","The effect of bodyweight on maximum drug concentration in an individual patient. **Drug_Cmax** is divided by patient bodyweight raised to the power of **Bodyweight_Exponent** to account for the influence of body size on volume of distribution.",".. code-block:: json
 
     {

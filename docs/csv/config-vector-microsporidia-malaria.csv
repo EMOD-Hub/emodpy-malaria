@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Strain_Name","string","NA","NA","""""","A required unique identifier for the microsporidia strain. Must be unique across all species. Cannot be empty or 'NoMicrosporidia'.",".. code-block:: json
 
     {

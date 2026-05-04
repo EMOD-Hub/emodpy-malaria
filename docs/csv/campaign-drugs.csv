@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Bodyweight_Exponent","float","0","100000","0","Effect of body weight on maximum drug concentration in an individual patient.",".. code-block:: json
 
     {

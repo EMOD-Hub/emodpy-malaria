@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Anemia_Mortality_Inverse_Width","float","0.1","1000000","10","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
 
 probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )

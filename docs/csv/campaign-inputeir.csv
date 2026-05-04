@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Daily_EIR","array of floats","0","1000","[]","An array of 365 values where each value is the mean number of infectious bites experienced by an individual for that day of the year. Used when **EIR_Type** is set to 'DAILY'.",".. code-block:: json
 
     {

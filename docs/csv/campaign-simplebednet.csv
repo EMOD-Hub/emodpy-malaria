@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Blocking_Config","json object","NA","NA","NA","Defines a waning effect that determines the probability that a host-seeking vector is blocked from reaching a human host. Blocked vectors are then elligble to be killed according to the **Killing_Config** parameter. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
 
     {

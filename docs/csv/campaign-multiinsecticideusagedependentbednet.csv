@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Blocking_Config","json object","NA","NA","NA","Object in the **Insecticides** array, configures the rate of blocking for indoor mosquito feeds on individuals with an ITN. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
 
     {

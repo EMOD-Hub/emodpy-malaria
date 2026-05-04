@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Coordinator_Name","string","NA","NA","VectorSurveillanceEventCoordinator","The name of the event coordinator, which is useful in output reports such as ReportCoordinatorEventRecorder.csv and ReportSurveillanceEventRecorder.csv. EMOD does not ensure that this name is unique.",".. code-block:: json
 
     {

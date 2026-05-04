@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Cost_To_Consumer","float","999999","0","0","The cost of getting the non-disease death modifier each time it is distributed.",".. code-block:: json
 
     {

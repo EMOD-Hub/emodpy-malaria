@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Adherence_Config","json object","NA","NA","NA","Configuration for the probability of taking a dose of the specified anti-malarial. Use a waning effect class, :doc:`parameter-campaign-waningeffects`, to specify how this probability changes over time. ",".. code-block:: json
 
     {

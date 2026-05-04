@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Base_Gametocyte_Fraction_Male","double","NA","NA","0.2","Fraction of gametocytes that are male.",".. code-block:: json
 
     {

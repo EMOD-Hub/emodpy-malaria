@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Coordinator_Name","string","NA","NA","FirstNodeWithNodePropertyEventCoordinator","The unique identifying coordinator name used to identify the different coordinators in reports.",".. code-block:: json
 
     {

@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Cost_To_Consumer","float","0","3.40282e+38","1","The unit 'cost' assigned to the diagnostic. Setting **Cost_To_Consumer** to zero for all other interventions, and to a non-zero amount for one intervention, provides a convenient way to track the number of times the intervention has been applied in a simulation.",".. code-block:: json
 
     {

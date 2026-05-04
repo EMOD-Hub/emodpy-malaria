@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Custom_Coordinator_Events","array of strings","NA","NA","[]","The list of valid, user-defined Coordinator Events that will be included in the campaign. These are specifically events which apply with **EventCoordinators**, such completing distribution of a collection of interventions. Any event used in the campaign must be in this list.",".. code-block:: json
 
     {

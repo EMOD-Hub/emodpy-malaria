@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 ﻿"Aquatic_Arrhenius_1","float","0","1.00E+15","8.42E+10","The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on development rate.",".. code-block:: json
 
     {

@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Attract_Config","json object","NA","NA","NA","The configuration of attraction efficacy and waning for human host-seeking trap. This determines what fraction of host-seeking vectors that day are attracted to the trap instead of finding a human to feed on. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
 
     {

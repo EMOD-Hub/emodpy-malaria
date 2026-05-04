@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Air_Temperature_Filename","string","NA","NA","\_add-your-air-temperature-file\_.bin","The path to the input file that defines air temperature data measured two meters above ground. **Climate_Model** must be set to CLIMATE_BY_DATA. The file must be in .bin format.",".. code-block:: json
 
     {

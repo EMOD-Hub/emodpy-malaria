@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Add_Effects","boolean","0","1","0","The **Add_Effects** parameter allows you to combine multiple effects from the waning effect classes. If set to true (1), then the waning effect values from the different waning effect objects are added together. If set to false (0), the waning effect values are multiplied. The resulting waning effect value must be greater than 1.",".. code-block:: json
 
     {

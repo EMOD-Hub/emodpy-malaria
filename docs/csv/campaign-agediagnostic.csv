@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Age_Thresholds","array of json objects","NA","NA","[]","Used to associate age ranges for individuals.
 ",".. code-block:: json
 

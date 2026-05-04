@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Boosted_Antibody_Concentration","float","0","3.40282e+38","1","The boosted antibody concentration, where unity equals maximum from natural exposure.",".. code-block:: json
 
     {

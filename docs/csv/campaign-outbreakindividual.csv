@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Antigen","integer","0","10","0","The antigenic base strain ID of the outbreak infection.",".. code-block:: json
 
     {

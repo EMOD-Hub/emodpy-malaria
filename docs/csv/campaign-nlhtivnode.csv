@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Actual_NodeIntervention_Config","json object","NA","NA","NA","The configuration of the actual node-level intervention sought. This parameter selects a class for the intervention and configures the parameters specific for that intervention class.",".. code-block:: json
 
     {

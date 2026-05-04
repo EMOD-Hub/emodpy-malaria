@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Artificial_Diet_Target","enum","NA","NA","AD_WithinVillage","The targeted deployment of artificial diet. This parameter is required. 
 Possible values are:
 

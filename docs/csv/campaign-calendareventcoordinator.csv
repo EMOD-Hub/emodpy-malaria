@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Distribution_Coverages","array of floats","0","1","0","A vector of floats for the fraction of individuals that will receive this intervention in a **CalendarEventCoordinator**.",".. code-block:: json
 
     {

@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Ignore_Immunity","boolean","0","1","1","Individuals will be force-infected (with a specific strain) regardless of actual immunity level when set to true (1).",".. code-block:: json
 
     {

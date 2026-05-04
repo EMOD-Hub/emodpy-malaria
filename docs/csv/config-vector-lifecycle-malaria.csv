@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 ﻿"Adult_Life_Expectancy","float","0","730","10","The number of days an adult mosquito survives. The daily adult mortality rate is 1 / **Adult_Life_Expectancy**, in absence of vector aging. With **Enable_Vector_Aging** set to 1, **Adult_Life_Expectancy** equal to 20 days corresponds to a mean adult female mosquito lifespan of 9-9.5 days in calibrated settings. The senescence formula that |EMOD_s| uses was described by `Styer, et al <https://www.ncbi.nlm.nih.gov/pubmed/17255238>`.",".. code-block:: json
 
     {

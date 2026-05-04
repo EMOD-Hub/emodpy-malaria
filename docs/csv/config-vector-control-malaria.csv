@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Vector_Sugar_Feeding_Frequency","enum","NA","NA","VECTOR_SUGAR_FEEDING_NONE","The frequency of sugar feeding by a female mosquito. Used is used in conjunction with the **SugarTrap** and **OvipositionTrap** interventions. **Vector_Sampling_Type** must be set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS. Possible values are: 
 
 VECTOR_SUGAR_FEEDING_NONE

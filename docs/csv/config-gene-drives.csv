@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Drivers","array of json objects","NA","NA","[]","Array of gene driver objects defined per species under **Vector_Species_Params**. Each entry specifies a drive type and the alleles it acts on. All drivers in the array must be of the same **Driver_Type**.",".. code-block:: json
 
     {

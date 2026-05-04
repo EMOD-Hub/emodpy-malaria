@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Barcode_Allele_Frequencies_Per_Genome_Location","array of floats","0","1","[]","The fractions of allele occurrences for each location in the barcode. This 2D array has an inner array for each location in the barcode. The number of inner arrays depends on the number of locations defined in the **Parasite_Genetics** configuration parameter **Barcode_Genome_Locations**. Each inner array should have four values for the frequency of each allele at that location. The position of the value in the inner array determines the allele: index 0 is A, index 1 is C, index 2 is G, and index 3 is T. Required when **Create_Nucleotide_Squence_From** is set to 'ALLELE_FREQUENCIES'.",".. code-block:: json
 
     {

@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Challenge_Type","enum","NA","NA","NA","The type of malaria challenge. Possible values are:
 
 InfectiousBites

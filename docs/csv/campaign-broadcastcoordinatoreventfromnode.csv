@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Broadcast_Event","string","NA","NA","""""","The Coordinator Event to be broadcasted by this node.  An event coordinator like **TriggeredEventCoordinator** could be activated from this event. Custom events may be defined in **Custom_Coordinator_Events** in the simulation configuration file.",".. code-block:: json
 
     {

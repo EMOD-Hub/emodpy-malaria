@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "Name","string","NA","NA","UNINITIALIZED STRING","The name of the insecticide. This name is referenced by the **Insecticide_Name** parameter in campaign interventions to link an intervention's effects to the resistance modifiers defined here.",".. code-block:: json
 
     {

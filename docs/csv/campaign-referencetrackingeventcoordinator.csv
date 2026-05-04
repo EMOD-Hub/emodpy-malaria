@@ -1,3 +1,4 @@
+Parameter,Type,Min,Max,Default,Description,Example
 "End_Year","float","1900","2200","2200","The final date (year) at which this set of targeted coverages should be applied (expiration).",".. code-block:: json
 
     {
