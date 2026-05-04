@@ -181,7 +181,7 @@ def handle_results(experiment, platform):
     tutorial_7_pickup.py.
     """
     if experiment.succeeded:
-        output_path = "tutorial_7_burnin_results"
+        output_path = "tutorial_7_results_burnin"
         process_results(experiment, platform, output_path)
         print(f"Downloaded results to '{output_path}'.")
         plot_results(output_path)

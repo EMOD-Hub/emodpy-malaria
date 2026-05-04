@@ -332,7 +332,7 @@ def handle_results(experiment, platform):
     """
     if experiment.succeeded:
         print(f"\nPickup complete. Experiment {experiment.id} succeeded.")
-        output_path = "tutorial_7_results"
+        output_path = "tutorial_7_results_pickup"
         process_results(experiment, platform, output_path)
         print(f"Downloaded results to '{output_path}'.")
         plot_results(output_path)
