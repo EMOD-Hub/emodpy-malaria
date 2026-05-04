@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "class": "MultiInsecticideIRSHousingModification",
+        "Intervention_Name": "Indoor DDT spraying"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "Counter": {
+        "Sample_Size_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
+        "Sample_Size_Mean_1": 50,
+        "Sample_Size_Mean_2": 200,
+        "Sample_Size_Proportion_1": 0.3
+    }
+}

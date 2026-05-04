@@ -1,13 +1,64 @@
-# Link Bibliography
-
-All external URLs used across EMOD-Hub documentation.
-Update links here; all docs reference this file by label.
-
 [discussions]: https://github.com/orgs/EMOD-Hub/discussions
 [emod-hub]: https://github.com/EMOD-Hub
 [emod-repo]: https://github.com/EMOD-Hub/EMOD
 [emod-releases]: https://github.com/EMOD-Hub/EMOD/releases
 [emodpy-malaria-repo]: https://github.com/EMOD-Hub/emodpy-malaria
+[emodpy-malaria-main]: https://github.com/EMOD-Hub/emodpy-malaria/tree/main
 [emodpy-malaria-contributing]: https://github.com/EMOD-Hub/emodpy-malaria/blob/main/CONTRIBUTING.rst
 [ubuntu-2204-release]: https://releases.ubuntu.com/22.04/
-<!-- add further entries below in alphabetical order by label -->
+[python-downloads]: https://www.python.org/downloads/
+[docker-windows]: https://docs.docker.com/desktop/setup/install/windows-install/
+[docker-linux]: https://docs.docker.com/desktop/setup/install/linux/
+[docker-mac]: https://docs.docker.com/desktop/setup/install/mac-install/
+[sqlite-browser]: https://sqlitebrowser.org/
+[jsonlint]: https://jsonlint.com
+[jsondiff]: http://jsondiff.com/
+[matplotlib-pyplot]: http://matplotlib.org/api/pyplot_api.html
+[fpg-observational-model]: https://github.com/EMOD-Hub/FPGObservationalModel
+[idm-publications]: http://idmod.org/publications
+[unity-viz]: https://institutefordiseasemodeling.github.io/UnityVisualization/
+[github-codespaces]: https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces
+[coursera-epidemics]: https://www.coursera.org/learn/epidemics/home/welcome
+[wiki-serialization]: https://en.wikipedia.org/wiki/Serialization
+[wiki-stl]: https://en.wikipedia.org/wiki/Standard_Template_Library
+[wiki-clausius-clapeyron]: https://en.wikipedia.org/wiki/Clausius%E2%80%93Clapeyron_relation
+[boost]: http://www.boost.org
+[json-org]: https://www.json.org
+[cdc-malaria-biology]: https://www.cdc.gov/malaria/about/biology/index.html
+[garki-project]: https://apps.who.int/iris/handle/10665/40316
+[eckhoff-2011]: https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-10-303
+[eckhoff-2012-mj]: https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-11-419
+[eckhoff-2012-plos]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0044950
+[eckhoff-2013]: https://doi.org/10.4269/ajtmh.12-0007
+[eckhoff-2013-ncbi]: https://www.ncbi.nlm.nih.gov/pubmed/23589530
+[eckhoff-2015]: http://www.sciencedirect.com/science/article/pii/S2214574515000802
+[eckhoff-2016-gene-drive]: http://www.pnas.org/content/114/2/E255.full.pdf
+[smith-2012]: http://dx.doi.org/10.1371/journal.ppat.1002588
+[smith-2014]: https://doi.org/10.1093/trstmh/tru026
+[reiner-2013]: http://rsif.royalsocietypublishing.org/content/10/81/20120921.short
+[lawniczak-2016]: http://malariajournal.biomedcentral.com/articles/10.1186/s12936-016-1538-5
+[cameron-2015]: http://www.nature.com/articles/ncomms9170
+[ouedraogo-2015]: https://academic.oup.com/jid/article-lookup/doi/10.1093/infdis/jiv370
+[gerardin-2015-reservoir]: http://malariajournal.biomedcentral.com/articles/10.1186/s12936-015-0751-y
+[daniels-2015]: http://www.pnas.org/content/112/22/7067.full.pdf
+[gerardin-2015-mda]: http://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-015-0887-y
+[gerardin-2015-mda-abstract]: http://www.biomedcentral.com/1471-2334/15/144/abstract
+[bellinger-2016]: http://stm.sciencemag.org/content/8/365/365ra157
+[penny-2016]: http://thelancet.com/journals/lancet/article/PIIS0140-6736(15)00725-4/fulltext?rss=yes
+[mccarthy-2015]: http://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-14-6
+[wenger-2013]: https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-12-126
+[hu-2013]: http://www.sciencedirect.com/science/article/pii/S0025556413001235
+[nikolov-2016]: http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005192
+[marshall-2016]: http://malariajournal.biomedcentral.com/articles/10.1186/s12936-016-1252-3
+[gerardin-2016]: http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004707
+[irvine-2018]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805933/
+[cooper-2019]: https://www.nature.com/articles/s41467-019-11861-y
+[msync-2021]: https://paper.dropbox.com/doc/MSYNC-2021-02-03-Heterogeneous-biting--BVONsYCwLtgcv9Z~CAkkEwiIAg-TWWnHaOM2OXSaMziu1m0l
+[biting-risk-2018]: https://paper.dropbox.com/doc/2018-07-30-Setting-heterogeneous-biting-risk-parameters--BVOMld8eT9JNrkgkYn~cwu6vAg-L78dwE4aWiVzMSbHwZxeW
+[hammond-galizi-2017]: https://doi.org/10.1080/20477724.2018.1438880
+[leung-2022]: https://doi.org/10.1186/s12936-022-04242-2
+[esvelt-gemmell-2017]: https://doi.org/10.1371/journal.pbio.2003850
+[vitale-2024]: https://targetmalaria.org/latest/blog/y-chromosome-shredding-in-anopheles-gambiae-a-new-genetic-sexing-strain-reveals-novel-insight-into-the-biology-of-synthetic-sex-ratio-distorters/
+[selvaraj-2020]: https://doi.org/10.1371/journal.pcbi.1008121
+[killeen-2014]: https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-13-146
+[massey-2016]: https://www.nature.com/articles/sdata201614#data-records

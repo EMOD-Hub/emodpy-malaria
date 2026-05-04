@@ -1,0 +1,10 @@
+{
+    "Property_Restrictions_Within_Node": [
+        {
+            "Place": "Urban"
+        }
+    ],
+    "Target_Demographic": "ExplicitAgeRanges",
+    "Target_Age_Min": 0,
+    "Target_Age_Max": 5
+}

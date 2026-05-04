@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "Intervention_Name": "Immunity Blood Test - Series 1",
+        "class": "ImmunityBloodTest"
+    }
+}

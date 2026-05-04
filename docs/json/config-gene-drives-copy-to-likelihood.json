@@ -1,0 +1,12 @@
+{
+    "Copy_To_Likelihood": [
+        {
+            "Copy_To_Allele": "drive_a",
+            "Likelihood": 0.95
+        },
+        {
+            "Copy_To_Allele": "resist_a",
+            "Likelihood": 0.05
+        }
+    ]
+}

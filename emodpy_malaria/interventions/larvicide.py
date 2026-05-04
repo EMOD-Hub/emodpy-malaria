@@ -57,7 +57,7 @@ def add_larvicide(
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
         Args:
-            campaign:
+            campaign (emodpy.campaign.emod_campaign.EMODCampaign):
             start_day: the day to distribute the Larvicides intervention
             num_repetitions: Optional number of repetitions.
             timesteps_between_reps: Gap between repetitions, if num_reptitions specified.
@@ -71,10 +71,6 @@ def add_larvicide(
             intervention_name: name of the intervention
             cost_to_consumer: Per unit cost when distributed
             node_property_restrictions: dict of node property restrictions
-
-        Returns:
-            The formatted intervention ready to be added to the campaign.
-
     """
     node_intervention = _larvicides(campaign=campaign,
                                     spray_coverage=spray_coverage,
@@ -99,12 +95,12 @@ def new_intervention_as_file(campaign, start_day: int = 1, filename: str = None)
     """
     Creates a file with Larvicides intervention
     Args:
-        campaign:
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign):
         start_day: the day to distribute the Larvicides intervention
         filename: name of the filename created
 
     Returns:
-    filename of the file created
+        (str): filename of the file created
     """
 
     campaign.reset()

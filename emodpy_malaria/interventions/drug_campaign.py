@@ -43,13 +43,13 @@ def drug_configs_from_code(campaign, drug_code: str = None):
     **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
             will be added.
         drug_code: The code of the drug regimen. This must be listed in the ``drug_cfg``
             dictionary.
 
     Returns:
-          A dictionary containing the intervention for the given drug regimen.
+          (dict): A dictionary containing the intervention for the given drug regimen.
     """
     if not drug_code or drug_code not in drug_cfg:
         raise Exception("Please pass in a (valid) drug_code.\n"
@@ -107,7 +107,7 @@ def add_drug_campaign(campaign,
                       adherent_drug_configs: list = None,
                       target_residents_only: int = 1,
                       check_eligibility_at_trigger: bool = False,
-                      receiving_drugs_event_name='Received_Campaign_Drugs'):
+                      receiving_drugs_event_name: str = 'Received_Campaign_Drugs'):
     """
     Add a drug intervention campaign from a list of malaria campaign types.
     This intervention uses the
@@ -122,7 +122,7 @@ def add_drug_campaign(campaign,
     drugs.
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will
             be added.
         campaign_type: The type of drug campaign. Available options are:
             MDA - Add a mass drug administration intervention.
@@ -168,7 +168,7 @@ def add_drug_campaign(campaign,
             community health workers distributing drugs to surrounding houses.
             Used when **campaign_type** is set to fMDA.
         node_selection_type: The setting for **Node_Selection_Type** in
-          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
+            :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
         trigger_coverage: The fraction of trigger events that will trigger reactive
             case detection (RCD). Used when **campaign_type** is set to rfMSAT or rfMDA.
             To set the fraction of individuals reached during RCD response, use **coverage**.
@@ -231,7 +231,7 @@ def add_drug_campaign(campaign,
         receiving_drugs_event_name: The event to broadcast when a person receives drugs.
 
     Returns:
-        A dictionary with drug campaign parameters.
+        (dict): A dictionary with drug campaign parameters.
     """
 
     if not drug_code and not adherent_drug_configs:
@@ -361,9 +361,6 @@ def add_MDA(campaign, start_days: list = None, coverage: float = 1.0, drug_confi
     Add an MDA (mass drug administration) drug intervention to your campaign.
     See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if start_days is None:
@@ -466,9 +463,6 @@ def add_MSAT(campaign, start_days: list = None, coverage: float = 1.0, drug_conf
     Add an MSAT (mass screening and treatment) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if not start_days:
@@ -544,9 +538,6 @@ def add_fMDA(
     Add an fMDA (focal mass drug administration) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if not start_days:
@@ -649,9 +640,6 @@ def add_rfMSAT(campaign, start_day: int = 0, coverage: float = 1, drug_configs: 
     Add a rfMSAT (reactive focal mass screening and treatment) drug intervention to your
     campaign. See :py:func:`add_drug_campaign` for more information about each
     argument.
-
-    Returns:
-        None
     """
 
     if drug_configs is None:
@@ -725,9 +713,6 @@ def add_rfMDA(campaign, start_day: int = 0, coverage: float = 1, drug_configs: l
     Add an rfMDA (reactive focal mass drug administration) drug intervention
     to your campaign. See :py:func:`add_drug_campaign` for more information
     about each argument.
-
-    Returns:
-        None
     """
 
     if drug_configs is None:
@@ -789,15 +774,14 @@ def fmda_cfg(campaign, fmda_type: any = 0, node_selection_type: str = 'DISTANCE_
 
     Args:
         fmda_type: The setting for **Max_Distance_To_Other_Nodes_Km** in
-          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
+            :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
         node_selection_type: The setting for **Node_Selection_Type** in
-          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
+            :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
         event_trigger: The setting for **Event_Trigger** in
-          :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
+            :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`.
 
     Returns:
-        Configured :doc:`emod/parameter-campaign-individual-broadcasteventtoothernodes`
-        intervention.
+        (BroadcastEventToOtherNodes): Configured intervention.
     """
     if isinstance(fmda_type, str):
         fmda_type = 0
@@ -828,7 +812,7 @@ def add_IPTi(campaign, start_day: int = 1, triggered_campaign_delay: int = None,
     which triggers giving drugs in a separate event "Received_IPTi".
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will
             be added.
         start_day: The day the intervention is distributed. Default is 0.
         trigger_coverage: Used to create BroadcastEvent to trigger IPTi campaign after Births. Default is 1
@@ -867,9 +851,6 @@ def add_IPTi(campaign, start_day: int = 1, triggered_campaign_delay: int = None,
             individuals must have to receive the diagnostic intervention.
             For example, ``[{"IndividualProperty1":"PropertyValue1"},
             {"IndividualProperty2":"PropertyValue2"}]``. Default is no restrictions.
-
-    Returns:
-        None
     """
     if drug_configs is None:
         raise Exception("You have to pass in drug_configs (list of drug configurations) that can be generated with "

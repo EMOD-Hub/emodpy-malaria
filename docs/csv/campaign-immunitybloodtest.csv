@@ -1,91 +1,14 @@
-"Base_Sensitivity","float","0","1","1","The sensitivity of the diagnostic. This sets the proportion of the time that individuals with the condition being tested receive a positive diagnostic test. When set to zero, then individuals who have the condition always receive a false-negative diagnostic test.",".. code-block:: json
-
-    {
-      ""Base_Sensitivity"": 0.8
-    }
-"
-"Base_Specificity","float","0","1","1","The specificity of the diagnostic. This sets the proportion of the time that individuals without the condition being tested receive a negative diagnostic test. When set to 1, the diagnostic always accurately reflects the lack of having the condition. When set to zero, then individuals who do not have the condition always receive a false-positive diagnostic test.",".. code-block:: json
-
-    {
-      ""Base_Specificity"": 0.9
-    }
-"
-"Cost_To_Consumer","float","0","3.40282e+38","1","The unit 'cost' assigned to the diagnostic. Setting Cost_To_Consumer to zero for all other interventions, and to a non-zero amount for one intervention, provides a convenient way to track the number of times the intervention has been applied in a simulation.",".. code-block:: json
-
-    {
-      ""Cost_To_Consumer"": 0
-    }
-"
-"Days_To_Diagnosis","float","0","3.40282e+38","0","The number of days from diagnosis (which is done when the intervention is distributed) until a positive response is performed. The response to a negative diagnosis is done immediately when the diagnosis is made (at distribution of the intervention).",".. code-block:: json
-
-    {
-      ""Days_To_Diagnosis"": 0
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Enable_Is_Symptomatic","boolean","0","1","0","If true (1), requires an infection to be symptomatic to return a positive test.",".. code-block:: json
-
-    {
-      ""Base_Sensitivity"": 0.92,
-      ""Base_Specificity"": 0.85,
-      ""Enable_Is_Symptomatic"": 1
-    }
-"
-"Intervention_Name","string","NA","NA","ImmunityBloodTest","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""Intervention_Name"": ""Immunity Blood Test - Series 1"",
-        ""class"": ""ImmunityBloodTest""
-      }
-    }
-"
-"Negative_Diagnosis_Event","enum","NA","NA","""""","If an individual tests negative (does not have immunity), then an individual type event is broadcast; custom individual events can be defined in the config parameter **Custom_Individual_Events**. This may trigger another intervention when the event occurs.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""Negative_Diagnosis_Event"": ""TestedNegative_IamSusceptible"",
-        ""Positive_Diagnosis_Event"": ""TestedPositive_IamImmune""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways.",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""InterventionStatus:None""
-    }
-"
-"Positive_Diagnosis_Event","enum","NA","NA","""""","If the test is positive (has immunity), then an individual type event is broadcast; custom individual events can be defined in the config parameter **Custom_Individual_Events**. This may trigger another intervention when the event occurs.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""Negative_Diagnosis_Event"": ""TestedNegative_IamSusceptible"",
-        ""Positive_Diagnosis_Event"": ""TestedPositive_IamImmune""
-      }
-    }
-"
-"Positive_Threshold_Acquisition_Immunity","float","0","1","1","Specifies the threshold for acquired immunity, where 1 equals 100% immunity and 0 equals 100% susceptible.",".. code-block:: json
-
-    {
-      ""Positive_Threshold_Acquisition_Immunity"": 0.99
-    }
-"
-"Treatment_Fraction","float","0","1","1","The fraction of positive diagnoses that are treated.",".. code-block:: json
-
-    {
-      ""Treatment_Fraction"": 1
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Base_Sensitivity,float,0,1,1,"The sensitivity of the diagnostic. This sets the proportion of the time that individuals with the condition being tested receive a positive diagnostic test. When set to zero, then individuals who have the condition always receive a false-negative diagnostic test.",[link](../json/campaign-immunitybloodtest-base-sensitivity.json)
+Base_Specificity,float,0,1,1,"The specificity of the diagnostic. This sets the proportion of the time that individuals without the condition being tested receive a negative diagnostic test. When set to 1, the diagnostic always accurately reflects the lack of having the condition. When set to zero, then individuals who do not have the condition always receive a false-positive diagnostic test.",[link](../json/campaign-immunitybloodtest-base-specificity.json)
+Cost_To_Consumer,float,0,3.40282e+38,1,"The unit 'cost' assigned to the diagnostic. Setting Cost_To_Consumer to zero for all other interventions, and to a non-zero amount for one intervention, provides a convenient way to track the number of times the intervention has been applied in a simulation.",[link](../json/campaign-immunitybloodtest-cost-to-consumer.json)
+Days_To_Diagnosis,float,0,3.40282e+38,0,The number of days from diagnosis (which is done when the intervention is distributed) until a positive response is performed. The response to a negative diagnosis is done immediately when the diagnosis is made (at distribution of the intervention).,[link](../json/campaign-immunitybloodtest-days-to-diagnosis.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-immunitybloodtest-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-immunitybloodtest-dont-allow-duplicates.json)
+Enable_Is_Symptomatic,boolean,0,1,0,"If true (1), requires an infection to be symptomatic to return a positive test.",[link](../json/campaign-immunitybloodtest-enable-is-symptomatic.json)
+Intervention_Name,string,NA,NA,ImmunityBloodTest,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-immunitybloodtest-intervention-name.json)
+Negative_Diagnosis_Event,enum,NA,NA,"""""","If an individual tests negative (does not have immunity), then an individual type event is broadcast; custom individual events can be defined in the config parameter **Custom_Individual_Events**. This may trigger another intervention when the event occurs.",[link](../json/campaign-immunitybloodtest-negative-diagnosis-event.json)
+New_Property_Value,string,NA,NA,"""""",An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways.,[link](../json/campaign-immunitybloodtest-new-property-value.json)
+Positive_Diagnosis_Event,enum,NA,NA,"""""","If the test is positive (has immunity), then an individual type event is broadcast; custom individual events can be defined in the config parameter **Custom_Individual_Events**. This may trigger another intervention when the event occurs.",[link](../json/campaign-immunitybloodtest-positive-diagnosis-event.json)
+Positive_Threshold_Acquisition_Immunity,float,0,1,1,"Specifies the threshold for acquired immunity, where 1 equals 100% immunity and 0 equals 100% susceptible.",[link](../json/campaign-immunitybloodtest-positive-threshold-acquisition-immunity.json)
+Treatment_Fraction,float,0,1,1,The fraction of positive diagnoses that are treated.,[link](../json/campaign-immunitybloodtest-treatment-fraction.json)

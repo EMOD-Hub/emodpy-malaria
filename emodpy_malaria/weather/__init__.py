@@ -57,8 +57,8 @@ def generate_weather(platform: Union[str, COMPSPlatform],
     Args:
         platform: Platform name (like "Calculon") or COMPSPlatform object, where the work item will run.
         site_file: CSV (.csv) or demographics (.json) file containing a set of sites (points) defined with lat/lon.
-        CSV file must contain columns for: EMOD node ids (node), latitude (lat) and longitude (lon).
-        Demographics file must match EMOD demographics file schema.
+            CSV file must contain columns for: EMOD node ids (node), latitude (lat) and longitude (lon).
+            Demographics file must match EMOD demographics file schema.
         start_date: Start date, in formats: year (2018), year and day-of-year (2018001) or date (20180101)
         end_date: (Optional) End date, in formats: year (2018), year and day-of-year (2018365) or date (20181231)
         node_column: (Optional) Name of a column containing EMOD node ids. The default is "nodes".
@@ -70,18 +70,8 @@ def generate_weather(platform: Union[str, COMPSPlatform],
         data_source: (Optional) SSMT data source to be used.
         force: (Optional) Flag ensuring a new weather request is submitted, even if weather files exist in "local_dir".
 
-            **Example**::
-
-                wr: WeatherRequest = generate_weather(platform="Calculon",
-                                                      site_file="path/to/sites.csv",
-                                                      start_date=2015,
-                                                      end_date=2016,
-                                                      node_column="id",
-                                                      local_dir="path/to/weather_dir")
-
     Returns:
-        WeatherRequest object.
-        Can be used to access asset collection id or a local dir (if not given as ) argument or a download report.
+        (WeatherRequest): Can be used to access asset collection id or a local dir (if not given as ) argument or a download report.
     """
     wa = WeatherArgs(site_file=site_file,
                      start_date=start_date,
@@ -114,14 +104,11 @@ def csv_to_weather(csv_data: Union[str, Path, pd.DataFrame],
         node_column: (Optional) Column containing node ids. The default is "nodes". The default is "nodes".
         step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
         weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-        Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         attributes: (Optional) Weather attribute object containing metadata for WeatherMetadata object.
         weather_dir: (Optional) Directory where weather files are stored. If not specified files are not created.
         weather_file_names: (Optional) Dictionary of weather variables (keys) and weather .bin file names (values).
 
-        **Example**::
-            wa = WeatherAttributes(start_year=2001, end_year=2010)
-            ws = csv_to_weather(csv_data="path/to/data.csv", attributes=wa, weather_dir="path/to/weather_dir")
     Returns:
         WeatherSet object.
     """
@@ -166,10 +153,8 @@ def weather_to_csv(weather_dir: Union[str, Path],
         node_column: (Optional) Column containing node ids. The default is "nodes".
         step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
         weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-        Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
 
-        **Example**::
-            df, attributes = weather_to_csv(weather_dir="path/to/weather_dir")
     Returns:
         Dataframe and weather attributes objects.
     """

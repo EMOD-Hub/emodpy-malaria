@@ -1,19 +1,21 @@
 {
-    "Events": [{
-        "class": "CampaignEventByYear",
-        "Event_Name": "Everyone initiates ART",
-        "Start_Year": 2025,
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
-            "Target_Demographic": "Everyone",
-            "Demographic_Coverage": 1,
-            "Travel_Linked": 0,
-            "Intervention_Config": {
-                "class": "ARTBasic"
+    "Events": [
+        {
+            "class": "CampaignEventByYear",
+            "Event_Name": "Everyone initiates ART",
+            "Start_Year": 2025,
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Target_Demographic": "Everyone",
+                "Demographic_Coverage": 1,
+                "Travel_Linked": 0,
+                "Intervention_Config": {
+                    "class": "ARTBasic"
+                }
             }
         }
-    }]
+    ]
 }

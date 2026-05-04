@@ -1,0 +1,8 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether_Lumefantrine",
+            "Drug_Vd": 3
+        }
+    ]
+}

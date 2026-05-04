@@ -1,0 +1,8 @@
+{
+    "Attraction_Config": {
+        "Initial_Effect": 0.5,
+        "Box_Duration": 100,
+        "Decay_Time_Constant": 150,
+        "class": "WaningEffectBoxExponential"
+    }
+}

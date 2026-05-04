@@ -1,0 +1,7 @@
+{
+    "Actual_IndividualIntervention_Config": {
+        "Antigen": 0,
+        "Genome": 0,
+        "class": "OutbreakIndividual"
+    }
+}

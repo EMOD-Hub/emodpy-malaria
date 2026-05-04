@@ -1,0 +1,28 @@
+{
+    "Defaults": {
+        "IndividualProperties": [
+            {
+                "Transitions": [
+                    {
+                        "From": "High",
+                        "To": "Medium",
+                        "Type": "At_Age",
+                        "Coverage": 1,
+                        "Probability_Per_Timestep": 0.3,
+                        "Age_In_Years": 5,
+                        "Timesteps_Until_Reversion": 0
+                    },
+                    {
+                        "From": "Medium",
+                        "To": "Low",
+                        "Type": "At_Age",
+                        "Coverage": 1,
+                        "Probability_Per_Timestep": 0.3,
+                        "Age_In_Years": 12,
+                        "Timesteps_Until_Reversion": 0
+                    }
+                ]
+            }
+        ]
+    }
+}

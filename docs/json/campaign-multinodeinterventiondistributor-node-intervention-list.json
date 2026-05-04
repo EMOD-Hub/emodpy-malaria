@@ -1,0 +1,24 @@
+{
+    "Intervention_Config": {
+        "Node_Intervention_List": [
+            {
+                "Cost_To_Consumer": 1,
+                "Habitat_Target": "ALL_HABITATS",
+                "Killing_Config": {
+                    "Decay_Time_Constant": 90,
+                    "Initial_Effect": 1,
+                    "class": "WaningEffectExponential"
+                },
+                "class": "SpaceSpraying"
+            },
+            {
+                "Daily_Probability": 1,
+                "Maximum_Duration": 0,
+                "Revert": 90,
+                "Target_NP_Key_Value": "InterventionStatus:RECENT_SPRAY",
+                "class": "NodePropertyValueChanger"
+            }
+        ],
+        "class": "MultiNodeInterventionDistributor"
+    }
+}

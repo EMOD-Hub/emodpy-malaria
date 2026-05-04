@@ -1,0 +1,39 @@
+{
+    "class": "CampaignEvent",
+    "Start_Day": 100,
+    "Nodeset_Config": {
+        "class": "NodeSetAll"
+    },
+    "Event_Coordinator_Config": {
+        "class": "StandardInterventionDistributionEventCoordinator",
+        "Target_Demographic": "Everyone",
+        "Demographic_Coverage": 0.2,
+        "Targeting_Config": {
+            "class": "TargetingLogic",
+            "Logic": [
+                [
+                    {
+                        "class": "HasIntervention",
+                        "Is_Equal_To": 0,
+                        "Intervention_Name": "MyVaccine"
+                    }
+                ],
+                [
+                    {
+                        "class": "HasIP",
+                        "Is_Equal_To": 1,
+                        "IP_Key_Value": "Risk:HIGH"
+                    }
+                ]
+            ]
+        },
+        "Intervention_Config": {
+            "class": "SimpleDiagnostic",
+            "Treatment_Fraction": 1.0,
+            "Base_Sensitivity": 1.0,
+            "Base_Specificity": 1.0,
+            "Event_Or_Config": "Event",
+            "Positive_Diagnosis_Event": "TestedPositive"
+        }
+    }
+}

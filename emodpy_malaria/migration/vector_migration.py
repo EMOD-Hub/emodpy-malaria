@@ -49,7 +49,6 @@ class Layer(dict):
 
         Returns:
             Number of (source) nodes with rates in this layer
-
         """
         return len(self)
 
@@ -60,7 +59,7 @@ class Layer(dict):
             key (int): source node id
 
         Returns:
-            Dictionary of outbound rates for the given node id
+            (dict): Dictionary of outbound rates for the given node id
         """
         if key not in self:
             if isinstance(key, Integral):
@@ -95,7 +94,7 @@ class VectorMigration(object):
     and saved to a file with the to_file() method.
     Given migration = Migration(), syntax is as follows:
 
-    age and gender agnostic:  migration[source_id][dest_id]
+    age and gender agnostic:  migration[source_id, dest_id]
     age dependent:            migration[source_id:age]          # age should be >= 0, ages > last bucket value use last bucket value
     gender dependent:         migration[source_id:gender]       # gender one of Migration.MALE or Migration.FEMALE
     age and gender dependent: migration[source_id:gender:age]   # gender one of Migration.MALE or Migration.FEMALE
@@ -476,7 +475,7 @@ def from_file(binaryfile: Path, metafile: Path = None):
         metafile (Path): use given metafile rather than inferring metafile name from the binary file name
 
     Returns:
-        Migration object representing binary data in the given file.
+        (VectorMigration): Migration object representing binary data in the given file.
     """
     binaryfile = Path(binaryfile).absolute()
     metafile = metafile if metafile else binaryfile.parent / (binaryfile.name + ".json")
@@ -679,7 +678,7 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
         distances of nodes and saves to be used by the sim
 
     Args:
-        demographics_object: demographics object created by Demographics class (use Demographics.from_file()
+        demographics_object (MalaraiDemographics): demographics object created by Demographics class (use Demographics.from_file()
             to load a demographics file you already have and pass in the returned object)
         gravity_params: a list of four parameters that will affect the gravity model
             gravity_params[0] denoted as g[0], etc, and they are used in the following way:
@@ -689,7 +688,7 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
             Default: vector_migration.bin
 
     Returns:
-        VectorMigration object
+        (VectorMigration): VectorMigration object
     """
 
     def _compute_migration_rate(gravity_params, from_node_population, to_node_population, distance):
@@ -706,8 +705,7 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
             distance: distance, in kilomenteres, between two nodes
 
         Returns:
-            Rate of vector migration from from_node to to_node
-
+            (float): Rate of vector migration from from_node to to_node
         """
         # If home/dest node has 0 pop, assume this node is the regional work node-- no local migration allowed
         if from_node_population == 0 or to_node_population == 0:
@@ -731,7 +729,7 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
             exclude_nodes: a list of node ids for nodes you don't want any migration happening to or from.
 
         Returns:
-            VectorMigration object based on demographics object that was passed in
+            (VectorMigration): VectorMigration object based on demographics object that was passed in
         """
         excluded_nodes = set(exclude_nodes) if exclude_nodes else set()
         v_migration = VectorMigration()
@@ -794,12 +792,6 @@ def from_csv(filename_path: str, id_reference: str, migration_type: str = "LOCAL
     Create migration from csv file. The file should have columns 'from_node' for the node ids from which vector is
     migrating, 'to_node' for the node ids that the vector is migrating to, and 'rate' for the migration rate.
 
-    Example::
-
-            from_node,to_node,rate
-            1, 4, 0.5
-            4, 1, 0.01
-
     Args:
         filename_path: name (if same folder) or path+name of the csv file
         id_reference: IdReference parameter to set for the migration file, it needs to be the same as
@@ -810,8 +802,7 @@ def from_csv(filename_path: str, id_reference: str, migration_type: str = "LOCAL
             string will be used
 
     Returns:
-        Migration object to be manipulated or written out as a file using to_file() function
-
+        (VectorMigration): Migration object to be manipulated or written out as a file using to_file() function
     """
     migration = VectorMigration()
     migration.IdReference = id_reference

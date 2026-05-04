@@ -1,0 +1,350 @@
+site_name: emodpy-malaria
+site_url: https://emod.idmod.org/emodpy-malaria/
+repo_name: EMOD-Hub/emodpy-malaria
+repo_url: https://github.com/EMOD-Hub/emodpy-malaria/
+
+theme:
+  name: material
+  custom_dir: docs/customization/overrides
+  font: 
+    text: Roboto
+    code: Roboto Mono
+  logo: images/EMOD_logo.png
+  favicon: images/favicon.ico
+  features:
+    - content.code.copy
+    # - navigation.footer
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Light mode
+      primary: white
+      accent: light blue
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
+      primary: black
+      accent: light blue
+
+nav:
+  - Home: index.md
+  - Installation:
+    - Installation: installation.md
+    - Virtual environments: virtual_environments.md
+  - Software:
+    - Overview: emod/software-overview.md
+    - Input files:
+      - Overview: emod/software-inputs.md
+      - Demographics: emod/software-demographics.md
+      - Demographics overlay files: emod/software-demographics-overlay.md
+      - Configuration: emod/software-configuration.md
+      - Campaign: emod/software-campaign.md
+      - Migration:
+        - Overview: emod/software-migration.md
+        - How to create migration files: emod/software-migration-creation.md
+        - How to create vector migration files: emod/software-migration-creation-vector.md
+        - Vector migration: emod/software-migration-vector.md
+      - Climate: emod/software-climate.md
+      - Load-balancing files: emod/software-load-balancing.md
+      - Serialized population file: emod/software-serialized.md
+    - Serializing populations:
+      - Overview: emod/software-serializing-pops.md
+      - Creating and editing serialized populations: emod/software-serializing-create.md
+      - Changing serialized campaign parameters: emod/software-serializing-change-campaign.md
+      - Changing serialized climate parameters: emod/software-serializing-change-climate.md
+      - Changing serialized configuration parameters: emod/software-serializing-change-config.md
+      - Changing serialized demographics parameters: emod/software-serializing-change-demog.md
+      - Changing serialized migration parameters: emod/software-serializing-change-migration.md
+      - Changing reports in serialized simulations: emod/software-serializing-change-reports.md
+    - Output reports:
+      - Overview: emod/software-outputs.md
+      - BinnedReport: emod/software-report-binned.md
+      - DemographicsSummary: emod/software-report-demographic-summary.md
+      - InsetChart: emod/software-report-inset-chart.md
+      - PropertyReport: emod/software-report-property.md
+      - ReportEventCounter: emod/software-report-event-counter.md
+      - ReportEventRecorder: emod/software-report-event-recorder.md
+      - ReportHumanMigrationTracking: emod/software-report-human-migration.md
+      - ReportInterventionPopAvg: emod/software-report-intervention-population-average.md
+      - ReportNodeDemographics: emod/software-report-node-demographics.md
+      - ReportSimulationStats: emod/software-report-simulation-stats.md
+      - SpatialReport: emod/software-report-spatial.md
+      - Vector reports:
+        - ReportMicrosporidia: emod/software-report-microsporidia.md
+        - ReportVectorGenetics: emod/software-report-vector-genetics.md
+        - ReportVectorMigration: emod/software-report-vector-migration.md
+        - ReportVectorStats: emod/software-report-vector-stats.md
+        - VectorHabitatReport: emod/software-report-vector-habitat.md
+        - VectorSpeciesReport: emod/software-report-vector-species.md
+      - Malaria reports:
+        - MalariaSummaryReport: emod/software-report-malaria-summary.md
+        - ReportMalariaFiltered: emod/software-report-filtered-malaria.md
+        - ReportNodeDemographicsMalaria: emod/software-report-malaria-node-demographics.md
+        - SpatialReportMalariaFiltered: emod/software-report-malaria-spatial.md
+        - SqlReport: emod/software-report-sql.md
+        - SqlReportMalaria: emod/software-report-sql-malaria.md
+        - MalariaImmunityReport: emod/software-report-malaria-immunity.md
+        - MalariaPatientJSONReport: emod/software-report-malaria-patient.md
+        - MalariaSurveyJSONAnalyzer: emod/software-report-malaria-survey.md
+        - ReportAntibodies: emod/software-report-antibodies.md
+        - ReportDrugStatus: emod/software-report-drug-status.md
+        - ReportInfectionDuration: emod/software-report-infection-duration.md
+        - ReportInfectionStatsMalaria: emod/software-report-infection-stats-malaria.md
+        - ReportMalariaFilteredIntraHost: emod/software-report-malaria-filtered-intra-host.md
+      - Parasite genetics reports:
+        - ReportFpgNewInfections: emod/software-report-fpg-new-infections.md
+        - ReportFpgOutputForObservationalModel: emod/software-report-fpg-output-observational-model.md
+        - ReportNodeDemographicsMalariaGenetics: emod/software-report-malaria-node-demographics-genetics.md
+        - ReportSimpleMalariaTransmission: emod/software-report-simple-malaria-transmission.md
+        - ReportVectorStatsMalariaGenetics: emod/software-report-vector-stats-malaria-genetics.md
+        - SqlReportMalariaGenetics: emod/software-report-sql-malaria-genetics.md
+      - Error and logging files: emod/software-error-logging.md
+      - Troubleshooting: emod/troubleshooting.md
+    - Tips and tricks:
+      - Overview: emod/tips-tricks.md
+      - Heterogeneous biting risk: emod/tips-biting-risk.md
+      - Speed up EMOD simulations: emod/software-simulation-performance.md
+  - Model:
+    - Overview: emod/model-overview.md
+    - Vector biology:
+      - Overview: emod/vector-model-overview.md
+      - Climate and demographics spatial data: emod/vector-model-climate-demographics.md
+      - Larval habitat: emod/vector-model-larval-habitat.md
+      - Vector transmission model: emod/vector-model-transmission.md
+      - Vector genetics: emod/vector-model-genetics.md
+      - Gene Drives: emod/vector-model-gene-drives.md
+      - Maternal deposition: emod/vector-model-maternal-deposition.md
+      - Insecticide resistance: emod/vector-model-insecticide-resistance.md
+      - Microsporidia Infection Model: emod/vector-model-microsporidia.md
+    - Malaria transmission and treatment:
+      - Overview: emod/malaria-model-overview.md
+      - Malaria infection and immune model: emod/malaria-model-infection-immunity.md
+      - Malaria symptoms and diagnostics: emod/malaria-model-symptoms-diagnosis.md
+      - Antimalarial drugs: emod/malaria-model-antimalarial-drugs.md
+    - Full Parasite Genetics (FPG) model: emod/malaria-model-fpg.md
+    - Disease outbreaks, reservoirs, and endemicity: emod/model-outbreak.md
+    - Adding heterogeneity:
+      - Overview: emod/model-heterogeneity.md
+      - Population density and transmission scaling: emod/model-population-density.md
+      - Individual and node properties: emod/model-properties.md
+      - Geographic migration: emod/model-migration.md
+    - Creating campaigns:
+      - Overview: emod/model-campaign.md
+      - Targeting interventions to nodes or individuals: emod/model-targeted-interventions.md
+      - Vaccination and herd immunity: emod/model-vaccination.md
+      - Cascade of care: emod/model-care-cascade.md
+  - Malaria: emod/malaria-overview.md
+  - Parameters:
+    - Overview: emod/parameter-overview.md
+    - Demographics: emod/parameter-demographics.md
+    - Configuration:
+      - Overview: emod/parameter-configuration.md
+      - Drugs and treatments: emod/parameter-configuration-drugs.md
+      - Enable or disable features: emod/parameter-configuration-enable.md
+      - General disease: emod/parameter-configuration-general-disease.md
+      - Geography and environment: emod/parameter-configuration-env.md
+      - Immunity: emod/parameter-configuration-immunity.md
+      - Incubation: emod/parameter-configuration-incubation.md
+      - Infectivity and transmission: emod/parameter-configuration-infectivity.md
+      - Input files: emod/parameter-configuration-input.md
+      - Larval habitat: emod/parameter-configuration-larval.md
+      - Migration: emod/parameter-configuration-migration.md
+      - Mortality and survival: emod/parameter-configuration-mortality.md
+      - Output settings: emod/parameter-configuration-output.md
+      - Parasite dynamics: emod/parameter-configuration-parasite.md
+      - Population dynamics: emod/parameter-configuration-population.md
+      - Sampling: emod/parameter-configuration-sampling.md
+      - Scalars and multipliers: emod/parameter-configuration-scalars.md
+      - Simulation setup: emod/parameter-configuration-setup.md
+      - Symptoms and diagnosis: emod/parameter-configuration-symptoms.md
+      - Vector control: emod/parameter-configuration-vector-control.md
+      - Vector life cycle: emod/parameter-configuration-vector-lifecycle.md
+    - Campaign:
+      - Overview: emod/parameter-campaign.md
+      - Events and event coordinators:
+        - Overview: emod/parameter-campaign-event-coordinators.md
+        - BroadcastCoordinatorEvent: emod/parameter-campaign-event-broadcastcoordinatorevent.md
+        - CalendarEventCoordinator: emod/parameter-campaign-event-calendareventcoordinator.md
+        - CampaignEvent: emod/parameter-campaign-event-campaignevent.md
+        - CommunityHealthWorkerEventCoordinator: emod/parameter-campaign-event-communityhealthworkereventcoordinator.md
+        - CoverageByNodeEventCoordinator: emod/parameter-campaign-event-coveragebynodeeventcoordinator.md
+        - DelayEventCoordinator: emod/parameter-campaign-event-delayeventcoordinator.md
+        - IncidenceEventCoordinator: emod/parameter-campaign-event-incidenceeventcoordinator.md
+        - NChooserEventCoordinator: emod/parameter-campaign-event-nchoosereventcoordinator.md
+        - StandardInterventionDistributionEventCoordinator: emod/parameter-campaign-event-standardinterventiondistributioneventcoordinator.md
+        - SurveillanceEventCoordinator: emod/parameter-campaign-event-surveillanceeventcoordinator.md
+        - TriggeredEventCoordinator: emod/parameter-campaign-event-triggeredeventcoordinator.md
+        - VectorSurveillanceEventCoordinator: emod/parameter-campaign-event-vectorsurveillanceeventcoordinator.md
+      - Node-level interventions:
+        - Overview: emod/parameter-campaign-node-interventions.md
+        - AnimalFeedKill: emod/parameter-campaign-node-animalfeedkill.md
+        - ArtificialDiet: emod/parameter-campaign-node-artificialdiet.md
+        - BirthTriggeredIV: emod/parameter-campaign-node-birthtriggerediv.md
+        - BroadcastCoordinatorEventFromNode: emod/parameter-campaign-node-broadcastcoordinatoreventfromnode.md
+        - BroadcastNodeEvent: emod/parameter-campaign-node-broadcastnodeevent.md
+        - FirstNodeWithNodePropertyEventCoordinator: emod/parameter-campaign-node-firstnodewithnodepropertyeventcoordinator.md
+        - ImportPressure: emod/parameter-campaign-node-importpressure.md
+        - IndoorSpaceSpraying: emod/parameter-campaign-node-indoorspacespraying.md
+        - InputEIR: emod/parameter-campaign-node-inputeir.md
+        - Larvicides: emod/parameter-campaign-node-larvicides.md
+        - LarvalMicrosporidiaIntervention: emod/parameter-campaign-node-larvalmicrosporidiaintervention.md
+        - MalariaChallenge: emod/parameter-campaign-node-malariachallenge.md
+        - MigrateFamily: emod/parameter-campaign-node-migratefamily.md
+        - MosquitoRelease: emod/parameter-campaign-node-mosquitorelease.md
+        - MultiInsecticideIndoorSpaceSpraying: emod/parameter-campaign-node-multiinsecticideindoorspacespraying.md
+        - MultiInsecticideSpaceSpraying: emod/parameter-campaign-node-multiinsecticidespacespraying.md
+        - MultiNodeInterventionDistributor: emod/parameter-campaign-node-multinodeinterventiondistributor.md
+        - NLHTIVNode: emod/parameter-campaign-node-nlhtivnode.md
+        - NodeLevelHealthTriggeredIV: emod/parameter-campaign-node-nodelevelhealthtriggerediv.md
+        - NodePropertyValueChanger: emod/parameter-campaign-node-nodepropertyvaluechanger.md
+        - Outbreak: emod/parameter-campaign-node-outbreak.md
+        - OutdoorRestKill: emod/parameter-campaign-node-outdoorrestkill.md
+        - OutdoorNodeEmanator: emod/parameter-campaign-node-outdoornodeemanator.md
+        - OvipositionTrap: emod/parameter-campaign-node-ovipositiontrap.md
+        - ScaleLarvalHabitat: emod/parameter-campaign-node-scalelarvalhabitat.md
+        - SpaceSpraying: emod/parameter-campaign-node-spacespraying.md
+        - SpatialRepellent: emod/parameter-campaign-node-spatialrepellent.md
+        - SugarTrap: emod/parameter-campaign-node-sugartrap.md
+      - Individual-level interventions:
+        - Overview: emod/parameter-campaign-individual-interventions.md
+        - AdherentDrug: emod/parameter-campaign-individual-adherentdrug.md
+        - AntimalarialDrug: emod/parameter-campaign-individual-antimalarialdrug.md
+        - BitingRisk: emod/parameter-campaign-individual-bitingrisk.md
+        - BroadcastEvent: emod/parameter-campaign-individual-broadcastevent.md
+        - BroadcastEventToOtherNodes: emod/parameter-campaign-individual-broadcasteventtoothernodes.md
+        - ControlledVaccine: emod/parameter-campaign-individual-controlledvaccine.md
+        - DelayedIntervention: emod/parameter-campaign-individual-delayedintervention.md
+        - FemaleContraceptive: emod/parameter-campaign-individual-femalecontraceptive.md
+        - HumanHostSeekingTrap: emod/parameter-campaign-individual-humanhostseekingtrap.md
+        - ImmunityBloodTest: emod/parameter-campaign-individual-immunitybloodtest.md
+        - IndoorIndividualEmanator: emod/parameter-campaign-individual-indoorindividualemanator.md
+        - IndividualImmunityChanger: emod/parameter-campaign-individual-individualimmunitychanger.md
+        - IndividualNonDiseaseDeathRateModifier: emod/parameter-campaign-individual-individualnondiseasedeathratemodifier.md
+        - IRSHousingModification: emod/parameter-campaign-individual-irshousingmodification.md
+        - IVCalendar: emod/parameter-campaign-individual-ivcalendar.md
+        - Ivermectin: emod/parameter-campaign-individual-ivermectin.md
+        - MalariaDiagnostic: emod/parameter-campaign-individual-malariadiagnostic.md
+        - MigrateIndividuals: emod/parameter-campaign-individual-migrateindividuals.md
+        - MultiEffectBoosterVaccine: emod/parameter-campaign-individual-multieffectboostervaccine.md
+        - MultiEffectVaccine: emod/parameter-campaign-individual-multieffectvaccine.md
+        - MultiInsecticideIRSHousingModification: emod/parameter-campaign-individual-multiinsecticideirshousingmodification.md
+        - MultiInsecticideUsageDependentBednet: emod/parameter-campaign-individual-multiinsecticideusagedependentbednet.md
+        - MultiInterventionDistributor: emod/parameter-campaign-individual-multiinterventiondistributor.md
+        - MultiPackComboDrug: emod/parameter-campaign-individual-multipackcombodrug.md
+        - OutbreakIndividual: emod/parameter-campaign-individual-outbreakindividual.md
+        - OutbreakIndividualMalariaGenetics: emod/parameter-campaign-individual-outbreakindividualmalariagenetics.md
+        - OutbreakIndividualMalariaVarGenes: emod/parameter-campaign-individual-outbreakindividualmalariavargenes.md
+        - PropertyValueChanger: emod/parameter-campaign-individual-propertyvaluechanger.md
+        - RTSSVaccine: emod/parameter-campaign-individual-rtssvaccine.md
+        - ScreeningHousingModification: emod/parameter-campaign-individual-screeninghousingmodification.md
+        - SimpleBednet: emod/parameter-campaign-individual-simplebednet.md
+        - SimpleBoosterVaccine: emod/parameter-campaign-individual-simpleboostervaccine.md
+        - SimpleDiagnostic: emod/parameter-campaign-individual-simplediagnostic.md
+        - SimpleHealthSeekingBehavior: emod/parameter-campaign-individual-simplehealthseekingbehavior.md
+        - SimpleHousingModification: emod/parameter-campaign-individual-simplehousingmodification.md
+        - SimpleIndividualRepellent: emod/parameter-campaign-individual-simpleindividualrepellent.md
+        - SimpleVaccine: emod/parameter-campaign-individual-simplevaccine.md
+        - SpatialRepellentHousingModification: emod/parameter-campaign-individual-spatialrepellenthousingmodification.md
+        - StandardDiagnostic: emod/parameter-campaign-individual-standarddiagnostic.md
+        - UsageDependentBednet: emod/parameter-campaign-individual-usagedependentbednet.md
+      - Waning effect classes: emod/parameter-campaign-waningeffects.md
+      - Targeting_Config classes: emod/parameter-campaign-targeting-config.md
+      - Event list: emod/parameter-campaign-event-list.md
+    - Schema: emod/parameter-schema.md
+  - Tutorial:
+    - Getting Started: md_tutorial/tutorial_getting_started.md
+    - md_tutorial/tutorial_starting_codespaces.md
+    - md_tutorial/tutorial_run_simple_example.md
+    - md_tutorial/tutorial_interpret_results.md
+  - Glossary: glossary.md
+  - API reference: autoapi/
+  - Related projects: https://emod.idmod.org/
+
+plugins:
+  - search:
+  - autorefs:
+  - include-markdown:
+  - glightbox:
+  - table-reader:
+  - mkdocs-autoapi:
+      autoapi_ignore:
+        - .github/**/*
+        - build/**/*
+        - docs/**/*
+        - emodpy_malaria/**/__main__.py
+        - examples-container/**/*
+        - tests/**/*
+      autoapi_add_nav_entry: false
+  - mkdocstrings:
+
+markdown_extensions:
+  - admonition:
+  - attr_list:  # enables HTMl and CSS classes to inline elements
+  - def_list:
+  - footnotes:
+  - md_in_html:  # enables grids
+  - pymdownx.arithmatex:  # Latex processing for math equations
+      generic: true
+  - pymdownx.blocks.caption:  # captions for images, tables, etc.
+  - pymdownx.blocks.details:  # allows nesting of collapsible code
+  - pymdownx.caret:  # superscripts
+  - pymdownx.details:  # collapsible elements
+  - pymdownx.emoji:  # emojis and icons
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:  # syntax highlighting for code blocks
+      linenums: true  # adds line numbers to code blocks automatically
+      anchor_linenums: true  # adds HTML anchors (#L1, #L2, etc.) to each line so you can link to specific ones.
+      default_lang: 'python'
+  - pymdownx.mark:  # text highlighting
+  - pymdownx.snippets:  # snippet reuse functionality
+      auto_append:
+        - docs/bib.md
+  - pymdownx.tilde:  # subscripts
+
+copyright: Copyright &copy; 2025 Gates Foundation. All rights reserved.
+
+extra_javascript:
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - customization/css/extra.css
+
+extra:
+  generator: false  # Removes acknowledgement of mkdocs-material
+  footer_links:
+    - text: "Privacy and Cookies Notice"
+      href: "https://www.gatesfoundation.org/Privacy-and-Cookies-Notice"
+    - text: "Terms of Use"
+      href: "https://www.gatesfoundation.org/Terms-of-Use"
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/EMOD-Hub/
+    - icon: octicons/comment-discussion-24
+      link: https://github.com/EMOD-Hub/issues-and-discussions
+    - icon: octicons/globe-24
+      link: https://idmod.org
+    - icon: simple/youtube
+      link: http://www.youtube.com/@institutefordiseasemodelin1987
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/company/institute-disease-modeling
+  analytics:
+    provider: custom
+    property: GTM-NK4K647
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: This page was helpful
+          data: 1
+          note: >-
+            Thanks for your feedback! If you like, provide additional information by
+            using our <a href="https://app.smartsheet.com/b/form/ec8dbb77809949ecab7286a5ca74a206" target="_blank" rel="noopener">feedback form</a>.
+        - icon: material/emoticon-sad-outline
+          name: This page could be improved
+          data: 0
+          note: >- 
+            Thanks for your feedback! Help us improve this page by
+            using our <a href="https://app.smartsheet.com/b/form/ec8dbb77809949ecab7286a5ca74a206" target="_blank" rel="noopener">feedback form</a>.

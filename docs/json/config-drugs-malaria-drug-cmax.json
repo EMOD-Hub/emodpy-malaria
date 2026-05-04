@@ -1,0 +1,9 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether",
+            "Drug_Cmax": 1000,
+            "Drug_PKPD_C50": 100
+        }
+    ]
+}

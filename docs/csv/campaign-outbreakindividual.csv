@@ -1,52 +1,5 @@
-"Antigen","integer","0","10","0","The antigenic base strain ID of the outbreak infection.",".. code-block:: json
-
-    {
-      ""Antigen"": 1
-    }
-"
-"Genome","integer","-1","1.67E+07","0","The genome ID of the outbreak infection. Together with the clade ID (**Clade**) they represent an infection as a unitary object. Values for **Genome** may range from -1 to 2\ :sup:`Log2_Number_of_Genomes_per_Clade-1`. Set this to -1 to create a random number generator.","Intervention distribution example:
-
-.. code-block:: json
-
-    {
-      ""Enable_Strain_Tracking"": 1,
-      ""Events"": [
-        {
-          ""Event_Coordinator_Config"": {
-            ""Demographic_Coverage"": 0.001,
-            ""Intervention_Config"": {
-              ""Antigen"": 1,
-              ""Genome"": 3,
-              ""IgnoreImmunity"": 1,
-              ""class"": ""OutbreakIndividual""
-            },
-            ""Target_Demographic"": ""Everyone"",
-            ""class"": ""StandardInterventionDistributionEventCoordinator""
-          },
-          ""Event_Name"": ""Outbreak"",
-          ""Nodeset_Config"": {
-            ""class"": ""NodeSetAll""
-          },
-          ""Start_Day"": 30,
-          ""class"": ""CampaignEvent""
-        }
-      ]
-    }
-"
-"Ignore_Immunity","boolean","0","1","1","Individuals will be force-infected (with a specific strain) regardless of actual immunity level when set to true (1).",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""Antigen"": 0,
-        ""Genome"": 0,
-        ""Ignore_Immunity"": 0,
-        ""class"": ""OutbreakIndividual""
-      }
-    }
-"
-"Incubation_Period_Override","integer","-1","2147480000.0","-1","The incubation period, in days, that infected individuals will go through before becoming infectious. This value overrides the incubation period set in the configuration file. Note for HIV simulations only: If set to 0, infection is assumed to be part of an outbreak event and a random duration until death is determined. For all other simulation types: Set to -1 to honor the configuration parameter settings.",".. code-block:: json
-
-    {
-      ""Incubation_Period_Override"": 0
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Antigen,integer,0,10,0,The antigenic base strain ID of the outbreak infection.,[link](../json/campaign-outbreakindividual-antigen.json)
+Genome,integer,-1,1.67E+07,0,The genome ID of the outbreak infection. Together with the clade ID (**Clade**) they represent an infection as a unitary object. Values for **Genome** may range from -1 to $2^{Log2\_Number\_of\_Genomes\_per\_Clade-1}$. Set this to -1 to create a random number generator.,[link](../json/campaign-outbreakindividual-genome.json)
+Ignore_Immunity,boolean,0,1,1,Individuals will be force-infected (with a specific strain) regardless of actual immunity level when set to true (1).,[link](../json/campaign-outbreakindividual-ignore-immunity.json)
+Incubation_Period_Override,integer,-1,2147480000.0,-1,"The incubation period, in days, that infected individuals will go through before becoming infectious. This value overrides the incubation period set in the configuration file. Note for HIV simulations only: If set to 0, infection is assumed to be part of an outbreak event and a random duration until death is determined. For all other simulation types: Set to -1 to honor the configuration parameter settings.",[link](../json/campaign-outbreakindividual-incubation-period-override.json)

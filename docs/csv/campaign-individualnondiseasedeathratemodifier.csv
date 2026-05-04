@@ -1,173 +1,25 @@
-"Cost_To_Consumer","float","999999","0","0","The cost of getting the non-disease death modifier each time it is distributed.",".. code-block:: json
-
-    {
-      ""Cost_To_Consumer"": 1
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Duration_To_Modifier","array of json objects","NA","NA","NA","An array of Times and Values used to specify different modifiers over the duration of the intervention. Linear interpolation is used to find the values between time points. If the duration exceeds the max time, then the last modifier value will be used.",".. code-block:: json
-
-    {
-      ""Duration_To_Modifier"": {
-        ""Times"": [
-          0,
-          365,
-          730,
-          1095
-        ],
-        ""Values"": [
-          2,
-          1,
-          0.5,
-          0
-        ]
-      }
-    }
-"
-"Expiration_Duration_Constant","float","0","3.40282e+38","6","Each instance will receive this constant/fixed value.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Constant"": 6
-    }
-"
-"Expiration_Duration_Distribution","enum","NA","NA","NOT_INITIALIZED","For the distribution of each intervention, a randomly selected duration from this distribution will determine when the person stops using the intervention. This is independent of how long the intervention is effective. Possible values are:
-
-* NOT_INITIALIZED
-* CONSTANT_DISTRIBUTION
-* UNIFORM_DISTRIBUTION
-* GAUSSIAN_DISTRIBUTION
-* EXPONENTIAL_DISTRIBUTION
-* POISSON_DISTRIBUTION
-* LOG_NORMAL_DISTRIBUTION
-* DUAL_CONSTANT_DISTRIBUTION
-* WEIBULL_DISTRIBUTION
-* DUAL_EXPONENTIAL_DISTRIBUTION",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Distribution"": ""CONSTANT_DISTRIBUTION""
-    }
-"
-"Expiration_Duration_Exponential","float","0","3.40282e+38","6","The mean for an exponential distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Exponential"": 6
-    }
-"
-"Expiration_Duration_Gaussian_Mean","float","0","3.40282e+38","6","The mean for a Gaussian distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Gaussian_Mean"": 6
-    }
-"
-"Expiration_Duration_Gaussian_Std_Dev","float","1.17549e-38","3.40282e+38","1","The standard deviation for a Gaussian distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Gaussian_Std_Dev"": 1
-    }
-"
-"Expiration_Duration_Kappa","float","1.17549e-38","3.40282e+38","1","The shape value in a Weibull distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Kappa"": 1
-    }
-"
-"Expiration_Duration_Lambda","float","1.17549e-38","3.40282e+38","1","The scale value in a Weibull distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Lambda"": 1
-    }
-"
-"Expiration_Duration_Log_Normal_Mu","float","-3.40282e+38","3.40282e+38","6","The mean for a log-normal distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Log_Normal_Mu"": 6
-    }
-"
-"Expiration_Duration_Log_Normal_Sigma","float","-3.40282e+38","3.40282e+38","1","The width for a log-normal distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Log_Normal_Sigma"": 1
-    }
-"
-"Expiration_Duration_Max","float","0","3.40282e+38","1","The maximum of the uniform distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Max"": 1
-    }
-"
-"Expiration_Duration_Mean_1","float","1.17549e-38","3.40282e+38","1","The mean of the first exponential distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Mean_1"": 1
-    }
-"
-"Expiration_Duration_Mean_2","float","1.17549e-38","3.40282e+38","1","The mean of the second exponential distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Mean_2"": 1
-    }
-"
-"Expiration_Duration_Min","float","0","3.40282e+38","0","The minimum of the uniform distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Min"": 0
-    }
-"
-"Expiration_Duration_Peak_2_Value","float","0","3.40282e+38","1","The value to assign to the remaining individuals.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Peak_2_Value"": 1
-    }
-"
-"Expiration_Duration_Poisson_Mean","float","0","3.40282e+38","6","The mean for a Poisson distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Poisson_Mean"": 6
-    }
-"
-"Expiration_Duration_Proportion_0","float","0","1","1","The proportion of individuals to assign a value of zero.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Proportion_0"": 1
-    }
-"
-"Expiration_Duration_Proportion_1","float","0","1","1","The proportion of individuals in the first exponential distribution.",".. code-block:: json
-
-    {
-      ""Expiration_Duration_Proportion_1"": 1
-    }
-"
-"Expiration_Event","string","NA","NA","""""","When the person stops using the intervention, this event will be broadcasted. See :doc:`parameter-campaign-event-list` for possible values or define custom events using config parameter **Custom_Individual_Events**.",".. code-block:: json
-
-    {
-      ""Expiration_Event"": ""BackToNormalMortality""
-    }
-"
-"Intervention_Name","string","NA","NA","IndividualNonDiseaseDeathRateModifier","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""Intervention_Name"": ""My Intervention"",
-        ""class"": ""IndividualNonDiseaseDeathRateModifier""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is distributed. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one.",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""InterventionStatus:None""
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Cost_To_Consumer,float,999999,0,0,The cost of getting the non-disease death modifier each time it is distributed.,[link](../json/campaign-individualnondiseasedeathratemodifier-cost-to-consumer.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-individualnondiseasedeathratemodifier-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-individualnondiseasedeathratemodifier-dont-allow-duplicates.json)
+Duration_To_Modifier,array of json objects,NA,NA,NA,"An array of Times and Values used to specify different modifiers over the duration of the intervention. Linear interpolation is used to find the values between time points. If the duration exceeds the max time, then the last modifier value will be used.",[link](../json/campaign-individualnondiseasedeathratemodifier-duration-to-modifier.json)
+Expiration_Duration_Constant,float,0,3.40282e+38,6,Each instance will receive this constant/fixed value.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-constant.json)
+Expiration_Duration_Distribution,enum,NA,NA,NOT_INITIALIZED,"For the distribution of each intervention, a randomly selected duration from this distribution will determine when the person stops using the intervention. This is independent of how long the intervention is effective. Possible values are:<br>* NOT_INITIALIZED<br>* CONSTANT_DISTRIBUTION<br>* UNIFORM_DISTRIBUTION<br>* GAUSSIAN_DISTRIBUTION<br>* EXPONENTIAL_DISTRIBUTION<br>* POISSON_DISTRIBUTION<br>* LOG_NORMAL_DISTRIBUTION<br>* DUAL_CONSTANT_DISTRIBUTION<br>* WEIBULL_DISTRIBUTION<br>* DUAL_EXPONENTIAL_DISTRIBUTION",[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-distribution.json)
+Expiration_Duration_Exponential,float,0,3.40282e+38,6,The mean for an exponential distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-exponential.json)
+Expiration_Duration_Gaussian_Mean,float,0,3.40282e+38,6,The mean for a Gaussian distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-gaussian-mean.json)
+Expiration_Duration_Gaussian_Std_Dev,float,1.17549e-38,3.40282e+38,1,The standard deviation for a Gaussian distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-gaussian-std-dev.json)
+Expiration_Duration_Kappa,float,1.17549e-38,3.40282e+38,1,The shape value in a Weibull distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-kappa.json)
+Expiration_Duration_Lambda,float,1.17549e-38,3.40282e+38,1,The scale value in a Weibull distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-lambda.json)
+Expiration_Duration_Log_Normal_Mu,float,-3.40282e+38,3.40282e+38,6,The mean for a log-normal distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-log-normal-mu.json)
+Expiration_Duration_Log_Normal_Sigma,float,-3.40282e+38,3.40282e+38,1,The width for a log-normal distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-log-normal-sigma.json)
+Expiration_Duration_Max,float,0,3.40282e+38,1,The maximum of the uniform distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-max.json)
+Expiration_Duration_Mean_1,float,1.17549e-38,3.40282e+38,1,The mean of the first exponential distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-mean-1.json)
+Expiration_Duration_Mean_2,float,1.17549e-38,3.40282e+38,1,The mean of the second exponential distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-mean-2.json)
+Expiration_Duration_Min,float,0,3.40282e+38,0,The minimum of the uniform distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-min.json)
+Expiration_Duration_Peak_2_Value,float,0,3.40282e+38,1,The value to assign to the remaining individuals.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-peak-2-value.json)
+Expiration_Duration_Poisson_Mean,float,0,3.40282e+38,6,The mean for a Poisson distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-poisson-mean.json)
+Expiration_Duration_Proportion_0,float,0,1,1,The proportion of individuals to assign a value of zero.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-proportion-0.json)
+Expiration_Duration_Proportion_1,float,0,1,1,The proportion of individuals in the first exponential distribution.,[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-duration-proportion-1.json)
+Expiration_Event,string,NA,NA,"""""","When the person stops using the intervention, this event will be broadcasted. See [Event list](parameter-campaign-event-list.md) for possible values or define custom events using config parameter **Custom_Individual_Events**.",[link](../json/campaign-individualnondiseasedeathratemodifier-expiration-event.json)
+Intervention_Name,string,NA,NA,IndividualNonDiseaseDeathRateModifier,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-individualnondiseasedeathratemodifier-intervention-name.json)
+New_Property_Value,string,NA,NA,"""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is distributed. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one.",[link](../json/campaign-individualnondiseasedeathratemodifier-new-property-value.json)

@@ -7,12 +7,11 @@ def species_params(manifest, species: str = None):
 
     Args:
 
-        manifest: file that contains path to the schema file
+        manifest (ModuleType): file that contains path to the schema file
         species: species, configuration for which, we will be adding to the simulation.
 
     Returns:
-        Configured species parameters
-
+        (Union[dict, list]): Dict of parameter if valid species; list of valid species otherwise.
     """
 
     # generic

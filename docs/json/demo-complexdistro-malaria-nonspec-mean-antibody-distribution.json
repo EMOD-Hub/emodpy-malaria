@@ -1,0 +1,48 @@
+{
+    "IndividualAttributes": {
+        "nonspec_mean_antibody_distribution": {
+            "AxisNames": [
+                "age"
+            ],
+            "AxisUnits": [
+                "years"
+            ],
+            "AxisScaleFactors": [
+                365
+            ],
+            "NumPopulationGroups": [
+                11
+            ],
+            "PopulationGroups": [
+                [
+                    0,
+                    0.5,
+                    1.5,
+                    2.5,
+                    3.5,
+                    4.5,
+                    7.5,
+                    15,
+                    25,
+                    35,
+                    60
+                ]
+            ],
+            "ResultUnits": "mean fraction of antibody variants",
+            "ResultScaleFactor": 1,
+            "ResultValues": [
+                0,
+                0.272,
+                0.5547,
+                0.7226,
+                0.8429,
+                0.9186,
+                0.9782,
+                0.9991,
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    }
+}

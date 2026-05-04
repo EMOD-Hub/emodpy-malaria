@@ -1,0 +1,14 @@
+{
+    "Action_List": [
+        {
+            "Event_To_Broadcast": "Ind_Start_SIA_2",
+            "Event_Type": "COORDINATOR",
+            "Threshold": 5
+        },
+        {
+            "Event_To_Broadcast": "Ind_Start_SIA_4",
+            "Event_Type": "COORDINATOR",
+            "Threshold": 2
+        }
+    ]
+}

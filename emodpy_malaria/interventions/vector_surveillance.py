@@ -57,7 +57,7 @@ def add_vector_surveillance_event_coordinator(
     added to the config.parameters.Custom_Coordinator_Events parameter list.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_trigger_condition_list: List of coordinator-level events. Any of the events in the list will activate
             the run of vector surveillance intervention. The list cannot be empty. emod_api.interventions.common.py
             has a function add_broadcast_coordinator_event that sends out coordinator-level events to act as triggers.
@@ -89,9 +89,6 @@ def add_vector_surveillance_event_coordinator(
             add_broadcast_coordinator_event that sends out coordinator-level events to act as triggers.
         survey_completed_event: String representing coordinator-level event that will be sent out after every time a
             vector survey runs the respond() function and its resulting events (if any) are sent out.
-
-    Returns:
-        configured VectorSurveillanceEventCoordinator intervention
     """
     schema_path = campaign.schema_path
     vector_counter = dfs.schema_to_config_subnode(schema_path, ["idmTypes", "idmType:VectorCounter"]).parameters

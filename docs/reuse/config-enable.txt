@@ -1,2 +1,0 @@
-The following parameters enable or disable features of the model, such as allowing births, deaths,
-or aging. Set to false (0) to disable; set to true (1) to enable.

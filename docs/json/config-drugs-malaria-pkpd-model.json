@@ -1,0 +1,8 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether_Lumefantrine",
+            "PKPD_Model": "FIXED_DURATION_CONSTANT_EFFECT"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+{
+    "Usage_Duration_Distribution": "GAUSSIAN_DISTRIBUTION",
+    "Usage_Duration_Gaussian_Mean": 180,
+    "Usage_Duration_Gaussian_Std_Dev": 30
+}

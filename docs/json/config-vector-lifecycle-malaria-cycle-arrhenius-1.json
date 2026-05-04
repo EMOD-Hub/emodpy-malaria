@@ -1,0 +1,10 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Cycle_Arrhenius_1": 99,
+            "Cycle_Arrhenius_2": 88,
+            "Name": "arabiensis",
+            "Temperature_Dependent_Feeding_Cycle": "ARRHENIUS_DEPENDENCE"
+        }
+    ]
+}

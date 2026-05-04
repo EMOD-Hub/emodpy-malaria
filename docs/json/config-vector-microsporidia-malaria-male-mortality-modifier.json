@@ -1,0 +1,13 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "gambiae",
+            "Microsporidia": [
+                {
+                    "Strain_Name": "Strain_A",
+                    "Male_Mortality_Modifier": 1.2
+                }
+            ]
+        }
+    ]
+}

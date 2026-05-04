@@ -1,0 +1,8 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether_Lumefantrine",
+            "Max_Drug_IRBC_Kill": 4.6
+        }
+    ]
+}

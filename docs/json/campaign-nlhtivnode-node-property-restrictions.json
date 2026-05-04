@@ -1,0 +1,12 @@
+{
+    "Node_Property_Restrictions": [
+        {
+            "Place": "URBAN",
+            "HasHealthcare": "YES"
+        },
+        {
+            "Place": "RURAL",
+            "HasHealthcare": "NO"
+        }
+    ]
+}

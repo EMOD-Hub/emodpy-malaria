@@ -1,0 +1,25 @@
+{
+    "Reports": [
+        {
+            "class": "MalariaSurveyJSONAnalyzer",
+            "Filename_Suffix": "Node1",
+            "Start_Day": 365,
+            "End_Day": 465,
+            "Node_IDs_Of_Interest": [
+                1
+            ],
+            "Min_Age_Years": 5,
+            "Max_Age_Years": 10,
+            "Must_Have_IP_Key_Value": "Accessibility:YES",
+            "Must_Have_Intervention": "UsageDependentBednet",
+            "Event_Trigger_List": [
+                "EveryUpdate"
+            ],
+            "Reporting_Interval": 10,
+            "Max_Number_Reports": 1,
+            "Pretty_Format": 1,
+            "IP_Key_To_Collect": "Risk"
+        }
+    ],
+    "Use_Defaults": 1
+}

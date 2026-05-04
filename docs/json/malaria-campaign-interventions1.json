@@ -1,8 +1,8 @@
 {
-  "Intervention_Config": {
-    "class": "AntimalarialDrug",
-    "Cost_To_Consumer": 3.75,
-    "Drug_Type": "Chloroquine",
-    "Dosing_Type": "FullTreatmentParasiteDetect"
-  }
+    "Intervention_Config": {
+        "class": "AntimalarialDrug",
+        "Cost_To_Consumer": 3.75,
+        "Drug_Type": "Chloroquine",
+        "Dosing_Type": "FullTreatmentParasiteDetect"
+    }
 }

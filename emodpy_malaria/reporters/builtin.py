@@ -31,11 +31,7 @@ def check_vectors(task):
         Checks that there are species defined for the simulation
 
     Args:
-        task: task to which to add the reporter, which also contains the config file
-
-    Returns:
-        Nothing
-
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, which also contains the config file
     Raises:
         ValueError: No Vector_Species_Params defined. You need to define at least one to use ReportVectorGenetics.
     """
@@ -49,10 +45,10 @@ def all_vectors_if_none(task):
         a list of all species defined for the simulation
 
     Args:
-        task: task to which to add the reporter, which also contains the config file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, which also contains the config file
 
     Returns:
-        A list of all species' names defined in the config
+        (list): A list of all species' names defined in the config
     """
     species_list = []
     for species_params in task.config.parameters.Vector_Species_Params:
@@ -66,10 +62,7 @@ def add_visualizations(task):
         Currently, "AllInsets", "BinnedReport", "MalariaInterventions", "MalariaSummaryReport"
 
     Args:
-        task:  task to which to add the pointer files as assets
-
-    Returns:
-        Nothing
+        task (emodpy.emod_task.EMODTask): task to which to add the pointer files as assets
     """
     relevant_diseases = ["generic", "malaria"]
     sites = []
@@ -101,8 +94,8 @@ def add_report_vector_genetics(task, manifest,
     Adds ReportVectorGenetics to the simulation. See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start reporting data
         end_day: the day of the simulation to stop reporting data
         node_ids: the list of nodes in which to collect data, empty or None means all nodes
@@ -137,7 +130,7 @@ def add_report_vector_genetics(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportVectorGenetics, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     # verifying that there are alleles to report on
     if task:
@@ -186,8 +179,8 @@ def add_report_vector_stats(task, manifest,
     Adds ReportVectorStats report to the simulation. See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         species_list: a list of species to include information on, default of None or [] means "all species"
         stratify_by_species: if True(1), data will break out each the species for each node
         include_death_state: if True(1), adds columns for the number of vectors that died in this state during this
@@ -198,7 +191,7 @@ def add_report_vector_stats(task, manifest,
         include_microsporidia: if True(1), adds columns for the number of vectors that have microsporidia in
             each state during this time step
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportVectorStats, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if task:
         check_vectors(task)
@@ -247,8 +240,8 @@ def add_malaria_summary_report(task, manifest,
     Adds MalariaSummaryReport to the simulation. See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to starts collecting data for the report
         end_day: the day of the simulation to stop reporting data
         node_ids: a list of nodes from which to collect data for the report
@@ -295,7 +288,7 @@ def add_malaria_summary_report(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[MalariaSummaryReport, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = MalariaSummaryReport()  # Create the reporter
@@ -349,8 +342,8 @@ def add_malaria_patient_json_report(task, manifest,
     Adds MalariaPatientJSONReport report to the simulation. See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to starts collecting data for the report
         end_day: the day of the simulation to stop reporting data
         node_ids: a list of nodes from which to collect data for the report
@@ -364,7 +357,7 @@ def add_malaria_patient_json_report(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[MalariaPatientJSONReport, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = MalariaPatientJSONReport()  # Create the reporter
@@ -403,8 +396,8 @@ def add_malaria_cotransmission_report(task, manifest,
     This is the report used to track malaria CoTransmission (co_transmission)
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day to start collecting data for the report.
         end_day: the day of the simulation to stop reporting data
         node_ids: list of nodes for which to collect data for the report
@@ -421,7 +414,7 @@ def add_malaria_cotransmission_report(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportSimpleMalariaTransmission, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if task and task.config.parameters.Malaria_Model != "MALARIA_MECHANISTIC_MODEL_WITH_CO_TRANSMISSION":
         raise ValueError(f"The cotransmission report (ReportSimpleMalariaTransmission) requires Malaria_Model"
@@ -465,8 +458,8 @@ def add_report_malaria_filtered(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day:  the day of the simulation to start collecting data
         end_day: the day of simulation to stop collecting data
         node_ids: list of nodes for which to collect the data, None or [] collects all the nodes
@@ -485,7 +478,7 @@ def add_report_malaria_filtered(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportVectorGenetics, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportMalariaFiltered()  # Create the reporter
@@ -526,8 +519,8 @@ def add_report_malaria_filtered_intrahost(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day:  the day of the simulation to start collecting data
         end_day: the day of simulation to stop collecting data
         node_ids: list of nodes for which to collect the data, None or [] collects all the nodes
@@ -546,7 +539,7 @@ def add_report_malaria_filtered_intrahost(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportMalariaFilteredIntraHost, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportMalariaFilteredIntraHost()  # Create the reporter
@@ -587,8 +580,8 @@ def add_spatial_report_malaria_filtered(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day:  the day of the simulation to start collecting data
         end_day: the day of simulation to stop collecting data
         reporting_interval: defines the cadence of the report by specifying how many time steps to collect data before
@@ -612,7 +605,7 @@ def add_spatial_report_malaria_filtered(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[SpatialReportMalariaFiltered, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = SpatialReportMalariaFiltered()  # Create the reporter
@@ -655,8 +648,8 @@ def add_report_event_counter(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start counting events
         end_day: the day of simulation to stop collecting data
         node_ids: list of nodes in which to count the events
@@ -671,7 +664,7 @@ def add_report_event_counter(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportEventCounter, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportEventCounter()  # Create the reporter
@@ -707,8 +700,8 @@ def add_sql_report_malaria(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         include_infection_table: if True(1), include the table that provides data at each time step for each active
@@ -720,7 +713,7 @@ def add_sql_report_malaria(task, manifest,
             table that contains the strings.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[SqlReportMalaria, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = SqlReportMalaria()  # Create the reporter
@@ -753,8 +746,8 @@ def add_sql_report_malaria_genetics(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         include_infection_table: if True(1), include the table that provides data at each time step for each active
@@ -766,7 +759,7 @@ def add_sql_report_malaria_genetics(task, manifest,
             table that contains the strings.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[SqlReportMalariaGenetics, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if task and task.config.parameters.Malaria_Model != "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS":
         raise ValueError(f"The cotransmission report (ReportSimpleMalariaTransmission) requires Malaria_Model"
@@ -797,11 +790,11 @@ def add_vector_habitat_report(task, manifest):
     You do not need to configure any data parameters to generate this report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[VectorHabitatReport, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     if task and not task.config.parameters.Vector_Species_Params:  # else assume we're in unittest
@@ -835,8 +828,8 @@ def add_malaria_immunity_report(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of simulation to stop collecting data
         node_ids: list of nodes for which to collect data
@@ -855,7 +848,7 @@ def add_malaria_immunity_report(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[MalariaImmunityReport, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = MalariaImmunityReport()  # Create the reporter
@@ -898,8 +891,8 @@ def add_malaria_survey_analyzer(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of simulation to stop collecting data
         reporting_interval: defines the cadence of the report by specifying how many time steps to collect data
@@ -919,7 +912,7 @@ def add_malaria_survey_analyzer(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[MalariaSurveyJSONAnalyzer, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if not event_trigger_list:
         raise ValueError("event_trigger_list cannot be empty, please define individual"
@@ -957,13 +950,13 @@ def add_drug_status_report(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportDrugStatus, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportDrugStatus()  # Create the reporter
@@ -996,8 +989,8 @@ def add_report_infection_stats_malaria(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         reporting_interval: defines the cadence of the report by specifying how many time steps to collect data
@@ -1019,7 +1012,7 @@ def add_report_infection_stats_malaria(task, manifest,
             so any/all counts of gametocytes will be included.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportInfectionStatsMalaria, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportInfectionStatsMalaria()  # Create the reporter
@@ -1050,11 +1043,11 @@ def add_human_migration_tracking(task, manifest):
     must have migration enabled.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportHumanMigrationTracking, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportHumanMigrationTracking()  # Create the reporter
@@ -1078,8 +1071,8 @@ def add_report_node_demographics(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         age_bins: the age bins (in years) to aggregate within and report. An empty array does not stratify by age. You
             must sort your input data from low to high.
         ip_key_to_collect: The name of the Individual Properties Key by which to stratify the report.
@@ -1087,7 +1080,7 @@ def add_report_node_demographics(task, manifest,
         stratify_by_gender: if True(1), to stratify by gender. Set to False (0) to not stratify by gender.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportNodeDemographics, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportNodeDemographics()  # Create the reporter
@@ -1115,8 +1108,8 @@ def add_report_node_demographics_malaria(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         age_bins: the age bins (in years) to aggregate within and report. An empty array does not stratify by age. You
             must sort your input data from low to high.
         ip_key_to_collect: The name of theIndividualProperties key by which to stratify the report.
@@ -1125,7 +1118,7 @@ def add_report_node_demographics_malaria(task, manifest,
         stratify_by_clinical_symptoms: if set to True(1), the data will have an extra stratification for people who have
             clinical symptoms and those that do not.  Default is 0 or no extra stratification
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportNodeDemographicsMalaria, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportNodeDemographicsMalaria()  # Create the reporter
@@ -1158,8 +1151,8 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         barcodes: a list of barcode strings. The report contains the number of human infections with each barcode.
             Use '*' for a wild card at a loci to include all values at that loci.  For example, “A*T” includes AAT,
             ACT, AGT, and ATT. The report contains a BarcodeOther column for barcodes that are not defined.
@@ -1182,7 +1175,7 @@ def add_report_node_demographics_malaria_genetics(task, manifest,
             Identity By Descent (IBD) for all new infections with unique barcodes in the last year.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportNodeDemographicsMalariaGenetics, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportNodeDemographicsMalariaGenetics()  # Create the reporter
@@ -1222,8 +1215,8 @@ def add_report_vector_migration(task, manifest,
     See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         species_list: a list of species to include information on, default of None or [] means "all species".
@@ -1239,7 +1232,7 @@ def add_report_vector_migration(task, manifest,
             to distinguish among the multiple reports.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportVectorMigration, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     check_vectors(task)
 
@@ -1288,8 +1281,8 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
     Adds ReportVectorStatsMalariaGenetics report to the simulation. See class definition for description of the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
         species_list: a list of species to include information on, default of None or [] means "all species"
         stratify_by_species: if True(1), data will break out each the species for each node
         include_death_state: if True(1), adds columns for the number of vectors that died in this state during this
@@ -1304,7 +1297,7 @@ def add_report_vector_stats_malaria_genetics(task, manifest,
             ACT, AGT, and ATT. The report contains a BarcodeOther column for barcodes that are not defined.
             Note: There is no validation that the barcode strings are valid barcodes for the scenario.
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportVectorStatsMalariaGenetics, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if task:
         check_vectors(task)
@@ -1349,7 +1342,7 @@ def add_event_recorder(task, event_list: list = None,
     information).
 
     Args:
-        task: task to which to add the reporter
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter
         event_list: a list of events to record or exclude, depending on value of only_include_events_in_list
         only_include_events_in_list: if True, only record events listed.  if False, record ALL events EXCEPT for the
             ones listed
@@ -1366,9 +1359,6 @@ def add_event_recorder(task, event_list: list = None,
         property_change_ip_to_record:If the string is not empty, then the recorder will add the PropertyChange event to
             the list of events that the report is listening to. However, it will only record the events where the
             property changed the value of the given key
-
-    Returns:
-        Nothing
     """
     # Documentation: https://docs.idmod.org/projects/emod-malaria/en/latest/software-report-event-recorder.html
     if not event_list:
@@ -1399,7 +1389,7 @@ def add_node_event_recorder(task, event_list: list = None,
     Adds ReportEventRecorderNode report to the simulation.
 
     Args:
-        task: task to which to add the reporter
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter
         event_list: A list of node-level events to record or exclude, depending on value of
             only_include_node_events_in_list
         only_include_events_in_list: If True, only record node-level events listed.  if False, record ALL
@@ -1410,9 +1400,6 @@ def add_node_event_recorder(task, event_list: list = None,
         stats_by_individual_properties: Specifies an array of (optional) individual property keys, as defined in
             IndividualProperties in the demographics file, to be added to the ReportNodeEventRecorder.csv output
             report. An empty array equals no additional columns added
-
-    Returns:
-        Nothing
     """
 
     if not event_list:
@@ -1434,14 +1421,11 @@ def add_coordinator_event_recorder(task, event_list: list = None,
     Adds ReportEventRecorderCoordinator report to the simulation.
 
     Args:
-        task: task to which to add the reporter
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter
         event_list: A list of coordinator-level events to record or exclude, depending on value of
             only_include_coordinator_events_in_list
         only_include_events_in_list: If True, only record node-level events listed.  if False, record ALL
             node-level events EXCEPT for the ones listed
-
-    Returns:
-        Nothing
     """
 
     if not event_list:
@@ -1468,8 +1452,8 @@ def add_report_intervention_pop_avg(task, manifest,
     Adds ReportInterventionPopAvg reporter. See class definition for description of the report.
 
     Args:
-        task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: Schema path file
+        task (emodpy.emod_task.EMODTask): Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): Schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         node_ids: List of nodes for which to collect data
@@ -1483,7 +1467,7 @@ def add_report_intervention_pop_avg(task, manifest,
             this allows you to distinguish among the multiple reports
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportInterventionPopAvg, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     reporter = ReportInterventionPopAvg()  # Create the reporter
 
@@ -1511,11 +1495,11 @@ def add_report_microsporidia(task, manifest):
     There are no special parameter that need to be configured to generate the report.
 
     Args:
-        task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: Schema path file
+        task (emodpy.emod_task.EMODTask): Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): Schema path file
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportMicrosporidia, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     reporter = ReportMicrosporidia()  # Create the reporter
 
@@ -1544,8 +1528,8 @@ def add_report_fpg_output(task, manifest,
     Adds ReportFpgOutputForObservationalModel reporter. See class definition for description of the report.
 
     Args:
-        task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: Schema path file
+        task (emodpy.emod_task.EMODTask): Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): Schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         node_ids: List of nodes for which to collect data
@@ -1563,7 +1547,7 @@ def add_report_fpg_output(task, manifest,
             on days Start_Day, Start_Day+Sampling_Period, Start_Day+2*Sampling_Period, and so on.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportFpgOutputForObservationalModel, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if task:
         if task.config.parameters.Malaria_Model != "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS":
@@ -1615,8 +1599,8 @@ def add_report_fpg_new_infections(task, manifest,
     This can only be used with the FPG model.
 
     Args:
-        task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: Schema path file
+        task (emodpy.emod_task.EMODTask): Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): Schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         node_ids: List of nodes for which to collect data
@@ -1632,7 +1616,7 @@ def add_report_fpg_new_infections(task, manifest,
             basic new infection information, but with an array of genome crossover locations that created this genome.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportFpgNewInfections, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     if task:
         if task.config.parameters.Malaria_Model != "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS":
@@ -1683,8 +1667,8 @@ def add_report_antibodies(task, manifest,
     Adds ReportAntibodies reporter.
 
     Args:
-        task: Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: Schema path file
+        task (emodpy.emod_task.EMODTask): Task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): Schema path file
         start_day: the day of the simulation to start collecting data
         end_day: the day of the simulation to stop collecting data
         node_ids: List of nodes for which to collect data
@@ -1703,7 +1687,7 @@ def add_report_antibodies(task, manifest,
         infected_only: If true, only individuals who are currently infected will have their antibody data recorded.
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportAntibodies, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
     reporter = ReportAntibodies()  # Create the reporter
 
@@ -1737,11 +1721,11 @@ def add_report_simulation_stats(task, manifest):
     There are no special parameter that need to be configured to generate the report.
 
     Args:
-        task: task to which to add the reporter, if left as None, reporter is returned (used for unittests)
-        manifest: schema path file
+        task (emodpy.emod_task.EMODTask): task to which to add the reporter, if left as None, reporter is returned (used for unittests)
+        manifest (ModuleType): schema path file
 
     Returns:
-        if task is not set, returns the configured reporter, otherwise returns nothing
+        (Union[ReportSimulationStats, None]): if task is not set, returns the configured reporter, otherwise returns nothing
     """
 
     reporter = ReportSimulationStats()  # Create the reporter

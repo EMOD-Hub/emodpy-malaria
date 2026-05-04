@@ -17,7 +17,7 @@ def _larval_microsporidia(
     Create a LarvalMicrosporidiaIntervention to be used in a campaign event.
 
     Args:
-        campaign: The campaign object to which the intervention will be added. Provides the schema path.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The campaign object to which the intervention will be added. Provides the schema path.
         strain_name: The microsporidia strain with which to treat the habitat. This must be a known strain defined in
             the vector species parameters. This parameter is required to create the intervention, and there is no default value.
         habitat_coverage: Portion of habitat that is treated with the intervention. Values must be between 0 and 1. Default is 1.0.
@@ -88,7 +88,7 @@ def add_larval_microsporidia(
 
 
     Args:
-        campaign: The campaign object to which the intervention will be added. Provides the schema path.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The campaign object to which the intervention will be added. Provides the schema path.
         strain_name: The microsporidia strain with which to treat the habitat. This must be a known strain defined in the vector species parameters.
         start_day: the day to distribute the LarvalMicrosporidiaIntervention
         num_repetitions: Number of times to distribute the intervention. If num_repetitions > 1,
@@ -111,10 +111,6 @@ def add_larval_microsporidia(
         decay_time_constant: The time constant for the exponential decay of the intervention's effect, in days. Only relevant if box_duration = 0 or > 0 as described above in box_duration.
         intervention_name: (Optional) The name of the intervention, for organizational purposes. Default is "LarvalMicrosporidiaIntervention".
         cost_to_consumer: The cost to consumer for each distribution of this intervention, if any. Default is 0.
-
-    Returns:
-        None
-
     """
     node_intervention = _larval_microsporidia(campaign=campaign,
                                               habitat_coverage=habitat_coverage,

@@ -31,7 +31,7 @@ UNINFECTED_HUMAN = {
 }
 
 
-def zero_vector_infections(vector_pop_list: list, remove=False):
+def zero_vector_infections(vector_pop_list: list, remove: bool = False):
     """
     Resets infections in vectors or removes infections from vectors.
 
@@ -67,10 +67,6 @@ def zero_human_infections(humans: List[dict], keep_ids: list = None):
     Args:
         humans: All humans in a node
         keep_ids: ids of individuals that will be skipped, i.e. infection state is not changed
-
-    Returns:
-        None
-
     """
     if not keep_ids:
         keep_ids = []
@@ -85,7 +81,7 @@ def zero_human_infections(humans: List[dict], keep_ids: list = None):
 
 
 def zero_infections(source_filename: str, dest_filename: str, ignore_nodes: List[int], keep_individuals: List[int],
-                    remove=False) -> None:
+                    remove: bool = False) -> None:
     """
     Removes/resets infections from humans and vectors.
 

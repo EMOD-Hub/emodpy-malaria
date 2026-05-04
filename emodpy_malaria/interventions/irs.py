@@ -39,7 +39,7 @@ def add_scheduled_irs_housing_modification(
         IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -75,9 +75,6 @@ def add_scheduled_irs_housing_modification(
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IRSHousingModification interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
     """
 
     intervention = irs_configuration(campaign,
@@ -141,7 +138,7 @@ def add_triggered_irs_housing_modification(
         IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         trigger_condition_list: A list of the events that will trigger intervention distribution.
         listening_duration: The number of time steps that the distributed event will monitor for triggers.
@@ -180,9 +177,6 @@ def add_triggered_irs_housing_modification(
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IRSHousingModification interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
     """
     intervention = irs_configuration(campaign,
                                      killing_initial_effect=killing_initial_effect,
@@ -231,7 +225,7 @@ def irs_configuration(campaign,
         IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -247,7 +241,7 @@ def irs_configuration(campaign,
             attached to a person if they have different Intervention_Name values.
 
     Returns:
-        Configured IRSHousingModification intervention
+        (dict): Configured IRSHousingModification intervention
     """
 
     schema_path = campaign.schema_path

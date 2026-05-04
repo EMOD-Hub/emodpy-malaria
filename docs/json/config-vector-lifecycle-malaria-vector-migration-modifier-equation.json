@@ -1,0 +1,11 @@
+{
+    "Vector_Species_Params": [
+        {
+            "Name": "arabiensis",
+            "Vector_Migration_Modifier_Equation": "EXPONENTIAL",
+            "Vector_Migration_Habitat_Modifier": 1.0,
+            "Vector_Migration_Food_Modifier": 1.0,
+            "Vector_Migration_Stay_Put_Modifier": 1.0
+        }
+    ]
+}

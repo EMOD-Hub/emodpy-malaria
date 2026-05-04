@@ -1,61 +1,9 @@
-"Name","string","NA","NA","UNINITIALIZED STRING","The name of the insecticide. This name is referenced by the **Insecticide_Name** parameter in campaign interventions to link an intervention's effects to the resistance modifiers defined here.",".. code-block:: json
-
-    {
-      ""Name"": ""pyrethroid""
-    }
-"
-"Resistances","array of json objects","NA","NA","[]","An array of resistance modifier objects that define how to modify the efficacy of the insecticide for particular vector genomes. Each object specifies a species, allele combination, and modifiers for killing, blocking, repelling, and larval killing effects.",".. code-block:: json
-
-    {
-      ""Resistances"": [
-        {
-          ""Species"": ""arabiensis"",
-          ""Allele_Combinations"": [
-            [""kdr"", ""kdr""]
-          ],
-          ""Killing_Modifier"": 0.1,
-          ""Blocking_Modifier"": 0.8,
-          ""Repelling_Modifier"": 1.0,
-          ""Larval_Killing_Modifier"": 0.3
-        }
-      ]
-    }
-"
-"Allele_Combinations","array of string arrays","NA","NA","[]","The combination of alleles that vectors must have in order to be resistant. Each inner array represents one locus with two allele names. Use ``*`` as a wildcard to match any allele at a position. The order of alleles within an inner array does not matter — ``[""a"", ""*""]`` and ``[""*"", ""a""]`` are treated identically. These alleles must be defined in the **Genes** configuration for the associated species. Uses the same syntax as **Gene_To_Trait_Modifiers** allele combinations (see :doc:`vector-model-genetics`).",".. code-block:: json
-
-    {
-      ""Allele_Combinations"": [
-        [""kdr"", ""kdr""]
-      ]
-    }
-"
-"Blocking_Modifier","float","0","3.40282E+38","1.0","The value used to multiply the blocking effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.",".. code-block:: json
-
-    {
-      ""Blocking_Modifier"": 0.8
-    }
-"
-"Killing_Modifier","float","0","3.40282E+38","1.0","The value used to multiply the killing effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.",".. code-block:: json
-
-    {
-      ""Killing_Modifier"": 0.1
-    }
-"
-"Larval_Killing_Modifier","float","0","3.40282E+38","1.0","The value used to multiply the larval killing effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.",".. code-block:: json
-
-    {
-      ""Larval_Killing_Modifier"": 0.3
-    }
-"
-"Repelling_Modifier","float","0","3.40282E+38","1.0","The value used to multiply the repelling effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.",".. code-block:: json
-
-    {
-      ""Repelling_Modifier"": 1.0
-    }
-"
-"Species","string","NA","NA","UNINITIALIZED STRING","The name of the vector species for which this resistance entry applies. Must match a species name defined in **Vector_Species_Params**.",".. code-block:: json
-
-    {
-      ""Species"": ""arabiensis""
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Name,string,NA,NA,UNINITIALIZED STRING,The name of the insecticide. This name is referenced by the **Insecticide_Name** parameter in campaign interventions to link an intervention's effects to the resistance modifiers defined here.,[link](../json/config-insecticides-malaria-name.json)
+Resistances,array of json objects,NA,NA,[],"An array of resistance modifier objects that define how to modify the efficacy of the insecticide for particular vector genomes. Each object specifies a species, allele combination, and modifiers for killing, blocking, repelling, and larval killing effects.",[link](../json/config-insecticides-malaria-resistances.json)
+Allele_Combinations,array of string arrays,NA,NA,[],"The combination of alleles that vectors must have in order to be resistant. Each inner array represents one locus with two allele names. Use `*` as a wildcard to match any allele at a position. The order of alleles within an inner array does not matter — `[""a"", ""*""]` and `[""*"", ""a""]` are treated identically. These alleles must be defined in the **Genes** configuration for the associated species. Uses the same syntax as **Gene_To_Trait_Modifiers** allele combinations (see [Vector genetics](vector-model-genetics.md)).",[link](../json/config-insecticides-malaria-allele-combinations.json)
+Blocking_Modifier,float,0,3.40282E+38,1.0,The value used to multiply the blocking effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.,[link](../json/config-insecticides-malaria-blocking-modifier.json)
+Killing_Modifier,float,0,3.40282E+38,1.0,The value used to multiply the killing effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.,[link](../json/config-insecticides-malaria-killing-modifier.json)
+Larval_Killing_Modifier,float,0,3.40282E+38,1.0,The value used to multiply the larval killing effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.,[link](../json/config-insecticides-malaria-larval-killing-modifier.json)
+Repelling_Modifier,float,0,3.40282E+38,1.0,The value used to multiply the repelling effectiveness of an intervention for vectors matching the allele combination. A value of 1.0 means full susceptibility; less than 1.0 means partial resistance; 0.0 means complete resistance; greater than 1.0 means increased susceptibility.,[link](../json/config-insecticides-malaria-repelling-modifier.json)
+Species,string,NA,NA,UNINITIALIZED STRING,The name of the vector species for which this resistance entry applies. Must match a species name defined in **Vector_Species_Params**.,[link](../json/config-insecticides-malaria-species.json)

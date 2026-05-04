@@ -1,120 +1,13 @@
-"Anemia_Mortality_Inverse_Width","float","0.1","1000000","10","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for anemia.",".. code-block:: json
-
-    {
-        ""Anemia_Mortality_Inverse_Width"": 150
-    }
-"
-"Anemia_Mortality_Threshold","double","NA","NA","3","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for hemoglobin count in grams per deciliter (g/dL) at which 50% of individuals die per day.",".. code-block:: json
-
-    {
-        ""Anemia_Mortality_Threshold"": 1.5
-    }
-"
-"Anemia_Severe_Inverse_Width","float","0.1","1000000","10","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-
-This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for anemia.",".. code-block:: json
-
-    {
-        ""Anemia_Severe_Inverse_Width"": 20
-    }
-"
-"Anemia_Severe_Threshold","float","0","100","5","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures the severe disease threshold level for anemia. Threshold units are in grams per deciliter (g/dL).",".. code-block:: json
-
-    {
-        ""Anemia_Severe_Threshold"": 3.0
-    }
-"
-"Death_Rate_Dependence","enum","NA","NA","NOT_INITIALIZED","Determines how likely individuals are to die from natural, non-disease causes. **Enable_Natural_Mortality** must be set to 1. Possible values are:
-
-NOT_INITIALIZED
-    The daily mortality rate is 0, and no one dies from non-disease related causes.
-NONDISEASE_MORTALITY_BY_AGE_AND_GENDER
-    The individual's age and gender are taken into account to determine the daily mortality rate.
-NONDISEASE_MORTALITY_BY_YEAR_AND_AGE_FOR_EACH_GENDER
-    Gender, age, and year, are all taken into account to determine the daily mortality rate. 
-
-Properties, rates, and bin sizes can be set for non-disease mortality for each gender in the demographics file (see :ref:`demo-complexdistro` parameters).",".. code-block:: json
-
-    {
-        ""Death_Rate_Dependence"": ""NONDISEASE_MORTALITY_BY_AGE_AND_GENDER""
-    }
-"
-"Enable_Disease_Mortality","boolean","0","1","1","Controls whether or not individuals are removed from the simulation due to disease deaths.
-
-.. only:: hiv
-
-    This parameter should always be set to 1 (true) for this simulation type. 
-
-",".. code-block:: json
-
-    {
-        ""Enable_Disease_Mortality"": 1
-    }
-"
-"Enable_Natural_Mortality","boolean","0","1","0","Controls whether or not individuals are removed from the simulation due to natural (non-disease) deaths. **Enable_Vital_Dynamics** must be set to 1 (true). Use **Death_Rate_Dependence** to set the natural death rate.",".. code-block:: json
-
-    {
-        ""Enable_Natural_Mortality"": 1,
-        ""Enable_Vital_Dynamics"": 1
-    }
-"
-"Fever_Mortality_Inverse_Width","float","0.1","1000000","10","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for fever.",".. code-block:: json
-
-    {
-        ""Fever_Mortality_Inverse_Width"": 1000
-    }
-"
-"Fever_Mortality_Threshold","double","NA","NA","3","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures the fever mortality threshold, in units of degrees Celsius above normal body temperature (defined as 37 C).",".. code-block:: json
-
-    {
-        ""Fever_Mortality_Threshold"": 10
-    }
-"
-"Mortality_Blocking_Immunity_Decay_Rate","float","0","1","0.001","[Note: Not used in MALARIA_SIM]The rate at which mortality-blocking immunity decays after the mortality-blocking immunity offset period. **Enable_Immune_Decay** must be set to 1.",".. code-block:: json
-
-    {
-        ""Mortality_Blocking_Immunity_Decay_Rate"": 0.1
-    }
-"
-"Mortality_Time_Course","enum","NA","NA","DAILY_MORTALITY","The method used to calculate disease deaths. **Enable_Disease_Mortality** must be set to 1.
-
-Possible values are: 
-
-DAILY_MORTALITY 
-    Calculated at every time step. 
-MORTALITY_AFTER_INFECTIOUS 
-    Calculated once at the end of the disease duration.",".. code-block:: json
-
-    {
-        ""Mortality_Time_Course"": ""MORTALITY_AFTER_INFECTIOUS""
-    }
-"
-"x_Other_Mortality","float","0","3.40E+38","1","Scale factor for mortality from causes other than the disease being simulated. Base mortality is provided by the demographics file (see :ref:`demo-complexdistro` parameters). **Enable_Natural_Mortality** must be set to 1. ",".. code-block:: json
-
-    {
-        ""x_Other_Mortality"": 1
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Anemia_Mortality_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for anemia.",[link](../json/config-mortality-malaria-anemia-mortality-inverse-width.json)
+Anemia_Mortality_Threshold,double,NA,NA,3,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for hemoglobin count in grams per deciliter (g/dL) at which 50% of individuals die per day.",[link](../json/config-mortality-malaria-anemia-mortality-threshold.json)
+Anemia_Severe_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for anemia.",[link](../json/config-mortality-malaria-anemia-severe-inverse-width.json)
+Anemia_Severe_Threshold,float,0,100,5,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the severe disease threshold level for anemia. Threshold units are in grams per deciliter (g/dL).",[link](../json/config-mortality-malaria-anemia-severe-threshold.json)
+Death_Rate_Dependence,enum,NA,NA,NOT_INITIALIZED,"Determines how likely individuals are to die from natural, non-disease causes. **Enable_Natural_Mortality** must be set to 1. Possible values are:<br>NOT_INITIALIZED<br>    The daily mortality rate is 0, and no one dies from non-disease related causes.<br>NONDISEASE_MORTALITY_BY_AGE_AND_GENDER<br>    The individual's age and gender are taken into account to determine the daily mortality rate.<br>NONDISEASE_MORTALITY_BY_YEAR_AND_AGE_FOR_EACH_GENDER<br>    Gender, age, and year, are all taken into account to determine the daily mortality rate. <br>Properties, rates, and bin sizes can be set for non-disease mortality for each gender in the demographics file (see [complex distributions](parameter-demographics.md#complex-distributions) parameters).",[link](../json/config-mortality-malaria-death-rate-dependence.json)
+Enable_Disease_Mortality,boolean,0,1,1,Controls whether or not individuals are removed from the simulation due to disease deaths.,[link](../json/config-mortality-malaria-enable-disease-mortality.json)
+Enable_Natural_Mortality,boolean,0,1,0,Controls whether or not individuals are removed from the simulation due to natural (non-disease) deaths. **Enable_Vital_Dynamics** must be set to 1 (true). Use **Death_Rate_Dependence** to set the natural death rate.,[link](../json/config-mortality-malaria-enable-natural-mortality.json)
+Fever_Mortality_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for fever.",[link](../json/config-mortality-malaria-fever-mortality-inverse-width.json)
+Fever_Mortality_Threshold,double,NA,NA,3,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the fever mortality threshold, in units of degrees Celsius above normal body temperature (defined as 37 C).",[link](../json/config-mortality-malaria-fever-mortality-threshold.json)
+Mortality_Blocking_Immunity_Decay_Rate,float,0,1,0.001,[Note: Not used in MALARIA_SIM]The rate at which mortality-blocking immunity decays after the mortality-blocking immunity offset period. **Enable_Immune_Decay** must be set to 1.,[link](../json/config-mortality-malaria-mortality-blocking-immunity-decay-rate.json)
+Mortality_Time_Course,enum,NA,NA,DAILY_MORTALITY,The method used to calculate disease deaths. **Enable_Disease_Mortality** must be set to 1.<br>Possible values are: <br>DAILY_MORTALITY <br>    Calculated at every time step. <br>MORTALITY_AFTER_INFECTIOUS <br>    Calculated once at the end of the disease duration.,[link](../json/config-mortality-malaria-mortality-time-course.json)
+x_Other_Mortality,float,0,3.40E+38,1,Scale factor for mortality from causes other than the disease being simulated. Base mortality is provided by the demographics file (see [complex distributions](parameter-demographics.md#complex-distributions) parameters). **Enable_Natural_Mortality** must be set to 1. ,[link](../json/config-mortality-malaria-x-other-mortality.json)

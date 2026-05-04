@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "Intervention_Name": "Diagnostic_Sample",
+        "class": "StandardDiagnostic"
+    }
+}

@@ -1,17 +1,20 @@
 {
-    "samples": [{
-        "individualId": 619,
-        "infectionIds": [
-            3405
-        ],
-        "node_id": 340461476,
-        "parasiteDensities": [
-            5.3583152592182
-        ],
-        "sample_event": "Received_Treatment",
-        "timestep": 455
-    }],
-    "transmissions": [{
+    "samples": [
+        {
+            "individualId": 619,
+            "infectionIds": [
+                3405
+            ],
+            "node_id": 340461476,
+            "parasiteDensities": [
+                5.3583152592182
+            ],
+            "sample_event": "Received_Treatment",
+            "timestep": 455
+        }
+    ],
+    "transmissions": [
+        {
             "acquireIndividualId": 619,
             "acquireInfectionGenome": 0,
             "acquireInfectionId": 3501,

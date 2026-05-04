@@ -1,0 +1,10 @@
+{
+    "class": "AgeDiagnostic",
+    "Age_Thresholds": [
+        {
+            "Low": 0,
+            "High": 15,
+            "Event": "AgeMeasured0"
+        }
+    ]
+}

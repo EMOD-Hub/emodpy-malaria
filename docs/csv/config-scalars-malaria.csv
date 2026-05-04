@@ -1,322 +1,36 @@
-"Acquire_Modifier","float","0","1","1","Modifier of the probability of successful infection of a mosquito by an infected individual, given the individual's infectiousness.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Acquire_Modifier"": 1,
-                ""Name"": ""arabiensis""
-            }
-        ]
-    }
-"
-"Antibody_IRBC_Kill_Rate","double","NA","NA","2","The scale factor multiplied by antibody level to produce the rate of clearance of the infected red blood cell (IRBC) population.",".. code-block:: json
-
-    {
-        ""Antibody_IRBC_Kill_Rate"": 1.595
-    }
-"
-"Aquatic_Arrhenius_1","float","0","1.00E+15","8.42E+10","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on development rate.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Aquatic_Arrhenius_1"": 9752291.727,
-                ""Name"": ""arabiensis""
-            }
-        ]
-    }
-"
-"Aquatic_Arrhenius_2","float","0","1.00E+15","8328","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a2 governs how quickly the rate changes with temperature.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Aquatic_Arrhenius_2"": 8328,
-                ""Name"": ""arabiensis""
-            }
-        ]
-    }
-"
-"Birth_Rate_Time_Dependence","enum","NA","NA","NONE","A scale factor for **BirthRate** that allows it to be altered by time or season. **Enable_Birth** must be set to true (1). Possible values are:
-
-NONE
-    Birth rate does not vary by time.
-SINUSOIDAL_FUNCTION_OF_TIME
-    Allows birth rate to be time-dependent, following a sinusoidal shape defined by :math:`1 + \sin \text{Birth\_Rate\_Sinusoidal\_Forcing\_Amplitude} \times \sin(2 \pi \times (\text{day} - \sin \text{Birth\_Rate\_Sinusoidal\_Forcing\_Phase})/365)`. Set **Birth_Rate_Sinusoidal_Forcing_Amplitude** and **Birth_Rate_Sinusoidal_Forcing_Phase**. 
-ANNUAL_BOXCAR_FUNCTION
-    Allows birth rate to follow a boxcar function. The scale factor will be equal to 1 except for a single interval in which it is equal to a given constant equal to 1 + **Birth_Rate_Boxcar_Forcing_Amplitude**. Set **Birth_Rate_Boxcar_Forcing_Amplitude**, **Birth_Rate_Boxcar_Forcing_End_Time**, and **Birth_Rate_Boxcar_Forcing_Start_Time**.",".. code-block:: json
-
-    {
-        ""Enable_Vital_Dynamics"": 1,
-        ""Enable_Birth"": 1,
-        ""Birth_Rate_Time_Dependence"": ""ANNUAL_BOXCAR_FUNCTION""
-    }
-"
-"Cycle_Arrhenius_1","float","0","1.00E+15","4.09E+10","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Cycle_Arrhenius_1"": 99,
-                ""Cycle_Arrhenius_2"": 88,
-                ""Name"": ""arabiensis"",
-                ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE""
-            }
-        ]
-    }
-"
-"Cycle_Arrhenius_2","float","0","1.00E+15","7740","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Cycle_Arrhenius_1"": 99,
-                ""Cycle_Arrhenius_2"": 88,
-                ""Name"": ""arabiensis"",
-                ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE""
-            }
-        ]
-    }
-"
-"Cycle_Arrhenius_Reduction_Factor","float","0","1","1","The scale factor applied to cycle duration (from oviposition to oviposition) to reduce the duration when primary follicles are at stage II rather than I in the case of newly emerged females. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Cycle_Arrhenius_Reduction_Factor"": 0.44,
-                ""Name"": ""arabiensis"",
-                ""Temperature_Dependent_Feeding_Cycle"": ""ARRHENIUS_DEPENDENCE""
-            }
-        ]
-    }
-"
-"Egg_Arrhenius1","float","0","1.00E+10","6.16E+07","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
-
-    {
-        ""Enable_Temperature_Dependent_Egg_Hatching"": 1,
-        ""Egg_Arrhenius1"": 61599956,
-        ""Egg_Arrhenius2"": 5754
-    }
-"
-"Egg_Arrhenius2","float","0","1.00E+10","5754.03","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",".. code-block:: json
-
-    {
-        ""Enable_Temperature_Dependent_Egg_Hatching"": 1,
-        ""Egg_Arrhenius1"": 61599956,
-        ""Egg_Arrhenius2"": 5754
-    }
-"
-"Infected_Arrhenius_1","float","0","1.00E+15","1.17E+11","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a1 is a temperature-independent scale factor on the progression rate to infectiousness. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336
-            }
-        ]
-    }
-"
-"Infected_Arrhenius_2","float","0","1.00E+15","8340","The Arrhenius equation, :math:`a_1^{-a_2/T}`, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a2 is a temperature-dependent scale factor on the progression rate to infectiousness.  ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Infected_Arrhenius_1"": 117000000000,
-                ""Infected_Arrhenius_2"": 8336
-            }
-        ]
-    }
-"
-"Infected_Egg_Batch_Factor","float","0","10","0.8","The dimensionless factor used to modify mosquito egg batch size  in order to account for reduced fertility effects arising due to infection (e.g. when females undergo sporogony).",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Infectious_Human_Feed_Mortality_Factor"": 1.5
-            }
-        ]
-    }
-"
-"Infectivity_Exponential_Baseline","float","0","1","0","The scale factor applied to **Base_Infectivity** at the beginning of a simulation, before the infectivity begins to grow exponentially. **Infectivity_Scale_Type** must be set to EXPONENTIAL_FUNCTION_OF_TIME.",".. code-block:: json
-
-    {
-        ""Infectivity_Exponential_Baseline"": 0.1,
-        ""Infectivity_Exponential_Delay"": 90,
-        ""Infectivity_Exponential_Rate"": 45,
-        ""Infectivity_Scale_Type"": ""EXPONENTIAL_FUNCTION_OF_TIME""
-    }
-"
-"Larval_Density_Mortality_Scalar","float","0.01","1000","10","A scale factor in the formula determining the larval-age-dependent mortality for the GRADUAL_INSTAR_SPECIFIC and LARVAL_AGE_DENSITY_DEPENDENT_MORTALITY_ONLY models.",".. code-block:: json
-
-    {
-        ""Larval_Density_Mortality_Scalar"": 1.0
-    }
-"
-"Newborn_Biting_Risk_Multiplier","float","0","1","0.2","The scale factor that defines the y-intercept of the linear portion of the biting risk curve when **Age_Dependent_Biting_Risk_Type** is set to LINEAR.",".. code-block:: json
-
-    {
-        ""Newborn_Biting_Risk_Multiplier"": 0.2
-    }
-"
-"Nonspecific_Antibody_Growth_Rate_Factor","float","0","1000","0.5","The factor that adjusts **Antibody_Capacity_Growth_Rate** for less immunogenic surface proteins, called minor epitopes.",".. code-block:: json
-
-    {
-        ""Nonspecific_Antibody_Growth_Rate_Factor"": 0.5
-    }
-"
-"Population_Scale_Type","enum","NA","NA","USE_INPUT_FILE","The method to use for scaling the initial population specified in the demographics input file.
-Possible values are:
- 
-USE_INPUT_FILE
-    Turns off population scaling and uses **InitialPopulation** in the demographics file (see :ref:`demo-nodeattributes` parameters).  
-FIXED_SCALING
-    Enables **Base_Population_Scale_Factor**.",".. code-block:: json
-
-    {
-        ""Population_Scale_Type"": ""FIXED_SCALING""
-    }
-"
-"Post_Infection_Acquisition_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of reacquiring disease. At the time of recovery, the immunity against acquisition is multiplied by **Acquisition_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Acquisition_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
-
-    {
-        ""Enable_Immunity"": 1,
-        ""Enable_Immune_Decay"": 1,
-        ""Post_Infection_Acquisition_Multiplier"": 0.9
-    }
-"
-"Post_Infection_Mortality_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of dying from infection after getting reinfected. At the time of recovery, the immunity against mortality is multiplied by **Mortality_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Mortality_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
-
-    {
-        ""Enable_Immunity"": 1,
-        ""Enable_Immune_Decay"": 1,
-        ""Post_Infection_Mortality_Multiplier"": 0.5
-    }
-"
-"Post_Infection_Transmission_Multiplier","float","0","1","0","[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of transmitting infection after getting reinfected. At the time of recovery, the immunity against transmission is multiplied by **Transmission_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Transmission_Multiplier**). **Enable_Immunity** must be set to 1 (true).",".. code-block:: json
-
-    {
-        ""Enable_Immunity"": 1,
-        ""Enable_Immunity_Decay"": 1,
-        ""Post_Infection_Transmission_Multiplier"": 0.9
-    }
-"
-"Vector_Migration_Food_Modifier","float","0","3.40E+38","0","The preference of a female vector to migrate toward a node currently occupied by humans, independent of the number of humans in the node. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Food_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"Vector_Migration_Habitat_Modifier","float","0","3.40E+38","0","The preference of a female vector to migrate toward a node with more habitat. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Habitat_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"Vector_Migration_Modifier_Equation","enum","NA","NA","LINEAR","The functional form of female vector migration modifiers. **Vector_Migration_Filename** must be defined.
-Possible values are:
-LINEAR
-EXPONENTIAL",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Modifier_Equation"": ""EXPONENTIAL"",
-                ""Vector_Migration_Habitat_Modifier"": 1.0,
-                ""Vector_Migration_Food_Modifier"": 1.0,
-                ""Vector_Migration_Stay_Put_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"Vector_Migration_Stay_Put_Modifier","float","0","3.40E+38","0","The preference of a female vector to remain in its current node rather than migrate to another node.  Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Stay_Put_Modifier"": 1.0
-            }
-        ]
-    }
-"
-"x_Air_Migration","float","0","3.40E+38","1","Scale factor for the rate of migration by air, as provided by the migration file. **Enable_Air_Migration** must be set to 1.",".. code-block:: json
-
-    {
-        ""Scale_Factor_Air_Migration"": 1
-    }
-"
-"x_Base_Population","float","0","3.40E+38","1","Scale factor for **InitialPopulation** in the demographics file (see :ref:`demo-nodeattributes` parameters). If **Population_Scale_Type** is set to FIXED_SCALING, the initial simulation population is uniformly scaled over the entire area to adjust for historical or future population density.",".. code-block:: json
-
-    {
-        ""x_Base_Population"": 0.0001
-    }
-"
-"x_Birth","float","0","3.40E+38","1","Scale factor for birth rate, as provided by the demographics file (see :ref:`demo-nodeattributes` parameters). **Enable_Birth** must be set to 1.",".. code-block:: json
-
-    {
-        ""x_Birth"": 1
-    }
-"
-"x_Family_Migration","float","0","3.40E+38","1","Scale factor for the rate of migration by families, as provided by the migration file. **Enable_Family_Migration** must be set to true (1).",".. code-block:: json
-
-    {
-        ""x_Family_Migration"": 1
-    }
-"
-"x_Local_Migration","float","0","3.40E+38","1","Scale factor for rate of migration by foot travel, as provided by the migration file. **Enable_Local_Migration** must be set to 1.",".. code-block:: json
-
-    {
-        ""x_Local_Migration"": 1
-    }
-"
-"x_Other_Mortality","float","0","3.40E+38","1","Scale factor for mortality from causes other than the disease being simulated. Base mortality is provided by the demographics file (see :ref:`demo-complexdistro` parameters). **Enable_Natural_Mortality** must be set to 1. ",".. code-block:: json
-
-    {
-        ""x_Other_Mortality"": 1
-    }
-"
-"x_Regional_Migration","float","0","3.40E+38","1","Scale factor for the rate of migration by road vehicle, as provided by the migration file. **Enable_Regional_Migration** must be set to 1.",".. code-block:: json
-
-    {
-        ""x_Regional_Migration"": 1
-    }
-"
-"x_Sea_Migration","float","0","3.40E+38","1","Scale factor for the rate of migration by sea, as provided by the migration file. **Enable_Sea_Migration** must be set to 1.",".. code-block:: json
-
-    {
-        ""x_Sea_Migration"": 1
-    }
-"
-"x_Temporary_Larval_Habitat","float","0","10000","1","Scale factor for the habitat size for all mosquito populations.",".. code-block:: json
-
-    {
-        ""x_Temporary_Larval_Habitat"": 1
-    }
-"
-"x_Vector_Migration","float","0","3.40E+38","1","Scale factor for the rate of vector migration to other nodes, as provided by the vector migration file. **Vector_Migration_Filename** must be defined. ",".. code-block:: json
-
-    {
-        ""Vector_Species_Params"": [
-            {
-                ""Name"": ""arabiensis"",
-                ""Vector_Migration_Filename"": ""5x5_Households_Local_Vector_Migration.bin"",
-                ""x_Vector_Migration"": 1.0
-            }
-        ]
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+"﻿""Acquire_Modifier""",float,0,1,1,"Modifier of the probability of successful infection of a mosquito by an infected individual, given the individual's infectiousness.",[link](../json/config-scalars-malaria-acquire-modifier.json)
+Antibody_IRBC_Kill_Rate,double,NA,NA,2,The scale factor multiplied by antibody level to produce the rate of clearance of the infected red blood cell (IRBC) population.,[link](../json/config-scalars-malaria-antibody-irbc-kill-rate.json)
+Aquatic_Arrhenius_1,float,0,1.00E+15,8.42E+10,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on development rate.",[link](../json/config-scalars-malaria-aquatic-arrhenius-1.json)
+Aquatic_Arrhenius_2,float,0,1.00E+15,8328,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of mosquito aquatic development (egg-hatching through emergence). This duration is a decreasing function of temperature.  The variable a2 governs how quickly the rate changes with temperature.",[link](../json/config-scalars-malaria-aquatic-arrhenius-2.json)
+Birth_Rate_Time_Dependence,enum,NA,NA,NONE,"A scale factor for **BirthRate** that allows it to be altered by time or season. **Enable_Birth** must be set to true (1). Possible values are:<br>NONE<br>    Birth rate does not vary by time.<br>SINUSOIDAL_FUNCTION_OF_TIME<br>    Allows birth rate to be time-dependent, following a sinusoidal shape defined by $1 + \\sin \\text{Birth\\_Rate\\_Sinusoidal\\_Forcing\\_Amplitude} \\times \\sin(2 \\pi \\times (\\text{day} - \\sin \\text{Birth\\_Rate\\_Sinusoidal\\_Forcing\\_Phase})/365)$. Set **Birth_Rate_Sinusoidal_Forcing_Amplitude** and **Birth_Rate_Sinusoidal_Forcing_Phase**. <br>ANNUAL_BOXCAR_FUNCTION<br>    Allows birth rate to follow a boxcar function. The scale factor will be equal to 1 except for a single interval in which it is equal to a given constant equal to 1 + **Birth_Rate_Boxcar_Forcing_Amplitude**. Set **Birth_Rate_Boxcar_Forcing_Amplitude**, **Birth_Rate_Boxcar_Forcing_End_Time**, and **Birth_Rate_Boxcar_Forcing_Start_Time**.",[link](../json/config-scalars-malaria-birth-rate-time-dependence.json)
+Cycle_Arrhenius_1,float,0,1.00E+15,4.09E+10,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",[link](../json/config-scalars-malaria-cycle-arrhenius-1.json)
+Cycle_Arrhenius_2,float,0,1.00E+15,7740,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the mosquito feeding cycle rate. This duration is a decreasing function of temperature.  The variable a2 is a temperature-independent scale factor on feeding rate. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.",[link](../json/config-scalars-malaria-cycle-arrhenius-2.json)
+Cycle_Arrhenius_Reduction_Factor,float,0,1,1,The scale factor applied to cycle duration (from oviposition to oviposition) to reduce the duration when primary follicles are at stage II rather than I in the case of newly emerged females. **Temperature_Dependent_Feeding_Cycle** must be set to ARRHENIUS_DEPENDENCE.,[link](../json/config-scalars-malaria-cycle-arrhenius-reduction-factor.json)
+Egg_Arrhenius1,float,0,1.00E+10,6.16E+07,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a1 is a temperature-independent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",[link](../json/config-scalars-malaria-egg-arrhenius1.json)
+Egg_Arrhenius2,float,0,1.00E+10,5754.03,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of mosquito egg hatching. This duration is a decreasing function of temperature.  The variable a2 is a temperature-dependent scale factor on hatching rate. **Enable_Temperature_Dependent_Egg_Hatching** must be set to 1.",[link](../json/config-scalars-malaria-egg-arrhenius2.json)
+Infected_Arrhenius_1,float,0,1.00E+15,1.17E+11,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a1 is a temperature-independent scale factor on the progression rate to infectiousness. ",[link](../json/config-scalars-malaria-infected-arrhenius-1.json)
+Infected_Arrhenius_2,float,0,1.00E+15,8340,"The Arrhenius equation, $a_1^{-a_2/T}$, with T in degrees Kelvin, parameterizes the daily rate of fractional progression of infected mosquitoes to an infectious state. The duration of sporogony is a decreasing function of temperature. The variable a2 is a temperature-dependent scale factor on the progression rate to infectiousness.  ",[link](../json/config-scalars-malaria-infected-arrhenius-2.json)
+Infected_Egg_Batch_Factor,float,0,10,0.8,The dimensionless factor used to modify mosquito egg batch size  in order to account for reduced fertility effects arising due to infection (e.g. when females undergo sporogony).,[link](../json/config-scalars-malaria-infected-egg-batch-factor.json)
+Infectivity_Exponential_Baseline,float,0,1,0,"The scale factor applied to **Base_Infectivity** at the beginning of a simulation, before the infectivity begins to grow exponentially. **Infectivity_Scale_Type** must be set to EXPONENTIAL_FUNCTION_OF_TIME.",[link](../json/config-scalars-malaria-infectivity-exponential-baseline.json)
+Larval_Density_Mortality_Scalar,float,0.01,1000,10,A scale factor in the formula determining the larval-age-dependent mortality for the GRADUAL_INSTAR_SPECIFIC and LARVAL_AGE_DENSITY_DEPENDENT_MORTALITY_ONLY models.,[link](../json/config-scalars-malaria-larval-density-mortality-scalar.json)
+Newborn_Biting_Risk_Multiplier,float,0,1,0.2,The scale factor that defines the y-intercept of the linear portion of the biting risk curve when **Age_Dependent_Biting_Risk_Type** is set to LINEAR.,[link](../json/config-scalars-malaria-newborn-biting-risk-multiplier.json)
+Nonspecific_Antibody_Growth_Rate_Factor,float,0,1000,0.5,"The factor that adjusts **Antibody_Capacity_Growth_Rate** for less immunogenic surface proteins, called minor epitopes.",[link](../json/config-scalars-malaria-nonspecific-antibody-growth-rate-factor.json)
+Population_Scale_Type,enum,NA,NA,USE_INPUT_FILE,The method to use for scaling the initial population specified in the demographics input file.<br>Possible values are:<br>USE_INPUT_FILE<br>    Turns off population scaling and uses **InitialPopulation** in the demographics file (see [NodeAttributes](parameter-demographics.md#nodeattributes) parameters).  <br>FIXED_SCALING<br>    Enables **Base_Population_Scale_Factor**.,[link](../json/config-scalars-malaria-population-scale-type.json)
+Post_Infection_Acquisition_Multiplier,float,0,1,0,"[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of reacquiring disease. At the time of recovery, the immunity against acquisition is multiplied by **Acquisition_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Acquisition_Multiplier**). **Enable_Immunity** must be set to 1 (true).",[link](../json/config-scalars-malaria-post-infection-acquisition-multiplier.json)
+Post_Infection_Mortality_Multiplier,float,0,1,0,"[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of dying from infection after getting reinfected. At the time of recovery, the immunity against mortality is multiplied by **Mortality_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Mortality_Multiplier**). **Enable_Immunity** must be set to 1 (true).",[link](../json/config-scalars-malaria-post-infection-mortality-multiplier.json)
+Post_Infection_Transmission_Multiplier,float,0,1,0,"[Note: Not used in MALARIA_SIM] The multiplicative reduction in the probability of transmitting infection after getting reinfected. At the time of recovery, the immunity against transmission is multiplied by **Transmission_Blocking_Immunity_Decay_Rate** x (1 - **Post_Infection_Transmission_Multiplier**). **Enable_Immunity** must be set to 1 (true).",[link](../json/config-scalars-malaria-post-infection-transmission-multiplier.json)
+Vector_Migration_Food_Modifier,float,0,3.40E+38,0,"The preference of a female vector to migrate toward a node currently occupied by humans, independent of the number of humans in the node. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ",[link](../json/config-scalars-malaria-vector-migration-food-modifier.json)
+Vector_Migration_Habitat_Modifier,float,0,3.40E+38,0,The preference of a female vector to migrate toward a node with more habitat. Only affects female vector migration. **Vector_Migration_Filename** must be defined. ,[link](../json/config-scalars-malaria-vector-migration-habitat-modifier.json)
+Vector_Migration_Modifier_Equation,enum,NA,NA,LINEAR,The functional form of female vector migration modifiers. **Vector_Migration_Filename** must be defined.<br>Possible values are:<br>LINEAR<br>EXPONENTIAL,[link](../json/config-scalars-malaria-vector-migration-modifier-equation.json)
+Vector_Migration_Stay_Put_Modifier,float,0,3.40E+38,0,The preference of a female vector to remain in its current node rather than migrate to another node.  Only affects female vector migration. **Vector_Migration_Filename** must be defined. ,[link](../json/config-scalars-malaria-vector-migration-stay-put-modifier.json)
+x_Air_Migration,float,0,3.40E+38,1,"Scale factor for the rate of migration by air, as provided by the migration file. **Enable_Air_Migration** must be set to 1.",[link](../json/config-scalars-malaria-x-air-migration.json)
+x_Base_Population,float,0,3.40E+38,1,"Scale factor for **InitialPopulation** in the demographics file (see [NodeAttributes](parameter-demographics.md#nodeattributes) parameters). If **Population_Scale_Type** is set to FIXED_SCALING, the initial simulation population is uniformly scaled over the entire area to adjust for historical or future population density.",[link](../json/config-scalars-malaria-x-base-population.json)
+x_Birth,float,0,3.40E+38,1,"Scale factor for birth rate, as provided by the demographics file (see [NodeAttributes](parameter-demographics.md#nodeattributes) parameters). **Enable_Birth** must be set to 1.",[link](../json/config-scalars-malaria-x-birth.json)
+x_Family_Migration,float,0,3.40E+38,1,"Scale factor for the rate of migration by families, as provided by the migration file. **Enable_Family_Migration** must be set to true (1).",[link](../json/config-scalars-malaria-x-family-migration.json)
+x_Local_Migration,float,0,3.40E+38,1,"Scale factor for rate of migration by foot travel, as provided by the migration file. **Enable_Local_Migration** must be set to 1.",[link](../json/config-scalars-malaria-x-local-migration.json)
+x_Other_Mortality,float,0,3.40E+38,1,Scale factor for mortality from causes other than the disease being simulated. Base mortality is provided by the demographics file (see [complex distributions](parameter-demographics.md#complex-distributions) parameters). **Enable_Natural_Mortality** must be set to 1. ,[link](../json/config-scalars-malaria-x-other-mortality.json)
+x_Regional_Migration,float,0,3.40E+38,1,"Scale factor for the rate of migration by road vehicle, as provided by the migration file. **Enable_Regional_Migration** must be set to 1.",[link](../json/config-scalars-malaria-x-regional-migration.json)
+x_Sea_Migration,float,0,3.40E+38,1,"Scale factor for the rate of migration by sea, as provided by the migration file. **Enable_Sea_Migration** must be set to 1.",[link](../json/config-scalars-malaria-x-sea-migration.json)
+x_Temporary_Larval_Habitat,float,0,10000,1,Scale factor for the habitat size for all mosquito populations.,[link](../json/config-scalars-malaria-x-temporary-larval-habitat.json)
+x_Vector_Migration,float,0,3.40E+38,1,"Scale factor for the rate of vector migration to other nodes, as provided by the vector migration file. **Vector_Migration_Filename** must be defined. ",[link](../json/config-scalars-malaria-x-vector-migration.json)

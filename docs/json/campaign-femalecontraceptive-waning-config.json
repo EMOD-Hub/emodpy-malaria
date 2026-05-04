@@ -1,0 +1,7 @@
+{
+    "Waning_Config": {
+        "class": "WaningEffectBox",
+        "Box_Duration": 180,
+        "Initial_Effect": 0.95
+    }
+}

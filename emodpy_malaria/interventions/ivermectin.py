@@ -34,7 +34,7 @@ def add_scheduled_ivermectin(campaign,
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         start_day: The day on which the intervention is distributed
         demographic_coverage: probability of choosing an individual, is ignored if "target_num_individuals" is set
         target_num_individuals: number of individuals to receive ivermectin, demographic_coverage will be ignored
@@ -61,10 +61,6 @@ def add_scheduled_ivermectin(campaign,
             others that use the same class.
         broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
             Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
-
-    Returns:
-        Nothing
-
     """
 
     intervention = _ivermectin(campaign=campaign,
@@ -122,7 +118,7 @@ def add_triggered_ivermectin(campaign,
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         trigger_condition_list: A list of the events that will trigger intervention distribution.
         listening_duration: The number of time steps that the distributed event will monitor for triggers.
@@ -150,9 +146,6 @@ def add_triggered_ivermectin(campaign,
             others that use the same class.
         broadcast_event: An event to be broadcast when a person receives Ivermectin intervention.
             Default: "Received_Ivermectin", you can turn this off by passing in an empty string or None
-
-    Returns:
-        Nothing
     """
 
     intervention = _ivermectin(campaign=campaign,
@@ -194,7 +187,7 @@ def _ivermectin(campaign,
         box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.

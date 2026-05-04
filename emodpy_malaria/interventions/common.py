@@ -12,7 +12,7 @@ def _malaria_diagnostic(
         Configures individual-targeted MalariaDiagnostic intervention
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
             will be added.
         diagnostic_type: The setting for **Diagnostic_Type** in
             :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
@@ -71,7 +71,7 @@ def add_triggered_campaign_delay_event(campaign,
         Create and add campaign event that responds to a trigger after an optional delay with an intervention.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         trigger_condition_list: A list of the events that will trigger intervention distribution.
         listening_duration: The number of time steps that the distributed event will monitor for triggers.
@@ -106,10 +106,6 @@ def add_triggered_campaign_delay_event(campaign,
             occurrence of an event in the **Trigger_Condition_List***.
         individual_intervention: Individual intervention or a list of individual interventions to be distributed
             by this event
-
-    Returns:
-        Nothing
-
     """
     if not trigger_condition_list:
         raise ValueError("Please define trigger_condition_list.\n")
@@ -163,7 +159,7 @@ def add_campaign_event(campaign,
         Adds a campaign event to the campaign with a passed in intervention.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -189,9 +185,6 @@ def add_campaign_event(campaign,
             by this event
         node_property_restrictions: A list of dictionaries of NodeProperties, which are required for the node
             to receive the intervention. Sets the **Node_Property_Restrictions**
-
-    Returns:
-        Nothing
     """
     if individual_intervention and node_intervention:
         raise ValueError("You cannot define both individual_intervention and node_intervention, only one.\n")

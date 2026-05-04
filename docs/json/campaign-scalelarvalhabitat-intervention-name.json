@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "class": "ScaleLarvalHabitat",
+        "Intervention_Name": "Reduce habitat for Aedes aegypti"
+    }
+}

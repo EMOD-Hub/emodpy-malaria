@@ -1,0 +1,16 @@
+{
+    "Property_Restrictions_Within_Node": [
+        {
+            "Risk": "LOW",
+            "Age_Bin": "Age_Bin_Property_From_0_To_5"
+        },
+        {
+            "Risk": "MEDIUM",
+            "Age_Bin": "Age_Bin_Property_From_5_To_13"
+        },
+        {
+            "Risk": "HIGH",
+            "Age_Bin": "Age_Bin_Property_From_13_To_125"
+        }
+    ]
+}

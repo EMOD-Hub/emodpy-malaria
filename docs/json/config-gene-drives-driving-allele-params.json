@@ -1,0 +1,16 @@
+{
+    "Driving_Allele_Params": {
+        "Allele_To_Copy": "Ad",
+        "Allele_To_Replace": "Aw",
+        "Copy_To_Likelihood": [
+            {
+                "Copy_To_Allele": "Ad",
+                "Likelihood": 1.0
+            },
+            {
+                "Copy_To_Allele": "Aw",
+                "Likelihood": 0.0
+            }
+        ]
+    }
+}

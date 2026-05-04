@@ -18,7 +18,7 @@ def _simple_vaccine(campaign,
         Configures a SimpleVaccine intervention.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it
             from others that use the same class
         vaccine_type: The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
@@ -33,7 +33,7 @@ def _simple_vaccine(campaign,
             efficacies are additive.
 
     Returns:
-        Configured SimpleVaccine intervention
+        (dict): Configured SimpleVaccine intervention
     """
     vaccine_types = ["Generic", "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"]
     if vaccine_type not in vaccine_types:
@@ -77,7 +77,7 @@ def add_scheduled_vaccine(campaign,
         Adds a scheduled SimpleVaccine event, with an optional BroadcastEvent, broadcast when vaccine is received.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -111,9 +111,6 @@ def add_scheduled_vaccine(campaign,
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
-
-    Returns:
-        Nothing
     """
 
     intervention = _simple_vaccine(campaign,
@@ -168,7 +165,7 @@ def add_triggered_vaccine(campaign,
         Adds an event-triggered SimpleVaccine event, with an optional BroadcastEvent, broadcast when vaccine is received.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         trigger_condition_list: A list of the events that will trigger intervention distribution.
         listening_duration: The number of time steps that the distributed event will monitor for triggers.
@@ -205,9 +202,6 @@ def add_triggered_vaccine(campaign,
         efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
-
-    Returns:
-        Nothing
     """
 
     intervention = _simple_vaccine(campaign,
@@ -244,13 +238,13 @@ def new_intervention_as_file(campaign, start_day: int = 0, filename: str = "Simp
     Write a campaign file to disk with a single bednet event, using defaults. Useful for testing and learning.
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
         start_day: The day of the simulation on which the bednets are distributed. We recommend
             aligning this with the start of the simulation.
         filename: The campaign filename; can be omitted and default will be used and returned to user.
 
     Returns:
-        The campaign filename written to disk.
+        (str): The campaign filename written to disk.
     """
     add_scheduled_vaccine(campaign, start_day)
     campaign.save(filename)

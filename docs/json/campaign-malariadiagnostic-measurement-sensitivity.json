@@ -1,0 +1,8 @@
+{
+    "Intervention_Config": {
+        "class": "MalariaDiagnostic",
+        "Diagnostic_Type": "BLOOD_SMEAR_GAMETOCYTES",
+        "Detection_Threshold": 10,
+        "Measurement_Sensitivity": 0.25
+    }
+}

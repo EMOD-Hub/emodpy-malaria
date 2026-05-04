@@ -1,0 +1,17 @@
+{
+    "Reports": [
+        {
+            "class": "ReportVectorStats",
+            "Species_List": [
+                "arabiensis",
+                "funestus"
+            ],
+            "Stratify_By_Species": 1,
+            "Include_Wolbachia_Columns": 0,
+            "Include_Gestation_Columns": 1,
+            "Include_Microsporidia_Columns": 0,
+            "Include_Death_By_State_Columns": 1
+        }
+    ],
+    "Use_Defaults": 1
+}

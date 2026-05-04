@@ -1,0 +1,10 @@
+{
+    "Reports": [
+        {
+            "Start_Day": 300,
+            "End_Day": 900,
+            "class": "ReportDrugStatus"
+        }
+    ],
+    "Use_Defaults": 1
+}

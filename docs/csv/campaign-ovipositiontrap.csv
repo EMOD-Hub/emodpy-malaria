@@ -1,60 +1,8 @@
-"Cost_To_Consumer","float","0","999999","10","The unit cost per vector control (unamortized).",".. code-block:: json
-
-    {
-      ""Cost_To_Consumer"": 8
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","Prevents individual from receiving a new intervention with the same Intervetion_Name.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Habitat_Target","enum","NA","NA","NONE","The oviposition habitat type targeted by oviposition traps. This is a required parameter. NONE is the default to ensure the user selects it. If not ALL_HABITATS, then the type must be one of those configured in **Vector_Species_Params**, **Habitats**. See :doc:`parameter-configuration-larval` parameters for more information. Possible values are:
-
-* NONE - Default but not allowed; it must be defined.
-* TEMPORARY_RAINFALL
-* WATER_VEGETATION
-* HUMAN_POPULATION
-* CONSTANT
-* BRACKISH_SWAMP
-* LINEAR_SPLINE
-* ALL_HABITATS",".. code-block:: json
-
-    {
-      ""Habitat_Target"": ""WATER_VEGETATION""
-    }
-"
-"Intervention_Name","string","NA","NA","OvipositionTrap","The optional name used to refer to this intervention. If two interventions of this class have different Intervention_Name values, this allows them to co-exist in the node. Otherwise the new intervention replaces the existing one.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""OvipositionTrap"",
-        ""Intervention_Name"": ""Cedrol traps""
-      }
-    }
-"
-"Killing_Config","json object","NA","NA","NA","The configuration of the killing effects for the fraction of oviposition cycles that end in the female mosquito's death. If there is skip oviposition, this does not configure the mortality per skip, but instead configures the effective net mortality per gonotrophic cycle over all skips. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
-
-    {
-      ""Killing_Config"": {
-        ""Box_Duration"": 3650,
-        ""Initial_Effect"": 0.53429,
-        ""class"": ""WaningEffectBox""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""HasHealthCare:YES""
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Cost_To_Consumer,float,0,999999,10,The unit cost per vector control (unamortized).,[link](../json/campaign-ovipositiontrap-cost-to-consumer.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **NodeProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-ovipositiontrap-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,Prevents individual from receiving a new intervention with the same Intervetion_Name.,[link](../json/campaign-ovipositiontrap-dont-allow-duplicates.json)
+Habitat_Target,enum,NA,NA,NONE,"The oviposition habitat type targeted by oviposition traps. This is a required parameter. NONE is the default to ensure the user selects it. If not ALL_HABITATS, then the type must be one of those configured in **Vector_Species_Params**, **Habitats**. See [Larval habitat](parameter-configuration-larval.md) parameters for more information. Possible values are:<br>* NONE - Default but not allowed; it must be defined.<br>* TEMPORARY_RAINFALL<br>* WATER_VEGETATION<br>* HUMAN_POPULATION<br>* CONSTANT<br>* BRACKISH_SWAMP<br>* LINEAR_SPLINE<br>* ALL_HABITATS",[link](../json/campaign-ovipositiontrap-habitat-target.json)
+Intervention_Name,string,NA,NA,OvipositionTrap,"The optional name used to refer to this intervention. If two interventions of this class have different Intervention_Name values, this allows them to co-exist in the node. Otherwise the new intervention replaces the existing one.",[link](../json/campaign-ovipositiontrap-intervention-name.json)
+Killing_Config,json object,NA,NA,NA,"The configuration of the killing effects for the fraction of oviposition cycles that end in the female mosquito's death. If there is skip oviposition, this does not configure the mortality per skip, but instead configures the effective net mortality per gonotrophic cycle over all skips. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).",[link](../json/campaign-ovipositiontrap-killing-config.json)
+New_Property_Value,string,NA,NA,"""""",An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.,[link](../json/campaign-ovipositiontrap-new-property-value.json)

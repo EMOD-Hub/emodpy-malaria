@@ -1,0 +1,10 @@
+{
+    "Property_Restrictions_Within_Node": [
+        {
+            "Place": "Rural"
+        },
+        {
+            "Place": "Urban"
+        }
+    ]
+}

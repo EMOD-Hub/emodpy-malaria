@@ -1,0 +1,18 @@
+{
+    "Event_Coordinator_Config": {
+        "Coverage_By_Node": [
+            {
+                "Node_Id": 1,
+                "Coverage": 0.6
+            },
+            {
+                "Node_Id": 2,
+                "Coverage": 0.9
+            },
+            {
+                "Node_Id": 3,
+                "Coverage": 0.1
+            }
+        ]
+    }
+}

@@ -8,7 +8,7 @@
             },
             "Start_Day": 100,
             "Event_Coordinator_Config": {
-            "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Number_Repetitions": 1,
                 "Target_Demographic": "Everyone",
                 "Demographic_Coverage": 1,

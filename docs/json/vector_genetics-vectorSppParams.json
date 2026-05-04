@@ -5,7 +5,8 @@
             "Adult_Life_Expectancy": 10,
             "Nighttime_Feeding_Fraction": 1.0,
             "Transmission_Rate": 0.5,
-            "Genes": [{
+            "Genes": [
+                {
                     "Alleles": {
                         "a1": 1.0,
                         "a2": 0.0,
@@ -54,11 +55,21 @@
                     "Mutations": {}
                 }
             ],
-            "Gene_To_Trait_Modifiers": [{
+            "Gene_To_Trait_Modifiers": [
+                {
                     "Allele_Combinations": [
-                        ["b1", "b1"],
-                        ["c2", "c2"],
-                        ["d1", "d2"]
+                        [
+                            "b1",
+                            "b1"
+                        ],
+                        [
+                            "c2",
+                            "c2"
+                        ],
+                        [
+                            "d1",
+                            "d2"
+                        ]
                     ],
                     "Trait_Modifiers": {
                         "ACQUISITION_BLOCKING": 1.5,
@@ -68,8 +79,14 @@
                 },
                 {
                     "Allele_Combinations": [
-                        ["c2", "c3"],
-                        ["e1", "e2"]
+                        [
+                            "c2",
+                            "c3"
+                        ],
+                        [
+                            "e1",
+                            "e2"
+                        ]
                     ],
                     "Trait_Modifiers": {
                         "GENDER_FEMALE": 0.5
@@ -77,22 +94,27 @@
                 },
                 {
                     "Allele_Combinations": [
-                        ["b1", "b5"]
+                        [
+                            "b1",
+                            "b5"
+                        ]
                     ],
                     "Trait_Modifiers": {
                         "STERILITY": 0.0
                     }
                 }
             ],
-            "Drivers": [{
-                "Driving_Allele": "a1",
-                "Alleles_Driven_Likelihood": {
-                    "a1:a2": 0.95,
-                    "b1:b2": 0.90,
-                    "b3:b4": 0.10,
-                    "b4:b2": 0.00
+            "Drivers": [
+                {
+                    "Driving_Allele": "a1",
+                    "Alleles_Driven_Likelihood": {
+                        "a1:a2": 0.95,
+                        "b1:b2": 0.9,
+                        "b3:b4": 0.1,
+                        "b4:b2": 0.0
+                    }
                 }
-            }]
+            ]
         }
     }
 }

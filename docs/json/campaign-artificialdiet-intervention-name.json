@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "class": "ArtificialDiet",
+        "Intervention_Name": "Feeding station in node 7"
+    }
+}

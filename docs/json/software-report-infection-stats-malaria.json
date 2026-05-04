@@ -1,0 +1,17 @@
+{
+    "Reports": [
+        {
+            "class": "ReportInfectionStatsMalaria",
+            "Start_Day": 3860,
+            "End_Day": 3880,
+            "Reporting_Interval": 1,
+            "Include_Column_Hepatocyte": 1,
+            "Include_Column_IRBC": 1,
+            "Include_Column_Gametocyte": 1,
+            "Include_Data_Threshold_Hepatocytes": 0,
+            "Include_Data_Threshold_IRBC": 0,
+            "Include_Data_Threshold_Gametocytes": 0
+        }
+    ],
+    "Use_Defaults": 1
+}

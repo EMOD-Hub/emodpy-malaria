@@ -1,0 +1,5 @@
+{
+    "Risk_Distribution": "LOG_NORMAL_DISTRIBUTION",
+    "Risk_Log_Normal_Mu": 9,
+    "Risk_Log_Normal_Sigma": 2
+}

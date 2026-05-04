@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "class": "MultiPackDrugCombo",
+        "Intervention_Name": "Isoniazid with mediocre adherence"
+    }
+}

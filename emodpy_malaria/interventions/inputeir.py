@@ -18,7 +18,7 @@ def _input_eir(
         Enable_Demographics_Risk setting, and any AcquisitionBlocking vaccines that an individual may have received.
 
         Args:
-            campaign:  Passed in campaign (from emod_api.campaign)
+            campaign (emodpy.campaign.emod_campaign.EMODCampaign):  Passed in campaign (from emod_api.campaign)
             monthly_eir: An array of 12 elements that contain an entomological inoculation rate (EIR) for each month;
                 Each value should be between 0 and 1000
             daily_eir: An array of 365 values where each value is the mean number of infectious bites experienced
@@ -75,7 +75,7 @@ def add_scheduled_input_eir(
         Enable_Demographics_Risk setting, and any AcquisitionBlocking vaccines that an individual may have received.
 
         Args:
-            campaign: Passed in campaign (from emod_api.campaign)
+            campaign (emodpy.campaign.emod_campaign.EMODCampaign): Passed in campaign (from emod_api.campaign)
             start_day: The day on which the monthly_eir cycle starts
             node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
                 will get the intervention
@@ -87,9 +87,6 @@ def add_scheduled_input_eir(
             intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
                 others that use the same class. It’s possible to have multiple InputEIR interventions
                 attached to a node if they have different Intervention_Name values.
-
-        Returns:
-            Nothing
     """
 
     input_eir = _input_eir(campaign=campaign, monthly_eir=monthly_eir, daily_eir=daily_eir,
@@ -105,7 +102,7 @@ def new_intervention_as_file(campaign, start_day: int = 0, monthly_eir: list = N
         Create an InputEIR intervention as its own file.
 
         Args:
-            campaign: Passed in campaign (from emod_api.campaign)
+            campaign (emodpy.campaign.emod_campaign.EMODCampaign): Passed in campaign (from emod_api.campaign)
             start_day: The day on which the monthly_eir cycle starts
             monthly_eir: An array of 12 elements that contain an entomological inoculation rate (EIR) for each month;
                 Each value should be between 0 and 1000
@@ -114,7 +111,7 @@ def new_intervention_as_file(campaign, start_day: int = 0, monthly_eir: list = N
             filename: filename used for the file created
 
         Returns:
-            The filename of the file created
+            (str): The filename of the file created
     """
     add_scheduled_input_eir(campaign=campaign, start_day=start_day, monthly_eir=monthly_eir, daily_eir=daily_eir)
     campaign.save(filename)

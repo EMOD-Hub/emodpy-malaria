@@ -1,0 +1,9 @@
+{
+    "Serialized_Population_Writing_Type": "NONE",
+    "Serialized_Population_Reading_Type": "READ",
+    "Serialized_Population_Path": ".",
+    "Serialized_Population_Filenames": [
+        "state-00050.dtk"
+    ],
+    "Serialization_Mask_Node_Read": 0
+}

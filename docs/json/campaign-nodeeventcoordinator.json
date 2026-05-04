@@ -1,19 +1,21 @@
 {
-    "Events": [{
-        "class": "CampaignEvent",
-        "Event_Name": "Scale habitat",
-        "Start_Day": 1,
-        "Nodeset_Config": {
-            "class": "NodeSetAll"
-        },
-        "Event_Coordinator_Config": {
-            "Intervention_Config": {
-                "class": "ScaleLarvalHabitat",
-                "Larval_Habitat_Multiplier": {
-                    "TEMPORARY_RAINFALL": 0.05
-                }
+    "Events": [
+        {
+            "class": "CampaignEvent",
+            "Event_Name": "Scale habitat",
+            "Start_Day": 1,
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
             },
-            "class": "NodeEventCoordinator"
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "class": "ScaleLarvalHabitat",
+                    "Larval_Habitat_Multiplier": {
+                        "TEMPORARY_RAINFALL": 0.05
+                    }
+                },
+                "class": "NodeEventCoordinator"
+            }
         }
-    }]
+    ]
 }

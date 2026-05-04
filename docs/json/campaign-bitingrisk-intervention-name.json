@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "class": "BitingRisk",
+        "Intervention_Name": "Relative biting risk with bednet usage"
+    }
+}

@@ -1,3 +1,0 @@
-The **NodeAttributes** section contains parameters that add or modify information
-regarding the location, migration, habitat, and population of node. Some **NodeAttributes**
-depend on values set in the configuration parameters.

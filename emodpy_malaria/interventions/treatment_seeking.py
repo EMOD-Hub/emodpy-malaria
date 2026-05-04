@@ -107,7 +107,7 @@ def add_treatment_seeking(campaign,
     rate = 0, no delay, seek treatment immediately
 
     Args:
-        campaign: object for building, modifying, and writing campaign configuration files.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
         start_day: Start day of intervention.
         targets: List of dictionaries defining the trigger event and coverage for and
             properties of individuals to target with the intervention. "trigger" must be defined, other defaults are as
@@ -131,9 +131,6 @@ def add_treatment_seeking(campaign,
             Default is -1, meaning they will always seek drugs when sick
         broadcast_event_name: Event to broadcast when successful health seeking behavior.
             Default is "Received_Treatment".
-
-    Returns:
-        None
     """
 
     camp_events = _get_events(campaign=campaign, start_day=start_day, targets=targets, drug=drug, node_ids=node_ids,

@@ -23,7 +23,7 @@ def add_outbreak_individual(campaign,
     Adds a scheduled OutbreakIndividual intervention. This is set up to be used with Malaria-Ongoing branch.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -50,9 +50,6 @@ def add_outbreak_individual(campaign,
         antigen: The antigenic base strain ID of the outbreak infection
         genome: The genetic substrain ID of the outbreak infection
         broadcast_event: Optional event that will be sent out at the same time as outbreak is distributed
-
-    Returns:
-        Nothing
     """
     schema_path = campaign.schema_path
 
@@ -103,7 +100,7 @@ def add_outbreak_malaria_genetics(campaign,
         be added to a campaign.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -164,9 +161,6 @@ def add_outbreak_malaria_genetics(campaign,
             defined in <config>.Parasite_Genetics.HRP_Genome_Locations. 'A' means HRP marker is present and a
             non-'A' means it isn't.
         broadcast_event: Optional event that will be sent out at the same time as outbreak is distributed
-
-    Returns:
-        CampaignEvent which then can be added to the campaign file
     """
     if create_nucleotide_sequence_from == "BARCODE_STRING" and not barcode_string:
         raise ValueError(f"You must define barcode_string with {create_nucleotide_sequence_from} setting.\n")
@@ -258,7 +252,7 @@ def add_outbreak_malaria_var_genes(campaign,
         be added to a campaign.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -288,9 +282,6 @@ def add_outbreak_malaria_var_genes(campaign,
             Min value = 0, MAX value = config.Falciparum_Nonspecific_Types * MINOR_EPITOPE_VARS_PER_SET(=5) .
         msp_type: The Merozoite Surface Protein variant value of this infection. Min value = 0,
             MAX value = config.Falciparum_MSP_Variants.
-
-    Returns:
-        CampaignEvent which then can be added to the campaign file
     """
     if not irbc_type or not minor_epitope_type or not msp_type:
         raise ValueError("irbc_type, minor_epitope_type, msp_type all must be defined.\n")
@@ -332,7 +323,7 @@ def add_campaign_event(campaign,
         Adds a campaign event to the campaign with a passed in intervention.
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -351,10 +342,6 @@ def add_campaign_event(campaign,
         target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
         target_gender: The gender targeted for an intervention: All, Male, or Female.
         intervention: Intervention or a list of interventions to be distributed by this event
-
-    Returns:
-        Nothing, add the CampaignEvent to the campaign
-
     """
 
     schema_path = campaign.schema_path

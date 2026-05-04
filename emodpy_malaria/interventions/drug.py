@@ -23,7 +23,7 @@ def add_scheduled_antimalarial_drug(
     :doc:`emod/parameter-campaign-individual-antimalarialdrug`.
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The object to which the intervention will be added.
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -47,9 +47,6 @@ def add_scheduled_antimalarial_drug(
         cost_to_consumer: Per-unit cost when drug is distributed
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class.  Default is AntimalarialDrug_<drug_type>.
-
-    Returns:
-        The intervention event.
     """
     antimalarial_drug = _antimalarial_drug(campaign=campaign,
                                            drug_type=drug_type,
@@ -71,7 +68,7 @@ def _antimalarial_drug(campaign,
     """
         Configures individual-targeted AntimalarialDrug intervention
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         drug_type: The name of the drug to distribute in a drug intervention. Possible values are
             contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
             Use :py:meth:`~emodpy_malaria.config.set_team_drug_params` to set those values
@@ -80,7 +77,7 @@ def _antimalarial_drug(campaign,
             others that use the same class. Default is AntimalarialDrug_<drug_type>.
 
     Returns:
-        Configured individual-targeted AntimalarialDrug intervention
+        (dict): Configured individual-targeted AntimalarialDrug intervention
     """
     if not drug_type:
         raise ValueError("Please pass in 'drug_type', as defined in Malaria_Drug_Params.Name.\n")
@@ -97,16 +94,15 @@ def new_intervention_as_file(campaign, start_day, drug_type="Chloroquine", filen
     intervention from a JSON file and add it to your campaign.
 
     Args:
-        campaign: The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
-        start_day: The day of the simulation on which the drug is distributed. We recommend
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The object to which the intervention will be added.
+        start_day (float): The day of the simulation on which the drug is distributed. We recommend
             aligning this with the start of the simulation.
-        drug_type: The name of the drug to distribute in a drug intervention. Possible values are
+        drug_type (str): The name of the drug to distribute in a drug intervention. Possible values are
             contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
-            Use :py:meth:`~emodpy_malaria.config.set_team_drug_params` to set those values
-        filename: The JSON file that contains the intervention.
+        filename (str): The JSON file that contains the intervention.
 
     Returns:
-        The filename.
+        (str): The filename.
     """
     add_scheduled_antimalarial_drug(campaign=campaign, start_day=start_day, drug_type=drug_type)
     campaign.save(filename)

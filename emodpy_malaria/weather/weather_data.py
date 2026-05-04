@@ -147,7 +147,7 @@ class WeatherData:
 
         return wd
 
-    def to_dict(self, only_unique_series=False, copy_data: bool = True) -> Dict[int, np.ndarray[np.float32]]:
+    def to_dict(self, only_unique_series: bool = False, copy_data: bool = True) -> Dict[int, np.ndarray[np.float32]]:
         """
         Create a node-to-series dictionary from the current object. This method can be used to edit weather data.
 
@@ -398,7 +398,7 @@ class DataFrameInfo:
         return self
 
     @classmethod
-    def detect_columns(cls, df, column_candidates: Dict[str, List[str]] = None) -> DataFrameInfo:
+    def detect_columns(cls, df: pd.DataFrame, column_candidates: Dict[str, List[str]] = None) -> DataFrameInfo:
         """
         Auto-detect required column names (nodes, time-steps and weather time series) for the DataFrameInfo object.
 

@@ -9,7 +9,7 @@ def add_challenge_trial(campaign, start_day: int = 0, node_ids: list = None, dem
         to the campaign using the **MalariaChallenge** class, a node-level intervention.
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         start_day: The day to distribute the intervention; default = 0.
         node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
@@ -20,10 +20,6 @@ def add_challenge_trial(campaign, start_day: int = 0, node_ids: list = None, dem
             infectious_bites to 0.
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class.
-
-    Returns:
-        Nothing
-
     """
     if sporozoites and infectious_bites:
         raise ValueError("Please enter a positive value for either 'infectious_bites' or 'sporozoites', but not both.\n")
@@ -41,7 +37,7 @@ def _malaria_challenge(campaign, demographic_coverage: float = 1, infectious_bit
         Configures a MalariaChallenge node-level intervention
 
     Args:
-        campaign: A campaign builder that also contains schema_path parameters
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
         demographic_coverage: The fraction of individuals receiving the challenge
         infectious_bites: The number of infectious bites a person is challenged with, Default: 5
             sprorozoites needs to be set to 0

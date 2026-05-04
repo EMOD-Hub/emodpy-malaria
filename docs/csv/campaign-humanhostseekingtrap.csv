@@ -1,55 +1,8 @@
-"Attract_Config","json object","NA","NA","NA","The configuration of attraction efficacy and waning for human host-seeking trap. This determines what fraction of host-seeking vectors that day are attracted to the trap instead of finding a human to feed on. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
-
-    {
-      ""Attract_Config"": {
-        ""Box_Duration"": 3650,
-        ""Initial_Effect"": 0.6,
-        ""class"": ""WaningEffectBox""
-      }
-    }
-"
-"Cost_To_Consumer","float","0","999999","3.75","The unit cost per trap (unamortized).",".. code-block:: json
-
-    {
-      ""Cost_To_Consumer"": 4.5
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Intervention_Name","string","NA","NA","HumanHostSeekingTrap","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""HumanHostSeekingTrap"",
-        ""Intervention_Name"": ""Trap to lure and kill mosquitoes""
-      }
-    }
-"
-"Killing_Config","json object","NA","NA","NA","The configuration of killing efficacy and waning for human host-seeking trap. Only vectors attracted to the trap by the **Attract_Config** settings are targeted by the **Killing_Config**. Specify how this effect decays over time using one of the :doc:`parameter-campaign-waningeffects`.",".. code-block:: json
-
-    {
-      ""Killing_Config"": {
-        ""Box_Duration"": 3650,
-        ""Initial_Effect"": 0.9,
-        ""class"": ""WaningEffectBox""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""InterventionStatus:None""
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Attract_Config,json object,NA,NA,NA,The configuration of attraction efficacy and waning for human host-seeking trap. This determines what fraction of host-seeking vectors that day are attracted to the trap instead of finding a human to feed on. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).,[link](../json/campaign-humanhostseekingtrap-attract-config.json)
+Cost_To_Consumer,float,0,999999,3.75,The unit cost per trap (unamortized).,[link](../json/campaign-humanhostseekingtrap-cost-to-consumer.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to individuals with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-humanhostseekingtrap-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-humanhostseekingtrap-dont-allow-duplicates.json)
+Intervention_Name,string,NA,NA,HumanHostSeekingTrap,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-humanhostseekingtrap-intervention-name.json)
+Killing_Config,json object,NA,NA,NA,The configuration of killing efficacy and waning for human host-seeking trap. Only vectors attracted to the trap by the **Attract_Config** settings are targeted by the **Killing_Config**. Specify how this effect decays over time using one of the [Waning effect classes](parameter-campaign-waningeffects.md).,[link](../json/campaign-humanhostseekingtrap-killing-config.json)
+New_Property_Value,string,NA,NA,"""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one. ",[link](../json/campaign-humanhostseekingtrap-new-property-value.json)

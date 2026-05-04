@@ -30,7 +30,7 @@ def _indoor_individual_emanator(campaign,
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign:
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign):
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
         killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
         killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
@@ -101,7 +101,7 @@ def add_indoor_individual_emanator_scheduled(campaign,
         box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign: object for building, modifying, and writing campaign configuration files.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
         start_day: Start day of intervention.
         coverage_by_ages: A list of dictionaries defining the coverage per
             age group. For example, ``[{"coverage":1,"min": 1, "max": 10},
@@ -138,10 +138,6 @@ def add_indoor_individual_emanator_scheduled(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IndoorIndividualEmanator interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
-
     """
     if coverage_by_ages and (demographic_coverage or target_num_individuals):
         raise ValueError("When 'setting 'coverage_by_ages', do not set 'demographic_coverage' or 'target_num_individuals'.\n")
@@ -213,7 +209,7 @@ def add_indoor_individual_emanator_triggered(campaign,
         Adds a triggered IndoorIndividualEmanator intervention
 
     Args:
-        campaign: object for building, modifying, and writing campaign configuration files.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
         start_day: The day the intervention is given out.
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
@@ -249,10 +245,6 @@ def add_indoor_individual_emanator_triggered(campaign,
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple IndoorIndividualEmanator interventions
             attached to a person if they have different Intervention_Name values.
-
-    Returns:
-        Nothing
-
     """
 
     intervention_list = [_indoor_individual_emanator(campaign,

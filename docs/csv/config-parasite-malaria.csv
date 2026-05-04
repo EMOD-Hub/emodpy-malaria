@@ -1,136 +1,17 @@
-"Base_Gametocyte_Fraction_Male","double","NA","NA","0.2","Fraction of gametocytes that are male.",".. code-block:: json
-
-    {
-        ""Base_Gametocyte_Fraction_Male"": 0.25
-    }
-"
-"Base_Gametocyte_Mosquito_Survival_Rate","float","0","1","0.01","Average fraction of :term:`gametocytes` in a blood meal that are successful in infecting the mosquito in the absence of other modulating effects, such as fever.",".. code-block:: json
-
-    {
-        ""Base_Gametocyte_Mosquito_Survival_Rate"": 0.015
-    }
-"
-"Base_Gametocyte_Production_Rate","double","NA","NA","0.02","The fraction of infected red blood cells (IRBCs) producing gametocytes.",".. code-block:: json
-
-    {
-        ""Base_Gametocyte_Mosquito_Survival_Rate"": 0.01
-    }
-"
-"Base_Sporozoite_Survival_Fraction","float","0","1","0.25","The fraction of sporozoites that survive to infect a :term:`hepatocyte` in the absence of anti-CSP protection.",".. code-block:: json
-
-    {
-        ""Base_Sporozoite_Survival_Fraction"": 0.25
-    }
-"
-"Cytokine_Gametocyte_Inactivation","float","0","1","0.02","The strength of inflammatory response inactivation of gametocytes.",".. code-block:: json
-
-    {
-        ""Cytokine_Gametocyte_Inactivation"": 0.0167
-    }
-"
-"Gametocyte_Stage_Survival_Rate","double","0","1","1","The rate of gametocyte survival from one development stage to the next in the absence of drugs or inflammatory immune response.",".. code-block:: json
-
-    {
-        ""Gametocyte_Stage_Survival_Rate"": 0.8
-    }
-"
-"Mean_Sporozoites_Per_Bite","float","0","1000","11","The mean number of sporozoites per infectious mosquito bite.",".. code-block:: json
-
-    {
-        ""Mean_Sporozoites_Per_Bite"": 11
-    }
-"
-"Merozoites_Per_Hepatocyte","double","NA","NA","15000","The number of IRBCs caused by a single infected :term:`hepatocyte` at the start of infection.",".. code-block:: json
-
-    {
-        ""Merozoites_Per_Hepatocyte"": 15000
-    }
-"
-"Merozoites_Per_Schizont","double","NA","NA","16","The number of merozoites released by a single infected :term:`schizont` after each asexual cycle. The number of resulting IRBC's depends on the RBC availability and merozoite-specific immunity.",".. code-block:: json
-
-    {
-        ""Merozoites_Per_Schizont"": 16
-    }
-"
-"Number_Of_Asexual_Cycles_Without_Gametocytes","integer","0","500","1","The number of asexual reproduction cycles that do not produce gametocytes. All later cycles will produce gametocytes according to **Base_Gametocyte_Production_Rate**.",".. code-block:: json
-
-    {
-        ""Number_Of_Asexual_Cycles_Without_Gametocytes"": 1
-    }
-"
-"Parasite_Mortality_Inverse_Width","float","0.1","1000000","10","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) ).
-
-This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for parasite density.
-",".. code-block:: json
-
-    {
-        ""Parasite_Mortality_Inverse_Width"": 100
-    }
-"
-"Parasite_Mortality_Threshold","double","NA","NA","2000000","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures the parasite-density mortality threshold for a simulation.
-
-
-
-
-
-
-",".. code-block:: json
-
-    {
-        ""Parasite_Mortality_Threshold"": 3000000
-    }
-"
-"Parasite_Severe_Inverse_Width","float","0.1","1000000","10","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for parasite density.
-
-",".. code-block:: json
-
-    {
-        ""Parasite_Severe_Inverse_Width"": 48.66825295
-    }
-"
-"Parasite_Severe_Threshold","float","0","3.40E+38","1000000","The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:
-
-probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )
-
-This parameter configures parasite density threshold level that results in severe disease.
-
-
-
-
-
-",".. code-block:: json
-
-    {
-        ""Parasite_Severe_Threshold"": 253871
-    }
-"
-"Parasite_Smear_Sensitivity","float","0.0001","100","0.1","The number of microliters of blood tested to find single parasites in a traditional smear (corresponds to inverse parasites/microliters sensitivity).",".. code-block:: json
-
-    {
-        ""Parasite_Smear_Sensitivity"": 0.1
-    }
-"
-"Parasite_Switch_Type","enum","NA","NA","CONSTANT_SWITCH_RATE_2VARS","The parasite switch type for erythrocyte surface antigens. 
-Possible values are: 
-
-CONSTANT_SWITCH_RATE_2VARS
-    Introduction of new variants has a fixed probability which does not depend on the level of parasitemia.
-RATE_PER_PARASITE_7VARS
-    Each IRBC has a fixed rate of switching to each of seven possible variants.
-RATE_PER_PARASITE_5VARS_DECAYING
-    Each IRBC has a rate of switching to several possible variants, and the rate decreases with distance from the original variant.",".. code-block:: json
-
-    {
-        ""Parasite_Switch_Type"": ""RATE_PER_PARASITE_7VARS""
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Base_Gametocyte_Fraction_Male,double,NA,NA,0.2,Fraction of gametocytes that are male.,[link](../json/config-parasite-malaria-base-gametocyte-fraction-male.json)
+Base_Gametocyte_Mosquito_Survival_Rate,float,0,1,0.01,"Average fraction of [gametocytes](../glossary.md) in a blood meal that are successful in infecting the mosquito in the absence of other modulating effects, such as fever.",[link](../json/config-parasite-malaria-base-gametocyte-mosquito-survival-rate.json)
+Base_Gametocyte_Production_Rate,double,NA,NA,0.02,The fraction of infected red blood cells (IRBCs) producing gametocytes.,[link](../json/config-parasite-malaria-base-gametocyte-production-rate.json)
+Base_Sporozoite_Survival_Fraction,float,0,1,0.25,The fraction of sporozoites that survive to infect a [hepatocyte](../glossary.md) in the absence of anti-CSP protection.,[link](../json/config-parasite-malaria-base-sporozoite-survival-fraction.json)
+Cytokine_Gametocyte_Inactivation,float,0,1,0.02,The strength of inflammatory response inactivation of gametocytes.,[link](../json/config-parasite-malaria-cytokine-gametocyte-inactivation.json)
+Gametocyte_Stage_Survival_Rate,double,0,1,1,The rate of gametocyte survival from one development stage to the next in the absence of drugs or inflammatory immune response.,[link](../json/config-parasite-malaria-gametocyte-stage-survival-rate.json)
+Mean_Sporozoites_Per_Bite,float,0,1000,11,The mean number of sporozoites per infectious mosquito bite.,[link](../json/config-parasite-malaria-mean-sporozoites-per-bite.json)
+Merozoites_Per_Hepatocyte,double,NA,NA,15000,The number of IRBCs caused by a single infected [hepatocyte](../glossary.md) at the start of infection.,[link](../json/config-parasite-malaria-merozoites-per-hepatocyte.json)
+Merozoites_Per_Schizont,double,NA,NA,16,The number of merozoites released by a single infected [schizont](../glossary.md) after each asexual cycle. The number of resulting IRBC's depends on the RBC availability and merozoite-specific immunity.,[link](../json/config-parasite-malaria-merozoites-per-schizont.json)
+Number_Of_Asexual_Cycles_Without_Gametocytes,integer,0,500,1,The number of asexual reproduction cycles that do not produce gametocytes. All later cycles will produce gametocytes according to **Base_Gametocyte_Production_Rate**.,[link](../json/config-parasite-malaria-number-of-asexual-cycles-without-gametocytes.json)
+Parasite_Mortality_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) ).<br>This parameter configures the inverse width relative to threshold value of mortality turn-on around threshold for parasite density.",[link](../json/config-parasite-malaria-parasite-mortality-inverse-width.json)
+Parasite_Mortality_Threshold,double,NA,NA,2000000,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the parasite-density mortality threshold for a simulation.",[link](../json/config-parasite-malaria-parasite-mortality-threshold.json)
+Parasite_Severe_Inverse_Width,float,0.1,1000000,10,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures the inverse width relative to threshold value of severe disease turn-on around threshold for parasite density.",[link](../json/config-parasite-malaria-parasite-severe-inverse-width.json)
+Parasite_Severe_Threshold,float,0,3.40E+38,1000000,"The probability of having severe or fatal malaria is calculated according to three causes: anemia, fever as a pro-inflammatory correlate of cerebral malaria, and total parasite density. The probability associated with each factor is configured with two parameters of a sigmoidal function:<br>probability = 1.0 / ( 1.0 + exp( (threshold-variable) / (threshold/invwidth) ) )<br>This parameter configures parasite density threshold level that results in severe disease.",[link](../json/config-parasite-malaria-parasite-severe-threshold.json)
+Parasite_Smear_Sensitivity,float,0.0001,100,0.1,The number of microliters of blood tested to find single parasites in a traditional smear (corresponds to inverse parasites/microliters sensitivity).,[link](../json/config-parasite-malaria-parasite-smear-sensitivity.json)
+Parasite_Switch_Type,enum,NA,NA,CONSTANT_SWITCH_RATE_2VARS,"The parasite switch type for erythrocyte surface antigens. <br>Possible values are: <br>CONSTANT_SWITCH_RATE_2VARS<br>    Introduction of new variants has a fixed probability which does not depend on the level of parasitemia.<br>RATE_PER_PARASITE_7VARS<br>    Each IRBC has a fixed rate of switching to each of seven possible variants.<br>RATE_PER_PARASITE_5VARS_DECAYING<br>    Each IRBC has a rate of switching to several possible variants, and the rate decreases with distance from the original variant.",[link](../json/config-parasite-malaria-parasite-switch-type.json)

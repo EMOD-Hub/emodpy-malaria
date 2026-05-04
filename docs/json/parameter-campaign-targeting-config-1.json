@@ -1,0 +1,28 @@
+{
+    "class": "CampaignEvent",
+    "Start_Day": 100,
+    "Nodeset_Config": {
+        "class": "NodeSetAll"
+    },
+    "Event_Coordinator_Config": {
+        "class": "StandardInterventionDistributionEventCoordinator",
+        "Target_Demographic": "Everyone",
+        "Demographic_Coverage": 0.2,
+        "Targeting_Config": {
+            "class": "HasIntervention",
+            "Is_Equal_To": 0,
+            "Intervention_Name": "MyVaccine"
+        },
+        "Intervention_Config": {
+            "class": "SimpleVaccine",
+            "Intervention_Name": "MyVaccine",
+            "Cost_To_Consumer": 1,
+            "Vaccine_Take": 1,
+            "Vaccine_Type": "AcquisitionBlocking",
+            "Waning_Config": {
+                "class": "WaningEffectConstant",
+                "Initial_Effect": 1.0
+            }
+        }
+    }
+}

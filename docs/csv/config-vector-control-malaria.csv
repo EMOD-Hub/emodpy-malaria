@@ -1,27 +1,4 @@
-"Vector_Sugar_Feeding_Frequency","enum","NA","NA","VECTOR_SUGAR_FEEDING_NONE","The frequency of sugar feeding by a female mosquito. Used is used in conjunction with the **SugarTrap** and **OvipositionTrap** interventions. **Vector_Sampling_Type** must be set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS. Possible values are: 
-
-VECTOR_SUGAR_FEEDING_NONE
-    No sugar feeding. 
-VECTOR_SUGAR_FEEDING_ON_EMERGENCE_ONLY
-    Sugar feeding once at emergence. 
-VECTOR_SUGAR_FEEDING_EVERY_FEED
-    Sugar feeding occurs once per blood meal. 
-VECTOR_SUGAR_FEEDING_EVERY_DAY
-    Sugar feeding occurs every day.",".. code-block:: json
-
-    {
-        ""Vector_Sugar_Feeding_Frequency"": ""VECTOR_SUGAR_FEEDING_NONE""
-    }
-"
-"Wolbachia_Infection_Modification","float","0","100","1","The change in vector susceptibility to infection due to a Wolbachia infection.",".. code-block:: json
-
-    {
-        ""Wolbachia_Infection_Modification"": 1.0
-    }
-"
-"Wolbachia_Mortality_Modification","float","0","100","1","The change in vector mortality due to a Wolbachia infection.",".. code-block:: json
-
-    {
-        ""Wolbachia_Infection_Modification"": 0.0
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Vector_Sugar_Feeding_Frequency,enum,NA,NA,VECTOR_SUGAR_FEEDING_NONE,The frequency of sugar feeding by a female mosquito. Used is used in conjunction with the **SugarTrap** and **OvipositionTrap** interventions. **Vector_Sampling_Type** must be set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS. Possible values are: <br>VECTOR_SUGAR_FEEDING_NONE<br>    No sugar feeding. <br>VECTOR_SUGAR_FEEDING_ON_EMERGENCE_ONLY<br>    Sugar feeding once at emergence. <br>VECTOR_SUGAR_FEEDING_EVERY_FEED<br>    Sugar feeding occurs once per blood meal. <br>VECTOR_SUGAR_FEEDING_EVERY_DAY<br>    Sugar feeding occurs every day.,[link](../json/config-vector-control-malaria-vector-sugar-feeding-frequency.json)
+Wolbachia_Infection_Modification,float,0,100,1,The change in vector susceptibility to infection due to a Wolbachia infection.,[link](../json/config-vector-control-malaria-wolbachia-infection-modification.json)
+Wolbachia_Mortality_Modification,float,0,100,1,The change in vector mortality due to a Wolbachia infection.,[link](../json/config-vector-control-malaria-wolbachia-mortality-modification.json)

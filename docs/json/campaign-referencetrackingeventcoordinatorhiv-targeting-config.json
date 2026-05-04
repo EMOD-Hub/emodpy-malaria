@@ -1,0 +1,7 @@
+{
+    "Targeting_Config": {
+        "Intervention_Name": "MyVaccine",
+        "Is_Equal_To": 0,
+        "class": "HasIntervention"
+    }
+}

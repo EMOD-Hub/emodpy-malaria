@@ -103,7 +103,7 @@ def add_scheduled_usage_dependent_bednet(
     box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day on which to start distributing the bednets
             (**Start_Day** parameter).
         demographic_coverage: This value is the probability that each individual in the target population will
@@ -160,39 +160,13 @@ def add_scheduled_usage_dependent_bednet(
             Must contain a list of ages in years and list of usage rate. Default
             is uniform across all ages.
             Times are in years of age
-            Examples::
-
-                {"Times":[], "Values":[]} or {"youth_cov":0.7, "youth_min_age":3, "youth_max_age":13}
-
         seasonal_dependence: A dictionary defining the seasonal dependence of net use. Time since start will
             reset to zero once it reaches 365. This allows you to simulate seasonal effects. Times are given in days
             of the year; values greater than 365 are ignored. Dictionaries can be (times, values) for linear spline
             or (minimum coverage, day of maximum coverage) for sinusoidal dynamics.
             Default is constant use during the year.
-            Examples::
-
-                {"Times":[], "Values":[]} or {"min_cov":0.45, "max_day":300}
         dont_allow_duplicates: Set to True to prevent individual from receiving another copy of the intervention.
             Default is False.
-
-    Returns:
-        None
-        NOTE:
-            Previous way of setting discard config is no longer available, you can translate it to the current way by:
-            discard_config the old way {'halflife1': 260, 'halflife2': 2106, 'fraction1': float(table_dict['fast_fraction'])
-            discard_config translated = {"Expiration_Period_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
-                                        "Expiration_Period_Mean_1": discard_halflife, or halflife1
-                                        "Expiration_Period_Mean_2": 365 * 40, or halflife2
-                                        "Expiration_Period_Proportion_1": 1 or 'fraction1'}
-
-        Example::
-
-                discard_config = {"Expiration_Period_Exponential": 10 * 365}
-                age_dependence = {"Times": [0, 4, 10, 60],
-                           "Values": [1, 0.9, 0.8, 0.5]}
-                add_usage_dependent_bednet(campaign, start_day=12, demographic_coverage=0.25,
-                            age_dependence=age_dependence):
-
     """
 
     intervention = _usage_dependent_bednet(campaign=campaign,
@@ -269,7 +243,7 @@ def add_triggered_usage_dependent_bednet(campaign,
 
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         start_day: The day on which to start distributing the bednets
             (**Start_Day** parameter).
         demographic_coverage: This value is the probability that each individual in the target population will
@@ -332,41 +306,13 @@ def add_triggered_usage_dependent_bednet(campaign,
             Must contain a list of ages in years and list of usage rate. Default
             is uniform across all ages.
             Times are in years of age
-            Examples::
-
-                {"Times":[], "Values":[]} or {"youth_cov":0.7, "youth_min_age":3, "youth_max_age":13}
-
         seasonal_dependence: A dictionary defining the seasonal dependence of net use. Time since start will
             reset to zero once it reaches 365. This allows you to simulate seasonal effects. Times are given in days
             of the year; values greater than 365 are ignored. Dictionaries can be (times, values) for linear spline
             or (minimum coverage, day of maximum coverage) for sinusoidal dynamics.
             Default is constant use during the year.
-            Examples::
-
-                {"Times":[], "Values":[]} or {"min_cov":0.45, "max_day":300}
         dont_allow_duplicates: Set to True to prevent individual from receiving another copy of the intervention.
             Default is False.
-
-
-    Returns:
-        None
-
-    NOTE:
-        Previous way of setting discard config is no longer available, you can translate it to the current way by:
-        discard_config the old way {'halflife1': 260, 'halflife2': 2106, 'fraction1': float(table_dict['fast_fraction'])
-        discard_config translated = {"Expiration_Period_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
-        "Expiration_Period_Mean_1": discard_halflife, or halflife1
-        "Expiration_Period_Mean_2": 365 * 40, or halflife2
-        "Expiration_Period_Proportion_1": 1 or 'fraction1'}
-
-
-    Example::
-
-            discard_config = {"Expiration_Period_Exponential": 10 * 365}
-            age_dependence = {"Times": [0, 4, 10, 60],
-                       "Values": [1, 0.9, 0.8, 0.5]}
-            add_usage_dependent_bednet(campaign, start=12, coverage=0.25,
-                        age_dependence=age_dependence):
 
     """
 
@@ -426,7 +372,7 @@ def _usage_dependent_bednet(campaign,
         Configures UsageDependentBednet intervention
 
     Args:
-        campaign: campaign object to which the intervention will be added, and schema_path container
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
             others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
             attached to a person if they have different Intervention_Name values.

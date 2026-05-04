@@ -1,0 +1,6 @@
+{
+    "Intervention_Config": {
+        "class": "MosquitoRelease",
+        "Intervention_Name": "Sterile male mosquito release"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "Vector_Sampling_Type": "TRACK_ALL_VECTORS",
+    "Enable_Vector_Migration": 1,
+    "Enable_Vector_Migration_Regional": 1,
+    "Vector_Migration_Filename_Regional": "../inputs/vector_regional.bin"
+}

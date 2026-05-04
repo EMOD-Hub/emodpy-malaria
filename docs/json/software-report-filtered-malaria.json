@@ -1,0 +1,21 @@
+{
+    "Reports": [
+        {
+            "class": "ReportMalariaFiltered",
+            "Filename_Suffix": "AllNodes",
+            "Start_Day": 365,
+            "End_Day": 1000,
+            "Node_IDs_Of_Interest": [],
+            "Min_Age_Years": 5,
+            "Max_Age_Years": 10,
+            "Must_Have_IP_Key_Value": "Risk:HIGH",
+            "Must_Have_Intervention": "UsageDependentBednet",
+            "Has_Interventions": [
+                "SimpleVaccine",
+                "IRSHousingModification"
+            ],
+            "Include_30Day_Avg_Infection_Duration": 1
+        }
+    ],
+    "Use_Defaults": 1
+}

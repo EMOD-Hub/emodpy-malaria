@@ -1,0 +1,14 @@
+{
+    "LarvalHabitatMultiplier": [
+        {
+            "Habitat": "TEMPORARY_RAINFALL",
+            "Species": "gambiae",
+            "Factor": 0.1
+        },
+        {
+            "Habitat": "BRACKISH_SWAMP",
+            "Species": "arabiensis",
+            "Factor": 0.5
+        }
+    ]
+}

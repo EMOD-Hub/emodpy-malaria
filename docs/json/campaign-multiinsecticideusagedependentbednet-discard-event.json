@@ -1,0 +1,7 @@
+{
+    "Received_Event": "Bednet_Got_New_One",
+    "Using_Event": "Bednet_Using",
+    "Discard_Event": "Bednet_Discarded",
+    "Expiration_Distribution_Type": "FIXED_DURATION",
+    "Expiration_Period": 50
+}

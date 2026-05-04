@@ -1,35 +1,6 @@
-"Broadcast_Event","string","NA","NA","""""","The Coordinator Event to be broadcasted by this node.  An event coordinator like **TriggeredEventCoordinator** could be activated from this event. Custom events may be defined in **Custom_Coordinator_Events** in the simulation configuration file.",".. code-block:: json
-
-    {
-      ""Broadcast_Event"": ""My_Event""
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **NodeProperty** key:value pairs that causes the intervention not to be distributed to the node or aborted (stopped before it could be applied). See :ref:`demo-properties` parameters for more information.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""HasHealthCare:WILL_NEVER_HAVE""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If a node's container has an intervention, set to true (1) to prevent it from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Intervention_Name","string","NA","NA","BroadcastCoordinatorEventFromNode","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""Intervention_Name"": ""Coordinator Event 1"",
-        ""class"": ""BroadcastCoordinatorEventFromNode""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information.",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""HasHealthCare:YES""
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Broadcast_Event,string,NA,NA,"""""",The Coordinator Event to be broadcasted by this node.  An event coordinator like **TriggeredEventCoordinator** could be activated from this event. Custom events may be defined in **Custom_Coordinator_Events** in the simulation configuration file.,[link](../json/campaign-broadcastcoordinatoreventfromnode-broadcast-event.json)
+Disqualifying_Properties,array of strings,NA,NA,[],A list of **NodeProperty** key:value pairs that causes the intervention not to be distributed to the node or aborted (stopped before it could be applied). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.,[link](../json/campaign-broadcastcoordinatoreventfromnode-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If a node's container has an intervention, set to true (1) to prevent it from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-broadcastcoordinatoreventfromnode-dont-allow-duplicates.json)
+Intervention_Name,string,NA,NA,BroadcastCoordinatorEventFromNode,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-broadcastcoordinatoreventfromnode-intervention-name.json)
+New_Property_Value,string,NA,NA,"""""",An optional **NodeProperty** key:value pair that will be assigned when the intervention is applied. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information.,[link](../json/campaign-broadcastcoordinatoreventfromnode-new-property-value.json)

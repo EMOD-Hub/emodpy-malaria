@@ -1,0 +1,28 @@
+{
+    "Campaign_Name": "Campaign example",
+    "Use_Defaults": 1,
+    "Events": [
+        {
+            "Event_Name": "The first event",
+            "class": "CampaignEvent",
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "Intervention_Name": "The vaccine",
+                    "class": "SimpleVaccine"
+                }
+            }
+        },
+        {
+            "Event_Name": "The second event",
+            "class": "CampaignEvent",
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "Intervention_Name": "The disease outbreak",
+                    "class": "OutbreakIndividual"
+                }
+            }
+        }
+    ]
+}

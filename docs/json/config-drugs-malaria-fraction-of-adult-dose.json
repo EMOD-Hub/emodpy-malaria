@@ -1,0 +1,21 @@
+{
+    "Malaria_Drug_Params": [
+        {
+            "Name": "Artemether_Lumefantrine",
+            "Fractional_Dose_By_Upper_Age": [
+                {
+                    "Fraction_Of_Adult_Dose": 0.25,
+                    "Upper_Age_In_Years": 3
+                },
+                {
+                    "Fraction_Of_Adult_Dose": 0.5,
+                    "Upper_Age_In_Years": 6
+                },
+                {
+                    "Fraction_Of_Adult_Dose": 0.75,
+                    "Upper_Age_In_Years": 10
+                }
+            ]
+        }
+    ]
+}

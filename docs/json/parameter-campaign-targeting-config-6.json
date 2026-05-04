@@ -1,0 +1,19 @@
+{
+    "Targeting_Config": {
+        "class": "TargetingLogic",
+        "Logic": [
+            [
+                {
+                    "class": "HasIntervention",
+                    "Is_Equal_To": 0,
+                    "Intervention_Name": "MyVaccine"
+                },
+                {
+                    "class": "HasIP",
+                    "Is_Equal_To": 0,
+                    "IP_Key_Value": "Risk:HIGH"
+                }
+            ]
+        ]
+    }
+}

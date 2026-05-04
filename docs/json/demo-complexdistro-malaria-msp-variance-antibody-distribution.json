@@ -1,0 +1,48 @@
+{
+    "IndividualAttributes": {
+        "MSP_variance_antibody_distribution": {
+            "AxisNames": [
+                "age"
+            ],
+            "AxisUnits": [
+                "years"
+            ],
+            "AxisScaleFactors": [
+                365
+            ],
+            "NumPopulationGroups": [
+                11
+            ],
+            "PopulationGroups": [
+                [
+                    0,
+                    0.5,
+                    1.5,
+                    2.5,
+                    3.5,
+                    4.5,
+                    7.5,
+                    15,
+                    25,
+                    35,
+                    60
+                ]
+            ],
+            "ResultUnits": "mean fraction of antibody variants",
+            "ResultScaleFactor": 1,
+            "ResultValues": [
+                0,
+                0.027,
+                0.029,
+                0.0271,
+                0.0309,
+                0.0323,
+                0.0899,
+                0.0726,
+                0.0285,
+                0.0267,
+                0.0279
+            ]
+        }
+    }
+}

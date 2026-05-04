@@ -37,7 +37,7 @@ def add_diagnostic_survey(
         These events can trigger other listening interventions.
 
         Args:
-            camp: The :py:obj:`emod_api:emod_api.campaign` object for building,
+            campaign (emod_api.campaign): object for building,
                 modifying, and writing campaign configuration files.
 
             coverage: The probability an individual receives the diagnostic.
@@ -133,9 +133,6 @@ def add_diagnostic_survey(
             expire_recent_drugs: Adds ``[{"DrugStatus:None"}]`` to
                 **Property_Restrictions_Within_Node** for positive test config, so
                 only those with that property receive drugs.
-
-        Returns:
-           None
     """
 
     if ind_property_restrictions is None:

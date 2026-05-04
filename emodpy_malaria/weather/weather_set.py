@@ -132,7 +132,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
             attributes: (Optional) Weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
@@ -159,7 +159,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
             attributes: (Optional) The weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
@@ -187,7 +187,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps". The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
             attributes: (Optional) The weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
@@ -220,7 +220,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         Returns:
             Dataframe containing node ids and weather time series.
         """
@@ -258,7 +258,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
 
         Returns:
             Dataframe containing node ids and weather time series, used to create the csv file.
@@ -338,7 +338,7 @@ class WeatherSet:
 
         Args:
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         Returns:
             Dictionary of weather variables (keys) to weather column names (values).
         """
@@ -364,7 +364,7 @@ class WeatherSet:
             node_column: (Optional) Column containing node ids. The default is "nodes".
             step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
             weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
         Returns:
             Tuple of two dictionaries mapping weather variables to dataframe info and weather columns.
         """
@@ -399,7 +399,7 @@ class WeatherSet:
             suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "*{tag}*.bin").
             weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
             weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
-            In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
+                In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
         Returns:
             Dictionary of weather variables (keys) and weather file name templates.
@@ -457,7 +457,7 @@ class WeatherSet:
             suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\\*{tag}\\*.bin").
             weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
             weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
-            In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
+                In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
         Returns:
             Dictionary of weather variables (keys) and weather file paths.
@@ -494,7 +494,7 @@ class WeatherSet:
             suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\\*{tag}\\*.bin").
             weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
             weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
-            In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
+                In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
          Returns:
              Dictionary of weather variables (keys) and weather file names.

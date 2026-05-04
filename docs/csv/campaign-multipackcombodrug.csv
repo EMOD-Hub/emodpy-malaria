@@ -1,62 +1,8 @@
-"Cost_To_Consumer","float","0","99999","10","The unit cost per drug (unamortized).",".. code-block:: json
-
-    {
-      ""Cost_To_Consumer"": 10
-    }
-"
-"Disqualifying_Properties","array of strings","NA","NA","[]","A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See :ref:`demo-properties` parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",".. code-block:: json
-
-    {
-      ""Disqualifying_Properties"": [
-        ""InterventionStatus:LostForever""
-      ]
-    }
-"
-"Dont_Allow_Duplicates","boolean","0","1","0","If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",".. code-block:: json
-
-    {
-      ""Dont_Allow_Duplicates"": 0
-    }
-"
-"Dose_Interval","float","0","1000","1","The number of days to wait between the doses, defined in the **Doses** parameter.",".. code-block:: json
-
-    {
-      ""Dose_Interval"": 10
-    }
-"
-"Doses","array of strings","NA","NA","[]","This is a two dimensional array of the drug names defined in the config. parameter **Malaria_Drug_Params**. Each inner array defines the drugs to be taken for a single dose. The number of doses is determined by the number of inner arrays. An empty dose is allowed and counts as if the person did not take any doses that day. If multiple pills of the same drug are taken in the same dose, that drug name can be specified multiple times.",".. code-block:: json
-
-    {
-      ""Doses"": [
-        [
-          ""TestDrugA"",
-          ""TestDrugB""
-        ],
-        [
-          ""TestDrugA""
-        ],
-        [
-          ""TestDrugA"",
-          ""TestDrugB""
-        ],
-        [
-          ""TestDrugB""
-        ]
-      ]
-    }
-"
-"Intervention_Name","string","NA","NA","MultiPackDrugCombo","The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.",".. code-block:: json
-
-    {
-      ""Intervention_Config"": {
-        ""class"": ""MultiPackDrugCombo"",
-        ""Intervention_Name"": ""Isoniazid with mediocre adherence""
-      }
-    }
-"
-"New_Property_Value","string","NA","NA","""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See :ref:`demo-properties` parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one.",".. code-block:: json
-
-    {
-      ""New_Property_Value"": ""InterventionStatus:None""
-    }
-"
+Parameter,Type,Min,Max,Default,Description,Example
+Cost_To_Consumer,float,0,99999,10,The unit cost per drug (unamortized).,[link](../json/campaign-multipackcombodrug-cost-to-consumer.json)
+Disqualifying_Properties,array of strings,NA,NA,[],"A list of **IndividualProperty** key:value pairs that cause an intervention to be aborted (persistent interventions will stop being distributed to nodes with these values). See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to control the flow of health care access. For example, to prevent the same individual from accessing health care via two different routes at the same time.",[link](../json/campaign-multipackcombodrug-disqualifying-properties.json)
+Dont_Allow_Duplicates,boolean,0,1,0,"If an individual's container has an intervention, set to true (1) to prevent them from receiving another copy of the intervention. Supported by all intervention classes.",[link](../json/campaign-multipackcombodrug-dont-allow-duplicates.json)
+Dose_Interval,float,0,1000,1,"The number of days to wait between the doses, defined in the **Doses** parameter.",[link](../json/campaign-multipackcombodrug-dose-interval.json)
+Doses,array of strings,NA,NA,[],"This is a two dimensional array of the drug names defined in the config. parameter **Malaria_Drug_Params**. Each inner array defines the drugs to be taken for a single dose. The number of doses is determined by the number of inner arrays. An empty dose is allowed and counts as if the person did not take any doses that day. If multiple pills of the same drug are taken in the same dose, that drug name can be specified multiple times.",[link](../json/campaign-multipackcombodrug-doses.json)
+Intervention_Name,string,NA,NA,MultiPackDrugCombo,The optional name used to refer to this intervention as a means to differentiate it from others that use the same class.,[link](../json/campaign-multipackcombodrug-intervention-name.json)
+New_Property_Value,string,NA,NA,"""""","An optional **IndividualProperty** key:value pair that will be assigned when the intervention is applied. See [IndividualProperties and NodeProperties](parameter-demographics.md#nodeproperties-and-individualproperties) parameters for more information. Generally used to indicate the broad category of health care cascade to which an intervention belongs to prevent individuals from accessing care through multiple pathways. For example, if an individual must already be taking a particular medication to be prescribed a new one.",[link](../json/campaign-multipackcombodrug-new-property-value.json)
