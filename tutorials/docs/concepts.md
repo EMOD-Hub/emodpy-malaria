@@ -23,7 +23,7 @@ equilibrium vital dynamics and a sub-Saharan Africa age structure.
 
 The campaign file defines interventions — what to deploy, to whom, and when. Each intervention
 event specifies a trigger, a target population, and an intervention class (bednet, drug, vaccine,
-etc.). In the tutorials, `build_camp()` builds this file. Tutorial 1 has no campaign;
+etc.). In the tutorials, `build_campaign()` builds this file. Tutorial 1 has no campaign;
 interventions are introduced in Tutorial 3.
 
 ## Reports and output files

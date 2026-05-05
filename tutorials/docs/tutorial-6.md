@@ -2,7 +2,7 @@
 
 Calibration adjusts a model parameter until simulation output matches observed reference data.
 This tutorial calibrates `x_Temporary_Larval_Habitat` — a scale factor that multiplies larval
-habitat capacity for all temporary habitat types — to match a reference monthly PfPR curve for
+habitat capacity for all habitat types — to match a reference monthly PfPR curve for
 children under 5 (`tutorial_6_reference_pfpr.csv`).
 
 Interventions are removed for this tutorial so that simulated PfPR reflects baseline
@@ -89,9 +89,9 @@ final year of the 5-year simulation, after the population has reached a stable s
 pattern. Age bin index 1 is the 0.25–5 year age group, matching the reference data.
 
 **`reduce(all_data)`** — called once per iteration with results from all simulations. Computes
-RMSE against the reference PfPR, saves a per-iteration CSV, updates the cumulative plot, and
-returns scores. Calibra **maximizes** the score, so `reduce()` returns `1/RMSE` — a closer
-match produces a higher score.
+RMSE (Root Mean Square Error) against the reference PfPR, saves a per-iteration CSV, updates
+the cumulative plot, and returns scores. Calibra **maximizes** the score, so `reduce()` returns
+`1/RMSE` — a closer match produces a higher score.
 
 ## Reading the plots
 
@@ -170,6 +170,17 @@ complex calibrations with several parameters need more.
 **Iteration 5**
 
 ![Iteration 5](images/tutorial-6/iteration_05.png)
+
+**Iteration 15**
+
+![Iteration 15](images/tutorial-6/iteration_15.png)
+
+With N_SAMPLES=40 and N_ITERATIONS=15, the curves in the left panel have
+converged tightly around the reference line, and the right panel shows the
+parameter-vs-RMSE scatter clustered near the green star. Compare this to
+iteration 1, where the curves were spread across a wide range. More samples
+and iterations allow OptimTool to take more confident steps and narrow in
+on the best value.
 
 ## Next
 

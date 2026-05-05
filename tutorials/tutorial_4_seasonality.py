@@ -3,7 +3,7 @@
 
 Real malaria transmission is seasonal: mosquito populations rise and fall with
 rainfall, creating peaks of transmission during the wet season. This tutorial
-replaces the constant larval habitat from previous tutorials with a LINEAR_SPLINE
+replaces the team default habitat from previous tutorials with a LINEAR_SPLINE
 habitat that captures a realistic wet/dry seasonal pattern.
 
 EMOD supports weather-file-driven habitat, but LINEAR_SPLINE is easier to work
@@ -18,7 +18,7 @@ seasonal pattern clearly visible in the output.
 
 New in this tutorial (diff from tutorial_3_interventions.py):
   - configure_linear_spline()   defines the seasonal habitat scaling curve
-  - set_species_param()         replaces the constant habitat with the spline
+  - set_species_param()         replaces the team default habitat with the spline
                                 for all three vector species
   - sim_years                   increased from 1 to 3 to show seasonal cycles
 
@@ -61,9 +61,9 @@ def build_config(config):
     EMODTask and is called when building config.json.
 
     set_team_defaults() applies the malaria team's standard parameter set,
-    which includes a constant TEMPORARY_RAINFALL habitat. configure_linear_spline()
+    which includes a TEMPORARY_RAINFALL habitat. configure_linear_spline()
     builds a seasonal replacement, and set_species_param(..., overwrite=True)
-    replaces the constant habitat for each vector species.
+    replaces the default habitat for each vector species.
 
     The seasonal curve has a pronounced wet-season peak around day 213 (August)
     and a dry-season trough around day 91 (April), representing a site in
@@ -118,7 +118,7 @@ def build_demog():
     return demog
 
 
-def build_camp():
+def build_campaign():
     """
     Build the campaign file with treatment seeking and ITN interventions.
 
@@ -297,7 +297,7 @@ def run_experiment():
     task = emod_task.EMODTask.from_default2(
         config_path="config.json",
         eradication_path=manifest.eradication_path,
-        campaign_builder=build_camp,
+        campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
         param_custom_cb=build_config,

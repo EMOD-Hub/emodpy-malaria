@@ -2,7 +2,7 @@
 
 Real malaria transmission is seasonal: mosquito populations rise and fall with rainfall,
 creating peaks during the wet season and troughs during the dry season. This tutorial replaces
-the constant larval habitat from previous tutorials with a `LINEAR_SPLINE` habitat that
+the team default habitat from previous tutorials with a `LINEAR_SPLINE` habitat that
 captures a realistic seasonal pattern.
 
 **File:** `tutorials/tutorial_4_seasonality.py`
@@ -36,8 +36,8 @@ This curve has a pronounced wet-season peak around day 213 (early August) and a 
 trough around day 91 (April), representing a site in East Africa with a long rains season.
 `capacity_distribution_number_of_years=1` tells EMOD to repeat the same curve every year.
 
-The habitat object is then applied to each vector species, replacing the constant
-`TEMPORARY_RAINFALL` habitat set by `set_team_defaults()`:
+The habitat object is then applied to each vector species, replacing the `TEMPORARY_RAINFALL`
+habitat set by `set_team_defaults()`:
 
 ```python
 for species in ["gambiae", "arabiensis", "funestus"]:

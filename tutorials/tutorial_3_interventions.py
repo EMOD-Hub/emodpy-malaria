@@ -8,12 +8,12 @@ package:
   - ITN distribution    insecticide-treated nets distributed annually to half
                         the population
 
-Adding interventions requires a build_camp() function that constructs the
+Adding interventions requires a build_campaign() function that constructs the
 campaign file. EMODTask accepts this via campaign_builder= (previously None).
 
 New in this tutorial (diff from tutorial_2_reports.py):
-  - build_camp()        builds the campaign with treatment seeking and ITN
-  - campaign_builder    changed from None to build_camp
+  - build_campaign()   builds the campaign with treatment seeking and ITN
+  - campaign_builder   changed from None to build_campaign
 
 Toggle use_treatment_seeking and use_itn at the top of this file to run with
 each intervention separately, then with both together. Each configuration saves
@@ -109,7 +109,7 @@ def build_demog():
     return demog
 
 
-def build_camp():
+def build_campaign():
     """
     Build the campaign file with treatment seeking and ITN interventions.
 
@@ -293,7 +293,7 @@ def run_experiment():
     task = emod_task.EMODTask.from_default2(
         config_path="config.json",
         eradication_path=manifest.eradication_path,
-        campaign_builder=build_camp,
+        campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
         param_custom_cb=build_config,
