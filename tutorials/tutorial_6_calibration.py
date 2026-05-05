@@ -19,7 +19,7 @@ idmtools-calibra provides:
   - BaseCalibrationAnalyzer
                     map/reduce framework: map() processes one simulation's output,
                     reduce() combines all map results into a score per sample.
-                    Calibra MAXIMIZES the score, so reduce() returns 1/RMSE.
+                    Calibra MAXIMIZES the score, so reduce() returns 1/RMSE (Root Mean Square Error).
 
 New in this tutorial (diff from tutorial_5_sweep.py):
   - sim_years                   increased from 3 to 5 (longer run reaches equilibrium
@@ -42,9 +42,10 @@ Removed from tutorial_5_sweep.py:
   - from functools import partial
   - SimulationBuilder, Experiment (CalibManager creates experiments internally)
   - update_campaign()           was the sweep callback; CalibManager does the sweep
-  - build_camp(cm_coverage)     coverage parameter dropped; interventions removed so
+  - build_campaign(treatment_coverage)
+                                coverage parameter dropped; interventions removed so
                                 calibration targets baseline (unadjusted) transmission
-  - add_treatment_seeking, add_itn_scheduled in build_camp
+  - add_treatment_seeking, add_itn_scheduled in build_campaign
   - process_results(), plot_results(), handle_results()
                                 CalibManager writes its own output directory
 
@@ -372,7 +373,7 @@ def build_demog():
     return demog
 
 
-def build_camp():
+def build_campaign():
     """
     Build the campaign file. Interventions are removed for calibration so that
     simulated PfPR reflects baseline (unadjusted) transmission only. Tutorial 7
@@ -447,7 +448,7 @@ def run_calibration():
     task = emod_task.EMODTask.from_default2(
         config_path="config.json",
         eradication_path=manifest.eradication_path,
-        campaign_builder=build_camp,
+        campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
         param_custom_cb=build_config,

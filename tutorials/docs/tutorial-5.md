@@ -12,7 +12,7 @@ show how different levels of case management affect malaria burden in a seasonal
 definition is a callback function paired with a list of values — the builder calls the
 function once per value per simulation.
 
-Adding two sweep definitions produces a cross-product: every combination of `cm_coverage` and
+Adding two sweep definitions produces a cross-product: every combination of `treatment_coverage` and
 `Run_Number` gets its own simulation. With 3 coverage values and 3 random seeds that is 9
 simulations total:
 
@@ -28,42 +28,42 @@ Coverage is now a parameter rather than a constant. `update_campaign()` is the s
 that rebuilds the campaign for each simulation with the assigned coverage value:
 
 ```python
-def update_campaign(simulation, cm_coverage):
-    build_camp_partial = partial(build_camp, cm_coverage=cm_coverage)
-    simulation.task.create_campaign_from_callback(build_camp_partial)
-    return {"cm_coverage": cm_coverage}
+def update_campaign(simulation, treatment_coverage):
+    build_campaign_partial = partial(build_campaign, treatment_coverage=treatment_coverage)
+    simulation.task.create_campaign_from_callback(build_campaign_partial)
+    return {"treatment_coverage": treatment_coverage}
 ```
 
-`partial()` binds `cm_coverage` to `build_camp` so the resulting function takes no arguments,
+`partial()` binds `treatment_coverage` to `build_campaign` so the resulting function takes no arguments,
 which is what `create_campaign_from_callback()` expects. The dict returned becomes a tag on
 the simulation — used below to group results by coverage value.
 
-`build_camp()` accepts `cm_coverage` as a parameter and applies it to both clinical and severe
+`build_campaign()` accepts `treatment_coverage` as a parameter and applies it to both clinical and severe
 case targets:
 
 ```python
-def build_camp(cm_coverage=0.8):
+def build_campaign(treatment_coverage=0.8):
     add_treatment_seeking(campaign,
                           start_day=365,
-                          targets=[{"trigger": "NewClinicalCase", "coverage": cm_coverage},
+                          targets=[{"trigger": "NewClinicalCase", "coverage": treatment_coverage},
                                    {"trigger": "NewSevereCase",
-                                    "coverage": min(cm_coverage + 0.2, 1.0)}])
+                                    "coverage": min(treatment_coverage + 0.2, 1.0)}])
 ```
 
 ITN coverage remains fixed at 0.5 — only treatment-seeking coverage is swept.
 
 ## Grouping results by coverage
 
-After downloading, `group_by_coverage()` reads the `cm_coverage` tag from each simulation in
+After downloading, `group_by_coverage()` reads the `treatment_coverage` tag from each simulation in
 the experiment object and moves its downloaded directory into a subdirectory named by coverage
 value:
 
 ```python
 def group_by_coverage(experiment, output_path):
     for sim in experiment.simulations:
-        coverage = sim.tags.get("cm_coverage")
+        coverage = sim.tags.get("treatment_coverage")
         sim_dir = os.path.join(output_path, str(sim.id))
-        label = f"cm_{coverage}"
+        label = f"treatment_coverage_{coverage}"
         target_dir = os.path.join(output_path, label)
         os.makedirs(target_dir, exist_ok=True)
         shutil.move(sim_dir, os.path.join(target_dir, str(sim.id)))
@@ -75,13 +75,13 @@ After grouping, `tutorial_5_results/` contains one subdirectory per coverage val
 
 ```
 tutorial_5_results/
-  cm_0.3/
+  treatment_coverage_0.3/
     {sim_id}/InsetChart.json   ← Run_Number 0
     {sim_id}/InsetChart.json   ← Run_Number 1
     {sim_id}/InsetChart.json   ← Run_Number 2
-  cm_0.6/
+  treatment_coverage_0.6/
     ...
-  cm_0.9/
+  treatment_coverage_0.9/
     ...
 ```
 
@@ -104,7 +104,7 @@ plot_mean(dir1=dirs[0],
 
 ## Example output
 
-The plot shows one bold mean line per coverage group (`cm_0.3`, `cm_0.6`, `cm_0.9`), with the
+The plot shows one bold mean line per coverage group (`treatment_coverage_0.3`, `treatment_coverage_0.6`, `treatment_coverage_0.9`), with the
 three individual stochastic runs shown in a lighter color behind each mean. With higher
 coverage, there are fewer infected people (Infected channel) and each infection resolves more
 quickly (30-day Avg Infection Duration). Together, fewer infected people spending less time

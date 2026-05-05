@@ -1,19 +1,20 @@
 # Tutorial 7: Serialization
 
-The main reason to run a burnin is to develop a realistic immunity profile in the population.
-EMOD tracks antibodies and immunity at the individual level — each person's immune state
-reflects their lifetime history of infections. To get that right, you need to simulate many
-years of transmission so people of every age have had the infections they would have
-experienced in real life. Starting an intervention scenario from year zero means the population
-has no immunity at all, which produces unrealistic results.
+Developing a population with realistic individual immunities takes time. In EMOD, every
+individual starts with no immunity and builds it up one infection at a time — each person's
+immune state reflects their lifetime history of infections, which the model tracks at the
+individual level. As a result, even when a simulation begins with realistic demographics, a
+newly-created 40-year-old has the same immunity profile as a newborn because they haven't yet
+had the infections they would have experienced in real life. It typically takes 50–80 simulated
+years for the population to develop naturally acquired immunity patterns. This 50–80 year
+warm-up period is called a burnin.
 
-A burnin also establishes realistic age structure, infection history, and vector dynamics. All
-of this takes 50 or more simulated years to develop before interventions can be meaningfully
-evaluated.
-
-The solution is to run one set of long simulations, save (serialize) the full population state
-to disk, and then start every subsequent intervention scenario from that saved state rather
-than from scratch.
+A burnin also establishes realistic age structure, infection history, and vector dynamics —
+all of which takes 50–80 simulated years to develop. Running that burnin before every 5–10
+year intervention scenario — and then multiplying that across sweeps over run numbers and
+efficacies — adds substantial compute and turnaround overhead. The solution is [serialization](../emod/software-serializing-pops.md):
+run the burnin once, save the full population state to disk, and start every subsequent
+intervention scenario from that saved state rather than from scratch.
 
 !!! note "Modeling a real site"
     For a study at a real location you would include that site's historical interventions in
@@ -36,17 +37,19 @@ Tutorial 7 is split into two scripts:
 
 ### Serialization parameters
 
-Four parameters in `build_config()` tell EMOD to write a population snapshot at the end of
+Three parameters in `build_config()` tell EMOD to write a population snapshot at the end of
 the simulation:
 
 ```python
-config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
-config.parameters.Serialization_Time_Steps           = [serialize_years * 365]
-config.parameters.Serialization_Mask_Node_Write      = 0
+config.parameters.Serialized_Population_Writing_Type = "TIME"
+config.parameters.Serialization_Times                = [serialize_years * 365]
 config.parameters.Serialization_Precision            = "REDUCED"
 ```
 
-`Serialization_Time_Steps` is a list of days at which to write snapshots — here, the last
+`Serialized_Population_Writing_Type = "TIME"` tells EMOD to write a population snapshot at
+the simulation days listed in `Serialization_Times`.
+
+`Serialization_Times` is a list of days at which to write snapshots — here, the last
 day of the 50-year run. EMOD writes the population to a `.dtk` file named `state-NNNNN.dtk`
 where `NNNNN` is the timestep zero-padded to five digits (e.g. `state-18250.dtk` for day
 18250).
@@ -59,7 +62,7 @@ aside from very small floating-point rounding differences. `REDUCED` still gives
 results but will not reproduce the continuous run exactly. For most intervention studies this
 is acceptable; choose full precision if exact reproducibility matters for your analysis.
 
-### Stochastic replicates
+### Stochastic runs
 
 The burnin runs `N_BURNIN_RUNS` simulations with different random seeds, producing
 independent population states that each have a different immune history:
@@ -70,20 +73,34 @@ builder.add_sweep_definition(sweep_run_number, range(N_BURNIN_RUNS))
 
 ### Getting the experiment ID
 
-When the burnin finishes, the experiment ID is printed:
+When the burnin finishes, the experiment ID is printed to the terminal.
+Copy this experiment ID into tutorial_7_pickup.py before running Part 2:
 
 ```
-Copy this experiment ID into tutorial_7_pickup.py:
-
-    BURNIN_EXP_ID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# ================================================================
+# UPDATE - Paste the experiment ID printed by tutorial_7_burnin.py
+# ================================================================
+BURNIN_EXP_ID = "paste-your-burnin-experiment-id-here"
 ```
-
-Paste this value into `BURNIN_EXP_ID` at the top of `tutorial_7_pickup.py` before running
-Part 2.
 
 ## Part 2: Pickup
 
 **File:** `tutorials/tutorial_7_pickup.py`
+
+### Reading from a serialized population
+
+To pick up from a burnin, three config parameters tell EMOD where to find the `.dtk` file
+and to read it rather than initialize from scratch:
+
+```python
+config.parameters.Serialized_Population_Reading_Type  = "READ"
+config.parameters.Serialized_Population_Path          = "<path to burnin output>"
+config.parameters.Serialized_Population_Filenames     = ["state-18250.dtk"]
+```
+
+In a single pickup these would be set directly in `build_config()`. Because this tutorial
+sweeps over multiple burnin runs, they are set per-simulation in
+`update_serialize_parameters()` — covered below.
 
 ### The sweep: immune history × stochastic variation
 
@@ -97,7 +114,7 @@ builder.add_sweep_definition(
 builder.add_sweep_definition(sweep_run_number, range(N_SIMS_PER_PICKUP))
 ```
 
-The first dimension links each pickup simulation to a burnin replicate, capturing variation
+The first dimension links each pickup simulation to a burnin run, capturing variation
 in immune history. The second adds independent stochastic variation on top of each starting
 state. With `N_BURNIN_RUNS=3` and `N_SIMS_PER_PICKUP=3` this produces 9 pickup simulations.
 
@@ -125,11 +142,29 @@ else:
     outpath = os.path.join(str(sim.get_directory()), "output")
 ```
 
-On the Container platform, `sim.get_directory()` returns the host filesystem path, but EMOD
-runs inside Docker where `job_directory` is mounted at `data_mount`. `map_container_path()`
-converts the host path to the path as seen from inside the container.
+When EMOD runs on the Container platform, it executes inside a Docker container — a small,
+isolated environment with its own filesystem that doesn't share paths with the host machine.
+To let EMOD read and write to a real location on disk, a host directory is mounted into the
+container: Docker wires up a host path (`platform.job_directory`) and a container path
+(`platform.data_mount`) so they point to the same files. The host calls the folder one thing;
+the container calls it another; both are the same files underneath.
 
-### Linking each pickup to a burnin replicate
+This creates a translation problem in the code above. `sim.get_directory()` returns the host
+path — the location as your machine sees it (e.g. `C:\Users\my_work\jobs\sim_abc`). But EMOD,
+running inside the container, has no idea what that path means; from its perspective the same
+folder lives somewhere like `/home/container_user/jobs/sim_abc`. If we hand the host path to
+EMOD, it will fail to find the directory.
+
+`map_container_path(job_directory, data_mount, host_path)` does the translation. It strips
+off the host-side mount prefix (`job_directory`) and replaces it with the container-side mount
+prefix (`data_mount`), producing the same physical location expressed in the container's path
+language. That's the path EMOD can actually use to find its output.
+
+The other two branches don't need this: COMPS does its own host-to-network-share rewrite, and
+the local fallback already runs in the same filesystem EMOD sees, so `sim.get_directory()`
+works as-is.
+
+### Linking each pickup to a burnin run
 
 `update_serialize_parameters()` sets `Serialized_Population_Path` and
 `Serialized_Population_Filenames` for each pickup simulation based on its row index into
@@ -149,27 +184,32 @@ def update_serialize_parameters(simulation, x, df):
 
 ### Interventions
 
-`build_camp()` adds treatment-seeking care and ITNs starting on day 365 of the pickup run —
+`build_campaign()` adds treatment-seeking care and ITNs starting on day 365 of the pickup run —
 the same interventions from Tutorial 3, giving the population one year to settle before
 interventions begin. The pickup runs for `sim_years = 3` years.
 
 ### Output
 
 Results are saved to `tutorial_7_results_burnin/` and `tutorial_7_results_pickup/`. The
-pickup plot includes an InsetChart overlay of all replicates and a monthly PfPR figure with
+pickup plot includes an InsetChart overlay of all runs and a monthly PfPR figure with
 a vertical line marking when interventions start (month 12).
 
 ## Example output
 
-**Burnin InsetChart** — overlay of all burnin replicates shows stochastic spread across
-independent population states:
+**Burnin InsetChart** — overlay of the three 50-year burnins shows the stochastic differences
+between three independent runs:
 
 ![Tutorial 7 burnin InsetChart](images/tutorial-7/Tutorial_7_-_Burnin_InsetChart.png)
 
-**Pickup InsetChart** — all pickup replicates overlaid; the population begins with realistic
+**Pickup InsetChart** — all pickup runs overlaid; the population begins with realistic
 immunity and interventions start on day 365:
 
 ![Tutorial 7 pickup InsetChart](images/tutorial-7/Tutorial_7_-_Pickup_InsetChart.png)
+
+The population starts with realistic immunity already built up over 50 years and preserved in
+the serialized file. Day 0 of this simulation is identical to what you'd see after running a
+50-year burnin from scratch. Interventions that begin on day 365 are effectively starting in
+the 52nd simulated year — we just skip the cost of actually simulating the first 50.
 
 **Pickup monthly PfPR** — under-5 PfPR across the pickup period; the red dashed line marks
 when interventions begin:

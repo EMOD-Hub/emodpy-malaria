@@ -18,7 +18,7 @@ This script (Part 1) runs the burnin:
     baseline transmission matches the reference data
   - At the end of each simulation EMOD writes the population to a .dtk
     file — one per simulation, saved in that simulation's output directory
-  - Runs N_BURNIN_RUNS replicates (different random seeds) to capture
+  - Runs N_BURNIN_RUNS runs (different random seeds) to capture
     natural stochastic variation across independent starting populations
 
 Tutorial 7 Part 2 (tutorial_7_pickup.py) reads those .dtk files and
@@ -61,7 +61,7 @@ import manifest
 CALIBRATED_LOG10_X_LARVAL_HABITAT = -1.61  # example from Tutorial 6; replace with your value
 
 serialize_years = 50   # years to simulate before serializing
-N_BURNIN_RUNS   = 3    # number of stochastic replicates to serialize
+N_BURNIN_RUNS   = 3    # number of stochastic runs to serialize
 
 
 def sweep_run_number(simulation, value):
@@ -120,9 +120,8 @@ def build_config(config):
     # timestep zero-padded to 5 digits (e.g. state-18250.dtk for day 18250).
     # Multi-core simulations append a node index (state-18250-000.dtk) but
     # these tutorials run single-core.
-    config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
-    config.parameters.Serialization_Time_Steps           = [serialize_years * 365]
-    config.parameters.Serialization_Mask_Node_Write      = 0
+    config.parameters.Serialized_Population_Writing_Type = "TIME"
+    config.parameters.Serialization_Times                = [serialize_years * 365]
     config.parameters.Serialization_Precision            = "REDUCED"
 
     return config
@@ -150,7 +149,7 @@ def build_demog():
     return demog
 
 
-def build_camp():
+def build_campaign():
     """
     No interventions during the burnin. The population runs to equilibrium
     under baseline transmission only. Interventions are added in
@@ -200,7 +199,7 @@ def process_results(experiment, platform, output_path):
 
 def plot_results(output_path):
     """
-    Plot InsetChart channels for all burnin replicates on the same axes.
+    Plot InsetChart channels for all burnin runs on the same axes.
     Overlay of N_BURNIN_RUNS lines shows the stochastic spread at equilibrium.
     """
     from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
@@ -272,7 +271,7 @@ def run_experiment():
     task = emod_task.EMODTask.from_default2(
         config_path="config.json",
         eradication_path=manifest.eradication_path,
-        campaign_builder=build_camp,
+        campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
         param_custom_cb=build_config,

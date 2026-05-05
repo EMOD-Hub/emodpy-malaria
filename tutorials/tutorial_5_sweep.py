@@ -7,14 +7,15 @@ treatment-seeking coverage to show how different levels of case management
 affect malaria burden in a seasonal setting.
 
 SimulationBuilder manages the sweep. Adding two sweep definitions produces a
-cross-product: every combination of cm_coverage and Run_Number gets its own
+cross-product: every combination of treatment_coverage and Run_Number gets its own
 simulation. With 3 coverage values and 3 random seeds that is 9 simulations.
 
 New in this tutorial (diff from tutorial_4_seasonality.py):
-  - build_camp(cm_coverage)   coverage is now a parameter, not a constant
+  - build_campaign(treatment_coverage)
+                              coverage is now a parameter, not a constant
   - update_campaign()         sweep callback that rebuilds the campaign per
                               simulation using functools.partial
-  - two sweep definitions     cm_coverage x Run_Number cross-product
+  - two sweep definitions     treatment_coverage x Run_Number cross-product
   - Run_Number sweep widened  [0] -> [0, 1, 2] for stochastic variation
 
 Removed from tutorial_4_seasonality.py:
@@ -51,19 +52,19 @@ def sweep_run_number(simulation, value):
     return {"Run_Number": value}
 
 
-def update_campaign(simulation, cm_coverage):
+def update_campaign(simulation, treatment_coverage):
     """
     Sweep callback that rebuilds the campaign for each simulation with the
     given treatment-seeking coverage.
 
-    partial() binds cm_coverage to build_camp so the resulting function takes
+    partial() binds treatment_coverage to build_campaign so the resulting function takes
     no arguments, which is what create_campaign_from_callback() expects.
     The dict returned becomes a tag on the simulation, making it easy to
     identify which coverage value produced each result.
     """
-    build_camp_partial = partial(build_camp, cm_coverage=cm_coverage)
-    simulation.task.create_campaign_from_callback(build_camp_partial)
-    return {"cm_coverage": cm_coverage}
+    build_campaign_partial = partial(build_campaign, treatment_coverage=treatment_coverage)
+    simulation.task.create_campaign_from_callback(build_campaign_partial)
+    return {"treatment_coverage": treatment_coverage}
 
 
 def build_config(config):
@@ -72,9 +73,9 @@ def build_config(config):
     EMODTask and is called when building config.json.
 
     set_team_defaults() applies the malaria team's standard parameter set,
-    which includes a constant TEMPORARY_RAINFALL habitat. configure_linear_spline()
+    which includes a TEMPORARY_RAINFALL habitat. configure_linear_spline()
     builds a seasonal replacement, and set_species_param(..., overwrite=True)
-    replaces the constant habitat for each vector species.
+    replaces the default habitat for each vector species.
 
     The seasonal curve has a pronounced wet-season peak around day 213 (August)
     and a dry-season trough around day 91 (April), representing a site in
@@ -129,12 +130,12 @@ def build_demog():
     return demog
 
 
-def build_camp(cm_coverage=0.8):
+def build_campaign(treatment_coverage=0.8):
     """
     Build the campaign file with treatment seeking and ITN interventions.
 
-    cm_coverage controls treatment-seeking coverage for clinical and severe
-    cases. ITN coverage is fixed at 0.5 — only cm_coverage is swept in
+    treatment_coverage controls treatment-seeking coverage for clinical and severe
+    cases. ITN coverage is fixed at 0.5 — only treatment_coverage is swept in
     this tutorial.
 
     This function is called by update_campaign() via partial() for each
@@ -149,8 +150,8 @@ def build_camp(cm_coverage=0.8):
 
     add_treatment_seeking(campaign,
                           start_day=365,
-                          targets=[{"trigger": "NewClinicalCase", "coverage": cm_coverage},
-                                   {"trigger": "NewSevereCase", "coverage": min(cm_coverage + 0.2, 1.0)}])
+                          targets=[{"trigger": "NewClinicalCase", "coverage": treatment_coverage},
+                                   {"trigger": "NewSevereCase", "coverage": min(treatment_coverage + 0.2, 1.0)}])
 
     add_itn_scheduled(campaign,
                       start_day=365,
@@ -224,8 +225,8 @@ def process_results(experiment, platform, output_path):
 
 def group_by_coverage(experiment, output_path):
     """
-    Read the cm_coverage tag from each simulation and move its downloaded
-    directory into a subdirectory named by coverage value (e.g. cm_0.3/).
+    Read the treatment_coverage tag from each simulation and move its downloaded
+    directory into a subdirectory named by coverage value (e.g. treatment_coverage_0.3/).
 
     Using the experiment object to read tags works on all platforms — Container,
     COMPS, and SLURM — without requiring any extra files to be written.
@@ -236,13 +237,13 @@ def group_by_coverage(experiment, output_path):
     import shutil
     coverage_dirs = {}
     for sim in experiment.simulations:
-        coverage = sim.tags.get("cm_coverage")
+        coverage = sim.tags.get("treatment_coverage")
         if coverage is None:
             continue
         sim_dir = os.path.join(output_path, str(sim.id))
         if not os.path.exists(sim_dir):
             continue
-        label = f"cm_{coverage}"
+        label = f"treatment_coverage_{coverage}"
         target_dir = os.path.join(output_path, label)
         os.makedirs(target_dir, exist_ok=True)
         shutil.move(sim_dir, os.path.join(target_dir, str(sim.id)))
@@ -255,7 +256,7 @@ def plot_results(output_path, dirs):
     Plot the mean InsetChart for each coverage group using plot_mean().
 
     Each directory in dirs becomes one labeled series in the plot — the
-    directory name (e.g. cm_0.3) is used as the legend label. show_raw_data
+    directory name (e.g. treatment_coverage_0.3) is used as the legend label. show_raw_data
     overlays the individual simulation lines in a lighter color so the
     stochastic spread within each group is visible alongside the mean.
     """
@@ -325,7 +326,7 @@ def run_experiment():
     task = emod_task.EMODTask.from_default2(
         config_path="config.json",
         eradication_path=manifest.eradication_path,
-        campaign_builder=build_camp,
+        campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
         param_custom_cb=build_config,
@@ -345,7 +346,7 @@ def run_experiment():
     add_reporters(task)
 
     # SimulationBuilder manages parameter sweeps across simulations.
-    # Two sweep definitions combine as a cross-product: every cm_coverage
+    # Two sweep definitions combine as a cross-product: every treatment_coverage
     # value is paired with every Run_Number, giving 3 x 3 = 9 simulations.
     builder = SimulationBuilder()
     builder.add_sweep_definition(update_campaign, [0.3, 0.6, 0.9])

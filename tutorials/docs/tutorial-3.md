@@ -9,23 +9,23 @@ and shows how to compare scenarios with and without interventions.
 ## The campaign file
 
 The campaign file defines what interventions to distribute, to whom, and when. In emodpy-malaria
-a `build_camp()` function constructs this file and is passed to `EMODTask` via
+a `build_campaign()` function constructs this file and is passed to `EMODTask` via
 `campaign_builder=`:
 
 ```python
 task = emod_task.EMODTask.from_default2(
     ...
-    campaign_builder=build_camp,   # previously None
+    campaign_builder=build_campaign,   # previously None
     ...
 )
 ```
 
 ## Interventions
 
-`build_camp()` adds the two interventions using emodpy-malaria helper functions:
+`build_campaign()` adds the two interventions using emodpy-malaria helper functions:
 
 ```python
-def build_camp():
+def build_campaign():
     campaign.set_schema(manifest.schema_file)
 
     if use_treatment_seeking:

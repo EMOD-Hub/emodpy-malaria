@@ -11,7 +11,7 @@ Starting from a serialized state instead of time zero means:
   - Each simulation begins in year 51 of the population's history with
     a realistic age structure, pre-existing immunity, and ongoing
     transmission — not a cold-start artifact
-  - Running multiple burnin replicates as starting points captures the
+  - Running multiple burnin runs as starting points captures the
     natural stochastic spread of outcomes under the same intervention
   - Only the pickup portion (sim_years) needs to be re-run when changing
     intervention parameters — the 50-year burnin is reused as-is
@@ -24,7 +24,7 @@ New in this tutorial (diff from tutorial_7_burnin.py):
   - build_config               write → read:
                                Serialized_Population_Reading_Type = "READ"
                                (Path and Filenames set per-sim by sweep)
-  - build_camp()               add_treatment_seeking + add_itn_scheduled
+  - build_campaign()           add_treatment_seeking + add_itn_scheduled
                                restored — same parameters as Tutorial 3
   - add_reporters()            MalariaSummaryReport restored
   - get_burnin_df()            loads burnin experiment and collects each
@@ -33,7 +33,7 @@ New in this tutorial (diff from tutorial_7_burnin.py):
                                COMPS (hpc_jobs working_directory) separately
   - update_serialize_parameters()
                                sweep callback: links each pickup simulation
-                               to one burnin replicate by setting
+                               to one burnin run by setting
                                Serialized_Population_Path and
                                Serialized_Population_Filenames
 
@@ -57,9 +57,9 @@ from emodpy_malaria.reporters.builtin import add_malaria_summary_report
 
 import manifest
 
-# ============================================================
+# ================================================================
 # UPDATE - Paste the experiment ID printed by tutorial_7_burnin.py
-# ============================================================
+# ================================================================
 BURNIN_EXP_ID = "paste-your-burnin-experiment-id-here"
 
 # Must match the value used in tutorial_7_burnin.py
@@ -67,7 +67,7 @@ CALIBRATED_LOG10_X_LARVAL_HABITAT = -1.61  # must match the value used in tutori
 
 serialize_years      = 50   # must match tutorial_7_burnin.py (used to compute .dtk filename)
 sim_years            = 3    # how many years to simulate after picking up from the burnin
-N_SIMS_PER_PICKUP    = 3    # stochastic replicates per burnin replicate
+N_SIMS_PER_PICKUP    = 3    # stochastic runs per burnin run
 
 
 def sweep_run_number(simulation, value):
@@ -76,9 +76,9 @@ def sweep_run_number(simulation, value):
     Run_Number is the random seed — different values give different stochastic
     realizations of the same scenario.
     
-    In this tutorial, we sweep Run_Number across each burnin replicate
+    In this tutorial, we sweep Run_Number across each burnin run
     to add stochastic variation on top of the variation in immune history
-    across burnin replicates.
+    across burnin runs.
     """
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
@@ -94,7 +94,7 @@ def build_config(config):
 
     Serialized_Population_Path and Serialized_Population_Filenames are
     not set here because they differ per simulation — each pickup
-    simulation reads from a different burnin replicate. Those two
+    simulation reads from a different burnin run. Those two
     parameters are set by update_serialize_parameters() in the sweep.
     """
     import emodpy_malaria.malaria_config as malaria_config
@@ -152,7 +152,7 @@ def build_demog():
     return demog
 
 
-def build_camp():
+def build_campaign():
     """
     Add treatment-seeking care and ITNs, both starting on day 365 of the
     pickup run (year 2 relative to the serialized starting point, giving
@@ -204,7 +204,7 @@ def get_burnin_df(platform):
     Loads the burnin experiment by ID, retrieves each simulation's output
     directory, and returns a DataFrame sorted by Run_Number — one row per
     burnin simulation. update_serialize_parameters() uses the row index to
-    link each pickup simulation to the correct burnin replicate.
+    link each pickup simulation to the correct burnin run.
 
     Path resolution differs by platform:
       Container  get_directory() returns the host filesystem path, but EMOD
@@ -257,7 +257,7 @@ def get_burnin_df(platform):
 
 def update_serialize_parameters(simulation, x, df):
     """
-    Link one pickup simulation to one burnin replicate.
+    Link one pickup simulation to one burnin run.
 
     Called by the sweep builder once per row in burnin_df. Sets
     Serialized_Population_Path to the burnin simulation's output directory
@@ -314,7 +314,7 @@ def plot_results(output_path):
     Plot InsetChart channels and a custom monthly PfPR figure.
 
     plot_inset_chart() overlays all simulations on the same axes so you can
-    see stochastic spread across the burnin replicates.
+    see stochastic spread across the burnin runs.
 
     The PfPR plot shows monthly under-5 PfPR across the pickup period with a
     vertical line marking when interventions start (day 365 = month 12).
@@ -387,9 +387,9 @@ def handle_results(experiment, platform):
 def run_experiment():
     """
     Load burnin output paths and run a cross-product sweep:
-      burnin replicates × N_SIMS_PER_PICKUP Run_Numbers
+      burnin runs × N_SIMS_PER_PICKUP Run_Numbers
 
-    Each burnin replicate represents a different immune history; each
+    Each burnin run represents a different immune history; each
     Run_Number adds independent stochastic variation on top of that. With
     N_BURNIN_RUNS=3 and N_SIMS_PER_PICKUP=3 this produces 9 pickup
     simulations. To also sweep an intervention parameter (e.g. coverage),
@@ -425,7 +425,7 @@ def run_experiment():
     task = emod_task.EMODTask.from_default2(
         config_path="config.json",
         eradication_path=manifest.eradication_path,
-        campaign_builder=build_camp,
+        campaign_builder=build_campaign,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
         param_custom_cb=build_config,
