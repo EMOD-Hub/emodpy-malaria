@@ -64,8 +64,18 @@ BURNIN_EXP_ID = "paste-your-burnin-experiment-id-here"
 # Must match the value used in tutorial_7_burnin.py
 CALIBRATED_X_LARVAL_HABITAT = 1.0
 
-serialize_years = 50   # must match tutorial_7_burnin.py (used to compute .dtk filename)
-sim_years       = 3    # how many years to simulate after picking up from the burnin
+serialize_years      = 50   # must match tutorial_7_burnin.py (used to compute .dtk filename)
+sim_years            = 3    # how many years to simulate after picking up from the burnin
+N_SIMS_PER_PICKUP    = 3    # stochastic replicates per burnin replicate
+
+
+def sweep_run_number(simulation, value):
+    """
+    Sweep Run_Number across each burnin replicate to add stochastic variation
+    on top of the variation in immune history across burnin replicates.
+    """
+    simulation.task.config.parameters.Run_Number = value
+    return {"Run_Number": value}
 
 
 def set_param_fn(config):
@@ -344,12 +354,14 @@ def handle_results(experiment, platform):
 
 def run_experiment():
     """
-    Load burnin output paths, sweep to link each pickup simulation to one
-    burnin replicate, and run the experiment.
+    Load burnin output paths and run a cross-product sweep:
+      burnin replicates × N_SIMS_PER_PICKUP Run_Numbers
 
-    The sweep over range(n_burnin) creates one pickup simulation per burnin
-    replicate. update_serialize_parameters() receives the row index x and
-    uses it to look up the correct burnin output path from burnin_df.
+    Each burnin replicate represents a different immune history; each
+    Run_Number adds independent stochastic variation on top of that. With
+    N_BURNIN_RUNS=3 and N_SIMS_PER_PICKUP=3 this produces 9 pickup
+    simulations. To also sweep an intervention parameter (e.g. coverage),
+    add a third sweep definition following the same pattern as Tutorial 5.
     """
     # ============================================================
     # UPDATE - Select the correct platform for your environment
@@ -395,6 +407,7 @@ def run_experiment():
         partial(update_serialize_parameters, df=burnin_df),
         range(n_burnin)
     )
+    builder.add_sweep_definition(sweep_run_number, range(N_SIMS_PER_PICKUP))
 
     experiment = Experiment.from_builder(builder, task, name="tutorial_7_pickup")
     experiment.run(wait_until_done=True, platform=platform)

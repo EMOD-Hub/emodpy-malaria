@@ -1,0 +1,136 @@
+# Tutorial 6: Calibration
+
+Calibration adjusts a model parameter until simulation output matches observed reference data.
+This tutorial calibrates `x_Temporary_Larval_Habitat` — a scale factor that multiplies larval
+habitat capacity for all temporary habitat types — to match a reference monthly PfPR curve for
+children under 5 (`tutorial_6_reference_pfpr.csv`).
+
+Interventions are removed for this tutorial so that simulated PfPR reflects baseline
+transmission only. Tutorial 7 adds interventions back once the right transmission intensity is
+established.
+
+**File:** `tutorials/tutorial_6_calibration.py`
+
+## Calibration framework
+
+This tutorial uses `idmtools-calibra`, which provides four key components:
+
+| Component | Role |
+|-----------|------|
+| `CalibManager` | Orchestrates the calibration loop — runs iterations, collects scores, writes results |
+| `OptimTool` | Gradient-free optimizer: proposes parameter samples each iteration and moves toward better values based on scores |
+| `CalibSite` | Bundles reference data and analyzers for one calibration target |
+| `BaseCalibrationAnalyzer` | Map/reduce framework for scoring simulations against reference data |
+
+`CalibManager` replaces `SimulationBuilder` and `Experiment` from previous tutorials — it
+creates and runs experiments internally.
+
+## Searching in log space
+
+`x_Temporary_Larval_Habitat` spans several orders of magnitude (0.0001 to 0.1). Searching
+this range in linear space is inefficient because OptimTool's step size is a fixed fraction
+of the linear range — steps near 0.1 are proportionally tiny while the same step near 0.0001
+overshoots the entire lower region.
+
+The solution is to calibrate in **log10 space** by defining the parameter as
+`log10_x_Temporary_Larval_Habitat` with bounds [-4, -1]:
+
+```python
+CALIBRATION_PARAMETERS = [
+    {
+        "Name":    "log10_x_Temporary_Larval_Habitat",
+        "Dynamic": True,
+        "Guess":   -2.0,   # 10^-2 = 0.01
+        "Min":     -4.0,   # 10^-4 = 0.0001
+        "Max":     -1.0,   # 10^-1 = 0.1
+    }
+]
+```
+
+OptimTool sees a parameter between -4 and -1 and searches it like any other linear range.
+Each step of 0.3 log units is a factor of 2× — a consistent proportional step regardless of
+where in the range the search is. That proportional consistency is why log space explores a
+parameter spanning orders of magnitude more evenly.
+
+`map_sample_to_model_input()` converts back to linear space before applying the value to each
+simulation:
+
+```python
+def map_sample_to_model_input(simulation, sample):
+    log_value = float(sample["log10_x_Temporary_Larval_Habitat"])
+    value = 10 ** log_value
+    simulation.task.config.parameters.x_Temporary_Larval_Habitat = value
+    return {"x_Temporary_Larval_Habitat": value}
+```
+
+The linear value is stored as a simulation tag so the analyzer can read it back for plotting.
+
+## How OptimTool works
+
+OptimTool is not a random sampler. Each iteration it:
+
+1. Fits a linear regression through the previous iteration's samples and scores
+2. If R² is above the threshold, takes a gradient ascent step — moves the search center in
+   the direction that improves the score
+3. If R² is below the threshold, jumps to the best-scoring sample
+4. Draws new samples on a hypersphere around the new center
+
+The search center moves toward the optimum each iteration while the sampling radius stays
+fixed. You can watch this in the right panel of the plots below — the samples cluster
+progressively closer to the best value across iterations.
+
+## The analyzer: map and reduce
+
+`MalariaSummaryAnalyzer` subclasses `BaseCalibrationAnalyzer` and implements two methods:
+
+**`map(data, item)`** — called once per simulation. Extracts the last 12 monthly PfPR values
+(under-5 age group) from `MalariaSummaryReport_monthly.json`. The last 12 time steps are the
+final year of the 5-year simulation, after the population has reached a stable seasonal
+pattern. Age bin index 1 is the 0.25–5 year age group, matching the reference data.
+
+**`reduce(all_data)`** — called once per iteration with results from all simulations. Computes
+RMSE against the reference PfPR, saves a per-iteration CSV, updates the cumulative plot, and
+returns scores. Calibra **maximizes** the score, so `reduce()` returns `1/RMSE` — a closer
+match produces a higher score.
+
+## Reading the plots
+
+After each iteration a two-panel plot is saved to `tutorial_6_calibration/plots/`:
+
+- **Left panel** — simulated PfPR curves vs the reference (black line). Past iterations are
+  shown in grey; the current iteration is colored green-to-red by RMSE so fit quality is
+  visible at a glance.
+- **Right panel** — `x_Temporary_Larval_Habitat` vs RMSE for all iterations, colored by
+  iteration number (dark = early, bright = late). The green star marks the best sample across
+  all iterations.
+
+There is no automated stopping criterion — stop when the fit looks close enough. Read the
+best `x` value from the green star on the right panel and copy it into
+`CALIBRATED_X_LARVAL_HABITAT` in Tutorial 7.
+
+## Calibration progress
+
+**Iteration 1**
+
+![Iteration 1](images/tutorial-6/iteration_01.png)
+
+**Iteration 2**
+
+![Iteration 2](images/tutorial-6/iteration_02.png)
+
+**Iteration 3**
+
+![Iteration 3](images/tutorial-6/iteration_03.png)
+
+**Iteration 4**
+
+![Iteration 4](images/tutorial-6/iteration_04.png)
+
+**Iteration 5**
+
+![Iteration 5](images/tutorial-6/iteration_05.png)
+
+## Next
+
+[Tutorial 7](tutorial-7.md) uses the calibrated value to run a burnin to equilibrium, then
+starts intervention scenarios from the serialized population.
