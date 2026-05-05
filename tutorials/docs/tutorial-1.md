@@ -9,10 +9,10 @@ configuration, demographics, campaign, and report concepts used in every tutoria
 
 **File:** `tutorials/tutorial_1_intro.py`
 
-## Obtaining the EMOD executable
+## EMOD executable and schema
 
 The `if __name__ == "__main__"` block calls `emod_malaria.bootstrap.setup()` before running the
-experiment. This downloads the EMOD executable and schema from the `emod_malaria` package into
+experiment. This extracts the EMOD executable and schema from the `emod_malaria` package into
 the `tutorials/download/` directory.
 
 ```python
@@ -22,13 +22,13 @@ dtk.setup(pathlib.Path(manifest.eradication_path).parent)
 
 Paths used throughout the tutorials are defined in `manifest.py`.
 
-## Config callback: set_param_fn
+## Config callback: build_config
 
-`set_param_fn` is passed to `EMODTask` and called when building `config.json`. It receives a
+`build_config` is passed to `EMODTask` and called when building `config.json`. It receives a
 config object and returns it after making changes.
 
 ```python
-def set_param_fn(config):
+def build_config(config):
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
@@ -41,8 +41,8 @@ def set_param_fn(config):
 validated defaults that gives a working malaria simulation without needing to set every parameter
 individually.
 
-`add_species()` adds the three *Anopheles* vector species present at most African sites. Each
-species gets its own transmission parameters and habitat.
+`add_species()` adds pre-configured species parameters for three *Anopheles* vector species
+present at most African sites.
 
 `Simulation_Duration` is in days, so `sim_years * 365` converts years to days.
 
@@ -101,7 +101,7 @@ task = emod_task.EMODTask.from_default2(
     campaign_builder=None,
     schema_path=manifest.schema_file,
     ep4_custom_cb=None,
-    param_custom_cb=set_param_fn,
+    param_custom_cb=build_config,
     demog_builder=build_demog,
     plugin_report=None
 )
@@ -135,9 +135,10 @@ tutorial_output/
     551dfe56-f2f8-4831-9f15-b7c0ac529557/   ← simulation 1
 ```
 
-Each simulation directory is where EMOD runs. If a simulation fails, check `stderr.txt` and
-`stdout.txt` in that directory to diagnose the problem. The output report files are also in
-that directory — Tutorial 2 introduces a more convenient way to retrieve them.
+Each folder under the `e_tutorial_1_intro*` directory is one simulation run with its inputs
+and outputs. If a simulation fails, check `stderr.txt` and `stdout.txt` in that folder to
+diagnose the problem. The output report files are also in that folder — Tutorial 2 introduces
+a more convenient way to retrieve them.
 
 ## Next
 

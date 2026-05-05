@@ -11,14 +11,14 @@ The tutorials are Python scripts in the `tutorials/` directory of the emodpy-mal
 
     ### Steps
 
-    1. Clone the emodpy-malaria repository:
+    1. Open a terminal, navigate to the directory where you want to clone the repository, and run:
 
         ```
         git clone https://github.com/EMOD-Hub/emodpy-malaria.git
         cd emodpy-malaria
         ```
 
-    2. Create a virtual environment — follow the
+    2. Create and activate a virtual environment inside the `emodpy-malaria` directory — follow the
        [virtual environments](../../docs/emod/virtual_environments.md) guide.
 
     3. Install emodpy-malaria in editable mode:
@@ -27,7 +27,7 @@ The tutorials are Python scripts in the `tutorials/` directory of the emodpy-mal
         pip install -e .
         ```
 
-    4. Start Docker Desktop.
+    4. Start Docker (Docker Desktop on Mac/Windows, or ensure the Docker Engine service is running on Linux).
 
     5. Navigate to the `tutorials/` directory:
 
@@ -35,15 +35,16 @@ The tutorials are Python scripts in the `tutorials/` directory of the emodpy-mal
         cd tutorials
         ```
 
-    6. Run a tutorial:
+    6. Verify your setup by running Tutorial 1:
 
         ```
         python tutorial_1_intro.py
         ```
 
-    The first time you run a tutorial, `emod_malaria.bootstrap.setup()` downloads the EMOD
-    executable and schema to the `tutorials/download/` directory. Subsequent runs can skip the
-    download if the files are already present.
+        If it completes successfully, your environment is ready and you can proceed to the tutorials.
+
+    The first time you run a tutorial, `emod_malaria.bootstrap.setup()` extracts the EMOD
+    executable and schema to the `tutorials/download/` directory.
 
 === "Codespaces"
 
@@ -74,15 +75,16 @@ The tutorials are Python scripts in the `tutorials/` directory of the emodpy-mal
         cd tutorials
         ```
 
-    5. Run a tutorial:
+    5. Verify your setup by running Tutorial 1:
 
         ```
         python tutorial_1_intro.py
         ```
 
-    The first time you run a tutorial, `emod_malaria.bootstrap.setup()` downloads the EMOD
-    executable and schema to the `tutorials/download/` directory. Subsequent runs can skip
-    the download if the files are already present.
+        If it completes successfully, your environment is ready and you can proceed to the tutorials.
+
+    The first time you run a tutorial, `emod_malaria.bootstrap.setup()` extracts the EMOD
+    executable and schema to the `tutorials/download/` directory.
 
     ### Stopping and deleting a Codespace
 
@@ -96,7 +98,7 @@ The tutorials are Python scripts in the `tutorials/` directory of the emodpy-mal
 
 **Container (default)**
 : Runs EMOD inside a Docker container on your local machine or in Codespaces. No credentials or
-cluster access required. Docker must be running.
+cluster access required. Docker must be running (Docker Desktop on Mac/Windows, or Docker Engine on Linux).
 
 **COMPS** *(IDM-only)*
 : Requires IDM network access. A `comps_sif_file.id` file is included in the `tutorials/`

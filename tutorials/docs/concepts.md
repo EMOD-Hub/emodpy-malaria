@@ -9,7 +9,7 @@ will help you follow the tutorial scripts.
 
 `config.json` contains the simulation-wide settings: how long to run, which disease model to
 use, vector species, transmission parameters, and hundreds of other options. In the tutorials,
-`set_param_fn(config)` is the callback that builds this file. It starts from a validated set of
+`build_config(config)` is the callback that builds this file. It starts from a validated set of
 malaria defaults and then applies the changes specific to each tutorial.
 
 ## Demographics file
@@ -31,7 +31,7 @@ interventions are introduced in Tutorial 3.
 **Reports** are configured in the script before the experiment runs. They tell EMOD what to
 measure and at what frequency — for example, monthly PfPR by age bin, or daily clinical
 incidence. EMOD writes each report's results to an **output file** in the `output/`
-subdirectory of each simulation. The default output is `InsetChart.json`, a time-series summary
-of key channels that is always produced. Additional reports such as `MalariaSummaryReport` can
-be added to the task via `add_reporters()`. Tutorial 2 introduces reports and shows how to
-download and plot the output files.
+subdirectory of each simulation. `InsetChart.json` is a time-series summary of key channels
+that is enabled by setting `Enable_Default_Reporting = 1` in the config. Additional reports
+such as `MalariaSummaryReport` can be added to the task via `add_reporters()`. Tutorial 2
+introduces reports and shows how to download and plot the output files.

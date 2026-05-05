@@ -6,7 +6,7 @@ simulations. This tutorial walks through the core building blocks of every
 emodpy-malaria script:
 
   - manifest.py       paths to executables, outputs, and platform settings
-  - set_param_fn()    configures config.json (simulation parameters)
+  - build_config()    configures config.json (simulation parameters)
   - build_demog()     builds the demographics file (human population)
   - run_experiment()  sets up the platform, task, and experiment, then runs it
 
@@ -42,21 +42,22 @@ def sweep_run_number(simulation, value):
     return {"Run_Number": value}
 
 
-def set_param_fn(config):
+def build_config(config):
     """
     Configure simulation parameters. This function is passed as a callback to
     EMODTask and is called when building config.json.
-
-    set_team_defaults() applies the malaria team's standard parameter set.
-    add_species() adds the mosquito vector species to the simulation.
     """
     import emodpy_malaria.malaria_config as malaria_config
 
+    # applies the malaria team's standard parameter set
     config = malaria_config.set_team_defaults(config, manifest)
+
+    # adds pre-configured species parameters for three Anopheles vector species
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
-    config.parameters.Simulation_Duration = sim_years * 365
     config.parameters.Run_Number = 0
+    config.parameters.Simulation_Duration = sim_years * 365
+
     return config
 
 
@@ -100,10 +101,11 @@ def run_experiment():
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
-    #platform = Platform("Container", job_directory=manifest.job_dir,
-    #                    docker_image=manifest.plat_image)
+    platform = Platform("Container", job_directory=manifest.job_dir,
+                        docker_image=manifest.plat_image,
+                        max_job=4)
 
-    platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
+    # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
     # platform = Platform("SLURM_LOCAL",
     #                     job_directory=manifest.job_dir,
@@ -123,7 +125,7 @@ def run_experiment():
         campaign_builder=None,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
-        param_custom_cb=set_param_fn,
+        param_custom_cb=build_config,
         demog_builder=build_demog,
         plugin_report=None
     )
@@ -132,12 +134,12 @@ def run_experiment():
     # For COMPS and SLURM, the image is a Singularity Image File (SIF);
     # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path)           # no platform arg: loads AssetCollection from .id file
+        task.set_sif(manifest.comps_sif_path)
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
     # SimulationBuilder manages parameter sweeps across simulations.
-    # Here we run a single simulation (Run_Number=0). Tutorial 4 covers
+    # Here we run a single simulation (Run_Number=0). Tutorial 5 covers
     # how to sweep over multiple values to run parameter studies.
     builder = SimulationBuilder()
     builder.add_sweep_definition(sweep_run_number, [0])
@@ -154,9 +156,7 @@ def run_experiment():
 
 
 if __name__ == "__main__":
-    # Bootstrap downloads the EMOD executable and schema into the download/
-    # directory defined in manifest.py. You only need to run this once —
-    # after the files are downloaded, subsequent runs will skip this step.
+    # Extract the EMOD executable and schema needed to run simulations.
     import emod_malaria.bootstrap as dtk
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_experiment()

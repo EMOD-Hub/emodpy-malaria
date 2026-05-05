@@ -4,7 +4,8 @@
 This script reads the serialized population states produced by
 tutorial_7_burnin.py and starts new simulations from those saved states,
 adding treatment-seeking care and ITNs — the same interventions from
-Tutorial 3, now evaluated against a fully equilibrated population.
+Tutorial 3, now evaluated against a population with a realistic history
+of infections and immunity.
 
 Starting from a serialized state instead of time zero means:
   - Each simulation begins in year 51 of the population's history with
@@ -20,7 +21,7 @@ New in this tutorial (diff from tutorial_7_burnin.py):
   - sim_years                  pickup duration (shorter than burnin)
   - serialize_years            kept so we can compute the .dtk filename;
                                must match tutorial_7_burnin.py
-  - set_param_fn               write → read:
+  - build_config               write → read:
                                Serialized_Population_Reading_Type = "READ"
                                (Path and Filenames set per-sim by sweep)
   - build_camp()               add_treatment_seeking + add_itn_scheduled
@@ -71,14 +72,19 @@ N_SIMS_PER_PICKUP    = 3    # stochastic replicates per burnin replicate
 
 def sweep_run_number(simulation, value):
     """
-    Sweep Run_Number across each burnin replicate to add stochastic variation
-    on top of the variation in immune history across burnin replicates.
+    Callback used by SimulationBuilder to set the Run_Number parameter.
+    Run_Number is the random seed — different values give different stochastic
+    realizations of the same scenario.
+    
+    In this tutorial, we sweep Run_Number across each burnin replicate
+    to add stochastic variation on top of the variation in immune history
+    across burnin replicates.
     """
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
 
 
-def set_param_fn(config):
+def build_config(config):
     """
     Configure simulation parameters for the pickup.
 
@@ -94,9 +100,13 @@ def set_param_fn(config):
     import emodpy_malaria.malaria_config as malaria_config
     import emodpy_malaria.vector_config as vector_config
 
+    # applies the malaria team's standard parameter set
     config = malaria_config.set_team_defaults(config, manifest)
+
+    # adds pre-configured species parameters for three Anopheles vector species
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
+    config.parameters.Run_Number = 0
     config.parameters.Simulation_Duration = sim_years * 365
     config.parameters.x_Temporary_Larval_Habitat = 10 ** CALIBRATED_LOG10_X_LARVAL_HABITAT
 
@@ -109,6 +119,7 @@ def set_param_fn(config):
             "Values": [3.0, 0.8, 1.25, 0.1, 2.7, 8.0, 4.0, 25.0, 6.8, 6.5, 2.6, 2.1, 3.0]
         }
     )
+
     for species in ["gambiae", "arabiensis", "funestus"]:
         malaria_config.set_species_param(config, species, "Habitats",
                                          seasonal_habitat, overwrite=True)
@@ -122,6 +133,14 @@ def set_param_fn(config):
 def build_demog():
     """
     Demographics are unchanged from the burnin.
+
+    Build the demographics file describing the simulated human population.
+
+    from_template_node() creates a single-node population at the given lat/lon.
+    SetEquilibriumVitalDynamics() sets birth and death rates equal so the
+    population stays roughly stable over the simulation.
+    SetAgeDistribution() initializes the population with a realistic age
+    structure for sub-Saharan Africa.
     """
     import emodpy_malaria.demographics.MalariaDemographics as Demographics
     import emod_api.demographics.PreDefinedDistributions as Distributions
@@ -263,6 +282,14 @@ def update_serialize_parameters(simulation, x, df):
 def process_results(experiment, platform, output_path):
     """
     Download output files from each simulation into a local directory.
+
+    DownloadAnalyzer is an idmtools built-in that copies specific files from
+    each simulation's output/ folder. Using it here means this code works
+    the same way whether simulations ran locally (Container), on COMPS, or
+    on a SLURM cluster — the files always end up in output_path.
+
+    AnalyzeManager orchestrates the download across all simulations in the
+    experiment.
     """
     import shutil
     from idmtools.analysis.analyze_manager import AnalyzeManager
@@ -276,6 +303,7 @@ def process_results(experiment, platform, output_path):
         "output/MalariaSummaryReport_monthly.json",
     ]
     analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
+
     manager = AnalyzeManager(platform=platform, analyzers=analyzers)
     manager.add_item(experiment)
     manager.analyze()
@@ -341,13 +369,17 @@ def handle_results(experiment, platform):
     Download output files and plot results. Called after the experiment finishes.
     """
     if experiment.succeeded:
-        print(f"\nPickup complete. Experiment {experiment.id} succeeded.")
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id", "w") as f:
+            f.write(experiment.id)
+
         output_path = "tutorial_7_results_pickup"
+
         process_results(experiment, platform, output_path)
-        print(f"Downloaded results to '{output_path}'.")
+        print(f"Downloaded results for experiment {experiment.id}.")
+
         plot_results(output_path)
         print(f"\nLook in '{output_path}' for the plots.")
-        print(f"\nTutorial 7 is done.")
     else:
         print(f"\nPickup experiment {experiment.id} failed.")
 
@@ -362,13 +394,19 @@ def run_experiment():
     N_BURNIN_RUNS=3 and N_SIMS_PER_PICKUP=3 this produces 9 pickup
     simulations. To also sweep an intervention parameter (e.g. coverage),
     add a third sweep definition following the same pattern as Tutorial 5.
+
+    For the Container platform, max_job controls how many simulations run at the
+    same time — a new one starts as soon as a slot opens. For an experiment with
+    nine simulations and max_job=4, simulations run roughly four at a time: four,
+    then four, then one. 4 is a safe default on most laptops.
     """
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
+    # max_job limits concurrent simulations — see docstring above
     platform = Platform("Container", job_directory=manifest.job_dir,
                         docker_image=manifest.plat_image,
-                        max_job=10)
+                        max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
@@ -381,27 +419,36 @@ def run_experiment():
     #                     max_running_jobs=1000000,
     #                     array_batch_size=1000000)
 
+    # EMODTask defines how EMOD will be configured for each simulation:
+    # which executable to run, which config/campaign/demographics callbacks
+    # to call, and where to find supporting files.
     task = emod_task.EMODTask.from_default2(
         config_path="config.json",
         eradication_path=manifest.eradication_path,
         campaign_builder=build_camp,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
-        param_custom_cb=set_param_fn,
+        param_custom_cb=build_config,
         demog_builder=build_demog,
         plugin_report=None
     )
 
+    # set_sif() tells EMOD which container image to use to run the executable.
+    # For COMPS and SLURM, the image is a Singularity Image File (SIF);
+    # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path)           # no platform arg: loads AssetCollection from .id file
+        task.set_sif(manifest.comps_sif_path)
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
+    # Reports are added to the task after EMODTask is created.
     add_reporters(task)
 
     burnin_df = get_burnin_df(platform)
     n_burnin  = len(burnin_df)
 
+    # SimulationBuilder manages parameter sweeps across simulations.
+	# Here we are going to sweep each serialized file and Run_Number.
     builder = SimulationBuilder()
     builder.add_sweep_definition(
         partial(update_serialize_parameters, df=burnin_df),
@@ -414,8 +461,11 @@ def run_experiment():
 
     handle_results(experiment, platform)
 
+    print(f"\nTutorial 7-pickup is done.")
+
 
 if __name__ == "__main__":
+    # Extract the EMOD executable and schema needed to run simulations.
     import emod_malaria.bootstrap as dtk
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_experiment()

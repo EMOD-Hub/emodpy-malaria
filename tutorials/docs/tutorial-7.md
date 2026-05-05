@@ -36,7 +36,7 @@ Tutorial 7 is split into two scripts:
 
 ### Serialization parameters
 
-Four parameters in `set_param_fn()` tell EMOD to write a population snapshot at the end of
+Four parameters in `build_config()` tell EMOD to write a population snapshot at the end of
 the simulation:
 
 ```python

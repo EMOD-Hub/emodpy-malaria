@@ -55,7 +55,7 @@ def sweep_run_number(simulation, value):
     return {"Run_Number": value}
 
 
-def set_param_fn(config):
+def build_config(config):
     """
     Configure simulation parameters. This function is passed as a callback to
     EMODTask and is called when building config.json.
@@ -72,11 +72,14 @@ def set_param_fn(config):
     import emodpy_malaria.malaria_config as malaria_config
     import emodpy_malaria.vector_config as vector_config
 
+    # applies the malaria team's standard parameter set
     config = malaria_config.set_team_defaults(config, manifest)
+
+    # adds pre-configured species parameters for three Anopheles vector species
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
-    config.parameters.Simulation_Duration = sim_years * 365
     config.parameters.Run_Number = 0
+    config.parameters.Simulation_Duration = sim_years * 365
 
     seasonal_habitat = vector_config.configure_linear_spline(
         manifest,
@@ -90,7 +93,7 @@ def set_param_fn(config):
 
     for species in ["gambiae", "arabiensis", "funestus"]:
         malaria_config.set_species_param(config, species, "Habitats",
-                                        seasonal_habitat, overwrite=True)
+                                         seasonal_habitat, overwrite=True)
 
     return config
 
@@ -155,10 +158,9 @@ def add_reporters(task):
     time-series overview of the simulation.
 
     Enable_Demographics_Reporting produces DemographicsSummary.json and
-    BinnedReport.json. set_team_defaults() turns this off, so we re-enable
-    it here. DemographicsSummary tracks population and vital dynamics and has
-    the same channel report format as InsetChart, so it can be plotted the
-    same way.
+    BinnedReport.json. DemographicsSummary tracks population and vital dynamics
+    and has the same channel report format as InsetChart, so it can be plotted
+    the same way.
 
     MalariaSummaryReport provides population-level malaria metrics (PfPR,
     clinical incidence, etc.) grouped by age bin and reporting interval.
@@ -211,7 +213,7 @@ def process_results(experiment, platform, output_path):
 
 def plot_results(output_path):
     """
-    Plot InsetChart from the downloaded output files.
+    Plot InsetChart and DemographicsSummary from the downloaded output files.
 
     If tutorial_3_results is present, its InsetChart is used as the reference
     (plotted in red) so the impact of adding seasonality is directly visible:
@@ -235,6 +237,8 @@ def plot_results(output_path):
                      title="Tutorial 4 - InsetChart",
                      output=output_path)
 
+    # DemographicsSummary has the same channel report format as InsetChart.
+    # Find the downloaded files and pass the first one for plotting.
     demog_files = get_filenames(dir_or_filename=output_path,
                                 file_prefix="DemographicsSummary",
                                 file_extension="json")
@@ -255,6 +259,7 @@ def handle_results(experiment, platform):
             f.write(experiment.id)
 
         output_path = "tutorial_4_results"
+
         process_results(experiment, platform, output_path)
         print(f"Downloaded results for experiment {experiment.id}.")
 
@@ -272,7 +277,8 @@ def run_experiment():
     # UPDATE - Select the correct platform for your environment
     # ============================================================
     platform = Platform("Container", job_directory=manifest.job_dir,
-                        docker_image=manifest.plat_image)
+                        docker_image=manifest.plat_image,
+                        max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
@@ -294,7 +300,7 @@ def run_experiment():
         campaign_builder=build_camp,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
-        param_custom_cb=set_param_fn,
+        param_custom_cb=build_config,
         demog_builder=build_demog,
         plugin_report=None
     )
@@ -303,13 +309,16 @@ def run_experiment():
     # For COMPS and SLURM, the image is a Singularity Image File (SIF);
     # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path)           # no platform arg: loads AssetCollection from .id file
+        task.set_sif(manifest.comps_sif_path)
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
     # Reports are added to the task after EMODTask is created.
     add_reporters(task)
 
+    # SimulationBuilder manages parameter sweeps across simulations.
+    # Here we run a single simulation (Run_Number=0). Tutorial 5 covers
+    # how to sweep over multiple values to run parameter studies.
     builder = SimulationBuilder()
     builder.add_sweep_definition(sweep_run_number, [0])
 
@@ -325,9 +334,7 @@ def run_experiment():
 
 
 if __name__ == "__main__":
-    # Bootstrap downloads the EMOD executable and schema into the download/
-    # directory defined in manifest.py. You only need to run this once —
-    # after the files are downloaded, subsequent runs will skip this step.
+    # Extract the EMOD executable and schema needed to run simulations.
     import emod_malaria.bootstrap as dtk
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_experiment()
