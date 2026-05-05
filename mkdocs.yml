@@ -33,9 +33,14 @@ nav:
   - Installation:
     - Installation: installation.md
     - Virtual environments: virtual_environments.md
+  - Tutorials:
+    - Getting Started: md_tutorial/tutorial_getting_started.md
+    - md_tutorial/tutorial_starting_codespaces.md
+    - md_tutorial/tutorial_run_simple_example.md
+    - md_tutorial/tutorial_interpret_results.md
   - Software:
     - Overview: emod/software-overview.md
-    - Input files:
+    - Inputs:
       - Overview: emod/software-inputs.md
       - Demographics: emod/software-demographics.md
       - Demographics overlay files: emod/software-demographics-overlay.md
@@ -60,48 +65,8 @@ nav:
       - Changing reports in serialized simulations: emod/software-serializing-change-reports.md
     - Output reports:
       - Overview: emod/software-outputs.md
-      - BinnedReport: emod/software-report-binned.md
-      - DemographicsSummary: emod/software-report-demographic-summary.md
-      - InsetChart: emod/software-report-inset-chart.md
-      - PropertyReport: emod/software-report-property.md
-      - ReportEventCounter: emod/software-report-event-counter.md
-      - ReportEventRecorder: emod/software-report-event-recorder.md
-      - ReportHumanMigrationTracking: emod/software-report-human-migration.md
-      - ReportInterventionPopAvg: emod/software-report-intervention-population-average.md
-      - ReportNodeDemographics: emod/software-report-node-demographics.md
-      - ReportSimulationStats: emod/software-report-simulation-stats.md
-      - SpatialReport: emod/software-report-spatial.md
-      - Vector reports:
-        - ReportMicrosporidia: emod/software-report-microsporidia.md
-        - ReportVectorGenetics: emod/software-report-vector-genetics.md
-        - ReportVectorMigration: emod/software-report-vector-migration.md
-        - ReportVectorStats: emod/software-report-vector-stats.md
-        - VectorHabitatReport: emod/software-report-vector-habitat.md
-        - VectorSpeciesReport: emod/software-report-vector-species.md
-      - Malaria reports:
-        - MalariaSummaryReport: emod/software-report-malaria-summary.md
-        - ReportMalariaFiltered: emod/software-report-filtered-malaria.md
-        - ReportNodeDemographicsMalaria: emod/software-report-malaria-node-demographics.md
-        - SpatialReportMalariaFiltered: emod/software-report-malaria-spatial.md
-        - SqlReport: emod/software-report-sql.md
-        - SqlReportMalaria: emod/software-report-sql-malaria.md
-        - MalariaImmunityReport: emod/software-report-malaria-immunity.md
-        - MalariaPatientJSONReport: emod/software-report-malaria-patient.md
-        - MalariaSurveyJSONAnalyzer: emod/software-report-malaria-survey.md
-        - ReportAntibodies: emod/software-report-antibodies.md
-        - ReportDrugStatus: emod/software-report-drug-status.md
-        - ReportInfectionDuration: emod/software-report-infection-duration.md
-        - ReportInfectionStatsMalaria: emod/software-report-infection-stats-malaria.md
-        - ReportMalariaFilteredIntraHost: emod/software-report-malaria-filtered-intra-host.md
-      - Parasite genetics reports:
-        - ReportFpgNewInfections: emod/software-report-fpg-new-infections.md
-        - ReportFpgOutputForObservationalModel: emod/software-report-fpg-output-observational-model.md
-        - ReportNodeDemographicsMalariaGenetics: emod/software-report-malaria-node-demographics-genetics.md
-        - ReportSimpleMalariaTransmission: emod/software-report-simple-malaria-transmission.md
-        - ReportVectorStatsMalariaGenetics: emod/software-report-vector-stats-malaria-genetics.md
-        - SqlReportMalariaGenetics: emod/software-report-sql-malaria-genetics.md
-      - Error and logging files: emod/software-error-logging.md
-      - Troubleshooting: emod/troubleshooting.md
+      - Plot simulation output: emod/software-plotting.md
+    - Troubleshooting: emod/troubleshooting.md
     - Tips and tricks:
       - Overview: emod/tips-tricks.md
       - Heterogeneous biting risk: emod/tips-biting-risk.md
@@ -200,8 +165,8 @@ nav:
         - NodeLevelHealthTriggeredIV: emod/parameter-campaign-node-nodelevelhealthtriggerediv.md
         - NodePropertyValueChanger: emod/parameter-campaign-node-nodepropertyvaluechanger.md
         - Outbreak: emod/parameter-campaign-node-outbreak.md
-        - OutdoorRestKill: emod/parameter-campaign-node-outdoorrestkill.md
         - OutdoorNodeEmanator: emod/parameter-campaign-node-outdoornodeemanator.md
+        - OutdoorRestKill: emod/parameter-campaign-node-outdoorrestkill.md
         - OvipositionTrap: emod/parameter-campaign-node-ovipositiontrap.md
         - ScaleLarvalHabitat: emod/parameter-campaign-node-scalelarvalhabitat.md
         - SpaceSpraying: emod/parameter-campaign-node-spacespraying.md
@@ -219,9 +184,9 @@ nav:
         - FemaleContraceptive: emod/parameter-campaign-individual-femalecontraceptive.md
         - HumanHostSeekingTrap: emod/parameter-campaign-individual-humanhostseekingtrap.md
         - ImmunityBloodTest: emod/parameter-campaign-individual-immunitybloodtest.md
-        - IndoorIndividualEmanator: emod/parameter-campaign-individual-indoorindividualemanator.md
         - IndividualImmunityChanger: emod/parameter-campaign-individual-individualimmunitychanger.md
         - IndividualNonDiseaseDeathRateModifier: emod/parameter-campaign-individual-individualnondiseasedeathratemodifier.md
+        - IndoorIndividualEmanator: emod/parameter-campaign-individual-indoorindividualemanator.md
         - IRSHousingModification: emod/parameter-campaign-individual-irshousingmodification.md
         - IVCalendar: emod/parameter-campaign-individual-ivcalendar.md
         - Ivermectin: emod/parameter-campaign-individual-ivermectin.md
@@ -252,15 +217,57 @@ nav:
       - Waning effect classes: emod/parameter-campaign-waningeffects.md
       - Targeting_Config classes: emod/parameter-campaign-targeting-config.md
       - Event list: emod/parameter-campaign-event-list.md
+    - Reports:
+      - Overview: emod/parameter-reports-overview.md
+      - General reports:
+        - BinnedReport: emod/software-report-binned.md
+        - DemographicsSummary: emod/software-report-demographic-summary.md
+        - InsetChart: emod/software-report-inset-chart.md
+        - PropertyReport: emod/software-report-property.md
+        - ReportEventCounter: emod/software-report-event-counter.md
+        - ReportEventRecorder: emod/software-report-event-recorder.md
+        - ReportHumanMigrationTracking: emod/software-report-human-migration.md
+        - ReportInterventionPopAvg: emod/software-report-intervention-population-average.md
+        - ReportNodeDemographics: emod/software-report-node-demographics.md
+        - ReportSimulationStats: emod/software-report-simulation-stats.md
+        - SpatialReport: emod/software-report-spatial.md
+      - Vector reports:
+        - ReportMicrosporidia: emod/software-report-microsporidia.md
+        - ReportVectorGenetics: emod/software-report-vector-genetics.md
+        - ReportVectorMigration: emod/software-report-vector-migration.md
+        - ReportVectorStats: emod/software-report-vector-stats.md
+        - VectorHabitatReport: emod/software-report-vector-habitat.md
+        - VectorSpeciesReport: emod/software-report-vector-species.md
+      - Malaria reports:
+        - MalariaImmunityReport: emod/software-report-malaria-immunity.md
+        - MalariaPatientJSONReport: emod/software-report-malaria-patient.md
+        - MalariaSummaryReport: emod/software-report-malaria-summary.md
+        - MalariaSurveyJSONAnalyzer: emod/software-report-malaria-survey.md
+        - ReportAntibodies: emod/software-report-antibodies.md
+        - ReportDrugStatus: emod/software-report-drug-status.md
+        - ReportInfectionDuration: emod/software-report-infection-duration.md
+        - ReportInfectionStatsMalaria: emod/software-report-infection-stats-malaria.md
+        - ReportMalariaFiltered: emod/software-report-filtered-malaria.md
+        - ReportMalariaFilteredIntraHost: emod/software-report-malaria-filtered-intra-host.md
+        - ReportNodeDemographicsMalaria: emod/software-report-malaria-node-demographics.md
+        - SpatialReportMalariaFiltered: emod/software-report-malaria-spatial.md
+        - SqlReport: emod/software-report-sql.md
+        - SqlReportMalaria: emod/software-report-sql-malaria.md
+      - Parasite genetics reports:
+        - ReportFpgNewInfections: emod/software-report-fpg-new-infections.md
+        - ReportFpgOutputForObservationalModel: emod/software-report-fpg-output-observational-model.md
+        - ReportNodeDemographicsMalariaGenetics: emod/software-report-malaria-node-demographics-genetics.md
+        - ReportSimpleMalariaTransmission: emod/software-report-simple-malaria-transmission.md
+        - ReportVectorStatsMalariaGenetics: emod/software-report-vector-stats-malaria-genetics.md
+        - SqlReportMalariaGenetics: emod/software-report-sql-malaria-genetics.md
+      - Error and logging files: emod/software-error-logging.md
     - Schema: emod/parameter-schema.md
-  - Tutorial:
-    - Getting Started: md_tutorial/tutorial_getting_started.md
-    - md_tutorial/tutorial_starting_codespaces.md
-    - md_tutorial/tutorial_run_simple_example.md
-    - md_tutorial/tutorial_interpret_results.md
   - Glossary: glossary.md
   - API reference: autoapi/
   - Related projects: https://emod.idmod.org/
+
+not_in_nav: |
+  bib.md
 
 plugins:
   - search:
@@ -270,12 +277,20 @@ plugins:
   - table-reader:
   - mkdocs-autoapi:
       autoapi_ignore:
+        - .devcontainer/**/*
         - .github/**/*
+        - .pytest_cache/**/*
         - build/**/*
+        - data/**/*
         - docs/**/*
         - emodpy_malaria/**/__main__.py
+        - emodpy_malaria.egg-info/**/*
         - examples-container/**/*
+        - site/**/*
+        - tutiorials/**/*
         - tests/**/*
+        - env/**/*
+        - venv/**/*
       autoapi_add_nav_entry: false
   - mkdocstrings:
 
@@ -302,6 +317,8 @@ markdown_extensions:
   - pymdownx.snippets:  # snippet reuse functionality
       auto_append:
         - docs/bib.md
+  - pymdownx.tabbed:  # content tabs
+      alternate_style: true
   - pymdownx.tilde:  # subscripts
 
 copyright: Copyright &copy; 2025 Gates Foundation. All rights reserved.
