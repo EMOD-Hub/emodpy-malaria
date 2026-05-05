@@ -40,4 +40,7 @@ tutorials/
     tutorial_7_pickup.py
 ```
 
-Each script is self-contained and includes instructions at the top for selecting your platform and any values you need to update before running.
+Tutorials 1–6 can be run independently — each script is self-contained. Tutorial 7 has two
+values that must be carried forward from earlier tutorials: `CALIBRATED_LOG10_X_LARVAL_HABITAT`
+from Tutorial 6 (a default is provided so you can run without it) and `BURNIN_EXP_ID` in the
+pickup script, which requires the burnin to have been run first.
