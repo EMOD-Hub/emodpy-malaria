@@ -54,8 +54,10 @@ visible in the output before and after interventions begin on day 365.
 
 ## Plotting with a baseline reference
 
-`plot_results()` uses `tutorial_3_results/` as the constant-transmission reference (plotted
-in red) so the seasonal signal stands out directly against the flat baseline:
+`plot_results()` looks for `tutorial_3_results/` from the previous tutorial and, if found,
+uses it as the constant-transmission reference (plotted in red) so the seasonal signal stands
+out directly against the flat baseline. If you are starting here without having run Tutorial
+3, the plot will still work — the reference line simply will not appear.
 
 ```python
 plot_inset_chart(dir_name=output_path,

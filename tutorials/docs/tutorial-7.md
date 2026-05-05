@@ -166,6 +166,11 @@ independent population states:
 
 ![Tutorial 7 burnin InsetChart](images/tutorial-7/Tutorial_7_-_Burnin_InsetChart.png)
 
+**Pickup InsetChart** — all pickup replicates overlaid; the population begins with realistic
+immunity and interventions start on day 365:
+
+![Tutorial 7 pickup InsetChart](images/tutorial-7/Tutorial_7_-_Pickup_InsetChart.png)
+
 **Pickup monthly PfPR** — under-5 PfPR across the pickup period; the red dashed line marks
 when interventions begin:
 

@@ -62,7 +62,7 @@ import manifest
 BURNIN_EXP_ID = "paste-your-burnin-experiment-id-here"
 
 # Must match the value used in tutorial_7_burnin.py
-CALIBRATED_LOG10_X_LARVAL_HABITAT = -99   # paste same value used in tutorial_7_burnin.py
+CALIBRATED_LOG10_X_LARVAL_HABITAT = -1.61  # must match the value used in tutorial_7_burnin.py
 
 serialize_years      = 50   # must match tutorial_7_burnin.py (used to compute .dtk filename)
 sim_years            = 3    # how many years to simulate after picking up from the burnin

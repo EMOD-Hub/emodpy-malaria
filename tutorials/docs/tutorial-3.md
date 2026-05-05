@@ -75,7 +75,8 @@ baseline. Each combination writes to its own output directory:
 
 `plot_results()` looks for `tutorial_2_results/` from the previous tutorial and, if found,
 uses it as the no-intervention reference (plotted in red) so the intervention impact is
-visible directly:
+visible directly. If you are starting here without having run Tutorial 2, the plot will still
+work — the reference line simply will not appear.
 
 ```python
 reference = None
