@@ -27,7 +27,7 @@ Tutorial 7 is split into two scripts:
 
 | Script | Purpose |
 |--------|---------|
-| `tutorial_7_burnin.py` | Simulate 50 years with no interventions and serialize the population |
+| `tutorial_7_burnin.py` | Simulate 50 years with no interventions and serialize the population — requires `CALIBRATED_LOG10_X_LARVAL_HABITAT` from Tutorial 6 |
 | `tutorial_7_pickup.py` | Load the serialized states and run intervention scenarios from them |
 
 ## Part 1: Burnin

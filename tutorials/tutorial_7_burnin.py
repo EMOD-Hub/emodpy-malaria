@@ -54,11 +54,11 @@ import emodpy.emod_task as emod_task
 import manifest
 
 # ============================================================
-# UPDATE - Set this to your best value from Tutorial 6.
-# Look at the right panel of your final calibration plot —
-# the green star marks the x value with the lowest RMSE.
+# UPDATE - Paste the log10 value from Tutorial 6.
+# Open tutorial_6_calibration/CalibManager.json and find
+# data["final_samples"]["log10_x_Temporary_Larval_Habitat"][0]
 # ============================================================
-CALIBRATED_X_LARVAL_HABITAT = 0.0245
+CALIBRATED_LOG10_X_LARVAL_HABITAT = -99   # paste value here
 
 serialize_years = 50   # years to simulate before serializing
 N_BURNIN_RUNS   = 3    # number of stochastic replicates to serialize
@@ -89,7 +89,7 @@ def set_param_fn(config):
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
     config.parameters.Simulation_Duration = serialize_years * 365
-    config.parameters.x_Temporary_Larval_Habitat = CALIBRATED_X_LARVAL_HABITAT
+    config.parameters.x_Temporary_Larval_Habitat = 10 ** CALIBRATED_LOG10_X_LARVAL_HABITAT
 
     seasonal_habitat = vector_config.configure_linear_spline(
         manifest,
