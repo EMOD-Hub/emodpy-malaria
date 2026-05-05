@@ -104,6 +104,13 @@ plot_mean(dir1=dirs[0],
 
 ## Example output
 
+The plot shows one bold mean line per coverage group (`cm_0.3`, `cm_0.6`, `cm_0.9`), with the
+three individual stochastic runs shown in a lighter color behind each mean. With higher
+coverage, there are fewer infected people (Infected channel) and each infection resolves more
+quickly (30-day Avg Infection Duration). Together, fewer infected people spending less time
+infected means mosquitoes have less opportunity to acquire infection from humans — resulting
+in fewer infectious vectors and a lower Daily EIR.
+
 ![Tutorial 5 InsetChart](images/tutorial-5/Tutorial_5_-_InsetChart.png)
 
 ## Next
