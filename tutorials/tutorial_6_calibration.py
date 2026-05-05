@@ -314,20 +314,26 @@ class TutorialCalibSite(CalibSite):
         return []
 
 
-def set_param_fn(config):
+def build_config(config):
     """
-    Configure simulation parameters. The seasonal habitat shape from Tutorial 4
-    is retained here. x_Temporary_Larval_Habitat (default 1.0) is overridden
+    Configure simulation parameters. This function is passed as a callback to
+    EMODTask and is called when building config.json.
+
+    The seasonal habitat shape from Tutorial 4 is retained here.
+    x_Temporary_Larval_Habitat (default 1.0) is overridden
     per simulation by map_sample_to_model_input during calibration.
     """
     import emodpy_malaria.malaria_config as malaria_config
     import emodpy_malaria.vector_config as vector_config
 
+    # applies the malaria team's standard parameter set
     config = malaria_config.set_team_defaults(config, manifest)
+
+    # adds pre-configured species parameters for three Anopheles vector species
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
-    config.parameters.Simulation_Duration = sim_years * 365
     config.parameters.Run_Number = 0
+    config.parameters.Simulation_Duration = sim_years * 365
 
     seasonal_habitat = vector_config.configure_linear_spline(
         manifest,
@@ -338,9 +344,11 @@ def set_param_fn(config):
             "Values": [3.0, 0.8, 1.25, 0.1, 2.7, 8.0, 4.0, 25.0, 6.8, 6.5, 2.6, 2.1, 3.0]
         }
     )
+
     for species in ["gambiae", "arabiensis", "funestus"]:
         malaria_config.set_species_param(config, species, "Habitats",
                                          seasonal_habitat, overwrite=True)
+
     return config
 
 
@@ -408,10 +416,16 @@ def run_calibration():
     5. Repeat for N_ITERATIONS iterations.
 
     Results are written to the 'tutorial_6_calibration' directory.
+
+    For the Container platform, max_job controls how many simulations run at the
+    same time — a new one starts as soon as a slot opens. For an experiment with
+    nine simulations and max_job=4, simulations run roughly four at a time: four,
+    then four, then one. 4 is a safe default on most laptops.
     """
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
+    # max_job limits concurrent simulations — see docstring above
     platform = Platform("Container", job_directory=manifest.job_dir,
                         docker_image=manifest.plat_image,
                         max_job=4)
@@ -436,16 +450,20 @@ def run_calibration():
         campaign_builder=build_camp,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
-        param_custom_cb=set_param_fn,
+        param_custom_cb=build_config,
         demog_builder=build_demog,
         plugin_report=None
     )
 
+    # set_sif() tells EMOD which container image to use to run the executable.
+    # For COMPS and SLURM, the image is a Singularity Image File (SIF);
+    # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path)           # no platform arg: loads AssetCollection from .id file
+        task.set_sif(manifest.comps_sif_path)
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
+    # Reports are added to the task after EMODTask is created.
     add_reporters(task)
 
     site = TutorialCalibSite()
@@ -480,9 +498,7 @@ def run_calibration():
 
 
 if __name__ == "__main__":
-    # Bootstrap downloads the EMOD executable and schema into the download/
-    # directory defined in manifest.py. You only need to run this once —
-    # after the files are downloaded, subsequent runs will skip this step.
+    # Extract the EMOD executable and schema needed to run simulations.
     import emod_malaria.bootstrap as dtk
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_calibration()

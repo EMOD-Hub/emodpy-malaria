@@ -70,21 +70,22 @@ def sweep_run_number(simulation, value):
     return {"Run_Number": value}
 
 
-def set_param_fn(config):
+def build_config(config):
     """
     Configure simulation parameters. This function is passed as a callback to
     EMODTask and is called when building config.json.
-
-    set_team_defaults() applies the malaria team's standard parameter set.
-    add_species() adds the mosquito vector species to the simulation.
     """
     import emodpy_malaria.malaria_config as malaria_config
 
+    # applies the malaria team's standard parameter set
     config = malaria_config.set_team_defaults(config, manifest)
+
+    # adds pre-configured species parameters for three Anopheles vector species
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
-    config.parameters.Simulation_Duration = sim_years * 365
     config.parameters.Run_Number = 0
+    config.parameters.Simulation_Duration = sim_years * 365
+
     return config
 
 
@@ -150,10 +151,9 @@ def add_reporters(task):
     time-series overview of the simulation.
 
     Enable_Demographics_Reporting produces DemographicsSummary.json and
-    BinnedReport.json. set_team_defaults() turns this off, so we re-enable
-    it here. DemographicsSummary tracks population and vital dynamics and has
-    the same channel report format as InsetChart, so it can be plotted the
-    same way.
+    BinnedReport.json. DemographicsSummary tracks population and vital dynamics
+    and has the same channel report format as InsetChart, so it can be plotted
+    the same way.
 
     MalariaSummaryReport provides population-level malaria metrics (PfPR,
     clinical incidence, etc.) grouped by age bin and reporting interval.
@@ -171,27 +171,6 @@ def add_reporters(task):
                                pretty_format=True)
 
 
-def handle_results(experiment, platform, suffix):
-    """
-    Save the experiment ID, download output files, and plot the results.
-    Called after experiment.run() completes.
-    """
-    if experiment.succeeded:
-        print(f"Experiment {experiment.id} succeeded.")
-        with open("experiment_id", "w") as f:
-            f.write(experiment.id)
-
-        output_path = f"tutorial_3_results{suffix}"
-
-        process_results(experiment, platform, output_path)
-        print(f"Downloaded results for experiment {experiment.id}.")
-
-        plot_results(output_path)
-        print(f"\nLook in '{output_path}' for the plots.")
-    else:
-        print(f"Experiment {experiment.id} failed.")
-
-
 def process_results(experiment, platform, output_path):
     """
     Download output files from each simulation into a local directory.
@@ -202,8 +181,7 @@ def process_results(experiment, platform, output_path):
     on a SLURM cluster — the files always end up in output_path.
 
     AnalyzeManager orchestrates the download across all simulations in the
-    experiment. Tutorial 4 covers writing custom analyzers that do more than
-    just download files.
+    experiment.
     """
     import shutil
     from idmtools.analysis.analyze_manager import AnalyzeManager
@@ -266,6 +244,27 @@ def plot_results(output_path):
                          output=output_path)
 
 
+def handle_results(experiment, platform, suffix):
+    """
+    Save the experiment ID, download output files, and plot the results.
+    Called after experiment.run() completes.
+    """
+    if experiment.succeeded:
+        print(f"Experiment {experiment.id} succeeded.")
+        with open("experiment_id", "w") as f:
+            f.write(experiment.id)
+
+        output_path = f"tutorial_3_results{suffix}"
+
+        process_results(experiment, platform, output_path)
+        print(f"Downloaded results for experiment {experiment.id}.")
+
+        plot_results(output_path)
+        print(f"\nLook in '{output_path}' for the plots.")
+    else:
+        print(f"Experiment {experiment.id} failed.")
+
+
 def run_experiment():
     """
     Set up the platform, create the EMODTask, build the experiment, and run it.
@@ -274,7 +273,8 @@ def run_experiment():
     # UPDATE - Select the correct platform for your environment
     # ============================================================
     platform = Platform("Container", job_directory=manifest.job_dir,
-                        docker_image=manifest.plat_image)
+                        docker_image=manifest.plat_image,
+                        max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
@@ -296,7 +296,7 @@ def run_experiment():
         campaign_builder=build_camp,
         schema_path=manifest.schema_file,
         ep4_custom_cb=None,
-        param_custom_cb=set_param_fn,
+        param_custom_cb=build_config,
         demog_builder=build_demog,
         plugin_report=None
     )
@@ -305,7 +305,7 @@ def run_experiment():
     # For COMPS and SLURM, the image is a Singularity Image File (SIF);
     # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path)           # no platform arg: loads AssetCollection from .id file
+        task.set_sif(manifest.comps_sif_path)
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
@@ -313,7 +313,7 @@ def run_experiment():
     add_reporters(task)
 
     # SimulationBuilder manages parameter sweeps across simulations.
-    # Here we run a single simulation (Run_Number=0). Tutorial 4 covers
+    # Here we run a single simulation (Run_Number=0). Tutorial 5 covers
     # how to sweep over multiple values to run parameter studies.
     builder = SimulationBuilder()
     builder.add_sweep_definition(sweep_run_number, [0])
@@ -332,9 +332,7 @@ def run_experiment():
 
 
 if __name__ == "__main__":
-    # Bootstrap downloads the EMOD executable and schema into the download/
-    # directory defined in manifest.py. You only need to run this once —
-    # after the files are downloaded, subsequent runs will skip this step.
+    # Extract the EMOD executable and schema needed to run simulations.
     import emod_malaria.bootstrap as dtk
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_experiment()
