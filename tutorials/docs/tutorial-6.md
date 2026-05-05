@@ -104,9 +104,50 @@ After each iteration a two-panel plot is saved to `tutorial_6_calibration/plots/
   iteration number (dark = early, bright = late). The green star marks the best sample across
   all iterations.
 
-There is no automated stopping criterion — stop when the fit looks close enough. Read the
-best `x` value from the green star on the right panel and copy it into
-`CALIBRATED_X_LARVAL_HABITAT` in Tutorial 7.
+There is no automated stopping criterion — stop when the fit looks close enough. When you
+are satisfied with the fit, open `tutorial_6_calibration/CalibManager.json` and find:
+
+```
+data["final_samples"]["log10_x_Temporary_Larval_Habitat"][0]
+```
+
+This is the log10 value that OptimTool converged on. Paste it directly into
+`CALIBRATED_LOG10_X_LARVAL_HABITAT` in `tutorial_7_burnin.py` — the script converts it to
+linear space automatically.
+
+## Experimenting with the settings
+
+Once the calibration runs, try adjusting these constants and re-running to see how they
+change the plots.
+
+**`N_SAMPLES`** controls how many simulations run per iteration. More samples give OptimTool
+more data to fit its linear regression, which means a more accurate gradient estimate and a
+better-directed step to the next center. In the right panel you will see more dots per
+iteration color. Fewer samples produce a noisier fit — the center may step in the wrong
+direction, and you will see more scatter in the right panel. For a single parameter like this
+one, 10 samples is usually sufficient. For calibrations with more parameters, a rough guide
+is at least 10 samples per parameter.
+
+**`N_ITERATIONS`** controls how many times OptimTool moves the center and resamples. More
+iterations allow more steps toward the optimum — in the right panel the dots should cluster
+progressively closer to the green star as iterations increase, and the grey cloud in the left
+panel should thicken while the current iteration's curves get closer to the reference. For
+this single-parameter calibration, convergence is usually visible within 3–5 iterations. More
+complex calibrations with several parameters need more.
+
+**`CALIBRATION_PARAMETERS`** — specifically `Guess`, `Min`, and `Max`:
+
+- **`Guess`** is where OptimTool centers its first hypersphere. A good guess means iteration 1
+  already explores the right region; a poor guess means the first iteration's PfPR curves in
+  the left panel will all be too high or too low relative to the reference. Try changing
+  `Guess` from `-2.0` to `-3.5` or `-1.5` and watch how iteration 1 looks different.
+
+- **`Min` and `Max`** define the search bounds in log10 space. The green star in the right
+  panel can never fall outside these bounds. If the bounds are too narrow and exclude the true
+  value, the calibration will converge to the boundary. If they are too wide, more iterations
+  are needed to explore the space. The current bounds `[-4, -1]` correspond to
+  `[0.0001, 0.1]` in linear space — a range that covers several orders of magnitude and is
+  wide enough for most single-site malaria calibrations.
 
 ## Calibration progress
 
