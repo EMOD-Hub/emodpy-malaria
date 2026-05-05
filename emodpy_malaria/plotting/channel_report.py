@@ -31,7 +31,7 @@ class ChannelReport:
         report["Header"]["Report_Type"        ] = "InsetChart"                          # noqa: E202
         report["Header"]["Report_Version"     ] = "3.2"                                 # noqa: E202
         report["Header"]["Start_Time"         ] = 0                                     # noqa: E202
-        report["Header"]["Simulation_Timestep"] = 365 / 12
+        report["Header"]["Simulation_Timestep"] = 1
         report["Header"]["Timesteps"          ] = 0                                     # noqa: E202
         report["Header"]["Channels"           ] = 0                                     # noqa: E202
 
