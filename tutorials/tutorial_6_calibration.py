@@ -24,7 +24,8 @@ idmtools-calibra provides:
 New in this tutorial (diff from tutorial_5_sweep.py):
   - sim_years                   increased from 3 to 5 (longer run reaches equilibrium
                                 without interventions before the reference period)
-  - CALIBRATION_PARAMETERS      x_Temporary_Larval_Habitat with bounds and initial guess
+  - CALIBRATION_PARAMETERS      log10_x_Temporary_Larval_Habitat — calibrated in log space
+                                so OptimTool explores orders of magnitude evenly
   - N_SAMPLES / N_ITERATIONS    calibration budget constants
   - constrain_sample()          clips sampled values to declared bounds
   - map_sample_to_model_input() sets x_Temporary_Larval_Habitat on each simulation
@@ -73,11 +74,11 @@ sim_years = 5
 
 CALIBRATION_PARAMETERS = [
     {
-        "Name": "x_Temporary_Larval_Habitat",
+        "Name":    "log10_x_Temporary_Larval_Habitat",
         "Dynamic": True,
-        "Guess": 0.01,
-        "Min":   0.0001,
-        "Max":  0.1,
+        "Guess":   -2.0,   # 10^-2 = 0.01
+        "Min":     -4.0,   # 10^-4 = 0.0001
+        "Max":     -1.0,   # 10^-1 = 0.1
     }
 ]
 
@@ -99,11 +100,13 @@ def map_sample_to_model_input(simulation, sample):
     """
     Apply one calibration parameter sample to a simulation before it runs.
 
-    x_Temporary_Larval_Habitat multiplies the larval habitat capacity for all
-    temporary habitat types. Values above 1 increase transmission; values below
-    1 reduce it. CalibManager calls this once per simulation.
+    The parameter is defined in log10 space so that OptimTool searches evenly
+    across orders of magnitude. This function converts back to linear space
+    before setting x_Temporary_Larval_Habitat. The actual linear value is
+    stored as a tag so the analyzer can read it back for plotting.
     """
-    value = float(sample["x_Temporary_Larval_Habitat"])
+    log_value = float(sample["log10_x_Temporary_Larval_Habitat"])
+    value = 10 ** log_value
     simulation.task.config.parameters.x_Temporary_Larval_Habitat = value
     return {"x_Temporary_Larval_Habitat": value}
 
