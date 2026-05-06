@@ -104,16 +104,7 @@ After each iteration a two-panel plot is saved to `tutorial_6_calibration/plots/
   iteration number (dark = early, bright = late). The green star marks the best sample across
   all iterations.
 
-There is no automated stopping criterion — stop when the fit looks close enough. When you
-are satisfied with the fit, open `tutorial_6_calibration/CalibManager.json` and find:
-
-```
-data["final_samples"]["log10_x_Temporary_Larval_Habitat"][0]
-```
-
-This is the log10 value that OptimTool converged on. Paste it directly into
-`CALIBRATED_LOG10_X_LARVAL_HABITAT` in `tutorial_7_burnin.py` — the script converts it to
-linear space automatically.
+There is no automated stopping criterion — stop when the fit looks close enough.
 
 ## Experimenting with the settings
 
@@ -148,6 +139,49 @@ complex calibrations with several parameters need more.
   are needed to explore the space. The current bounds `[-4, -1]` correspond to
   `[0.0001, 0.1]` in linear space — a range that covers several orders of magnitude and is
   wide enough for most single-site malaria calibrations.
+
+## Using the calibrated value in Tutorial 7
+
+When calibration finishes the script prints the best-fit log10 value to the terminal:
+
+```
+============================================================
+NEXT STEP: open tutorial_6_calibration/CalibManager.json, find
+  final_samples -> log10_x_Temporary_Larval_Habitat[0]
+  and paste that value into CALIBRATED_LOG10_X_LARVAL_HABITAT
+  in tutorial_7_burnin.py and tutorial_7_pickup.py
+============================================================
+```
+
+Open `tutorial_6_calibration/CalibManager.json` and look for:
+
+```json
+"final_samples": {
+    "log10_x_Temporary_Larval_Habitat": [
+        -1.5025470616699972
+    ]
+},
+```
+
+!!! note "If `final_samples` is not in CalibManager.json"
+    This key is only written when all iterations complete. If calibration was stopped early,
+    look at the right panel of the iteration plots — the green star marks the best sample
+    across all completed iterations. Use that `x_Temporary_Larval_Habitat` value, converting
+    it to log10 space (`log10(value)`), or pick the best row from any
+    `tutorial_6_calibration/iter*/pfpr_records.csv` by choosing the row with the lowest RMSE.
+
+Paste the value into **both** `tutorial_7_burnin.py` and `tutorial_7_pickup.py` —
+`CALIBRATED_LOG10_X_LARVAL_HABITAT` must be the same in both scripts:
+
+```python
+# ================================================================
+# UPDATE - Paste the log10 value from Tutorial 6.
+# ================================================================
+CALIBRATED_LOG10_X_LARVAL_HABITAT = -1.61  # replace with your value
+```
+
+Both scripts convert the log10 value to linear space automatically (`10 ** value`) —
+you do not need to do the conversion yourself.
 
 ## Calibration progress
 

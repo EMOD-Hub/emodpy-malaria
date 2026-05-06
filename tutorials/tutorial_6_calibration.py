@@ -495,6 +495,12 @@ def run_calibration():
     print(f"\nCalibration complete.")
     print(f"Results are in the 'tutorial_6_calibration' directory.")
     print(f"Iteration plots are in 'tutorial_6_calibration/plots'.")
+    print(f"\n{'=' * 60}")
+    print(f"NEXT STEP: open tutorial_6_calibration/CalibManager.json, find")
+    print(f"  final_samples -> log10_x_Temporary_Larval_Habitat[0]")
+    print(f"  and paste that value into CALIBRATED_LOG10_X_LARVAL_HABITAT")
+    print(f"  in tutorial_7_burnin.py and tutorial_7_pickup.py")
+    print(f"{'=' * 60}")
     print("\nTutorial 6 is done.")
 
 
