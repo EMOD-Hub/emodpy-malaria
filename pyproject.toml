@@ -21,6 +21,7 @@ dependencies = [
     "emodpy~=1.16",
     "chardet<6.0.0",
     "emod-malaria~=2.34.0",
+    "idmtools-calibra~=3.0",
 ]
 license = "MIT"
 classifiers = [
