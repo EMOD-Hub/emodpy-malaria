@@ -16,10 +16,14 @@ configuration parameter.
   * NonDiseaseDeaths (used by [parameter-campaign-event-communityhealthworkereventcoordinator](parameter-campaign-event-communityhealthworkereventcoordinator.md))
   * PropertyChange
   * InterventionDisqualified
+  * GaveBirth
+  * Pregnant
   * Emigrating
   * Immigrating
   * NewlySymptomatic
   * SymptomaticCleared
+  * TwelveWeeksPregnant
+  * FourteenWeeksPregnant
   * SixWeeksOld
   * EighteenMonthsOld
   * NodePropertyChange
@@ -30,4 +34,3 @@ configuration parameter.
   * ReceivedInfectiousBites
   * InfectionCleared
   * NewMalariaInfectionObject
-            

@@ -34,10 +34,16 @@ nav:
     - Installation: installation.md
     - Virtual environments: virtual_environments.md
   - Tutorials:
-    - Getting Started: md_tutorial/tutorial_getting_started.md
-    - md_tutorial/tutorial_starting_codespaces.md
-    - md_tutorial/tutorial_run_simple_example.md
-    - md_tutorial/tutorial_interpret_results.md
+    - Overview: tutorials/overview.md
+    - Setup: tutorials/setup.md
+    - Input concepts: tutorials/concepts.md
+    - Tutorial 1 - Intro: tutorials/tutorial-1.md
+    - Tutorial 2 - Reports: tutorials/tutorial-2.md
+    - Tutorial 3 - Interventions: tutorials/tutorial-3.md
+    - Tutorial 4 - Seasonality: tutorials/tutorial-4.md
+    - Tutorial 5 - Sweeps: tutorials/tutorial-5.md
+    - Tutorial 6 - Calibration: tutorials/tutorial-6.md
+    - Tutorial 7 - Burn-in: tutorials/tutorial-7.md
   - Software:
     - Overview: emod/software-overview.md
     - Inputs:
