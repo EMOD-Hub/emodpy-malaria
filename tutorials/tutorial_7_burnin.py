@@ -55,8 +55,6 @@ import manifest
 
 # ============================================================
 # UPDATE - Paste the log10 value from Tutorial 6.
-# Open tutorial_6_calibration/CalibManager.json and find
-# data["final_samples"]["log10_x_Temporary_Larval_Habitat"][0]
 # ============================================================
 CALIBRATED_LOG10_X_LARVAL_HABITAT = -1.61  # example from Tutorial 6; replace with your value
 
