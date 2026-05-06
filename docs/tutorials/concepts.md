@@ -3,7 +3,7 @@
 Every EMOD simulation is driven by a set of input files. Understanding what each file controls
 will help you follow the tutorial scripts.
 
-![EMOD architecture](../../docs/images/intro/architecture.png)
+![EMOD architecture](../figures/intro/architecture.png)
 
 ## Configuration file
 

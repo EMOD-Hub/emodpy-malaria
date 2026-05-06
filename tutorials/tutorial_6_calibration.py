@@ -222,7 +222,7 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
     simulation and score each sample by comparing to the reference data.
 
     MalariaSummaryReport JSON structure:
-      ["DataByTimeAndAgeBins"]["PfPR by Age Bin"][time_index][age_bin_index]
+      ``["DataByTimeAndAgeBins"]["PfPR by Age Bin"][time_index][age_bin_index]``
     With age_bins=[0.25, 5, 115], index 1 is the under-5 age group (0.25-5 years).
 
     Calibra maximizes the score, so reduce() returns 1/RMSE: higher is better.

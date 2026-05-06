@@ -6,7 +6,7 @@ The tutorials are Python scripts in the `tutorials/` directory of the emodpy-mal
 
     ### Prerequisites
 
-    - Python 3.11 or later — see [virtual environments](../../docs/emod/virtual_environments.md) for instructions
+    - Python 3.11 or later — see [virtual environments](../virtual_environments.md) for instructions
     - [Docker Desktop](https://www.docker.com/products/docker-desktop) — required by the Container platform used in the tutorials to run EMOD locally
 
     ### Steps
@@ -19,7 +19,7 @@ The tutorials are Python scripts in the `tutorials/` directory of the emodpy-mal
         ```
 
     2. Create and activate a virtual environment inside the `emodpy-malaria` directory — follow the
-       [virtual environments](../../docs/emod/virtual_environments.md) guide.
+       [virtual environments](../virtual_environments.md) guide.
 
     3. Install emodpy-malaria in editable mode:
 
