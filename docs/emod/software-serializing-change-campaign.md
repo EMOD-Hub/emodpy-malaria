@@ -16,7 +16,7 @@ The following overview is intended as high-level guidance for what changes can a
 ## Campaign events & event coordinators
 
 
-See [parameter-campaign-event-coordinators](parameter-campaign-event-coordinators.md) for more information on events and event
+See [Event coordinators](parameter-campaign-event-coordinators.md) for more information on events and event
 coordinators.
 
 ### Events
@@ -46,7 +46,7 @@ redistributed.
 
 
 Some individual-level interventions may be serialized. To see which campaign
-classes can be serialized see [parameter-campaign-individual-interventions](parameter-campaign-individual-interventions.md). If the intervention
+classes can be serialized see [Individual interventions](parameter-campaign-individual-interventions.md). If the intervention
 has been distributed to the person, then it will be serialized.  For example,
 if the person received a bednet before the file was serialized, then the
 serialized person will still have that bednet with however much its

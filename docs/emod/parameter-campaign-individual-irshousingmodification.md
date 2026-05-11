@@ -6,7 +6,7 @@ simulation. IRS is another key vector control tool in which insecticide is spray
 walls of a house so that mosquitoes resting on the walls after consuming a blood meal will die. IRS
 can also have a repellent effect. Because this class is distributed to individuals, it can target
 subgroups of the population. To target all individuals in a node, use
-[parameter-campaign-node-indoorspacespraying](parameter-campaign-node-indoorspacespraying.md). Do not use **IRSHousingModification** and
+[IndoorSpaceSpraying](parameter-campaign-node-indoorspacespraying.md). Do not use **IRSHousingModification** and
 **IndoorSpaceSpraying** together.
 
 

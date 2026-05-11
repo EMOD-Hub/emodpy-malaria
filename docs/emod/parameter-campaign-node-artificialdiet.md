@@ -4,7 +4,7 @@
 The **ArtificialDiet** intervention class is used to include feeding stations for vectors within a
 node in a simulation. This is a node-targeted intervention and takes effect at the broad village
 level rather than at the individual level. For individual-level effects, use
-[parameter-campaign-individual-humanhostseekingtrap](parameter-campaign-individual-humanhostseekingtrap.md) instead. An artificial diet
+[HumanHostSeekingTrap](parameter-campaign-individual-humanhostseekingtrap.md) instead. An artificial diet
 diverts some of the vectors seeking to blood feed that day, resulting in a two-fold benefit:
 
 1. The uninfected mosquitoes avoid biting infected humans some of the time, therefore

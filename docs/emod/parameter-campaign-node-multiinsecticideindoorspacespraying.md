@@ -3,7 +3,7 @@
 
 The **MultiInsecticideIndoorSpaceSpraying** intervention class is a node-level intervention that
 uses Indoor Residual Spraying (IRS) with multiple insecticides. It builds on the
-[parameter-campaign-node-indoorspacespraying](parameter-campaign-node-indoorspacespraying.md) class by allowing for multiple insecticides, each
+[IndoorSpaceSpraying](parameter-campaign-node-indoorspacespraying.md) class by allowing for multiple insecticides, each
 with their own specified killing efficacy.
 
 The effectiveness of the intervention is combined using the following equation:

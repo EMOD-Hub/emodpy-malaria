@@ -87,7 +87,7 @@ In this second example, the same 50% campaign coverage is repeated so that the s
 vaccine is used. However, 30% of the population is not accessible to any vaccine campaigns. Although
 the number of vaccine doses used is the same as the previous example, the overall coverage is much
 lower. Creating campaigns that target interventions  is described in more detail in
-[model-targeted-interventions](model-targeted-interventions.md).
+[Targeted interventions](model-targeted-interventions.md).
 
 | Number of campaigns | Covered percentage of total population | Covered percentage of groups with access | Covered percentage of groups without access |
 | --- | --- | --- | --- |

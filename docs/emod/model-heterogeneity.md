@@ -35,7 +35,7 @@ this range can be chosen by "clamping," or choosing the nearest value within the
 also used when necessary to determine the non-disease mortality rate, which varies by gender, age, and
 simulation year.
 
-For more information on the demographics file, see [software-demographics](software-demographics.md).
+For more information on the demographics file, see [Demographics file](software-demographics.md).
 
 ## Individual and node properties
 
@@ -55,7 +55,7 @@ In EMOD, transmission can only happen within a geographic node, and the populati
 mechanistic parameters that control aspects of the simulation such as parasite density, symptom
 severity, mosquito bites, and more. 
 
-See [parameter-configuration-infectivity](parameter-configuration-infectivity.md) parameters for more information on configuring transmission in
+See [Infectivity configuration](parameter-configuration-infectivity.md) parameters for more information on configuring transmission in
 this simulation type. Because HINT cannot be used with this simulation type, the parameter
 **Enable_Heterogeneous_Intranode_Transmission** in the configuration file must be set to 0
 (zero).

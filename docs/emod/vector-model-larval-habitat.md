@@ -30,7 +30,7 @@ The creation of the habitat model is described in further detail in the articles
 The following sections provide information regarding specific larval habitat types and how to
 configure these parameters in EMOD.
 
-See [parameter-configuration-larval](parameter-configuration-larval.md) and [parameter-configuration-vector-lifecycle](parameter-configuration-vector-lifecycle.md) parameters for more information on
+See [Larval configuration](parameter-configuration-larval.md) and [Vector lifecycle configuration](parameter-configuration-vector-lifecycle.md) parameters for more information on
 configuring the various vector species.
 
 

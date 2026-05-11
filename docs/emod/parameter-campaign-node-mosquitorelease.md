@@ -4,13 +4,13 @@
 The **MosquitoRelease** intervention class adds mosquito release vector control programs to the simulation.
 Mosquito release is a key vector control mechanism that allows the release of sterile males,
 genetically modified mosquitoes, or even Wolbachia- or Microsporidia-infected mosquitoes.
-See [parameter-configuration-vector-control](parameter-configuration-vector-control.md) configuration parameters for more information.
+See [Vector control configuration](parameter-configuration-vector-control.md) configuration parameters for more information.
 
 Released vectors are added to the population and participate in the vector life cycle and mating system the same day.
 
 You can also release already-mated females to guarantee specific genomes in the offspring by setting the **Released_Mate_Genome** parameter.
 
-See [vector-model-genetics](vector-model-genetics.md) for information on defining vector genomes, gene drivers, and insecticide resistance alleles. See [vector-model-microsporidia](vector-model-microsporidia.md) for information on microsporidia strains and their transmission dynamics within vector populations.
+See [Vector genetics](vector-model-genetics.md) for information on defining vector genomes, gene drivers, and insecticide resistance alleles. See [Microsporidia](vector-model-microsporidia.md) for information on microsporidia strains and their transmission dynamics within vector populations.
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.
     Minimum, maximum, or default values of "NA" indicate that those values are not applicable for

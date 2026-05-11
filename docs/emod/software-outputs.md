@@ -31,7 +31,7 @@ By default, the output report InsetChart.json is always produced, which contains
 time step values accumulated over the simulation in a variety of reporting channels, such as new infections, 
 prevalence, and recovered. EMOD provides several other
 built-in reports that you can produce if you enable them in the *configuration file*
-with the [parameter-configuration-output](parameter-configuration-output.md) parameters. Reports are generally in JSON or CSV format.
+with the [Output configuration](parameter-configuration-output.md) parameters. Reports are generally in JSON or CSV format.
 
 In order to interpret the output of EMOD simulations, you will find it useful to parse the output
 reports into an analyzable structure. For example, you can use a Python or R script to create graphs

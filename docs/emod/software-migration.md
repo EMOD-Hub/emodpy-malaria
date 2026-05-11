@@ -22,10 +22,10 @@ parameter to enable each type of migration you want to include in the simulation
 additional parameters in the configuration file you can use to scale or otherwise modify the data
 included in the migration files. The migration rate can be differentially set by age and/or gender.
 Additionally, a modifier can be applied for the migration rates to follow a distribution curve in
-the population. For more information, see [parameter-configuration-migration](parameter-configuration-migration.md) parameters.
+the population. For more information, see [Migration configuration](parameter-configuration-migration.md) parameters.
 
 Migration data is contained in a set of two files, a metadata file with header information and a
-binary data file. Both files are required. To create these files see, [software-migration-creation](software-migration-creation.md). 
+binary data file. Both files are required. To create these files see, [Migration creation](software-migration-creation.md). 
 
 ## JSON metadata file
 

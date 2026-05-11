@@ -3,7 +3,7 @@
 
 
 The **DelayEventCoordinator** coordinator class insert delays into coordinator event chains. This campaign
-event is typically used with [parameter-campaign-event-broadcastcoordinatorevent](parameter-campaign-event-broadcastcoordinatorevent.md) to broadcast events after the delays.
+event is typically used with [BroadcastCoordinatorEvent](parameter-campaign-event-broadcastcoordinatorevent.md) to broadcast events after the delays.
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

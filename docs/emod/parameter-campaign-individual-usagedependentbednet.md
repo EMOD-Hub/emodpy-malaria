@@ -1,7 +1,7 @@
 # UsageDependentBednet
 
 
-The **UsageDependentBednet** intervention class is similar to [parameter-campaign-individual-simplebednet](parameter-campaign-individual-simplebednet.md),
+The **UsageDependentBednet** intervention class is similar to [SimpleBednet](parameter-campaign-individual-simplebednet.md),
 as it distributes insecticide-treated nets to individuals in the simulation. However,
 bednet ownership and bednet usage are distinct in this intervention. As in **SimpleBednet**, net
 ownership is configured through the demographic coverage, and the repelling, blocking, and killing rates of

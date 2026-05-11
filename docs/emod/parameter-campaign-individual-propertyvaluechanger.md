@@ -8,7 +8,7 @@ state in the health care cascade (InterventionStatus) to another, though it can 
 individual property. Individual property values are user-defined in the demographics file (see
 [NodeProperties and IndividualProperties](parameter-demographics.md#nodeproperties-and-individualproperties) for more information). Note that the HINT feature
 does not need to be enabled to use this intervention. To instead change node properties, use
-[parameter-campaign-node-nodepropertyvaluechanger](parameter-campaign-node-nodepropertyvaluechanger.md).
+[NodePropertyValueChanger](parameter-campaign-node-nodepropertyvaluechanger.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

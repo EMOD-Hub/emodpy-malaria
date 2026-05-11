@@ -1,7 +1,7 @@
 # SimpleBoosterVaccine
 
 
-The **SimpleBoosterVaccine** intervention class is derived from [parameter-campaign-individual-simplevaccine](parameter-campaign-individual-simplevaccine.md)
+The **SimpleBoosterVaccine** intervention class is derived from [SimpleVaccine](parameter-campaign-individual-simplevaccine.md)
 and preserves many of the same parameters. The behavior is much like **SimpleVaccine**, except that upon distribution
 and successful take, the vaccine's effect is determined by the recipient's immune state. If the
 recipient’s immunity modifier in the corresponding channel (acquisition, transmission, or mortality) is

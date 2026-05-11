@@ -51,7 +51,7 @@ adult from immature and infected to infectious, mating status and *Wolbachia* in
 age. An *oviposition* timer to enforce a fixed feeding cycle may be included as well. If
 mosquitoes are sampled and a subset used to represent the local population, each sampled mosquito
 will have an associated sampling weight as well. To use this model, set the **Vector_Sampling_Type**
-parameter to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS. See [parameter-configuration-sampling](parameter-configuration-sampling.md) parameters for more
+parameter to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS. See [Sampling configuration](parameter-configuration-sampling.md) parameters for more
 information.
 
 ### Cohort model
@@ -63,7 +63,7 @@ dynamically allocates a cohort for every distinct state, and the cohort maintain
 mosquitoes in that state. For the cohort simulation with explicit ages, in order
 to allow modeling of senescence, mosquito age is part of the state definition, and many more cohorts
 are required to represent the population. To use this model, set the **Vector_Sampling_Type**
-parameter to VECTOR_COMPARTMENTS_NUMBER or VECTOR_COMPARTMENTS_PERCENT. See [parameter-configuration-sampling](parameter-configuration-sampling.md)
+parameter to VECTOR_COMPARTMENTS_NUMBER or VECTOR_COMPARTMENTS_PERCENT. See [Sampling configuration](parameter-configuration-sampling.md)
 parameters for more information.
 
 
@@ -78,7 +78,7 @@ level, village level, county level, national level, or other desired geographic 
 be enabled between nodes (for both humans and mosquitoes), such that EMOD can most accurately
 represent the dynamics of the location. By varying spatial-scale resolution, relevant factors for
 transmission dynamics can be more clearly elucidated. For information on configuring nodes and
-migration parameters, see [parameter-configuration-migration](parameter-configuration-migration.md).
+migration parameters, see [Migration configuration](parameter-configuration-migration.md).
 
 The following visualization shows an example of a gridded representation of malaria transmission on
 the island of Madagascar.

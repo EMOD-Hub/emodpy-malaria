@@ -3,8 +3,8 @@
 
 The **BroadcastEvent** intervention class is an individual-level class that immediately broadcasts
 the event trigger you specify. This campaign event is typically used with other classes that monitor
-for a broadcast event, such as [parameter-campaign-node-nodelevelhealthtriggerediv](parameter-campaign-node-nodelevelhealthtriggerediv.md) or
-[parameter-campaign-event-communityhealthworkereventcoordinator](parameter-campaign-event-communityhealthworkereventcoordinator.md).
+for a broadcast event, such as [NodeLevelHealthTriggeredIV](parameter-campaign-node-nodelevelhealthtriggerediv.md) or
+[CommunityHealthWorkerEventCoordinator](parameter-campaign-event-communityhealthworkereventcoordinator.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

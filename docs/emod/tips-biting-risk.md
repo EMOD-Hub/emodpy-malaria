@@ -38,7 +38,7 @@ below, along with links to the main documentation pages for each type.
 
 The relative biting risk among people of different ages is specified in the configuration file with
 the **Age_Dependent_Biting_Risk_Type** parameter. There are three options for the type of distribution
-used (‘OFF’, ‘LINEAR’, or ‘SURFACE_AREA_DEPENDENT’, which are explained in [parameter-configuration-infectivity](parameter-configuration-infectivity.md).
+used (‘OFF’, ‘LINEAR’, or ‘SURFACE_AREA_DEPENDENT’, which are explained in [Infectivity configuration](parameter-configuration-infectivity.md).
 
 ### Who does it apply to?
 
@@ -113,7 +113,7 @@ you want to include a more realistic distribution of risks across all individual
 
 The biting risk intervention campaign is a campaign that changes the biting risk of a specified
 group of people at a particular point in time in the simulation. Details on setting up biting risk
-intervention campaigns can be found in [parameter-campaign-individual-bitingrisk](parameter-campaign-individual-bitingrisk.md).
+intervention campaigns can be found in [BitingRisk](parameter-campaign-individual-bitingrisk.md).
 
 
 ### Who does it apply to?

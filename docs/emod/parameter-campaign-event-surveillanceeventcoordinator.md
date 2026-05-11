@@ -3,7 +3,7 @@
 
 
 The **SurveillanceEventCoordinator** coordinator class listens for and detects events happening and then responds with broadcasted events when a threshold has been met. This campaign
-event is typically used with other classes, such as [parameter-campaign-event-broadcastcoordinatorevent](parameter-campaign-event-broadcastcoordinatorevent.md), [parameter-campaign-event-triggeredeventcoordinator](parameter-campaign-event-triggeredeventcoordinator.md), and [parameter-campaign-event-delayeventcoordinator](parameter-campaign-event-delayeventcoordinator.md).
+event is typically used with other classes, such as [BroadcastCoordinatorEvent](parameter-campaign-event-broadcastcoordinatorevent.md), [TriggeredEventCoordinator](parameter-campaign-event-triggeredeventcoordinator.md), and [DelayEventCoordinator](parameter-campaign-event-delayeventcoordinator.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

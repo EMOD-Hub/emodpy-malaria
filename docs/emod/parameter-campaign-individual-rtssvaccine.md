@@ -3,13 +3,13 @@
 
 The **RTSSVaccine** intervention class protects individuals against infection acquisition by
 directly boosting the *circumsporozoite protein (CSP)* antibody concentration. This contrasts
-with the [parameter-campaign-individual-simplevaccine](parameter-campaign-individual-simplevaccine.md) intervention, which is used to modify
+with the [SimpleVaccine](parameter-campaign-individual-simplevaccine.md) intervention, which is used to modify
 the probability of acquisition or transmission.
 
 The CSP antibody reduces the probability that sporozoites survive to infect the liver/hepatocytes. A
 higher **Boosted_Antibody_Concentration** means the person will be less likely to have sporozoites
 survive and infect the hepatocytes. Without the vaccine, CSP does not do anything. The following
-[parameter-configuration-immunity](parameter-configuration-immunity.md) parameters impact CSP and its sporozoite killing ability:
+[Immunity configuration](parameter-configuration-immunity.md) parameters impact CSP and its sporozoite killing ability:
 
 *  **Antibody_CSP_Killing_Threshold**
 *  **Antibody_CSP_Killing_Inverse_Width**

@@ -2,7 +2,7 @@
 
 
 The *vector model* can be run in one of two modes: as a *cohort model* or as an
-*individual mosquito model* (see [vector-model-overview](vector-model-overview.md) for more information). The
+*individual mosquito model* (see [Vector model overview](vector-model-overview.md) for more information). The
 vector model inherits the same human-infection model structure from the generic simulation type:
 uninfected, latent incubation, infectious, multiple immune variables, and super-infection. However,
 the transmission of infections is not between individual humans, but rather via the human-to-vector
@@ -133,7 +133,7 @@ vertical and horizontal microsporidia transmission through the mosquito populati
 evaluation of symbiont-based biocontrol strategies alongside conventional vector control
 interventions such as IRS and ITNs.
 
-See [vector-model-microsporidia](vector-model-microsporidia.md) for full details on transmission mechanisms, phenotypic
+See [Microsporidia](vector-model-microsporidia.md) for full details on transmission mechanisms, phenotypic
 effects, configuration parameters, and associated interventions.
 
 

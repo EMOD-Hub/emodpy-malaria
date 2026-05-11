@@ -10,11 +10,11 @@ Individuals in a simulation can receive antimalarial drugs as treatment for clin
 malaria or during a *mass drug administration (MDA)* campaign. The following information
 explains how to configure antimalarial drug parameters in a configuration file. For a complete list
 of configuration parameters that are used in the malaria model, see the
-[parameter-configuration](parameter-configuration.md).
+[Configuration parameters](parameter-configuration.md).
 
 To specify where, when, and to whom the antimalarial drugs are administered, you must use an
 **AntiMalarialDrug**, **AdherentDrug**, or **MultiComboPackDrug** intervention in the campaign file.
-See [parameter-campaign](parameter-campaign.md) for more information.
+See [Campaign parameters](parameter-campaign.md) for more information.
 
 
 

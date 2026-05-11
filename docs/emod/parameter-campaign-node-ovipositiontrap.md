@@ -5,7 +5,7 @@ The **OvipositionTrap** intervention class utilizes an oviposition trap to colle
 is based upon imposing a mortality to egg hatching from oviposition. This is a node-targeted
 intervention and affects all mosquitoes living and feeding at a given node. This trap requires the
 use of individual mosquitoes in the simulation configuration file (**Vector_Sampling_Type** must be
-set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS), rather than the cohort model. See [parameter-configuration-sampling](parameter-configuration-sampling.md)
+set to TRACK_ALL_VECTORS or SAMPLE_IND_VECTORS), rather than the cohort model. See [Sampling configuration](parameter-configuration-sampling.md)
 configuration parameters for more information.
 
 Notes and tips for this intervention:

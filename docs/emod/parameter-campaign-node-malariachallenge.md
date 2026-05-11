@@ -2,7 +2,7 @@
 
 
 The **MalariaChallenge** intervention class is a node-level intervention similar to
-[parameter-campaign-node-outbreak](parameter-campaign-node-outbreak.md). However, instead of distributing infections, it distributes
+[Outbreak](parameter-campaign-node-outbreak.md). However, instead of distributing infections, it distributes
 malaria challenges by either tracking numbers of sporozoites or infectious mosquito bites.
 
 Whether each individual actually becomes infected from the challenge is modified by individual-level
@@ -18,7 +18,7 @@ factors. Each person's probability of infection is scaled by a combined relative
 Vector control interventions will not affect the infections delivered by this intervention.
 
 If vectors are  included when this class is implemented, this will add the infections specified for that month or day in
-addition to the infections provided by the vectors. Note that the **Daily EIR channel** in the [software-report-inset-chart](software-report-inset-chart.md) will not be impacted by this intervention.
+addition to the infections provided by the vectors. Note that the **Daily EIR channel** in the [InsetChart report](software-report-inset-chart.md) will not be impacted by this intervention.
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

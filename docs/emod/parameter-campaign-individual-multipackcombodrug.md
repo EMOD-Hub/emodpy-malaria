@@ -3,7 +3,7 @@
 
 The **MultiPackComboDrug** intervention class is an individual-level intervention that explicitly
 models which doses of anti-malarial pills are taken when. This intervention is similar to the
-[parameter-campaign-individual-adherentdrug](parameter-campaign-individual-adherentdrug.md) class, but allows modeling pill packs that involve
+[AdherentDrug](parameter-campaign-individual-adherentdrug.md) class, but allows modeling pill packs that involve
 multiple drugs with different dosing per drug.
 
 

@@ -2,7 +2,7 @@
 
 
 The **MultiInsecticideUsageDependentBednet** intervention class is an individual-level intervention
-that is similar to the [parameter-campaign-individual-usagedependentbednet](parameter-campaign-individual-usagedependentbednet.md)
+that is similar to the [UsageDependentBednet](parameter-campaign-individual-usagedependentbednet.md)
 class but allows the addition of multiple insecticides.
 
 The effectiveness of the intervention is combined using the following equation:

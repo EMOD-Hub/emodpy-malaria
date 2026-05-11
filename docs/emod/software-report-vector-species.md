@@ -2,7 +2,7 @@
 
 
 The vector species output report (VectorSpeciesReport.json) is a JSON-formatted file where the
-channel data has been sorted into bins. It is identical to the [software-report-binned](software-report-binned.md), with
+channel data has been sorted into bins. It is identical to the [BinnedReport](software-report-binned.md), with
 the exception that the bins are based on vector species, and provides the average number of adult
 vectors per node for each species. The vector species report is generated for all malaria or vector
 contain values in the **Vector_Species_Params** configuration parameter. For example, if

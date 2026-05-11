@@ -32,11 +32,11 @@ by subsequent simulations to decrease run time.
     based on the information in the serialized population file. Check your campaign file for repeating
     interventions and reconfigure them as needed for the period after burn-in.
 
-    Not every type of intervention can be serialized. Please see [parameter-campaign-individual-interventions](parameter-campaign-individual-interventions.md)
-    and [parameter-campaign-node-interventions](parameter-campaign-node-interventions.md) for information on which interventions can
+    Not every type of intervention can be serialized. Please see [Individual interventions](parameter-campaign-individual-interventions.md)
+    and [Node interventions](parameter-campaign-node-interventions.md) for information on which interventions can
     be serialized.
 
-See [parameter-configuration-setup](parameter-configuration-setup.md) parameters for more information on configuration. See
+See [Setup configuration](parameter-configuration-setup.md) parameters for more information on configuration. See
 [software-serializing-pops](software-serializing-pops.md) for more information on utilizing serialized populations in your
 simulations.
 

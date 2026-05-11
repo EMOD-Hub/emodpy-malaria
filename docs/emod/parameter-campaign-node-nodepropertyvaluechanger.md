@@ -6,7 +6,7 @@ also define a duration in days before the node property reverts back to its orig
 probability that a node will change its node property to the target value, and the number of days
 over which nodes will attempt to change their individual properties to the target value. This
 node-level intervention functions in a similar manner as the individual-level intervention,
-[parameter-campaign-individual-propertyvaluechanger](parameter-campaign-individual-propertyvaluechanger.md).
+[PropertyValueChanger](parameter-campaign-individual-propertyvaluechanger.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

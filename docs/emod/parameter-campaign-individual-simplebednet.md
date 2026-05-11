@@ -14,8 +14,8 @@ usage effect is multiplied by the repelling, blocking, and killing effects to de
 net on any given day.
 
 **SimpleBednet** can model the bednet usage of net owners by reducing the daily efficacy. To model
-individuals using nets intermittently, see [parameter-campaign-individual-usagedependentbednet](parameter-campaign-individual-usagedependentbednet.md).
-To include multiple insecticides, see [parameter-campaign-individual-multiinsecticideusagedependentbednet](parameter-campaign-individual-multiinsecticideusagedependentbednet.md).
+individuals using nets intermittently, see [UsageDependentBednet](parameter-campaign-individual-usagedependentbednet.md).
+To include multiple insecticides, see [MultiInsecticideUsageDependentBednet](parameter-campaign-individual-multiinsecticideusagedependentbednet.md).
 
 
 At a glance:

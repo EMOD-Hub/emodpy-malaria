@@ -2,7 +2,7 @@
 
 
 The **MultiInsecticideIRSHousingModification** intervention class is an individual-level intervention
-that builds on the [parameter-campaign-individual-irshousingmodification](parameter-campaign-individual-irshousingmodification.md) class by enabling
+that builds on the [IRSHousingModification](parameter-campaign-individual-irshousingmodification.md) class by enabling
 the use of multiple insecticides. The killing efficacy of each insecticide can be specified. This class
 uses Indoor Residual Spraying (IRS), where insecticide is sprayed on the interior walls of houses such that
 mosquitoes resting on the walls after consuming blood meals will die.

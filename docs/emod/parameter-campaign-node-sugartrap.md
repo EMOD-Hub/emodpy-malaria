@@ -12,7 +12,7 @@ The impact of sugar-baited traps will depend on the sugar-feeding behavior speci
 configuration file via **Vector_Sugar_Feeding_Frequency**, whether there is no sugar feeding, sugar
 feeding occurs once at emergence, sugar feeding occurs once per blood meal, or sugar feeding occurs
 every day. Note that if it is set to VECTOR_SUGAR_FEEDING_NONE, this intervention will have no
-effect. See [parameter-configuration-vector-control](parameter-configuration-vector-control.md) configuration parameters for more
+effect. See [Vector control configuration](parameter-configuration-vector-control.md) configuration parameters for more
 information.
 
 

@@ -19,7 +19,7 @@ factors. Each person's probability of infection is scaled by a combined relative
 Vector control interventions will not affect the EIR delivered by this intervention.
 
 If vectors are  included when this class is implemented, this will add the EIR specified for that month or day in
-addition to the EIR provided by the vectors. Note that the **Daily EIR channel** in the [software-report-inset-chart](software-report-inset-chart.md)
+addition to the EIR provided by the vectors. Note that the **Daily EIR channel** in the [InsetChart report](software-report-inset-chart.md)
 will not be impacted by this intervention.
 
 When distributing **InputEIR** to a node that already has an existing **InputEIR** intervention, the existing

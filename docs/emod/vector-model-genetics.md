@@ -13,7 +13,7 @@ the inheritance and phenotypic effects of genetic loci in mosquito populations. 
 carries a diploid genome composed of up to 9 genetic loci with up to 8 alleles per locus. The
 system supports Mendelian inheritance, germline mutations, insecticide resistance, gene drives,
 sex-ratio distortion, and releases of genetically modified mosquitoes — all operating within the
-standard vector lifecycle described in [vector-model-transmission](vector-model-transmission.md). This allows researchers
+standard vector lifecycle described in [Vector transmission](vector-model-transmission.md). This allows researchers
 to investigate the spread of insecticide resistance, evaluate gene drive deployment strategies,
 and explore the interaction between vector genetics and malaria transmission in a spatially and
 temporally explicit setting.
@@ -242,18 +242,18 @@ together.
 
 The following traits can be modified by genotype:
 
-```
-INFECTED_BY_HUMAN, 1.0, "Multiplier on the probability that a mosquito becomes infected when feeding on an infectious human. Applied to the species-level ``Acquire_Modifier`` parameter."
-FECUNDITY, 1.0, "Multiplier on the number of eggs laid per oviposition. Applied to the ``Egg_Batch_Size`` parameter. This impacts egg count before egg crowding takes effect."
-FEMALE_EGG_RATIO, 1.0, "Controls the sex ratio of offspring. A value of 1.0 produces 50/50 male/female. Values above 1.0 bias toward female; values below 1.0 bias toward male. At 2.0 all offspring are female; at 0.0 all are male. Applied during fertilization after egg crowding."
-STERILITY, 1.0, "Determines if eggs are viable based on the parents' genomes. A value of 0.0 means the vector is sterile — if either parent is sterile, the eggs are not viable and are not added to the egg queue. Any nonzero value means fertile. Applied after egg crowding. Sterility does not impact mating. If the female mates with a sterile male, then she will feed as normal but produce no eggs."
-TRANSMISSION_TO_HUMAN, 1.0, "Multiplier on the probability that sporozoites in the salivary gland successfully infect a human during a bite. Applied to the species-level ``Transmission_Rate`` parameter."
-ADJUST_FERTILE_EGGS, 1.0, "Multiplier on the probability of each genome's eggs being fertile. This is the last step in the fertilization process before actual numbers of eggs are assigned. A value of 0.0 means no eggs are produced; 1.0 means no change; values above 1.0 increase egg production for that genome."
-MORTALITY, 1.0, "Multiplier on the daily mortality rate, where the base rate is ``1/Adult_Life_Expectancy`` (or ``1/Male_Life_Expectancy`` for males). Values above 1.0 increase mortality (shorter lifespan); values below 1.0 decrease it."
-INFECTED_PROGRESS, 1.0, "Multiplier on the daily progression from infected to infectious (oocyst-to-sporozoite conversion rate)."
-OOCYST_PROGRESSION, 1.0, "Additional multiplier on temperature-dependent oocyst maturation. Only applies when the vector carries a parasite matching a specified barcode (requires Full Parasite Genetics). This is an additional multiplier on top of INFECTED_PROGRESS."
-SPOROZOITE_MORTALITY, 1.0, "Multiplier on sporozoite death rate within the vector. Only applies when the vector carries a parasite matching a specified barcode (requires Full Parasite Genetics)."
-```
+| Trait | Default | Description |
+| --- | --- | --- |
+| `INFECTED_BY_HUMAN` | 1.0 | Multiplier on the probability that a mosquito becomes infected when feeding on an infectious human. Applied to the species-level `Acquire_Modifier` parameter. |
+| `FECUNDITY` | 1.0 | Multiplier on the number of eggs laid per oviposition. Applied to the `Egg_Batch_Size` parameter. This impacts egg count before egg crowding takes effect. |
+| `FEMALE_EGG_RATIO` | 1.0 | Controls the sex ratio of offspring. A value of 1.0 produces 50/50 male/female. Values above 1.0 bias toward female; values below 1.0 bias toward male. At 2.0 all offspring are female; at 0.0 all are male. Applied during fertilization after egg crowding. |
+| `STERILITY` | 1.0 | Determines if eggs are viable based on the parents' genomes. A value of 0.0 means the vector is sterile — if either parent is sterile, the eggs are not viable and are not added to the egg queue. Any nonzero value means fertile. Applied after egg crowding. Sterility does not impact mating. If the female mates with a sterile male, then she will feed as normal but produce no eggs. |
+| `TRANSMISSION_TO_HUMAN` | 1.0 | Multiplier on the probability that sporozoites in the salivary gland successfully infect a human during a bite. Applied to the species-level `Transmission_Rate` parameter. |
+| `ADJUST_FERTILE_EGGS` | 1.0 | Multiplier on the probability of each genome's eggs being fertile. This is the last step in the fertilization process before actual numbers of eggs are assigned. A value of 0.0 means no eggs are produced; 1.0 means no change; values above 1.0 increase egg production for that genome. |
+| `MORTALITY` | 1.0 | Multiplier on the daily mortality rate, where the base rate is `1/Adult_Life_Expectancy` (or `1/Male_Life_Expectancy` for males). Values above 1.0 increase mortality (shorter lifespan); values below 1.0 decrease it. |
+| `INFECTED_PROGRESS` | 1.0 | Multiplier on the daily progression from infected to infectious (oocyst-to-sporozoite conversion rate). |
+| `OOCYST_PROGRESSION` | 1.0 | Additional multiplier on temperature-dependent oocyst maturation. Only applies when the vector carries a parasite matching a specified barcode (requires Full Parasite Genetics). This is an additional multiplier on top of `INFECTED_PROGRESS`. |
+| `SPOROZOITE_MORTALITY` | 1.0 | Multiplier on sporozoite death rate within the vector. Only applies when the vector carries a parasite matching a specified barcode (requires Full Parasite Genetics). |
 
 
 ## Insecticide resistance
@@ -263,7 +263,7 @@ Insecticide resistance is modeled through the interaction of vector genotype wit
 properties. Each insecticide in the simulation defines resistance profiles that specify which
 allele combinations confer resistance and how much protection they provide.
 
-Please see [vector-model-insecticide-resistance](vector-model-insecticide-resistance.md) for more information on configuring insecticide resistance.
+Please see [Insecticide resistance](vector-model-insecticide-resistance.md) for more information on configuring insecticide resistance.
 
 
 ## Gene drives
@@ -277,7 +277,7 @@ Note that gene drive is applied before gamete creation. A single parent genome i
 into a set of weighted genome-probability pairs by the drive, and Mendelian segregation then
 operates on those possibilities.
 
-Please see [vector-model-gene-drives](vector-model-gene-drives.md) for more information on configuring gene drives.
+Please see [Gene drives](vector-model-gene-drives.md) for more information on configuring gene drives.
 
 
 
@@ -293,7 +293,7 @@ Note that maternal deposition uses the mother's genome to modify both the female
 sets. The Cas9-driven allele changes originate from the mother regardless of which set of gametes
 is being modified.
 
-Please see [vector-model-maternal-deposition](vector-model-maternal-deposition.md) for full details on how maternal deposition
+Please see [Maternal deposition](vector-model-maternal-deposition.md) for full details on how maternal deposition
 works, configuration parameters, and validation rules.
 
 
@@ -348,12 +348,12 @@ chromosome pair).
 When gene drive alleles are released, the drive mechanics take effect during subsequent mating
 and fertilization events, propagating the driven alleles through the population.
 
-See [parameter-campaign-node-mosquitorelease](parameter-campaign-node-mosquitorelease.md) for more information on configuring mosquito releases.
+See [MosquitoRelease](parameter-campaign-node-mosquitorelease.md) for more information on configuring mosquito releases.
 
 ## Output
 
 
-[software-report-vector-genetics](software-report-vector-genetics.md) (`ReportVectorGenetics`) is the primary report for
+[ReportVectorGenetics](software-report-vector-genetics.md) (`ReportVectorGenetics`) is the primary report for
 tracking vector genetics. It produces a CSV file with vector counts stratified by genome, allele,
 or allele frequency at each time step, node, and vector state (eggs, larvae, immature, adult,
 infected, infectious, male).

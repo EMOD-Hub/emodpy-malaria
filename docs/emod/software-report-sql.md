@@ -7,7 +7,7 @@ relational database (see [DB Browser for SQLite][sqlite-browser] for more
 information). Use the configuration parameters to manage the size of the database.
 
 `SqlReportMalaria` extends this report with malaria-specific health and infection data. See
-[software-report-sql-malaria](software-report-sql-malaria.md).
+[ReportSQLMalaria](software-report-sql-malaria.md).
 
 
 ## Configuration

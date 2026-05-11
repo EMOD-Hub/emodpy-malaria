@@ -11,7 +11,7 @@ individuals with interventions. For example, you might want to put individuals i
 bins and then target interventions to individuals in a particular age bin. Another common use is to
 configure treatment coverage to be higher for nodes that are easy to access and lower for nodes that
 are difficult to access. For more information on creating campaign interventions, see
-[model-campaign](model-campaign.md).
+[Campaign](model-campaign.md).
 
 The following sections describe how to define individual properties and assign different values to
 individuals in a simulation. However, with the exception of setting up age bins, you can use the
@@ -23,7 +23,7 @@ parameters, see [NodeProperties and IndividualProperties](parameter-demographics
 
 
 Assigning property values to individuals uses the **IndividualProperties** parameter in the
-demographics file. See [parameter-demographics](parameter-demographics.md) for a list of supported properties. The values
+demographics file. See [Demographics parameters](parameter-demographics.md) for a list of supported properties. The values
 you assign to properties are user-defined and can be applied to individuals in all nodes or only in
 particular nodes in a simulation.
 

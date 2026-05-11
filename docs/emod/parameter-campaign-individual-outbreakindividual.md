@@ -3,10 +3,10 @@
 
 The **OutbreakIndividual** intervention class introduces contagious diseases that are compatible
 with the simulation type to existing individuals using the individual targeted features configured
-in the appropriate event coordinator. To instead add new infection individuals, use [parameter-campaign-node-outbreak](parameter-campaign-node-outbreak.md).
+in the appropriate event coordinator. To instead add new infection individuals, use [Outbreak](parameter-campaign-node-outbreak.md).
 
 Note, when using **Malaria_Model**: MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS, do not use
-this intervention class. Instead, use [parameter-campaign-individual-outbreakindividualmalariagenetics](parameter-campaign-individual-outbreakindividualmalariagenetics.md).
+this intervention class. Instead, use [OutbreakIndividualMalariaGenetics](parameter-campaign-individual-outbreakindividualmalariagenetics.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

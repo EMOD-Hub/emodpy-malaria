@@ -90,7 +90,7 @@ roots      = [      5,          5,       5,       6,   6,       5,          5,  
 
 
 FPG builds on the existing EMOD malaria within-host model, which is described in
-[malaria-model-infection-immunity](malaria-model-infection-immunity.md). Each infection progresses through hepatocyte, asexual, and
+[Infection and immunity](malaria-model-infection-immunity.md). Each infection progresses through hepatocyte, asexual, and
 gametocyte stages on its own timeline. Because each sporozoite that successfully reaches the liver
 initiates a separate infection, a multiply-infected person carries multiple parasite populations
 advancing independently — a behavior inherited from the base EMOD model, not specific to FPG.
@@ -150,7 +150,7 @@ no oocysts form.
 
 Once formed, oocysts develop over a temperature-dependent period governed by an Arrhenius
 relationship — the same process that determines the extrinsic incubation period (EIP) in the base
-EMOD model; see [vector-model-transmission](vector-model-transmission.md) for the governing parameters. Each oocyst produces
+EMOD model; see [Vector transmission](vector-model-transmission.md) for the governing parameters. Each oocyst produces
 a cohort of sporozoites sharing the same recombinant genome (see the [meiotic-recombination](#meiotic-recombination)
 section). Sporozoites accumulate in the mosquito's salivary glands and decay over time at a
 configurable rate. If all sporozoites die before the mosquito acquires new infections, the mosquito
@@ -176,7 +176,7 @@ that are more abundant are more likely to be transmitted.
 
 For each genome cohort delivered, a Poisson draw determines how many sporozoites successfully infect
 hepatocytes — with mean equal to the cohort size multiplied by `Base_Sporozoite_Survival_Fraction`
-(see [parameter-configuration-parasite](parameter-configuration-parasite.md)). If at least one succeeds, a new infection is
+(see [Parasite configuration](parameter-configuration-parasite.md)). If at least one succeeds, a new infection is
 established with that count as its initial hepatocyte load, progressing independently through the
 incubation period before transitioning to the asexual blood stage.
 
@@ -521,13 +521,13 @@ FPG provides two dedicated output reports and enhances several existing reports 
 ### FPG-specific reports
 
 
-[software-report-fpg-output-observational-model](software-report-fpg-output-observational-model.md) (`ReportFpgOutputForObservationalModel`) is
+[ReportFPGOutputObservationalModel](software-report-fpg-output-observational-model.md) (`ReportFpgOutputForObservationalModel`) is
 the primary report for FPG workflows. It samples the infected human population and generates three
 output files: a CSV of infected individuals with their genome indices, and two numpy binary files
 containing the nucleotide sequences and allele roots for each referenced genome. This report is
 designed for use in full parasite genetics post-processing pipelines.
 
-[software-report-fpg-new-infections](software-report-fpg-new-infections.md) (`ReportFpgNewInfections`) provides detailed data on
+[ReportFPGNewInfections](software-report-fpg-new-infections.md) (`ReportFpgNewInfections`) provides detailed data on
 each new human infection as it occurs, including the genome of the infecting parasite. When
 `Report_Crossover_Data_Instead` is set to true, it instead records the crossover locations that
 produced each infection's genome, which is useful for validating recombination behavior.
@@ -535,19 +535,19 @@ produced each infection's genome, which is useful for validating recombination b
 ### Reports with FPG-enhanced output
 
 
-[software-report-sql-malaria-genetics](software-report-sql-malaria-genetics.md) (`SqlReportMalariaGenetics`) records barcode and full
+[ReportSQLMalariaGenetics](software-report-sql-malaria-genetics.md) (`SqlReportMalariaGenetics`) records barcode and full
 nucleotide sequence data in two additional database tables — `ParasiteGenomes` and
 `GenomeSequenceData` — alongside the standard epidemiological tables. A `DrugStatus` table
 tracking drug name, current efficacy, and remaining doses for each person at each time step can be
 enabled via `Include_Drug_Status_Table`.
 
-[software-report-malaria-node-demographics-genetics](software-report-malaria-node-demographics-genetics.md)
+[ReportNodeDemographicsMalariaGenetics](software-report-malaria-node-demographics-genetics.md)
 (`ReportNodeDemographicsMalariaGenetics`) extends the standard malaria node demographics report by
 adding per-barcode infection counts, stratified by node and time step. The `Drug_Resistant_Strings`
 parameter adds columns counting infections with specific drug resistance allele patterns, including
 wildcard (`*`) matching.
 
-[software-report-vector-stats-malaria-genetics](software-report-vector-stats-malaria-genetics.md) (`ReportVectorStatsMalariaGenetics`) extends
+[ReportVectorStatsMalariaGenetics](software-report-vector-stats-malaria-genetics.md) (`ReportVectorStatsMalariaGenetics`) extends
 the standard vector statistics report with genetic barcode data on the parasites carried in the
 vector population, including details on oocysts and sporozoites.
 
@@ -575,7 +575,7 @@ malaria channels:
 
 The [FPGObservationalModel][fpg-observational-model] is a separate
 Python tool that converts the output of
-[software-report-fpg-output-observational-model](software-report-fpg-output-observational-model.md) into realistic genomic surveillance data.
+[ReportFPGOutputObservationalModel](software-report-fpg-output-observational-model.md) into realistic genomic surveillance data.
 Rather than analyzing the full simulated population directly, it applies configurable sampling
 strategies that mirror how field surveillance data would actually be collected, then computes genetic
 metrics on the resulting sample.

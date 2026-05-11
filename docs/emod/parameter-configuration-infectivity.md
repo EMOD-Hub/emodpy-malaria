@@ -7,10 +7,10 @@ disease can be maternally transmitted, and how population density affects infect
 
 The malaria transmission model does not use many of the parameters provided by the generic simulation
 type. Instead, *gametocyte* abundances and *cytokine* mediated infectiousness are
-modeled explicitly. See [vector-model-transmission](vector-model-transmission.md) for more information.
+modeled explicitly. See [Vector transmission](vector-model-transmission.md) for more information.
 
 !!! seealso
-    [malaria-model-fpg](malaria-model-fpg.md)
+    [Full parasite genetics](malaria-model-fpg.md)
         For `Max_Individual_Infections` and other transmission parameters as used in FPG simulations.
 
 !!! note

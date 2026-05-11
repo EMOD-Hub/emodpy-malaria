@@ -7,7 +7,7 @@ user-defined node event occurs. For example, **NLHTIVNode** can be configured to
 node event when a certain number of events is reached, such as distributing **IndoorSpaceSpraying**
 to a node with a high number of new infections.
 
-**NLHTIVNode** is similar to [parameter-campaign-node-nodelevelhealthtriggerediv](parameter-campaign-node-nodelevelhealthtriggerediv.md) but **NLHTIVNode**
+**NLHTIVNode** is similar to [NodeLevelHealthTriggeredIV](parameter-campaign-node-nodelevelhealthtriggerediv.md) but **NLHTIVNode**
 is focused on *node* interventions and events while **NodeLevelHealthTriggeredIV** is focused on
 *individual* interventions and events.
 

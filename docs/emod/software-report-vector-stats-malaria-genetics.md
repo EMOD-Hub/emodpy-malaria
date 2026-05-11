@@ -2,7 +2,7 @@
 
 
 The vector statistics and malaria genetics report (ReportVectorStatsMalariaGenetics.csv) is a
-CSV-formatted report similar to the [software-report-vector-stats](software-report-vector-stats.md) report. It provides genetic
+CSV-formatted report similar to the [ReportVectorStats](software-report-vector-stats.md) report. It provides genetic
 barcode information in addition to detailed life-cycle data on the vectors in the simulation. The
 report is stratified by time, node ID, and (optionally) species.
 
@@ -11,7 +11,7 @@ provide detailed insight into the status of the parasites in the vector populati
 details on the oocysts, sporozoites, biting, etc.
 
 !!! seealso
-    [malaria-model-fpg](malaria-model-fpg.md) for more information on the FPG model.
+    [Full parasite genetics](malaria-model-fpg.md) for more information on the FPG model.
 
 ## Configuration
 

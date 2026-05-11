@@ -5,7 +5,7 @@ The vector migration report (ReportVectorMigration.csv) provides detailed inform
 where vectors are migrating. As there will be one line for each migrating vector or cohort, it is 
 beneficial to use the parameters to limit the size of the output file. 
 
-See [software-migration-vector](software-migration-vector.md) for more information on how to create vector migration files.
+See [Vector migration](software-migration-vector.md) for more information on how to create vector migration files.
 
 
 ## Configuration

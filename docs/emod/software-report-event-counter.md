@@ -5,7 +5,7 @@ The event counter report (ReportEventCounter.json) is a JSON-formatted file that
 many of each event types occurs during a time step. The report produced is similar to the
 InsetChart.json channel report, where there is one channel for each event defined in the
 configuration file (config.json). This report only counts events; a similar report,
-[software-report-event-recorder](software-report-event-recorder.md), will provide information about the person at the time of the
+[ReportEventRecorder](software-report-event-recorder.md), will provide information about the person at the time of the
 event.
 
 

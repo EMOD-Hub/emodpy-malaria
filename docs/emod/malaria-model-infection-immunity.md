@@ -17,7 +17,7 @@ measurements.
 
 
 For a complete list of configuration parameters that are used in the malaria model, see the
-[parameter-configuration](parameter-configuration.md).
+[Configuration parameters](parameter-configuration.md).
 
 
 ## Within-host parasite dynamics

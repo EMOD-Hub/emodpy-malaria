@@ -20,7 +20,7 @@ intervention status for each individual. For example, consider a disease that ha
 treatment that is not used unless the first-line treatment has proven ineffective. You can assign a
 property value after receiving the first-line treatment and prevent anyone from receiving the
 second-line treatment unless they have that property value and are still symptomatic. For more
-information, see [model-care-cascade](model-care-cascade.md).
+information, see [Care cascade](model-care-cascade.md).
 
 You do have the option to run a simulation *without* a demographics
 file if you set **Enable_Demographics_Builtin** to 1 in the configuration file. However, this option

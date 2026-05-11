@@ -3,7 +3,7 @@
 
 IDM is committed to supporting data-driven malaria control and elimination efforts. This page
 provides information about malaria itself: the biology, symptoms, treatment, and prevention. See
-[malaria-model-overview](malaria-model-overview.md) for information about the Epidemiological MODeling software (EMOD) MALARIA simulation type developed
+[Malaria model overview](malaria-model-overview.md) for information about the Epidemiological MODeling software (EMOD) MALARIA simulation type developed
 by IDM to aid in malaria elimination.
 
 ## Malaria biology

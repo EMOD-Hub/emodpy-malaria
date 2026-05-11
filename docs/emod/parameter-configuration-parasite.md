@@ -3,10 +3,10 @@
 
 The following parameters determine the dynamics of the *Plasmodium falciparum* parasite life cycle,
 including dynamics within the host and human population. For more information, see
-[malaria-model-infection-immunity](malaria-model-infection-immunity.md).
+[Infection and immunity](malaria-model-infection-immunity.md).
 
 !!! seealso
-    [malaria-model-fpg](malaria-model-fpg.md)
+    [Full parasite genetics](malaria-model-fpg.md)
         For the `Parasite_Genetics` parameters that configure the Full Parasite Genetics (FPG) model.
 
 !!! note

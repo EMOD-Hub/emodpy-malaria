@@ -4,7 +4,7 @@
 The **Outbreak** class allows the introduction of a disease outbreak event by the addition of new
 infected or susceptible individuals to a node. **Outbreak** is a node-level
 intervention; to distribute an outbreak to specific categories of existing individuals within a
-node, use [parameter-campaign-individual-outbreakindividual](parameter-campaign-individual-outbreakindividual.md).
+node, use [OutbreakIndividual](parameter-campaign-individual-outbreakindividual.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

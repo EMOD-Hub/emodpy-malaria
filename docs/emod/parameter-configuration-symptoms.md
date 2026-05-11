@@ -2,7 +2,7 @@
 
 
 The following parameters determine the characteristics of malaria diagnosis and symptoms as the
-disease progresses, such as anemia and fever. See [malaria-model-symptoms-diagnosis](malaria-model-symptoms-diagnosis.md) for more
+disease progresses, such as anemia and fever. See [Symptoms and diagnosis](malaria-model-symptoms-diagnosis.md) for more
 information on malaria diagnostics and symptoms.
 
 

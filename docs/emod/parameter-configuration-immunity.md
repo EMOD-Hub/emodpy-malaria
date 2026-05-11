@@ -5,7 +5,7 @@ The following parameters determine the immune system response for the disease be
 waning immunity after an infection clears.
 
 !!! seealso
-    [malaria-model-fpg](malaria-model-fpg.md)
+    [Full parasite genetics](malaria-model-fpg.md)
         For `PfHRP2_Boost_Rate`, `PfHRP2_Decay_Rate`, and how the Falciparum antigen variant parameters
         (`Falciparum_MSP_Variants`, `Falciparum_Nonspecific_Types`, `Falciparum_PfEMP1_Variants`) interact
         with the FPG model.

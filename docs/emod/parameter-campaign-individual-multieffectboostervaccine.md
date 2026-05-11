@@ -2,7 +2,7 @@
 
 
 The **MultiEffectBoosterVaccine** intervention class is derived from
-[parameter-campaign-individual-multieffectvaccine](parameter-campaign-individual-multieffectvaccine.md) and preserves many of the same parameters.
+[MultiEffectVaccine](parameter-campaign-individual-multieffectvaccine.md) and preserves many of the same parameters.
 Upon distribution and successful take, the vaccine’s effect in each immunity compartment
 (acquisition, transmission,  and mortality) is determined by the recipient’s immune state. If the
 recipient’s immunity modifier in the corresponding compartment is above a user-specified threshold,

@@ -12,8 +12,8 @@ generate resistance alleles even in offspring that did not inherit the drive all
 Maternal deposition requires gene drives to be configured — it extends the behavior of an
 existing drive by adding a pre-embryonic cutting step. It is configured in the
 `Maternal_Deposition` array within `Vector_Species_Params`, on the same level and separately from the
-`Drivers` array. See [vector-model-gene-drives](vector-model-gene-drives.md) for information on configuring gene
-drives and [vector-model-genetics](vector-model-genetics.md) for the broader vector genetics system.
+`Drivers` array. See [Gene drives](vector-model-gene-drives.md) for information on configuring gene
+drives and [Vector genetics](vector-model-genetics.md) for the broader vector genetics system.
 
 
 ## How maternal deposition works

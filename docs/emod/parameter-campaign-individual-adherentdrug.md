@@ -2,7 +2,7 @@
 
 
 The **AdherentDrug** class is an individual-level intervention that extends
-[parameter-campaign-individual-antimalarialdrug](parameter-campaign-individual-antimalarialdrug.md) class and allows for incorporating different
+[AntimalarialDrug](parameter-campaign-individual-antimalarialdrug.md) class and allows for incorporating different
 patterns of adherence for taking packs of anti-malarial drugs. Non-adherence means that the drugs
 will not be taken on the prescribed schedule; this will lengthen the time taken to clear parasites
 from the person's system, and can lengthen the duration that a feeding mosquito may become infected.

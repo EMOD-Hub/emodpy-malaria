@@ -3,12 +3,12 @@
 
 
 The **BroadcastNodeEvent** node intervention class broadcasts node events. This can be used with the
-campaign class, [parameter-campaign-event-surveillanceeventcoordinator](parameter-campaign-event-surveillanceeventcoordinator.md), that can monitor and
+campaign class, [SurveillanceEventCoordinator](parameter-campaign-event-surveillanceeventcoordinator.md), that can monitor and
 listen for events received from **BroadcastNodeEvent** and then perform an action based on the
 broadcasted event. You can also use this for the reporting of the broadcasted events by setting the
 configuraton parameters, **Report_Node_Event_Recorder** and **Report_Surveillance_Event_Recorder**,
 which listen to events to be recorded. You must use this coordinator class with listeners that are
-operating on the same core. You can also use [parameter-campaign-node-nlhtivnode](parameter-campaign-node-nlhtivnode.md).
+operating on the same core. You can also use [NLHTIVNode](parameter-campaign-node-nlhtivnode.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

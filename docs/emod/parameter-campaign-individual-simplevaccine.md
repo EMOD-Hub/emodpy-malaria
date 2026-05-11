@@ -9,7 +9,7 @@ an effect on one of the following:
 * Reduce the likelihood of death
 
 To configure vaccines that have an effect on more than one of these, use
-[parameter-campaign-individual-multieffectvaccine](parameter-campaign-individual-multieffectvaccine.md) instead.
+[MultiEffectVaccine](parameter-campaign-individual-multieffectvaccine.md) instead.
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

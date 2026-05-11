@@ -4,7 +4,7 @@
 
 The **TriggeredEventCoordinator** coordinator class listens for trigger events, begins a series of repetitions of intervention distributions, and then broadcasts an event upon completion. This campaign
 event is typically used with other classes that broadcast and distribute events, such as
-[parameter-campaign-event-broadcastcoordinatorevent](parameter-campaign-event-broadcastcoordinatorevent.md), [parameter-campaign-event-delayeventcoordinator](parameter-campaign-event-delayeventcoordinator.md), and [parameter-campaign-event-surveillanceeventcoordinator](parameter-campaign-event-surveillanceeventcoordinator.md).
+[BroadcastCoordinatorEvent](parameter-campaign-event-broadcastcoordinatorevent.md), [DelayEventCoordinator](parameter-campaign-event-delayeventcoordinator.md), and [SurveillanceEventCoordinator](parameter-campaign-event-surveillanceeventcoordinator.md).
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.

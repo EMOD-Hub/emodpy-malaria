@@ -227,14 +227,14 @@ The following example shows a two-strain microsporidia configuration for *Anophe
 
 The **LarvalMicrosporidiaIntervention** provides a mechanism for introducing microsporidia into larval habitats, simulating environmental release programs or natural habitat contamination. This node-level intervention can target specific habitat types and applies configurable infectivity that may decay over time.
 
-See [parameter-campaign-node-larvalmicrosporidiaintervention](parameter-campaign-node-larvalmicrosporidiaintervention.md) for details.
+See [LarvalMicrosporidiaIntervention](parameter-campaign-node-larvalmicrosporidiaintervention.md) for details.
 
 ### MosquitoRelease intervention
 
 
 Microsporidia can also be introduced through the **MosquitoRelease** intervention by specifying the `Released_Microsporidia_Strain` parameter with the desired strain name. This allows for targeted release of infected adult mosquitoes to establish microsporidia in wild populations.
 
-See [parameter-campaign-node-mosquitorelease](parameter-campaign-node-mosquitorelease.md) for details.
+See [MosquitoRelease](parameter-campaign-node-mosquitorelease.md) for details.
 
 ## Output and reporting
 
@@ -242,12 +242,12 @@ See [parameter-campaign-node-mosquitorelease](parameter-campaign-node-mosquitore
 The microsporidia model extends several existing reports and adds a dedicated report to track
 infection dynamics:
 
-- [software-report-vector-stats](software-report-vector-stats.md) — When `Include_Microsporidia_Columns` is enabled, adds
+- [ReportVectorStats](software-report-vector-stats.md) — When `Include_Microsporidia_Columns` is enabled, adds
   columns partitioning vector counts by microsporidia status
   (`HasMicrosporidia-STATE_XXX` / `NoMicrosporidia-STATE_XXX`), providing temporal and spatial tracking of
   how microsporidia infections spread through vector populations.
 
-- [software-report-microsporidia](software-report-microsporidia.md) — A specialized report focusing exclusively on
+- [ReportMicrosporidia](software-report-microsporidia.md) — A specialized report focusing exclusively on
   microsporidia dynamics, tracking infection prevalence by strain across vector life stages and
   monitoring strain competition dynamics.
 

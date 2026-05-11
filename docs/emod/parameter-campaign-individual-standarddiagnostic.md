@@ -8,7 +8,7 @@ or drug resistance. The individual receives the diagnostic test immediately when
 distributed, but there may be a delay in receiving a positive result. This intervention class
 distributes a specified intervention to a fraction of individuals who test positive.
 
-This class is similar to [parameter-campaign-individual-simplediagnostic](parameter-campaign-individual-simplediagnostic.md), but allows the user to
+This class is similar to [SimpleDiagnostic](parameter-campaign-individual-simplediagnostic.md), but allows the user to
 specify an action upon receipt of a negative diagnosis.
 
 

@@ -24,7 +24,7 @@ off of monthly totals averaged per day. In the simulation configuration file, th
 with the same daily mean. This preserves approximate monthly totals, but produces a more realistic
 rainfall pattern for the simulation. For more information on how to configure climate, see
 [software-climate](software-climate.md). And for more information on the particular habitat types that are configurable
-in EMOD see [vector-model-larval-habitat](vector-model-larval-habitat.md).
+in EMOD see [Larval habitat](vector-model-larval-habitat.md).
 
 
 

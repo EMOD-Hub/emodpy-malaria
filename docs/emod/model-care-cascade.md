@@ -19,8 +19,8 @@ example, undiagnosed, positive diagnosis, on therapy, lost to care, etc.
 
 In the campaign file, set up your *event coordinator* as you typically would, using
 **Target_Demographic**, **Property_Restrictions_Within_Node**, and other available parameters to
-target the desired individuals. See [model-targeted-interventions](model-targeted-interventions.md) for more information on
-targeting interventions and [parameter-campaign-event-coordinators](parameter-campaign-event-coordinators.md) for all available
+target the desired individuals. See [Targeted interventions](model-targeted-interventions.md) for more information on
+targeting interventions and [Event coordinators](parameter-campaign-event-coordinators.md) for all available
 event coordinators.
 
 Then, in the intervention itself, you can add any properties that should prevent someone who would

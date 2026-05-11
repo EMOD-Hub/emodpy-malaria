@@ -19,7 +19,7 @@ The mode of migration can be local (foot travel), regional (by roadway or rail),
 You can also define different migration patterns, such as one-way or roundtrip. Individuals have a
 "home node" that is relevant for some types of migration, such as migrating an entire family unit
 only when all members are home or returning home after passing through several waypoints. For more
-detailed information, see [parameter-configuration-migration](parameter-configuration-migration.md) parameters.
+detailed information, see [Migration configuration](parameter-configuration-migration.md) parameters.
 
 For vector-borne diseases, you can also include vector migration. Both male and female vectors 
 migrate. Each vector species has their own migration file. You can include additional rules for 
@@ -29,5 +29,5 @@ You must include a separate migration file for each mode of travel that describe
 patterns for each node. It lists the migration rate for each node. Migration rate is defined as the
 fraction of the node’s population that is migrating *out* of the node per day. Units are per person
 per day, meaning the number of people migrating per day divided by the total population of the node.
-For more information on the structure of these files, see [software-migration](software-migration.md).
+For more information on the structure of these files, see [Migration creation](software-migration.md).
 

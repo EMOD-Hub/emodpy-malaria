@@ -16,7 +16,7 @@ parasites. Discrete events, such as latencies in the infected *hepatocyte* stage
 of the asexual cycle from *merozoite* invasion to *schizont* rupture, and
 *gametocyte* maturation have particular time durations. State changes occur after the
 completion of the required amount of time (with specific time durations set for each state).
-See the figure of the *Plasmodium* life-cycle in [malaria-overview](malaria-overview.md) for more information
+See the figure of the *Plasmodium* life-cycle in [Malaria overview](malaria-overview.md) for more information
 regarding the life-cycle stages used in this example.
 
 Other processes, such as the decay of antibodies and the clearance of parasites, are represented by

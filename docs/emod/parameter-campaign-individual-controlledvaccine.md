@@ -1,7 +1,7 @@
 # ControlledVaccine
 
 
-The **ControlledVaccine** intervention class is a subclass of [parameter-campaign-individual-simplevaccine](parameter-campaign-individual-simplevaccine.md)
+The **ControlledVaccine** intervention class is a subclass of [SimpleVaccine](parameter-campaign-individual-simplevaccine.md)
 so it contains all functionality of **SimpleVaccine**, but provides more control over
 additional events and event triggers. This intervention can be configured so that specific events
 are broadcast when individuals receive an intervention or when the intervention expires. Further,

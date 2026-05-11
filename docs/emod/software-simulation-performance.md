@@ -34,7 +34,7 @@ for more information about each of the parameters.
     Obviously, simulating a shorter timespan will take less processing time. However, the
     processing time is often driven by the number of infections or immune updates, so running a
     simulation after all infections have cleared may not increase processing time much. For more
-    information, see [parameter-configuration-setup](parameter-configuration-setup.md) parameters.
+    information, see [Setup configuration](parameter-configuration-setup.md) parameters.
 **Individual_Sampling_Type**
     Instead of the default **Individual_Sampling_Type** setting of "TRACK_ALL", you can speed up
     performance by sampling such that each individual object represents more than one person. For
@@ -42,7 +42,7 @@ for more information about each of the parameters.
     100,000 individuals, with each given a weight of 10. Sampling can be fixed at a particular rate
     or can adapt the rate based on certain criteria, such as age or immune state. However, you
     should be especially careful not to undersample simulations to the point where they are overly
-    sensitive to rare stochastic events. For more information, see [parameter-configuration-sampling](parameter-configuration-sampling.md)
+    sensitive to rare stochastic events. For more information, see [Sampling configuration](parameter-configuration-sampling.md)
     parameters.
 **Population_Scale_Type** and **x_Base_Population**
     Alternatively, you can simply reduce the total population of the simulation using
@@ -58,7 +58,7 @@ for more information about each of the parameters.
     the timing would be reduced inversely to the number of cores. However, there are costs to
     serializing individuals for migration over MPI, as well as considerations for balancing the CPU
     load on each core. These issues may be mitigated using a load balancing input file that is
-    suitable to the geography being simulated. See [software-load-balancing](software-load-balancing.md) for more information.
+    suitable to the geography being simulated. See [Load balancing](software-load-balancing.md) for more information.
 
 
 ### Vector and malaria

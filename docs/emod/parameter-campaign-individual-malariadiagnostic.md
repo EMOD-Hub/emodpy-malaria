@@ -3,7 +3,7 @@
 
 
 The **MalariaDiagnostic** intervention class is similar to 
-[parameter-campaign-individual-simplediagnostic](parameter-campaign-individual-simplediagnostic.md), but distributes a test
+[SimpleDiagnostic](parameter-campaign-individual-simplediagnostic.md), but distributes a test
 for malaria. There are several types of configurable diagnostic tests, and the
 type selected determines the other parameters used. 
 

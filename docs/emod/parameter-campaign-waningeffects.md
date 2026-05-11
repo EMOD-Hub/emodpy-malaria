@@ -172,7 +172,7 @@ The efficacy decays at an exponential rate where the current effect is equal to 
 
 
 The **WaningEffectMapCount** class assigns a probability to a particular update of the effect. This
-typically used with [parameter-campaign-individual-adherentdrug](parameter-campaign-individual-adherentdrug.md) so one can assign a
+typically used with [AdherentDrug](parameter-campaign-individual-adherentdrug.md) so one can assign a
 probability that a person takes a particular dose. The **Times** value should be integers starting
 from 1 and increasing.
 

@@ -12,8 +12,8 @@ configuration parameter.
   * NewInfectionEvent
   * NewClinicalCase
   * NewSevereCase
-  * DiseaseDeaths (used by [parameter-campaign-event-communityhealthworkereventcoordinator](parameter-campaign-event-communityhealthworkereventcoordinator.md))
-  * NonDiseaseDeaths (used by [parameter-campaign-event-communityhealthworkereventcoordinator](parameter-campaign-event-communityhealthworkereventcoordinator.md))
+  * DiseaseDeaths (used by [CommunityHealthWorkerEventCoordinator](parameter-campaign-event-communityhealthworkereventcoordinator.md))
+  * NonDiseaseDeaths (used by [CommunityHealthWorkerEventCoordinator](parameter-campaign-event-communityhealthworkereventcoordinator.md))
   * PropertyChange
   * InterventionDisqualified
   * GaveBirth

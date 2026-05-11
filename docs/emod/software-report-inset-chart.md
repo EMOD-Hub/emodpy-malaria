@@ -40,7 +40,7 @@ When running malaria simulations, the following channels are included in the Ins
 Note that the diagnostic channels are calculated once each time step and the same results of the
 diagnostic are used in all reports.
 
-Note that you cannot generate a separate InsetChart by node; to do so, use [software-report-filtered-malaria](software-report-filtered-malaria.md).
+Note that you cannot generate a separate InsetChart by node; to do so, use [ReportFilteredMalaria](software-report-filtered-malaria.md).
 
 | Channel | Description |
 | --- | --- |

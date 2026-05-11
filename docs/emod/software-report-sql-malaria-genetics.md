@@ -1,7 +1,7 @@
 # SqlReportMalariaGenetics
 
 
-The SqlReportMalariaGenetics report extends [software-report-sql-malaria](software-report-sql-malaria.md) to output
+The SqlReportMalariaGenetics report extends [ReportSQLMalaria](software-report-sql-malaria.md) to output
 epidemiological, transmission, and parasite genetics data for simulations where **Malaria_Model**
 is set to MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS. Because of the quantity and complexity of the
 data, the report output is a multi-table SQLite relational database (see [DB Browser for SQLite][sqlite-browser] for more information). Use the configuration parameters to manage

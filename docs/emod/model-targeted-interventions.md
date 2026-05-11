@@ -13,7 +13,7 @@ geographic *nodes* or groups of individuals.
 Targeting geographic nodes with a particular intervention can be controlled by the **Nodeset_Config**
 parameter in the campaign event. You can configure the event to target all nodes, a list of nodes,
 or all nodes contained within a defined polygon. For more information, see
-[parameter-campaign-event-campaignevent](parameter-campaign-event-campaignevent.md).
+[CampaignEvent](parameter-campaign-event-campaignevent.md).
 
 ## Target to nodes or individuals using properties
 
@@ -25,7 +25,7 @@ first define those properties in the *demographics file* using **IndividualPrope
 particular individuals or nodes based on the properties applied to them. You can target the
 intervention based on one or more combinations of property values. For example, you may target
 individuals who are both medium risk and easily accessible or high risk and easily accessible. See
-[parameter-campaign-event-coordinators](parameter-campaign-event-coordinators.md) for all available event coordinators.
+[Event coordinators](parameter-campaign-event-coordinators.md) for all available event coordinators.
 
 Just as defining properties based on age works a little differently than other
 properties, targeting an intervention to a particular age range works a little differently than
@@ -44,7 +44,7 @@ To target interventions to age ranges use the **Target_Demographic** parameter. 
 enables targeting based on gender, migration status, women of childbearing age, and other
 characteristics.
 
-For more information on the specific parameter values and syntax, see individual event coordinators documented in [parameter-campaign-event-coordinators](parameter-campaign-event-coordinators.md).
+For more information on the specific parameter values and syntax, see individual event coordinators documented in [Event coordinators](parameter-campaign-event-coordinators.md).
 
 ## Illustrated examples
 

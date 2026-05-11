@@ -1,7 +1,7 @@
 # Vector migration
 
 The vector migration file describes the rate of migration of vectors *out* of a geographic *node*
-analogously to human migration (see [software-migration](software-migration.md) for more information). The vector
+analogously to human migration (see [Migration files](software-migration.md) for more information). The vector
 model does not support migration by age and age-based migration in the migration file will cause an
 error, but does support migration by vector gender as well as migration based on genetics (see below).
 Vector migration is one way, such that each trip made by a vector is independent of previous trips made
@@ -32,5 +32,5 @@ For information, see [varying rates by genetics](software-migration-creation-vec
 
 The Binary file structure for the vector migration files is the same as it is for human files.
 The Allele_Combinations array, when present for vector VECTOR_MIGRATION_BY_GENETICS, is used in the same capacity as
-AgesYears array would be to maintain the same structure of the file. Please see [software-migration-creation](software-migration-creation.md)
+AgesYears array would be to maintain the same structure of the file. Please see [Migration creation](software-migration-creation.md)
 for more details.

@@ -3,7 +3,7 @@
 
 The **IndoorSpaceSpraying** intervention class is a node-level vector control mechanism that works
 by spraying insecticides indoors. This class is similar to to
-[parameter-campaign-individual-irshousingmodification](parameter-campaign-individual-irshousingmodification.md) but **IRSHousingModification** is an
+[IRSHousingModification](parameter-campaign-individual-irshousingmodification.md) but **IRSHousingModification** is an
 individual-level intervention that uses both killing and blocking effects and
 **IndoorSpaceSpraying** is a node-level intervention that uses only a killing effect. Do not use
 these two interventions together. If used with **IRSHousingModification**, the **IndoorSpaceSpraying** will

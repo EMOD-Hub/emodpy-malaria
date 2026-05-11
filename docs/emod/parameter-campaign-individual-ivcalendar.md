@@ -6,7 +6,7 @@ actual intervention. In **IVCalendar**, there is a list of actual interventions 
 distribution is dependent on whether the individual's age matches the next date in the calendar.
 This implies that at a certain age, the list of actual interventions will be distributed according
 to a given probability. While a typical use case might involve the distribution of calendars by a
-[parameter-campaign-node-birthtriggerediv](parameter-campaign-node-birthtriggerediv.md) in the context of a routine vaccination schedule, calendars
+[BirthTriggeredIV](parameter-campaign-node-birthtriggerediv.md) in the context of a routine vaccination schedule, calendars
 may also be distributed directly to individuals.
 
 !!! note

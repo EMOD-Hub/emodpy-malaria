@@ -3,7 +3,7 @@
 
 The malaria filtered report (ReportMalariaFiltered.json) is the same as the default InsetChart
 report, but provides filtering options to enable the user to select the data to be displayed for
-each time step or for each node. See [software-report-inset-chart](software-report-inset-chart.md) for more information about
+each time step or for each node. See [InsetChart report](software-report-inset-chart.md) for more information about
 InsetChart.json.
 
 
@@ -39,5 +39,5 @@ To generate this report, the following parameters must be configured in the cust
 ## Output file data
 
 
-This report produces the same output file format and channels as [software-report-inset-chart](software-report-inset-chart.md).
+This report produces the same output file format and channels as [InsetChart report](software-report-inset-chart.md).
 See that page for a full description of the file structure and channel definitions.
