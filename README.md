@@ -13,6 +13,18 @@ transmission settings, define populations, and evaluate the impact of interventi
 insecticide-treated nets, indoor residual spraying, treatment seeking, and vaccines — then
 run simulations and analyze the results.
 
+## Project status
+
+EMOD-Hub projects are provided as open source software under the MIT License for
+community use, research, and development.
+
+**Unless otherwise noted, these projects are no longer actively maintained or supported
+by IDM or the Gates Foundation.**
+
+Community contributions are welcome, and trusted collaborators may review and
+merge pull requests, but no guarantees are made regarding support, pull request
+review, security response, maintenance, or release timelines.
+
 ## Try it now
 
 No installation required. Open the repository in
@@ -35,6 +47,13 @@ of what the script does.
 pip install emodpy-malaria
 ```
 
+For complete installation instructions, including Codespaces, container-based workflows,
+and local environment setup, see:
+
+https://emod.idmod.org/emodpy-malaria/installation/
+
+For developers, see the [developer installation](developer_installation.md) instructions.
+
 ## Documentation
 
 Full documentation: https://emod.idmod.org/emodpy-malaria
@@ -44,12 +63,13 @@ Full documentation: https://emod.idmod.org/emodpy-malaria
 ## Community
 
 Have a question or a comment? Check out our
-[Discussions](https://github.com/EMOD-Hub/issues-and-discussions) space.
+[Discussions](https://github.com/orgs/EMOD-Hub/discussions) space.
 
 ## Contributing
 
 If you have feature requests, issues, or new code, please see our
-[CONTRIBUTING][emodpy-malaria-contributing] page for how to provide your feedback.
+[CONTRIBUTING](https://github.com/EMOD-Hub/.github/blob/main/CONTRIBUTING.md)
+ page for how to provide your feedback.
 
 ## Disclaimer
 
@@ -60,5 +80,3 @@ opportunity to build upon it for their own work. We make no representations that
 works as intended or that we will provide support, address issues that are found, or accept
 pull requests. You are welcome to create your own fork and modify the code to suit your own
 modeling needs as permitted under the MIT License.
-
-[emodpy-malaria-contributing]: https://github.com/EMOD-Hub/emodpy-malaria/blob/main/CONTRIBUTING.md
