@@ -52,7 +52,7 @@ and local environment setup, see:
 
 https://emod.idmod.org/emodpy-malaria/installation/
 
-For developers, see the [developer_installation](developer_installation.md) instructions.
+For developers, see the [developer installation](developer_installation.md) instructions.
 
 ## Documentation
 
