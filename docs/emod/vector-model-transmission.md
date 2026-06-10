@@ -80,7 +80,7 @@ interventions can be represented simultaneously.
 To interact with these parameters and visualize the workings of this microsolver, see the decision
 tree visualization below:
 
-<iframe src="https://institutefordiseasemodeling.github.io/UnityVisualization/" height="680" width="1000"></iframe>[](){#tree-movie}
+<iframe src="https://docs.idmod.org/UnityVisualization/" height="680" width="1000"></iframe>[](){#tree-movie}
 
 To get started, press the play button. You can also pause the visualization at any time.  Parameters
 in blue are vector species parameters, while parameters in  green are types of campaign

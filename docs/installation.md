@@ -69,29 +69,26 @@ You will want to do this for all of your new projects.
 
 1. Create the virtual environment:
 
-```console
-python -m venv env
-```
+    ```console
+    python -m venv env
+    ```
 
 2. Activate the virtual environment:
 
-   **Windows**:
+    === "Windows"
+        ```
+        env\Scripts\activate.bat
+        ```
+    === "Linux"
+        ```bash
+        source env/bin/activate
+        ```
 
-```doscon
-env\Scripts\activate.bat
-```
+1. Ensure Python's package installer is up to date:
 
-   **Linux**:
-
-```bash
-source env/bin/activate
-```
-
-3. Ensure Python's package installer is up to date:
-
-```console
-python -m pip install pip --upgrade
-```
+    ```console
+    python -m pip install pip --upgrade
+    ```
 
 ## Install emodpy-malaria
 

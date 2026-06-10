@@ -12,9 +12,10 @@ Note that currently only vector and malaria simulations utilize climate files.
 
 There are couple ways to do this:
 
-# Always save your serialized files on 365 day intervals.  This way you know that the first day of the simulation that is reading from the file will start on January 1st.
-# Use the configuration parameter **Start_Time** to have the scenario start the day after the simulation was serialized.  This can allow you to start right where you left off.
-
+* Always save your serialized files on 365 day intervals.  This way you know that the first day of the
+  simulation that is reading from the file will start on January 1st.
+* Use the configuration parameter **Start_Time** to have the scenario start the day after the simulation
+  was serialized.  This can allow you to start right where you left off.
 
 ## Editable climate parameters
 

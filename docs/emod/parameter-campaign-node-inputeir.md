@@ -8,6 +8,7 @@ bites received  per night and multiplying them by the proportion of those bites 
 
 Whether each individual actually becomes infected from the challenge is modified by individual-level
 factors. Each person's probability of infection is scaled by a combined relative risk that accounts for:
+
 * **Acquisition immunity** -- both naturally acquired immunity that develops over time through repeated
   exposure and any reduction from acquisition-blocking vaccines (e.g., **SimpleVaccine** with
   **Vaccine_Type** set to **AcquisitionBlocking**).
@@ -25,8 +26,9 @@ will not be impacted by this intervention.
 When distributing **InputEIR** to a node that already has an existing **InputEIR** intervention, the existing
 intervention will be purged and replaced with the new intervention.
 
-**Note**: **Age_Dependence** parameter has been removed from this intervention (EMOD v2.28, emod-malaria v0.77).
-Age dependent biting risk is now controlled by the **Age_Dependent_Biting_Risk_Type parameter** in the config file, same as for vector biting.
+!!! note
+    **Age_Dependence** parameter has been removed from this intervention (EMOD v2.28, emod-malaria v0.77).
+    Age dependent biting risk is now controlled by the **Age_Dependent_Biting_Risk_Type parameter** in the config file, same as for vector biting.
 
 At a glance:
 

@@ -7,6 +7,7 @@ malaria challenges by either tracking numbers of sporozoites or infectious mosqu
 
 Whether each individual actually becomes infected from the challenge is modified by individual-level
 factors. Each person's probability of infection is scaled by a combined relative risk that accounts for:
+
 * **Acquisition immunity** -- both naturally acquired immunity that develops over time through repeated
   exposure and any reduction from acquisition-blocking vaccines (e.g., **SimpleVaccine** with
   **Vaccine_Type** set to **AcquisitionBlocking**).

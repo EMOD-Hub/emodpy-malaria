@@ -24,7 +24,7 @@
 [wiki-clausius-clapeyron]: https://en.wikipedia.org/wiki/Clausius%E2%80%93Clapeyron_relation
 [boost]: http://www.boost.org
 [json-org]: https://www.json.org
-[cdc-malaria-biology]: https://www.cdc.gov/malaria/about/biology/index.html
+[cdc-malaria-biology]: https://www.cdc.gov/dpdx/malaria/index.html
 [garki-project]: https://apps.who.int/iris/handle/10665/40316
 [eckhoff-2011]: https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-10-303
 [eckhoff-2012-mj]: https://malariajournal.biomedcentral.com/articles/10.1186/1475-2875-11-419
