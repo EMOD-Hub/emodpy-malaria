@@ -1,6 +1,7 @@
 # ImmunityBloodTest
 
-Note: This intervention has not been thoroughly tested and may not work as expected.
+!!! warning
+    This intervention has not been thoroughly tested and may not work as expected.
 
 The **ImmunityBloodTest** intervention class identifies whether an individual's immunity meets a
 specified threshold (as set with the **Positive_Threshold_AcquisitionImmunity** campaign parameter)

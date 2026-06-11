@@ -11,8 +11,7 @@ MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS.
 
 !!! note
     If you need detailed data on the infections with different barcodes, use the
-    [ReportNodeDemographicsMalariaGenetics](software-report-sql-malaria-genetics.md). That report contains data on all barcodes, without specifying
-    what they are.
+    [SqlReportMalariaGenetics](software-report-sql-malaria-genetics.md). That report contains data on all barcodes, without specifying what they are.
 
 ## Configuration
 

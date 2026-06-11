@@ -30,9 +30,9 @@ is intended as high-level guidance for what changes can and cannot be made.
 * **Custom_Individual_Events**  You can easily add new events but must be careful when removing them. If an individual has a serialized intervention that emits the event that you delete, you should get an error de-serializing the file because the event is unknown.
 * **Malaria_Drug_Params** These parameters are not serialized so they can be changed.  However, there are a few caveats:
 
-    # If you have handed out drugs to people and the people have the drugs in them when you serialize, then you must have drugs in **Malaria_Drug_Params** with the same name.  When the people are de-serialized, the drug intervention will look for the drug parameters with the same name as when the person was serialized.
-    # A person who had drugs when serialized will still be in that state when de-serialized.  The previous values created the person's current state; changing the parameters will not reverse the previous effects.
-    # Given the person's state when serialized, the new parameters could cause weird effects depending on how the parameters are changed.  For example, if you shorten a delay significantly, the drug could suddenly have no remaining effect.
+    * If you have handed out drugs to people and the people have the drugs in them when you serialize, then you must have drugs in **Malaria_Drug_Params** with the same name.  When the people are de-serialized, the drug intervention will look for the drug parameters with the same name as when the person was serialized.
+    * A person who had drugs when serialized will still be in that state when de-serialized.  The previous values created the person's current state; changing the parameters will not reverse the previous effects.
+    * Given the person's state when serialized, the new parameters could cause weird effects depending on how the parameters are changed.  For example, if you shorten a delay significantly, the drug could suddenly have no remaining effect.
 
 * **Serialized_Population_Reading_Type**
 * **Serialized_Population_Writing_Type**

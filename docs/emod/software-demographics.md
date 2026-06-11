@@ -12,7 +12,7 @@ values for accessibility, age bins, geography, risk, and other properties and as
 individuals or nodes. For example, you might want to divide a population up into different bins
 based on age so you can target interventions to individuals in a particular age range. Another
 common use is to configure treatment coverage to be higher for individuals in easily accessible
-regions and lower for individuals in areas that are difficult to access. for more information,
+regions and lower for individuals in areas that are difficult to access. For more information,
 see [model-properties](model-properties.md).
 
 You can also simulate a complex health care system using property values that represent the

@@ -26,7 +26,9 @@ The header section contains the following parameters.
 | `Report_Version` | string | The format version of the report. |
 | `Timesteps` | integer | The number of time steps in this simulation. |
 | `Channels` | integer | The number of channels in the simulation. |
-| `Subchannel_Metadata` | nested JSON object | Metadata that describes the bins and axis information. The metadata includes the following parameters: |
+| `Subchannel_Metadata` | nested JSON object | Metadata that describes the bins and axis information. | 
+
+The **Subchannel_Metadata** includes the following parameters.
 
 | Parameter | Data type | Description |
 | --- | --- | --- |

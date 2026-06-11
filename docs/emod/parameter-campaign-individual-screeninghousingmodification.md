@@ -20,7 +20,7 @@ At a glance:
 
 
 !!! warning
-    EMOD simulations models nodes and individuals within nodes; they do not
+    EMOD simulations model nodes and individuals within nodes; they do not
     model houses. Therefore, housing modifications are received by individuals, not houses.
 
     Use of this class and other housing modification classes requires caution because they can have 

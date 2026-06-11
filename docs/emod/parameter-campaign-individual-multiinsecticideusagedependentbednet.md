@@ -7,7 +7,7 @@ class but allows the addition of multiple insecticides.
 
 The effectiveness of the intervention is combined using the following equation:
 
-Total efficacy = 1.0 – (1.0 – efficacy_1) * (1.0 – efficacy_2) * … * (1.0 – efficacy_n)
+    Total efficacy = 1.0 – (1.0 – efficacy_1) * (1.0 – efficacy_2) * … * (1.0 – efficacy_n)
 
 At a glance:
 

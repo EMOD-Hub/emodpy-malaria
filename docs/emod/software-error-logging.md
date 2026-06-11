@@ -77,9 +77,9 @@ When you run a simulation, it will generate a standard output logging file
 The file contains information about a particular simulation, such as the EMOD version used and
 the files in use, as well as other initialization information, including the default logging level
 and the logging levels set for particular modules. The file follows that information
-with log output using the following format: <timestep><HPC rank><log level><module><message>.
+with log output using the following format: &lt;timestep>&lt;HPC rank>&lt;log level>&lt;module>&lt;message>.
 
-By default, the logging level is set to "INFO". If you want to change the logging level, see [emod:dev-debug-logging](emod:dev-debug-logging.md).
+By default, the logging level is set to "INFO". If you want to change the logging level, see the [EMOD logging documentation.](https://emod.idmod.org/EMOD/dev-debug-logging/)
 
 For example:
 
