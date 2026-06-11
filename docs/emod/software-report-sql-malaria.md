@@ -1,7 +1,7 @@
 # SqlReportMalaria
 
 
-The SqlReportMalaria report extends [ReportSQL](software-report-sql.md) with malaria-specific health and
+The SqlReportMalaria report extends [SqlReport](software-report-sql.md) with malaria-specific health and
 infection data. It is only available when **Simulation_Type** is MALARIA_SIM. The output is a
 multi-table SQLite relational database (see [DB Browser for SQLite][sqlite-browser]
 for more information). Use the configuration parameters to manage the size of the database.
