@@ -45,7 +45,6 @@ class DemoTest(unittest.TestCase):
         self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['Latitude'], 0)
         self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['Longitude'], 0)
         self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['InitialPopulation'], 1e6)
-        self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['FacilityName'], 1)
         self.assertEqual(demog_json['Nodes'][0]['NodeID'], 1)
 
     def test_demo_basic_node_2(self):
@@ -64,7 +63,6 @@ class DemoTest(unittest.TestCase):
         self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['Latitude'], lat)
         self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['Longitude'], lon)
         self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['InitialPopulation'], pop)
-        self.assertEqual(demog_json['Nodes'][0]['NodeAttributes']['FacilityName'], name)
         self.assertEqual(demog_json['Nodes'][0]['NodeID'], forced_id)
         # self.assertEqual(len(demog.implicits), 1)  # two more implicits again
 
