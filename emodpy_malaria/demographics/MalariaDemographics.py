@@ -1,7 +1,7 @@
 """
 This module contains the classes and functions for creating demographics files
 for malaria simulations. For more information on EMOD demographics files,
-see :doc:`emod/software-demographics`.
+see [software-demographics](https://emod.idmod.org/emodpy-malaria/emod/software-demographics/).
 """
 import os
 import emod_api.demographics.Demographics as Demog
@@ -10,7 +10,7 @@ import emod_api.config.default_from_schema_no_validation as dfs
 
 class MalariaDemographics(Demog.Demographics):
     """
-    This class is derived from :py:class:`emod_api:emod_api.demographics.Demographics.Demographics`
+    This class is derived from <https://emod.idmod.org/emodpy/autoapi/emodpy/demographics/demographics/>
     and sets certain defaults for malaria in construction.
 
     Args:
@@ -19,7 +19,7 @@ class MalariaDemographics(Demog.Demographics):
             for each of the nodes in a simulation. "Gridded world" values use a grid
             overlaid across the globe at some arcsec resolution. You may also generate
             the grid using another tool or coordinate system. For more information,
-            see :ref:`demo-metadata`.
+            see [Demographics Metadata](https://emod.idmod.org/emodpy-malaria/emod/parameter-demographics/#metadata)
         base_file (str): A basic demographics file used as a starting point for
             creating more complicated demographics files. For example,
             using a single node file to create a multi-node file for spatial
@@ -41,14 +41,14 @@ class MalariaDemographics(Demog.Demographics):
     def set_risk_lowmedium(self):
         """
             Set initial risk for low-medium transmission settings per:
-            https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
+            <https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-bitingrisk/>.
         """
         super().SetHeteroRiskLognormalDist(mean=0.0, sigma=1.6)
 
     def set_risk_high(self):
         """
             Set initial risk for high transmission settings per:
-            https://wiki.idmod.org/display/MAL/Heterogeneous+biting+risk+in+simulations+vs+data.
+            <https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-bitingrisk/>.
         """
         super().SetHeteroRiskExponDist(mean=1.0)  # 1.0 is placeholder
 
@@ -107,7 +107,7 @@ class MalariaDemographics(Demog.Demographics):
 
     def add_initial_vectors_per_species_from_csv(self, csv_path):
         """
-            Add initial vector species population to 'demographics' nodes from a csv file.
+        Add initial vector species population to 'demographics' nodes from a csv file.
 
         Args:
             csv_path (str): Path to CSV file with the initial vector species populations for each node.
@@ -168,7 +168,7 @@ class MalariaDemographics(Demog.Demographics):
 
 def from_template_node(lat=0, lon=0, pop=1e6, name=1, forced_id=1, init_prev=0.2, include_biting_heterogeneity=True):
     """
-    Create a single-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
+    Create a single-node [`MalariaDemographics`][emodpy_malaria.demographics.MalariaDemographics]
     instance from the parameters you supply.
 
     Args:
@@ -190,7 +190,7 @@ def from_template_node(lat=0, lon=0, pop=1e6, name=1, forced_id=1, init_prev=0.2
 
 def from_pop_csv(pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", site="No_Site"):
     """
-    Create a multi-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
+    Create a multi-node [`MalariaDemographics`][emodpy_malaria.demographics.MalariaDemographics]
     instance from a CSV file describing a population.
 
     Args:
@@ -213,7 +213,7 @@ def from_pop_csv(pop_filename_in, pop_filename_out="spatial_gridded_pop_dir", si
 
 def from_csv(input_file, res=30 / 3600, id_ref="from_csv", init_prev=0.0, include_biting_heterogeneity=True):
     """
-    Create a multi-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
+    Create a multi-node [`MalariaDemographics`][emodpy_malaria.demographics.MalariaDemographics]
     instance from a CSV file describing a population.
 
     Args:
@@ -238,10 +238,10 @@ def from_csv(input_file, res=30 / 3600, id_ref="from_csv", init_prev=0.0, includ
 def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"):
     """
     Creates nodes with following logic: First node is the urban node, which contains
-    tot_pop * (1-frac_rural) of the population, the rest of the nodes splip the left-over
+    tot_pop * (1-frac_rural) of the population, the rest of the nodes split the left-over
     population with less and less people in each node.
 
-    Create a multi-node :py:class:`~emodpy_malaria.demographics.MalariaDemographics`
+    Create a multi-node [`MalariaDemographics`][emodpy_malaria.demographics.MalariaDemographics]
     instance as a synthetic population based on a few parameters.
 
     Args:
@@ -253,7 +253,7 @@ def from_params(tot_pop=1e6, num_nodes=100, frac_rural=0.3, id_ref="from_params"
             for each of the nodes in a simulation. "Gridded world" values use a grid
             overlaid across the globe at some arcsec resolution. You may also generate
             the grid using another tool or coordinate system. For more information,
-            see :ref:`demo-metadata`.
+            see [Demographics Metadata](https://emod.idmod.org/emodpy-malaria/emod/parameter-demographics/#metadata)
 
     Returns:
         (MalariaDemographics): Demographics object
