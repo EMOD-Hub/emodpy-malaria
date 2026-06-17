@@ -13,7 +13,7 @@ configuration, demographics, campaign, and report concepts used in every tutoria
 
 The `if __name__ == "__main__"` block calls `emod_malaria.bootstrap.setup()` before running the
 experiment. This extracts the EMOD executable and schema from the `emod_malaria` package into
-the `tutorials/download/` directory.
+the `tutorials/download/` directory. 
 
 ```python
 import emod_malaria.bootstrap as dtk
@@ -27,7 +27,7 @@ Paths used throughout the tutorials are defined in `manifest.py`.
 `build_config` is passed to `EMODTask` and called when building `config.json`. It receives a
 config object and returns it after making changes.
 
-```python linenums="1"
+```python
 def build_config(config):
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
@@ -48,31 +48,34 @@ present at most African sites.
 
 ## Demographics callback: build_demog
 
-`build_demog` builds the demographics file that describes the simulated human population.
+`build_demographics` builds the demographics file that describes the simulated human population.
 
-```python linenums="1"
-def build_demog():
+```python
+def build_demographics():
+    from emodpy_malaria.demographics.malaria_demographics import Demographics
+    from emodpy_malaria.utils.distributions import ExponentialDistribution
+
     demog = Demographics.from_template_node(lat=-3.2, lon=37.9, pop=1000,
                                             name="Tutorial_Site")
-    demog.SetEquilibriumVitalDynamics()
-    demog.SetAgeDistribution(Distributions.AgeDistribution_SSAfrica)
+    demog.set_birth_rate(40)
+    demog.set_age_distribution(ExponentialDistribution(20))
     return demog
 ```
 
 `from_template_node()` creates a single-node population of 1000 people.
 
-`SetEquilibriumVitalDynamics()` sets birth and death rates equal so the population size stays
-roughly stable over the simulation.
+`set_birth_rate(40)` sets the birth rate to 40 births per 1000 people per year, a
+representative value for sub-Saharan Africa.
 
-`SetAgeDistribution()` initializes the population with a realistic age structure for
-sub-Saharan Africa rather than starting everyone at the same age.
+`set_age_distribution(ExponentialDistribution(20))` initializes the population with an
+exponential age distribution (mean age 20 years) rather than starting everyone at the same age.
 
 ## Platform
 
 The `Platform` specifies where simulations run. The tutorial includes commented-out blocks for
 all three supported platforms — uncomment the one that matches your environment:
 
-```python linenums="1"
+```python
 # Container platform — runs EMOD in a Docker container locally or in Codespaces
 platform = Platform("Container", job_directory=manifest.job_dir,
                     docker_image=manifest.plat_image)
@@ -91,31 +94,30 @@ platform = Platform("Container", job_directory=manifest.job_dir,
 
 ## EMODTask
 
-`EMODTask.from_default2()` assembles the simulation task from the callbacks and the paths to
+`EMODTask.from_defaults()` assembles the simulation task from the callbacks and the paths to
 the EMOD executable and schema:
 
-```python linenums="1"
-task = emod_task.EMODTask.from_default2(
-    config_path="config.json",
+```python
+task = EMODTask.from_defaults(
     eradication_path=manifest.eradication_path,
+    schema_path=manifest.schema_path,
+    config_builder=build_config,
     campaign_builder=None,
-    schema_path=manifest.schema_file,
-    ep4_custom_cb=None,
-    param_custom_cb=build_config,
-    demog_builder=build_demog,
-    plugin_report=None
+    demographics_builder=build_demographics,
+    report_builder=None
 )
 ```
 
 `campaign_builder=None` means no interventions are added — the population runs under baseline
-transmission only. Campaigns are introduced in Tutorial 3.
+transmission only. Campaigns are introduced in Tutorial 3. `report_builder=None` means only
+the built-in InsetChart report is produced — custom reporters are added in Tutorial 2.
 
 ## Running the experiment
 
 `SimulationBuilder` manages parameter sweeps across simulations. Tutorial 1 runs a single
 simulation by sweeping `Run_Number` over just one value:
 
-```python linenums="1"
+```python
 builder = SimulationBuilder()
 builder.add_sweep_definition(sweep_run_number, [0])
 

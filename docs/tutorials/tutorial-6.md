@@ -35,7 +35,7 @@ overshoots the entire lower region.
 The solution is to calibrate in **log10 space** by defining the parameter as
 `log10_x_Temporary_Larval_Habitat` with bounds [-4, -1]:
 
-```python linenums="1"
+```python
 CALIBRATION_PARAMETERS = [
     {
         "Name":    "log10_x_Temporary_Larval_Habitat",
@@ -55,7 +55,7 @@ parameter spanning orders of magnitude more evenly.
 `map_sample_to_model_input()` converts back to linear space before applying the value to each
 simulation:
 
-```python linenums="1"
+```python
 def map_sample_to_model_input(simulation, sample):
     log_value = float(sample["log10_x_Temporary_Larval_Habitat"])
     value = 10 ** log_value
@@ -155,7 +155,7 @@ NEXT STEP: open tutorial_6_calibration/CalibManager.json, find
 
 Open `tutorial_6_calibration/CalibManager.json` and look for:
 
-```json linenums="1"
+```json
 "final_samples": {
     "log10_x_Temporary_Larval_Habitat": [
         -1.5025470616699972
@@ -173,7 +173,7 @@ Open `tutorial_6_calibration/CalibManager.json` and look for:
 Paste the value into **both** `tutorial_7_burnin.py` and `tutorial_7_pickup.py` —
 `CALIBRATED_LOG10_X_LARVAL_HABITAT` must be the same in both scripts:
 
-```python linenums="1"
+```python
 # ================================================================
 # UPDATE - Paste the log10 value from Tutorial 6.
 # ================================================================

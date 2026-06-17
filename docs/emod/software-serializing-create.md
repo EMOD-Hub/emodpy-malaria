@@ -50,7 +50,7 @@ parameters. If you do not specify an accurate path and filename, EMOD generates 
 ### Config parameters
 
 
-The following configuration parameters must be set to create serialized files:
+The following configuration parameters must be set to create a simulation from serialized files:
 
 | Parameter | Data type | Default | Description |
 |---|---|---|---|
@@ -88,34 +88,24 @@ they will use the new parameter values (for example, for **Max_Larval_Capacity**
 
 If the serialized file was created without the habitat (**Serialization_Mask_Node_Write** = 16), then the
 application will automatically generate habitat from the configuration parameters independent of setting
-**Serialization_Mask_Node_Read** = 16.
+**Serialization_Mask_Node_Read** = 16 or 0.
 
 ## Manipulating
 
 
-IDM provides a Python package [EMOD-Py][emodpy-malaria-repo]
-with installation instructions and documentation to manipulate a serialized population file.
+The `emodpy_malaria.serialization` module provides Python tools for inspecting and
+modifying the data inside serialized population files. Example operations include:
 
-The following provides a list of a few scripts that are available in EMOD-Py.  Please see the package
-for others and more details.
+- **Zero infections** — Remove all infections from humans and vectors while preserving
+  immunity, useful when you want to control who gets infected after burn-in.
+- **Replace genomes** — Swap parasite genomes with new barcode sequences for Full
+  Parasite Genetics workflows.
+- **Modify individuals** — Change individual properties (age, susceptibility), add or
+  remove individuals, or transfer infections between individuals.
+- **Export data** — Extract human or vector data to JSON for external analysis.
 
-Remove all genomes - When using Full Parasite Genetics, this script will remove all of the genomes
-from the existing infections.  This can be helpful when you want to replace existing genomes with new ones.
-
-Remove all infections - Sometimes you want people to have developed immunity but want to control who
-is infected when the simulation starts.  This script allows you to remove all the infections from the
-humans (and vectors) so that you can determine who gets infected and when.
-
-Remove all interventions - Like removing infections, you might just want a certain demographic of people
-and their immunities but you want to determine what interventions they have.
-
-Add/remove an individual property - Sometimes you need to add a new IP to the population in order to
-implement a new intervention strategy.  If so, it is better to use a script and add the new IP to the
-population.  This will ensure things work like you expect.
-
-Modify vector habitat - You might have situation where there is a change in the environment like a
-period of drought or extra long rainy season.  If so, you might want the ability to change the habitat
-to reflect this environmental change.
+See [Tutorial: Working with serialized data](software-serializing-data-access.md) for
+a step-by-step guide with code examples and a reference of the internal data hierarchy.
 
 
 ## Changing parameters
@@ -125,5 +115,12 @@ When you are reading from a serialized file, you have a contention between what 
 file and what is in the input files.  Currently, there is not a good way to know what parameters you
 can change and which ones you cannot.  This section is intended to provide some high level guidance.
 
+For detailed guidance on specific parameter categories, see the following pages:
 
+- [Changing serialized campaign parameters](software-serializing-change-campaign.md)
+- [Changing serialized configuration parameters](software-serializing-change-config.md)
+- [Changing serialized demographics parameters](software-serializing-change-demog.md)
+- [Changing serialized climate parameters](software-serializing-change-climate.md)
+- [Changing serialized migration parameters](software-serializing-change-migration.md)
+- [Changing reports in serialized simulations](software-serializing-change-reports.md)
 

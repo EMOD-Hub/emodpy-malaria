@@ -1,5 +1,6 @@
-# How to create migration files
+# How to create migration files manually with scripts
 
+NOTE: How to create migration files in emodpy-malaria, please see [Migration Tutorial](tutorials/tutorial-8.md) 
 
 You can create the JSON metadata and binary migration files needed by EMOD to run simulations
 from either CSV or JSON data using Python scripts provided by IDM. You can assign the same

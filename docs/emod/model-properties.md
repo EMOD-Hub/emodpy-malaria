@@ -107,3 +107,128 @@ maximum age.
     }
 }
 ```
+
+
+## Create node properties
+
+
+Node properties work the same way as individual properties but are assigned to *nodes* rather than
+individuals. They are useful for targeting node-level interventions to subsets of nodes. For example,
+you might tag nodes by intervention status so that a campaign can target only nodes that have not
+yet been sprayed.
+
+Node properties are defined in the top-level **NodeProperties** array in the demographics file.
+This array sits at the same level as **Defaults** and **Nodes** -- it is *not* nested inside either
+of them.
+
+!!! note
+    The **Transitions** and **TransmissionMatrix** parameters available for **IndividualProperties**
+    are not supported for **NodeProperties**. Node property values can only be changed at runtime
+    using the **NodePropertyValueChanger** campaign intervention.
+
+
+### NodeProperties array format
+
+Each entry in the **NodeProperties** array defines one property category with its possible values
+and the probability distribution used to assign values to nodes at the start of the simulation.
+
+| Parameter | Type | Description |
+|---|---|---|
+| **Property** | string | The property type name. Must be one of the supported property types: ``Accessibility``, ``Geographic``, ``InterventionStatus``, ``Place``, ``Risk``, or ``QualityOfCare``. |
+| **Values** | array of strings | User-defined values that can be assigned to nodes for this property. Up to 125 values for ``Geographic`` and ``InterventionStatus``; up to 5 for others. |
+| **Initial_Distribution** | array of floats | The probability of each value being assigned to a node. Must sum to 1.0 and have the same number of entries as **Values**. |
+
+```json
+{
+    "NodeProperties": [
+        {
+            "Property": "Place",
+            "Values": ["RURAL", "URBAN"],
+            "Initial_Distribution": [0.6, 0.4]
+        },
+        {
+            "Property": "InterventionStatus",
+            "Values": ["NONE", "SPRAYED_A", "SPRAYED_B", "FENCE_AND_TRAP"],
+            "Initial_Distribution": [0.4, 0.2, 0.3, 0.1]
+        }
+    ]
+}
+```
+
+At the start of the simulation, each node draws its property value randomly from the
+**Initial_Distribution**. In the example above, each node has a 60% chance of being assigned
+``Place:RURAL`` and a 40% chance of ``Place:URBAN``.
+
+
+### Override node property values with NodePropertyValues
+
+You can override the random assignment for specific nodes by adding **NodePropertyValues** inside
+that node's **NodeAttributes**. This is an array of ``"Property:Value"`` strings that explicitly
+assigns one or more property values to the node, bypassing the **Initial_Distribution** for those
+properties.
+
+Any property not listed in **NodePropertyValues** still uses the random distribution from
+**NodeProperties**.
+
+```json
+{
+    "NodeProperties": [
+        {
+            "Property": "Place",
+            "Values": ["RURAL", "URBAN"],
+            "Initial_Distribution": [0.7, 0.3]
+        },
+        {
+            "Property": "InterventionStatus",
+            "Values": ["NONE", "SPRAYED_A", "SPRAYED_B"],
+            "Initial_Distribution": [1.0, 0.0, 0.0]
+        }
+    ],
+    "Nodes": [
+        {
+            "NodeID": 1,
+            "NodeAttributes": {
+                "InitialPopulation": 1000,
+                "NodePropertyValues": [
+                    "Place:URBAN"
+                ]
+            }
+        },
+        {
+            "NodeID": 2,
+            "NodeAttributes": {
+                "InitialPopulation": 5000,
+                "NodePropertyValues": [
+                    "Place:RURAL",
+                    "InterventionStatus:SPRAYED_B"
+                ]
+            }
+        },
+        {
+            "NodeID": 3,
+            "NodeAttributes": {
+                "InitialPopulation": 2000
+            }
+        }
+    ]
+}
+```
+
+In this example:
+
+- **Node 1** is explicitly set to ``Place:URBAN``. Its ``InterventionStatus`` is still drawn
+  randomly (100% chance of ``NONE`` based on the distribution).
+- **Node 2** is explicitly set to ``Place:RURAL`` and ``InterventionStatus:SPRAYED_B``.
+- **Node 3** has no overrides, so both properties are drawn from **Initial_Distribution**.
+
+
+### Use node properties in campaign interventions
+
+Once node properties are defined, you can use them to target or restrict campaign interventions:
+
+- **Node_Property_Restrictions** in the event coordinator targets interventions to nodes with
+  specific property values. For example, targeting only nodes with ``InterventionStatus:NONE``.
+- **NodePropertyValueChanger** is a node-level intervention that changes a node's property value
+  at runtime. For example, changing ``InterventionStatus:NONE`` to ``InterventionStatus:SPRAYED_A``
+  after distributing indoor residual spraying to that node.
+

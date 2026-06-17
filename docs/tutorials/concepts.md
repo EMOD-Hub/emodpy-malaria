@@ -16,7 +16,7 @@ malaria defaults and then applies the changes specific to each tutorial.
 
 The demographics file describes the human population: how many people, their initial age
 distribution, birth and death rates, and geographic node layout. In the tutorials,
-`build_demog()` builds this file. All tutorials use a single node of 1000 people with
+`build_demographics()` builds this file. All tutorials use a single node of 1000 people with
 equilibrium vital dynamics and a sub-Saharan Africa age structure.
 
 ## Campaign file
@@ -31,7 +31,6 @@ interventions are introduced in Tutorial 3.
 **Reports** are configured in the script before the experiment runs. They tell EMOD what to
 measure and at what frequency — for example, monthly PfPR by age bin, or daily clinical
 incidence. EMOD writes each report's results to an **output file** in the `output/`
-subdirectory of each simulation. `InsetChart.json` is a time-series summary of key channels
-that is enabled by setting `Enable_Default_Reporting = 1` in the config. Additional reports
-such as `MalariaSummaryReport` can be added to the task via `add_reporters()`. Tutorial 2
+subdirectory of each simulation.  Various reports
+such as `MalariaSummaryReport` can be added to the task via `add_reporters(reporter)`. Tutorial 2
 introduces reports and shows how to download and plot the output files.
