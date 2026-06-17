@@ -10,8 +10,8 @@ vector populations or replace them with vectors that are unable to transmit mala
 
 EMOD's vector genetics system provides a stochastic, agent-based framework for simulating
 the inheritance and phenotypic effects of genetic loci in mosquito populations. Each mosquito
-carries a diploid genome composed of up to 9 genetic loci with up to 8 alleles per locus. The
-system supports Mendelian inheritance, germline mutations, insecticide resistance, gene drives,
+carries a diploid genome composed of up to 9, including an always-present gender gene, and each 
+gene can define up to 8 alleles. The system supports Mendelian inheritance, germline mutations, insecticide resistance, gene drives,
 sex-ratio distortion, and releases of genetically modified mosquitoes — all operating within the
 standard vector lifecycle described in [Vector transmission](vector-model-transmission.md). This allows researchers
 to investigate the spread of insecticide resistance, evaluate gene drive deployment strategies,
@@ -35,7 +35,7 @@ includes vector population dynamics (`Simulation_Type` set to VECTOR_SIM or MALA
 
 
 In EMOD, each mosquito carries a simplified diploid genome composed of two gametes — one inherited
-from each parent. The genome supports up to 8 user-defined genetic loci, each with up to 8 named
+from each parent. The genome supports up to 8 user-defined genetic loci with an optional 9th user-defined gender gene, each with up to 8 named
 alleles. While real mosquito genomes contain thousands of genes, this abstraction captures the
 loci most relevant to the dynamics being studied. A mosquito's Wolbachia status and microsporidia
 strain are also tracked per individual alongside the genetic information. Each female also stores
@@ -46,11 +46,9 @@ genome alongside her own ("Self") — and uses it when she lays eggs after each 
 
 *EMOD genome representation: the genome consists of two gametes (Mom and Dad), each carrying one allele per locus. The top row is the gender locus, where X and Y are modeled as alleles. The remaining rows are user-defined loci; the possible alleles for each gene are listed on the left. At right, the VectorCohort structure shows that each female stores two genomes — one for herself (Self) and one for her mate (Mate) — used during fertilization.*
 
-One locus is always reserved as the gender gene. A mosquito's sex is always determined by the
-gender gene — this is true even in simulations that do not use the genetics system. In a standard
-simulation the gender gene has just two alleles (X and Y), but it can be configured with
-additional alleles to support gene drive scenarios such as sex-ratio distortion, where a drive
-element on the X chromosome suppresses Y-bearing sperm.
+First locus is always the gender gene. If the gender gene is not explicitly defined by the user, 
+EMOD creates a default gender gene in that locus. The default gender gene has just two 
+alleles (X and Y) and creates a vector population that's about 50% female and 50% male.
 
 
 ## Genes and alleles
@@ -69,7 +67,8 @@ set of named alleles with initial population frequencies to be used at simulatio
                     "Is_Gender_Gene": 1,
                     "Alleles": [
                         {"Name": "X", "Initial_Allele_Frequency": 0.75, "Is_Y_Chromosome": 0},
-                        {"Name": "Y", "Initial_Allele_Frequency": 0.25, "Is_Y_Chromosome": 1}
+                        {"Name": "Y0", "Initial_Allele_Frequency": 0.20, "Is_Y_Chromosome": 1},
+                        {"Name": "Y1", "Initial_Allele_Frequency": 0.05, "Is_Y_Chromosome": 1}
                     ]
                 },
                 {
@@ -84,11 +83,14 @@ set of named alleles with initial population frequencies to be used at simulatio
 }
 ```
 
-**Gender gene**: If defined, the gender gene must be listed first. It partitions alleles into
-X-chromosome alleles (`Is_Y_Chromosome` = 0 (false)) and Y-chromosome alleles
-(`Is_Y_Chromosome` = 1 (true)). If no gender gene is explicitly defined, EMOD creates a default
-one with a single X allele and a single Y allele, with XX and XY combinations being generated at
-about 50/50 frequencies.
+**Gender gene**: First locus is always the gender gene. The gender gene does not need to be defined by the user. 
+If the user does not define the gender gene, EMOD creates a default (X,Y) gender gene internally and assigns it to the 
+first locus. To define your own gender gene, it must be listed first in the "Genes" array and indicated by `Is_Gender_Gene`: 1 (true).
+It partitions alleles into female (X-chromosome) alleles with `Is_Y_Chromosome` = 0 (false) and male (Y-chromosome) alleles with
+`Is_Y_Chromosome` = 1 (true) with up to 4 alleles per gender. Because in a mating there are 3 X-chromosomes and 1 Y-chromosome 
+out of four alleles, when the Y-chromosome allele frequencies sum up to 0.5, the population will be 100% male. 
+Y-chromosome allele frequencies higher than 0.5 are not allowed. To create a balanced male-female population, 
+set the Y-chromosome allele frequencies to sum to 0.25, as in the example above.
 
 **Constraints**: Allele names must be unique across all genes within a species. Frequencies within
 a gene must sum to 1.0. A species may define at most 9 genes (including the gender gene) and at
@@ -186,7 +188,9 @@ per gene:
 
 When gametes are created, each allele has the configured probability of mutating to the specified
 target. The mutation is applied after standard Mendelian segregation but before fertilization.
-Multiple mutations can be defined for a single gene, including bidirectional mutations.
+Multiple mutations can be defined for a single gene, including bidirectional mutations
+(where allele A can mutate to allele B and allele B can mutate back to allele A, each with its
+own probability).
 
 Note that germline mutation acts on gametes, not the parent genome. New mutant gametes are added
 at the defined frequency, and the probability of the original (unmutated) gamete is reduced by
@@ -293,7 +297,7 @@ Note that maternal deposition uses the mother's genome to modify both the female
 sets. The Cas9-driven allele changes originate from the mother regardless of which set of gametes
 is being modified.
 
-Please see [Maternal deposition](vector-model-maternal-deposition.md) for full details on how maternal deposition
+Please see [Maternal deposition](vector-model-gene-drives.md#maternal-deposition) for full details on how maternal deposition
 works, configuration parameters, and validation rules.
 
 

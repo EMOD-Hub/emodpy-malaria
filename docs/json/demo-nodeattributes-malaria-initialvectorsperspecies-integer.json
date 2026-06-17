@@ -1,0 +1,10 @@
+{
+    "Nodes": [
+        {
+            "NodeID": 340461476,
+            "NodeAttributes": {
+                "InitialVectorsPerSpecies": 10000
+            }
+        }
+    ]
+}
