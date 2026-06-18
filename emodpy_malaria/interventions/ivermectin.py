@@ -23,7 +23,7 @@ def add_scheduled_ivermectin(campaign,
                              ):
     """
     Adds a scheduled **Ivermectin** **CampaignEvent** to the campaign, which can be repeated any number of times.
-    When a new **Ivermectin** intervention is given to an individual, if they already have an existing **Ivermectin** 
+    When a new **Ivermectin** intervention is given to an individual, if they already have an existing **Ivermectin**
     intervention, both interventions will be active. The efficacies of the two interventions will not be combined.
     There is no limit to how many **Ivermectin** interventions an individual can have active at one time.
 

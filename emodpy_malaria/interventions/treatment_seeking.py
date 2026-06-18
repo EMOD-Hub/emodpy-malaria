@@ -125,8 +125,8 @@ def add_treatment_seeking(campaign,
         node_ids (list): The list of nodes to apply this intervention to (**Node_List**
             parameter). If not provided, set value of NodeSetAll.
         ind_property_restrictions (list): List of IndividualProperty key:value pairs that
-            individuals must have to receive the intervention. 
-            
+            individuals must have to receive the intervention.
+
             Example:
 
                 ["IndividualProperty1:PropertyValue1", "IndividualProperty2:PropertyValue2"]

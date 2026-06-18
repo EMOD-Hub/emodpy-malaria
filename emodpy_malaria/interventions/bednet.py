@@ -20,7 +20,7 @@ def _simple_bednet(campaign,
                    insecticide: str = "",
                    cost: float = 0,
                    intervention_name: str = "SimpleBednet"):
-# todo: how to describe usage_ effects? how to make usage default WaningEffectConstant
+    # todo: how to describe usage_ effects? how to make usage default WaningEffectConstant
     """
     Configures **SimpleBednet** intervention.
 

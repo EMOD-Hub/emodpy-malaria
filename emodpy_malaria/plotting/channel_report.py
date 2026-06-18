@@ -14,8 +14,8 @@ class ChannelReport:
         self.json_data = self.convert_df_to_channel_report(df)
 
     def create_empty_channel_report(self):
-    # It would be really nice if we could include **Start_Time** and **Simulation_Timestep** from the input files,
-    # but these are hardcoded for now.
+        # It would be really nice if we could include **Start_Time** and **Simulation_Timestep** from the input files,
+        # but these are hardcoded for now.
         """
         Create the dictionary that has the right format for a channel report.
 
