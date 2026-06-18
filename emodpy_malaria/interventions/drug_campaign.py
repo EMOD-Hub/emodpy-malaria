@@ -141,7 +141,7 @@ def add_drug_campaign(campaign,
             to distribute drugs and a "Received_Treatment" event followed by
             a delayed "Give_Drugs_rfMDA" event to neighboring nodes, which
             will trigger another drug distribution.<br>
-            • PMC -
+            • PMC - Add a perennial malaria chemoprevention intervention.<br>
         drug_code (str): The code of the drug regimen to distribute. This must be
             listed in the ``drug_cfg`` dictionary.
         start_days (list): List of start days (integers) when the drug regimen will

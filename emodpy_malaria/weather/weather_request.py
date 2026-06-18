@@ -45,15 +45,15 @@ class WeatherArgs:
         Initializes and validates weather arguments.
 
         Args:
-            site_file: CSV (.csv) or demographics (.json) file containing a set of sites (points) defined with lat/lon.
+            site_file (Union[str, Path]): CSV (.csv) or demographics (.json) file containing a set of sites (points) defined with lat/lon.
                        CSV file must contain columns for: EMOD node ids (node), latitude (lat) and longitude (lon).
                        Demographics file must match EMOD demographics file schema.
-            start_date: Start date, in formats: year (2018), year and day-of-year (2018001) or date (20180101)
-            end_date: (Optional) End date, in formats: year (2018), year and day-of-year (2018365) or date (20181231)
-            node_column: (Optional) Name of a column containing EMOD node ids. The default is "nodes".
-            lat_column: (Optional) Name of a column containing site (point) latitude.
-            lon_column: (Optional) Name of a column containing site (point) longitude.
-            id_reference: (Optional) Value of weather metadata IdReference attribute. Default is "Default".
+            start_date (Union[int, str, datetime]): Start date, in formats: year (2018), year and day-of-year (2018001) or date (20180101)
+            end_date (Union[int, str, datetime]): (Optional) End date, in formats: year (2018), year and day-of-year (2018365) or date (20181231)
+            node_column (str): (Optional) Name of a column containing EMOD node ids. The default is "nodes".
+            lat_column (str): (Optional) Name of a column containing site (point) latitude.
+            lon_column (str): (Optional) Name of a column containing site (point) longitude.
+            id_reference (str): (Optional) Value of weather metadata IdReference attribute. Default is "Default".
         """
 
         self.site_file: Path = Path(site_file)
@@ -150,10 +150,10 @@ class WeatherRequest:
         Initializes a weather request per specified time-space, weather files and SSMT arguments.
 
         Args:
-            platform: SSMT platform name or COMPSPlatform object. Determined where the work item will run.
-            local_dir: (Optional) Local dir where files will be downloaded. If not specified a temp dir is created.
-            data_source: (Optional) Data source name to be used by SSMT platform.
-            is_staging: (Optional) Flag determining weather image. By default, set based on the platform endpoint.
+            platform (Union[str, COMPSPlatform]): SSMT platform name or COMPSPlatform object. Determined where the work item will run.
+            local_dir (str): (Optional) Local dir where files will be downloaded. If not specified a temp dir is created.
+            data_source (str): (Optional) Data source name to be used by SSMT platform.
+            is_staging (bool): (Optional) Flag determining weather image. By default, set based on the platform endpoint.
         """
 
         # Initialize the platform object
@@ -243,7 +243,7 @@ class WeatherRequest:
         Constructs SSMT command to run within the weather tool image, to generate weather files.
 
         Args:
-            weather_args: Arguments defining space and time scope and weather files' id reference.
+            weather_args (WeatherArgs): Arguments defining space and time scope and weather files' id reference.
 
         Returns:
             String representing a command to be run within the weather tool image.
@@ -261,9 +261,9 @@ class WeatherRequest:
         Initializes SSMT work item.
 
         Args:
-            weather_args: Arguments defining space and time scope and weather files' id reference.
-            command: Command to be run within the weather tool image.
-            name: Work item name.
+            weather_args (WeatherArgs): Arguments defining space and time scope and weather files' id reference.
+            command (str): Command to be run within the weather tool image.
+            name (str): Work item name.
 
         Returns:
             Initialized, ready to run, SSMTWorkItem object.
@@ -288,9 +288,9 @@ class WeatherRequest:
         Submits the weather request and when data is ready sets the data_id property.
 
         Args:
-            weather_args: Arguments defining space and time scope and weather files' id reference.
-            request_name: (Optional) Name to be used for the weather SSMT work item.
-            force: (Optional) Force the download, even if target weather files already exist in the local dir.
+            weather_args (WeatherArgs): Arguments defining space and time scope and weather files' id reference.
+            request_name (str): (Optional) Name to be used for the weather SSMT work item.
+            force (bool): (Optional) Force the download, even if target weather files already exist in the local dir.
 
         Returns:
             Returns this WeatherRequest object (to support method chaining).
@@ -329,9 +329,9 @@ class WeatherRequest:
         Downloads weather files.
 
         Args:
-            data_id: (Optional) Asset collection ID to be downloaded, even if not generated by this request.
-            local_dir: (Optional) Local dir where files will be downloaded. If not specified a temp dir is created.
-            force: (Optional) Force the download, even if target weather files already exist in the local dir.
+            data_id (str): (Optional) Asset collection ID to be downloaded, even if not generated by this request.
+            local_dir (Union[str, Path]): (Optional) Local dir where files will be downloaded. If not specified a temp dir is created.
+            force (bool): (Optional) Force the download, even if target weather files already exist in the local dir.
 
         Returns:
             Returns this WeatherRequest object (to support method chaining).

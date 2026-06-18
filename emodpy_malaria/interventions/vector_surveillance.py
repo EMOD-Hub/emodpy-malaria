@@ -32,9 +32,9 @@ def add_vector_surveillance_event_coordinator(
         survey_completed_event: str = None
 ):
     """
-    This function adds a VectorSurveillanceEventCoordinator to the campaign.
+    This function adds a **VectorSurveillanceEventCoordinator** to the campaign.
 
-    VectorSurveillanceEventCoordinator is a coordinator that samples the vector population at a given interval.
+    **VectorSurveillanceEventCoordinator** is a coordinator that samples the vector population at a given interval.
     The vector population sampled is determined by the species and gender parameters. The number of vectors sampled
     is determined by the sample_size parameter, which defines a distribution from which the sample size is drawn at each
     sampling event.
@@ -46,11 +46,11 @@ def add_vector_surveillance_event_coordinator(
     locus of the vectors sampled (when CountType.ALLELE_FREQ) or the fraction of each of the genomes in the vectors
     sampled (when CountType.GENOME_FRACTION).
 
-    The respond() function in dtk_vector_surveillance.py is called each time any VectorSurveillanceEventCoordinator
-    samples the vectors. The respond() function receives the following info from the VectorSurveillanceEventCoordinator:
+    The respond() function in dtk_vector_surveillance.py is called each time any **VectorSurveillanceEventCoordinator**
+    samples the vectors. The respond() function receives the following info from the **VectorSurveillanceEventCoordinator**:
     time, responder_id, coordinator_name, num_vectors_sampled, list_data_names, list_data_values
     You can write any code you want in the respond() function to process the data, using coordinator_name to
-    differentiate between different VectorSurveillanceEventCoordinators if needed. The respond() function returns a list
+    differentiate between different **VectorSurveillanceEventCoordinators** if needed. The respond() function returns a list
     of event names to be broadcast as coordinator-level events at completion of the survey. The events are added by you
     based on your processing of the sampled vectors. These events are used to trigger interventions in the campaign that
     will run the next day. The events in the list should correspond to the events used in the campaign or be manually
@@ -58,36 +58,35 @@ def add_vector_surveillance_event_coordinator(
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_trigger_condition_list: List of coordinator-level events. Any of the events in the list will activate
-            the run of vector surveillance intervention. The list cannot be empty. emod_api.interventions.common.py
-            has a function add_broadcast_coordinator_event that sends out coordinator-level events to act as triggers.
-        update_period: The number of days between the sampling of the mosquito population. If the mosquitoes are
-            sampled on day 1 and the period is 30, then the next sample will be taken on day 31
-        sample_size: Distribution that will be used to pick the sample size of the surveillance.
-            Please use emod_api.utils.Distributions to generate the distribution dictionary to pass in.
+        start_trigger_condition_list (list): List of coordinator-level events. Any of the events in the list will activate
+            the run of vector surveillance intervention. The list cannot be empty.<br>
+            emod_api.interventions.common.py has a function **add_broadcast_coordinator_event** that sends out coordinator-level events to act as triggers.
+        update_period (float): The number of days between the sampling of the mosquito population. If the mosquitoes are
+            sampled on day 1 and the period is 30, then the next sample will be taken on day 31.
+        sample_size (dict): Distribution that will be used to pick the sample size of the surveillance.
+            Please use emod_api.utils.Distributions to generate the distribution dictionary to pass in.<br>
             The distribution and values to use for determining the sample size we take of the
             vector population. If the population is less than this number, then the entire population will
             be selected.
-        species: The name of the species to sample the mosquitoes from. This string must be defined by the Name
+        species (str): The name of the species to sample the mosquitoes from. This string must be defined by the **Name**
             parameter in the config.Vector_Species_Param parameters.
-        gender: The sex of the vectors we are sampling.  Options are: VectorGender.VECTOR_FEMALE,
+        gender (VectorGender): The sex of the vectors we are sampling. Options are: VectorGender.VECTOR_FEMALE,
             VectorGender.VECTOR_MALE, VectorGender.VECTOR_BOTH_GENDERS
-        count_type: The type of count to use for the vector counter. Options are: CountType.ALLELE_FREQ,
+        count_type (CountType): The type of count to use for the vector counter. Options are: CountType.ALLELE_FREQ,
             CountType.GENOME_FRACTION.
-        coordinator_name: The name of the coordinator - this name can be used in the embedded python code to help
+        coordinator_name (str): The name of the coordinator. This name can be used in the embedded python code to help
             differentiate between coordinators. It is recommended that this name be unique, but not enforced.
-        node_ids: The list of nodes whose mosquitoes will be surveyed. The mosquitoes from these nodes will be
-            considered to be one group when sampled. None or [] means sample from all nodes. Default: None
-        start_day: the day the surveillance coordinator is distributed, it needs to be triggered to run
-        duration: The time period (in days) that the event coordinator exists after it is distributed at start_time
-            before it expires and is removed from the simulation. On (start_day + duration) day of the simulation,
+        node_ids (list): The list of nodes whose mosquitoes will be surveyed. The mosquitoes from these nodes will be
+            considered to be one group when sampled. None or [] means sample from all nodes. Default: None.
+        start_day (int): the day the surveillance coordinator is distributed, it needs to be triggered to run
+        duration (int): The time period (in days) that the event coordinator exists after it is distributed at **start_day**
+            before it expires and is removed from the simulation. On (**start_day** + **duration**) day of the simulation,
             the coordinator will stop running if it's been triggered and will be removed from the simulation. It cannot
-            be activated again.
-            Default: None, meaning the coordinator never expires.
-        stop_trigger_condition_list: Optional list of coordinator-level events. Any of the events in the list will stop
+            be activated again. Default: None, meaning the coordinator never expires.
+        stop_trigger_condition_list (list): Optional list of coordinator-level events. Any of the events in the list will stop
             the running of vector surveillance intervention. emod_api.interventions.common.py has a function
-            add_broadcast_coordinator_event that sends out coordinator-level events to act as triggers.
-        survey_completed_event: String representing coordinator-level event that will be sent out after every time a
+            **add_broadcast_coordinator_event** that sends out coordinator-level events to act as triggers.
+        survey_completed_event (str): String representing coordinator-level event that will be sent out after every time a
             vector survey runs the respond() function and its resulting events (if any) are sent out.
     """
     schema_path = campaign.schema_path

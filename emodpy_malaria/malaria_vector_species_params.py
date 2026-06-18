@@ -1,16 +1,17 @@
-"""Pre-configured parameter sets for common Anopheles vector species used in malaria simulations."""
+"""
+Pre-configured parameter sets for common Anopheles vector species used in malaria simulations.
+"""
 
 import emod_api.config.default_from_schema_no_validation as dfs
 
 
 def species_params(manifest, species: str = None):
     """
-        Returns configured species parameters based on species name
+    Returns configured species parameters based on species name
 
     Args:
-
-        manifest (ModuleType): file that contains path to the schema file
-        species: species, configuration for which, we will be adding to the simulation.
+        manifest (ModuleType): file that contains path to the schema file.
+        species (str): species, configuration for which, we will be adding to the simulation.
 
     Returns:
         (Union[dict, list]): Dict of parameter if valid species; list of valid species otherwise.

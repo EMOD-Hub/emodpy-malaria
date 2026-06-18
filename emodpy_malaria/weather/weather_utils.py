@@ -17,22 +17,21 @@ def invert_dict(in_dict: dict, sort: bool = False, single_value: bool = False) -
     dictionary (including individual element of value lists) and values are lists of original dictionary keys.
     The function is used for grouping nodes by offset or weather time series hash, and determining unique series.
 
-    For example,
-        single_value = False (default)
-            {1: [11, 22], 2: [22], 3: [11]} -> {11: [1, 3], 22: [1, 2]}
-        single_value = True
-            {1: [11, 22], 2: [22], 3: [11]} -> {11: 1, 22: 1}
+            Example:
+            single_value = False (default)
+                {1: [11, 22], 2: [22], 3: [11]} -> {11: [1, 3], 22: [1, 2]}
+            single_value = True
+                {1: [11, 22], 2: [22], 3: [11]} -> {11: 1, 22: 1}
 
     Args:
-        in_dict: Input dictionary to be inverted.
-        sort: Sort the resulting dictionary by key and value.
-        single_value: Only return a single representative "original key" (from in_dict)
-                        for each corresponding unique "original value" (from in_dict).
+        in_dict (dict): Input dictionary to be inverted.
+        sort (bool): Sort the resulting dictionary by key and value.
+        single_value (bool): Only return a single representative "original key" from in_dict for each corresponding unique "original value" from in_dict.
 
     Returns:
-        Inverted dictionary where
-            (single_value = False): keys are "original values" and values are lists of corresponding "original keys"
-            (single_value = True):  keys are "original values" and values is a single representative "original key".
+        Inverted dictionary where<br>
+            (single_value = False): keys are "original values" and values are lists of corresponding "original keys"<br>
+            (single_value = True):  keys are "original values" and values is a single representative "original key".<br>
     """
     # Init the output dictionary to be able to collect original dictionary keys per value element.
     out_dict = defaultdict(list)
@@ -62,7 +61,7 @@ def hash_series(series: Iterable[np.float32]) -> int:
     Calculate a unique hash for each input series. Used for grouping nodes by weather time series.
 
     Args:
-        series: The list or array of float values.
+        series (Iterable[np.float32]): The list or array of float values.
 
     Returns:
         Series hash value as int.
@@ -76,8 +75,8 @@ def save_json(content: Dict[str, str], file_path: Union[str, Path]) -> NoReturn:
     Save dictionary to a json file.
 
     Args:
-        content: Content in the form of a dictionary.
-        file_path: The path of the output weather metadata file.
+        content (Dict[str, str]): Content in the form of a dictionary.
+        file_path (Union[str, Path]): The path of the output weather metadata file.
     """
     with open(str(file_path), "wt") as file:
         json.dump(content, file, indent=2, separators=(",", ": "))

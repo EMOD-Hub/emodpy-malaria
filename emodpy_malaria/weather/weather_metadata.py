@@ -83,26 +83,26 @@ class WeatherAttributes:
         Initialize the weather attributes object by either passing the metadata dictionary or setting.
 
         Args:
-            attributes_dict:  (Optional) A dictionary containing user specified metadata attributes.
+            attributes_dict (Dict[str, Union[str, int, float]]):  (Optional) A dictionary containing user specified metadata attributes.
                             Used to initiate weather attributes object. A typical usage is to set metadata attributes
                             including those not required or explicitly implemented by this class. For example, when
                             reading existing metadata file (.bin.json), the dictionary read from the file allows
                             persisting all found attributes, including those explicitly implemented by this class.
                             This dictionary can be used in combination with other __init__ arguments.
-            reference:      (Optional) Reference string expected by EMOD as a way to bind weather and demographic files.
-            resolution:     (Optional) Spatial weather data resolution.
-            provenance:     (Optional) Data provenance describing data source and how it was obtained.
-            update_freq:    (Optional) The frequency.
-            start_year:     (Optional) Weather data start year. Used to construct years range attribute.
-            end_year:       (Optional) Weather data end year. Used to construct years range attribute.
-            start_doy:      (Optional) The start day of year. By default, it is set to 1.
-            lat_min:        (Optional) Minimal or top latitude of the weather spatial coverage.
-            lat_max:        (Optional) Maximum or bottom latitude of the weather spatial coverage.
-            lon_min:        (Optional) Minimal or top longitude of the weather spatial coverage.
-            lon_max:        (Optional) Maximum or top longitude of the weather spatial coverage.
-            tool:           (Optional) The tool used to prepare weather files.
-            author:         (Optional) The author of weather files.
-            schema_version: (Optional) The EMOD weather file schema version.
+            reference (str):      (Optional) Reference string expected by EMOD as a way to bind weather and demographic files.
+            resolution (float):     (Optional) Spatial weather data resolution.
+            provenance (str):     (Optional) Data provenance describing data source and how it was obtained.
+            update_freq (str):    (Optional) The frequency.
+            start_year (int):     (Optional) Weather data start year. Used to construct years range attribute.
+            end_year (int):       (Optional) Weather data end year. Used to construct years range attribute.
+            start_doy (int):      (Optional) The start day of year. By default, it is set to 1.
+            lat_min (float):        (Optional) Minimal or top latitude of the weather spatial coverage.
+            lat_max (float):        (Optional) Maximum or bottom latitude of the weather spatial coverage.
+            lon_min (float):        (Optional) Minimal or top longitude of the weather spatial coverage.
+            lon_max (float):        (Optional) Maximum or top longitude of the weather spatial coverage.
+            tool (str):           (Optional) The tool used to prepare weather files.
+            author (str):         (Optional) The author of weather files.
+            schema_version (str): (Optional) The EMOD weather file schema version.
 
         """
         # Init the metadata dictionary to provided dictionary or defaults.
@@ -297,11 +297,11 @@ class WeatherMetadata(WeatherAttributes):
         Initiate WeatherMetadata object.
 
         Args:
-            node_ids: A dictionary with node ids as keys and offsets as values, or just a list of node ids.
+            node_ids (Union[List[int], Dict[int, int]]): A dictionary with node ids as keys and offsets as values, or just a list of node ids.
                       If node-offset dictionary is provided, node offsets are set per that dictionary.
                       If a list of nodes ids is provided, offsets are calculated based on weather time series length.
-            series_len: The length of a weather time series (aka "data value count").
-            attributes: Weather attributes, either as an objects or a dictionary.
+            series_len (int): The length of a weather time series (aka "data value count").
+            attributes (Union[WeatherMetadata, WeatherAttributes, Dict[str, Union[str, int, float]]]): Weather attributes, either as an objects or a dictionary.
 
         """
         if isinstance(attributes, WeatherMetadata) or isinstance(attributes, WeatherAttributes):
@@ -468,7 +468,7 @@ class WeatherMetadata(WeatherAttributes):
         Save weather metadata object as weather metadata file (.bin.json).
 
         Args:
-            file_path: The path of the output weather metadata file.
+            file_path (Union[str, Path]): The path of the output weather metadata file.
 
         Returns:
             None
@@ -513,7 +513,7 @@ class WeatherMetadata(WeatherAttributes):
         Convert node offset string into a node-offset dictionary.
 
         Args:
-            offset_str: The node offset string.
+            offset_str (str): The node offset string.
 
         Returns:
             The node-offset dictionary, having node ids as keys and offsets as values.
@@ -535,7 +535,7 @@ class WeatherMetadata(WeatherAttributes):
         Convert node-offset dictionary into a string.
 
         Args:
-            node_offsets: The node offset string.
+            node_offsets (Dict[int, int]): The node offset dictionary.
 
         Returns:
             The node offset string, as it appears in the weather metadata file.

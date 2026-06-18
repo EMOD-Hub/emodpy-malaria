@@ -121,7 +121,7 @@ def get_next_genome(next_barcode_fn, allele_root_id, ser_pop_genome_map, cache_g
 
 def replace_genomes(input_file, next_barcode_fn, output_file):
     """
-        Replaces genomes in infected individuals and vectors.
+    Replaces genomes in infected individuals and vectors.
 
     Args:
         input_file (str):  Input serialized population file

@@ -1,4 +1,6 @@
-"""Shared constants and enumerations used across emodpy-malaria modules."""
+"""
+Shared constants and enumerations used across emodpy-malaria modules.
+"""
 
 from enum import Enum
 

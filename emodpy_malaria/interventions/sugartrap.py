@@ -15,25 +15,25 @@ def _sugar_trap(campaign,
                 killing_box_duration: float = -1,
                 killing_decay_time_constant: float = 0):
     """
-        Configures SugarTrap intervention
+    Configures the **SugarTrap** intervention.
 
-        Note: for killing effects - depending on the parameters you set,
-        different WaningEffect classes will be used:
-        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    For killing effects - depending on the parameters you set,
+    different WaningEffect classes will be used:<br>
+        • box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored<br>
+        • box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential<br>
+        • box_duration > 0 + decay_time_constant = 0 => WaningEffectBox<br>
+        • box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential<br>
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        cost_to_consumer: Per unit cost when distributed
-        expiration_config: (Optional) A dictionary of parameters that define a distribution from which a duration will be
+        cost_to_consumer (float): Per unit cost when distributed
+        expiration_config (dict): A dictionary of parameters that define a distribution from which a duration will be
             selected for when the trap expires. If the trap is distributed on day 1 and has a duration of 10,
             it will expire on day 10 - 10 days of  efficacy including the day of distribution. If the duration is zero,
             the trap is still distributed but is not applied and expires that day.
             If this is not defined, 'expiration_constant' parameter is used, a CONSTANT_DISTRIBUTION.
 
-            Examples::
+            Examples:
 
                         Please note this is not "Expiration_Period_*", but just "Expiration_*"
                         for Gaussian: {"Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
@@ -41,20 +41,20 @@ def _sugar_trap(campaign,
                         for Exponential {"Expiration_Distribution": "EXPONENTIAL_DISTRIBUTION",
                             "Expiration_Exponential":150}
 
-        expiration_constant: Each SugarTrap intervention will expire after this exact time. This is overwritten
+        expiration_constant (float): Each SugarTrap intervention will expire after this exact time. This is overwritten
             by whatever distribution is defined in 'expiration_config' parameter, if defined. Default is
             SugarTrap will expire after 30 days.
-        insecticide: The name of the insecticide defined in <config.Insecticides> for this intervention.
-            If insecticides are being used, then this must be defined as one of those values.  If they are not
-            being used, then this does not needed to be specified or can be empty string.  It cannot have a
+        insecticide (str): The name of the insecticide defined in <config.Insecticides> for this intervention.
+            If insecticides are being used, then this must be defined as one of those values. If they are not
+            being used, then this does not needed to be specified or can be empty string. It cannot have a
             value if <config.Insecticides> does not define anything.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
-            attached to a person if they have different Intervention_Name values.
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-            -1 indicates effect is indefinite (WaningEffectConstant)
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple *SugarTrap* interventions
+            if they have different **Intervention_Name** values.
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (float): Box duration of effect in days before the decay of **killing_initial_effect**.
+            -1 indicates effect is indefinite (WaningEffectConstant).
+        killing_decay_time_constant (float): The exponential decay length, in days of the **killing_initial_effect**.
 
     Returns:
         (dict): Configured SugarTrap intervention
@@ -92,32 +92,32 @@ def add_scheduled_sugar_trap(
         killing_box_duration: float = -1,
         killing_decay_time_constant: float = 0):
     """
-        Creates and adds a scheduled intervention that distributes a SugarTrap (ATSB) to the campaign.
+     Creates and adds a scheduled intervention that distributes a **SugarTrap** (ATSB) to the campaign.
 
-        Note: for killing effects - depending on the parameters you set,
-        different WaningEffect classes will be used:
-        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    For killing effects - depending on the parameters you set,
+    different **WaningEffect** classes will be used:<br>
+        • box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored<br>
+        • box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential<br>
+        • box_duration > 0 + decay_time_constant = 0 => WaningEffectBox<br>
+        • box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential<br>
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        cost_to_consumer: Per unit cost when distributed
-        expiration_config: (Optional) A dictionary of parameters that define a distribution from which a duration will be
+        start_day (int): The day the intervention is given out.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        cost_to_consumer (float): Per unit cost when distributed.
+        expiration_config (dict): A dictionary of parameters that define a distribution from which a duration will be
             selected for when the trap expires. If the trap is distributed on day 1 and has a duration of 10,
-            it will expire on day 10 - 10 days of  efficacy including the day of distribution. If the duration is zero,
+            it will expire on day 10 - 10 days of efficacy including the day of distribution. If the duration is zero,
             the trap is still distributed but is not applied and expires that day.
-            If this is not defined, 'expiration_constant' parameter is used, a CONSTANT_DISTRIBUTION.
+            If this is not defined, **expiration_constant** parameter is used, a CONSTANT_DISTRIBUTION.
 
-            Examples::
+            Examples:
 
                         Please note this is not "Expiration_Period_*", but just "Expiration_*"
                         for Gaussian: {"Expiration_Distribution": "GAUSSIAN_DISTRIBUTION",
@@ -125,20 +125,20 @@ def add_scheduled_sugar_trap(
                         for Exponential {"Expiration_Distribution": "EXPONENTIAL_DISTRIBUTION",
                             "Expiration_Exponential":150}
 
-        expiration_constant: Each SugarTrap intervention will expire after this exact time. This is overwritten
+        expiration_constant (float): Each **SugarTrap** intervention will expire after this exact time. This is overwritten
             by whatever distribution is defined in 'expiration_config' parameter, if defined. Default is
-            SugarTrap will expire after 30 days.
-        insecticide: The name of the insecticide defined in <config.Insecticides> for this intervention.
-            If insecticides are being used, then this must be defined as one of those values.  If they are not
-            being used, then this does not needed to be specified or can be empty string.  It cannot have a
+            **SugarTrap** will expire after 30 days.
+        insecticide (str): The name of the insecticide defined in <config.Insecticides> for this intervention.
+            If insecticides are being used, then this must be defined as one of those values. If they are not
+            being used, then this does not needed to be specified or can be empty string. It cannot have a
             value if <config.Insecticides> does not define anything.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
-            attached to a person if they have different Intervention_Name values.
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-            -1 indicates effect is indefinite (WaningEffectConstant)
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple *SugarTrap* interventions
+            if they have different Intervention_Name values.
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (float): Box duration of effect in days before the decay of **killing_initial_effect**.
+            -1 indicates effect is indefinite (WaningEffectConstant).
+        killing_decay_time_constant (float): The exponential decay length, in days of the **killing_initial_effect**.
     """
     node_intervention = _sugar_trap(campaign=campaign,
                                     cost_to_consumer=cost_to_consumer,
@@ -159,12 +159,13 @@ def add_scheduled_sugar_trap(
 
 def new_intervention_as_file(campaign, start_day: int = 0, filename: str = "SugarTrap.json"):
     """
-    Create new campaign file with a single event which distributes a SugarTrap
+    Create new campaign file with a single event which distributes a **SugarTrap**
     intervention mostly with defaults. Useful for sanity testing and first time users.
+
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign builder.
-        start_day: the day to distribute the SpaceSpraying intervention
-        filename: name of the filename created
+        start_day (int): the day to distribute the SpaceSpraying intervention.
+        filename (str): name of the filename created.
 
     Returns:
         (str): Filename of the file created.

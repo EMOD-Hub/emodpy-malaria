@@ -95,41 +95,38 @@ def add_scheduled_usage_dependent_bednet(
     Add an insecticide-treated net (ITN) intervention with a seasonal usage
     pattern to the campaign using the **UsageDependentBednet** class.
 
-    Note: for killing, blocking, repelling effects - depending on the parameters you set,
-    different WaningEffect classes will be used:
-    box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-    box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-    box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-    box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    For killing, blocking, repelling effects - depending on the parameters you set,
+    different **WaningEffect** classes will be used:<br>
+        • box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored<br>
+        • box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential<br>
+        • box_duration > 0 + decay_time_constant = 0 => WaningEffectBox<br>
+        • box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential<br>
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day on which to start distributing the bednets
+        start_day (int): The day on which to start distributing the bednets
             (**Start_Day** parameter).
-        demographic_coverage: This value is the probability that each individual in the target population will
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
             Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
             demographic_coverage parameter is ignored
-        node_ids: The list of nodes to apply this intervention to (**Node_List** parameter). If not provided,
+        node_ids (list): The list of nodes to apply this intervention to (**Node_List** parameter). If not provided,
             intervention is distributed to all nodes.
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
         ind_property_restrictions: The IndividualProperty key:value pairs
-            that individuals must have to receive the intervention (
-            **Property_Restrictions_Within_Node** parameter). In the format ``[{
+            that individuals must have to receive the intervention (**Property_Restrictions_Within_Node** parameter). In the format ``[{
             "BitingRisk":"High"}, {"IsCool":"Yes}]``.
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
-            attached to a person if they have different Intervention_Name values.
-        discard_config: A dictionary of parameters needed to define expiration distribution.
+        target_age_min (float): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (float): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **UsageDependentBednet** interventions
+            attached to a person if they have different **Intervention_Name** values.
+        discard_config (dict): A dictionary of parameters needed to define expiration distribution.
             No need to definite the distribution with all its parameters
-            Default is bednet being discarded with EXPONENTIAL_DISTRIBUTION with Expiration_Period_Exponential of 10 years
+            Default is bednet being discarded with EXPONENTIAL_DISTRIBUTION with **Expiration_Period_Exponential** of 10 years
 
-            Examples::
+            Examples:
 
                     for Gaussian: {"Expiration_Period_Distribution": "GAUSSIAN_DISTRIBUTION",
                                    "Expiration_Period_Gaussian_Mean": 20,
@@ -137,35 +134,33 @@ def add_scheduled_usage_dependent_bednet(
                     for Exponential: {"Expiration_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                                      "Expiration_Period_Exponential":150}
 
-        insecticide: The name of the insecticide defined in <config.Insecticides> for this intervention.
+        insecticide (str): The name of the insecticide defined in <config.Insecticides> for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if <config.Insecticides> does not define anything.
-        repelling_initial_effect: Initial strength of the Repelling effect. The effect may decay over time.
-        repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial_Effect.
-        repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial_Effect.
-        blocking_initial_effect: Initial strength of the Blocking effect. The effect may decay over time.
-        blocking_box_duration: Box duration of effect in days before the decay of Blocking Initial_Effect.
-        blocking_decay_time_constant: The exponential decay length, in days of the Blocking Initial_Effect.
-        blocking_linear_times: An array of days that matches the defined linear values for Blocking Initial_Effect
-        blocking_linear_values: An array of multiplier values that matches the defined linear days for
-            Blocking Initial_Effect.
-        blocking_expire_at_end: Set to 1 to have efficacy go to zero and let the intervention expire when the end of
+        repelling_initial_effect (float): Initial strength of the Repelling effect. The effect may decay over time.
+        repelling_box_duration (int): Box duration of effect in days before the decay of **repelling_initial_effect**.
+        repelling_decay_time_constant (float): The exponential decay length, in days of the **repelling_initial_effect**.
+        blocking_initial_effect (float): Initial strength of the Blocking effect. The effect may decay over time.
+        blocking_box_duration (int): Box duration of effect in days before the decay of **blocking_initial_effect**.
+        blocking_decay_time_constant (float): The exponential decay length, in days of the **blocking_initial_effect**.
+        blocking_linear_times (list): An array of days that matches the defined linear values for **blocking_initial_effect**.
+        blocking_linear_values (list): An array of multiplier values that matches the defined linear days for
+            **blocking_initial_effect**.
+        blocking_expire_at_end (int): Set to 1 to have efficacy go to zero and let the intervention expire when the end of
             the map is reached.  Only vaccines and bednet usage currently support this expiration feature.
             defaults to 0.
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        age_dependence: A dictionary defining the age dependence of net use.
-            Must contain a list of ages in years and list of usage rate. Default
-            is uniform across all ages.
-            Times are in years of age
-        seasonal_dependence: A dictionary defining the seasonal dependence of net use. Time since start will
-            reset to zero once it reaches 365. This allows you to simulate seasonal effects. Times are given in days
-            of the year; values greater than 365 are ignored. Dictionaries can be (times, values) for linear spline
-            or (minimum coverage, day of maximum coverage) for sinusoidal dynamics.
-            Default is constant use during the year.
-        dont_allow_duplicates: Set to True to prevent individual from receiving another copy of the intervention.
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (int): Box duration of effect in days before the decay of **killing_initial_effect**.
+        killing_decay_time_constant (float): The exponential decay length, in days of the **killing_initial_effect**.
+        age_dependence (dict): A dictionary defining the age dependence of net use.
+            Must contain a list of ages in years and list of usage rate. Default is uniform across all ages.
+            Times are in years of age.
+        seasonal_dependence (dict): A dictionary defining the seasonal dependence of net use. Time since start will
+            reset to zero once it reaches 365. This allows you to simulate seasonal effects.<br>
+            Times are given in daysof the year; values greater than 365 are ignored. Dictionaries can be (times, values) for linear spline
+            or (minimum coverage, day of maximum coverage) for sinusoidal dynamics. Default is constant use during the year.
+        dont_allow_duplicates (bool): Set to True to prevent individual from receiving another copy of the intervention.
             Default is False.
     """
 
@@ -234,12 +229,12 @@ def add_triggered_usage_dependent_bednet(campaign,
     Add an insecticide-treated net (ITN) intervention with a seasonal usage
     pattern to the campaign using the **UsageDependentBednet** class.
 
-    Note: for killing, blocking, repelling effects - depending on the parameters you set,
-    different WaningEffect classes will be used:
-    box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-    box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-    box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-    box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    For killing, blocking, repelling effects - depending on the parameters you set,
+    different WaningEffect classes will be used:<br>
+        • box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored<br>
+        • box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential<br>
+        • box_duration > 0 + decay_time_constant = 0 => WaningEffectBox<br>
+        • box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential<br>
 
 
     Args:
@@ -269,10 +264,10 @@ def add_triggered_usage_dependent_bednet(campaign,
             **Property_Restrictions_Within_Node** parameter). In the format ``[{
             "BitingRisk":"High"}, {"IsCool":"Yes}]``.
         intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
-            attached to a person if they have different Intervention_Name values.
+            others that use the same class. It is possible to have multiple **UsageDependentBednets** interventions
+            attached to a person if they have different **Intervention_Name** values.
         discard_config: A dictionary of parameters needed to define expiration distribution.
-            No need to definite the distribution with all its parameters
+            No need to define the distribution with all its parameters
             Default is bednet being discarded with EXPONENTIAL_DISTRIBUTION with Expiration_Period_Exponential of 10 years
 
             Examples::
@@ -288,29 +283,28 @@ def add_triggered_usage_dependent_bednet(campaign,
             value if <config.Insecticides> does not define anything.
 
         repelling_initial_effect: Initial strength of the Repelling effect. The effect may decay over time.
-        repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial_Effect.
-        repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial_Effect.
+        repelling_box_duration: Box duration of effect in days before the decay of **repelling_initial_effect**.
+        repelling_decay_time_constant: The exponential decay length, in days of the **repelling_initial_effect**.
         blocking_initial_effect: Initial strength of the Blocking effect. The effect may decay over time.
-        blocking_box_duration: Box duration of effect in days before the decay of Blocking Initial_Effect.
-        blocking_decay_time_constant: The exponential decay length, in days of the Blocking Initial_Effect.
-        blocking_linear_times: An array of days that matches the defined linear values for Blocking Initial_Effect.
+        blocking_box_duration: Box duration of effect in days before the decay of **blocking_initial_effect**.
+        blocking_decay_time_constant: The exponential decay length, in days of the **blocking_initial_effect**.
+        blocking_linear_times: An array of days that matches the defined linear values for **blocking_initial_effect**.
         blocking_linear_values: An array of multiplier values that matches the defined linear days for
-            Blocking Initial_Effect.
+            **blocking_initial_effect**.
         blocking_expire_at_end: Set to 1 to have efficacy go to zero and let the intervention expire when the end of
             the map is reached.  Only vaccines and bednet usage currently support this expiration feature.
             defaults to 0.
         killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
+        killing_box_duration: Box duration of effect in days before the decay of **killing_initial_effect**.
+        killing_decay_time_constant: The exponential decay length, in days of the **killing_initial_effect**.
         age_dependence: A dictionary defining the age dependence of net use.
-            Must contain a list of ages in years and list of usage rate. Default
-            is uniform across all ages.
+            Must contain a list of ages in years and list of usage rate. Default is uniform across all ages.
             Times are in years of age
         seasonal_dependence: A dictionary defining the seasonal dependence of net use. Time since start will
-            reset to zero once it reaches 365. This allows you to simulate seasonal effects. Times are given in days
-            of the year; values greater than 365 are ignored. Dictionaries can be (times, values) for linear spline
-            or (minimum coverage, day of maximum coverage) for sinusoidal dynamics.
-            Default is constant use during the year.
+            reset to zero once it reaches 365. This allows you to simulate seasonal effects.<br>
+            Times are given in days of the year; values greater than 365 are ignored.
+            Dictionaries can be (times, values) for linear spline or (minimum coverage, day of maximum coverage) for
+            sinusoidal dynamics. Default is constant use during the year.
         dont_allow_duplicates: Set to True to prevent individual from receiving another copy of the intervention.
             Default is False.
 

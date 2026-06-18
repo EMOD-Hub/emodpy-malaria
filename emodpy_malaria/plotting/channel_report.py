@@ -8,21 +8,19 @@ class ChannelReport:
     """
     A class that can be used to convert an EMOD channel report/dictionary
     (i.e. InsetChart, DemographicsSummary, PropertyReport, etc) into a
-    dataframe.  A static method is provided to go the other way.
+    dataframe. A static method is provided to go the other way.
     """
     def __init__(self, df: pd.DataFrame = None):
         self.json_data = self.convert_df_to_channel_report(df)
 
     def create_empty_channel_report(self):
+    # It would be really nice if we could include **Start_Time** and **Simulation_Timestep** from the input files,
+    # but these are hardcoded for now.
         """
         Create the dictionary that has the right format for a channel report.
-        It would be really nice if we could include Start_Time & Simulation_Timestep
-        from the input files, but these are hardcoded for now.
-
-        Args:
 
         Returns:
-            (dict): A dictionary that has the header and an emtpy 'Channels' entry
+            (dict): A dictionary that has the header and an empty **Channels** entry.
         """
         report = {}
         report["Header"] = {}
@@ -41,7 +39,7 @@ class ChannelReport:
 
     def add_channel(self, report, channel_name, values):
         """
-        Add the values of the channel to the report
+        Add the values of the channel to the report.
 
         Args:
             report (dict): a channel report formatted JSON dictionary
@@ -64,11 +62,11 @@ class ChannelReport:
 
         Args:
             df (pd.DataFrame): a dataframe where the columns are the channels and there
-                is a row for each time step
+                is a row for each time step.
 
         Returns:
             (dict): A dictionary that contains the data from the dataframe and can be
-                converted to a JSON channel report
+                converted to a JSON channel report.
         """
         report = self.create_empty_channel_report()
 
@@ -81,8 +79,9 @@ class ChannelReport:
     def save(self, filename):
         """
         Save this report data to a file.
+
         Args:
-            filename: The name of the file (including path) to contain the data/JSON.
+            filename (str): The name of the file (including path) to contain the data/JSON.
 
         Returns:
         """
@@ -93,7 +92,7 @@ class ChannelReport:
     @staticmethod
     def convert_to_df(channel_report_dict, channels_to_extract=None):
         """
-        Convert the input dictionary into a dataframe
+        Convert the input dictionary into a dataframe.
 
         Args:
             channel_report_dict (dict):
