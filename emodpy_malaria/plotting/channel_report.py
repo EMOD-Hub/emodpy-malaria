@@ -82,7 +82,7 @@ class ChannelReport:
         """
         Save this report data to a file.
         Args:
-            filename: The name of the file (including path) to contain the data/JSON.
+            filename (str): The name of the file (including path) to contain the data/JSON.
 
         Returns:
         """

@@ -47,20 +47,20 @@ def configure_serialization_write(
     and disables reading. Provide exactly one of *time_steps* or *times*.
 
     Args:
-        config: The config object (``task.config``).
-        time_steps: Simulation time steps at which to serialize.
+        config (object): The config object (``task.config``).
+        time_steps (list[int]): Simulation time steps at which to serialize.
             ``0`` = initial state, ``n`` = after the *n*-th time step.
             Sets ``Serialized_Population_Writing_Type = "TIMESTEP"``.
-        times: Absolute simulation times at which to serialize (rounded
+        times (list[float]): Absolute simulation times at which to serialize (rounded
             up to the nearest time step internally by EMOD).
             Sets ``Serialized_Population_Writing_Type = "TIME"``.
-        precision: Floating-point precision for the serialized file.
+        precision (Union[SerializationPrecision, str]): Floating-point precision for the serialized file.
             ``REDUCED`` (default) produces smaller files; ``FULL`` preserves
             full precision.
-        mask_node_write: Bitmask controlling what data is saved.
+        mask_node_write (int): Bitmask controlling what data is saved.
             ``0`` saves everything. ``16`` skips saving larval habitat data, which will then be loaded
             from species config on read.
-        max_humans_per_collection: Maximum number of human agents saved per
+        max_humans_per_collection (int): Maximum number of human agents saved per
             collection in the serialized file. Higher values are faster to
             read/write but use more memory. Default 2000.
     """
@@ -114,16 +114,16 @@ def configure_serialization_read(
     writing.
 
     Args:
-        config: The config object (``task.config``).
-        path: Root directory containing the ``.dtk`` file(s).
+        config (object): The config object (``task.config``).
+        path (str): Root directory containing the ``.dtk`` file(s).
             This must be a path that EMOD can reach at runtime — use
-            :func:`get_burnin_sim_outpaths` to obtain platform-correct paths.
-        filenames: ``.dtk`` filename(s) to load. The number of
+            `get_burnin_sim_outpaths()` to obtain platform-correct paths.
+        filenames (list[str]): ``.dtk`` filename(s) to load. The number of
             filenames must match the number of cores used for the simulation.
-        mask_node_read: Bitmask controlling what data is loaded.
+        mask_node_read (int): Bitmask controlling what data is loaded.
             ``0`` loads everything. ``16`` skips larval habitat data
             (habitats will be read from species config instead).
-        enable_random_generator_from_serialized: If ``True``, the random
+        enable_random_generator_from_serialized (bool): If ``True``, the random
             number generator state is restored from the serialized file,
             producing an exact continuation of the original simulation.
     """
@@ -154,23 +154,23 @@ def get_burnin_sim_outpaths(
 
     Returns a DataFrame with at least ``sim_id`` and ``outpath`` columns.
     ``outpath`` is the value to pass as *population_path* to
-    :func:`configure_serialization_read` — it already points to each
+    `configure_serialization_read()` — it already points to each
     simulation's ``output/`` directory using a path that the pickup
     simulation's EMOD process can reach (container-mapped, COMPS working
     directory, or local filesystem path as appropriate).
 
     Args:
-        experiment_id: The burnin experiment ID.
-        platform: The idmtools ``Platform`` object for the pickup run.
+        experiment_id (str): The burnin experiment ID.
+        platform (object): The idmtools ``Platform`` object for the pickup run.
             The platform type determines how paths are resolved:
 
-            - **COMPS** — converts the HPC working directory to a
+            - COMPS — converts the HPC working directory to a
               ``/mnt/...`` UNC path and appends ``/output``.
-            - **Container** — maps the host-side simulation directory into
+            - Container — maps the host-side simulation directory into
               the container mount namespace via ``map_container_path``.
             - **Slurm / File** — uses the absolute host filesystem path.
 
-        tag_columns: Optional simulation tag names to include as extra
+        tag_columns (list[str]): Optional simulation tag names to include as extra
             columns in the returned DataFrame (e.g. ``["Run_Number"]``).
 
     Returns:

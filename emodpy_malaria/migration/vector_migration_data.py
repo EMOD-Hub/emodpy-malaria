@@ -57,10 +57,10 @@ class VectorMigrationData(MigrationData):
         but restricted to vector migration constraints (no age layers).
 
         Args:
-            demographics: Demographics object with .nodes and .idref
-            gravity_params: list of 4 floats [g0, g1, g2, g3].
+            demographics (object): Demographics object with .nodes and .idref
+            gravity_params (list[float]): list of 4 floats [g0, g1, g2, g3].
                 rate = g0 * from_pop^g1 * to_pop^g2 * distance_km^g3, capped at 1.0
-            female_multiplier: if provided, creates ONE_FOR_EACH_GENDER data where
+            female_multiplier (float): if provided, creates ONE_FOR_EACH_GENDER data where
                 female_rate = male_rate * female_multiplier
 
         Returns:
@@ -78,10 +78,10 @@ class VectorMigrationData(MigrationData):
         """Create vector migration data from explicit rate dictionaries.
 
         Args:
-            rates: dict of {(from_node_id, to_node_id): rate} for male vectors
-                (or all vectors if female_rates is None)
-            idref: IdReference string
-            female_rates: optional dict of {(from_node_id, to_node_id): rate} for female vectors.
+            rates (dict): dict of {(from_node_id, to_node_id): rate} for male vectors
+                (or all vectors if **female_rates** is None)
+            idref (str): IdReference string
+            female_rates (dict): optional dict of {(from_node_id, to_node_id): rate} for female vectors.
                 If provided, creates ONE_FOR_EACH_GENDER data.
 
         Returns:
@@ -117,7 +117,7 @@ class VectorMigrationData(MigrationData):
         to use.
 
         Args:
-            allele_combos_rates: dict mapping allele combination tuples to rate dicts.
+            allele_combos_rates (dict): dict mapping allele combination tuples to rate dicts.
                 Keys are tuples of allele pairs. The empty tuple ``()`` is the default
                 (used when no specific combo matches). Example::
 
@@ -127,7 +127,7 @@ class VectorMigrationData(MigrationData):
                         (("a1", "a0"), ("b0", "b1")): {(1, 2): 0.03},
                     }
 
-            idref: IdReference string
+            idref (str): IdReference string
 
         Returns:
             VectorMigrationData with GenderDataType=VECTOR_MIGRATION_BY_GENETICS
@@ -169,8 +169,8 @@ class VectorMigrationData(MigrationData):
         with AlleleCombinations in metadata.
 
         Args:
-            binary_path: path to the binary migration file
-            metafile: path to JSON metadata file (default: binary_path + ".json")
+            binary_path (Union[str, Path]): path to the binary migration file
+            metafile (Union[str, Path]): path to JSON metadata file (default: **binary_path** + ".json")
 
         Returns:
             VectorMigrationData
@@ -280,11 +280,11 @@ class VectorMigrationData(MigrationData):
         and uses AgesYears as allele combo indices.
 
         Args:
-            path: output path for the binary file (metadata written to path + ".json")
-            migration_type: MigrationType enum or string. Default LOCAL.
-            interpolation_type: ignored — always PIECEWISE_CONSTANT for vectors
-            value_limit: max destinations per source node (default 100)
-            user_notes: free-text description stored in metadata as USER_NOTES
+            path (Union[str, Path]): output path for the binary file (metadata written to path + ".json")
+            migration_type (Union[MigrationType, str]): MigrationType enum or string. Default LOCAL.
+            interpolation_type (object): ignored — always PIECEWISE_CONSTANT for vectors
+            value_limit (int): max destinations per source node (default 100)
+            user_notes (str): free-text description stored in metadata as USER_NOTES
 
         Returns:
             Path to binary file

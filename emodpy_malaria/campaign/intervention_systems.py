@@ -76,20 +76,20 @@ DRUG_CODES = {
 
 def drug_configs_from_code(campaign: api_campaign, drug_code: str) -> list[AntimalarialDrug]:
     """
-    Build a list of :class:`~emodpy_malaria.campaign.individual_intervention.AntimalarialDrug`
+    Build a list of [AntimalarialDrug](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/)
     interventions from a shorthand drug code.
 
     Args:
         campaign (api_campaign, required):
             The campaign object.
         drug_code (str, required):
-            A key from :data:`DRUG_CODES` (e.g. ``"AL"``, ``"DP"``, ``"SP"``).
+            A key from `DRUG_CODES` (e.g. ``"AL"``, ``"DP"``, ``"SP"``).
 
     Returns:
         list[AntimalarialDrug]: One intervention per drug in the regimen.
 
     Raises:
-        ValueError: If *drug_code* is not in :data:`DRUG_CODES`.
+        ValueError: If *drug_code* is not in `DRUG_CODES`.
     """
     if not drug_code or drug_code not in DRUG_CODES:
         valid = ", ".join(DRUG_CODES.keys())
@@ -201,13 +201,13 @@ def add_treatment_seeking(campaign: api_campaign,
             A list of dictionaries, each defining one trigger-and-target combination.
             Each dictionary supports the following keys:
 
-            * ``trigger`` (str, **required**) -- The individual event that triggers
+            * ``trigger`` (str, required) -- The individual event that triggers
               drug distribution (e.g. ``"NewClinicalCase"``, ``"NewSevereCase"``).
             * ``coverage`` (float, optional) -- Fraction of qualifying individuals
               who receive treatment. Default: 1.0.
             * ``agemin`` (float, optional) -- Minimum age in years. Default: 0.
             * ``agemax`` (float, optional) -- Maximum age in years.
-              Default: :data:`~emodpy_malaria.campaign.common.MAX_AGE_YEARS`.
+              Default: [MAX_AGE_YEARS](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/common/).
             * ``rate`` (float, optional) -- Rate parameter for an exponential delay
               (1 / mean delay in days) between trigger and treatment. A value of 0
               means treatment is immediate. Default: 0.
@@ -222,7 +222,7 @@ def add_treatment_seeking(campaign: api_campaign,
 
         drug (list[str], optional):
             Names of antimalarial drugs to distribute. Each name must match a drug
-            configured in the simulation's **Malaria_Drug_Params**.
+            configured in the simulation's Malaria_Drug_Params.
             Default: ``["Artemether", "Lumefantrine"]``.
 
         start_day (float, optional):
@@ -234,14 +234,14 @@ def add_treatment_seeking(campaign: api_campaign,
             Default: None.
 
         property_restrictions (PropertyRestrictions, optional):
-            A :class:`~emodpy_malaria.campaign.common.PropertyRestrictions` object
+            A [PropertyRestrictions](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/common/) object
             specifying individual property restrictions for receiving treatment.
             Default: None.
 
         drug_ineligibility_duration (float, optional):
             Number of days an individual is ineligible for additional drugs after
             receiving treatment. Implemented by setting the individual property
-            ``DrugStatus`` to ``RecentDrug`` for this duration. Set to 0 to disable.
+            ``DrugStatus`` to ``RecentDrug`` for this **duration**. Set to 0 to disable.
             Default: 0.
 
         duration (float, optional):
@@ -360,7 +360,7 @@ def add_diagnostic_survey(
         expire_recent_drugs: bool = False) -> None:
     """
     Add a scheduled or triggered diagnostic survey to the campaign using a
-    :class:`~emodpy_malaria.campaign.individual_intervention.MalariaDiagnostic`.
+    [MalariaDiagnostic](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/).
     Upon positive or negative diagnosis, the interventions in
     **positive_diagnosis_configs** or **negative_diagnosis_configs** are distributed
     to the individual.
@@ -368,7 +368,7 @@ def add_diagnostic_survey(
     The **drug** parameter provides a convenient shorthand: when set, it builds drug
     intervention configs and appends them to **positive_diagnosis_configs**
     automatically. If **treatment_delay** is also set, the drugs are wrapped in a
-    :class:`~emodpy_malaria.campaign.individual_intervention.DelayedIntervention`.
+    [DelayedIntervention](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/).
 
     The diagnostic broadcasts ``"TestedPositive"`` and ``"TestedNegative"`` events.
     If **positive_diagnosis_configs** or **negative_diagnosis_configs** are provided,
@@ -381,15 +381,15 @@ def add_diagnostic_survey(
 
         drug (Union[str, list], optional):
             Drug regimen to distribute on positive diagnosis. Either a drug code
-            string from :data:`DRUG_CODES` (e.g. ``"AL"``, ``"DP"``) or a list
+            string from `DRUG_CODES` (e.g. ``"AL"``, ``"DP"``) or a list
             of drug intervention objects (e.g.
-            :class:`~emodpy_malaria.campaign.individual_intervention.AdherentDrug`
+            [AdherentDrug](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/)
             instances). When provided, the resolved drug interventions are added
             to **positive_diagnosis_configs**. Default: None.
 
         diagnostic_type (Union[DiagnosticType, str], optional):
             Type of malaria diagnostic. See
-            :class:`~emodpy_malaria.utils.emod_enum.DiagnosticType` for valid values.
+            [DiagnosticType](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/emod_enum/) for valid values.
             Default: ``DiagnosticType.BLOOD_SMEAR_PARASITES``.
 
         detection_threshold (float, optional):
@@ -402,7 +402,7 @@ def add_diagnostic_survey(
 
         treatment_delay (BaseDistribution, optional):
             Delay distribution between positive diagnosis and drug distribution.
-            Only used when **drug** is provided. For example,
+            Only used when drug is provided. For example,
             ``ConstantDistribution(3)`` for a fixed 3-day delay.
             Default: None (no delay).
 
@@ -418,7 +418,7 @@ def add_diagnostic_survey(
 
         positive_diagnosis_configs (list, optional):
             Intervention objects distributed to individuals who test positive.
-            If **drug** is also provided, the drug interventions are appended
+            If drug is also provided, the drug interventions are appended
             to this list.
 
         negative_diagnosis_configs (list, optional):
@@ -683,7 +683,7 @@ def add_drug_campaign(campaign: api_campaign,
             * ``MTAT`` -- Mass testing and treatment; same as MSAT.
             * ``fMDA`` -- Focal MDA; diagnostic triggers drugs to nearby nodes.
             * ``rfMSAT`` -- Reactive focal MSAT; index-case treatment triggers
-              diagnostic surveys on neighboring nodes, cascading via snowballs.
+              diagnostic surveys on neighboring nodes, cascading via **snowballs**.
             * ``rfMDA`` -- Reactive focal MDA; index-case treatment triggers drug
               distribution to neighboring nodes.
             * ``PMC`` -- Preventive malaria chemoprevention; birth-triggered drug
@@ -692,9 +692,9 @@ def add_drug_campaign(campaign: api_campaign,
             Default: ``CampaignType.MDA``.
         drug (Union[str, list[AdherentDrug]], required):
             The drug regimen to distribute. Either a drug code string from
-            :data:`DRUG_CODES` (e.g. ``"AL"``, ``"DP"``, ``"SP"``) or a list of
+            `DRUG_CODES` (e.g. ``"AL"``, ``"DP"``, ``"SP"``) or a list of
             drug intervention objects (e.g.
-            :class:`~emodpy_malaria.campaign.individual_intervention.AdherentDrug`
+            [AdherentDrug](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/)
             instances).
         start_days (list, optional):
             Simulation days for drug distribution. Default: ``[1]``.

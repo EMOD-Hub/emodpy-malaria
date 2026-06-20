@@ -17,14 +17,14 @@ def add_broadcast_coordinator_event(campaign: api_campaign,
                                     node_ids: Optional[List[int]] = None) -> None:
     """
     Add a coordinator-level event broadcast to the campaign. This creates a
-    :class:`~emodpy.campaign.event_coordinator.BroadcastCoordinatorEvent` coordinator that
+    [BroadcastCoordinatorEvent](https://emod.idmod.org/emodpy/autoapi/emodpy/campaign/event_coordinator/) coordinator that
     broadcasts a single coordinator event when the campaign event fires. It does **not**
     distribute interventions.
 
     This is useful for triggering coordinator-level event chains. For example, it can
     broadcast the start trigger for a
-    :class:`~emodpy.campaign.event_coordinator.SurveillanceEventCoordinator` or a
-    :class:`~emodpy_malaria.campaign.event_coordinator.VectorSurveillanceEventCoordinator`.
+    [SurveillanceEventCoordinator](https://emod.idmod.org/emodpy/autoapi/emodpy/campaign/event_coordinator/) or a
+    [VectorSurveillanceEventCoordinator](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/event_coordinator/).
 
     Args:
         campaign (api_campaign, required):
@@ -32,13 +32,13 @@ def add_broadcast_coordinator_event(campaign: api_campaign,
               instance of the emod_api.campaign class.
         broadcast_event (str, required):
             - The name of the coordinator-level event to broadcast. Must be a non-empty
-              string. The event must be defined in **Custom_Coordinator_Events** in the
+              string. The event must be defined in Custom_Coordinator_Events in the
               simulation configuration.
         start_day (float, required):
             - The simulation day when the event fires.
         coordinator_name (str, optional):
             - A descriptive name for this coordinator instance, useful in output reports
-              such as :class:`~emodpy.reporters.common.ReportCoordinatorEventRecorder`.
+              such as [ReportCoordinatorEventRecorder](https://emod.idmod.org/emodpy/autoapi/emodpy/reporters/common/).
             - Default value: "BroadcastCoordinatorEvent"
         cost_to_consumer (float, optional):
             - The unit cost per coordinator created.
@@ -109,7 +109,7 @@ def add_vector_surveillance(campaign: api_campaign,
               and what statistic to compute.
         start_trigger_condition_list (list[str], required):
             - A list of coordinator-level events that, when heard, start the coordinator's
-              periodic sampling at the interval specified by the counter's ``update_period``.
+              periodic sampling at the interval specified by the **counter**'s ``update_period``.
             - Cannot be an empty list.
         start_day (float, required):
             - The simulation day when the surveillance is distributed. The surveillance does

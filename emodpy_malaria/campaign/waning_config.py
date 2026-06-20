@@ -11,8 +11,8 @@ class InsecticideWaningEffect_K:
 
     Used by:
 
-    * :class:`~emodpy_malaria.campaign.node_intervention.MultiInsecticideIndoorSpaceSpraying`
-    * :class:`~emodpy_malaria.campaign.node_intervention.MultiInsecticideSpaceSpraying`
+    * [MultiInsecticideIndoorSpaceSpraying](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/node_intervention/)
+    * [MultiInsecticideSpaceSpraying](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/node_intervention/)
 
     Args:
         campaign (api_campaign, required):
@@ -21,14 +21,14 @@ class InsecticideWaningEffect_K:
         killing_config (AbstractWaningConfig, required):
             The waning effect configuration for insecticidal killing efficacy. Specify how this
             effect decays over time using one of the waning effect classes in
-            :mod:`emodpy_malaria.campaign.waning_config`.
+            [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
-            The name of the insecticide defined in the **Insecticides** configuration parameter.
+            The name of the insecticide defined in the Insecticides configuration parameter.
             If insecticides are being used, this must match one of those values. It cannot have
-            a value if you did not configure the **Insecticides** parameter. See
-            `vector-model-insecticide-resistance <vector-model-insecticide-resistance.html>`_
-            and `vector-model-genetics <vector-model-genetics.html>`_ for details.
+            a value if you did not configure the Insecticides parameter. See
+            [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
     """
 
@@ -61,7 +61,7 @@ class InsecticideWaningEffect_RK:
 
     Used by:
 
-    * :class:`~emodpy_malaria.campaign.individual_intervention.MultiInsecticideIRSHousingModification`
+    * [MultiInsecticideIRSHousingModification](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/)
 
     Args:
         campaign (api_campaign, required):
@@ -71,21 +71,21 @@ class InsecticideWaningEffect_RK:
             The waning effect configuration for insecticidal killing efficacy. Killing
             probabilities are applied to vectors that were not repelled. Specify how this
             effect decays over time using one of the waning effect classes in
-            :mod:`emodpy_malaria.campaign.waning_config`.
+            [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         repelling_config (AbstractWaningConfig, required):
             The waning effect configuration for repelling efficacy. A vector is repelled
             before any killing can occur. Repelled vectors survive and do not attempt to
             feed again until the following day. Specify how this effect decays over time
             using one of the waning effect classes in
-            :mod:`emodpy_malaria.campaign.waning_config`.
+            [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
-            The name of the insecticide defined in the **Insecticides** configuration parameter.
+            The name of the insecticide defined in the Insecticides configuration parameter.
             If insecticides are being used, this must match one of those values. It cannot have
-            a value if you did not configure the **Insecticides** parameter. See
-            `vector-model-insecticide-resistance <vector-model-insecticide-resistance.html>`_
-            and `vector-model-genetics <vector-model-genetics.html>`_ for details.
+            a value if you did not configure the Insecticides parameter. See
+            [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
     """
 
@@ -126,7 +126,7 @@ class InsecticideWaningEffect_RBK:
 
     Used by:
 
-    * :class:`~emodpy_malaria.campaign.individual_intervention.MultiInsecticideUsageDependentBednet`
+    * [MultiInsecticideUsageDependentBednet](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/)
 
     Args:
         campaign (api_campaign, required):
@@ -138,13 +138,13 @@ class InsecticideWaningEffect_RBK:
             mimicking the mosquito landing on the bednet. Killing probabilities are applied
             to the subset of mosquitoes that are blocked. Specify how this effect decays
             over time using one of the waning effect classes in
-            :mod:`emodpy_malaria.campaign.waning_config`.
+            [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         blocking_config (AbstractWaningConfig, required):
             The waning effect configuration for blocking efficacy. Blocking probabilities
             are applied to the subset of meal-seeking mosquitoes that have not been
             repelled. Specify how this effect decays over time using one of the waning
-            effect classes in :mod:`emodpy_malaria.campaign.waning_config`.
+            effect classes in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         repelling_config (AbstractWaningConfig, required):
             The waning effect configuration for repelling efficacy. This is the first
@@ -152,14 +152,14 @@ class InsecticideWaningEffect_RBK:
             vectors survive and do not attempt to feed again until the following day and
             are not affected by the blocking or killing effects. Specify how this effect
             decays over time using one of the waning effect classes in
-            :mod:`emodpy_malaria.campaign.waning_config`.
+            [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
-            The name of the insecticide defined in the **Insecticides** configuration parameter.
+            The name of the insecticide defined in the Insecticides configuration parameter.
             If insecticides are being used, this must match one of those values. It cannot have
-            a value if you did not configure the **Insecticides** parameter. See
-            `vector-model-insecticide-resistance <vector-model-insecticide-resistance.html>`_
-            and `vector-model-genetics <vector-model-genetics.html>`_ for details.
+            a value if you did not configure the Insecticides parameter. See
+            [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
     """
 

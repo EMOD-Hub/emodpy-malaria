@@ -43,20 +43,20 @@ def csv_to_weather(csv_data: Union[str, Path, pd.DataFrame],
     """Convert a CSV file or DataFrame to EMOD weather files.
 
     Args:
-        csv_data: Path to CSV file or a pandas DataFrame containing weather
+        csv_data (Union[str, Path, pd.DataFrame]): Path to CSV file or a pandas DataFrame containing weather
             data with node, step, and weather variable columns.
-        node_column: Column name for node IDs.
-        step_column: Column name for time step indices.
-        weather_columns: ``{WeatherVariable: column_name}`` mapping. If
-            omitted, default column names from :class:`WeatherVariable`
+        node_column (str): Column name for node IDs.
+        step_column (str): Column name for time step indices.
+        weather_columns (dict[WeatherVariable, str]): ``{WeatherVariable: column_name}`` mapping. If
+            omitted, default column names from [WeatherVariable](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_variable/)
             values are used (``airtemp``, ``humidity``, ``rainfall``).
-        attributes: Optional metadata attributes for the output files.
-        weather_dir: If specified, write ``.bin``/``.bin.json`` files here.
-        weather_file_names: Optional ``{WeatherVariable: filename}``
+        attributes (WeatherAttributes): Optional metadata attributes for the output files.
+        weather_dir (Union[str, Path]): If specified, write ``.bin``/``.bin.json`` files here.
+        weather_file_names (dict[WeatherVariable, str]): Optional ``{WeatherVariable: filename}``
             mapping. If omitted, conventional names are generated.
 
     Returns:
-        :class:`WeatherSet` containing the parsed weather data.
+        [WeatherSet](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_set/) containing the parsed weather data.
     """
     if isinstance(csv_data, pd.DataFrame):
         ws = WeatherSet.from_dataframe(
@@ -88,14 +88,14 @@ def weather_to_csv(weather_dir: Union[str, Path],
     """Convert EMOD weather files to a CSV file or DataFrame.
 
     Args:
-        weather_dir: Directory containing ``.bin``/``.bin.json`` file pairs.
-        weather_file_prefix: File name prefix for auto-detection (e.g.
+        weather_dir (Union[str, Path]): Directory containing ``.bin``/``.bin.json`` file pairs.
+        weather_file_prefix (str): File name prefix for auto-detection (e.g.
             ``"namawala_weather"``).
-        weather_file_names: Explicit ``{WeatherVariable: filename}`` mapping.
-        csv_file: If specified, write the output DataFrame to this path.
-        node_column: Column name for node IDs in the output.
-        step_column: Column name for time step indices in the output.
-        weather_columns: ``{WeatherVariable: column_name}`` mapping for
+        weather_file_names (dict[WeatherVariable, str]): Explicit ``{WeatherVariable: filename}`` mapping.
+        csv_file (Union[str, Path]): If specified, write the output DataFrame to this path.
+        node_column (str): Column name for node IDs in the output.
+        step_column (str): Column name for time step indices in the output.
+        weather_columns (dict[WeatherVariable, str]): ``{WeatherVariable: column_name}`` mapping for
             the output.
 
     Returns:

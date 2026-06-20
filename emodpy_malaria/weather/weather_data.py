@@ -1,13 +1,13 @@
 """Weather data classes for reading/writing EMOD binary weather files (``.bin``).
 
-Wraps :class:`emod_api.weather.weather.Weather` (``BaseWeather``) for core
+Wraps [emod_api.weather.weather.Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) (``BaseWeather``) for core
 binary file I/O, extending it with:
 
 * Shared-offset support (deduplication of identical time series).
 * DataFrame import/export.
-* Rich metadata attributes via :class:`~emodpy_malaria.weather.weather_metadata.WeatherMetadata`.
+* Rich metadata attributes via [WeatherMetadata](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_metadata/).
 
-:class:`DataFrameInfo` is a helper for detecting or specifying DataFrame
+[DataFrameInfo](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_data/) is a helper for detecting or specifying DataFrame
 column names when converting between tabular and binary formats.
 """
 
@@ -31,9 +31,9 @@ class WeatherData:
         """Create from a NumPy array of unique time series.
 
         Args:
-            data: float32 array. Shape ``(n_unique_series, series_len)`` or
-                  a flat 1-D array that will be reshaped using *metadata*.
-            metadata: If omitted, auto-generated with node IDs 1..N.
+            data (np.ndarray): float32 array. Shape ``(n_unique_series, series_len)`` or
+                  a flat 1-D array that will be reshaped using ***metadata***.
+            metadata (WeatherMetadata): If omitted, auto-generated with node IDs 1..N.
         """
         data = self._ensure_data_type(data)
         self._data: np.ndarray = data
@@ -76,7 +76,7 @@ class WeatherData:
         return self._data
 
     def to_base_weather(self) -> BaseWeather:
-        """Create an :class:`emod_api.weather.weather.Weather` instance.
+        """Create an [emod_api.weather.weather.Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
 
         Useful for interoperability with code that expects the emod-api
         ``Weather`` object.  Note: shared offsets are expanded — each node
@@ -98,7 +98,7 @@ class WeatherData:
     @classmethod
     def from_base_weather(cls, base: BaseWeather,
                           attributes: WeatherAttributes = None) -> "WeatherData":
-        """Create from an :class:`emod_api.weather.weather.Weather` instance."""
+        """Create from an [emod_api.weather.weather.Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance."""
         node_series = {
             node_id: base.nodes[node_id].data
             for node_id in base.node_ids
@@ -119,10 +119,10 @@ class WeatherData:
         Identifies unique series and builds a compact binary representation.
 
         Args:
-            node_series: Node ID to time series mapping.
-            same_nodes: Optional mapping of nodes in *node_series* to
+            node_series (dict[int, Union[np.ndarray, list[float]]]): Node ID to time series mapping.
+            same_nodes (dict[int, list[int]]): Optional mapping of nodes in ***node_series*** to
                 additional node IDs that share the same data.
-            attributes: Optional metadata attributes.
+            attributes (WeatherAttributes): Optional metadata attributes.
         """
         if not isinstance(node_series, dict) or len(node_series) == 0:
             exc = TypeError if not isinstance(node_series, dict) else ValueError

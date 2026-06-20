@@ -680,11 +680,11 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
     Args:
         demographics_object (MalaraiDemographics): demographics object created by Demographics class (use Demographics.from_file()
             to load a demographics file you already have and pass in the returned object)
-        gravity_params: a list of four parameters that will affect the gravity model
+        gravity_params (list): a list of four parameters that will affect the gravity model
             gravity_params[0] denoted as g[0], etc, and they are used in the following way:
             migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
             if rate >= 1, 1 is used.
-        filename: name of migration file to be created and added to the experiment,
+        filename (str): name of migration file to be created and added to the experiment,
             Default: vector_migration.bin
 
     Returns:
@@ -696,13 +696,13 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
         Utility function for computing migration rates using gravity model
 
         Args:
-            gravity_params: a list of four parameters that will affect the gravity model
+            gravity_params (list[float]): a list of four parameters that will affect the gravity model
                 gravity_params[0] denoted as g[0], etc, and they are used in the following way:
                 migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
                 if migration_rate >= 1, 1 is used.
-            from_node_population: Initial_Population in the from_node
-            to_node_population: Initial_Population in the to_node
-            distance: distance, in kilomenteres, between two nodes
+            from_node_population (int): Initial_Population in the from_node
+            to_node_population (int): Initial_Population in the to_node
+            distance (float): distance, in kilometres, between two nodes
 
         Returns:
             (float): Rate of vector migration from from_node to to_node
@@ -721,12 +721,12 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
         Utility function for computing migration value map.
 
         Args:
-            node_list: list of nodes as dictionaries created from the demographics object
-            gravity_params: a list of four parameters that will affect the gravity model
+            node_list (list): list of nodes as dictionaries created from the demographics object
+            gravity_params (list): a list of four parameters that will affect the gravity model
                 gravity_params[0] denoted as g[0], etc, and they are used in the following way:
                 rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
                 if rate >= 1, 1 is used.
-            exclude_nodes: a list of node ids for nodes you don't want any migration happening to or from.
+            exclude_nodes (list): a list of node ids for nodes you don't want any migration happening to or from.
 
         Returns:
             (VectorMigration): VectorMigration object based on demographics object that was passed in
@@ -793,12 +793,12 @@ def from_csv(filename_path: str, id_reference: str, migration_type: str = "LOCAL
     migrating, 'to_node' for the node ids that the vector is migrating to, and 'rate' for the migration rate.
 
     Args:
-        filename_path: name (if same folder) or path+name of the csv file
-        id_reference: IdReference parameter to set for the migration file, it needs to be the same as
+        filename_path (str): name (if same folder) or path+name of the csv file
+        id_reference (str): IdReference parameter to set for the migration file, it needs to be the same as
             IdReference parameter in your demographics files.
-        migration_type: "LOCAL_MIGRATION" or "REGIONAL_MIGRATION" setting, "LOCAL_MIGRATION" can have 8 "to_nodes"
+        migration_type (str): "LOCAL_MIGRATION" or "REGIONAL_MIGRATION" setting, "LOCAL_MIGRATION" can have 8 "to_nodes"
             while "REGIONAL_MIGRATION" can have 30, default is "LOCAL_MIGRATION"
-        author: optional metadata of who is the author(you) of the migration file, default - your username or empty
+        author (str): optional metadata of who is the author(you) of the migration file, default - your username or empty
             string will be used
 
     Returns:

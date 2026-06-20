@@ -109,12 +109,12 @@ def species_params(manifest: object, species: str = None) -> object | list[str]:
     """
     Returns configured species parameters based on species name.
 
-    Prefer :class:`~emodpy_malaria.vector_config.VectorSpeciesParameters`
-    and its :meth:`from_preset` classmethod for new code.
+    Prefer [VectorSpeciesParameters](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/vector_config/)
+    and its `from_preset()` classmethod for new code.
 
     Args:
-        manifest: module containing ``schema_file`` path
-        species: name of the species to configure
+        manifest (object): module containing ``schema_file`` path
+        species (str): name of the species to configure
 
     Returns:
         Schema-backed parameters dict if species is found;

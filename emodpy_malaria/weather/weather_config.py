@@ -30,16 +30,16 @@ def set_climate_constant(config: object, *,
     variance is non-zero or rainfall stochasticity is enabled.
 
     Args:
-        config: The EMOD config object (``task.config``).
-        air_temperature: Base air temperature in Celsius.
-        rainfall: Base rainfall in mm/update_resolution.
-        relative_humidity: Base relative humidity (0.0 -- 1.0).
-        update_resolution: Climate update frequency.
-        air_temperature_variance: Standard deviation (Celsius) for
+        config (object): The EMOD config object (``task.config``).
+        air_temperature (float): Base air temperature in Celsius.
+        rainfall (float): Base rainfall in mm/**update_resolution**.
+        relative_humidity (float): Base relative humidity (0.0 -- 1.0).
+        update_resolution (Union[ClimateUpdateResolution, str]): Climate update frequency.
+        air_temperature_variance (float): Standard deviation (Celsius) for
             Gaussian noise on daily air temperature.
-        relative_humidity_variance: Standard deviation (fraction) for
+        relative_humidity_variance (float): Standard deviation (fraction) for
             Gaussian noise on daily relative humidity.
-        enable_rainfall_stochasticity: Draw daily rainfall from an
+        enable_rainfall_stochasticity (bool): Draw daily **rainfall** from an
             exponential distribution with mean equal to the base value.
     """
     if not isinstance(update_resolution, ClimateUpdateResolution):
@@ -92,22 +92,22 @@ def set_climate_by_data(config: object, *,
     variance is non-zero or rainfall stochasticity is enabled.
 
     Args:
-        config: The EMOD config object (``task.config``).
-        air_temperature_filename: Path to air temperature ``.bin`` file.
-        rainfall_filename: Path to rainfall ``.bin`` file.
-        relative_humidity_filename: Path to relative humidity ``.bin`` file.
-        update_resolution: Climate update frequency.
-        air_temperature_offset: Additive offset applied to all air
+        config (object): The EMOD config object (``task.config``).
+        air_temperature_filename (str): Path to air temperature ``.bin`` file.
+        rainfall_filename (str): Path to rainfall ``.bin`` file.
+        relative_humidity_filename (str): Path to relative humidity ``.bin`` file.
+        update_resolution (Union[ClimateUpdateResolution, str]): Climate update frequency.
+        air_temperature_offset (float): Additive offset applied to all air
             temperature values (Celsius).
-        air_temperature_variance: Standard deviation (Celsius) for
+        air_temperature_variance (float): Standard deviation (Celsius) for
             Gaussian noise on daily air temperature.
-        rainfall_scale_factor: Multiplicative factor applied to all
+        rainfall_scale_factor (float): Multiplicative factor applied to all
             rainfall values.
-        enable_rainfall_stochasticity: When True, draw daily rainfall from an
+        enable_rainfall_stochasticity (bool): When True, draw daily rainfall from an
             exponential distribution with mean equal to the data value.
-        relative_humidity_scale_factor: Multiplicative factor applied to
+        relative_humidity_scale_factor (float): Multiplicative factor applied to
             all relative humidity values.
-        relative_humidity_variance: Standard deviation (fraction) for
+        relative_humidity_variance (float): Standard deviation (fraction) for
             Gaussian noise on daily relative humidity.
     """
     if not isinstance(update_resolution, ClimateUpdateResolution):

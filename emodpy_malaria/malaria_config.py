@@ -222,8 +222,8 @@ def set_parasite_genetics_params(config, manifest,
         manifest (ModuleType): schema path container
         var_gene_randomness_type (VarGeneRandomnessType): Controls randomness of var genes in new
             infections. Defaults to ``VarGeneRandomnessType.ALL_RANDOM``.
-        sporozoites_per_oocyst: A :class:`~emodpy_malaria.utils.distributions.BaseDistribution` that
-            sets the **Sporozoites_Per_Oocyst** distribution parameters. Defaults to
+        sporozoites_per_oocyst (BaseDistribution): A [BaseDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/) that
+            sets the Sporozoites_Per_Oocyst distribution parameters. Defaults to
             ``GaussianDistribution(mean=10000, std_dev=1000)``.
 
     Returns:
@@ -415,9 +415,9 @@ def set_drug_param(config, drug_name: str = None, parameter: str = None, value: 
 
     Args:
         config (dict): schema-backed config smart dict
-        drug_name: The drug that has a parameter to set
-        parameter: The parameter to set
-        value: The new value to set
+        drug_name (str): The drug that has a **parameter** to set
+        parameter (str): The parameter to set
+        value (any): The new value to set
     """
 
     if not drug_name or not parameter or value is None:
@@ -443,11 +443,11 @@ def add_drug_resistance(config, manifest, drugname: str, drug_resistant_string: 
         drugname (str): name of the drug for which to assign resistances
         drug_resistant_string (str): Nucleotide base letters (A, C, G, T) representing
             resistance at specific genome locations.
-        pkpd_c50_modifier (float): Multiplier applied to the drug's **Drug_PKPD_C50**
+        pkpd_c50_modifier (float): Multiplier applied to the drug's Drug_PKPD_C50
             when the parasite genome matches. Genomes with multiple markers have
             modifiers multiplied together. Default: 1.0.
         max_irbc_kill_modifier (float): Multiplier applied to the drug's
-            **Max_Drug_IRBC_Kill** when the parasite genome matches. Default: 1.0.
+            Max_Drug_IRBC_Kill when the parasite genome matches. Default: 1.0.
 
     Returns:
         (dict): configured config

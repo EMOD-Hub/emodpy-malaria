@@ -18,7 +18,7 @@ class MalariaSerializedPopulation:
     file I/O.
 
     Args:
-        file_path: Path to a ``.dtk`` serialized population file.
+        file_path (str | Path): Path to a ``.dtk`` serialized population file.
     """
 
     def __init__(self, file_path: str | Path) -> None:
@@ -72,7 +72,7 @@ class MalariaSerializedPopulation:
         """Write the (possibly modified) population to a file.
 
         Args:
-            output_file: Destination file path. Parent directories are
+            output_file (str | Path): Destination file path. Parent directories are
                 created if they do not exist.
         """
         output_path = Path(output_file)

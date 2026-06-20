@@ -13,10 +13,10 @@ def validate_bins(bins: list, param_name: str, min_value: float = None, max_valu
     Validate that a list of bin edges is in strictly ascending order and within optional bounds.
 
     Args:
-        bins: List of numeric bin edges.
-        param_name: Name of the parameter (for error messages).
-        min_value: If set, all values must be >= this.
-        max_value: If set, all values must be <= this.
+        bins (list): List of numeric bin edges.
+        param_name (str): Name of the parameter (for error messages).
+        min_value (float): If set, all values must be >= this.
+        max_value (float): If set, all values must be <= this.
 
     Returns:
         The validated list of bins.

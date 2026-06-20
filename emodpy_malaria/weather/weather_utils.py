@@ -17,9 +17,9 @@ def invert_dict(in_dict: dict, sort: bool = False, single_value: bool = False) -
         {1: 'a', 2: 'a', 3: 'b'}  ->  {'a': [1, 2], 'b': [3]}
 
     Args:
-        in_dict: Dictionary to invert.
-        sort: Sort resulting dict by key and value lists.
-        single_value: Return only one representative key per unique value.
+        in_dict (dict): Dictionary to invert.
+        sort (bool): Sort resulting dict by key and value lists.
+        single_value (bool): Return only one representative key per unique value.
     """
     out_dict: dict = defaultdict(list)
     for k, v in in_dict.items():

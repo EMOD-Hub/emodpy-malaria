@@ -1,6 +1,6 @@
 """Multi-variable weather file set management.
 
-:class:`WeatherSet` wraps a dictionary of
+[WeatherSet](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_set/) wraps a dictionary of
 ``WeatherVariable -> WeatherData`` and supports bulk I/O: read/write all
 four EMOD weather file pairs at once, or convert to/from a single CSV or
 DataFrame containing all variables.
@@ -132,12 +132,12 @@ class WeatherSet:
         """Create from a DataFrame containing all weather variables as columns.
 
         Args:
-            df: DataFrame with node, step, and weather variable columns.
-            node_column: Column name for node IDs.
-            step_column: Column name for time steps.
-            weather_columns: ``{WeatherVariable: column_name}`` mapping.
-            attributes: Optional metadata attributes.
-            notes: Free-text note stored in the weather file metadata.
+            df (pd.DataFrame): DataFrame with node, step, and weather variable columns.
+            node_column (str): Column name for node IDs.
+            step_column (str): Column name for time steps.
+            weather_columns (dict[WeatherVariable, str]): ``{WeatherVariable: column_name}`` mapping.
+            attributes (WeatherAttributes): Optional metadata attributes.
+            notes (str): Free-text note stored in the weather file metadata.
                 Use this to record where the original data came from and
                 how it was processed.
         """
@@ -158,12 +158,12 @@ class WeatherSet:
         """Create from a CSV file containing all weather variables.
 
         Args:
-            file_path: Path to the CSV file.
-            node_column: Column name for node IDs.
-            step_column: Column name for time steps.
-            weather_columns: ``{WeatherVariable: column_name}`` mapping.
-            attributes: Optional metadata attributes.
-            notes: Free-text note stored in the weather file metadata.
+            file_path (Union[str, Path]): Path to the CSV file.
+            node_column (str): Column name for node IDs.
+            step_column (str): Column name for time steps.
+            weather_columns (dict[WeatherVariable, str]): ``{WeatherVariable: column_name}`` mapping.
+            attributes (WeatherAttributes): Optional metadata attributes.
+            notes (str): Free-text note stored in the weather file metadata.
                 Use this to record where the original data came from and
                 how it was processed.
         """

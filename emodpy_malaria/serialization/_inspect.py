@@ -22,7 +22,7 @@ def read_header(file_path: str | Path) -> dict:
     and EMOD build info without the cost of decompressing population data.
 
     Args:
-        file_path: Path to the .dtk file.
+        file_path (str | Path): Path to the .dtk file.
 
     Returns:
         Header dict with keys like ``version``, ``date``, ``author``,
@@ -50,7 +50,7 @@ def summarize(ser_pop: SerializedPopulation) -> dict:
     """Return a comprehensive summary of the serialized population.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
 
     Returns:
         Dict with ``num_nodes``, ``total_humans``, ``total_infections``,
@@ -106,8 +106,8 @@ def count_humans(
     """Count individuals across all nodes or in a specific node.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        node_index: If provided, count only in this node (0-based index).
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        node_index (int ): If provided, count only in this node (0-based index).
 
     Returns:
         Number of individuals.
@@ -129,8 +129,8 @@ def count_infections(
     """Count total infections across all nodes or in a specific node.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        node_index: If provided, count only in this node.
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        node_index (int ): If provided, count only in this node.
 
     Returns:
         Number of infections.
@@ -155,9 +155,9 @@ def count_vectors(
     """Count vector cohorts across all nodes or in a specific node.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        node_index: If provided, count only in this node.
-        queue: If provided, count only in this queue (e.g.,
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        node_index (int ): If provided, count only in this node.
+        queue (str ): If provided, count only in this queue (e.g.,
             ``"AdultQueues"``). If None, count across all queues.
 
     Returns:
@@ -183,7 +183,7 @@ def list_node_ids(ser_pop: SerializedPopulation) -> list[int]:
     """Return the external IDs of all nodes.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
 
     Returns:
         List of node external IDs.
@@ -203,9 +203,9 @@ def find_parameter(
     of dot-path strings instead of printing them.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        name: Parameter name to search for (e.g., ``"age"``, ``"gender"``).
-        cutoff: Similarity threshold for fuzzy matching (0.0-1.0).
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        name (str): Parameter name to search for (e.g., ``"age"``, ``"gender"``).
+        cutoff (float): Similarity threshold for fuzzy matching (0.0-1.0).
 
     Returns:
         List of dot-notation paths where the parameter was found.
@@ -254,7 +254,7 @@ def get_all_parameters(ser_pop: SerializedPopulation) -> set[str]:
     """Return the set of all parameter paths in the serialized population.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
 
     Returns:
         Set of dot-notation parameter paths.

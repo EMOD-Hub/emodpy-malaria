@@ -21,8 +21,8 @@ def export_humans_to_json(
     is the list of individual dicts from that node.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        output_file: Destination JSON file path. Parent directories are
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        output_file (str | Path): Destination JSON file path. Parent directories are
             created if they do not exist.
     """
     output_path = Path(output_file)

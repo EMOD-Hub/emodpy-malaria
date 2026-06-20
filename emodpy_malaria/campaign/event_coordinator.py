@@ -26,35 +26,35 @@ from emodpy_malaria.utils.emod_enum import VectorCountType, VectorGender
 
 class VectorCounter:
     """
-    Defines the sampling parameters for a :class:`VectorSurveillanceEventCoordinator`.
+    Defines the sampling parameters for a [VectorSurveillanceEventCoordinator](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/event_coordinator/).
     Specifies which vector species and gender to sample, how many to sample, how often,
     and what statistic to compute from the sample.
 
     Args:
         species (str, required):
             The name of the vector species to sample. Must match a species name defined
-            in the **Vector_Species_Params** configuration parameter.
+            in the Vector_Species_Params configuration parameter.
 
         sample_size_distribution (BaseDistribution, required):
             The distribution used to determine the number of vectors in the sample for
             each sampling event. If the population is smaller than the drawn sample size,
             the entire population is selected.
              Use the distribution classes
-            from :mod:`emodpy_malaria.utils.distributions`:
+            from [emodpy_malaria.utils.distributions](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/):
 
-            * :class:`~emodpy_malaria.utils.distributions.ConstantDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.UniformDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.GaussianDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.ExponentialDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.PoissonDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.LogNormalDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.WeibullDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.DualConstantDistribution`
-            * :class:`~emodpy_malaria.utils.distributions.DualExponentialDistribution`
+            * [ConstantDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [UniformDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [GaussianDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [ExponentialDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [PoissonDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [LogNormalDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [WeibullDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [DualConstantDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            * [DualExponentialDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
 
         count_type (Union[VectorCountType, str], required):
             The attribute to count in the sampled mosquitoes. Use the
-            :class:`~emodpy_malaria.utils.emod_enum.VectorCountType` enum values:
+            [VectorCountType](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/emod_enum/) enum values:
 
             * ``VectorCountType.ALLELE_FREQ`` -- Calculates the frequency of every allele
               in the sampled population. Each vector contributes 0, 1, or 2 occurrences
@@ -64,7 +64,7 @@ class VectorCounter:
 
         gender (Union[VectorGender, str], required):
             The sex of the vectors to sample. Use the
-            :class:`~emodpy_malaria.utils.emod_enum.VectorGender` enum values:
+            [VectorGender](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/emod_enum/) enum values:
 
             * ``VectorGender.VECTOR_FEMALE``
             * ``VectorGender.VECTOR_MALE``
@@ -204,7 +204,7 @@ class VectorSurveillanceEventCoordinator(BaseEventCoordinator):
 
         start_trigger_condition_list (list[str], required):
             A list of coordinator-level events that, when heard, start the coordinator's
-            periodic sampling at the interval specified by the counter's ``update_period``.
+            periodic sampling at the interval specified by the **counter**'s ``update_period``.
 
         stop_trigger_condition_list (list[str], optional):
             A list of coordinator events that, when heard, stop sampling and prevent the

@@ -31,9 +31,9 @@ class MalariaNode(Node):
         """Set a simple risk distribution on this node's individual attributes.
 
         Args:
-            flag: Simple distribution flag (determines distribution type).
-            value1: Distribution parameter 1.
-            value2: Distribution parameter 2.
+            flag (int): Simple distribution flag (determines distribution type).
+            value1 (float): Distribution parameter 1.
+            value2 (float): Distribution parameter 2.
         """
         self.individual_attributes.risk_distribution_flag = flag
         self.individual_attributes.risk_distribution1 = value1
@@ -43,9 +43,9 @@ class MalariaNode(Node):
         """Set a simple innate immune distribution on this node's individual attributes.
 
         Args:
-            flag: Simple distribution flag (determines distribution type).
-            value1: Distribution parameter 1.
-            value2: Distribution parameter 2.
+            flag (int): Simple distribution flag (determines distribution type).
+            value1 (float): Distribution parameter 1.
+            value2 (float): Distribution parameter 2.
         """
         self.individual_attributes.innate_immune_distribution_flag = flag
         self.individual_attributes.innate_immune_distribution1 = value1

@@ -58,8 +58,8 @@ def get_vector_species_names(
     """Return the names of vector species present in the population.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        node_index: If given, inspect only this node. Otherwise inspects
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        node_index (int ): If given, inspect only this node. Otherwise inspects
             the first node (species are typically identical across nodes).
 
     Returns:
@@ -82,8 +82,8 @@ def count_vectors_by_state(
     """Count vector cohorts grouped by species and state.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        node_index: If given, count only this node. Otherwise sums all nodes.
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        node_index (int ): If given, count only this node. Otherwise sums all nodes.
 
     Returns:
         Nested dict: ``{species_name: {state_name: count, ...}, ...}``.
@@ -119,8 +119,8 @@ def get_vector_infection_summary(
     """Summarize vector infection state across all species and queues.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        node_index: If given, summarize only this node.
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        node_index (int ): If given, summarize only this node.
 
     Returns:
         Dict with ``total_cohorts``, ``infected_cohorts``,

@@ -25,7 +25,7 @@ class WeatherVariable(Enum):
         """Return all weather variables, optionally excluding some.
 
         Args:
-            exclude: Variable(s) to exclude from the list.
+            exclude ('WeatherVariable | list[WeatherVariable] | None'): Variable(s) to exclude from the list.
         """
         exclude = exclude or []
         if isinstance(exclude, WeatherVariable):

@@ -85,7 +85,7 @@ class InsetChart(_InsetChart):
     - **Possible Mothers**, **New Pregnancies**, **Currently Pregnant** — added when
       **include_pregnancies** is True.
 
-    See output details in :doc:`emod/software-report-inset-chart`.
+    See output details in [software-report-inset-chart](https://emod.idmod.org/emodpy-malaria/emod/software-report-inset-chart/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -133,7 +133,7 @@ class MalariaSummaryReport(BuiltInReporter):
     Provides a summary of malaria-related data stratified by age bins and parasitemia bins. Outputs prevalence, clinical
     incidence, severe disease, and parasite densities aggregated over configurable reporting intervals.
 
-    See output details in :doc:`emod/software-report-malaria-summary`.
+    See output details in [software-report-malaria-summary](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-summary/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -201,7 +201,7 @@ class MalariaSummaryReport(BuiltInReporter):
             Maximum value: 3.40282e+38
             Default: None
 
-        detection_threshold_true_gametocyte_density (float, optional): Used when add_true_density_vs_threshold is true.
+        detection_threshold_true_gametocyte_density (float, optional): Used when **add_true_density_vs_threshold** is true.
             The true gametocyte density is compared against this threshold. It impacts the 'Pf Gametocyte Prevalence by
             Age Bin-True' channel.
 
@@ -209,7 +209,7 @@ class MalariaSummaryReport(BuiltInReporter):
             Maximum value: 3.40282e+38
             Default: None
 
-        detection_threshold_true_hrp2 (float, optional): Used when add_prevalence_by_hrp2 is true. If the true HRP2
+        detection_threshold_true_hrp2 (float, optional): Used when **add_prevalence_by_hrp2** is true. If the true HRP2
             value is greater than this threshold, the prevalence will be increased in the 'PfPR_2to10-HRP2' and the
             'PfPR by Age Bin-HRP2' channels.
 
@@ -321,7 +321,7 @@ class MalariaPatientJSONReport(BuiltInReporter):
 
     This reporter has no custom parameters beyond filtering.
 
-    See output details in :doc:`emod/software-report-malaria-patient`.
+    See output details in [software-report-malaria-patient](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-patient/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -369,7 +369,7 @@ class ReportMalariaFiltered(BuiltInReporter):
     dynamic channels (``Has_<Intervention>``, ``HasIP_<Key>:<Value>``) are added based on ``has_interventions``
     and ``has_ip``.
 
-    See output details in :doc:`emod/software-report-filtered-malaria`.
+    See output details in [software-report-filtered-malaria](https://emod.idmod.org/emodpy-malaria/emod/software-report-filtered-malaria/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -441,7 +441,7 @@ class ReportMalariaFilteredIntraHost(BuiltInReporter):
     Provides detailed intra-host malaria dynamics (parasite densities, immune responses) filtered by configurable
     criteria. Same parameters as ReportMalariaFiltered.
 
-    See output details in :doc:`emod/software-report-malaria-filtered-intra-host`.
+    See output details in [software-report-malaria-filtered-intra-host](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-filtered-intra-host/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -524,7 +524,7 @@ class MalariaImmunityReport(BuiltInReporter):
     - ``Non-Specific Mean by Age Bin`` / ``Non-Specific StdDev by Age Bin`` — average and standard deviation of the
       fraction of non-specific minor epitope antibodies over the total possible (``Falciparum_Nonspecific_Types``).
 
-    See output details in :doc:`emod/software-report-malaria-immunity`.
+    See output details in [software-report-malaria-immunity](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-immunity/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -620,7 +620,7 @@ class ReportVectorGenetics(BuiltInReporter):
     (``VectorPopulationAvgAgeAtDeath``, ``InfectiousAvgAgeAtDeath``, ``InfectedAvgAgeAtDeath``,
     ``AdultsAvgAgeAtDeath``, ``MaleAvgAgeAtDeath``).
 
-    See output details in :doc:`emod/software-report-vector-genetics`.
+    See output details in [software-report-vector-genetics](https://emod.idmod.org/emodpy-malaria/emod/software-report-vector-genetics/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -647,7 +647,7 @@ class ReportVectorGenetics(BuiltInReporter):
 
             Default: False
 
-        combine_similar_genomes (bool, optional): If true, genomes are combined for each locus (ignoring gender) if
+        combine_similar_genomes (bool, optional): If true, genomes are combined for each locus (ignoring **gender**) if
             the set of alleles of the two genomes are the same (e.g. '1-0' is considered the same as '0-1'). Only
             applies when ``stratify_by`` is GENOME or SPECIFIC_GENOME.
 
@@ -847,8 +847,8 @@ class ReportVectorStats(BuiltInReporter):
     - **Microsporidia** (``include_microsporidia_columns``): ``HasMicrosporidia-STATE_XXX`` and
       ``NoMicrosporidia-STATE_XXX`` columns for each vector state.
 
-    See output details in :doc:`emod/software-report-vector-stats` and
-    :doc:`emod/software-report-vector-stats-malaria-genetics`.
+    See output details in [software-report-vector-stats](https://emod.idmod.org/emodpy-malaria/emod/software-report-vector-stats/) and
+    [software-report-vector-stats-malaria-genetics](https://emod.idmod.org/emodpy-malaria/emod/software-report-vector-stats-malaria-genetics/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -934,7 +934,7 @@ class ReportVectorMigration(BuiltInReporter):
     """
     Outputs data about vector migration between nodes.
 
-    See output details in :doc:`emod/software-report-vector-migration`.
+    See output details in [software-report-vector-migration](https://emod.idmod.org/emodpy-malaria/emod/software-report-vector-migration/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1050,7 +1050,7 @@ class VectorHabitatReport(BuiltInReporter):
     - **Rainfall Larval Mortality** — rate at which larvae are dying due to rainfall.
     - **Total Larva** — total number of larvae of that species in that habitat during that time step.
 
-    See output details in :doc:`emod/software-report-vector-habitat`.
+    See output details in [software-report-vector-habitat](https://emod.idmod.org/emodpy-malaria/emod/software-report-vector-habitat/).
 
     Args:
         reporters_object (Reporters): The reporters object.
@@ -1088,7 +1088,7 @@ class ReportMicrosporidia(BuiltInReporter):
     - **STATE_LARVA** — number of larvae (male and female).
     - **STATE_EGG** — number of eggs (male and female).
 
-    See output details in :doc:`emod/software-report-microsporidia`.
+    See output details in [software-report-microsporidia](https://emod.idmod.org/emodpy-malaria/emod/software-report-microsporidia/).
 
     Args:
         reporters_object (Reporters): The reporters object.
@@ -1103,7 +1103,7 @@ class ReportInfectionStatsMalaria(BuiltInReporter):
     """
     Outputs per-infection statistics for malaria including parasite density, gametocyte counts, and immune responses.
 
-    See output details in :doc:`emod/software-report-infection-stats-malaria`.
+    See output details in [software-report-infection-stats-malaria](https://emod.idmod.org/emodpy-malaria/emod/software-report-infection-stats-malaria/).
 
     Please note, when "include_column" parameters are set to True, the infection will only be included in the report
     if it meets ALL the corresponding "include_data_threshold" parameters. For example, if include_column_gametocyte
@@ -1121,42 +1121,42 @@ class ReportInfectionStatsMalaria(BuiltInReporter):
             Default: 1
 
         include_column_gametocyte (bool, optional): When true, the gametocyte count column will be included. You
-            will also need to set include_data_threshold_gametocytes to specify the minimum gametocyte count
+            will also need to set **include_data_threshold_gametocytes** to specify the minimum gametocyte count
             for an infection to be included in the report. The infections that do not satisfy the gametocyte
             threshold will be excluded from the report entirely, even if they satisfy the thresholds for other columns.
 
             Default: False
 
         include_column_hepatocyte (bool, optional): When true, the hepatocyte count column will be included. You
-            will also need to set include_data_threshold_hepatocytes to specify the minimum hepatocyte count for an
+            will also need to set **include_data_threshold_hepatocytes** to specify the minimum hepatocyte count for an
             infection to be included in the report. The infections that do not satisfy the hepatocyte threshold will be
             excluded from the report entirely, even if they satisfy the thresholds for other columns.
 
             Default: False
 
         include_column_irbc (bool, optional): When true, the infected red blood cell (IRBC) count column will be
-            included. You will also need to set include_data_threshold_irbc to specify the minimum IRBC count
+            included. You will also need to set **include_data_threshold_irbc** to specify the minimum IRBC count
             for an infection to be included in the report. The infections that do not satisfy the IRBC threshold
             will be excluded from the report entirely, even if they satisfy the thresholds for other columns.
 
             Default: False
 
         include_data_threshold_gametocytes (float, optional): The minimum number of gametocytes required for a row to
-            be included in the output. This threshold is only applied if include_column_gametocyte is set to true.
+            be included in the output. This threshold is only applied if **include_column_gametocyte** is set to true.
 
             Minimum value: 0
             Maximum value: 3.40282e+38
             Default: 0
 
         include_data_threshold_hepatocytes (float, optional): The minimum number of hepatocytes required for a row to
-            be included in the output. This threshold is only applied if include_column_hepatocyte is set to true.
+            be included in the output. This threshold is only applied if **include_column_hepatocyte** is set to true.
 
             Minimum value: 0
             Maximum value: 3.40282e+38
             Default: 0
 
         include_data_threshold_irbc (float, optional): The minimum number of infected red blood cells required for a
-            row to be included in the output. This threshold is only applied if include_column_irbc is set to true.
+            row to be included in the output. This threshold is only applied if **include_column_irbc** is set to true.
 
             Minimum value: 0
             Maximum value: 3.40282e+38
@@ -1253,14 +1253,14 @@ class ReportAntibodies(BuiltInReporter):
     Note: this report gets very large very quickly and adds processing time. It is advised to use the
     **reporting_interval** and other filtering options to limit the size of the report.
 
-    See output details in :doc:`emod/software-report-antibodies`.
+    See output details in [software-report-antibodies](https://emod.idmod.org/emodpy-malaria/emod/software-report-antibodies/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
 
         reporting_interval (float, optional): Defines how many days will pass between each time the report collects
-            data and writes to the file. Data will be recorded every **reporting_interval** days starting with the
-            **start_day**. This will limit system memory usage and is advised when large output files are expected.
+            data and writes to the file. Data will be recorded every reporting_interval days starting with the
+            start_day. This will limit system memory usage and is advised when large output files are expected.
 
             Minimum value: 1
             Maximum value: 1000000
@@ -1330,7 +1330,7 @@ class ReportFpgOutput(BuiltInReporter):
     The **variants.npy** file contains nucleotide sequence data and **roots.npy** contains allele root data, both
     indexed by the recursive_nid values in the CSV.
 
-    See output details in :doc:`emod/software-report-fpg-output-observational-model`.
+    See output details in [software-report-fpg-output-observational-model](https://emod.idmod.org/emodpy-malaria/emod/software-report-fpg-output-observational-model/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1415,7 +1415,7 @@ class ReportFpgNewInfections(BuiltInReporter):
     FemaleGametocyteToVector_GenomeID, MaleGametocyteToVector_InfectionID, MaleGametocyteToVector_GenomeID, and
     GenomeCrossoverLocations. This options allows for explicit tracking of crossover locations to validation purposes.
 
-    See output details in :doc:`emod/software-report-fpg-new-infections`.
+    See output details in [software-report-fpg-new-infections](https://emod.idmod.org/emodpy-malaria/emod/software-report-fpg-new-infections/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1466,7 +1466,7 @@ class SpatialReportMalariaFiltered(BuiltInReporter):
 
     Use emodpy_malaria.utils.emod_enum.SpatialOutputChannel to specify output channels for this report.
 
-    See output details in :doc:`emod/software-report-malaria-spatial`.
+    See output details in [software-report-malaria-spatial](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-spatial/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1582,7 +1582,7 @@ class ReportInterventionPopAvg(BuiltInReporter):
       the node with the drug during this time step. For MultiPackComboDrug, each person contributes the
       sum of concentrations of drugs taken from the pack.
 
-    See output details in :doc:`emod/software-report-intervention-population-average`.
+    See output details in [software-report-intervention-population-average](https://emod.idmod.org/emodpy-malaria/emod/software-report-intervention-population-average/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1657,7 +1657,7 @@ class MalariaSurveyAnalyzer(BuiltInReporter):
     - **pos_gametocyte_fields** — number of positive fields of view for gametocyte smears.
     - **temps** — body temperature in Celsius if the individual has a fever, otherwise -1.
 
-    See output details in :doc:`emod/software-report-malaria-survey`.
+    See output details in [software-report-malaria-survey](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-survey/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1767,7 +1767,7 @@ class ReportSimpleMalariaTransmission(BuiltInReporter):
     These can be identified by ``acquireIndividualId`` = 0 and ``transmitTime`` = ``acquireTime``.
     This can make the file size quite large.
 
-    See output details in :doc:`emod/software-report-simple-malaria-transmission`.
+    See output details in [software-report-simple-malaria-transmission](https://emod.idmod.org/emodpy-malaria/emod/software-report-simple-malaria-transmission/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1833,8 +1833,8 @@ class SqlReportMalaria(BuiltInReporter):
     The **include_drug_status_table** parameter is only valid when **include_malaria** or
     **include_malaria_genetics** is True.
 
-    See output details in :doc:`emod/software-report-sql-malaria` and
-    :doc:`emod/software-report-sql-malaria-genetics` and :doc:`emod/software-report-sql` .
+    See output details in [software-report-sql-malaria](https://emod.idmod.org/emodpy-malaria/emod/software-report-sql-malaria/) and
+    [software-report-sql-malaria-genetics](https://emod.idmod.org/emodpy-malaria/emod/software-report-sql-malaria-genetics/) and [software-report-sql](https://emod.idmod.org/emodpy-malaria/emod/software-report-sql/) .
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -1947,7 +1947,7 @@ class ReportNodeDemographicsMalaria(ReportNodeDemographics):
     - **NumHasClinicalSymptoms** — number of people with clinical symptoms. Only present if
       **stratify_by_has_clinical_symptoms** is False (otherwise the stratification separates them).
 
-    See output details in :doc:`emod/software-report-malaria-node-demographics`.
+    See output details in [software-report-malaria-node-demographics](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-node-demographics/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -2034,7 +2034,7 @@ class ReportNodeDemographicsMalariaGenetics(ReportNodeDemographics):
     - **[hrp_string]** — one column per entry in **hrp_strings**.
     - **OtherHRP** — infections with HRP strings not matching any defined column.
 
-    See output details in :doc:`emod/software-report-malaria-node-demographics-genetics`.
+    See output details in [software-report-malaria-node-demographics-genetics](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-node-demographics-genetics/).
 
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
@@ -2082,7 +2082,7 @@ class ReportNodeDemographicsMalariaGenetics(ReportNodeDemographics):
             Default: None
 
         include_identity_by_xxx (bool, optional): When True, include columns for average Identity By State
-            (IBS) and Identity By Descent (IBD) for all new infections with unique barcodes in the last year.
+            (IBS) and Identity By Descent (IBD) for all new infections with unique **barcodes** in the last year.
 
             Default: False
 

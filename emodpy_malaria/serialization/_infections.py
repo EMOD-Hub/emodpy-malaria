@@ -46,10 +46,10 @@ def zero_infections(
     or removes infected vectors.
 
     Args:
-        ser_pop: A loaded SerializedPopulation.
-        ignore_node_ids: Node external IDs to skip entirely.
-        keep_individual_ids: Individual SUID IDs whose infections are preserved.
-        remove_vectors: If True, remove infected/infectious vector cohorts.
+        ser_pop (SerializedPopulation): A loaded SerializedPopulation.
+        ignore_node_ids (list[int] ): Node external IDs to skip entirely.
+        keep_individual_ids (list[int] ): Individual SUID IDs whose infections are preserved.
+        remove_vectors (bool): If True, remove infected/infectious vector cohorts.
             If False (default), reset their state to STATE_ADULT.
     """
     if ignore_node_ids is None:
@@ -75,8 +75,8 @@ def zero_human_infections(
     """Reset infection state of individuals to uninfected.
 
     Args:
-        humans: Iterable of individual dicts (e.g., ``node.individualHumans``).
-        keep_ids: SUID IDs of individuals to skip.
+        humans (Any): Iterable of individual dicts (e.g., ``node.individualHumans``).
+        keep_ids (list[int] ): SUID IDs of individuals to skip.
 
     Returns:
         Number of individuals whose infections were zeroed.
@@ -111,9 +111,9 @@ def zero_vector_infections(
     """Reset or remove infections from vector populations.
 
     Args:
-        vector_pop_list: List of vector populations
+        vector_pop_list (Any): List of vector populations
             (``node.m_vectorpopulations``).
-        remove: If True, remove infected/infectious cohorts entirely.
+        remove (bool): If True, remove infected/infectious cohorts entirely.
             If False (default), reset to STATE_ADULT.
 
     Returns:
