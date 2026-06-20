@@ -13,7 +13,7 @@ import os
 import pylab
 from math import sqrt, ceil
 
-import emodpy_malaria.plotting.helpers as helpers
+import emodpy_hiv.plotting.helpers as helpers
 
 
 def get_raw_color(idx: int):

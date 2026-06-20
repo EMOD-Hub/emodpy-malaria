@@ -3,7 +3,7 @@
 
 The surveillance event recorder report (ReportSurveillanceEventRecorder.csv) is a CSV report that
 logs detailed information each time a
-[SurveillanceEventCoordinator](parameter-campaign-event-coordinators.md#surveillanceeventcoordinator)
+[SurveillanceEventCoordinator](parameter-campaign-event-surveillanceeventcoordinator.md)
 responds to what it is observing. It extends
 the coordinator event recorder by adding surveillance-specific data: the count of events observed
 during the counting period, the threshold that triggered the response, and population statistics for

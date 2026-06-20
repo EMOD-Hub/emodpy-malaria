@@ -1,120 +1,85 @@
-"""
-The module for weather utility functions.
-"""
+"""Utility functions for the weather module."""
 
-import numpy as np
 import json
+import numpy as np
 
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, NoReturn, Union
+from typing import Union
 
 
-def invert_dict(in_dict: dict, sort: bool = False, single_value: bool = False) -> Dict:
-    """
-    Invert a dictionary by grouping keys by value. In the resulting dictionary keys are unique value from the original
-    dictionary (including individual element of value lists) and values are lists of original dictionary keys.
-    The function is used for grouping nodes by offset or weather time series hash, and determining unique series.
+def invert_dict(in_dict: dict, sort: bool = False, single_value: bool = False) -> dict:
+    """Invert a dictionary by grouping keys by value.
 
-    For example,
-        single_value = False (default)
-            {1: [11, 22], 2: [22], 3: [11]} -> {11: [1, 3], 22: [1, 2]}
-        single_value = True
-            {1: [11, 22], 2: [22], 3: [11]} -> {11: 1, 22: 1}
+    Example (single_value=False)::
+
+        {1: 'a', 2: 'a', 3: 'b'}  ->  {'a': [1, 2], 'b': [3]}
 
     Args:
-        in_dict: Input dictionary to be inverted.
-        sort: Sort the resulting dictionary by key and value.
-        single_value: Only return a single representative "original key" (from in_dict)
-                        for each corresponding unique "original value" (from in_dict).
-
-    Returns:
-        Inverted dictionary where
-            (single_value = False): keys are "original values" and values are lists of corresponding "original keys"
-            (single_value = True):  keys are "original values" and values is a single representative "original key".
+        in_dict: Dictionary to invert.
+        sort: Sort resulting dict by key and value lists.
+        single_value: Return only one representative key per unique value.
     """
-    # Init the output dictionary to be able to collect original dictionary keys per value element.
-    out_dict = defaultdict(list)
-    # For each unique value append the corresponding key.
+    out_dict: dict = defaultdict(list)
     for k, v in in_dict.items():
-        if isinstance(v, Iterable):
-            # In case original dictionary values are lists.
+        if isinstance(v, (list, tuple)):
             for vv in v:
                 out_dict[vv].append(k)
         else:
-            # In case the original dictionary value are not lists.
             out_dict[v].append(k)
 
     if single_value:
-        # Transform the output dictionary to only take have a single value (instead od a list, for each value).
-        out_dict = {k: None if len(v) == 0 else v[0] for k, v in out_dict.items()}
+        out_dict = {k: (v[0] if v else None) for k, v in out_dict.items()}
 
     if sort:
-        # Ensure the output  dictionary is sorted by key, value.
         out_dict = {k: sorted(v) for k, v in sorted(out_dict.items())}
 
-    return dict(out_dict)       # Convert from defaultdict to a regular dictionary
+    return dict(out_dict)
 
 
-def hash_series(series: Iterable[np.float32]) -> int:
-    """
-    Calculate a unique hash for each input series. Used for grouping nodes by weather time series.
-
-    Args:
-        series: The list or array of float values.
-
-    Returns:
-        Series hash value as int.
-    """
-    h = hash(np.array(series).tobytes())
-    return h
+def hash_series(series) -> int:
+    """Hash a numeric series for uniqueness detection."""
+    return hash(np.array(series).tobytes())
 
 
-def save_json(content: Dict[str, str], file_path: Union[str, Path]) -> NoReturn:
-    """
-    Save dictionary to a json file.
-
-    Args:
-        content: Content in the form of a dictionary.
-        file_path: The path of the output weather metadata file.
-    """
-    with open(str(file_path), "wt") as file:
-        json.dump(content, file, indent=2, separators=(",", ": "))
+def save_json(content: dict, file_path: Union[str, Path]) -> None:
+    """Write a dictionary to a JSON file."""
+    with open(str(file_path), "wt") as f:
+        json.dump(content, f, indent=2, separators=(",", ": "))
 
 
-def make_path(dir_path: Union[str, Path]) -> NoReturn:
-    """Make path directories."""
+def make_path(dir_path: Union[str, Path]) -> None:
+    """Create directories if they don't exist."""
     if dir_path:
         Path(dir_path).mkdir(exist_ok=True, parents=True)
 
 
 def ymd(date_arg: datetime) -> str:
-    """Convert datetime into a string of format yyyymmdd."""
+    """Format datetime as YYYYMMDD string."""
     return date_arg.strftime("%Y%m%d")
 
 
 def parse_date(date_arg: Union[int, str], default_month: int, default_day: int) -> datetime:
+    """Parse a date from year (2018), day-of-year (2018001), or YYYYMMDD (20180101) format."""
     date_str = str(date_arg)
-    if not all([v.isdigit() for v in date_str]):
-        raise ValueError("Invalid date string {}. Only digits are allowed.".format(date_arg))
+    if not date_str.isdigit():
+        raise ValueError(f"Invalid date string {date_arg!r}. Only digits are allowed.")
 
     if len(date_str) == 4:
-        result = datetime(int(date_str), default_month, default_day)
-
+        return datetime(int(date_str), default_month, default_day)
     elif len(date_str) == 7:
-        result = datetime.strptime(date_str, '%Y%j')
-
+        return datetime.strptime(date_str, "%Y%j")
     elif len(date_str) == 8:
-        result = datetime.strptime(date_str, '%Y%m%d')
-
+        return datetime.strptime(date_str, "%Y%m%d")
     else:
-        raise ValueError("The date string {} is not in one of the supported formats (e.g. 2015, 2015365, 20151231)."
-                         .format(date_str))
+        raise ValueError(
+            f"Date string {date_str!r} is not in a supported format "
+            f"(YYYY, YYYYDDD, or YYYYMMDD)."
+        )
 
-    return result
 
-
-def validate_str_value(value: str) -> NoReturn:
-    """Assert a string value is not None or empty."""
-    assert value, "Value name must be specified."
+def validate_str_value(value: str) -> None:
+    """Raise if value is None or empty."""
+    if not value:
+        raise ValueError("String value must not be None or empty.")

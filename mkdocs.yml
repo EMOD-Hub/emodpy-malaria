@@ -45,6 +45,8 @@ nav:
     - Tutorial 5 - Sweeps: tutorials/tutorial-5.md
     - Tutorial 6 - Calibration: tutorials/tutorial-6.md
     - Tutorial 7 - Burn-in: tutorials/tutorial-7.md
+    - Tutorial 8 - Migration: tutorials/tutorial-8.md
+    - Tutorial 9 - Weather: tutorials/tutorial-9.md
   - Software:
     - Overview: emod/software-overview.md
     - Inputs:
@@ -70,6 +72,7 @@ nav:
       - Changing serialized demographics parameters: emod/software-serializing-change-demog.md
       - Changing serialized migration parameters: emod/software-serializing-change-migration.md
       - Changing reports in serialized simulations: emod/software-serializing-change-reports.md
+      - Working with serialized population data: emod/software-serializing-data-access.md
     - Output reports:
       - Overview: emod/software-outputs.md
       - Plot simulation output: emod/software-plotting.md
@@ -87,7 +90,6 @@ nav:
       - Vector transmission model: emod/vector-model-transmission.md
       - Vector genetics: emod/vector-model-genetics.md
       - Gene Drives: emod/vector-model-gene-drives.md
-      - Maternal deposition: emod/vector-model-maternal-deposition.md
       - Insecticide resistance: emod/vector-model-insecticide-resistance.md
       - Microsporidia Infection Model: emod/vector-model-microsporidia.md
     - Malaria transmission and treatment:
@@ -234,6 +236,7 @@ nav:
         - ReportEventRecorder: emod/software-report-event-recorder.md
         - ReportHumanMigrationTracking: emod/software-report-human-migration.md
         - ReportInterventionPopAvg: emod/software-report-intervention-population-average.md
+        - ReportSurveillanceEventRecorder: emod/software-report-surveillance-event-recorder.md
         - ReportNodeDemographics: emod/software-report-node-demographics.md
         - ReportSimulationStats: emod/software-report-simulation-stats.md
         - SpatialReport: emod/software-report-spatial.md
@@ -292,6 +295,7 @@ plugins:
         - docs/**/*
         - emodpy_malaria/**/__main__.py
         - emodpy_malaria.egg-info/**/*
+        - examples/**/*
         - examples-container/**/*
         - site/**/*
         - tutorials/**/*
