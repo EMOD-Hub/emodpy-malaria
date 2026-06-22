@@ -31,50 +31,50 @@ def add_scheduled_irs_housing_modification(
         intervention_name: str = default_name
 ):
     """
-        Adds scheduled IRSHousingModification intervention to the campaign. The IRSHousingModification intervention class
-        includes Indoor Residual Spraying (IRS) in the simulation. IRS is another key vector control tool in which
-        insecticide is sprayed on the interior walls of a house so that mosquitoes resting on the walls after
-        consuming a blood meal will die. IRS can also have a repellent effect. Because this class is distributed
-        to individuals, it can target subgroups of the population. To target all individuals in a node, use
-        IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
+    Adds scheduled **IRSHousingModification** intervention to the campaign. The **IRSHousingModification** intervention class
+    includes Indoor Residual Spraying (IRS) in the simulation. IRS is another key vector control tool in which
+    insecticide is sprayed on the interior walls of a house so that mosquitoes resting on the walls after
+    consuming a blood meal will die. IRS can also have a repellent effect. Because this class is distributed
+    to individuals, it can target subgroups of the population. To target all individuals in a node, use
+    **IndoorSpaceSpraying**. Do not use **IRSHousingModification** and **IndoorSpaceSpraying** together.
 
     Args:
-        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container.
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
-            Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
-            demographic_coverage parameter is ignored
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        target_residents_only: When set to True, the intervention is only distributed to individuals that began
-            the simulation in the node (i.e. those that claim the node as their residence)
-        broadcast_event: "The name of the event to be broadcast. This event must be set in the
+            **Demographic_Coverage** receives the intervention.
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
+            **demographic_coverage** parameter is ignored.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        target_age_min (int): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (int): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only (bool): When set to True, the intervention is only distributed to individuals that began
+            the simulation in the node (i.e. those that claim the node as their residence).
+        broadcast_event (str): "The name of the event to be broadcast. This event must be set in the
             **Custom_Coordinator_Events** configuration parameter. When None or "", nothing is broadcast.
-            Default: "Received_IRS"
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        repelling_initial_effect: Initial strength of the Killing effect. The effect decays over time.
-        repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial Effect.
-        repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial Effect.
-        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
-            If insecticides are being used, then this must be defined as one of those values.  If they are not
-            being used, then this does not needed to be specified or can be empty string.  It cannot have a
+            Default: "Received_IRS".
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (int): Box duration of effect in days before the decay of **killing_initial_effect**.
+        killing_decay_time_constant (int): The exponential decay length, in days of the **killing_initial_effect**.
+        repelling_initial_effect (float): Initial strength of the Killing effect. The effect decays over time.
+        repelling_box_duration (int): Box duration of effect in days before the decay of **repelling_initial_effect**.
+        repelling_decay_time_constant (int): The exponential decay length, in days of the **repelling_initial_effect**.
+        insecticide (str): The name of the insecticide defined in config.Insecticides for this intervention.
+            If insecticides are being used, then this must be defined as one of those values. If they are not
+            being used, then this does not need to be specified or can be empty string. It cannot have a
             value if config.Insecticides does not define anything.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple IRSHousingModification interventions
-            attached to a person if they have different Intervention_Name values.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **IRSHousingModification** interventions
+            attached to a person if they have different **Intervention_Name** values.
     """
 
     intervention = irs_configuration(campaign,
@@ -130,12 +130,12 @@ def add_triggered_irs_housing_modification(
         intervention_name: str = default_name
 ):
     """
-        Adds triggered IRSHousingModification intervention to the campaign. The IRSHousingModification intervention class
-        includes Indoor Residual Spraying (IRS) in the simulation. IRS is another key vector control tool in which
-        insecticide is sprayed on the interior walls of a house so that mosquitoes resting on the walls after
-        consuming a blood meal will die. IRS can also have a repellent effect. Because this class is distributed
-        to individuals, it can target subgroups of the population. To target all individuals in a node, use
-        IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
+    Adds triggered **IRSHousingModification** intervention to the campaign. The **IRSHousingModification** intervention class
+    includes Indoor Residual Spraying (IRS) in the simulation. IRS is another key vector control tool in which
+    insecticide is sprayed on the interior walls of a house so that mosquitoes resting on the walls after
+    consuming a blood meal will die. IRS can also have a repellent effect. Because this class is distributed
+    to individuals, it can target subgroups of the population. To target all individuals in a node, use
+    **IndoorSpaceSpraying**. Do not use **IRSHousingModification** and **IndoorSpaceSpraying** together.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
@@ -148,35 +148,35 @@ def add_triggered_irs_housing_modification(
         demographic_coverage: This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
             Demographic_Coverage receives the intervention.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
+        node_ids: List of nodes to which to distribute the intervention. [] or None indicates all nodes
+            will get the intervention.
         repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
+            the intervention repeats forever. Sets **Number_Repetitions**.
         timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
+            Sets **Timesteps_Between_Repetitions**.
         ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
         target_gender: The gender targeted for an intervention: All, Male, or Female.
         target_residents_only: When set to True, the intervention is only distributed to individuals that began
-            the simulation in the node (i.e. those that claim the node as their residence)
-        broadcast_event: "The name of the event to be broadcast. This event must be set in the
+            the simulation in the node (i.e. those that claim the node as their residence).
+        broadcast_event (str): The name of the event to be broadcast. This event must be set in the
             **Custom_Coordinator_Events** configuration parameter. When None or "", nothing is broadcast.
-            Default: "Received_IRS"
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        repelling_initial_effect: Initial strength of the Killing effect. The effect decays over time.
-        repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial Effect.
-        repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial Effect.
-        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
-            If insecticides are being used, then this must be defined as one of those values.  If they are not
-            being used, then this does not needed to be specified or can be empty string.  It cannot have a
+            Default: "Received_IRS".
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (int): Box duration of effect in days before the decay of **killing_initial_effect**.
+        killing_decay_time_constant (int): The exponential decay length, in days of the **killing_initial_effect**.
+        repelling_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        repelling_box_duration (int): Box duration of effect in days before the decay of **repelling_initial_effect**.
+        repelling_decay_time_constant (int): The exponential decay length, in days of the **repelling_initial_effect**.
+        insecticide (str): The name of the insecticide defined in config.Insecticides for this intervention.
+            If insecticides are being used, then this must be defined as one of those values. If they are not
+            being used, then this does not needed to be specified or can be empty string. It cannot have a
             value if config.Insecticides does not define anything.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple IRSHousingModification interventions
-            attached to a person if they have different Intervention_Name values.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **IRSHousingModification** interventions
+            attached to a person if they have different **Intervention_Name** values.
     """
     intervention = irs_configuration(campaign,
                                      killing_initial_effect=killing_initial_effect,
@@ -217,28 +217,28 @@ def irs_configuration(campaign,
                       insecticide: str = "",
                       intervention_name: str = default_name):
     """
-        Configures and returns IRSHousingModification intervention. The IRSHousingModification intervention class
-        includes Indoor Residual Spraying (IRS) in the simulation. IRS is another key vector control tool in which
-        insecticide is sprayed on the interior walls of a house so that mosquitoes resting on the walls after
-        consuming a blood meal will die. IRS can also have a repellent effect. Because this class is distributed
-        to individuals, it can target subgroups of the population. To target all individuals in a node, use
-        IndoorSpaceSpraying. Do not use IRSHousingModification and IndoorSpaceSpraying together.
+    Configures and returns **IRSHousingModification** intervention. The **IRSHousingModification** intervention class
+    includes Indoor Residual Spraying (IRS) in the simulation. IRS is another key vector control tool in which
+    insecticide is sprayed on the interior walls of a house so that mosquitoes resting on the walls after
+    consuming a blood meal will die. IRS can also have a repellent effect. Because this class is distributed
+    to individuals, it can target subgroups of the population. To target all individuals in a node, use
+    **IndoorSpaceSpraying**. Do not use **IRSHousingModification** and **IndoorSpaceSpraying** together.
 
     Args:
-        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        repelling_initial_effect: Initial strength of the Killing effect. The effect decays over time.
-        repelling_box_duration: Box duration of effect in days before the decay of Repelling Initial Effect.
-        repelling_decay_time_constant: The exponential decay length, in days of the Repelling Initial Effect.
-        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
-            If insecticides are being used, then this must be defined as one of those values.  If they are not
-            being used, then this does not needed to be specified or can be empty string.  It cannot have a
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters.
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (int): Box duration of effect in days before the decay of **killing_initial_effect**.
+        killing_decay_time_constant (int): The exponential decay length, in days of the **killing_initial_effect**.
+        repelling_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        repelling_box_duration (int): Box duration of effect in days before the decay of **repelling_initial_effect**.
+        repelling_decay_time_constant (int): The exponential decay length, in days of the **repelling_initial_effect**.
+        insecticide (str): The name of the insecticide defined in config.Insecticides for this intervention.
+            If insecticides are being used, then this must be defined as one of those values. If they are not
+            being used, then this does not need to be specified or can be empty string. It cannot have a
             value if config.Insecticides does not define anything.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple IRSHousingModification interventions
-            attached to a person if they have different Intervention_Name values.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **IRSHousingModification** interventions
+            attached to a person if they have different **Intervention_Name** values.
 
     Returns:
         (dict): Configured IRSHousingModification intervention

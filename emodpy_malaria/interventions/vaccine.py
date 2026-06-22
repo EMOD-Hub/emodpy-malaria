@@ -15,25 +15,25 @@ def _simple_vaccine(campaign,
                     vaccine_decay_time_constant: float = 100,
                     efficacy_is_multiplicative: bool = True):
     """
-        Configures a SimpleVaccine intervention.
+    Configures a **SimpleVaccine** intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it
             from others that use the same class
-        vaccine_type: The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
+        vaccine_type (str): The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
             "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"
-        vaccine_take: The rate at which delivered vaccines will successfully stimulate an immune response and achieve
+        vaccine_take (float): The rate at which delivered vaccines will successfully stimulate an immune response and achieve
             the desired efficacy.
-        vaccine_initial_effect: Initial efficacy of the vaccine, before decay.
-        vaccine_box_duration: Duration in days of initial efficacy of vaccine before it starts to decay.
-        vaccine_decay_time_constant: Time over which vaccine efficacy wanes and the vaccine_box_duration.
-        efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
+        vaccine_initial_effect (float): Initial efficacy of the vaccine, before decay.
+        vaccine_box_duration (float): Duration in days of initial efficacy of vaccine before it starts to decay.
+        vaccine_decay_time_constant (float): Time over which vaccine efficacy wanes and the **vaccine_box_duration**.
+        efficacy_is_multiplicative (bool): The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
 
     Returns:
-        (dict): Configured SimpleVaccine intervention
+        (dict): Configured **SimpleVaccine** intervention.
     """
     vaccine_types = ["Generic", "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"]
     if vaccine_type not in vaccine_types:
@@ -74,41 +74,41 @@ def add_scheduled_vaccine(campaign,
                           vaccine_decay_time_constant: float = 100,
                           efficacy_is_multiplicative: bool = True):
     """
-        Adds a scheduled SimpleVaccine event, with an optional BroadcastEvent, broadcast when vaccine is received.
+    Adds a scheduled **SimpleVaccine** event, with an optional **BroadcastEvent**, broadcast when vaccine is received.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
-            Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
-            demographic_coverage parameter is ignored
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
+            **Demographic_Coverage** receives the intervention.
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
+            **demographic_coverage** parameter is ignored.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+        target_age_min (float): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max (float): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only (bool): When set to True, the intervention is only distributed to individuals that began
             the simulation in the node (i.e. those that claim the node as their residence)
-        broadcast_event: "The name of the event to be broadcast. This event must be set in the
+        broadcast_event (str): The name of the event to be broadcast. This event must be set in the
             **Custom_Coordinator_Events** configuration parameter. When None or Empty, nothing is broadcast.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it
-            from others that use the same class
-        vaccine_type: The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
-            "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"
-        vaccine_take: The rate at which delivered vaccines will successfully stimulate an immune response and achieve
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it
+            from others that use the same class.
+        vaccine_type (str): The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
+            "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking".
+        vaccine_take (float): The rate at which delivered vaccines will successfully stimulate an immune response and achieve
             the desired efficacy.
-        vaccine_initial_effect: Initial efficacy of the vaccine, before decay.
-        vaccine_box_duration: Duration in days of initial efficacy of vaccine before it starts to decay.
-        vaccine_decay_time_constant: Time over which vaccine efficacy wanes and the vaccine_box_duration.
-        efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
+        vaccine_initial_effect (float): Initial efficacy of the vaccine, before decay.
+        vaccine_box_duration (int): Duration in days of initial efficacy of vaccine before it starts to decay.
+        vaccine_decay_time_constant (float): Time over which vaccine efficacy wanes and the **vaccine_box_duration**.
+        efficacy_is_multiplicative (bool): The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
     """
@@ -162,44 +162,44 @@ def add_triggered_vaccine(campaign,
                           vaccine_decay_time_constant: float = 100,
                           efficacy_is_multiplicative: bool = True):
     """
-        Adds an event-triggered SimpleVaccine event, with an optional BroadcastEvent, broadcast when vaccine is received.
+    Adds an event-triggered **SimpleVaccine** event, with an optional **BroadcastEvent**, broadcast when vaccine is received.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        trigger_condition_list: A list of the events that will trigger intervention distribution.
-        listening_duration: The number of time steps that the distributed event will monitor for triggers.
+        start_day (int): The day the intervention is given out.
+        trigger_condition_list (list): A list of the events that will trigger intervention distribution.
+        listening_duration (int): The number of time steps that the distributed event will monitor for triggers.
             Default is -1, which is indefinitely.
-        delay_period_constant: Optional. Delay, in days, before the intervention is given out after a trigger
+        delay_period_constant (float): Optional. Delay, in days, before the intervention is given out after a trigger
             is received.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
-            Demographic_Coverage receives the intervention.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+            **Demographic_Coverage** receives the intervention.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with **timesteps_between_repetitions**. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        target_age_min (float): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (float): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only (bool): When set to True, the intervention is only distributed to individuals that began
             the simulation in the node (i.e. those that claim the node as their residence)
-        broadcast_event: The name of the event to be broadcast. This event must be set in the
+        broadcast_event (str): The name of the event to be broadcast. This event must be set in the
             **Custom_Coordinator_Events** configuration parameter. When None or "", nothing is broadcast.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it
             from others that use the same class
-        vaccine_type: The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
-            "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking"
-        vaccine_take: The rate at which delivered vaccines will successfully stimulate an immune response and achieve
+        vaccine_type (str): The type of vaccine to distribute in a vaccine intervention. Options are: "Generic",
+            "TransmissionBlocking", "AcquisitionBlocking", "MortalityBlocking".
+        vaccine_take (float): The rate at which delivered vaccines will successfully stimulate an immune response and achieve
             the desired efficacy.
-        vaccine_initial_effect: Initial efficacy of the vaccine, before decay.
-        vaccine_box_duration: Duration in days of initial efficacy of vaccine before it starts to decay.
-        vaccine_decay_time_constant: Time over which vaccine efficacy wanes and the vaccine_box_duration.
-        efficacy_is_multiplicative: The overall vaccine efficacy when individuals receive more than one vaccine.
+        vaccine_initial_effect (float): Initial efficacy of the vaccine, before decay.
+        vaccine_box_duration (float): Duration in days of initial efficacy of vaccine before it starts to decay.
+        vaccine_decay_time_constant (float): Time over which vaccine efficacy wanes and the **vaccine_box_duration**.
+        efficacy_is_multiplicative (bool): The overall vaccine efficacy when individuals receive more than one vaccine.
             When set to true (1), the vaccine efficacies are multiplied together; when set to false (0), the
             efficacies are additive.
     """
@@ -238,10 +238,10 @@ def new_intervention_as_file(campaign, start_day: int = 0, filename: str = "Simp
     Write a campaign file to disk with a single bednet event, using defaults. Useful for testing and learning.
 
     Args:
-        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention will be added.
-        start_day: The day of the simulation on which the bednets are distributed. We recommend
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The emod_api:emod_api.campaign object to which the intervention will be added.
+        start_day (int): The day of the simulation on which the bednets are distributed. We recommend
             aligning this with the start of the simulation.
-        filename: The campaign filename; can be omitted and default will be used and returned to user.
+        filename (str): The campaign filename; can be omitted and default will be used and returned to user.
 
     Returns:
         (str): The campaign filename written to disk.

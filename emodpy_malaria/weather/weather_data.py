@@ -27,11 +27,11 @@ class WeatherData:
         Instantiate a weather object from data numpy array and a weather metadata object.
 
         Args:
-            data: Numpy array of unique weather time series, in the order they appear in a .bin file.
+            data (np.ndarray): Numpy array of unique weather time series, in the order they appear in a .bin file.
                   Shape can either be a single dimension array, or a 2d array having series stored as rows.
                   This means that the number of rows corresponds to the number of unique series and number of
                   columns corresponds to a series length (e.g. 365).
-            metadata: (Optional) WeatherMetadata object containing metadata from .bin.json.
+            metadata (WeatherMetadata): WeatherMetadata object containing metadata from .bin.json.
         """
         data = self._ensure_data_type(data)
         self._data: np.ndarray = data
@@ -85,10 +85,10 @@ class WeatherData:
         The method identifies unique node weather time series and produces a corresponding node-offset dictionary.
 
         Args:
-            node_series: Dictionary with node ids as keys and weather time series as values (don't have to be unique).
-            same_nodes: (Optional) Dictionary, mapping nodes from 'node_series' dictionary to additional nodes
+            node_series (Dict[int, Union[np.ndarray[np.float32], List[float]]]): Dictionary with node ids as keys and weather time series as values (don't have to be unique).
+            same_nodes (Dict[int, List[int]]): (Optional) Dictionary, mapping nodes from 'node_series' dictionary to additional nodes
                                    which series are the same. Keys are node ids, values are lists of node ids.
-            attributes: (Optional) Attributes used to initiate weather metadata. If not provided, defaults are used.
+            attributes (WeatherAttributes): (Optional) Attributes used to initiate weather metadata. If not provided, defaults are used.
 
         Returns:
             WeatherData object.
@@ -152,9 +152,9 @@ class WeatherData:
         Create a node-to-series dictionary from the current object. This method can be used to edit weather data.
 
         Args:
-            only_unique_series: (Optional) A flag controlling whether the output dictionary will contain series for all
+            only_unique_series (bool): (Optional) A flag controlling whether the output dictionary will contain series for all
                                 nodes (if set to true) or only unique series.
-            copy_data: (Optional) Flag indicating whether to copy data numpy array to prevent unintentional changes.
+            copy_data (bool): (Optional) Flag indicating whether to copy data numpy array to prevent unintentional changes.
         Returns:
             A dictionary with node ids and keys and node weather time series as values.
         """
@@ -176,9 +176,9 @@ class WeatherData:
         The method identifies unique node weather time series and produces a corresponding node-offset dictionary.
 
         Args:
-            file_path: The csv file path from which weather data is loaded (expected columns: node, step, value).
-            info: (Optional) Dataframe info object describing dataframe columns and content.
-            attributes: (Optional) Attributes used to initiate weather metadata. If not provided, defaults are used.
+            file_path (Union[str, Path]): The csv file path from which weather data is loaded (expected columns: node, step, value).
+            info (DataFrameInfo): (Optional) Dataframe info object describing dataframe columns and content.
+            attributes (WeatherAttributes): (Optional) Attributes used to initiate weather metadata. If not provided, defaults are used.
 
         Returns:
             WeatherData object.
@@ -193,8 +193,8 @@ class WeatherData:
         Creates a csv file and stores node ids, time steps and weather node weather time series as separate columns.
 
         Args:
-            file_path: The csv file path into which weather data will be stored.
-            info: (Optional) Dataframe info object describing dataframe columns and content.
+            file_path (Union[str, Path]): The csv file path into which weather data will be stored.
+            info (DataFrameInfo): (Optional) Dataframe info object describing dataframe columns and content.
 
         Returns:
             Dataframe created as an intermediate object used to save data to a csv file.
@@ -214,9 +214,9 @@ class WeatherData:
         node ids, time steps and weather node weather time series as separate columns.
 
         Args:
-            df: Dataframe containing nodes and weather time series (expected columns: node, step, value).
-            info: (Optional) Dataframe info object describing dataframe columns and content.
-            attributes: (Optional) Attributes used to initiate weather metadata. If not provided, defaults are used.
+            df (pd.DataFrame): Dataframe containing nodes and weather time series (expected columns: node, step, value).
+            info (DataFrameInfo): (Optional) Dataframe info object describing dataframe columns and content.
+            attributes (WeatherAttributes): (Optional) Attributes used to initiate weather metadata. If not provided, defaults are used.
 
         Returns:
             WeatherData object.
@@ -246,7 +246,7 @@ class WeatherData:
         Creates a dataframe containing node ids, time steps and weather time series as separate columns.
 
         Args:
-            info: (Optional) Dataframe info object describing dataframe columns and content.
+            info (DataFrameInfo): (Optional) Dataframe info object describing dataframe columns and content.
 
         Returns:
             Dataframe containing node ids and weather time series.
@@ -280,7 +280,7 @@ class WeatherData:
         Create WeatherData object by reading weather data from binary (.bin) and metadata (.bin.json) files.
 
         Args:
-            file_path: The weather binary (.bin) file path. The metadata file path is constructed by appending ".json".
+            file_path (Union[str, Path]): The weather binary (.bin) file path. The metadata file path is constructed by appending ".json".
 
         Returns:
             WeatherData object.
@@ -301,7 +301,7 @@ class WeatherData:
         Create weather binary (.bin) and metadata (.json) files, containing weather data and metadata.
 
         Args:
-            file_path: The weather binary (.bin) file path. The metadata file path is constructed by adding ".json".
+            file_path (Union[str, Path]): The weather binary (.bin) file path. The metadata file path is constructed by adding ".json".
 
         Returns:
             None.
@@ -322,7 +322,7 @@ class WeatherData:
         The method validates the data object is iterable and if needed it converts it to the NumPy float32 array.
 
         Args:
-            data: Iterable object containing node weather time series. Usually a list or array of floats values.
+            data (Iterable): Iterable object containing node weather time series. Usually a list or array of floats values.
 
         Returns:
             Node weather time series as a NumPy float32 array.
@@ -353,10 +353,10 @@ class DataFrameInfo:
         Initializes dataframe info object. If no info is provided the defaults are used.
 
         Args:
-            node_column: (Optional) Node column name. The default is "nodes".
-            step_column: (Optional) Step column name.
-            value_column: (Optional) Value column name.
-            only_unique_series: (Optional) Flag indicating weather only distinct weather time series are needed.
+            node_column (str): (Optional) Node column name. The default is "nodes".
+            step_column (str): (Optional) Step column name.
+            value_column (str): (Optional) Value column name.
+            only_unique_series (bool): (Optional) Flag indicating weather only distinct weather time series are needed.
         """
         self._node_column: str = node_column
         self._step_column: str = step_column
@@ -403,8 +403,8 @@ class DataFrameInfo:
         Auto-detect required column names (nodes, time-steps and weather time series) for the DataFrameInfo object.
 
         Args:
-            df: The dataframe containing nodes, time-steps and weather time series.
-            column_candidates: (Optional) Dictionary of candidate column names to be used instead of defaults.
+            df (pd.DataFrame): The dataframe containing nodes, time-steps and weather time series.
+            column_candidates (Dict[str, List[str]]): (Optional) Dictionary of candidate column names to be used instead of defaults.
 
         Returns:
             DataFrameInfo object with detected column names.
@@ -427,7 +427,7 @@ class DataFrameInfo:
         Detect which of the candidate column names is used in the given dataframe.
 
         Args:
-            df: The dataframe containing nodes, time-steps and weather time series.
+            df (pd.DataFrame): The dataframe containing nodes, time-steps and weather time series.
             column_candidates: (Optional) Dictionary of candidate column names to be used instead of defaults.
 
         Returns:

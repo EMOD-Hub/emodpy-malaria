@@ -21,10 +21,10 @@ class WeatherSet:
     """
     Representation of a set of weather files required by EMOD, for all or a subset of weather variables.
     Automate tasks for working with multiple weather files using WeatherData and WeatherMetadata objects.
-    WeatherSet contains a dictionary of weather variables to WeatherData and WeatherMetadata objects.
-    Supports:
-    1. Conversion from/to csv, dataframe (from_csv, to_csv, from_dataframe, to_dataframe)
-    2. Conversion from/to EMOD weather files, .bin and .bin.json (from_file, to_file)
+    WeatherSet contains a dictionary of weather variables to WeatherData and WeatherMetadata objects.<br>
+    Supports:<br>
+    1. Conversion from/to csv, dataframe (from_csv, to_csv, from_dataframe, to_dataframe)<br>
+    2. Conversion from/to EMOD weather files, .bin and .bin.json (from_file, to_file)<br>
     """
 
     def __init__(self,
@@ -35,10 +35,10 @@ class WeatherSet:
         Initializes a WeatherSet object.
 
         Args:
-            dir_path: (Optional) Path to the directory containing weather files.
-            file_names: (Optional) Dictionary of weather variables (keys) and file names (values).
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                             Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            dir_path (Union[str, Path]): (Optional) Path to the directory containing weather files.
+            file_names (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and file names (values).
+            weather_columns (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
 
         """
         self._dir_path: Union[str, Path] = dir_path
@@ -128,12 +128,12 @@ class WeatherSet:
         The dataframe must have node ids, step and weather columns.
 
         Args:
-            df: Dataframe containing weather data.
-            node_column: (Optional) Column containing node ids. The default is "nodes".
-            step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
-            attributes: (Optional) Weather attribute object containing metadata for WeatherMetadata object.
+            df (pd.DataFrame): Dataframe containing weather data.
+            node_column (str): (Optional) Column containing node ids. The default is "nodes".
+            step_column (str): (Optional) Column containing node index for weather time series values. The default is "steps".
+            weather_columns (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
+            attributes (WeatherAttributes): (Optional) Weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
             WeatherSet object.
@@ -155,12 +155,12 @@ class WeatherSet:
         The csv file must have node ids, step and weather columns.
 
         Args:
-            file_path: The csv file path.
-            node_column: (Optional) Column containing node ids. The default is "nodes".
-            step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
-            attributes: (Optional) The weather attribute object containing metadata for WeatherMetadata object.
+            file_path (Union[str, Path]): The csv file path.
+            node_column (str): (Optional) Column containing node ids. The default is "nodes".
+            step_column (str): (Optional) Column containing node index for weather time series values. The default is "steps".
+            weather_columns (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
+            attributes (WeatherAttributes): (Optional) The weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
             WeatherSet object.
@@ -183,12 +183,12 @@ class WeatherSet:
          instantiating weather metadata objects.
 
         Args:
-            data_csv: Dataframe or a csv file containing weather time series.
-            node_column: (Optional) Column containing node ids. The default is "nodes".
-            step_column: (Optional) Column containing node index for weather time series values. The default is "steps". The default is "steps".
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
-            attributes: (Optional) The weather attribute object containing metadata for WeatherMetadata object.
+            data_csv (Union[str, pd.DataFrame]): Dataframe or a csv file containing weather time series.
+            node_column (str): (Optional) Column containing node ids. The default is "nodes".
+            step_column (str): (Optional) Column containing node index for weather time series values. The default is "steps". The default is "steps".
+            weather_columns (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
+            attributes (WeatherAttributes): (Optional) The weather attribute object containing metadata for WeatherMetadata object.
 
         Returns:
             WeatherSet object.
@@ -217,10 +217,11 @@ class WeatherSet:
         Creates a dataframe containing node ids, time steps and weather columns.
 
         Args:
-            node_column: (Optional) Column containing node ids. The default is "nodes".
-            step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            node_column (str): (Optional) Column containing node ids. The default is "nodes".
+            step_column (str): (Optional) Column containing node index for weather time series values. The default is "steps".
+            weather_columns (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
+
         Returns:
             Dataframe containing node ids and weather time series.
         """
@@ -254,11 +255,11 @@ class WeatherSet:
         Creates a csv file containing node ids, time steps and weather columns.
 
         Args:
-            file_path: The path of a csv file to be generated.
-            node_column: (Optional) Column containing node ids. The default is "nodes".
-            step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            file_path (Union[str, Path]): The path of a csv file to be generated.
+            node_column (str): (Optional) Column containing node ids. The default is "nodes".
+            step_column (str): (Optional) Column containing node index for weather time series values. The default is "steps".
+            weather_columns (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
 
         Returns:
             Dataframe containing node ids and weather time series, used to create the csv file.
@@ -301,9 +302,9 @@ class WeatherSet:
         Instantiates WeatherSet from to weather files which paths are determined based on given arguments.
 
         Args:
-            dir_path: Directory path containing weather files.
-            prefix: Weather files prefix, e.g. "dtk_15arcmin"
-            file_names: Dictionary of weather variables (keys) and weather .bin file names (values).
+            dir_path (Union[str, Path]): Directory path containing weather files.
+            prefix (str): Weather files prefix, e.g. "dtk_15arcmin"
+            file_names (Dict[WeatherVariable, str]): Dictionary of weather variables (keys) and weather .bin file names (values).
 
         Returns:
             WeatherSet object.
@@ -331,14 +332,15 @@ class WeatherSet:
                               ) -> Dict[WeatherVariable, str]:
         """
         Initializes a weather_columns dictionary from defaults or a partially populated weather_columns dictionary.
-        The following cases are supported in respect to weather_columns argument:
-        - all columns names are specified -> returns unchanged weather_columns
-        - some columns names are None: column names are set to WeatherVariable values.
-        - weather_columns is  None: all weather columns are set to WeatherVariable values.
+        The following cases are supported in respect to weather_columns argument:<br>
+        - all columns names are specified -> returns unchanged weather_columns<br>
+        - some columns names are None: column names are set to WeatherVariable values.<br.
+        - weather_columns is  None: all weather columns are set to WeatherVariable values.<br>
 
         Args:
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            weather_columns (Dict[WeatherVariable, Union[str, None]]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
+
         Returns:
             Dictionary of weather variables (keys) to weather column names (values).
         """
@@ -361,10 +363,11 @@ class WeatherSet:
         Initializes dataframe info objects containing column names.
 
         Args:
-            node_column: (Optional) Column containing node ids. The default is "nodes".
-            step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
-            weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-                Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+            node_column (str): (Optional) Column containing node ids. The default is "nodes".
+            step_column (str): (Optional) Column containing node index for weather time series values. The default is "steps".
+            weather_columns (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and weather column names (values).<br>
+                Defaults are WeatherVariables values "airtemp", "humidity", "rainfall", "landtemp".
+
         Returns:
             Tuple of two dictionaries mapping weather variables to dataframe info and weather columns.
         """
@@ -386,26 +389,26 @@ class WeatherSet:
         """
         Construct file name templates using weather file name prefix/suffix and weather variable names.
         The logic of this method is the same as of "Path.glob" method, with two adjustments, added to make its use more
-        convenient for working with weather files:
-        - if prefix/suffix are not specified, defaults are used (see method arguments).
-        - if suffix doesn't end with ".bin" or "*", "*.bin" is added (since, otherwise, no matches can be found).
+        convenient for working with weather files:<br>
+        - if prefix/suffix are not specified, defaults are used (see method arguments).<br>
+        - if suffix doesn't end with ".bin" or "*", "*.bin" is added (since, otherwise, no matches can be found).<br>
 
-        Used for two scenarios:
-        1. Get expected weather file patsh.
+        Used for two scenarios:<br>
+        1. Get expected weather file patsh.<br>
         2. Select weather files from a dir, when exact names are not known, e.g. Path.glob("dtk_*{tag}*.bin").
 
         Args:
-            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
-            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "*{tag}*.bin").
-            weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
-            weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
+            prefix (str): (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
+            suffix (str): (Optional) Weather file name suffix, usually containing a weather variable name parameter like "*{tag}*.bin").
+            weather_names (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
+            weather_variables (List[WeatherVariable]): (Optional) Weather variables to be used in case custom weather names are not specified.<br>
                 In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
         Returns:
-            Dictionary of weather variables (keys) and weather file name templates.
-                For example, air temperature could be represented as:
-                - exact name:   WeatherVariable.AIR_TEMPERATURE: "dtk_15arcmin_air_temperature_daily.bin" or
-                - name pattern: WeatherVariable.AIR_TEMPERATURE: "dtk_air_temperature.bin"
+            Dictionary of weather variables (keys) and weather file name templates.<br>
+                For example, air temperature could be represented as:<br>
+                - exact name:   WeatherVariable.AIR_TEMPERATURE: "dtk_15arcmin_air_temperature_daily.bin" or<br>
+                - name pattern: WeatherVariable.AIR_TEMPERATURE: "dtk_air_temperature.bin"<br>
         """
         # Validate arguments
         if prefix is None:
@@ -447,21 +450,21 @@ class WeatherSet:
         """
         Construct file paths using the weather directory path, file name prefix/suffix and weather variable names.
         The logic of this method is the same as of "Path.glob" method, with two adjustments, added to make its use more
-        convenient for working with weather files:
-        - if prefix/suffix are not specified, defaults are used (see method arguments).
-        - if suffix doesn't end with ".bin" or "\\*", "\\*.bin" is added (since, otherwise, no matches can be found).
+        convenient for working with weather files:<br>
+        - if prefix/suffix are not specified, defaults are used (see method arguments).<br>
+        - if suffix doesn't end with ".bin" or "\\*", "\\*.bin" is added (since, otherwise, no matches can be found).<br>
 
         Args:
             dir_path: (Optional) Directory path containing weather files.
             prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
             suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\\*{tag}\\*.bin").
             weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
-            weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
+            weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.<br>
                 In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
         Returns:
-            Dictionary of weather variables (keys) and weather file paths.
-                For example, air temperature could be represented as:
+            Dictionary of weather variables (keys) and weather file paths.<br>
+                For example, air temperature could be represented as:<br>
                 WeatherVariable.AIR_TEMPERATURE: "dtk_15arcmin_air_temperature_daily.bin"
         """
         names = cls._make_file_templates(prefix=prefix,
@@ -484,20 +487,20 @@ class WeatherSet:
         """
         Select a set of weather files using the weather directory path, file name prefix/suffix and weather variable names.
         The logic of this method is the same as of "Path.glob" method, with two adjustments, added to make its use more
-        convenient for working with weather files:
-        - if prefix/suffix are not specified, defaults are used (see method arguments).
-        - if suffix doesn't end with ".bin" or "\\*", "\\*.bin" is added (since, otherwise, no matches can be found).
+        convenient for working with weather files:<br>
+        - if prefix/suffix are not specified, defaults are used (see method arguments).<br>
+        - if suffix doesn't end with ".bin" or "\\*", "\\*.bin" is added (since, otherwise, no matches can be found).<br>
 
         Args:
-            dir_path: (Optional) Directory path containing weather files.
-            prefix: (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
-            suffix: (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\\*{tag}\\*.bin").
-            weather_names: (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
-            weather_variables: (Optional) Weather variables to be used in case custom weather names are not specified.
+            dir_path (Union[str, Path]): (Optional) Directory path containing weather files.
+            prefix (str): (Optional) Weather file name prefix, usually a fixed string like "dtk_15arcmin".
+            suffix (str): (Optional) Weather file name suffix, usually containing a weather variable name parameter like "\\*{tag}\\*.bin").
+            weather_names (Dict[WeatherVariable, str]): (Optional) Dictionary of weather variables (keys) and custom weather variable names (values).
+            weather_variables (List[WeatherVariable]): (Optional) Weather variables to be used in case custom weather names are not specified.<br>
                 In this case lowercase weather variable names are used, for example: AIR_TEMPERATURE -> air_temperature.
 
          Returns:
-             Dictionary of weather variables (keys) and weather file names.
+             Dictionary of weather variables (keys) and weather file names.<br>
              For example, WeatherVariable.AIR_TEMPERATURE: "dtk_15arcmin_air_temperature_daily.bin"
          """
         assert dir_path is not None, "Directory path cannot be None."

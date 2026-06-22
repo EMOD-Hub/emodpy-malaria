@@ -15,33 +15,33 @@ def _mosquito_release(campaign,
                       released_microsporidia: str = ""
                       ):
     """
-        Configures node-targeted MosquitoRelease class intervention. The MosquitoRelease intervention class adds
-        mosquito release vector control programs to the simulation. Mosquito release is a key vector control mechanism
-        that allows the release of sterile males, genetically modified mosquitoes, or even Microsporidia-infected
-        mosquitoes.
+    Configures node-targeted **MosquitoRelease** class intervention. The **MosquitoRelease** intervention class adds
+    mosquito release vector control programs to the simulation. Mosquito release is a key vector control mechanism
+    that allows the release of sterile males, genetically modified mosquitoes, or even Microsporidia-infected
+    mosquitoes.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple MosquitoRelease interventions
-            if they have different Intervention_Name values.
-        released_number: The number of mosquitoes to release, this parameter sets Released_Type = "FIXED_NUMBER"
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **MosquitoRelease** interventions
+            if they have different **Intervention_Name** values.
+        released_number (int): The number of mosquitoes to release, this parameter sets **Released_Type** = "FIXED_NUMBER"
             automatically.
-        released_ratio: The number of released mosquitoes is proportional to the mosquito population from the previous
+        released_ratio (float): The number of released mosquitoes is proportional to the mosquito population from the previous
             timestep, specifically considering mosquitoes of the same gender as those being released. This approach is
-            used when on Released_Type is set to RATIO. This parameter sets Released_Type = "RATIO" automatically.
-        released_infectious: The fraction of vectors released that are to be infectious.
+            used when on Released_Type is set to RATIO. This parameter sets **Released_Type** = "RATIO" automatically.
+        released_infectious (float): The fraction of vectors released that are to be infectious.
             One can only use this feature when 'Malaria_Model'!='MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'
-        released_species: The case-sensitive name of the species of vectors to be released.
-        released_genome: This defines the alleles of the genome of the vectors to be released.
+        released_species (str): The case-sensitive name of the species of vectors to be released.
+        released_genome (list[list[str]]): This defines the alleles of the genome of the vectors to be released.
             It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
             Default is  [["X", "X"]]. This only works for vectors that have no genes defined.
-        released_mate_genome: This defines the alleles of the mate genome of the vectors to be released.
+        released_mate_genome (list[list[str]]): This defines the alleles of the mate genome of the vectors to be released.
             The Released_Mate_Genome must be male, and Released_Genome must be female. It must define all of the alleles
             including the gender 'gene'. '*' is not allowed. When this parameter is defined, the released female vectors
             will be fully gestated and ready to lay eggs, which will be the product of Released_Genome and
             Released_Mate_Genome.
-        released_microsporidia: String indicating the Strain_Name of the microsporidia strain being released.
+        released_microsporidia (str): String indicating the Strain_Name of the microsporidia strain being released.
 
     Returns:
         Configured MosquitoRelease intervention
@@ -92,40 +92,40 @@ def add_scheduled_mosquito_release(
         released_mate_genome: list[list[str]] = None,
         released_microsporidia: any = None):
     """
-        Adds a node-targeted MosquitoRelease class intervention to the campaign. The MosquitoRelease intervention class
-        adds mosquito release vector control programs to the simulation. Mosquito release is a key vector control
-        mechanism that allows the release of sterile males, genetically modified mosquitoes, or even
-        Microsporidia-infected mosquitoes.
+    Adds a node-targeted **MosquitoRelease** class intervention to the campaign. The **MosquitoRelease** intervention class
+    adds mosquito release vector control programs to the simulation. Mosquito release is a key vector control
+    mechanism that allows the release of sterile males, genetically modified mosquitoes, or even
+    Microsporidia-infected mosquitoes.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
-        start_day: The day to release the vectors.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple MosquitoRelease interventions
-            if they have different Intervention_Name values.
-        released_number: The number of mosquitoes to release, this parameter sets Released_Type = "FIXED_NUMBER"
+        start_day (int): The day to release the vectors.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **MosquitoRelease** interventions
+            if they have different **Intervention_Name** values.
+        released_number (int): The number of mosquitoes to release, this parameter sets **Released_Type** = "FIXED_NUMBER"
             automatically.
-        released_ratio: The number of released mosquitoes is proportional to the mosquito population from the previous
+        released_ratio (float): The number of released mosquitoes is proportional to the mosquito population from the previous
             timestep, specifically considering mosquitoes of the same gender as those being released. This approach is
-            used when on Released_Type is set to RATIO. This parameter sets Released_Type = "RATIO" automatically.
-        released_infectious: The fraction of vectors released that are to be infectious.
+            used when on **Released_Type** is set to RATIO. This parameter sets **Released_Type** = "RATIO" automatically.
+        released_infectious (float): The fraction of vectors released that are to be infectious.
             One can only use this feature when 'Malaria_Model'!='MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'
-        released_species: The case-sensitive name of the species of vectors to be released.
-        released_genome: This defines the alleles of the genome of the vectors to be released.
+        released_species (str): The case-sensitive name of the species of vectors to be released.
+        released_genome (list[list[str]]): This defines the alleles of the genome of the vectors to be released.
             It must define all of the alleles including the gender 'gene'.  '*' is not allowed.
             Default is  [["X", "X"]]. This only works for vectors that have no genes defined.
-        released_mate_genome: This defines the alleles of the mate genome of the vectors to be released.
-            The Released_Mate_Genome must be male, and Released_Genome must be female. It must define all of the alleles
+        released_mate_genome (list[list[str]]): This defines the alleles of the mate genome of the vectors to be released.
+            The **Released_Mate_Genome** must be male, and **Released_Genome** must be female. It must define all of the alleles
             including the gender 'gene'. '*' is not allowed. When this parameter is defined, the released female vectors
-            will be fully gestated and ready to lay eggs, which will be the product of Released_Genome and
-            Released_Mate_Genome.
-        released_microsporidia: The Strain_Name from the Microsporidia list defined for this species.
+            will be fully gestated and ready to lay eggs, which will be the product of **Released_Genome** and
+            **Released_Mate_Genome**.
+        released_microsporidia (str): The **Strain_Name** from the Microsporidia list defined for this species.
             Each species has its own strains. Empty String means no microsporidia.
     """
 
@@ -148,12 +148,12 @@ def add_scheduled_mosquito_release(
 
 def new_intervention_as_file(campaign, start_day: int = 1, filename: str = "MosquitoRelease.json"):
     """
-        Creates a campaign file with a MosquitoRelease intervention
+    Creates a campaign file with a **MosquitoRelease** intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): A campaign builder that also contains schema_path parameters
-        start_day: The day to release the vectors.
-        filename: name of campaign filename to be created
+        start_day (int): The day to release the vectors.
+        filename (str): name of campaign filename to be created.
 
     Returns:
         (str): returns filename

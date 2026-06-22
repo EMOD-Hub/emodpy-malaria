@@ -21,36 +21,36 @@ def add_community_health_worker(campaign,
                                 max_stock: int = 2147480000,
                                 waiting_period: int = 0):
     """
-        Sets up a CommunityHealthWorkerEventCoordinator with the passed in intervention
+    Sets up a **CommunityHealthWorkerEventCoordinator** with the passed in intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        trigger_condition_list: The list of individual events that are of interest to the community health worker (CHW).
+        start_day (int): The day the intervention is given out.
+        trigger_condition_list (list): The list of individual events that are of interest to the community health worker (CHW).
             If one of these events occurs, the individual or node is put into a queue to receive the CHW's intervention.
             The CHW processes the queue when the event coordinator is updated.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
             Demographic_Coverage receives the intervention.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        initial_amount: Each instance will receive this constant/fixed value. Uses **Initial_Amount_Constant**
-        amount_in_shipment: The number of interventions (such as vaccine doses) that a health worker or clinic receives
+        target_age_min (int): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max (int): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        initial_amount (int): Each instance will receive this constant/fixed value. Uses **Initial_Amount_Constant**
+        amount_in_shipment (int): The number of interventions (such as vaccine doses) that a health worker or clinic receives
             in a shipment.
-        days_between_shipments: The number of days to wait before a clinic or health worker receives a new shipment
+        days_between_shipments (float): The number of days to wait before a clinic or health worker receives a new shipment
             of interventions (such as vaccine doses)
-        duration: The number of days for an event coordinator to be active before it expires. -1 means it never expires.
-        intervention_config: A configured intervention to be distributed by the coordinator
-        max_distributed_per_day: The maximum number of interventions (such as vaccine doses) that can be distributed
+        duration (float): The number of days for an event coordinator to be active before it expires. -1 means it never expires.
+        intervention_config (any): A configured intervention to be distributed by the coordinator
+        max_distributed_per_day (int): The maximum number of interventions (such as vaccine doses) that can be distributed
             by health workers or clinics in a given day
-        max_stock: The maximum number of interventions (such as vaccine doses) that can be stored by a health worker
+        max_stock (int): The maximum number of interventions (such as vaccine doses) that can be stored by a health worker
             or clinic
-        waiting_period: The number of days a person or node can be in the queue waiting to get the intervention from
+        waiting_period (int): The number of days a person or node can be in the queue waiting to get the intervention from
             the community health worker (CHW)
     """
     if not trigger_condition_list or not intervention_config:

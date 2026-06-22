@@ -9,8 +9,8 @@ def write_out_humans_data(serialization_filename: str,
     Humans are separated by nodes.
 
     Args:
-        serialization_filename: input file, should be the .dtk file created by EMOD
-        output_filename: output file, will be in JSON format
+        serialization_filename (str): input file, should be the .dtk file created by EMOD
+        output_filename (str): output file, will be in JSON format
 
     Returns:
         None

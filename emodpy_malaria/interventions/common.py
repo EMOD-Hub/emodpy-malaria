@@ -9,24 +9,24 @@ def _malaria_diagnostic(
         measurement_sensitivity: float = 0,
         detection_threshold: float = 0):
     """
-        Configures individual-targeted MalariaDiagnostic intervention
+    Configures individual-targeted **MalariaDiagnostic** intervention
 
     Args:
-        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The :py:obj:`emod_api:emod_api.campaign` object to which the intervention
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): The `emod_api.campaign` object to which the intervention
             will be added.
-        diagnostic_type: The setting for **Diagnostic_Type** in
-            :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
+        diagnostic_type (str): The setting for **Diagnostic_Type** in
+            [MalariaDiagnostic](https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-malariadiagnostic/).
             In addition to the accepted values listed there, you may also set
             TRUE_INFECTION_STATUS, which calls
-            :doc:`emod/parameter-campaign-individual-standarddiagnostic`
+            [StandardDiagnostic](https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-standarddiagnostic/)
             instead.
-        measurement_sensitivity: The setting for **Measurement_Sensitivity**
-            in :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
-        detection_threshold: The setting for **Detection_Threshold** in
-            :doc:`emod/parameter-campaign-individual-malariadiagnostic`.
+        measurement_sensitivity (float): The setting for **Measurement_Sensitivity**
+            in [MalariaDiagnostic](https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-malariadiagnostic/).
+        detection_threshold (float): The setting for **Detection_Threshold** in
+            [MalariaDiagnostic](https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-malariadiagnostic/).
 
     Returns:
-      Configured individual-targeted MalariaDiagnostic intervention
+    Configured individual-targeted **MalariaDiagnostic** intervention
     """
     # Shares lots of code with Standard. Not obvious if code minimization maximizes readability.
     import emod_api.interventions.common as emodapi_com
@@ -68,43 +68,43 @@ def add_triggered_campaign_delay_event(campaign,
                                        blackout_on_first_occurrence: bool = 0,
                                        individual_intervention: any = None):
     """
-        Create and add campaign event that responds to a trigger after an optional delay with an intervention.
+    Create and add campaign event that responds to a trigger after an optional delay with an intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        trigger_condition_list: A list of the events that will trigger intervention distribution.
-        listening_duration: The number of time steps that the distributed event will monitor for triggers.
+        start_day (int): The day the intervention is given out.
+        trigger_condition_list (list): A list of the events that will trigger intervention distribution.
+        listening_duration (int): The number of time steps that the distributed event will monitor for triggers.
             Default is -1, which is indefinitely.
-        delay_period_constant: Optional. Delay, in days, before the intervention is given out after a trigger
+        delay_period_constant (float): Optional. Delay, in days, before the intervention is given out after a trigger
             is received.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
             Demographic_Coverage receives the intervention.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
             the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        disqualifying_properties: A list of IndividualProperty key:value pairs that cause an intervention to be aborted.
+        disqualifying_properties (list): A list of IndividualProperty key:value pairs that cause an intervention to be aborted.
             Generally used to control the flow of health care access. For example, to prevent the same individual from
             accessing health care via two different routes at the same time.
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+        target_age_min (float): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max (float): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only (bool): When set to True, the intervention is only distributed to individuals that began
             the simulation in the node (i.e. those that claim the node as their residence)
-        blackout_event_trigger: The event to broadcast if an intervention cannot be distributed due to the
+        blackout_event_trigger (str): The event to broadcast if an intervention cannot be distributed due to the
             **Blackout_Period**.
-        blackout_period: After the initial intervention distribution, the time, in days, to wait before distributing
+        blackout_period (float): After the initial intervention distribution, the time, in days, to wait before distributing
             the intervention again. If it cannot distribute due to the blackout period, it will broadcast the
             user-defined **Blackout_Event_Trigger**.
-        blackout_on_first_occurrence: If set to true (1), individuals will enter the blackout period after the first
-            occurrence of an event in the **Trigger_Condition_List***.
-        individual_intervention: Individual intervention or a list of individual interventions to be distributed
+        blackout_on_first_occurrence (bool): If set to true (1), individuals will enter the blackout period after the first
+            occurrence of an event in the **Trigger_Condition_List**.
+        individual_intervention (IndividualIntervention or list): Individual intervention or a list of individual interventions to be distributed
             by this event
     """
     if not trigger_condition_list:
@@ -156,34 +156,34 @@ def add_campaign_event(campaign,
                        node_intervention: any = None,
                        node_property_restrictions: list = None):
     """
-        Adds a campaign event to the campaign with a passed in intervention.
+    Adds a campaign event to the campaign with a passed in intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
             Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
             demographic_coverage parameter is ignored
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
             will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
             the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
             Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are required for the
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are required for the
             individual to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        target_residents_only: When set to True, the intervention is only distributed to individuals that began
+        target_age_min (float): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
+        target_age_max (float): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        target_residents_only (bool): When set to True, the intervention is only distributed to individuals that began
             the simulation in the node (i.e. those that claim the node as their residence)
-        individual_intervention: Individual intervention or a list of individual interventions to be distributed
+        individual_intervention (IndividualIntervention or list): Individual intervention or a list of individual interventions to be distributed
             by this event
-        node_intervention: Node intervention or a list of node interventions to be distributed
+        node_intervention (NodeIntervention or list): Node intervention or a list of node interventions to be distributed
             by this event
-        node_property_restrictions: A list of dictionaries of NodeProperties, which are required for the node
+        node_property_restrictions (list): A list of dictionaries of NodeProperties, which are required for the node
             to receive the intervention. Sets the **Node_Property_Restrictions**
     """
     if individual_intervention and node_intervention:

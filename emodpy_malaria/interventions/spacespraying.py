@@ -20,38 +20,38 @@ def add_scheduled_space_spraying(
         cost_to_consumer: float = 0
 ):
     """
-        Note: for killing effects - depending on the parameters you set,
-        different WaningEffect classes will be used:
-        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    Configures and adds a node-targeted **SpaceSpraying** intervention to the campaign.
+
+    For killing effects - depending on the parameters you set,
+    different **WaningEffect** classes will be used:<br>
+        • box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored<br>
+        • box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential<br>
+        • box_duration > 0 + decay_time_constant = 0 => WaningEffectBox<br>
+        • box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential<br>
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        spray_coverage: The portion of the node that has been sprayed.  This value is multiplied by the current
-            efficacy of the WaningEffect
-        insecticide: The name of the insecticide defined in <config.Insecticides> for this intervention.
-            If insecticides are being used, then this must be defined as one of those values.  If they are not
-            being used, then this does not needed to be specified or can be empty string.  It cannot have a
+        start_day (int): The day the intervention is given out.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        spray_coverage (float): The portion of the node that has been sprayed. This value is multiplied by the current
+            efficacy of the **WaningEffect**.
+        insecticide (str): The name of the insecticide defined in <config.Insecticides> for this intervention.
+            If insecticides are being used, then this must be defined as one of those values. If they are not
+            being used, then this does not needed to be specified or can be empty string. It cannot have a
             value if <config.Insecticides> does not define anything.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
-            attached to a person if they have different Intervention_Name values.
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
-            -1 indicates effect is indefinite (WaningEffectConstant)
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        cost_to_consumer: Per unit cost when distributed
-
-    Returns:
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **SpaceSpraying** interventions
+            if they have different **Intervention_Name** values.
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (float): Box duration of effect in days before the decay of **killing_initial_effect**.
+            -1 indicates effect is indefinite (WaningEffectConstant).
+        killing_decay_time_constant (float): The exponential decay length, in days of the **killing_initial_effect**.
+        cost_to_consumer (float): Per unit cost when distributed.
 
     """
     node_intervention = _space_spraying(campaign=campaign,
@@ -79,27 +79,27 @@ def _space_spraying(campaign,
                     intervention_name: str = iv_name,
                     cost_to_consumer: float = 0):
     """
-        Configures the node-targeted SpaceSpraying intervention
+    Configures the node-targeted **SpaceSpraying** intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        spray_coverage: The portion of the node that has been sprayed.  This value is multiplied by the current
+        spray_coverage (float): The portion of the node that has been sprayed.  This value is multiplied by the current
             efficacy of the WaningEffect
-        insecticide: The name of the insecticide defined in <config.Insecticides> for this intervention.
+        insecticide (str): The name of the insecticide defined in <config.Insecticides> for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if <config.Insecticides> does not define anything.
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. It’s possible to have multiple UsageDependentBednets interventions
-            attached to a person if they have different Intervention_Name values.
-        killing_initial_effect: Initial strength of the Killing effect. The effect may decay over time.
-        killing_box_duration: Box duration of effect in days before the decay of Killing Initial_Effect.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. It is possible to have multiple **SpaceSpraying** interventions
+            if they have different **Intervention_Name** values.
+        killing_initial_effect (float): Initial strength of the Killing effect. The effect may decay over time.
+        killing_box_duration (float): Box duration of effect in days before the decay of **killing_initial_effect**.
             -1 indicates effect is indefinite (WaningEffectConstant)
-        killing_decay_time_constant: The exponential decay length, in days of the Killing Initial_Effect.
-        cost_to_consumer: Per unit cost when distributed
+        killing_decay_time_constant (float): The exponential decay length, in days of the **killing_initial_effect**.
+        cost_to_consumer (float): Per unit cost when distributed.
 
     Returns:
-        Configured SpaceSpraying intervention
+        Configured **SpaceSpraying** intervention.
     """
     schema_path = campaign.schema_path
 
@@ -118,15 +118,15 @@ def _space_spraying(campaign,
 
 def new_intervention_as_file(campaign, start_day: int = 0, filename: str = "SpaceSpraying.json"):
     """
-        Creates a file with SpaceSpray intervention
+    Creates a file with **SpaceSpraying** intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: the day to distribute the SpaceSpraying intervention
-        filename: name of the filename created
+        start_day (int): the day to distribute the **SpaceSpraying** intervention
+        filename (str): name of the filename created.
 
     Returns:
-        (str): filename of the file created
+        (str): filename of the file created.
     """
     add_scheduled_space_spraying(campaign=campaign, start_day=start_day)
     campaign.save(filename)

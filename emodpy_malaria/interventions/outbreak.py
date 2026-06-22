@@ -20,36 +20,36 @@ def add_outbreak_individual(campaign,
                             genome: int = 0,
                             broadcast_event: str = None):
     """
-    Adds a scheduled OutbreakIndividual intervention. This is set up to be used with Malaria-Ongoing branch.
+    Adds a scheduled **OutbreakIndividual** intervention. This is set up to be used with Malaria-Ongoing branch.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
-            Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
-            demographic_coverage parameter is ignored
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
+            **Demographic_Coverage** receives the intervention.
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
+            **demographic_coverage** parameter is ignored
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
             to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        ignore_immunity: Individuals will be force-infected (with a specific strain) regardless of actual
-            immunity level when set to True (1). Default is True (1). The person will or will not get an infection
-            based on their immunity level if this is set to False.
-        incubation_period_override: The incubation period, in days, that infected individuals will go through before
+        target_age_min (int): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (int): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        ignore_immunity (bool): Individuals will be force-infected (with a specific strain) regardless of actual
+            immunity level when set to True (1). Default is True (1).
+            The person will or will not get an infection based on their immunity level if this is set to False.
+        incubation_period_override (int): The incubation period, in days, that infected individuals will go through before
             becoming infectious. This value overrides the incubation period set in the configuration file.
             Set to -1 to honor the configuration parameter settings
-        antigen: The antigenic base strain ID of the outbreak infection
-        genome: The genetic substrain ID of the outbreak infection
-        broadcast_event: Optional event that will be sent out at the same time as outbreak is distributed
+        antigen (str): The antigenic base strain ID of the outbreak infection
+        genome (str): The genetic substrain ID of the outbreak infection
+        broadcast_event (str): Optional event that will be sent out at the same time as outbreak is distributed
     """
     schema_path = campaign.schema_path
 
@@ -96,71 +96,71 @@ def add_outbreak_malaria_genetics(campaign,
                                   hrp_string: str = None,
                                   broadcast_event: str = None):
     """
-        Creates a scheduled OutbreakIndividualMalariaGenetics CampaignEvent which can then
-        be added to a campaign.
+    Creates a scheduled **OutbreakIndividualMalariaGenetics** **CampaignEvent** which can then
+    be added to a campaign.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
-            Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
-            demographic_coverage parameter is ignored.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        ignore_immunity: Individuals will be force-infected (with a specific strain) regardless of actual
+            **Demographic_Coverage** receives the intervention.
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
+            **demographic_coverage** parameter is ignored.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        target_age_min (int): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (int): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        ignore_immunity (bool): Individuals will be force-infected (with a specific strain) regardless of actual
             immunity level when set to True (1). Default is True (1). The person will or will not get an infection
             based on their immunity level if this is set to False.
-        incubation_period_override: The incubation period, in days, that infected individuals will go through before
+        incubation_period_override (int): The incubation period, in days, that infected individuals will go through before
             becoming infectious. This value overrides the incubation period set in the configuration file.
             Set to -1 to honor the configuration parameter settings
-        create_nucleotide_sequence_from: A string that indicates how the genomes are created.
+        create_nucleotide_sequence_from (str): A string that indicates how the genomes are created.
             Possible values are: BARCODE_STRING, ALLELE_FREQUENCIES, NUCLEOTIDE_SEQUENCE.
-        barcode_string: Used with 'BARCODE_STRING' or 'NUCLEOTIDE_SEQUENCE'. A series of nucleotide base letters
+        barcode_string (str): Used with 'BARCODE_STRING' or 'NUCLEOTIDE_SEQUENCE'. A series of nucleotide base letters
             (A, C, G, T) that represent the values at locations in the genome. The length of the string depends on the
             number of locations defined in config.Parasite_Genetics.Barcode_Genome_Locations. Each character of the
             string corresponds to one of the locations. The locations are assumed to be in ascending order.
-        drug_resistant_string: Used with 'BARCODE_STRING' or 'NUCLEOTIDE_SEQUENCE'. A series of nucleotide base
+        drug_resistant_string (str): Used with 'BARCODE_STRING' or 'NUCLEOTIDE_SEQUENCE'. A series of nucleotide base
             letters (A, C, G, T) that represent the values at locations in the genome. The length of the string depends
             on the number of locations defined in config.Parasite_Genetics.Drug_Resistant_Genome_Locations. Each
             character of the string corresponds to one of the locations. The locations are assumed to be in ascending
             order.
-        msp_variant_value: Used with 'NUCLEOTIDE_SEQUENCE'. The Merozoite Surface Protein value used to determine how
+        msp_variant_value (int): Used with 'NUCLEOTIDE_SEQUENCE'. The Merozoite Surface Protein value used to determine how
             the antibodies recognizes the merzoites. This value depends on config.Falciparum_MSP_Variants and must be
             less than or equal to it.
-        pfemp1_variants_values: Used with 'NUCLEOTIDE_SEQUENCE'. The PfEMP1 Variant values / major epitopes used to
+        pfemp1_variants_values (list): Used with 'NUCLEOTIDE_SEQUENCE'. The PfEMP1 Variant values / major epitopes used to
             define how the antibodies recognize the infected red blood cells. The values of the array depend on
-            config. Falciparum_PfEMP1_Variants and must be less than or equal to it.
-            There must be exactly 50 values – one for each epitope.
-        barcode_allele_frequencies_per_genome_location: Used with 'ALLELE_FREQUENCIES'. The fractions of allele
+            config. **Falciparum_PfEMP1_Variants** and must be less than or equal to it.
+            There must be exactly 50 values, one for each epitope.
+        barcode_allele_frequencies_per_genome_location (list): Used with 'ALLELE_FREQUENCIES'. The fractions of allele
             occurrences for each location in the barcode. This 2D array should have one array for each
             location/character in the barcode. For each location, there should be four values between 0 and 1
             indicating the probability that specific character appears. The possible letters are: A=0, C=1, G=2, T=3.
             The frequencies should sum up to 1.
-        drug_resistant_allele_frequencies_per_genome_location:Used with 'ALLELE_FREQUENCIES'. The fractions of allele
+        drug_resistant_allele_frequencies_per_genome_location (list): Used with 'ALLELE_FREQUENCIES'. The fractions of allele
             occurrences for each location in the drug resistant markers. This 2D array should have one array for each
             drug resistant location. For each location, there should be four values between 0 and 1 indicating the
-            probability that specific character will appear. The possible letters are S'A'=0, 'C'=1, 'G'=2, 'T'=3.
+            probability that specific character will appear. The possible letters are: A=0, C=1, G=2, T=3.
             The frequencies should sum up to 1.
-        hrp_allele_frequencies_per_genome_location: Used with 'ALLELE_FREQUENCIES'. The fractions of allele occurrences
+        hrp_allele_frequencies_per_genome_location (list): Used with 'ALLELE_FREQUENCIES'. The fractions of allele occurrences
             for each location in the HRP markers.  This 2D array should have one array for each HRP location.
             For each location, there should be four values between 0 and 1 indicating the probability that specific
             character will appear. The possible letters are 'A'=0, 'C'=1, 'G'=2, 'T'=3.
-        hrp_string: Used with 'BARCODE_STRING' or 'NUCLEOTIDE_SEQUENCE'. A series of nucleotide base letters (A, C, G, T)
+        hrp_string (str): Used with 'BARCODE_STRING' or 'NUCLEOTIDE_SEQUENCE'. A series of nucleotide base letters (A, C, G, T)
             that represent the HRP values at locations in the genome. There must be one character for each location
             defined in <config>.Parasite_Genetics.HRP_Genome_Locations. 'A' means HRP marker is present and a
             non-'A' means it isn't.
-        broadcast_event: Optional event that will be sent out at the same time as outbreak is distributed
+        broadcast_event (str): Optional event that will be sent out at the same time as outbreak is distributed.
     """
     if create_nucleotide_sequence_from == "BARCODE_STRING" and not barcode_string:
         raise ValueError(f"You must define barcode_string with {create_nucleotide_sequence_from} setting.\n")
@@ -248,39 +248,39 @@ def add_outbreak_malaria_var_genes(campaign,
                                    minor_epitope_type: list = None,
                                    msp_type: int = None):
     """
-        Creates a scheduled OutbreakIndividualMalariaGenetics CampaignEvent which can then
-        be added to a campaign.
+    Creates a scheduled **OutbreakIndividualMalariaGenetics** **CampaignEvent** which can then
+    be added to a campaign.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
             Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
-            demographic_coverage parameter is ignored
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        ignore_immunity: Individuals will be force-infected (with a specific strain) regardless of actual
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
+            demographic_coverage parameter is ignored.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        target_age_min (int): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (int): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        ignore_immunity (bool): Individuals will be force-infected (with a specific strain) regardless of actual
             immunity level when set to True (1). Default is True (1). The person will or will not get an infection
             based on their immunity level if this is set to False.
-        incubation_period_override: The incubation period, in days, that infected individuals will go through before
+        incubation_period_override (int): The incubation period, in days, that infected individuals will go through before
             becoming infectious. This value overrides the incubation period set in the configuration file.
-            Set to -1 to honor the configuration parameter settings
-        irbc_type: The array PfEMP1 Major epitope variant values. There must be exactly 50 values. Min value = 0,
+            Set to -1 to honor the configuration parameter settings.
+        irbc_type (list): The array PfEMP1 Major epitope variant values. There must be exactly 50 values. Min value = 0,
             MAX value = config.Falciparum_PfEMP1_Variants.
-        minor_epitope_type: The array PfEMP1 Minor epitope variant values. There must be exactly 50 values.
+        minor_epitope_type (list): The array PfEMP1 Minor epitope variant values. There must be exactly 50 values.
             Min value = 0, MAX value = config.Falciparum_Nonspecific_Types * MINOR_EPITOPE_VARS_PER_SET(=5) .
-        msp_type: The Merozoite Surface Protein variant value of this infection. Min value = 0,
+        msp_type (int): The Merozoite Surface Protein variant value of this infection. Min value = 0,
             MAX value = config.Falciparum_MSP_Variants.
     """
     if not irbc_type or not minor_epitope_type or not msp_type:
@@ -320,28 +320,28 @@ def add_campaign_event(campaign,
                        target_gender: str = "All",
                        intervention: any = None):
     """
-        Adds a campaign event to the campaign with a passed in intervention.
+    Adds a campaign event to the campaign with a passed in intervention.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
-            Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
-            demographic_coverage parameter is ignored
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        intervention: Intervention or a list of interventions to be distributed by this event
+            **Demographic_Coverage** receives the intervention.
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
+            **demographic_coverage** parameter is ignored.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        target_age_min (int): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (int): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        intervention (any): Intervention or a list of interventions to be distributed by this event.
     """
 
     schema_path = campaign.schema_path

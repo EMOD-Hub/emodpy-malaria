@@ -36,8 +36,8 @@ def zero_vector_infections(vector_pop_list: list, remove: bool = False):
     Resets infections in vectors or removes infections from vectors.
 
     Args:
-        vector_pop_list: list of vector population in a node.
-        remove: If True all infected vectors are removed from serialized population. If set to False (default) all
+        vector_pop_list (list): list of vector population in a node.
+        remove (bool): If True all infected vectors are removed from serialized population. If set to False (default) all
                 vectors in the simulation are reset to state STATE_ADULT.
     Returns:
         None
@@ -65,8 +65,8 @@ def zero_human_infections(humans: List[dict], keep_ids: list = None):
     Sets the infection state of individuals to uninfected.
 
     Args:
-        humans: All humans in a node
-        keep_ids: ids of individuals that will be skipped, i.e. infection state is not changed
+        humans (List[dict]): All humans in a node
+        keep_ids (list): ids of individuals that will be skipped, i.e. infection state is not changed
     """
     if not keep_ids:
         keep_ids = []
@@ -86,11 +86,11 @@ def zero_infections(source_filename: str, dest_filename: str, ignore_nodes: List
     Removes/resets infections from humans and vectors.
 
     Args:
-        source_filename: input file
-        dest_filename: output file
-        ignore_nodes: list of node ids. These nodes are skipped.
-        keep_individuals: Ids of individuals. These individuals are skipped.
-        remove: If true infections are removed from vectors, if false infections are reset.
+        source_filename (str): input file
+        dest_filename (str): output file
+        ignore_nodes (List[int]): list of node ids. These nodes are skipped.
+        keep_individuals (List[int]): Ids of individuals. These individuals are skipped.
+        remove (bool): If true infections are removed from vectors, if false infections are reset.
 
     Returns:
         None
@@ -123,8 +123,8 @@ def _get_paths(ser_paths: List[str], ser_date: List[str]) -> List[List[Path]]:
     Files with 'zero' in the name are skipped.
 
     Args:
-        ser_paths: a list of directories to look into for *.dtk files
-        ser_date: list of time stamps
+        ser_paths (List[str]): a list of directories to look into for *.dtk files
+        ser_date (List[str]): list of time stamps
 
     Returns:
         A list of paths to dtk files
@@ -150,13 +150,13 @@ def _get_paths(ser_paths: List[str], ser_date: List[str]) -> List[List[Path]]:
 def zero_infection_path(in_out_paths: list, ser_date: list, ignore_nodeids: list = None, keep_humanids: list = None):
     """
     Loop over all .dtk files in ser_paths that have ser_date in the file name but not 'zero' and remove human and
-     vector infections. '_zero' is appended to the output files.
+    vector infections. '_zero' is appended to the output files.
 
     Args:
-        in_out_paths: a list of lists of paths for directories to look into for .dtk files
-        ser_date:  List of timestamps
-        ignore_nodeids: list of nodes that are ignored
-        keep_humanids: infections are not removed from these humans
+        in_out_paths (list): a list of lists of paths for directories to look into for .dtk files
+        ser_date (list):  List of timestamps
+        ignore_nodeids (list): list of nodes that are ignored
+        keep_humanids (list): infections are not removed from these humans
 
     """
     if not ignore_nodeids:

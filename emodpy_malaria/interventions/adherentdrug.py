@@ -7,8 +7,8 @@ def adherent_drug(campaign, cost: int = 1, doses: list = None, dose_interval: in
                   non_adherence_distribution: list = None, max_dose_consideration_duration: int = 40,
                   took_dose_event: str = "Took_Dose", intervention_name: str = None):
     """
-        Configures adherent drug dictionary  using the **AdherentDrug** class, an individual-level
-        intervention which extends the **AntimalarialDrug** class.
+    Configures adherent drug dictionary using the **AdherentDrug** class, an individual-level
+    intervention which extends the **AntimalarialDrug** class.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container

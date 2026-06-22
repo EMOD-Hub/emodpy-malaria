@@ -28,7 +28,7 @@ class WeatherVariable(Enum):
         List of all weather variables or a subset if 'exclude' argument is used.
 
         Args:
-            exclude: (Optional) List of weather variables to be excluded.
+            exclude (Union[WeatherVariable, List[WeatherVariable]]): (Optional) List of weather variables to be excluded.
 
         Returns:
             List of all or a subset of weather variables.
@@ -49,8 +49,8 @@ class WeatherVariable(Enum):
         Validate dictionary keys are of type WeatherVariable and values are of specified type.
 
         Args:
-            value_dict: Dictionary to be validated.
-            value_types: Dictionary value types.
+            value_dict (Dict[WeatherVariable, Any]): Dictionary to be validated.
+            value_types (Union[Any, List[Any]]): Dictionary value types.
 
         Returns:
             None

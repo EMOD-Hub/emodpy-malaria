@@ -53,7 +53,8 @@ class Layer(dict):
         return len(self)
 
     def __getitem__(self, key):
-        """Allows indexing directly into this object with source node id
+        """
+        Allows indexing directly into this object with source node id
 
         Args:
             key (int): source node id
@@ -299,8 +300,10 @@ class VectorMigration(object):
 
     def __getitem__(self, key):
         """allows indexing on this object to read/write rate data
+
         Args:
             key (slice): source node id:gender:age (gender and age depend on GenderDataType and AgesYears properties)
+
         Returns:
             dict for specified node/gender/age
         """
@@ -613,7 +616,7 @@ def from_params(demographics_file_path: any = None, population: int = 1e6, num_n
     """
     This function is for creating a migration file that goes with a (multinode)
     demographics file created from a few parameters, as opposed to one from real-world data.
-    Note that the 'demographics_file_path" input param is not used at this time but in future
+    Note that the **demographics_file_path** input param is not used at this time but in future
     will be exploited to ensure nodes, etc., match.
     """
     # ***** Write migration files *****
@@ -674,17 +677,17 @@ def from_params(demographics_file_path: any = None, population: int = 1e6, num_n
 def from_demographics_and_gravity_params(demographics_object, gravity_params: list,
                                          filename: str = None):
     """
-        This function takes a demographics object, creates a vector migration file based on the populations and
-        distances of nodes and saves to be used by the sim
+    This function takes a demographics object, creates a vector migration file based on the populations and
+    distances of nodes and saves to be used by the sim.
 
     Args:
         demographics_object (MalaraiDemographics): demographics object created by Demographics class (use Demographics.from_file()
             to load a demographics file you already have and pass in the returned object)
-        gravity_params: a list of four parameters that will affect the gravity model
-            gravity_params[0] denoted as g[0], etc, and they are used in the following way:
-            migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
+        gravity_params (list): a list of four parameters that will affect the gravity model
+            gravity_params[0] denoted as g[0], etc, and they are used in the following way:<br>
+            migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])<br>
             if rate >= 1, 1 is used.
-        filename: name of migration file to be created and added to the experiment,
+        filename (str): name of migration file to be created and added to the experiment,
             Default: vector_migration.bin
 
     Returns:
@@ -697,8 +700,8 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
 
         Args:
             gravity_params: a list of four parameters that will affect the gravity model
-                gravity_params[0] denoted as g[0], etc, and they are used in the following way:
-                migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
+                gravity_params[0] denoted as g[0], etc, and they are used in the following way:<br>
+                `migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])`<br>
                 if migration_rate >= 1, 1 is used.
             from_node_population: Initial_Population in the from_node
             to_node_population: Initial_Population in the to_node
@@ -793,12 +796,12 @@ def from_csv(filename_path: str, id_reference: str, migration_type: str = "LOCAL
     migrating, 'to_node' for the node ids that the vector is migrating to, and 'rate' for the migration rate.
 
     Args:
-        filename_path: name (if same folder) or path+name of the csv file
-        id_reference: IdReference parameter to set for the migration file, it needs to be the same as
+        filename_path (str): name (if same folder) or path+name of the csv file
+        id_reference (str): IdReference parameter to set for the migration file, it needs to be the same as
             IdReference parameter in your demographics files.
-        migration_type: "LOCAL_MIGRATION" or "REGIONAL_MIGRATION" setting, "LOCAL_MIGRATION" can have 8 "to_nodes"
+        migration_type (str): "LOCAL_MIGRATION" or "REGIONAL_MIGRATION" setting, "LOCAL_MIGRATION" can have 8 "to_nodes"
             while "REGIONAL_MIGRATION" can have 30, default is "LOCAL_MIGRATION"
-        author: optional metadata of who is the author(you) of the migration file, default - your username or empty
+        author (str): optional metadata of who is the author(you) of the migration file, default - your username or empty
             string will be used
 
     Returns:

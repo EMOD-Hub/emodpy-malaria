@@ -22,7 +22,7 @@ from . import vector_config
 
 def set_team_defaults(config, manifest):
     """
-        Set configuration defaults using team-wide values, including drugs and vector species.
+    Set configuration defaults using team-wide values, including drugs and vector species.
     """
     vector_config.set_team_defaults(config, manifest)
     config.parameters.Simulation_Type = "MALARIA_SIM"
@@ -186,7 +186,7 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): schema path container
-        var_gene_randomness_type: possible values are "FIXED_NEIGHBORHOOD", "FIXED_MSP", "ALL_RANDOM" (default)
+        var_gene_randomness_type (str): possible values are "FIXED_NEIGHBORHOOD", "FIXED_MSP", "ALL_RANDOM" (default)
 
     Returns:
         (dict): configured config
@@ -315,20 +315,20 @@ def get_drug_params(cb, drug_name):
 def set_drug_param(config, drug_name: str = None, parameter: str = None, value: any = None):
     """
      Set a drug parameter, by passing in drug name, parameter and the parameter value.
-     Added to facilitate adding drug Resistances,
-     **Example**::
+     Added to facilitate adding drug Resistances.<br>
+     Example:
 
-         artemether_drug_resistance = [{
-            "Drug_Resistant_String": "A",
-            "PKPD_C50_Modifier": 2.0,
-            "Max_IRBC_Kill_Modifier": 0.9}]
-         set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
+            artemether_drug_resistance = [{
+                "Drug_Resistant_String": "A",
+                "PKPD_C50_Modifier": 2.0,
+                "Max_IRBC_Kill_Modifier": 0.9}]
+            set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
 
     Args:
         config (dict): schema-backed config smart dict
-        drug_name: The drug that has a parameter to set
-        parameter: The parameter to set
-        value: The new value to set
+        drug_name (str): The drug that has a parameter to set
+        parameter (str): The parameter to set
+        value (any): The new value to set
     """
 
     if not drug_name or not parameter or not value:
@@ -343,18 +343,18 @@ def set_drug_param(config, drug_name: str = None, parameter: str = None, value: 
 def add_drug_resistance(config, manifest, drugname: str = None, drug_resistant_string: str = None,
                         pkpd_c50_modifier: float = 1.0, max_irbc_kill_modifier: float = 1.0):
     """
-    Adds drug resistances by drug name and parameters
+    Adds drug resistances by drug name and parameters.
 
     Args:
-        config (dict): schema-backed config smart dict
-        manifest (ModuleType): manifest file containing the schema path
-        drugname: name of the drug for which to assign resistances
-        drug_resistant_string: A series of nucleotide base letters (A, C, G, T) that represent the drug resistant
-            values at locations in the genome
-        pkpd_c50_modifier: If the parasite has this genome marker, this value will be multiplied times the
-            'Drug_PKPD_C50' value of the drug. Genomes with multiple markers will be simply multiplied together
-        max_irbc_kill_modifier: If the parasite has this genome marker, this value will be multiplied times the
-            'Max_Drug_IRBC_Kill' value of the drug.  Genomes with multiple markers will be simply multiplied together
+        config (dict): schema-backed config smart dict.
+        manifest (ModuleType): manifest file containing the schema path.
+        drugname (str): name of the drug for which to assign resistances.
+        drug_resistant_string (str): A series of nucleotide base letters (A, C, G, T) that represent the drug resistant
+            values at locations in the genome.
+        pkpd_c50_modifier (float): If the parasite has this genome marker, this value will be multiplied times the
+            'Drug_PKPD_C50' value of the drug. Genomes with multiple markers will be simply multiplied together.
+        max_irbc_kill_modifier (float): If the parasite has this genome marker, this value will be multiplied times the
+            'Max_Drug_IRBC_Kill' value of the drug.  Genomes with multiple markers will be simply multiplied together.
 
     Returns:
         (dict): configured config
@@ -422,13 +422,13 @@ def get_species_params(config, species: str = None):
 
 def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_larval_capacity: int):
     """
-    Set the Max_Larval_Capacity for a given species and habitat.
+    Set the **Max_Larval_Capacity** for a given species and habitat.
 
     Args:
-        config (dict): schema-backed config smart dict
-        species_name: string. Species_Name to target.
-        habitat_type: enum. Habitat_Type to target.
-        max_larval_capacity: integer. New value of Max_Larval_Capacity.
+        config (dict): schema-backed config smart dict.
+        species_name (str): string. Species_Name to target.
+        habitat_type (str): enum. Habitat_Type to target.
+        max_larval_capacity (int): integer. New value of Max_Larval_Capacity.
     """
     return vector_config.set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity)
 
@@ -445,39 +445,39 @@ def add_microsporidia(config, manifest, species_name: str = None,
                       female_mortality_modifier: float = 1,
                       male_mortality_modifier: float = 1):
     """
-        Adds microsporidia parameters to the named species' parameters.
+    Adds microsporidia parameters to the named species' parameters.
 
     Args:
-        config (dict): schema-backed config dictionary, written to config.json
-        manifest (ModuleType): file that contains path to the schema file
-        species_name: Species to target, **Name** parameter
-        strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
-            Cannot be empty string
-        female_to_male_probability: **Microsporidia_Female_to_Male_Transmission_Probability** The probability
+        config (dict): schema-backed config dictionary, written to config.json.
+        manifest (ModuleType): file that contains path to the schema file.
+        species_name (str): Species to target, **Name** parameter
+        strain_name (str): **Strain_Name** The name/identifier of the collection of transmission parameters.
+            Cannot be empty string.
+        female_to_male_probability (float): **Microsporidia_Female_to_Male_Transmission_Probability** The probability
             an infected female will infect an uninfected male.
-        female_to_egg_probability: **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
+        female_to_egg_probability (float): **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
             an infected female will infect her eggs when laying them.
-        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
-            an infected male will infect an uninfected female
-        male_to_egg_probability: **Microsporidia_Male_To_Egg_Transmission_Probability** The probability a female that
+        male_to_female_probability (float): **Microsporidia_Male_To_Female_Transmission_Probability** The probability
+            an infected male will infect an uninfected female.
+        male_to_egg_probability (float): **Microsporidia_Male_To_Egg_Transmission_Probability** The probability a female that
             mated with an infected male will infect her eggs when laying them, independent of her being infected and
             transmitting to her offspring.
-        duration_to_disease_acquisition_modification: **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
+        duration_to_disease_acquisition_modification (dict): **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
             **Times** is an array of days in ascending order that represent the number of days since the vector became
             infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
             probability that the vector will acquire malaria due to Microsporidia.
-        duration_to_disease_transmission_modification: **Microsporidia_Duration_To_Disease_Transmission_Modification**,
+        duration_to_disease_transmission_modification (dict): **Microsporidia_Duration_To_Disease_Transmission_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will transmit malaria.
             **Times** is an array of days in ascending order that represent the number of days since the vector became
             infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
             probability that the vector will acquire malaria due to Microsporidia.
-        larval_growth_modifier: **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
+        larval_growth_modifier (float): **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
             dependent, larval growth progress.
-        female_mortality_modifier: **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
-            rate for female vectors due to general life expectancy, age, and dry heat
-        male_mortality_modifier: **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
-            male vectors due to general life expectancy, age, and dry heat
+        female_mortality_modifier (float): **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
+            rate for female vectors due to general life expectancy, age, and dry heat.
+        male_mortality_modifier (float): **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
+            male vectors due to general life expectancy, age, and dry heat.
     """
     vector_config.add_microsporidia(config, manifest,
                                     species_name=species_name,
@@ -497,30 +497,30 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
                             capacity_distribution_number_of_years: int = 1,
                             capacity_distribution_over_time: dict = None):
     """
-        Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters
+    Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters.
 
     Args:
-        manifest (ModuleType):  manifest file containing the schema path
-        max_larval_capacity:  The maximum larval capacity. Sets **Max_Larval_Capacity**
-        capacity_distribution_number_of_years:  The total length of time in
-            years for the scaling.  If the simulation goes longer than this time, the pattern will repeat.  Ideally,
-            this value times 365 is the last value in 'Capacity_Distribution_Over_Time'.
-            Sets **Capacity_Distribution_Number_Of_Years**
-        capacity_distribution_over_time:  "This allows one to scale the larval
+        manifest (ModuleType): manifest file containing the schema path.
+        max_larval_capacity (float): The maximum larval capacity. Sets **Max_Larval_Capacity**.
+        capacity_distribution_number_of_years (int): The total length of time in
+            years for the scaling. If the simulation goes longer than this time, the pattern will repeat. Ideally,
+            this value times 365 is the last value in **Capacity_Distribution_Over_Time**.
+            Sets **Capacity_Distribution_Number_Of_Years**.
+        capacity_distribution_over_time (dict):  This allows one to scale the larval
             capacity over time.  The Times and Values arrays must be the same length where Times is in days and
             Values are a scale factor per degrees squared.  The value is multiplied times the max capacity and
             'Node_Grid_Size' squared/4. Ideally, you want the last value  to equal the first value if they are
-            one day apart.  A point will be added if not. Sets **Capacity_Distribution_Over_Time**
+            one day apart. A point will be added if not. Sets **Capacity_Distribution_Over_Time**.
 
-            **Example**::
+            Example:
 
-                {
-                    "Times": [0,  30,  60,   91,  122, 152, 182, 213, 243, 274, 304, 334, 365 ],
-                    "Values": [3, 0.8, 1.25, 0.1, 2.7, 8,    4,   35, 6.8, 6.5, 2.6, 2.1, 2]
-                }
+                        {
+                            "Times": [0,  30,  60,   91,  122, 152, 182, 213, 243, 274, 304, 334, 365 ],
+                            "Values": [3, 0.8, 1.25, 0.1, 2.7, 8,    4,   35, 6.8, 6.5, 2.6, 2.1, 2]
+                        }
 
     Returns:
-        (dict): "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function
+        (dict): "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function.
     """
     return vector_config.configure_linear_spline(manifest, max_larval_capacity, capacity_distribution_number_of_years,
                                                  capacity_distribution_over_time)

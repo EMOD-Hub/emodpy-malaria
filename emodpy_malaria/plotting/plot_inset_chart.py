@@ -22,11 +22,11 @@ def get_raw_color(idx: int):
     Needs to be synchronized with get_color_name().
 
     Args:
-        idx:
-            index of the plot used to select color
+        idx (int):
+            index of the plot used to select color.
 
     Returns:
-        (str, float): Tuple with color name and intensity
+        (str, float): Tuple with color name and intensity.
     """
     colors = [('blue', 0.1),
               ('green', 0.1),
@@ -43,7 +43,7 @@ def get_color_name(idx: int):
     Needs to be synchronized with get_raw_color().
 
     Args:
-        idx:
+        idx (int):
             index of the plot used to select color
 
     Returns:
@@ -56,14 +56,14 @@ def get_color_name(idx: int):
 def get_list_of_channels(ref_data: dict, test_data: list[dict]):
     """
     Returns a list of the unique channel names used in both the reference data
-    and the test data.  This should enable the display of all of the channels
+    and the test data. This should enable the display of all of the channels
     even when both reports do not have the same channels.
 
     Args:
-        ref_data:
+        ref_data (dict):
             channel report, json dictionary consider to contain the baseline data
 
-        test_data:
+        test_data (list[dict]):
             a list of channel reports (dictionaries) containing data to compare to
 
     Returns:
@@ -86,13 +86,13 @@ def get_list_of_channels(ref_data: dict, test_data: list[dict]):
 def create_title_string(reference: str, data_filenames: list[str]):
     """
     Returns a string that contains the input file names where the color used
-    in plotting is included in the name.  This can be used as the title of the plot.
+    in plotting is included in the name. This can be used as the title of the plot.
 
     Args:
-        reference:
+        reference (str):
             name of the reference data file
 
-        data_filenames:
+        data_filenames (list[str]):
             a list of the test data file names
 
     Returns:
@@ -140,38 +140,37 @@ def plot_data(title: str,
               plot_name: str = None):
     """
     Plot the data such that there is a grid of subplots with each subplot representing
-    a "channel" of data.  Each subplot will have time on the x-axis and the units of
+    a channel of data.  Each subplot will have time on the x-axis and the units of
     that channel on the y-axis.
 
     Args:
-        title:
+        title (str):
             The string to put at the top of the page
 
-        ref_data:
+        ref_data (dict):
             A channel report dictionary whose data will be plotted in red
 
-        test_data:
+        test_data (list[dict]):
             A list of channel report dictionaries whose data will be plotted
             in colors other than red
 
-        test_filenames:
+        test_filenames (list[str]):
             The list of file names in parallel to the test_data.
 
-        subplot_index_min:
+        subplot_index_min (int):
             The index of the first subplot to show based on the alphabetical
             order of the channels in the report.
 
-        subplot_index_max:
+        subplot_index_max (int):
             The index of the last subplot to show based on the alphabetical
             order of the channels in the report.
 
-        img_dir:
+        img_dir (str):
             The name of the directory to save the images to.  If not provided, it will open a window.
 
-        plot_name:
+        plot_name (str):
             If provided the name of the file for the saved image.
 
-    Returns:
     """
     if test_filenames is None:
         test_filenames = []
@@ -267,31 +266,30 @@ def plot_inset_chart(dir_name: str = None,
     Plot the inset chart using the provided parameters.
 
     Args:
-        dir_name:
+        dir_name (str):
             Directory containing channel reports with .json extension
 
-        reference:
+        reference (str):
             Reference channel report filename
 
-        comparison1:
+        comparison1 (str):
             Comparison1 channel report filename
 
-        comparison2:
+        comparison2 (str):
             Comparison2 channel report filename
 
-        comparison3:
+        comparison3 (str):
             Comparison3 channel report filename
 
-        title:
+        title (str):
             Title of Plot
 
-        include_filenames_in_title:
+        include_filenames_in_title (bool):
             If true, includes the filenames in the title (needed for testing)
 
-        output:
+        output (str):
             If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.
 
-    Returns:
     """
     test_filenames = []
     test_data = []

@@ -97,39 +97,44 @@ def add_treatment_seeking(campaign,
     the **NodeLevelHealthTriggeredIV**. The intervention will distribute drugs
     to targeted individuals within the node.
 
-    targets is a list of dictionaries defining the trigger event and coverage for and
+    **Targets** is a list of dictionaries defining the trigger event and coverage for and
     properties of individuals to target with the intervention with all possible options being:
-    [{"trigger":"NewClinicalCase","coverage":0.8,"agemin":15,"agemax":70, "rate":0.3}]
-    "rate" is the inverse of the average delay in time to treatment seeking from an exponential distribution
-    "trigger" must be defined, but everything else has defaults:
-    coverage = 1, affects all
-    agemin/agemax = 0/MAX_AGE_YEARS, affects all
-    rate = 0, no delay, seek treatment immediately
+
+        [{"trigger":"NewClinicalCase","coverage":0.8,"agemin":15,"agemax":70, "rate":0.3}]
+
+    "rate" is the inverse of the average delay in time to treatment seeking from an exponential distribution. "trigger" must be
+    defined, but everything else has defaults:<br>
+        • coverage = 1, affects all<br>
+        • agemin/agemax = 0/MAX_AGE_YEARS, affects all<br>
+        • rate = 0, no delay, seek treatment immediately<br>
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): object for building, modifying, and writing campaign configuration files.
-        start_day: Start day of intervention.
-        targets: List of dictionaries defining the trigger event and coverage for and
-            properties of individuals to target with the intervention. "trigger" must be defined, other defaults are as
-            follows - "coverage":1,"agemin":0,"agemax":1000, "rate":0 (no delay)
+        start_day (int): Start day of intervention.
+        targets (list): List of dictionaries defining the trigger event and coverage for and
+            properties of individuals to target with the intervention.<br>
+            "trigger" must be defined, other defaults are as follows:<br>
+            "coverage":1,"agemin":0,"agemax":1000, "rate":0 (no delay)
 
-            Example::
+            Example:
 
                 [{"trigger":"NewClinicalCase","coverage":0.8,"agemin":15,"agemax":70, "rate":0.3}]
 
-        drug: List of drug(s) to administer from the drugs defined in config.
+        drug (list): List of drug(s) to administer from the drugs defined in config.
             Default is ``["Artemether","Lumefantrine"]``
-        node_ids: The list of nodes to apply this intervention to (**Node_List**
+        node_ids (list): The list of nodes to apply this intervention to (**Node_List**
             parameter). If not provided, set value of NodeSetAll.
-        ind_property_restrictions: List of IndividualProperty key:value pairs that
-            individuals must have to receive the intervention. For example,
+        ind_property_restrictions (list): List of IndividualProperty key:value pairs that
+            individuals must have to receive the intervention.
 
-            ``["IndividualProperty1:PropertyValue1", "IndividualProperty2:PropertyValue2"]``.
+            Example:
 
-        drug_ineligibility_duration: number of days for which an individual will be ineligible for more drugs
-        duration: duration from start_day until people will no longer seek drugs when sick.
-            Default is -1, meaning they will always seek drugs when sick
-        broadcast_event_name: Event to broadcast when successful health seeking behavior.
+                ["IndividualProperty1:PropertyValue1", "IndividualProperty2:PropertyValue2"]
+
+        drug_ineligibility_duration (float): number of days for which an individual will be ineligible for more drugs.
+        duration (int): duration from start_day until people will no longer seek drugs when sick.
+            Default is -1, meaning they will always seek drugs when sick.
+        broadcast_event_name (str): Event to broadcast when successful health seeking behavior.
             Default is "Received_Treatment".
     """
 

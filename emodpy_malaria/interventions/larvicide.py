@@ -48,29 +48,29 @@ def add_larvicide(
         node_property_restrictions: dict = None
 ):
     """
-        Create a new Larvicides scheduled campaign intervention.
+    Create a new **Larvicides** scheduled campaign intervention.
 
-        Note: for killing effects - depending on the parameters you set, different WaningEffect classes will be used:
-        box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored
-        box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential
-        box_duration > 0 + decay_time_constant = 0 => WaningEffectBox
-        box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential
+    For killing effects - depending on the parameters you set, different **WaningEffect** classes will be used:<br>
+        • box_duration = -1 => WaningEffectConstant, decay_time_constant is ignored<br>
+        • box_duration = 0 + decay_time_constant > 0 => WaningEffectExponential<br>
+        • box_duration > 0 + decay_time_constant = 0 => WaningEffectBox<br>
+        • box_duration > 0 + decay_time_constant > 0 => WaningEffectBoxExponential<br>
 
-        Args:
-            campaign (emodpy.campaign.emod_campaign.EMODCampaign):
-            start_day: the day to distribute the Larvicides intervention
-            num_repetitions: Optional number of repetitions.
-            timesteps_between_reps: Gap between repetitions, if num_reptitions specified.
-            spray_coverage: how much of each node to cover (total portion killed = killing effect * coverage)
-            killing_effect: portion of vectors killed by the intervention (Initial_Effect in WaningEffect)
-            habitat_target: E.g., (TBD)
-            box_duration: Box_Duration of the WaningEffect
-            decay_time_constant: decay_time_constant of the WaningEffect
-            node_ids: list of node ids to which distribute the intervention
-            insecticide: name of the insecticide defined in <config.Insecticides> for this intervention
-            intervention_name: name of the intervention
-            cost_to_consumer: Per unit cost when distributed
-            node_property_restrictions: dict of node property restrictions
+    Args:
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign):
+        start_day (int): the day to distribute the **Larvicides** intervention.
+        num_repetitions (int): Optional number of repetitions.
+        timesteps_between_reps (int): Gap between repetitions, if **num_repetitions** is specified.
+        spray_coverage (float): How much of each node to cover (total portion killed = killing effect * coverage).
+        killing_effect (float): Portion of vectors killed by the intervention (Initial_Effect in WaningEffect).
+        habitat_target (str): The type of habitat to target with the intervention. Default is "ALL_HABITATS".
+        box_duration (int): Box_Duration of the WaningEffect
+        decay_time_constant (float): decay_time_constant of the WaningEffect
+        node_ids (list): list of node ids to which distribute the intervention
+        insecticide (str): name of the insecticide defined in <config.Insecticides> for this intervention
+        intervention_name (str): name of the intervention
+        cost_to_consumer (float): Per unit cost when distributed
+        node_property_restrictions (dict): dict of node property restrictions
     """
     node_intervention = _larvicides(campaign=campaign,
                                     spray_coverage=spray_coverage,
@@ -93,11 +93,12 @@ def add_larvicide(
 
 def new_intervention_as_file(campaign, start_day: int = 1, filename: str = None):
     """
-    Creates a file with Larvicides intervention
+    Creates a file with **Larvicides** intervention.
+
     Args:
-        campaign (emodpy.campaign.emod_campaign.EMODCampaign):
-        start_day: the day to distribute the Larvicides intervention
-        filename: name of the filename created
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added.
+        start_day (int): the day to distribute the **Larvicides** intervention.
+        filename (str): name of the filename created.
 
     Returns:
         (str): filename of the file created

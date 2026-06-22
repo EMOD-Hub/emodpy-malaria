@@ -13,10 +13,9 @@ def calculate_mean(dir_name: str):
     Calculate the mean of the InsetChart.json files in the given directory.
 
     Args:
-        dir_name:
-            Directory with InsetChart.json files
+        dir_name (str): Directory with InsetChart.json files
 
-    Return:
+    Returns:
         mean_cr: Mean ChannelReport object
         raw_data_list: List of raw data dictionaries from the InsetChart.json files
     """
@@ -53,34 +52,19 @@ def plot_mean(dir1: str,
     Plot the mean of the InsetChart.json files in the given directories.
 
     Args:
-        dir1:
-            Directory with InsetChart.json files
-
-        dir2:
-            Directory with InsetChart.json files
-
-        dir3:
-            Directory with InsetChart.json files
-
-        title:
-            Title of Plot
-
-        show_raw_data:
-            If true, shows the raw/individual simulation data in a lighter color.
-
-        subplot_index_min:
-            The index of the first subplot to show based on the alphabetical
+        dir1 (str): Directory with InsetChart.json files
+        dir2 (str): Directory with InsetChart.json files
+        dir3 (str): Directory with InsetChart.json files
+        title (str): Title of Plot
+        show_raw_data (bool): If true, shows the raw/individual simulation data in a lighter color.
+        subplot_index_min (int): The index of the first subplot to show based on the alphabetical
             order of the channels in the report.
-
-        subplot_index_min:
-            The index of the last subplot to show based on the alphabetical
+        subplot_index_max (int): The index of the last subplot to show based on the alphabetical
             order of the channels in the report.
+        output (str): If provided, a directory will be created and images saved to the folder. If not provided, it opens windows.
 
-        output:
-            If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.
-
-    Return:
-        None, if output is provided, an image will be saved to the output directory, else a window will be opened.
+    Returns:
+        None. If output is provided, an image will be saved to the output directory, else a window will be opened.
     """
     dir_names = []
     mean_data = []

@@ -28,111 +28,65 @@ def add_diagnostic_survey(
         check_eligibility_at_trigger: bool = False,
         expire_recent_drugs: any = None):
     """
-        Add an intervention to create either a scheduled or a triggered event to the
-        campaign using the
-        :py:class:`~emodpy_malaria.interventions.common.MalariaDiagnostic` class, an
-        individual-level class, to test individuals. Upon positive or negative
-        diagnosis, the list of events to occur (as defined in
-        **positive_diagnosis_configs** or **negative_diagnosis_configs**) is then executed.
-        These events can trigger other listening interventions.
+    Add an intervention to create either a scheduled or a triggered event to the
+    campaign using the [MalariaDiagnostic](https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-malariadiagnostic/) class, an
+    individual-level class, to test individuals. Upon positive or negative
+    diagnosis, the list of events to occur (as defined in
+    **positive_diagnosis_configs** or **negative_diagnosis_configs**) is then executed.
+    These events can trigger other listening interventions.
 
-        Args:
-            campaign (emod_api.campaign): object for building,
-                modifying, and writing campaign configuration files.
-
-            coverage: The probability an individual receives the diagnostic.
-
-            repetitions: Number of repetitions of the survey intervention.
-
-            tsteps_btwn_repetitions: Timesteps between repetitions.
-
-            target: A dictionary targeting an age range and gender of
-                individuals for treatment. In the format
-                ``{"agemin": x, "agemax": y, "gender": z}``. Default is Everyone.
-
-            start_day: The day of the simulation on which the intervention is created.
-                If triggered, runs on trigger, not on **start_day**.
-
-            diagnostic_type: Type of malaria diagnostic used. Default is
-                **BLOOD_SMEAR_PARASITES**. Available options are:
-
-                * BLOOD_SMEAR_PARASITES
-                * BLOOD_SMEAR_GAMETOCYTES
-                * PCR_PARASITES
-                * PCR_GAMETOCYTES
-                * PF_HRP2
-                * TRUE_INFECTION_STATUS
-                * TRUE_PARASITE_DENSITY
-                * FEVER
-
-            diagnostic_threshold: The diagnostic detection threshold based on
-                **diagnostic_type**:
-
-                TRUE_INFECTION_STATUS
-
-                BLOOD_SMEAR_PARASITES
-                    In parasites/microliter, use measurement = float( 1.0 / measurementSensitivity *
-                    Poisson(measurementSensitivity * true_parasite_density)).
-                BLOOD_SMEAR_GAMETOCYTES
-                    In gametocytes/microliter, use measurement = float( 1.0 / measurementSensitivity *
-                    Poisson(measurementSensitivity * true_gametocyte_density)).
-                PCR_PARASITES and PCR_GAMETOCYTES
-                    Use the true values and an algorithm based on the paper
-                    `Improving statistical inference on pathogen densities estimated by
-                    quantitative molecular methods : malaria gametocytaemia as a case study
-                    <https://doi.org/10.1186/s12859-014-0402-2>`_.
-                PF_HRP2
-                    Add a new method to get the PfHRP2 value and check against
-                    the threshold.
-                TRUE_PARASITE_DENSITY
-                    Check the true parasite density against the threshold.
-                FEVER
-                    Check the person's fever against the threshold.
-
-            measurement_sensitivity: Setting for **Measurement_Sensitivity** in
-                :py:class:`~emodpy_malaria.interventions.common.MalariaDiagnostic`.
-
-            event_name: Description of the event.
-
-            node_ids: The list of nodes to apply this intervention to (**Node_List**
-                parameter). If not provided, set value of NodeSetAll.
-
-            positive_diagnosis_configs: List of events to happen to an individual
-                who receives a positive result from test.
-
-            negative_diagnosis_configs: List of events to happen to individual who
-                receives a negative result from test.
-
-            received_test_event: String for individuals to broadcast upon receiving
-                diagnostic.
-
-            ind_property_restrictions: List of IndividualProperty key:value pairs that
-                individuals must have to receive the diagnostic intervention.
-                For example, ``[{"IndividualProperty1":"PropertyValue1"},
-                {"IndividualProperty2":"PropertyValue2"}]``. Default is no
-                restrictions.
-
-            disqualifying_properties: List of IndividualProperty key:value pairs that
-                cause an intervention to be aborted. For example,
-                ``[{"IndividualProperty1":"PropertyValue1"},
-                {"IndividualProperty2":"PropertyValue2"}]``.
-
-            trigger_condition_list: List of events that will trigger a diagnostic survey.
-
-            listening_duration: Duration after start day to stop listening for events, as
-                specified in **trigger_condition_list**. Default is -1, non-stop
-                listening.
-
-            triggered_campaign_delay: Delay of running the intervention after receiving
-                a trigger from the **trigger_condition_list**.
-
-            check_eligibility_at_trigger: If triggered event is delayed, you have an
-                option to check individual/node's eligibility at the initial trigger
-                or when the event is actually distributed after delay.
-
-            expire_recent_drugs: Adds ``[{"DrugStatus:None"}]`` to
-                **Property_Restrictions_Within_Node** for positive test config, so
-                only those with that property receive drugs.
+    Args:
+        campaign (emod_api.campaign): object for building, modifying, and writing campaign configuration files.
+        coverage (float): The probability an individual receives the diagnostic.
+        repetitions (int): Number of repetitions of the survey intervention.
+        tsteps_btwn_repetitions (int): Timesteps between repetitions.
+        target (object): A dictionary targeting an age range and gender of individuals for treatment. In the format
+            ``{"agemin": x, "agemax": y, "gender": z}``. Default is Everyone.
+        start_day (int): The day of the simulation on which the intervention is created. If triggered, runs on trigger, not on **start_day**.
+        diagnostic_type (str): Type of malaria diagnostic used. Default is **BLOOD_SMEAR_PARASITES**. Available options are:<br>
+            • BLOOD_SMEAR_PARASITES<br>
+            • BLOOD_SMEAR_GAMETOCYTES<br>
+            • PCR_PARASITES<br>
+            • PCR_GAMETOCYTES<br>
+            • PF_HRP2<br>
+            • TRUE_INFECTION_STATUS<br>
+            • TRUE_PARASITE_DENSITY<br>
+            • FEVER<br>
+        diagnostic_threshold (float): The diagnostic detection threshold based on **diagnostic_type**:<br>
+            • TRUE_INFECTION_STATUS<br>
+            • BLOOD_SMEAR_PARASITES<br>
+                In parasites/microliter, use measurement `float( 1.0 / measurementSensitivity *
+                Poisson(measurementSensitivity * true_parasite_density))`.<br>
+            • BLOOD_SMEAR_GAMETOCYTES<br>
+                In gametocytes/microliter, use measurement `float( 1.0 / measurementSensitivity *
+                Poisson(measurementSensitivity * true_gametocyte_density))`.<br>
+            • PCR_PARASITES and PCR_GAMETOCYTES<br>
+                Use the true values and an algorithm based on the paper
+                <a href="https://doi.org/10.1186/s12859-014-0402-2">Improving statistical inference on pathogen densities estimated by
+                quantitative molecular methods: malaria gametocytaemia as a case study</a>.<br>
+            • PF_HRP2<br>
+                Add a new method to get the PfHRP2 value and check against the threshold.<br>
+            • TRUE_PARASITE_DENSITY<br>
+                Check the true parasite density against the threshold.<br>
+            • FEVER<br>
+                Check the person's fever against the threshold.<br>
+        measurement_sensitivity (float): Setting for **Measurement_Sensitivity** in `MalariaDiagnostic`.
+        event_name (str): Description of the event.
+        node_ids (list): The list of nodes to apply this intervention to (**Node_List** parameter). If not provided, set value of **NodeSetAll**.
+        positive_diagnosis_configs (list): List of events to happen to an individual who receives a positive result from test.
+        negative_diagnosis_configs (list): List of events to happen to individual who receives a negative result from test.
+        received_test_event (str): String for individuals to broadcast upon receiving diagnostic.
+        ind_property_restrictions (list): List of IndividualProperty key:value pairs that individuals must have to receive the diagnostic intervention.<br>
+            For example, ``[{"IndividualProperty1":"PropertyValue1"}, {"IndividualProperty2":"PropertyValue2"}]``. Default is no restrictions.
+        disqualifying_properties (list): List of IndividualProperty key:value pairs that cause an intervention to be aborted.<br>
+            For example, ``[{"IndividualProperty1":"PropertyValue1"}, {"IndividualProperty2":"PropertyValue2"}]``.
+        trigger_condition_list (list): List of events that will trigger a diagnostic survey.
+        listening_duration (int): Duration after start day to stop listening for events, as specified in **trigger_condition_list**. Default is -1, non-stop listening.
+        triggered_campaign_delay (int): Delay of running the intervention after receiving a trigger from the **trigger_condition_list**.
+        check_eligibility_at_trigger (bool): If triggered event is delayed, you have an option to check individual/node's eligibility
+            at the initial trigger or when the event is actually distributed after delay.
+        expire_recent_drugs (any): Adds ``[{"DrugStatus:None"}]`` to **Property_Restrictions_Within_Node** for positive test config, so
+            only those with that property receive drugs.
     """
 
     if ind_property_restrictions is None:

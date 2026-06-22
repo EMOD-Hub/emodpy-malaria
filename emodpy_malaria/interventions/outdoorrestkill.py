@@ -12,19 +12,19 @@ def add_outdoorrestkill(campaign,
                         killing_decay_time_constant: float = 0
                         ):
     """
-        Adds a node-targeted OutdoorRestKill intervention to the campaign
+    Adds a node-targeted **OutdoorRestKill** intervention to the campaign.
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: the day on which to distribute the intervention
-        insecticide: The name of the insecticide defined in config.Insecticides for this intervention.
+        start_day (int): the day on which to distribute the intervention.
+        insecticide (str): The name of the insecticide defined in config.Insecticides for this intervention.
             If insecticides are being used, then this must be defined as one of those values.  If they are not
             being used, then this does not needed to be specified or can be empty string.  It cannot have a
             value if config.Insecticides does not define anything.
-        killing_initial_effect: **Initial_Effect** in the *Killing_Config**
-        killing_box_duration: Length in days before the **Initial_Effect** starts to decay, -1 indicates forever.
-        killing_decay_time_constant: The rate of decay of the *Initial_Effect**
-        node_ids: List of nodes to which to distribute the intervention. None or empty list implies "all nodes".
+        killing_initial_effect (float): **Initial_Effect** in the **Killing_Config**.
+        killing_box_duration (int): Length in days before the **Initial_Effect** starts to decay, -1 indicates forever.
+        killing_decay_time_constant (float): The rate of decay of the **Initial_Effect**.
+        node_ids (list): List of nodes to which to distribute the intervention. None or empty list implies "all nodes".
 
     Returns:
         (emodpy.campaign.emod_campaign.EMODCampaign): configured campaign object

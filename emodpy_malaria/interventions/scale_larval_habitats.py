@@ -11,11 +11,11 @@ def add_scale_larval_habitats(campaign, df=None,
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
         df (pd.DataFrame): The dataframe containing habitat scale factors.
-        start_day: The date that habitats are scaled for all scaling
+        start_day (int): The date that habitats are scaled for all scaling
             actions specified in **df**. Used only if there is no
-            Start_Day column in **df**.
-        repetitions: The number of times to repeat the intervention.
-        timesteps_between_repetitions: The number of time steps between
+            **Start_Day** column in **df**.
+        repetitions (int): The number of times to repeat the intervention.
+        timesteps_between_repetitions (int): The number of time steps between
             repetitions.
     """
 
@@ -83,23 +83,23 @@ def add_scale_larval_habitats(campaign, df=None,
 def add_habitat_reduction_event(campaign, start_day: int, node_ids: list, habitat_scales: list, repetitions: int,
                                 timesteps_between_repetitions: int):
     """
-        Add a campaign event to reduce vector's larval habitat(s).
+    Add a campaign event to reduce vector's larval habitat(s).
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        start_day: The day the intervention is given out.
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        habitat_scales: List of dictionaries for scaling larval habitats.
-            Examples::
+        start_day (int): The day the intervention is given out.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None indicates all nodes
+            will get the intervention.
+        habitat_scales (list): List of dictionaries for scaling larval habitats.<br>
+            Examples:<br>
 
                 [{"Habitat": "ALL_HABITATS", "Species": "ALL_SPECIES", "Factor": 0.5},
                 {"Habitat": "CONSTANT", "Species": "arabiensis", "Factor": 2}]
 
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
     """
 
     # configuring the intervention itself

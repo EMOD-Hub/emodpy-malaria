@@ -20,33 +20,33 @@ def add_scheduled_antimalarial_drug(
 ):
     """
     Add an antimalarial drug intervention to your campaign. This is equivalent to
-    :doc:`emod/parameter-campaign-individual-antimalarialdrug`.
+    [AntimalarialDrug](https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-antimalarialdrug/).
 
     Args:
         campaign (emodpy.campaign.emod_campaign.EMODCampaign): The object to which the intervention will be added.
-        start_day: The day the intervention is given out.
-        demographic_coverage: This value is the probability that each individual in the target population will
+        start_day (int): The day the intervention is given out.
+        demographic_coverage (float): This value is the probability that each individual in the target population will
             receive the intervention. It does not guarantee that the exact fraction of the target population set by
-            Demographic_Coverage receives the intervention.
-        target_num_individuals: The exact number of people to select out of the targeted group. If this value is set,
-            demographic_coverage parameter is ignored
-        node_ids: List of nodes to which to distribute the intervention. [] or None, indicates all nodes
-            will get the intervention
-        repetitions: The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
-            the intervention repeats forever. Sets **Number_Repetitions**
-        timesteps_between_repetitions: The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
-            Sets **Timesteps_Between_Repetitions**
-        ind_property_restrictions: A list of dictionaries of IndividualProperties, which are needed for the individual
-            to receive the intervention. Sets the **Property_Restrictions_Within_Node**
-        target_age_min: The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**
-        target_age_max: The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**
-        target_gender: The gender targeted for an intervention: All, Male, or Female.
-        drug_type: The name of the drug to distribute in a drug intervention. Possible values are
-            contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
-            Use :py:meth:`~emodpy_malaria.config.set_team_drug_params` to set those values
-        cost_to_consumer: Per-unit cost when drug is distributed
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class.  Default is AntimalarialDrug_<drug_type>.
+            **Demographic_Coverage** receives the intervention.
+        target_num_individuals (int): The exact number of people to select out of the targeted group. If this value is set,
+            **demographic_coverage** parameter is ignored.
+        node_ids (list): List of nodes to which to distribute the intervention. [] or None, indicates all nodes
+            will get the intervention.
+        repetitions (int): The number of times an intervention is given, used with timesteps_between_repetitions. -1 means
+            the intervention repeats forever. Sets **Number_Repetitions**.
+        timesteps_between_repetitions (int): The interval, in timesteps, between repetitions. Ignored if repetitions = 1.
+            Sets **Timesteps_Between_Repetitions**.
+        ind_property_restrictions (list): A list of dictionaries of IndividualProperties, which are needed for the individual
+            to receive the intervention. Sets the **Property_Restrictions_Within_Node**.
+        target_age_min (int): The lower end of ages targeted for an intervention, in years. Sets **Target_Age_Min**.
+        target_age_max (int): The upper end of ages targeted for an intervention, in years. Sets **Target_Age_Max**.
+        target_gender (str): The gender targeted for an intervention: All, Male, or Female.
+        drug_type (str): The name of the drug to distribute in a drug intervention. Possible values are
+            contained in **Malaria_Drug_Params** in [Drugs and Treatments](https://emod.idmod.org/emodpy-malaria/emod/parameter-configuration-drugs/).
+            Use `emodpy_malaria.config.set_team_drug_params` to set those values.
+        cost_to_consumer (float): Per-unit cost when drug is distributed.
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. Default is `AntimalarialDrug_<drug_type>`.
     """
     antimalarial_drug = _antimalarial_drug(campaign=campaign,
                                            drug_type=drug_type,
@@ -66,15 +66,15 @@ def _antimalarial_drug(campaign,
                        cost_to_consumer: float = 0,
                        intervention_name: str = None):
     """
-        Configures individual-targeted AntimalarialDrug intervention
+    Configures individual-targeted AntimalarialDrug intervention
     Args:
-        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container
-        drug_type: The name of the drug to distribute in a drug intervention. Possible values are
-            contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
-            Use :py:meth:`~emodpy_malaria.config.set_team_drug_params` to set those values
-        cost_to_consumer: Per-unit cost when drug is distributed
-        intervention_name: The optional name used to refer to this intervention as a means to differentiate it from
-            others that use the same class. Default is AntimalarialDrug_<drug_type>.
+        campaign (emodpy.campaign.emod_campaign.EMODCampaign): campaign object to which the intervention will be added, and schema_path container.
+        drug_type (str): The name of the drug to distribute in a drug intervention. Possible values are
+            contained in **Malaria_Drug_Params** in [Drugs and Treatments](https://emod.idmod.org/emodpy-malaria/emod/parameter-configuration-drugs/).
+            Use `emodpy_malaria.config.set_team_drug_params` to set those values.
+        cost_to_consumer (float): Per-unit cost when drug is distributed
+        intervention_name (str): The optional name used to refer to this intervention as a means to differentiate it from
+            others that use the same class. Default is `AntimalarialDrug_<drug_type>`.
 
     Returns:
         (dict): Configured individual-targeted AntimalarialDrug intervention
@@ -90,7 +90,7 @@ def _antimalarial_drug(campaign,
 
 def new_intervention_as_file(campaign, start_day, drug_type="Chloroquine", filename="AntimalarialDrug.json"):
     """
-    Take an :doc:`emod/parameter-campaign-individual-antimalarialdrug`
+    Take an [AntimalarialDrug](https://emod.idmod.org/emodpy-malaria/emod/parameter-campaign-individual-antimalarialdrug/)
     intervention from a JSON file and add it to your campaign.
 
     Args:
@@ -98,7 +98,7 @@ def new_intervention_as_file(campaign, start_day, drug_type="Chloroquine", filen
         start_day (float): The day of the simulation on which the drug is distributed. We recommend
             aligning this with the start of the simulation.
         drug_type (str): The name of the drug to distribute in a drug intervention. Possible values are
-            contained in **Malaria_Drug_Params** in :doc:`emod/parameter-configuration-drugs`.
+            contained in **Malaria_Drug_Params** in [Drugs and Treatments](https://emod.idmod.org/emodpy-malaria/emod/parameter-configuration-drugs/).
         filename (str): The JSON file that contains the intervention.
 
     Returns:

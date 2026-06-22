@@ -1,4 +1,5 @@
-"""Configuration functions for vector biology in malaria simulations.
+"""
+Configuration functions for vector biology in malaria simulations.
 
 Covers vector species parameters, larval habitats, vector genetics, gene drives, insecticide
 resistance, microsporidia, and the team-standard vector defaults used as the foundation for
@@ -17,8 +18,8 @@ from enum import Enum
 
 def _validate_allele_combo(species_params, allele_combo):
     """
-    Internal method to validate that a user provided an acceptal allele_combo
-    where it is a two dimentional array of strings and the inner array has
+    Internal method to validate that a user provided an acceptable allele_combo
+    where it is a two dimensional array of strings and the inner array has
     two elements where each element is an allele of the same gene.
     """
     if len(allele_combo) == 0:
@@ -121,7 +122,7 @@ def get_species_params(config, species: str = None):
 
     Args:
         config (dict): schema-backed config smart dict
-        species: Species to look up
+        species (str): Species to look up
 
     Returns:
         (dict): Dictionary of species parameters with the matching name
@@ -136,8 +137,8 @@ def get_species_params(config, species: str = None):
 
 def set_species_param(config, species, parameter, value, overwrite=False):
     """
-        Sets a parameter value for a specific species.
-        Raises value error if species not found
+    Sets a parameter value for a specific species.
+    Raises value error if species not found.
 
     Args:
         config (dict): schema-backed config smart dict
@@ -172,22 +173,22 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
                             capacity_distribution_number_of_years: int = 1,
                             capacity_distribution_over_time: dict = None):
     """
-        Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters
+    Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters.
 
     Args:
         manifest (ModuleType):  manifest file containing the schema path
-        max_larval_capacity:  The maximum larval capacity. Sets **Max_Larval_Capacity**
-        capacity_distribution_number_of_years:  The total length of time in
+        max_larval_capacity (float):  The maximum larval capacity. Sets **Max_Larval_Capacity**
+        capacity_distribution_number_of_years (int):  The total length of time in
             years for the scaling.  If the simulation goes longer than this time, the pattern will repeat.  Ideally,
             this value times 365 is the last value in 'Capacity_Distribution_Over_Time'.
             Sets **Capacity_Distribution_Number_Of_Years**
-        capacity_distribution_over_time:  "This allows one to scale the larval
-            capacity over time.  The Times and Values arrays must be the same length where Times is in days and
-            Values are a scale factor per degrees squared.  The value is multiplied times the max capacity and
+        capacity_distribution_over_time (dict):  This allows one to scale the larval
+            capacity over time. The Times and Values arrays must be the same length where Times is in days and
+            Values are a scale factor per degrees squared. The value is multiplied times the max capacity and
             'Node_Grid_Size' squared/4. Ideally, you want the last value  to equal the first value if they are
-            one day apart.  A point will be added if not. Sets **Capacity_Distribution_Over_Time**
+            one day apart.  A point will be added if not. Sets **Capacity_Distribution_Over_Time**.
 
-            **Example**::
+            Example:
 
                 {
                     "Times": [0,  30,  60,   91,  122, 152, 182, 213, 243, 274, 304, 334, 365 ],
@@ -221,13 +222,13 @@ def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
 
 def add_species(config, manifest, species_to_select):
     """
-    Adds species with preset parameters from 'malaria_vector_species_params.py', if species
-    name not found - "gambiae" parameters are added and the new species name assigned.
+    Adds species with preset parameters from `malaria_vector_species_params.py`. If species
+    name not found, "gambiae" parameters are added and the new species name assigned.
 
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): manifest file containing the schema path
-        species_to_select (Union[str, list[str]): a list of species or a name of a single species you'd like to set from
+        species_to_select (Union[str, list[str]]): a list of species or a name of a single species you'd like to set from
             malaria_vector_species_params.py
 
     Returns:
@@ -253,13 +254,13 @@ def add_species(config, manifest, species_to_select):
 
 def add_genes_and_alleles(config, manifest, species: str = None, alleles: list = None):
     """
-    Adds alleles to a species
+    Adds alleles to a species.
 
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): manifest file containing the schema path
-        species: species to which to assign the alleles
-        alleles: List of tuples of (**Name**, **Initial_Allele_Frequency**, **Is_Y_Chromosome**) for a set of alleles
+        species (str): species to which to assign the alleles
+        alleles (list): List of tuples of (**Name**, **Initial_Allele_Frequency**, **Is_Y_Chromosome**) for a set of alleles
             or (**Name**, **Initial_Allele_Frequency**), 1/0 or True/False can be used for Is_Y_Chromosome,
             third parameter is assumed False (0). If the third parameter is set to 1 in any of the tuples,
             we assume, this is a gender gene.
@@ -290,7 +291,7 @@ def add_genes_and_alleles(config, manifest, species: str = None, alleles: list =
 
 def add_mutation(config, manifest, species, mutate_from, mutate_to, probability):
     """
-    Adds to **Mutations** parameter in a Gene which has the matching **Alleles**
+    Adds to **Mutations** parameter in a Gene which has the matching **Alleles**.
 
     Args:
         config (dict): schema-backed config smart dict
@@ -299,7 +300,7 @@ def add_mutation(config, manifest, species, mutate_from, mutate_to, probability)
         mutate_from (str): The allele in the gamete that could mutate
         mutate_to (str): The allele that this locus will change to during gamete generation
         probability (float): The probability that the allele will mutate from one allele to the other during the
-            creation of the gametes
+            creation of the gametes.
 
     Returns:
         (dict): configured config
@@ -374,20 +375,20 @@ def create_trait(manifest, trait: str = None, modifier: float = None,
 def add_trait(config, manifest, species, allele_combo: list = None, trait_modifiers: list = None):
     """
     Use this function to add traits as part of vector genetics configuration, the trait is assigned to the
-    species' **Gene_To_Trait_Modifiers** parameter
+    species' **Gene_To_Trait_Modifiers** parameter.
 
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): manifest file containing the schema path
         species (str): **Name** of species for which to add this  **Gene_To_Trait_Modifiers**
-        allele_combo: List of lists, This defines a possible subset of allele pairs that a vector could have.
+        allele_combo (list): List of lists, This defines a possible subset of allele pairs that a vector could have.
             Each pair are alleles from one gene.  If the vector has this subset, then the associated traits will
             be adjusted.  Order does not matter.  '*' is allowed when only the occurrence of one allele is important.
-            **Example**::
+            Example:
 
-            [[  "X",  "X" ], [ "a0", "a1" ]]
+                [[  "X",  "X" ], [ "a0", "a1" ]]
 
-        trait_modifiers: list of trait modifier parameters created with create_trait() function.
+        trait_modifiers (list): list of trait modifier parameters created with create_trait() function.
 
     Returns:
         (dict): configured config
@@ -437,19 +438,19 @@ def add_blood_meal_mortality(config, manifest,
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): manifest module containing the schema path
-        default_probability_of_death: The probability used if the genome of the mosquito does not
+        default_probability_of_death (float): The probability used if the genome of the mosquito does not
             match any of the defined allele combinations in Genetic_Probabilities.
-        species: Name of the species of vectors to give the specific probability to.
-        allele_combo: The combination of alleles that a mosquito's genome must have in order to
-            apply associated Probability.  You do not need to specify alleles for every locus.
-            The ones not defined are not considered in the match  This should be a two-dimensional
-            array where each internal array has two strings representing two alleles of the same
-            locus.  Each separate internal array represents locus and you can only have one entry
-            per locus.  You can use '*' for an allele to say any allele. For example,
+        species (str): Name of the species of vectors to give the specific probability to.
+        allele_combo (list): The combination of alleles that a mosquito's genome must have in order to
+            apply associated Probability. You do not need to specify alleles for every locus.
+            The ones not defined are not considered in the match.<br>
+            This should be a two-dimensional array where each internal array has two strings representing two alleles of the same
+            locus. Each separate internal array represents locus and you can only have one entry
+            per locus. You can use '*' for an allele to say any allele. For example,
             [ ["a1", "a1"], ["b1, "*"] ] says any mosquito with a1-a1 in the first locus and
             b1 in either chromosome of the second locus.
-        probability_of_death_for_allele_combo: The probability to use if the genome of the mosquito
-            has the matching Allele_Combinations.  The default is zero.
+        probability_of_death_for_allele_combo (float): The probability to use if the genome of the mosquito
+            has the matching Allele_Combinations. The default is zero.
 
     Returns:
         (dict): configured config
@@ -485,19 +486,19 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str = "", spe
                                allele_combo: list = None, blocking: float = 1.0, killing: float = 1.0,
                                repelling: float = 1.0, larval_killing: float = 1.0):
     """
-        Use this function to add to the list of **Resistances** parameter for a specific insecticide
-        Add each resistance separately.
+    Use this function to add to the list of **Resistances** parameter for a specific insecticide
+    Add each resistance separately.
 
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): manifest file containing the schema path
-        insecticide_name: The name of the insecticide to which attach the resistance.
-        species: Name of the species of vectors.
-        allele_combo: List of combination of alleles that vectors must have in order to be resistant.
-        blocking: The value used to modify (multiply) the blocking effectivity of an intervention.
-        killing: The value used to modify (multiply) the killing effectivity of an intervention.
-        repelling: The value used to modify (multiply) the repelling effectivity of an intervention.
-        larval_killing: The value used to modify (multiply) the larval killing effectivity of an intervention.
+        insecticide_name (str): The name of the insecticide to which attach the resistance.
+        species (str): Name of the species of vectors.
+        allele_combo (list): List of combination of alleles that vectors must have in order to be resistant.
+        blocking (float): The value used to modify (multiply) the blocking effectivity of an intervention.
+        killing (float): The value used to modify (multiply) the killing effectivity of an intervention.
+        repelling (float): The value used to modify (multiply) the repelling effectivity of an intervention.
+        larval_killing (float): The value used to modify (multiply) the larval killing effectivity of an intervention.
 
     Returns:
         (dict): configured config
@@ -536,43 +537,45 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
                         allele_to_shred_to: str = None, allele_shredding_fraction: float = None,
                         allele_to_shred_to_surviving_fraction: float = None):
     """
-        Add a gene drive that propagates a particular set of alleles.
-        Adds one **Alleles_Driven** item to the **Alleles_Driven** list, using 'driving_allele' as key if matching one
-        already exists.
+    Add a gene drive that propagates a particular set of alleles.
+    Adds one **Alleles_Driven** item to the **Alleles_Driven** list, using 'driving_allele' as key if matching one
+    already exists.
 
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): manifest file containing the schema path
-        species: Name of the species for which we're setting the drivers
-        driving_allele: This is the allele that is known as the driver
-        driver_type: This indicates the type of driver.
-            CLASSIC - The driver can only drive if the one gamete has the driving allele and the other has a specific
-            allele to be replaced
-            INTEGRAL_AUTONOMOUS - At least one of the gametes must have the driver.  Alleles can still be driven if the
-            driving allele is in both gametes or even if the driving allele cannot replace the allele in the
-            other gamete
-            X_SHRED, Y_SHRED -  cannot be used in the same species during one simulation/realization. The driving_allele
-            must exist at least once in the genome for shredding to occur. If there is only one, it can exist in either
-            half of the genome.
-            DAISY_CHAIN -  can be used for drives that do not drive themselves but can be driven by another allele.
-        to_copy: The main allele to be copied **Allele_To_Copy**
-        to_replace: The allele that must exist and will be replaced by the copy **Allele_To_Replace**
-        likelihood_list: A list of tuples in format: [(**Copy_To_Allele**, **Likelihood**),(),()] to assign to
-            **Copy_To_Likelyhood** list
-        shredding_allele_required: The genome must have this gender allele in order for shredding to occur.
+        species (str): Name of the species for which we're setting the drivers
+        driving_allele (str): This is the allele that is known as the driver
+        driver_type (str): This indicates the type of driver.<br>
+            Available types are:<br>
+                • CLASSIC - The driver can only drive if the one gamete has the driving allele and the other has a specific
+                allele to be replaced<br>
+                • INTEGRAL_AUTONOMOUS - At least one of the gametes must have the driver.  Alleles can still be driven if the
+                driving allele is in both gametes or even if the driving allele cannot replace the allele in the
+                other gamete<br>
+                • X_SHRED, Y_SHRED -  cannot be used in the same species during one simulation/realization. The driving_allele
+                must exist at least once in the genome for shredding to occur. If there is only one, it can exist in either
+                half of the genome.<br>
+                • DAISY_CHAIN -  can be used for drives that do not drive themselves but can be driven by another allele.
+        to_copy (str): The main allele to be copied **Allele_To_Copy**
+        to_replace (str): The allele that must exist and will be replaced by the copy **Allele_To_Replace**
+        likelihood_list (list): A list of tuples in format:
+                        [(Copy_To_Allele, Likelihood),(),()]
+            to assign to **Copy_To_Likelyhood** list.
+        shredding_allele_required (str): The genome must have this gender allele in order for shredding to occur.
             If the driver is X_SHRED, then the allele must be designated as a Y chromosome. If the driver is Y_SHRED,
-            then the allele must NOT be designated as a Y chromosome
-        allele_to_shred: The genome must have this gender allele in order for shredding to occur. If the driver is
+            then the allele must NOT be designated as a Y chromosome.
+        allele_to_shred (str): The genome must have this gender allele in order for shredding to occur. If the driver is
             X_SHRED, then the allele must NOT be designated as a Y chromosome. If the driver is Y_SHRED, then the allele
-            must be designated as a Y chromosome
-        allele_to_shred_to: This is a gender allele that the 'shredding' will change the allele_to_shred into. It can
+            must be designated as a Y chromosome.
+        allele_to_shred_to (str): This is a gender allele that the 'shredding' will change the allele_to_shred into. It can
             be a temporary allele that never exists in the output or could be something that appears due to
-            resistance/failures
-        allele_shredding_fraction: This is the fraction of the alleles_to_Shred that will be converted to
+            resistance/failures.
+        allele_shredding_fraction (float): This is the fraction of the alleles_to_Shred that will be converted to
             allele_to_shred_to. Values 0 to 1.  If this value is less than 1, then some of the allele_to_shred will
             remain and be part of the gametes.
-        allele_to_shred_to_surviving_fraction: A trait modifier will automatically generated for
-            [ Allele_To_Shred_To, * ], the trait ADJUST_FERTILE_EGGS, and this value as its modifier.  Values 0 to 1.
+        allele_to_shred_to_surviving_fraction (float): A trait modifier will automatically generated for
+            [ Allele_To_Shred_To, * ], the trait ADJUST_FERTILE_EGGS, and this value as its modifier. Values 0 to 1.
             A value of 0 implies perfect shredding such that no allele_to_Shred_To survive in the eggs. A value of 1
             means all of the 'shredded' alleles survive.
 
@@ -673,21 +676,22 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
 def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
                             allele_to_cut: str, likelihood_list: list):
     """
-        Adds a maternal deposition element for the specified species.
-        After meiosis and fertilization, maternal deposition of Cas9 and gRNA can form additional resistance alleles
-        in the zygote or early embryo from wildtype alleles. These elements define the likelihoods of forming additional
-        resistance alleles.
+    Adds a maternal deposition element for the specified species.
+
+    After meiosis and fertilization, maternal deposition of Cas9 and gRNA can form additional resistance alleles
+    in the zygote or early embryo from wildtype alleles. These elements define the likelihoods of forming additional
+    resistance alleles.
 
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): manifest file containing the schema path
-        species: Name of the species for which we're adding the maternal deposition element.
-        cas9_grna_from: This is an allele for presence of which in the mother we will be checking to see if additional
+        species (str): Name of the species for which we're adding the maternal deposition element.
+        cas9_grna_from (str): This is an allele for presence of which in the mother we will be checking to see if additional
             resistance alleles will be formed. This is the allele must be one of the 'driving_alleles' from
             vector_config.add_species_drivers() function.
-        allele_to_cut: The allele from which resistance alleles might be formed due to maternal deposition. This must
+        allele_to_cut (str): The allele from which resistance alleles might be formed due to maternal deposition. This must
             be one of the 'to_replace' alleles defined in the vector_config.add_species_drivers() function.
-        likelihood_list: A list of tuples in format: [(<cut_to_allele>, <likelihood>),(),()] which will be converted
+        likelihood_list (list): A list of tuples in format: [(<cut_to_allele>, <likelihood>),(),()] which will be converted
             to an array of allele-to-likelihood dictionaries to be applied to the 'allele_to_cut' for each
             'cas9_grna_from' present in the mother. The sum of likelihoods should be equal to 1.
 
@@ -745,7 +749,7 @@ def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
 
 def set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity):
     """
-    Set the Max_Larval_Capacity for a given species and habitat.
+    Set the **Max_Larval_Capacity** for a given species and habitat.
 
     Args:
         config (dict): schema-backed config smart dict
@@ -776,53 +780,53 @@ def add_microsporidia(config, manifest, species_name: str = None,
                       female_mortality_modifier: float = 1,
                       male_mortality_modifier: float = 1):
     """
-        Adds microsporidia parameters to the named species' parameters.
+    Adds microsporidia parameters to the named species' parameters.
 
     Args:
         config (dict): schema-backed config dictionary, written to config.json
         manifest (ModuleType): file that contains path to the schema file
-        species_name: Species to target, **Name** parameter
-        strain_name: **Strain_Name** The name/identifier of the collection of transmission parameters.
+        species_name (str): Species to target, **Name** parameter
+        strain_name (str): **Strain_Name** The name/identifier of the collection of transmission parameters.
             Cannot be empty string
-        female_to_male_probability: **Microsporidia_Female_to_Male_Transmission_Probability** The probability
+        female_to_male_probability (float): **Microsporidia_Female_to_Male_Transmission_Probability** The probability
             an infected female will infect an uninfected male.
-        female_to_egg_probability: **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
+        female_to_egg_probability (float): **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
             an infected female will infect her eggs when laying them.
-        male_to_female_probability: **Microsporidia_Male_To_Female_Transmission_Probability** The probability
+        male_to_female_probability (float): **Microsporidia_Male_To_Female_Transmission_Probability** The probability
             an infected male will infect an uninfected female
-        male_to_egg_probability: **Microsporidia_Male_To_Egg_Transmission_Probability** The probability a female that
+        male_to_egg_probability (float): **Microsporidia_Male_To_Egg_Transmission_Probability** The probability a female that
             mated with an infected male will infect her eggs when laying them, independent of her being infected and
             transmitting to her offspring.
-        duration_to_disease_acquisition_modification: **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
+        duration_to_disease_acquisition_modification (dict): **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
             **Times** is an array of days in ascending order that represent the number of days since the vector became
             infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
             probability that the vector will acquire malaria due to Microsporidia.
 
-             **Example**::
+             Example:
 
                 {
                     "Times": [    0,   3,   6,   9 ],
                     "Values": [ 1.0, 1.0, 0.5, 0.0 ]
                 }
-        duration_to_disease_transmission_modification: **Microsporidia_Duration_To_Disease_Transmission_Modification**,
+        duration_to_disease_transmission_modification (dict): **Microsporidia_Duration_To_Disease_Transmission_Modification**,
             A dictionary for "Times" and "Values" as an age-based modification that the female will transmit malaria.
             **Times** is an array of days in ascending order that represent the number of days since the vector became
             infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
             probability that the vector will acquire malaria due to Microsporidia.
 
-             **Example**::
+             Example:
 
                 {
                     "Times": [    0,   3,   6,   9 ],
                     "Values": [ 1.0, 1.0, 0.75, 0.5]
                 }
-        larval_growth_modifier: **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
+        larval_growth_modifier (float): **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
             dependent, larval growth progress.
-        female_mortality_modifier: **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
-            rate for female vectors due to general life expectancy, age, and dry heat
-        male_mortality_modifier: **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
-            male vectors due to general life expectancy, age, and dry heat
+        female_mortality_modifier (float): **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
+            rate for female vectors due to general life expectancy, age, and dry heat.
+        male_mortality_modifier (float): **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
+            male vectors due to general life expectancy, age, and dry heat.
     """
     if not strain_name:
         raise ValueError("Please define strain_name.\n")
@@ -866,22 +870,22 @@ def add_vector_migration(task,
                          vector_migration_food_modifier: float = 0,
                          vector_migration_stay_put_modifier: float = 0):
     """
-        Adds vector migration parameters to the named species' parameters and adds the migration file to the
-        common_assets in task
+    Adds vector migration parameters to the named species' parameters and adds the migration file to the
+    common_assets in task
 
     Args:
         task (emodpy.emod_task.EMODTask): contains config to edit and assets to add migration file to
-        species: Species to target, **Name** parameter
-        vector_migration_filename_path: Path with the filename of the migration file to use for
+        species (str): Species to target, **Name** parameter
+        vector_migration_filename_path (str): Path with the filename of the migration file to use for
             **Vector_Migration_Filename**
-        x_vector_migration: Scale factor for the rate of vector migration to other nodes.
-        vector_migration_modifier_equation: Functional form of vector migration modifiers.
+        x_vector_migration (float): Scale factor for the rate of vector migration to other nodes.
+        vector_migration_modifier_equation (ModifierEquationType): Functional form of vector migration modifiers.
             This applies only to female migrating vectors. Default is ModifierEquationType.LINEAR.
-        vector_migration_habitat_modifier: Preference of a vector to migrate toward a node with more habitat. This
+        vector_migration_habitat_modifier (float): Preference of a vector to migrate toward a node with more habitat. This
             applies only to female migrating vectors.
-        vector_migration_food_modifier: Preference of a vector to migrate toward a node currently occupied by humans,
+        vector_migration_food_modifier (float): Preference of a vector to migrate toward a node currently occupied by humans,
             independent of the number of humans in the node. This only applies to female migrating vectors.
-        vector_migration_stay_put_modifier: Preference of a vector to remain in its current node rather than migrate
+        vector_migration_stay_put_modifier (float): Preference of a vector to remain in its current node rather than migrate
             to another node. This applies only to female migrating vectors.
 
     """
