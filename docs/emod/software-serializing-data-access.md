@@ -1,10 +1,14 @@
-# Tutorial: Working with serialized population data
+# How-to: Working with serialized population data
 
 
-This tutorial walks through common tasks with EMOD serialized population files
-(`.dtk`) using the `emodpy_malaria.serialization` module. You will learn how to
-open a file, inspect its contents, modify infections and parasite genomes, and
-save the result.
+Serialized population files (`.dtk`) are binary snapshots of the full simulation
+state — human population, infections, immunity, vector populations, and parasite genetics —
+captured at the end of a specific timestep. Because they are point-in-time
+snapshots, they do not contain data over time; they preserve exactly the state
+needed to resume or branch a simulation from that moment.
+
+This guide walks through common tasks for reading, modifying, and writing
+serialized population files using the `emodpy_malaria.serialization` module.
 
 For background on the binary file format, see
 [Serialized population file](software-serialized.md). For EMOD configuration

@@ -1,6 +1,6 @@
 import pandas as pd
 
-import emodpy_hiv.plotting.xy_plot as xy_plot
+import emodpy_malaria.plotting.xy_plot as xy_plot
 
 
 def plot_csv_a_vs_b(a_filename: str,

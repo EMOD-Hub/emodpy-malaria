@@ -3,9 +3,9 @@ import argparse
 import pandas as pd
 import json
 
-import emodpy_hiv.plotting.helpers as helpers
-import emodpy_hiv.plotting.plot_inset_chart as pic
-from emodpy_hiv.plotting.channel_report import ChannelReport
+import emodpy_malaria.plotting.helpers as helpers
+import emodpy_malaria.plotting.plot_inset_chart as pic
+from emodpy_malaria.plotting.channel_report import ChannelReport
 
 
 def calculate_mean(dir_name: str):

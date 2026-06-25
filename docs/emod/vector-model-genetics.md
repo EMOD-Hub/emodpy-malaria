@@ -87,10 +87,13 @@ set of named alleles with initial population frequencies to be used at simulatio
 If the user does not define the gender gene, EMOD creates a default (X,Y) gender gene internally and assigns it to the 
 first locus. To define your own gender gene, it must be listed first in the "Genes" array and indicated by `Is_Gender_Gene`: 1 (true).
 It partitions alleles into female (X-chromosome) alleles with `Is_Y_Chromosome` = 0 (false) and male (Y-chromosome) alleles with
-`Is_Y_Chromosome` = 1 (true) with up to 4 alleles per gender. Because in a mating there are 3 X-chromosomes and 1 Y-chromosome 
-out of four alleles, when the Y-chromosome allele frequencies sum up to 0.5, the population will be 100% male. 
-Y-chromosome allele frequencies higher than 0.5 are not allowed. To create a balanced male-female population, 
-set the Y-chromosome allele frequencies to sum to 0.25, as in the example above.
+`Is_Y_Chromosome` = 1 (true) with up to 4 alleles per gender.
+
+!!! note "Y-chromosome allele frequency constraints"
+    Because in a mating there are 3 X-chromosomes and 1 Y-chromosome out of four alleles, when the
+    Y-chromosome allele frequencies sum up to 0.5, the population will be 100% male. Y-chromosome
+    allele frequencies higher than 0.5 are not allowed. To create a balanced male-female population,
+    set the Y-chromosome allele frequencies to sum to 0.25, as in the example above.
 
 **Constraints**: Allele names must be unique across all genes within a species. Frequencies within
 a gene must sum to 1.0. A species may define at most 9 genes (including the gender gene) and at
