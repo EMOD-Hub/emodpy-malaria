@@ -18,7 +18,7 @@ authors = [
 ]
 keywords = ["modeling", "IDM"]
 dependencies = [
-    "emodpy~=3.2",
+    "emodpy~=3.3",
     "chardet<6.0.0",
     "emod-malaria~=2.35",
     "idmtools-calibra~=3.0",
