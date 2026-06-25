@@ -45,14 +45,14 @@ jobs:
         run: |
           python -m pytest --dist loadfile -v -m tutorial --junitxml="test_results_tutorials.xml"
         working-directory: ./tests
-      - name: Run examples-container as tests when on Linux
+      - name: Run simulation tests when on Linux
         if: runner.os == 'Linux'
         run: |
-          cd examples-container
-          snakemake --cores all
-      - name: Upload emodpy test results
+          cd tests
+          python -m pytest sim_tests/ -v -m container --junitxml="test_results_sim.xml"
+      - name: Upload sim test results
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: emodpy_test_results
-          path: examples-container/.snakemake/log/*snakemake.log
+          name: sim_test_results-${{ matrix.os }}-${{ matrix.python-version }}
+          path: tests/test_results_sim.xml
