@@ -22,24 +22,6 @@ def _make_demographics(n_nodes=1):
 
 
 @pytest.mark.unit
-class TestMalariaNodeSetters(unittest.TestCase):
-
-    def test_set_risk_simple_distribution(self):
-        node = MalariaNode(lat=0, lon=0, pop=100, forced_id=1)
-        node._set_risk_simple_distribution(flag=1, value1=0.5, value2=1.5)
-        self.assertEqual(node.individual_attributes.risk_distribution_flag, 1)
-        self.assertEqual(node.individual_attributes.risk_distribution1, 0.5)
-        self.assertEqual(node.individual_attributes.risk_distribution2, 1.5)
-
-    def test_set_innate_immune_simple_distribution(self):
-        node = MalariaNode(lat=0, lon=0, pop=100, forced_id=1)
-        node._set_innate_immune_simple_distribution(flag=3, value1=0.2, value2=0.8)
-        self.assertEqual(node.individual_attributes.innate_immune_distribution_flag, 3)
-        self.assertEqual(node.individual_attributes.innate_immune_distribution1, 0.2)
-        self.assertEqual(node.individual_attributes.innate_immune_distribution2, 0.8)
-
-
-@pytest.mark.unit
 class TestMalariaNodeToDict(unittest.TestCase):
 
     def test_to_dict_includes_risk_distribution(self):

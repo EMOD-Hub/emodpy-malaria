@@ -23,8 +23,6 @@ from typing import Union
 from functools import partial
 
 
-
-
 class LarvalHabitatMultiplierSpec:
     """
     Defines a single entry in the **Larval_Habitat_Multiplier** array used

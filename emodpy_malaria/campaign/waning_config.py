@@ -134,8 +134,6 @@ class InsecticideWaningEffect:
         return obj
 
 
-
-
 __all_exports = [
     AbstractWaningConfig,
     BaseWaningConfig,

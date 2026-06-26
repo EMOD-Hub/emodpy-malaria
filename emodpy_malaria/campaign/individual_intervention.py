@@ -29,8 +29,6 @@ from typing import Union
 from functools import partial
 
 
-
-
 class AntimalarialDrug(IndividualIntervention):
     """
     The **AntimalarialDrug** intervention class distributes an antimalarial drug to an individual.

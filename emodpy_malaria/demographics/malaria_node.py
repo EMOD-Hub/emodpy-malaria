@@ -28,25 +28,13 @@ class MalariaNode(Node):
     """
 
     def _set_risk_simple_distribution(self, flag: int, value1: float, value2: float):
-        """Set a simple risk distribution on this node's individual attributes.
-
-        Args:
-            flag (int): Simple distribution flag (determines distribution type).
-            value1 (float): Distribution parameter 1.
-            value2 (float): Distribution parameter 2.
-        """
+        """Called dynamically by Demographics._set_distribution(use_case='risk') via getattr."""
         self.individual_attributes.risk_distribution_flag = flag
         self.individual_attributes.risk_distribution1 = value1
         self.individual_attributes.risk_distribution2 = value2
 
     def _set_innate_immune_simple_distribution(self, flag: int, value1: float, value2: float):
-        """Set a simple innate immune distribution on this node's individual attributes.
-
-        Args:
-            flag (int): Simple distribution flag (determines distribution type).
-            value1 (float): Distribution parameter 1.
-            value2 (float): Distribution parameter 2.
-        """
+        """Called dynamically by Demographics._set_distribution(use_case='innate_immune') via getattr."""
         self.individual_attributes.innate_immune_distribution_flag = flag
         self.individual_attributes.innate_immune_distribution1 = value1
         self.individual_attributes.innate_immune_distribution2 = value2
