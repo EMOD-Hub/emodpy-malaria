@@ -39,7 +39,7 @@ jobs:
       - name: Run unit tests
         run: |
           cd tests
-          python -m pytest --dist loadfile -v -m "not tutorial" --junitxml="test_results.xml"
+          python -m pytest --dist loadfile -v -m unit --junitxml="test_results.xml"
       - name: Run tutorial tests
         if: runner.os == 'Linux'
         run: |
