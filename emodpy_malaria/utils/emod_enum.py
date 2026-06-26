@@ -234,3 +234,53 @@ class DrugResistantStatisticType(StrEnum):
 class ModifierEquationType(StrEnum):
     EXPONENTIAL = "EXPONENTIAL"
     LINEAR = "LINEAR"
+
+
+__all_exports = [
+    StrEnum,
+    DistributionType,
+    NodeSelectionType,
+    VaccineType,
+    SensitivityType,
+    EventOrConfig,
+    SettingType,
+    ThresholdType,
+    EventType,
+    BirthRateDependence,
+    DiagnosticType,
+    HabitatType,
+    VectorGender,
+    VectorGeneticsStratification,
+    MalariaStrainModel,
+    EIRType,
+    InputEIRAgeDependence,
+    NonAdherenceOption,
+    NucleotideSequenceOrigin,
+    ChallengeType,
+    MosquitoReleaseType,
+    ArtificialDietTarget,
+    VectorCountType,
+    WolbachiaType,
+    VarGeneRandomnessType,
+    DriverType,
+    VectorTrait,
+    PKPDModel,
+    ParasiteSwitchType,
+    VectorSamplingType,
+    EggHatchDensityDependence,
+    EggSaturationAtOviposition,
+    InnateImmuneVariationType,
+    ClimateModel,
+    ClimateUpdateResolution,
+    PopulationScaleType,
+    AgeDependentBitingRiskType,
+    SpatialOutputChannel,
+    VectorStateEnum,
+    DrugResistantStatisticType,
+    ModifierEquationType,
+]
+
+for _ in __all_exports:
+    _.__module__ = __name__
+
+__all__ = [_.__name__ for _ in __all_exports]

@@ -187,3 +187,12 @@ def add_vector_surveillance(campaign: api_campaign,
                                   node_ids=node_ids, start_day=start_day)
 
     campaign.add(event.to_schema_dict(campaign))
+
+
+__all__ = [
+    'add_intervention_scheduled',
+    'add_intervention_triggered',
+    'add_community_health_worker',
+    'add_broadcast_coordinator_event',
+    'add_vector_surveillance',
+]

@@ -1,6 +1,6 @@
 """Weather data classes for reading/writing EMOD binary weather files (``.bin``).
 
-Wraps [emod_api.weather.weather.Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) (``BaseWeather``) for core
+Wraps [Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) (``BaseWeather``) for core
 binary file I/O, extending it with:
 
 * Shared-offset support (deduplication of identical time series).
@@ -76,7 +76,7 @@ class WeatherData:
         return self._data
 
     def to_base_weather(self) -> BaseWeather:
-        """Create an [emod_api.weather.weather.Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
+        """Create an [Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
 
         Useful for interoperability with code that expects the emod-api
         ``Weather`` object.  Note: shared offsets are expanded — each node
@@ -98,7 +98,7 @@ class WeatherData:
     @classmethod
     def from_base_weather(cls, base: BaseWeather,
                           attributes: WeatherAttributes = None) -> "WeatherData":
-        """Create from an [emod_api.weather.weather.Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance."""
+        """Create from an [Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance."""
         node_series = {
             node_id: base.nodes[node_id].data
             for node_id in base.node_ids

@@ -4,7 +4,7 @@
 The EMOD vector model inherits the generic model functionality and introduces vector
 transmission and mosquito population dynamics. Interventions can be deployed within simulations for
 a variety of transmission settings with different transmission intensities, vector behaviors, and
-seasonally-driven ecologies. Climate data is necessary to simulate the effect of climatalogical
+seasonally-driven ecologies. Climate data is necessary to simulate the effect of climatological
 impacts on vector biology. To use the vector model, set the configuration parameter
 **Simulation_Type** to VECTOR_SIM.
 

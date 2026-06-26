@@ -1,7 +1,6 @@
 # convert_txt_to_bin.py
 # -----------------------------------------------------------------------------
 # This script converts a CSV formatted txt file to an EMOD binary-formatted migration file.
-# This script converts a CSV formatted txt file to an EMOD binary-formatted migration file.
 # It also creates the required metadata file.
 #
 # The CSV file has three columns

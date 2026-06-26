@@ -152,7 +152,7 @@ class TestNodeIntervention(unittest.TestCase):
     # -------------------------------------------------------------------------
 
     def test_MultiInsecticideSpaceSpraying_default(self):
-        ins = wc.InsecticideWaningEffect_K(
+        ins = wc.InsecticideWaningEffect(
             self.campaign,
             killing_config=wc.Constant(constant_effect=0.7),
             insecticide_name="Pyrethroid")
@@ -163,11 +163,11 @@ class TestNodeIntervention(unittest.TestCase):
         self.assertEqual(len(iv._intervention.Insecticides), 1)
 
     def test_MultiInsecticideSpaceSpraying(self):
-        ins1 = wc.InsecticideWaningEffect_K(
+        ins1 = wc.InsecticideWaningEffect(
             self.campaign,
             killing_config=wc.Constant(constant_effect=0.7),
             insecticide_name="Pyrethroid")
-        ins2 = wc.InsecticideWaningEffect_K(
+        ins2 = wc.InsecticideWaningEffect(
             self.campaign,
             killing_config=wc.Constant(constant_effect=0.5),
             insecticide_name="PBO")
@@ -193,14 +193,14 @@ class TestNodeIntervention(unittest.TestCase):
             MultiInsecticideSpaceSpraying(
                 self.campaign,
                 insecticides=["not_an_insecticide"])
-        self.assertIn("InsecticideWaningEffect_K", str(context.exception))
+        self.assertIn("InsecticideWaningEffect", str(context.exception))
 
     # -------------------------------------------------------------------------
     # MultiInsecticideIndoorSpaceSpraying
     # -------------------------------------------------------------------------
 
     def test_MultiInsecticideIndoorSpaceSpraying_default(self):
-        ins = wc.InsecticideWaningEffect_K(
+        ins = wc.InsecticideWaningEffect(
             self.campaign,
             killing_config=wc.Constant(constant_effect=0.6),
             insecticide_name="Pyrethroid")
@@ -211,11 +211,11 @@ class TestNodeIntervention(unittest.TestCase):
         self.assertEqual(len(iv._intervention.Insecticides), 1)
 
     def test_MultiInsecticideIndoorSpaceSpraying(self):
-        ins1 = wc.InsecticideWaningEffect_K(
+        ins1 = wc.InsecticideWaningEffect(
             self.campaign,
             killing_config=wc.Constant(constant_effect=0.6),
             insecticide_name="Pyrethroid")
-        ins2 = wc.InsecticideWaningEffect_K(
+        ins2 = wc.InsecticideWaningEffect(
             self.campaign,
             killing_config=wc.Constant(constant_effect=0.4),
             insecticide_name="PBO")

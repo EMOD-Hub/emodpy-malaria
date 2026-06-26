@@ -56,6 +56,7 @@ def _make_human(suid_id, num_infections=0, infected=False, age=3650.0):
     })
 
 
+@pytest.mark.unit
 class TestCountHumans:
     def test_all_nodes(self):
         ser_pop = _make_mock_ser_pop([
@@ -79,6 +80,7 @@ class TestCountHumans:
         assert count_humans(ser_pop) == 0
 
 
+@pytest.mark.unit
 class TestCountInfections:
     def test_counts_across_nodes(self):
         ser_pop = _make_mock_ser_pop([
@@ -100,6 +102,7 @@ class TestCountInfections:
         assert count_infections(ser_pop, node_index=1) == 5
 
 
+@pytest.mark.unit
 class TestListNodeIds:
     def test_returns_external_ids(self):
         ser_pop = _make_mock_ser_pop([
@@ -110,6 +113,7 @@ class TestListNodeIds:
         assert list_node_ids(ser_pop) == [100, 200, 300]
 
 
+@pytest.mark.unit
 class TestReadHeader:
     def test_reads_v6_header(self, tmp_path):
         header_json = {

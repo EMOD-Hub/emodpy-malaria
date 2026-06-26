@@ -64,7 +64,7 @@ def plot_mean(dir1: str,
         subplot_index_min (int):             The index of the first subplot to show based on the alphabetical
             order of the channels in the report.
 
-        subplot_index_min (int):             The index of the last subplot to show based on the alphabetical
+        subplot_index_max (int):             The index of the last subplot to show based on the alphabetical
             order of the channels in the report.
 
         output (str):             If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.

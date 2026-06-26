@@ -20,7 +20,7 @@ from emodpy.campaign.event_coordinator import (  # noqa: F401
 )
 from emodpy.utils.distributions import BaseDistribution
 from emodpy_malaria.campaign.common import TargetDemographicsConfig, PropertyRestrictions  # noqa: F401
-from emodpy_malaria.campaign.node_intervention import _validate_vector_sampling_type
+from emodpy_malaria.utils.config_utils import validate_vector_sampling_type
 from emodpy_malaria.utils.emod_enum import VectorCountType, VectorGender
 
 
@@ -32,25 +32,19 @@ class VectorCounter:
 
     Args:
         species (str, required):
-            The name of the vector species to sample. Must match a species name defined
-            in the Vector_Species_Params configuration parameter.
+            The name of the vector species to sample. Must match a species added via
+            ``malaria_config.add_species()`` in the config builder.
 
         sample_size_distribution (BaseDistribution, required):
             The distribution used to determine the number of vectors in the sample for
             each sampling event. If the population is smaller than the drawn sample size,
             the entire population is selected.
-             Use the distribution classes
-            from [emodpy_malaria.utils.distributions](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/):
-
-            * [ConstantDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [UniformDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [GaussianDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [ExponentialDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [PoissonDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [LogNormalDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [WeibullDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [DualConstantDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [DualExponentialDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+            Use any distribution class from
+            [Distributions](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/):
+            ``ConstantDistribution``, ``UniformDistribution``, ``GaussianDistribution``,
+            ``ExponentialDistribution``, ``PoissonDistribution``, ``LogNormalDistribution``,
+            ``WeibullDistribution``, ``DualConstantDistribution``, or
+            ``DualExponentialDistribution``.
 
         count_type (Union[VectorCountType, str], required):
             The attribute to count in the sampled mosquitoes. Use the
@@ -261,5 +255,30 @@ class VectorSurveillanceEventCoordinator(BaseEventCoordinator):
             self._coordinator.Coordinator_Name = coordinator_name
 
         campaign.implicits.append(
-            partial(_validate_vector_sampling_type,
+            partial(validate_vector_sampling_type,
                     intervention_name="VectorSurveillanceEventCoordinator"))
+
+
+__all_exports = [
+    StandardEventCoordinator,
+    NodeIdAndCoverage,
+    BroadcastCoordinatorEvent,
+    CommunityHealthWorkerEventCoordinator,
+    Action,
+    Responder,
+    IncidenceCounter,
+    IncidenceEventCoordinator,
+    IncidenceCounterSurveillance,
+    ResponderSurveillance,
+    SurveillanceEventCoordinator,
+    CoverageByNodeEventCoordinator,
+    TargetDemographicsConfig,
+    PropertyRestrictions,
+    VectorCounter,
+    VectorSurveillanceEventCoordinator,
+]
+
+for _ in __all_exports:
+    _.__module__ = __name__
+
+__all__ = [_.__name__ for _ in __all_exports]

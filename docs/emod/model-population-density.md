@@ -51,9 +51,9 @@ $$\text{Force per infected} = \left\{
     \end{array}
 \right.$$
 
-Here, $\rho$ is the population density and $\rho_{50}$ is an input parameter the governs the
+Here, $\rho$ is the population density and $\rho_{50}$ is an input parameter that governs the
 transition from density to frequency dependence. The population density is computed as $\rho =\frac{N}{A}$
-where $A$ is is the area of the node. This node area is in turn computed from the
+where $A$ is the area of the node. This node area is in turn computed from the
 longitude and latitude of the node center point (from the demographics file) and the node size. It
 is assumed that all nodes have equal size in terms of the degrees of latitude and longitude, as
 determined by configuration parameter **Node_Grid_Size**. Denoting this node grid size by $w$,

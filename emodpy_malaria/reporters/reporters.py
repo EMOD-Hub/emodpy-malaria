@@ -319,7 +319,7 @@ class MalariaPatientJSONReport(BuiltInReporter):
     ``infected_mosquito_fraction``, ``temps`` (body temperature in Celsius, -1 if no fever), ``treatment`` (drug names
     separated by 'space+space'), ``true_asexual_parasites``, and ``true_gametocytes``.
 
-    This reporter has no custom parameters beyond filtering.
+    This reporter has no additional parameters beyond filtering.
 
     See output details in [Malaria Patient Report](https://emod.idmod.org/emodpy-malaria/emod/software-report-malaria-patient/).
 
@@ -625,9 +625,9 @@ class ReportVectorGenetics(BuiltInReporter):
     Args:
         reporters_object (Reporters): The reporters object given by emodpy.
 
-        species (str, optional): The vector species to report on; the name must exist in ``Vector_Species_Params`` in
-            the config.json file. The name will be added to the report filename. If not specified, the first species
-            found will be used.
+        species (str, optional): The vector species to report on; the name must match a species added via
+            ``malaria_config.add_species()`` in the config builder. The name will be added to the report filename.
+            If not specified, the first species found will be used.
 
             Default: None
 
@@ -1254,7 +1254,8 @@ class ReportAntibodies(BuiltInReporter):
     Stratification columns include Time, NodeID, IndividualID, Gender, AgeYears, Infected, PyrogenicThreshold, and
     FeverKillingRate. Data columns include MSP variants (MSP_0 through MSP_n) and PfEMP1 variants (PfEMP1_0 through
     PfEMP1_m), where the number of variants is determined by the **Falciparum_MSP_Variants** and
-    **Falciparum_PfEMP1_Variants** configuration parameters. For example, with the default
+    **Falciparum_PfEMP1_Variants** parameters set via ``malaria_config.set_team_defaults()``
+    or ``malaria_config.set_parasite_genetics_params()``. For example, with the default
     ``Falciparum_PfEMP1_Variants`` of 1070, the report will contain over 1000 PfEMP1 columns alone, producing very
     wide CSV output. The report only records individuals who have been at least exposed to antigens; antibodies that
     have not been triggered appear as empty fields.
@@ -2151,21 +2152,34 @@ __all_exports = [ReportNodeDemographics,
                  DemographicsReport,
                  PropertyReport,
                  ReportInfectionDuration,
+                 ReportDrugStatus,
                  SpatialReportChannels,
-                 targeting_config]
-
-# The following loop sets the __module__ attribute of each class in __all_exports to the name of the current module.
-# This is done to ensure that when these classes are imported from this module, their __module__ attribute correctly
-# reflects their source module.
+                 MalariaSummaryReport,
+                 MalariaPatientJSONReport,
+                 ReportMalariaFiltered,
+                 ReportMalariaFilteredIntraHost,
+                 MalariaImmunityReport,
+                 ReportVectorGenetics,
+                 ReportVectorGeneticsMalariaGenetics,
+                 ReportVectorStats,
+                 ReportVectorStatsMalariaGenetics,
+                 ReportVectorMigration,
+                 VectorHabitatReport,
+                 ReportMicrosporidia,
+                 ReportInfectionStatsMalaria,
+                 ReportAntibodies,
+                 ReportFpgOutput,
+                 ReportFpgNewInfections,
+                 SpatialReportMalariaFiltered,
+                 ReportInterventionPopAvg,
+                 MalariaSurveyAnalyzer,
+                 ReportSimpleMalariaTransmission,
+                 SqlReportMalaria,
+                 SqlReportMalariaGenetics,
+                 ReportNodeDemographicsMalaria,
+                 ReportNodeDemographicsMalariaGenetics]
 
 for _ in __all_exports:
     _.__module__ = __name__
 
-# __all__: A list that defines the public interface of this module.
-# This is essential to ensure that Sphinx builds documentation for these classes, including those that are imported
-# from emodpy.
-# It contains the names of all the classes that should be accessible when this module is imported using the syntax
-# 'from module import *'.
-# Here, it is set to the names of all classes in __all_exports.
-
-__all__ = [_.__name__ for _ in __all_exports]
+__all__ = [_.__name__ for _ in __all_exports] + ['targeting_config']

@@ -26,46 +26,54 @@ task = EMODTask.from_defaults(
 intervention is instantiated as an object and distributed via `add_intervention_triggered()`
 or `add_intervention_scheduled()`:
 
-```python
-def build_campaign():
+```python title="tutorial_3_interventions.py, lines 94–147"
+def build_campaign(campaign):
     campaign.set_schema(manifest.schema_path)
 
-    if use_treatment_seeking:
+    if deploy_treatment:
         clinical_drug = AntimalarialDrug(campaign, drug_type="Artemether")
-        clinical_diag = MalariaDiagnostic(
-            campaign,
-            diagnostic_type=DiagnosticType.FEVER,
-            positive_diagnosis=clinical_drug
-        )
         add_intervention_triggered(
             campaign,
-            intervention_list=[clinical_diag],
+            intervention_list=[clinical_drug],
             triggers_list=["NewClinicalCase"],
-            start_day=365
+            start_day=60,
+            target_demographics_config=TargetDemographicsConfig(demographic_coverage=0.7)
         )
 
-    if use_itn:
+        severe_drug = [AntimalarialDrug(campaign, drug_type="Chloroquine"),
+                       AntimalarialDrug(campaign, drug_type="Lumefantrine")]
+        add_intervention_triggered(
+            campaign,
+            intervention_list=severe_drug,
+            triggers_list=["NewSevereCase"],
+            start_day=40,
+            target_demographics_config=TargetDemographicsConfig(demographic_coverage=0.9,
+                                                                target_age_max=40)
+        )
+
+    if deploy_itn:
         bednet = SimpleBednet(
             campaign,
-            repelling_config=Exponential(initial_effect=0.6, decay_rate=1.0/730),
-            blocking_config=Exponential(initial_effect=0.9, decay_rate=1.0/730),
-            killing_config=Exponential(initial_effect=0.1, decay_rate=1.0/1460)
+            repelling_config=Exponential(initial_effect=0.3, decay_time_constant=400),
+            blocking_config=Exponential(initial_effect=0.9, decay_time_constant=200),
+            killing_config=Exponential(initial_effect=0.1, decay_time_constant=300),
         )
         add_intervention_scheduled(
             campaign,
             intervention_list=[bednet],
-            start_day=365,
+            start_day=5,
+            repetition_config=RepetitionConfig(infinite_repetitions=True,
+                                               timesteps_between_repetitions=361),
             target_demographics_config=TargetDemographicsConfig(demographic_coverage=0.5)
         )
 
     return campaign
 ```
 
-**Treatment seeking** uses `MalariaDiagnostic` to detect clinical cases and `AntimalarialDrug`
-as the positive diagnosis action. The diagnostic and drug are wrapped together — when the
-diagnostic fires on a `NewClinicalCase` event, it distributes the drug to positive cases.
-Both interventions start on day 365, giving the population one year to reach a baseline before
-any control begins.
+**Treatment seeking** distributes `AntimalarialDrug` directly in response to clinical events.
+The `NewClinicalCase` trigger fires when a person develops clinical malaria symptoms — the
+drug is given to 70% of cases. A second trigger handles `NewSevereCase` with a two-drug
+combination at 90% coverage for people 40 years and younger.
 
 **ITN distribution** uses `SimpleBednet` with waning effect configurations for repelling,
 blocking, and killing. `Exponential` waning effects decay over time — the `decay_rate`
@@ -76,14 +84,14 @@ controls how quickly effectiveness drops. `TargetDemographicsConfig` sets the co
 Two boolean flags at the top of the script control which interventions are active:
 
 ```python
-use_treatment_seeking = True
-use_itn = True
+deploy_treatment = True
+deploy_itn = True
 ```
 
 Toggle these and re-run to compare each intervention separately against the no-intervention
 baseline. Each combination writes to its own output directory:
 
-| `use_treatment_seeking` | `use_itn` | Output directory |
+| `deploy_treatment` | `deploy_itn` | Output directory |
 |---|---|---|
 | True | True | `tutorial_3_results` |
 | True | False | `tutorial_3_results_ts` |
@@ -117,19 +125,19 @@ isolation.
 
 ## Example output
 
-**Both interventions** (`use_treatment_seeking = True`, `use_itn = True`)
+**Both interventions** (`deploy_treatment = True`, `deploy_itn = True`)
 
 ![Tutorial 3 - both interventions](images/tutorial-3/Tutorial_3_-_InsetChart.png)
 
-**Treatment seeking only** (`use_treatment_seeking = True`, `use_itn = False`)
+**Treatment seeking only** (`deploy_treatment = True`, `deploy_itn = False`)
 
 ![Tutorial 3 - treatment seeking only](images/tutorial-3/Tutorial_3_ts_-_InsetChart.png)
 
-**ITN only** (`use_treatment_seeking = False`, `use_itn = True`)
+**ITN only** (`deploy_treatment = False`, `deploy_itn = True`)
 
 ![Tutorial 3 - ITN only](images/tutorial-3/Tutorial_3_itn_-_InsetChart.png)
 
-**No interventions** (`use_treatment_seeking = False`, `use_itn = False`)
+**No interventions** (`deploy_treatment = False`, `deploy_itn = False`)
 
 ![Tutorial 3 - no interventions](images/tutorial-3/Tutorial_3_none-_InsetChart.png)
 

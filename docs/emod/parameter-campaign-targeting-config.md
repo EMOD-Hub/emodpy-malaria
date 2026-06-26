@@ -17,84 +17,6 @@ but also on things such as whether or not they have a particular intervention or
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
-Below is a simple example where we want to distribute a vaccine to 20% of the people that do not
-already have the vaccine on the 100th day of the simulation.
-
-```json
-{
-    "class": "CampaignEvent",
-    "Start_Day": 100,
-    "Nodeset_Config": {
-        "class": "NodeSetAll"
-    },
-    "Event_Coordinator_Config": {
-        "class": "StandardInterventionDistributionEventCoordinator",
-        "Target_Demographic": "Everyone",
-        "Demographic_Coverage": 0.2,
-        "Targeting_Config": {
-            "class": "HasIntervention",
-            "Is_Equal_To": 0,
-            "Intervention_Name": "MyVaccine"
-        },
-        "Intervention_Config": {
-            "class": "SimpleVaccine",
-            "Intervention_Name": "MyVaccine",
-            "Cost_To_Consumer": 1,
-            "Vaccine_Take": 1,
-            "Vaccine_Type": "AcquisitionBlocking",
-            "Waning_Config": {
-                "class": "WaningEffectConstant",
-                "Initial_Effect": 1.0
-            }
-        }
-    }
-}
-```
-
-Below is a slightly more complicated example where we want to distribute a diagnostic to people
-that are either high risk or have not been vaccinated.
-
-```json
-{
-    "class": "CampaignEvent",
-    "Start_Day": 100,
-    "Nodeset_Config": {
-        "class": "NodeSetAll"
-    },
-    "Event_Coordinator_Config": {
-        "class": "StandardInterventionDistributionEventCoordinator",
-        "Target_Demographic": "Everyone",
-        "Demographic_Coverage": 0.2,
-        "Targeting_Config": {
-            "class": "TargetingLogic",
-            "Logic": [
-                [
-                    {
-                        "class": "HasIntervention",
-                        "Is_Equal_To": 0,
-                        "Intervention_Name": "MyVaccine"
-                    }
-                ],
-                [
-                    {
-                        "class": "HasIP",
-                        "Is_Equal_To": 1,
-                        "IP_Key_Value": "Risk:HIGH"
-                    }
-                ]
-            ]
-        },
-        "Intervention_Config": {
-            "class": "SimpleDiagnostic",
-            "Treatment_Fraction": 1.0,
-            "Base_Sensitivity": 1.0,
-            "Base_Specificity": 1.0,
-            "Event_Or_Config": "Event",
-            "Positive_Diagnosis_Event": "TestedPositive"
-        }
-    }
-}
-```
 
 ## HasIntervention
 
@@ -155,10 +77,40 @@ Select the person if their **Risk** property is HIGH.
 }
 ```
 
+## IsPregnant
+
+
+This determines whether or not the individual is currently pregnant.
+
+!!! note
+    This class requires the configuration parameter **Birth_Rate_Dependence** to be set to
+    ``INDIVIDUAL_PREGNANCIES`` or ``INDIVIDUAL_PREGNANCIES_BY_AGE_AND_YEAR``.
+
+### Configuration
+
+
+| Parameter | Data type | Min | Max | Default | Description |
+| --- | --- | --- | --- | --- | --- |
+| **Is_Equal_To** | boolean | 0 | 1 | 1 | This is used to determine if the individual is selected based on the result of the value of the question. Set to 1 for true and 0 for false. |
+
+### Example
+
+
+Select the person if they are pregnant.
+
+```json
+{
+    "Targeting_Config": {
+        "class": "IsPregnant",
+        "Is_Equal_To": 1
+    }
+}
+```
+
 ## TargetingLogic
 
 
-In some cases, the you need to logically combine multiple restrictions.  In these situations,
+In some cases, you need to logically combine multiple restrictions.  In these situations,
 you should use the **TargetingLogic** class where you can "and" and "or" the different questions.
 
 NOTE: Each element is independent and is being asked of the individual in question.  For questions
@@ -178,7 +130,7 @@ satisfies a different one, but no partner has all of the qualifications.
 ### Example
 
 Select the person if they do not have the MyVaccine intervention OR do not have their **Risk** property set to HIGH.
-Notice that **Logic** 2x1 where the first dimention contains two arrays with one JSON object.  These two
+Notice that **Logic** 2x1 where the first dimension contains two arrays with one JSON object.  These two
 arrays are OR'd together.
 
 ```json
@@ -227,6 +179,85 @@ objects are AND'd together.
                 }
             ]
         ]
+    }
+}
+```
+
+Below is a simple example where we want to distribute a vaccine to 20% of the people that do not
+already have the vaccine on the 100th day of the simulation.
+
+```json
+{
+    "class": "CampaignEvent",
+    "Start_Day": 100,
+    "Nodeset_Config": {
+        "class": "NodeSetAll"
+    },
+    "Event_Coordinator_Config": {
+        "class": "StandardInterventionDistributionEventCoordinator",
+        "Target_Demographic": "Everyone",
+        "Demographic_Coverage": 0.2,
+        "Targeting_Config": {
+            "class": "HasIntervention",
+            "Is_Equal_To": 0,
+            "Intervention_Name": "MyVaccine"
+        },
+        "Intervention_Config": {
+            "class": "SimpleVaccine",
+            "Intervention_Name": "MyVaccine",
+            "Cost_To_Consumer": 1,
+            "Vaccine_Take": 1,
+            "Vaccine_Type": "AcquisitionBlocking",
+            "Waning_Config": {
+                "class": "WaningEffectConstant",
+                "Initial_Effect": 1.0
+            }
+        }
+    }
+}
+```
+
+Below is a more complicated example where we want to distribute a diagnostic to people
+that are either high risk or have not been vaccinated.
+
+```json
+{
+    "class": "CampaignEvent",
+    "Start_Day": 100,
+    "Nodeset_Config": {
+        "class": "NodeSetAll"
+    },
+    "Event_Coordinator_Config": {
+        "class": "StandardInterventionDistributionEventCoordinator",
+        "Target_Demographic": "Everyone",
+        "Demographic_Coverage": 0.2,
+        "Targeting_Config": {
+            "class": "TargetingLogic",
+            "Logic": [
+                [
+                    {
+                        "class": "HasIntervention",
+                        "Is_Equal_To": 0,
+                        "Intervention_Name": "MyVaccine"
+                    }
+                ],
+                [
+                    {
+                        "class": "HasIP",
+                        "Is_Equal_To": 1,
+                        "IP_Key_Value": "Risk:HIGH"
+                    }
+                ]
+            ]
+        },
+        "Intervention_Config": {
+            "class": "SimpleDiagnostic",
+            "Treatment_Fraction": 1.0,
+            "Base_Sensitivity": 1.0,
+            "Base_Specificity": 1.0,
+            "Event_Or_Config": "Event",
+            "Positive_Diagnosis_Event": "TestedPositive"
+        }
     }
 }
 ```

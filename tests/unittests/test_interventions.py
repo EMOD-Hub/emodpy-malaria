@@ -347,7 +347,7 @@ class TestIntervention(unittest.TestCase):
     # -------------------------------------------------------------------------
 
     def test_MultiInsecticideUsageDependentBednet_default(self):
-        ins = wc.InsecticideWaningEffect_RBK(
+        ins = wc.InsecticideWaningEffect(
             self.campaign,
             repelling_config=wc.Constant(constant_effect=0.3),
             blocking_config=wc.Constant(constant_effect=0.5),
@@ -366,13 +366,13 @@ class TestIntervention(unittest.TestCase):
         CIP.dont_allow_duplicates = None
         CIP.intervention_name = None
         CIP.new_property_value = None
-        ins1 = wc.InsecticideWaningEffect_RBK(
+        ins1 = wc.InsecticideWaningEffect(
             self.campaign,
             repelling_config=wc.Constant(constant_effect=0.3),
             blocking_config=wc.Constant(constant_effect=0.5),
             killing_config=wc.Constant(constant_effect=0.7),
             insecticide_name="Pyrethroid")
-        ins2 = wc.InsecticideWaningEffect_RBK(
+        ins2 = wc.InsecticideWaningEffect(
             self.campaign,
             repelling_config=wc.Constant(constant_effect=0.2),
             blocking_config=wc.Constant(constant_effect=0.4),
@@ -402,7 +402,7 @@ class TestIntervention(unittest.TestCase):
                 self.campaign,
                 insecticides=["not_an_insecticide"],
                 expiration_period_distribution=ConstantDistribution(730))
-        self.assertIn("InsecticideWaningEffect_RBK", str(context.exception))
+        self.assertIn("InsecticideWaningEffect", str(context.exception))
 
     # -------------------------------------------------------------------------
     # IRSHousingModification
@@ -435,7 +435,7 @@ class TestIntervention(unittest.TestCase):
     # -------------------------------------------------------------------------
 
     def test_MultiInsecticideIRSHousingModification_default(self):
-        ins = wc.InsecticideWaningEffect_RK(
+        ins = wc.InsecticideWaningEffect(
             self.campaign,
             repelling_config=wc.Constant(constant_effect=0.3),
             killing_config=wc.Constant(constant_effect=0.7),
@@ -445,12 +445,12 @@ class TestIntervention(unittest.TestCase):
         self.assertEqual(len(irs._intervention.Insecticides), 1)
 
     def test_MultiInsecticideIRSHousingModification(self):
-        ins1 = wc.InsecticideWaningEffect_RK(
+        ins1 = wc.InsecticideWaningEffect(
             self.campaign,
             repelling_config=wc.Constant(constant_effect=0.3),
             killing_config=wc.Constant(constant_effect=0.7),
             insecticide_name="Pyrethroid")
-        ins2 = wc.InsecticideWaningEffect_RK(
+        ins2 = wc.InsecticideWaningEffect(
             self.campaign,
             repelling_config=wc.Constant(constant_effect=0.2),
             killing_config=wc.Constant(constant_effect=0.6),
@@ -466,7 +466,7 @@ class TestIntervention(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             MultiInsecticideIRSHousingModification(
                 self.campaign, insecticides=["not_an_insecticide"])
-        self.assertIn("InsecticideWaningEffect_RK", str(context.exception))
+        self.assertIn("InsecticideWaningEffect", str(context.exception))
 
     # -------------------------------------------------------------------------
     # ScreeningHousingModification

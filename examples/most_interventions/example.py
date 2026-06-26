@@ -177,7 +177,7 @@ def build_campaign(campaign):
     # -----------------------------------------------------------------------
     # 8. MultiInsecticideUsageDependentBednet
     # -----------------------------------------------------------------------
-    rbk1 = waning.InsecticideWaningEffect_RBK(
+    rbk1 = waning.InsecticideWaningEffect(
         campaign,
         repelling_config=waning.Constant(0.3),
         blocking_config=waning.Constant(0.8),
@@ -223,7 +223,7 @@ def build_campaign(campaign):
     # # -----------------------------------------------------------------------
     # # 10. MultiInsecticideIRSHousingModification
     # # -----------------------------------------------------------------------
-    # rk1 = waning.InsecticideWaningEffect_RK(
+    # rk1 = waning.InsecticideWaningEffect(
     #     campaign,
     #     repelling_config=waning.Constant(0.2),
     #     killing_config=waning.Exponential(initial_effect=0.6, decay_time_constant=180),
@@ -582,7 +582,7 @@ def build_campaign(campaign):
     day += 5
 
     # 33. MultiInsecticideSpaceSpraying
-    ik1 = waning.InsecticideWaningEffect_K(
+    ik1 = waning.InsecticideWaningEffect(
         campaign,
         killing_config=waning.Exponential(initial_effect=0.5, decay_time_constant=90),
         insecticide_name="pyrethroid",
@@ -598,7 +598,7 @@ def build_campaign(campaign):
     day += 5
 
     # 34. MultiInsecticideIndoorSpaceSpraying
-    ik2 = waning.InsecticideWaningEffect_K(
+    ik2 = waning.InsecticideWaningEffect(
         campaign,
         killing_config=waning.Exponential(initial_effect=0.6, decay_time_constant=120),
         insecticide_name="pyrethroid",
@@ -817,7 +817,7 @@ def build_config(config):
 def build_demographics():
     from emodpy_malaria.demographics.malaria_demographics import MalariaDemographics
     from emodpy_malaria.utils.distributions import UniformDistribution, ExponentialDistribution
-    from emodpy_malaria.utils.emod_enum import InnateImmuneVariationType
+    from emodpy_malaria.utils.emod_enum import InnateImmuneVariationType, BirthRateDependence
 
     # from_template_node — single-node factory
     demographics = MalariaDemographics.from_template_node(pop=1000)
@@ -831,10 +831,10 @@ def build_demographics():
         property="NodeQuality", values=["Good", "Bad"], initial_distribution=[0.5, 0.5])
 
     # set_age_distribution
-    demographics.set_age_distribution(UniformDistribution(0, 50 * 365))
+    demographics.set_age_distribution(UniformDistribution(0, 50))
 
     # set_birth_rate — INDIVIDUAL_PREGNANCIES assigns pregnancies individually with 40-week gestation
-    demographics.set_birth_rate(rate=4, birth_rate_dependence="INDIVIDUAL_PREGNANCIES")
+    demographics.set_birth_rate(rate=4, birth_rate_dependence=BirthRateDependence.INDIVIDUAL_PREGNANCIES)
 
     # set_risk_distribution — malaria-specific heterogeneous biting
     demographics.set_risk_distribution(ExponentialDistribution(mean=1.0))

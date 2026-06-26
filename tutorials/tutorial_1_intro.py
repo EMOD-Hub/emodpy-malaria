@@ -35,11 +35,13 @@ sim_years = 3
 
 
 def sweep_run_number(simulation, value):
+    """Sets the random seed for a simulation."""
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
 
 
 def build_config(config):
+    """Configures simulation parameters with team defaults and three vector species."""
     import emodpy_malaria.malaria_config as malaria_config
 
     config = malaria_config.set_team_defaults(config, manifest)
@@ -60,13 +62,15 @@ def build_config(config):
 
 
 def build_demographics():
-    from emodpy_malaria.demographics.malaria_demographics import Demographics
+    """Creates a single-node population with birth rate and age distribution."""
+    from emodpy_malaria.demographics import MalariaDemographics as Demographics
     from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
 
     demog = Demographics.from_template_node(lat=-3.2, lon=37.9, pop=1000,
                                             name="Tutorial_Site")
-    demog.set_birth_rate(40)
-    demog.set_age_distribution(UniformDistribution(0, 60*365))
+    demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
+    demog.set_age_distribution(UniformDistribution(0, 60))
 
     # This will set the initial prevalence of infection in the population to be uniformly distributed between 0 and 20%
     # for every new simulation that is run.
@@ -74,16 +78,58 @@ def build_demographics():
     return demog
 
 
-def handle_results(experiment):
+def build_reports(reporters):
+    """Adds InsetChart reporter for basic simulation output."""
+    from emodpy_malaria.reporters.reporters import InsetChart
+    reporters.add(InsetChart(reporters))
+    return reporters
+
+
+def process_results(experiment, platform, output_path):
+    """Downloads InsetChart output from completed simulations."""
+    import os
+    import shutil
+    from idmtools.analysis.analyze_manager import AnalyzeManager
+    from idmtools.analysis.download_analyzer import DownloadAnalyzer
+
+    if os.path.exists(output_path):
+        shutil.rmtree(output_path)
+
+    filenames = ["output/InsetChart.json"]
+    analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
+
+    manager = AnalyzeManager(platform=platform, analyzers=analyzers)
+    manager.add_item(experiment)
+    manager.analyze()
+
+
+def plot_results(output_path):
+    """Plots InsetChart channels over time."""
+    from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
+    plot_inset_chart(dir_name=output_path,
+                     title="Tutorial 1 - InsetChart",
+                     output=output_path)
+
+
+def handle_results(experiment, platform):
+    """Checks experiment status, downloads results, and generates plots."""
     if experiment.succeeded:
         print(f"Experiment {experiment.id} succeeded.")
         with open("experiment_id", "w") as f:
             f.write(experiment.id)
+
+        output_path = "tutorial_1_results"
+        process_results(experiment, platform, output_path)
+        print(f"Downloaded results for experiment {experiment.id}.")
+
+        plot_results(output_path)
+        print(f"\nLook in '{output_path}' for the plots.")
     else:
         print(f"Experiment {experiment.id} failed.")
 
 
 def run_experiment():
+    """Sets up the platform, task, and experiment, then runs it."""
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
@@ -108,7 +154,7 @@ def run_experiment():
         config_builder=build_config,
         campaign_builder=None,
         demographics_builder=build_demographics,
-        report_builder=None
+        report_builder=build_reports
     )
 
 
@@ -123,7 +169,7 @@ def run_experiment():
     experiment = Experiment.from_builder(builder, task, name="tutorial_1_intro")
     experiment.run(wait_until_done=True, platform=platform)
 
-    handle_results(experiment)
+    handle_results(experiment, platform)
 
     print("\nTutorial 1 is done.")
 

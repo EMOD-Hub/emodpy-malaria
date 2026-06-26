@@ -139,7 +139,7 @@ def get_summary_data(metadata):
                     metadata.gender_data_type = GenderDataType.ONE_FOR_EACH_GENDER
                 else:
                     raise ValueError(f"With column headers and {metadata.num_columns} and not Allele_Combinations in "
-                                     f"headers, we expect 'RateMales' in third column and 'RateFemales' in forth "
+                                     f"headers, we expect 'RateMales' in third column and 'RateFemales' in fourth "
                                      f"column, but they are"
                                      f" {headers[2]} and {headers[3]}, please check and correct.")
             else:

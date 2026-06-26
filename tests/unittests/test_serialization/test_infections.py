@@ -67,6 +67,7 @@ def _make_vector_population():
     })
 
 
+@pytest.mark.unit
 class TestZeroHumanInfections:
     def test_zeros_all_humans(self):
         humans = [_make_human(1), _make_human(2), _make_human(3)]
@@ -99,6 +100,7 @@ class TestZeroHumanInfections:
             zero_human_infections([bad_human])
 
 
+@pytest.mark.unit
 class TestZeroVectorInfections:
     def test_reset_mode(self):
         vp_list = [_make_vector_population()]

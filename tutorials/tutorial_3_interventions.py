@@ -3,7 +3,7 @@
 
 This tutorial adds two interventions that represent a standard malaria control
 package:
-  - Treatment seeking   case management: people seek and receive antimalarial
+  - Treatment           case management: people seek and receive antimalarial
                         treatment when they develop clinical symptoms
   - ITN distribution    insecticide-treated nets distributed annually to half
                         the population
@@ -12,15 +12,15 @@ Adding interventions requires a build_campaign(campaign) function that construct
 campaign file. EMODTask accepts this via campaign_builder= (previously None).
 
 The new class-based API uses:
-  - MalariaDiagnostic + AntimalarialDrug for treatment seeking, distributed
-    via add_intervention_triggered() on "NewClinicalCase" / "NewSevereCase"
+  - AntimalarialDrug for treatment, distributed via
+    add_intervention_triggered() on "NewClinicalCase" / "NewSevereCase"
   - SimpleBednet for ITNs, distributed via add_intervention_scheduled()
 
 New in this tutorial (diff from tutorial_2_reports.py):
-  - build_campaign(campaign)   builds the campaign with treatment seeking and ITN
+  - build_campaign(campaign)   builds the campaign with treatment and ITN
   - campaign_builder           changed from None to build_campaign
 
-Toggle use_treatment_seeking and use_itn at the top of this file to run with
+Toggle deploy_treatment and deploy_itn at the top of this file to run with
 each intervention separately, then with both together.
 
 === INSTRUCTIONS ===
@@ -42,26 +42,29 @@ from emodpy_malaria.reporters.reporters import InsetChart
 
 sim_years = 3
 
-use_treatment_seeking = True
-use_itn = True
+deploy_treatment = True
+deploy_itn = True
 
 
 def get_run_suffix():
-    if use_treatment_seeking and use_itn:
+    """Returns a suffix string based on which interventions are enabled."""
+    if deploy_treatment and deploy_itn:
         return "_both"
-    if use_treatment_seeking:
+    if deploy_treatment:
         return "_ts"
-    if use_itn:
+    if deploy_itn:
         return "_itn"
     return "_no_interventions"
 
 
 def sweep_run_number(simulation, value):
+    """Sets the random seed for a simulation."""
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
 
 
 def build_config(config):
+    """Configures simulation parameters with team defaults and three vector species."""
     import emodpy_malaria.malaria_config as malaria_config
 
     config = malaria_config.set_team_defaults(config, manifest)
@@ -75,18 +78,21 @@ def build_config(config):
 
 
 def build_demographics():
-    from emodpy_malaria.demographics.malaria_demographics import Demographics
+    """Creates a single-node population with birth rate and age distribution."""
+    from emodpy_malaria.demographics import MalariaDemographics as Demographics
     from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
 
     demog = Demographics.from_template_node(lat=-3.2, lon=37.9, pop=1000,
                                             name="Tutorial_Site")
-    demog.set_birth_rate(40)
-    demog.set_age_distribution(UniformDistribution(0, 60*365))
+    demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
+    demog.set_age_distribution(UniformDistribution(0, 60))
     demog.set_prevalence_distribution(UniformDistribution(0, 0.2))
     return demog
 
 
 def build_campaign(campaign):
+    """Adds treatment (clinical and severe) and ITN interventions."""
     from emodpy_malaria.campaign.individual_intervention import (
         AntimalarialDrug, SimpleBednet
     )
@@ -97,7 +103,7 @@ def build_campaign(campaign):
 
     campaign.set_schema(manifest.schema_path)
 
-    if use_treatment_seeking:
+    if deploy_treatment:
         # Clinical case management: treat with artemether
         # NewClinicalCase at 70% coverage
         clinical_drug = AntimalarialDrug(campaign, drug_type="Artemether")
@@ -120,7 +126,7 @@ def build_campaign(campaign):
             target_demographics_config=TargetDemographicsConfig(demographic_coverage=0.9, target_age_max=40)
         )
 
-    if use_itn:
+    if deploy_itn:
         # ITN distribution: 50% coverage, single distribution on day 365.
 
         bednet = SimpleBednet(
@@ -142,7 +148,9 @@ def build_campaign(campaign):
 
 
 def build_reports(reporters):
-    from emodpy_malaria.reporters.reporters import MalariaSummaryReport, DemographicsReport
+    """Adds MalariaSummaryReport, InsetChart, DemographicsReport, and ReportVectorStats."""
+    from emodpy_malaria.reporters.reporters import (MalariaSummaryReport, DemographicsReport,
+                                                     ReportVectorStats)
     from emodpy.reporters.base import ReportFilter
 
     reporters.add(MalariaSummaryReport(
@@ -154,11 +162,13 @@ def build_reports(reporters):
     ))
     reporters.add(InsetChart(reporters))
     reporters.add(DemographicsReport(reporters))
+    reporters.add(ReportVectorStats(reporters, stratify_by_species=True))
 
     return reporters
 
 
 def process_results(experiment, platform, output_path):
+    """Downloads report output files from completed simulations."""
     import shutil
     from idmtools.analysis.analyze_manager import AnalyzeManager
     from idmtools.analysis.download_analyzer import DownloadAnalyzer
@@ -169,7 +179,8 @@ def process_results(experiment, platform, output_path):
     filenames = [
         "output/InsetChart.json",
         "output/DemographicsSummary.json",
-        "output/MalariaSummaryReport_monthly.json"
+        "output/MalariaSummaryReport_monthly.json",
+        "output/ReportVectorStats.csv"
     ]
     analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
 
@@ -179,6 +190,7 @@ def process_results(experiment, platform, output_path):
 
 
 def plot_results(output_path):
+    """Plots InsetChart and DemographicsSummary, using tutorial 2 as reference."""
     from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
     from emodpy_malaria.plotting.helpers import get_filenames
 
@@ -206,6 +218,7 @@ def plot_results(output_path):
 
 
 def handle_results(experiment, platform, suffix):
+    """Checks experiment status, downloads results, and generates plots."""
     if experiment.succeeded:
         print(f"Experiment {experiment.id} succeeded.")
         with open("experiment_id", "w") as f:
@@ -223,6 +236,7 @@ def handle_results(experiment, platform, suffix):
 
 
 def run_experiment():
+    """Sets up the platform, task, and experiment, then runs it."""
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================

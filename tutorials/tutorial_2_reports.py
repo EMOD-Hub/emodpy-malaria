@@ -10,6 +10,7 @@ This tutorial adds two more reports, downloads the results using DownloadAnalyze
 and then plots the output:
   - MalariaSummaryReport  age-stratified PfPR, clinical incidence, population
   - DemographicsSummary   population and vital dynamics over time
+  - ReportVectorStats     vector population life-cycle data by species
 
 New in this tutorial (diff from tutorial_1_intro.py):
   - build_reports()     adds MalariaSummaryReport and enables demographics reports
@@ -34,11 +35,13 @@ sim_years = 3
 
 
 def sweep_run_number(simulation, value):
+    """Sets the random seed for a simulation."""
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
 
 
 def build_config(config):
+    """Configures simulation parameters with team defaults and three vector species."""
     import emodpy_malaria.malaria_config as malaria_config
 
     config = malaria_config.set_team_defaults(config, manifest)
@@ -52,19 +55,23 @@ def build_config(config):
 
 
 def build_demographics():
-    from emodpy_malaria.demographics.malaria_demographics import Demographics
+    """Creates a single-node population with birth rate and age distribution."""
+    from emodpy_malaria.demographics import MalariaDemographics as Demographics
     from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
 
     demog = Demographics.from_template_node(lat=-3.2, lon=37.9, pop=1000,
                                             name="Tutorial_Site")
-    demog.set_birth_rate(40)
-    demog.set_age_distribution(UniformDistribution(0, 60*365))
+    demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
+    demog.set_age_distribution(UniformDistribution(0, 60))
     demog.set_prevalence_distribution(UniformDistribution(0, 0.2))
     return demog
 
 
 def build_reports(reporters):
-    from emodpy_malaria.reporters.reporters import MalariaSummaryReport, DemographicsReport, InsetChart
+    """Adds MalariaSummaryReport, InsetChart, DemographicsReport, and ReportVectorStats."""
+    from emodpy_malaria.reporters.reporters import (MalariaSummaryReport, DemographicsReport,
+                                                     InsetChart, ReportVectorStats)
     from emodpy.reporters.base import ReportFilter
 
     reporters.add(MalariaSummaryReport(
@@ -77,11 +84,13 @@ def build_reports(reporters):
     ))
     reporters.add(InsetChart(reporters))
     reporters.add(DemographicsReport(reporters))
+    reporters.add(ReportVectorStats(reporters, stratify_by_species=True))
 
     return reporters
 
 
 def process_results(experiment, platform, output_path):
+    """Downloads report output files from completed simulations."""
     import shutil
     from idmtools.analysis.analyze_manager import AnalyzeManager
     from idmtools.analysis.download_analyzer import DownloadAnalyzer
@@ -92,7 +101,8 @@ def process_results(experiment, platform, output_path):
     filenames = [
         "output/InsetChart.json",
         "output/DemographicsSummary.json",
-        "output/MalariaSummaryReport_monthly.json"
+        "output/MalariaSummaryReport_monthly.json",
+        "output/ReportVectorStats.csv"
     ]
     analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
 
@@ -102,6 +112,7 @@ def process_results(experiment, platform, output_path):
 
 
 def plot_results(output_path):
+    """Plots InsetChart and DemographicsSummary from downloaded files."""
     from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
     from emodpy_malaria.plotting.helpers import get_filenames
 
@@ -119,6 +130,7 @@ def plot_results(output_path):
 
 
 def handle_results(experiment, platform):
+    """Checks experiment status, downloads results, and generates plots."""
     if experiment.succeeded:
         print(f"Experiment {experiment.id} succeeded.")
         with open("experiment_id", "w") as f:
@@ -136,6 +148,7 @@ def handle_results(experiment, platform):
 
 
 def run_experiment():
+    """Sets up the platform, task, and experiment, then runs it."""
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================

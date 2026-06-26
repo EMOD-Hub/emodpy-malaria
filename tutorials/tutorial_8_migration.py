@@ -1,22 +1,26 @@
 """
 === Tutorial 8 - Human and vector migration ===
 
-This tutorial adds spatial movement to a multi-node simulation:
-  - Human migration     gravity-model local migration with round trips,
-                        plus age- and gender-dependent regional migration
-  - Vector migration    genetics-based migration (different rates per allele
-                        combination, e.g. wild-type vs gene-drive mosquitoes)
+In a spatial EMOD simulation, infections can only move between nodes if
+infected people or mosquitoes physically move between them. A multi-node
+simulation with no migration is effectively multiple independent simulations
+that happen to run inside the same experiment. Migration connects the nodes.
+
+This tutorial adds:
+  - Human migration     gravity-model local migration with round trips
+  - Vector migration    uniform migration rates between three nodes
 
 The simulation has three nodes at different coordinates and population sizes.
-Human migration rates are computed from a gravity model (local) and from
-explicit rates with age/gender modifiers (regional). Vector migration rates
-are defined per allele combination so that vectors carrying the drive allele
-migrate faster than wild-type.
+Human migration rates are computed from a gravity model. Vector migration
+uses explicit rates applied uniformly to all vectors.
+
+For advanced migration features — age/gender-dependent rates, explicit human
+rates, and genetics-based vector migration — see the how-to page:
+  docs/emod/howto-migration-advanced.md
 
 New in this tutorial (diff from tutorial_3_interventions.py):
   - build_demographics()  creates 3 nodes, adds human and vector migration
-  - build_config()        adds gene alleles for the drive locus
-  - build_reports()       adds ReportVectorMigration with genome data
+  - build_config()        adds a single vector species (gambiae)
 
 === INSTRUCTIONS ===
 Select the correct platform in run_experiment() and update manifest.py if
@@ -36,23 +40,17 @@ sim_years = 5
 
 
 def sweep_run_number(simulation, value):
+    """Sets the random seed for a simulation."""
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
 
 
 def build_config(config):
+    """Configures simulation with gambiae species."""
     import emodpy_malaria.malaria_config as malaria_config
 
     config = malaria_config.set_team_defaults(config, manifest)
     malaria_config.add_species(config, manifest, ["gambiae"])
-
-    # Add a gene locus with wild-type (a0) and drive (a1) alleles.
-    # The drive allele starts at 5% frequency.
-    malaria_config.add_genes_and_alleles(
-        config, manifest,
-        species="gambiae",
-        alleles=[("a0", 0.95), ("a1", 0.05)]
-    )
 
     config.parameters.Run_Number = 0
     config.parameters.Simulation_Duration = sim_years * 365
@@ -62,9 +60,11 @@ def build_config(config):
 
 
 def build_demographics():
+    """Creates three nodes with gravity-model human migration and basic vector migration."""
     from emod_api.demographics.node import Node
     from emodpy_malaria.demographics.malaria_demographics import MalariaDemographics
-    from emodpy_malaria.utils.distributions import ExponentialDistribution
+    from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
     from emodpy_malaria.migration import MigrationData, MigrationType, VectorMigrationData
 
     # --- Three nodes at different locations and population sizes ---
@@ -75,8 +75,8 @@ def build_demographics():
     ]
     demog = MalariaDemographics(nodes=nodes, idref="tutorial_8")
 
-    demog.set_birth_rate(40)
-    demog.set_age_distribution(ExponentialDistribution(7300))
+    demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
+    demog.set_age_distribution(UniformDistribution(0, 60))
 
     # ---------------------------------------------------------------
     # Human migration — gravity model with round trips
@@ -95,88 +95,33 @@ def build_demographics():
     )
 
     # ---------------------------------------------------------------
-    # Human migration — age- and gender-dependent (regional)
+    # Vector migration — uniform rates between all node pairs
     # ---------------------------------------------------------------
-    # Method 1: apply_modifier — start from gravity rates, then scale
-    # by age and gender via a callback function.
-    regional_base = MigrationData.from_gravity_model(demog, [2e-06, 0.4, 0.5, -0.8])
-
-    def age_gender_modifier(base_rate, age, gender):
-        MALE = 0
-        if age < 15:
-            return base_rate * 0.2
-        elif age < 65:
-            if gender == MALE:
-                return base_rate * 1.5
-            return base_rate
-        else:
-            return base_rate * 0.3
-
-    regional_mig = regional_base.apply_modifier(
-        ages=[0, 15, 65],
-        modifier_fn=age_gender_modifier
-    )
-
-    demog.add_migration(
-        data=regional_mig,
-        migration_type=MigrationType.REGIONAL,
-        user_notes="Tutorial 8: age/gender regional migration"
-    )
-
-    # ---------------------------------------------------------------
-    # Vector migration by allele combination
-    # ---------------------------------------------------------------
-    # Three rate layers:
-    #   () = default (wild-type): low dispersal
-    #   (("a1", "X"),) = one copy of drive allele: moderate dispersal
-    #   (("a1", "a0"),) = heterozygous drive: high dispersal
-    #
-    # EMOD matches the most specific combo first. The empty tuple ()
-    # is required as the fallback for any unmatched genotype.
-    allele_rates = {
-        # Wild-type / default fallback
-        (): {
-            (1, 2): 0.01, (2, 1): 0.01,
-            (1, 3): 0.005, (3, 1): 0.005,
-            (2, 3): 0.008, (3, 2): 0.008,
-        },
-        # One copy of a1 (drive heterozygote)
-        (("a1", "X"),): {
-            (1, 2): 0.05, (2, 1): 0.05,
-            (1, 3): 0.02, (3, 1): 0.02,
-            (2, 3): 0.03, (3, 2): 0.03,
-        },
-        # Homozygous drive (a1/a0 at this locus)
-        (("a1", "a0"),): {
-            (1, 2): 0.10, (2, 1): 0.10,
-            (1, 3): 0.05, (3, 1): 0.05,
-            (2, 3): 0.08, (3, 2): 0.08,
-        },
+    vector_rates = {
+        (1, 2): 0.01, (2, 1): 0.01,
+        (1, 3): 0.005, (3, 1): 0.005,
+        (2, 3): 0.008, (3, 2): 0.008,
     }
-
-    vector_mig = VectorMigrationData.from_genetics(allele_rates, idref="tutorial_8")
+    vector_mig = VectorMigrationData.from_rates(rates=vector_rates)
 
     demog.add_vector_migration(
         data=vector_mig,
         species="gambiae",
         x_vector_migration=1.0,
-        vector_migration_habitat_modifier=3.0,
-        vector_migration_food_modifier=0.0,
-        vector_migration_stay_put_modifier=0.5,
-        user_notes="Tutorial 8: gene-drive allele-based vector migration"
+        user_notes="Tutorial 8: basic vector migration"
     )
 
     return demog
 
 
 def build_campaign(campaign):
+    """Adds basic treatment-seeking at 50% coverage."""
     from emodpy_malaria.campaign.individual_intervention import AntimalarialDrug
     from emodpy_malaria.campaign.distributor import add_intervention_triggered
     from emodpy.campaign.common import TargetDemographicsConfig
 
     campaign.set_schema(manifest.schema_path)
 
-    # Basic treatment-seeking care so infections resolve
     drug = AntimalarialDrug(campaign, drug_type="Artemether")
     add_intervention_triggered(
         campaign,
@@ -190,20 +135,11 @@ def build_campaign(campaign):
 
 
 def build_reports(reporters):
-    from emodpy_malaria.reporters.reporters import (
-        InsetChart, ReportVectorMigration, MalariaSummaryReport
-    )
+    """Adds InsetChart and MalariaSummaryReport."""
+    from emodpy_malaria.reporters.reporters import InsetChart, MalariaSummaryReport
     from emodpy.reporters.base import ReportFilter
 
     reporters.add(InsetChart(reporters))
-
-    # Vector migration report with genome data to see allele-specific movement
-    reporters.add(ReportVectorMigration(
-        reporters,
-        include_genome_data=True,
-        species_list=["gambiae"],
-        report_filter=ReportFilter(start_day=1, end_day=sim_years * 365)
-    ))
 
     reporters.add(MalariaSummaryReport(
         reporters,
@@ -218,6 +154,7 @@ def build_reports(reporters):
 
 
 def process_results(experiment, platform, output_path):
+    """Downloads report output files from completed simulations."""
     import shutil
     from idmtools.analysis.analyze_manager import AnalyzeManager
     from idmtools.analysis.download_analyzer import DownloadAnalyzer
@@ -228,7 +165,6 @@ def process_results(experiment, platform, output_path):
     filenames = [
         "output/InsetChart.json",
         "output/MalariaSummaryReport_monthly.json",
-        "output/ReportVectorMigration.csv",
     ]
     analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
 
@@ -238,6 +174,7 @@ def process_results(experiment, platform, output_path):
 
 
 def plot_results(output_path):
+    """Plots InsetChart channels over time."""
     from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
 
     plot_inset_chart(dir_name=output_path,
@@ -246,6 +183,7 @@ def plot_results(output_path):
 
 
 def handle_results(experiment, platform):
+    """Checks experiment status, downloads results, and generates plots."""
     if experiment.succeeded:
         print(f"Experiment {experiment.id} succeeded.")
         with open("experiment_id", "w") as f:
@@ -257,12 +195,12 @@ def handle_results(experiment, platform):
 
         plot_results(output_path)
         print(f"\nLook in '{output_path}' for the plots.")
-        print("ReportVectorMigration.csv shows per-timestep vector movement with genome data.")
     else:
         print(f"Experiment {experiment.id} failed.")
 
 
 def run_experiment():
+    """Sets up the platform, task, and experiment, then runs it."""
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================

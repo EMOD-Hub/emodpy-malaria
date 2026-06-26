@@ -356,6 +356,25 @@ Gene drivers are defined in the `Drivers` array within each species entry in
 `Vector_Species_Params`. The following table lists all parameters. Parameters marked as applying
 to specific driver types are ignored for other types.
 
+!!! note
+    Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.
+    Minimum, maximum, or default values of "NA" indicate that those values are not applicable for
+    that parameter.
+
+    EMOD does not use true defaults; that is, if the dependency relationships indicate that a parameter is required, you must supply a value for it. However, many of the tools used to work with EMOD will use the default values provided below.
+
+    JSON format does not permit comments, but you can add "dummy" parameters to add contextual
+    information to your files. Any keys that are not EMOD parameter names will be ignored by the
+    model.
+
+| Column | Description |
+|--------|-------------|
+| **Parameter** | The JSON parameter name (case-sensitive). |
+| **Type** | Data type: string, float, array of json objects, or json object. |
+| **Min** / **Max** | Allowed range for numeric parameters. "NA" if not applicable. |
+| **Default** | Value used when the parameter is not specified. "NA" if no default exists. |
+| **Description** | What the parameter controls and which drive types it applies to. |
+
 {{ read_csv("csv/config-gene-drives.csv", keep_default_na=False) }}
 
 ## Maternal deposition
@@ -463,6 +482,7 @@ Cas9 sources. Each entry is evaluated independently.
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 {{ read_csv("csv/config-maternal-deposition-malaria.csv", keep_default_na=False) }}
 
 The following example shows a complete configuration including the gene, driver, and maternal

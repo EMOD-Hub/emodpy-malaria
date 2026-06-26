@@ -1,7 +1,7 @@
 # Adding heterogeneity
 
 
-One of the benefits of an agent-based model like EMOD over compartmental models is that the the
+One of the benefits of an agent-based model like EMOD over compartmental models is that the
 model can be configured to capture heterogeneity in population demographics, migration patterns,
 disease transmissibility, climate, interventions, and more. This heterogeneity can affect the
 overall course of the disease outbreak and campaign interventions aimed at controlling it.

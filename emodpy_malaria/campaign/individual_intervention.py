@@ -19,8 +19,9 @@ from emodpy.campaign.individual_intervention import FemaleContraceptive as Femal
 from emodpy.utils import validate_value_range
 from emodpy.campaign.utils import set_event
 from emodpy_malaria.campaign.common import CommonInterventionParameters
-from emodpy_malaria.campaign.waning_config import AbstractWaningConfig, Constant, InsecticideWaningEffect_RBK, InsecticideWaningEffect_RK
+from emodpy_malaria.campaign.waning_config import AbstractWaningConfig, Constant, InsecticideWaningEffect
 from emodpy_malaria.utils.emod_enum import NonAdherenceOption, DiagnosticType, NucleotideSequenceOrigin, EventOrConfig
+from emodpy_malaria.utils.config_utils import validate_insecticide_name, validate_malaria_model
 from emod_api import campaign as api_campaign
 from emodpy_malaria.utils.distributions import BaseDistribution
 
@@ -28,15 +29,6 @@ from typing import Union
 from functools import partial
 
 
-def _validate_malaria_model(config, intervention_name):
-    mm = config.parameters.Malaria_Model
-    if mm != "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS":
-        raise ValueError(
-            f"Config parameter 'Malaria_Model' is set to '{mm}' but "
-            f"{intervention_name} requires "
-            f"'MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS'. "
-            f"Use malaria_config.set_parasite_genetics_defaults() to configure it.")
-    return config
 
 
 class AntimalarialDrug(IndividualIntervention):
@@ -101,7 +93,7 @@ class AdherentDrug(IndividualIntervention):
         adherence_config (AbstractWaningConfig, required):
             Configuration for the probability of taking a dose. Use a waning effect class
             to specify how this probability changes over time.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
             Example -- 80% adherence that stays constant throughout the regimen::
 
@@ -232,8 +224,8 @@ class AdherentDrug(IndividualIntervention):
         super().__init__(campaign, 'AdherentDrug', common_intervention_parameters)
 
         if len(doses) * dose_interval > max_dose_consideration_duration:
-            raise ValueError("'max_dose_consideration_duration. is shorter than the total duration of the dosing regimen "
-                             "defined by 'doses' and 'dose_interval' parameters. This means not all doses will be taken"
+            raise ValueError("'max_dose_consideration_duration' is shorter than the total duration of the dosing regimen "
+                             "defined by 'doses' and 'dose_interval' parameters. This means not all doses will be taken "
                              "even if taken successfully every time. Please adjust these parameters so "
                              "that all doses can be considered within the 'max_dose_consideration_duration'.")
 
@@ -545,7 +537,7 @@ class SimpleBednet(IndividualIntervention):
     parameter -- the usage effect is multiplied by the repelling, blocking, and killing effects
     to determine the final efficacy of the net on any given day.
 
-    **SimpleBednet** can model the bednet usage of net owners by reducing the daily efficacy.
+    **SimpleBednet** can model the nightly bednet usage of net owners by reducing the daily efficacy.
     To model individuals using nets intermittently, see
     [UsageDependentBednet](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/). To include
     multiple insecticides, see
@@ -571,33 +563,34 @@ class SimpleBednet(IndividualIntervention):
             Waning effect configuration for the bednet's mosquito repelling effect. This is the first effect applied
             to meal-seeking mosquitoes that encounter the net. Repelled vectors survive and do not attempt to feed again
             until the following day and are not affected by the blocking or killing effects.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         blocking_config (AbstractWaningConfig, required):
             Waning effect configuration for the bednet's ability to block meal-seeking mosquito. The blocking_config
             probabilities are applied to the subset of meal-seeking mosquitoes that have not been repelled.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         killing_config (AbstractWaningConfig, required):
             Waning effect configuration for the bednet's insecticidal killing effect. For meal-seeking vector to be
             affected, it must be successfully blocked first, mimicking mosquito landing on the bednet,
             so killing_config probabilities are applied to the subset of mosquitoes that are blocked.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         usage_config (AbstractWaningConfig, optional):
-            Waning effect configuration for bednet usage over time. The usage effect is multiplied with the repelling,
-            blocking, and killing effects to determine the final efficacy of the net on any given day.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Waning effect configuration for nightly bednet usage over time. The usage effect is multiplied with the
+            repelling, blocking, and killing effects to determine the final efficacy of the net on any given night.
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
             Default value: Constant usage with initial effect of 1 (full usage)
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -625,6 +618,9 @@ class SimpleBednet(IndividualIntervention):
             self._intervention.Usage_Config = Constant(constant_effect=1).to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class UsageDependentBednet(IndividualIntervention):
@@ -632,20 +628,20 @@ class UsageDependentBednet(IndividualIntervention):
     The **UsageDependentBednet** intervention class is similar to
     [SimpleBednet](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/), as it distributes
     insecticide-treated nets to individuals in the simulation. However, bednet ownership and
-    bednet usage are distinct in this intervention. As in **SimpleBednet**, net ownership is
-    configured through the demographic coverage, and the repelling, blocking, and killing rates
-    of mosquitoes are time-dependent. Use of bednets is age-dependent and can vary seasonally.
-    Once a net has been distributed to someone, the net usage is determined by the product of
-    the seasonal and age-dependent usage probabilities until the net-retention counter runs out,
-    and the net is discarded.
+    nightly bednet usage are distinct in this intervention. As in **SimpleBednet**, net ownership
+    is configured through the demographic coverage, and the repelling, blocking, and killing
+    rates of mosquitoes are time-dependent. Nightly use of bednets is age-dependent and can
+    vary seasonally. Once a net has been distributed to someone, the nightly net usage is
+    determined by the product of the seasonal and age-dependent usage probabilities until the
+    net-retention counter runs out, and the net is discarded.
 
     While **SimpleBednet** usage is applied as a daily reduction in efficacy,
     **UsageDependentBednet** uses the usage efficacy to determine whether the person
-    used the net that day. For example, if we look at a bednet with 0% repelling, 100%
-    blocking, and 100% killing effects, and 50% usage effect, the person with the
+    slept under the net that night. For example, if we look at a bednet with 0% repelling,
+    100% blocking, and 100% killing effects, and 50% usage effect, the person with the
     **SimpleBednet** will have a net that has final efficacy of 50% blocking and 50% killing
-    each day and the person with the **UsageDependentBednet** will have half of their days
-    with a 100% blocking and 100% killing net and half of their days with no net usage.
+    each night and the person with the **UsageDependentBednet** will have half of their nights
+    with a 100% blocking and 100% killing net and half of their nights with no net usage.
 
     At a glance:
 
@@ -668,35 +664,36 @@ class UsageDependentBednet(IndividualIntervention):
             Waning effect configuration for the bednet's mosquito repelling effect. This is the first effect applied
             to meal-seeking mosquitoes that encounter the net. Repelled vectors survive and do not attempt to feed again
             until the following day and are not affected by the blocking or killing effects.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         blocking_config (AbstractWaningConfig, required):
             Waning effect configuration for the bednet's ability to block meal-seeking mosquito. The blocking_config
             probabilities are applied to the subset of meal-seeking mosquitoes that have not been repelled.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         killing_config (AbstractWaningConfig, required):
             Waning effect configuration for the bednet's insecticidal killing effect. For meal-seeking vector to be
             affected, it must be successfully blocked first, mimicking mosquito landing on the bednet,
             so killing_config probabilities are applied to the subset of mosquitoes that are blocked.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         usage_config_list (list[AbstractWaningConfig], optional):
-            A list of waning effect configurations that combine to determine whether a net owner uses the net
-            on a given day. Each waning effect in the list produces a value between 0 and 1, and the product
-            of all values is the probability that the person uses the net that day. This allows combining
-            independent usage factors such as age-dependent and seasonal usage patterns.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            A list of waning effect configurations that combine to determine whether a net owner sleeps
+            under the net on a given night. Each waning effect in the list produces a value between 0 and 1,
+            and the product of all values is the probability that the person uses the net that night. This
+            allows combining independent usage factors such as age-dependent and seasonal usage patterns.
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
             Default value: None
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         received_event (str, optional):
@@ -704,7 +701,7 @@ class UsageDependentBednet(IndividualIntervention):
             Default value: None
 
         using_event (str, optional):
-            An individual-level event to broadcast when a bednet is being used.
+            An individual-level event to broadcast when a bednet is being used that night.
             Default value: None
 
         discard_event (str, optional):
@@ -752,6 +749,9 @@ class UsageDependentBednet(IndividualIntervention):
             self._intervention.Usage_Config_List = [uc.to_schema_dict(campaign) for uc in usage_config_list]
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
         if received_event is not None:
             self._intervention.Received_Event = set_event(received_event, 'received_event', campaign, False)
         if using_event is not None:
@@ -773,12 +773,12 @@ class MultiInsecticideUsageDependentBednet(IndividualIntervention):
 
         Total efficacy = 1.0 - (1.0 - efficacy_1) * (1.0 - efficacy_2) * ... * (1.0 - efficacy_n)
 
-    As in **UsageDependentBednet**, bednet ownership and bednet usage are distinct. Net ownership
-    is configured through the demographic coverage, and the repelling, blocking, and killing rates
-    of mosquitoes are time-dependent. Use of bednets is age-dependent and can vary seasonally.
-    Once a net has been distributed to someone, the net usage is determined by the product of
-    the waning effects in the usage_config_list until the expiration timer runs out and the net
-    is discarded.
+    As in **UsageDependentBednet**, bednet ownership and nightly bednet usage are distinct. Net
+    ownership is configured through the demographic coverage, and the repelling, blocking, and
+    killing rates of mosquitoes are time-dependent. Nightly use of bednets is age-dependent and
+    can vary seasonally. Once a net has been distributed to someone, the nightly net usage is
+    determined by the product of the waning effects in the usage_config_list until the expiration
+    timer runs out and the net is discarded.
 
     At a glance:
 
@@ -797,28 +797,29 @@ class MultiInsecticideUsageDependentBednet(IndividualIntervention):
         campaign (api_campaign, required):
             An instance of the emod_api.campaign module.
 
-        insecticides (list[InsecticideWaningEffect_RBK], required):
+        insecticides (list[InsecticideWaningEffect], required):
             A list of
-            [InsecticideWaningEffect_RBK](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/)
-            objects, each defining the repelling, blocking, and killing waning effects and
+            [InsecticideWaningEffect](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/)
+            objects with repelling, blocking, and killing configs (variant ``"RBK"``), each
+            defining the repelling, blocking, and killing waning effects and
             insecticide name for one insecticide. The total efficacy across insecticides is
             combined as
             ``1 - (1 - efficacy_1) * (1 - efficacy_2) * ... * (1 - efficacy_n)``.
             Only relevant when modeling insecticide resistance via the vector genetics
-            system. The insecticide name in each entry must match an insecticide defined in
-            the Insecticides configuration parameter in config.json. When a vector
-            encounters this intervention, the insecticide's killing, blocking, and repelling
-            effects are modified based on the vector's genotype and the resistance modifiers
-            configured for that insecticide. See
-            [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            system. The insecticide name in each entry must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a
+            vector encounters this intervention, the insecticide's killing, blocking, and
+            repelling effects are modified based on the vector's genotype and the resistance
+            modifiers configured for that insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
 
         usage_config_list (list[AbstractWaningConfig], optional):
-            A list of waning effect configurations that combine to determine whether a net owner uses the net
-            on a given day. Each waning effect in the list produces a value between 0 and 1, and the product
-            of all values is the probability that the person uses the net that day. This allows combining
-            independent usage factors such as age-dependent and seasonal usage patterns.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            A list of waning effect configurations that combine to determine whether a net owner sleeps
+            under the net on a given night. Each waning effect in the list produces a value between 0 and 1,
+            and the product of all values is the probability that the person uses the net that night. This
+            allows combining independent usage factors such as age-dependent and seasonal usage patterns.
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
             Default value: None
 
         received_event (str, optional):
@@ -826,7 +827,7 @@ class MultiInsecticideUsageDependentBednet(IndividualIntervention):
             Default value: None
 
         using_event (str, optional):
-            An individual-level event to broadcast when a bednet is being used.
+            An individual-level event to broadcast when a bednet is being used that night.
             Default value: None
 
         discard_event (str, optional):
@@ -854,7 +855,7 @@ class MultiInsecticideUsageDependentBednet(IndividualIntervention):
 
     def __init__(self,
                  campaign: api_campaign,
-                 insecticides: list[InsecticideWaningEffect_RBK],
+                 insecticides: list[InsecticideWaningEffect],
                  expiration_period_distribution: BaseDistribution,
                  usage_config_list: list[AbstractWaningConfig] = None,
                  received_event: str = None,
@@ -864,11 +865,17 @@ class MultiInsecticideUsageDependentBednet(IndividualIntervention):
         super().__init__(campaign, 'MultiInsecticideUsageDependentBednet', common_intervention_parameters)
 
         for i, ins in enumerate(insecticides):
-            if not isinstance(ins, InsecticideWaningEffect_RBK):
+            if not isinstance(ins, InsecticideWaningEffect):
                 raise ValueError(
-                    f"'insecticides[{i}]' must be an InsecticideWaningEffect_RBK instance, "
+                    f"'insecticides[{i}]' must be an InsecticideWaningEffect instance, "
                     f"got {type(ins).__name__}.")
+            ins.require_variant("RBK", "MultiInsecticideUsageDependentBednet")
         self._intervention.Insecticides = [ins.to_schema_dict() for ins in insecticides]
+        for ins in insecticides:
+            if ins._insecticide_name is not None:
+                campaign.implicits.append(partial(
+                    validate_insecticide_name, insecticide_name=ins._insecticide_name,
+                    intervention_name='MultiInsecticideUsageDependentBednet'))
         if usage_config_list is not None:
             self._intervention.Usage_Config_List = [uc.to_schema_dict(campaign) for uc in usage_config_list]
         if received_event is not None:
@@ -912,22 +919,23 @@ class IRSHousingModification(IndividualIntervention):
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the IRS repelling efficacy. Repelled vectors survive and do not attempt
             to feed again until the following day and are not affected by the killing effect of IRS.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         killing_config (AbstractWaningConfig, required):
             Waning effect configuration for the IRS killing efficacy. The killing effect is applied to indoor
             meal-seeking vectors that have not been repelled, mimicking mosquitoes landing on the wall and being
             exposed to the insecticide after the meal.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -947,6 +955,9 @@ class IRSHousingModification(IndividualIntervention):
         self._intervention.Repelling_Config = repelling_config.to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class MultiInsecticideIRSHousingModification(IndividualIntervention):
@@ -980,20 +991,21 @@ class MultiInsecticideIRSHousingModification(IndividualIntervention):
         campaign (api_campaign, required):
             An instance of the emod_api.campaign module.
 
-        insecticides (list[InsecticideWaningEffect_RK], required):
+        insecticides (list[InsecticideWaningEffect], required):
             A list of
-            [InsecticideWaningEffect_RK](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/)
-            objects, each defining the repelling and killing waning effects and insecticide
-            name for one insecticide. The total efficacy across insecticides is combined as
+            [InsecticideWaningEffect](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/)
+            objects with repelling and killing configs (variant ``"RK"``), each defining the
+            repelling and killing waning effects and insecticide name for one insecticide.
+            The total efficacy across insecticides is combined as
             ``1 - (1 - efficacy_1) * (1 - efficacy_2) * ... * (1 - efficacy_n)``.
             Only relevant when modeling insecticide resistance via the vector genetics
-            system. The insecticide name in each entry must match an insecticide defined in
-            the Insecticides configuration parameter in config.json. When a vector
-            encounters this intervention, the insecticide's killing, blocking, and repelling
-            effects are modified based on the vector's genotype and the resistance modifiers
-            configured for that insecticide. See
-            [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            system. The insecticide name in each entry must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a
+            vector encounters this intervention, the insecticide's killing, blocking, and
+            repelling effects are modified based on the vector's genotype and the resistance
+            modifiers configured for that insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
 
         common_intervention_parameters (CommonInterventionParameters, optional):
             The CommonInterventionParameters object that contains the 5 common parameters.
@@ -1002,22 +1014,30 @@ class MultiInsecticideIRSHousingModification(IndividualIntervention):
 
     def __init__(self,
                  campaign: api_campaign,
-                 insecticides: list[InsecticideWaningEffect_RK],
+                 insecticides: list[InsecticideWaningEffect],
                  common_intervention_parameters: CommonInterventionParameters = None):
         super().__init__(campaign, 'MultiInsecticideIRSHousingModification', common_intervention_parameters)
 
         for i, ins in enumerate(insecticides):
-            if not isinstance(ins, InsecticideWaningEffect_RK):
+            if not isinstance(ins, InsecticideWaningEffect):
                 raise ValueError(
-                    f"'insecticides[{i}]' must be an InsecticideWaningEffect_RK instance, "
+                    f"'insecticides[{i}]' must be an InsecticideWaningEffect instance, "
                     f"got {type(ins).__name__}.")
+            ins.require_variant("RK", "MultiInsecticideIRSHousingModification")
         self._intervention.Insecticides = [ins.to_schema_dict() for ins in insecticides]
+        for ins in insecticides:
+            if ins._insecticide_name is not None:
+                campaign.implicits.append(partial(
+                    validate_insecticide_name, insecticide_name=ins._insecticide_name,
+                    intervention_name='MultiInsecticideIRSHousingModification'))
 
 
 class _SimpleHousingModification(IndividualIntervention):
     """
     The **SimpleHousingModification** intervention class implements a generic housing
-    modification for vector control. It is the base class from which other housing
+    modification for vector control.
+
+    Note: It is the base class from which other housing
     modifications are derived. This intervention is not used in simulations directly, and is here for the
     purpose of documentation completeness.
 
@@ -1042,22 +1062,23 @@ class _SimpleHousingModification(IndividualIntervention):
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the IRS repelling efficacy. Repelled vectors survive and do not attempt
             to feed again until the following day and are not affected by the killing effect of IRS.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         killing_config (AbstractWaningConfig, required):
             Waning effect configuration for the IRS killing efficacy. The killing effect is applied to indoor
             meal-seeking vectors that have not been repelled, mimicking mosquitoes landing on the wall and being
             exposed to the insecticide after the meal.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -1077,6 +1098,9 @@ class _SimpleHousingModification(IndividualIntervention):
         self._intervention.Repelling_Config = repelling_config.to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class ScreeningHousingModification(IndividualIntervention):
@@ -1110,22 +1134,23 @@ class ScreeningHousingModification(IndividualIntervention):
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the screen repelling efficacy. Repelled vectors survive and do not attempt
             to feed again until the following day and are not affected by the killing effect of the screen.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         killing_config (AbstractWaningConfig, required):
             Waning effect configuration for the screen killing efficacy. The killing effect is applied to indoor
             meal-seeking vectors that have not been repelled, mimicking mosquitoes landing on the screen and being
             exposed to the insecticide after the meal.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -1145,6 +1170,9 @@ class ScreeningHousingModification(IndividualIntervention):
         self._intervention.Repelling_Config = repelling_config.to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class SpatialRepellentHousingModification(IndividualIntervention):
@@ -1175,16 +1203,17 @@ class SpatialRepellentHousingModification(IndividualIntervention):
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the IRS repelling efficacy. Repelled vectors survive and do not attempt
             to feed again until the following day and are not affected by the killing effect of IRS.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -1202,6 +1231,9 @@ class SpatialRepellentHousingModification(IndividualIntervention):
         self._intervention.Repelling_Config = repelling_config.to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class SimpleIndividualRepellent(IndividualIntervention):
@@ -1231,16 +1263,17 @@ class SimpleIndividualRepellent(IndividualIntervention):
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the IRS repelling efficacy. Repelled vectors survive and do not attempt
             to feed again until the following day and are not affected by the killing effect of IRS.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -1258,6 +1291,9 @@ class SimpleIndividualRepellent(IndividualIntervention):
         self._intervention.Repelling_Config = repelling_config.to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class IndoorIndividualEmanator(IndividualIntervention):
@@ -1298,22 +1334,23 @@ class IndoorIndividualEmanator(IndividualIntervention):
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the emanator repelling efficacy. Repelled vectors survive and do not attempt
             to feed again until the following day and are not affected by the killing effect of the emanator.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         killing_config (AbstractWaningConfig, required):
             Waning effect configuration for the emanator killing efficacy. The killing effect is applied to indoor
             meal-seeking vectors that have not been repelled by the emanator, mimicking mosquitoes flying through
             toxic smoke. The killing effect is applied before and, again, after feeding.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -1333,6 +1370,9 @@ class IndoorIndividualEmanator(IndividualIntervention):
         self._intervention.Repelling_Config = repelling_config.to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class HumanHostSeekingTrap(IndividualIntervention):
@@ -1369,12 +1409,12 @@ class HumanHostSeekingTrap(IndividualIntervention):
             feed on an artificial diet instead of humans, and therefore do not contribute to malaria transmission
             this feeding cycle. Out of the vectors that are attacted to the trap, some will die due to the killing
             effect defined by the **killing_config**.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         killing_config (AbstractWaningConfig, required):
             Waning effect configuration for the trap killing efficacy. The killing effect is applied to indoor
             meal-seeking vectors that have been attracted to the trap.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         common_intervention_parameters (CommonInterventionParameters, optional):
             The CommonInterventionParameters object that contains the 5 common parameters.
@@ -1426,16 +1466,17 @@ class Ivermectin(IndividualIntervention):
             the treated human. The killing effect is applied after the blood meal, and therefore does not prevent
             infectious mosquitoes from infecting the human host or getting infected by an infectious human, but
             it does prevent them from spreading the infection any further.
-            Available types are defined in [emodpy_malaria.campaign.waning_config](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
+            Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         insecticide_name (str, optional):
             The name of the insecticide used. Only relevant when modeling insecticide resistance
-            via the vector genetics system. The name must match an insecticide defined in the
-            Insecticides configuration parameter in config.json. When a vector encounters this
-            intervention, the insecticide's killing, blocking, and repelling effects are modified
-            based on the vector's genotype and the resistance modifiers configured for this
-            insecticide. See [vector-model-insecticide-resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
-            and [vector-model-genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
+            via the vector genetics system. The name must match an insecticide defined via
+            ``malaria_config.add_insecticide_resistance()`` in the config builder. When a vector
+            encounters this intervention, the insecticide's killing, blocking, and repelling
+            effects are modified based on the vector's genotype and the resistance modifiers
+            configured for this insecticide. See
+            [Insecticide Resistance](https://emod.idmod.org/emodpy-malaria/emod/vector-model-insecticide-resistance/)
+            and [Vector Genetics](https://emod.idmod.org/emodpy-malaria/emod/vector-model-genetics/) for details.
             Default value: None
 
         common_intervention_parameters (CommonInterventionParameters, optional):
@@ -1453,6 +1494,9 @@ class Ivermectin(IndividualIntervention):
         self._intervention.Killing_Config = killing_config.to_schema_dict(campaign)
         if insecticide_name is not None:
             self._intervention.Insecticide_Name = insecticide_name
+            campaign.implicits.append(partial(
+                validate_insecticide_name, insecticide_name=insecticide_name,
+                intervention_name=type(self).__name__))
 
 
 class RTSSVaccine(IndividualIntervention):
@@ -1465,9 +1509,10 @@ class RTSSVaccine(IndividualIntervention):
     The CSP antibody reduces the probability that sporozoites survive to infect the
     liver/hepatocytes. A higher boosted_antibody_concentration means the person will be less
     likely to have sporozoites survive and infect the hepatocytes. Without the vaccine, CSP
-    does not do anything. The following configuration parameters impact CSP and its sporozoite
+    does not do anything. The following parameters impact CSP and its sporozoite
     killing ability: **Antibody_CSP_Killing_Threshold**,
-    **Antibody_CSP_Killing_Inverse_Width**, and **Antibody_CSP_Decay_Days**.
+    **Antibody_CSP_Killing_Inverse_Width**, and **Antibody_CSP_Decay_Days** (set via
+    ``malaria_config.set_team_defaults()`` or directly on ``config.parameters``).
 
     Args:
         campaign (api_campaign, required):
@@ -1500,14 +1545,16 @@ class BitingRisk(IndividualIntervention):
     by a vector. As an intervention, it allows you to target specific groups at specific times
     during the simulation.
 
-    The relative biting rate can be initially set by setting **Enable_Demographic_Risk** to 1
-    and then configuring **IndividualAttributes**, **RiskDistributionFlag**,
-    **RiskDistributionParam1**, and **RiskDistributionParam2**. This will give each new person
-    their own relative risk at their inception.
+    The relative biting rate can be initially set using
+    [MalariaDemographics.set_risk_distribution()](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/demographics/MalariaDemographics/),
+    which gives each new person their own relative risk at their inception.
 
     The relative biting rate can be thought of as having two parts: the relative risk value
-    and the age dependent value. Age dependence is set using the
-    **Age_Dependent_Biting_Risk_Type** parameter. These two values (from age dependence and
+    and the age dependent value. Age dependence is set using
+    ``config.parameters.Age_Dependent_Biting_Risk_Type`` (set to
+    ``AgeDependentBitingRiskType.LINEAR`` or
+    ``AgeDependentBitingRiskType.SURFACE_AREA_DEPENDENT``; ``AgeDependentBitingRiskType.OFF``
+    disables it). These two values (from age dependence and
     relative risk) are multiplied to get the resulting rate, which is then used to control how
     much contagion is deposited from an infectious individual and the probability that an
     infection is acquired.
@@ -1640,7 +1687,7 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
     The **OutbreakIndividualMalariaGenetics** intervention class creates an outbreak with a specific
     malaria parasite genome (barcode, drug resistance alleles, HRP markers). This intervention is
     part of the Full Parasite Genetics (FPG) model. See
-    [malaria-model-fpg](https://emod.idmod.org/emodpy-malaria/emod/malaria-model-fpg/) for details.
+    [Full Parasite Genetics (FPG) Model](https://emod.idmod.org/emodpy-malaria/emod/malaria-model-fpg/) for details.
 
     Args:
         campaign (api_campaign, required):
@@ -1652,8 +1699,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
 
             * ``NucleotideSequenceOrigin.BARCODE_STRING`` -- Create the genome from the
               **barcode_string** parameter. The barcode sets values at barcode locations,
-              and the remaining locations depend on the Parasite_Genetics configuration
-              parameter Var_Gene_Randomness_Type. If set to ``FIXED_MSP`` or
+              and the remaining locations depend on the ``var_gene_randomness_type`` argument of
+              ``malaria_config.set_parasite_genetics_params()``. If set to ``FIXED_MSP`` or
               ``FIXED_NEIGHBORHOOD``, the barcode determines where in the variant range the
               MSP and PfEMP1 values come from. It is assumed that if a person has had an
               infection with a particular barcode, they have antibodies to fight a new
@@ -1661,7 +1708,7 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
               barcode strings to achieve infection diversity.
             * ``NucleotideSequenceOrigin.ALLELE_FREQUENCIES`` -- Each new infection from
               this outbreak gets a genome created randomly from allele frequencies defined
-              in the Parasite_Genetics configuration parameters. This allows random
+              via ``malaria_config.set_parasite_genetics_params()``. This allows random
               creation of new genomes, analogous to selecting a delay time from a
               distribution. After the outbreak, new genomes are only created via meiosis
               and recombination.
@@ -1673,8 +1720,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
         barcode_string (str, conditionally required):
             A series of nucleotide base letters (A, C, G, T) that represent the values at
             barcode locations in the parasite genome. The length of the string depends on
-            the number of locations defined in the Parasite_Genetics configuration
-            parameter Barcode_Genome_Locations. Each character corresponds to one
+            the number of barcode locations configured via
+            ``malaria_config.set_parasite_genetics_params()``. Each character corresponds to one
             location, and locations are assumed to be in ascending order. Required when
             **create_nucleotide_sequence_from** is set to ``NUCLEOTIDE_SEQUENCE`` or
             ``BARCODE_STRING``.
@@ -1683,8 +1730,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
         drug_resistant_string (str, optional):
             A series of nucleotide base letters (A, C, G, T) that represent the values at
             drug-resistance locations in the parasite genome. The length of the string
-            depends on the number of locations defined in the Parasite_Genetics
-            configuration parameter Drug_Resistant_Genome_Locations. Each character
+            depends on the number of locations defined in the drug-resistance locations configured via
+            ``malaria_config.set_parasite_genetics_params()``. Each character
             corresponds to one location, and locations are assumed to be in ascending order.
             Required when **create_nucleotide_sequence_from** is set to
             ``NUCLEOTIDE_SEQUENCE`` or ``BARCODE_STRING``.
@@ -1694,7 +1741,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
             A series of nucleotide base letters (A, C, G, T) that represent HRP
             (histidine-rich protein) values at locations in the parasite genome. The length
             of the string depends on the number of locations defined in the
-            Parasite_Genetics configuration parameter HRP_Genome_Locations. An
+            HRP locations configured via
+            ``malaria_config.set_parasite_genetics_params()``. An
             ``A`` means the HRP marker is not present; any other nucleotide (``C``, ``G``,
             ``T``) means it is present. Required when **create_nucleotide_sequence_from**
             is set to ``NUCLEOTIDE_SEQUENCE`` or ``BARCODE_STRING``.
@@ -1703,8 +1751,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
         barcode_allele_frequencies_per_genome_location (list[list[float]], optional):
             The fractions of allele occurrences for each location in the barcode. This 2D
             array has an inner array for each location in the barcode. The number of inner
-            arrays depends on the number of locations defined in the Parasite_Genetics
-            configuration parameter Barcode_Genome_Locations. Each inner array should
+            arrays depends on the number of barcode locations configured via
+            ``malaria_config.set_parasite_genetics_params()``. Each inner array should
             have four values for the frequency of each allele at that location. The position
             of the value in the inner array determines the allele: index 0 is A, index 1 is
             C, index 2 is G, and index 3 is T. Required when
@@ -1715,8 +1763,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
         drug_resistant_allele_frequencies_per_genome_location (list[list[float]], optional):
             The fractions of allele occurrences for each drug-resistance location. This 2D
             array has an inner array for each location. The number of inner arrays depends
-            on the number of locations defined in the Parasite_Genetics configuration
-            parameter Drug_Resistant_Genome_Locations. Each inner array should have four
+            on the number of drug-resistance locations configured via
+            ``malaria_config.set_parasite_genetics_params()``. Each inner array should have four
             values for the frequency of each allele at that location. The position of the
             value in the inner array determines the allele: index 0 is A, index 1 is C,
             index 2 is G, and index 3 is T. Required when
@@ -1727,8 +1775,9 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
         hrp_allele_frequencies_per_genome_location (list[list[float]], optional):
             The fractions of allele occurrences for each HRP location. This 2D array has
             an inner array for each location. The number of inner arrays depends on the
-            number of locations defined in the Parasite_Genetics configuration parameter
-            HRP_Genome_Locations. Each inner array should have four values for the
+            number of HRP locations configured via
+            ``malaria_config.set_parasite_genetics_params()``. Each inner array should have
+            four values for the
             frequency of each allele at that location. The position of the value in the
             inner array determines the allele: index 0 is A, index 1 is C, index 2 is G,
             and index 3 is T. Required when **create_nucleotide_sequence_from** is set to
@@ -1738,8 +1787,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
         msp_variant_value (int, conditionally required):
             The Merozoite Surface Protein (MSP) variant value used to determine how
             antibodies recognize merozoites during blood-stage infection. This value must
-            be less than or equal to the Falciparum_MSP_Variants configuration
-            parameter. Can only be used when **create_nucleotide_sequence_from** is set to
+            be less than or equal to the ``Falciparum_MSP_Variants`` value set via
+            ``malaria_config.set_parasite_genetics_params()``. Can only be used when **create_nucleotide_sequence_from** is set to
             ``NUCLEOTIDE_SEQUENCE``. Range: 0 to 1000.
             Default value: None
 
@@ -1747,7 +1796,8 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
             The PfEMP1 (Plasmodium falciparum Erythrocyte Membrane Protein 1) variant
             values, also known as major epitopes, used to define how antibodies recognize
             infected red blood cells. Each value in the array must be less than or equal
-            to the Falciparum_PfEMP1_Variants configuration parameter. The array must
+            to the ``Falciparum_PfEMP1_Variants`` value set via
+            ``malaria_config.set_parasite_genetics_params()``. The array must
             contain exactly 50 values. Only used when **create_nucleotide_sequence_from**
             is set to ``NUCLEOTIDE_SEQUENCE``. Range per value: 0 to 10000.
             Default value: None
@@ -1816,7 +1866,7 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
                  common_intervention_parameters: CommonInterventionParameters = None):
         super().__init__(campaign, 'OutbreakIndividualMalariaGenetics', common_intervention_parameters)
         campaign.implicits.append(partial(
-            _validate_malaria_model,
+            validate_malaria_model,
             intervention_name="OutbreakIndividualMalariaGenetics"))
 
         self._intervention.Ignore_Immunity = 1 if ignore_immunity else 0
@@ -1930,7 +1980,7 @@ class OutbreakIndividualMalariaVarGenes(IndividualIntervention):
     The **OutbreakIndividualMalariaVarGenes** intervention class creates an outbreak with specific
     var gene (PfEMP1) variant types for modeling antigenic variation. This intervention is
     part of the Full Parasite Genetics (FPG) model. See
-    [malaria-model-fpg](https://emod.idmod.org/emodpy-malaria/emod/malaria-model-fpg/) for details.
+    [Full Parasite Genetics (FPG) Model](https://emod.idmod.org/emodpy-malaria/emod/malaria-model-fpg/) for details.
 
     Args:
         campaign (api_campaign, required):
@@ -1939,14 +1989,15 @@ class OutbreakIndividualMalariaVarGenes(IndividualIntervention):
         msp_type (int, optional):
             The Merozoite Surface Protein (MSP) variant value of the infection. This value
             determines how antibodies recognize merozoites during blood-stage infection and
-            must be less than or equal to the Falciparum_MSP_Variants configuration
-            parameter. Range: 0 to 1000.
+            must be less than or equal to the ``Falciparum_MSP_Variants`` value set via
+            ``malaria_config.set_parasite_genetics_params()``. Range: 0 to 1000.
             Default value: 0
 
         irbc_type (list[int], optional):
             The array of PfEMP1 major epitope variant values, which define how antibodies
             recognize infected red blood cells. Each value in the array must be less than
-            or equal to the Falciparum_PfEMP1_Variants configuration parameter. The
+            or equal to the ``Falciparum_PfEMP1_Variants`` value set via
+            ``malaria_config.set_parasite_genetics_params()``. The
             array must contain exactly 50 values. Range per value: 0 to 10000.
             Default value: None
 
@@ -1985,7 +2036,7 @@ class OutbreakIndividualMalariaVarGenes(IndividualIntervention):
                  common_intervention_parameters: CommonInterventionParameters = None):
         super().__init__(campaign, 'OutbreakIndividualMalariaVarGenes', common_intervention_parameters)
         campaign.implicits.append(partial(
-            _validate_malaria_model,
+            validate_malaria_model,
             intervention_name="OutbreakIndividualMalariaVarGenes"))
 
         self._intervention.MSP_Type = msp_type

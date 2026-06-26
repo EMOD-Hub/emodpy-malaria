@@ -117,7 +117,7 @@ the corresponding antigenic variant is cleared. At this time, the capacity will 
 memory level. The mechanism by which the antibody capacity evolves captures the time delay of
 specific antibody response on re-infection.
 
-After a predefined numbers of days since the antibody has been active, we start "long term" decay
+After a predefined number of days since the antibody has been active, we start "long term" decay
 of the concentration.
 
 ![Adaptive immune response to PfEMP1 and minor epitopes](../figures/vector-malaria/Malaria_Infection_immunity_adaptive_response_to_variable_epitopes.png)

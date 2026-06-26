@@ -32,5 +32,5 @@ interventions are introduced in Tutorial 3.
 measure and at what frequency — for example, monthly PfPR by age bin, or daily clinical
 incidence. EMOD writes each report's results to an **output file** in the `output/`
 subdirectory of each simulation.  Various reports
-such as `MalariaSummaryReport` can be added to the task via `add_reporters(reporter)`. Tutorial 2
+such as `MalariaSummaryReport` can be added to the task via `reporters.add(report)`. Tutorial 2
 introduces reports and shows how to download and plot the output files.

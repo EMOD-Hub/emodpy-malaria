@@ -127,7 +127,7 @@ def xy_plot(img_dir: str,
             This will be the top line text on the plot.
 
         title_2 (str, required):
-            This will be the second line of text ohe plot.
+            This will be the second line of text on the plot.
 
         x_axis_name (str, optional):
             This is the label used to indicate what the X-axis values are.
@@ -174,10 +174,10 @@ def xy_plot(img_dir: str,
             the minimum based on the data.
 
         x_axis_as_log_scale (bool, optional):
-            If True, the X-axis is assumed to be logrithmic.
+            If True, the X-axis is assumed to be logarithmic.
 
         y_axis_as_log_scale (bool, optional):
-            If True, the Y-axis is assumed to be logrithmic.
+            If True, the Y-axis is assumed to be logarithmic.
 
     Returns:
     """

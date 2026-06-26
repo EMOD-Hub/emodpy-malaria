@@ -1,16 +1,7 @@
 from emodpy.utils.targeting_config import AbstractTargetingConfig, BaseTargetingConfig
 from emodpy.utils.targeting_config import HasIP, HasIntervention
 from emodpy.utils.targeting_config import IsPregnant as _IsPregnantBase
-
-
-def _validate_birth_rate_dependence(config):
-    brd = config.parameters.Birth_Rate_Dependence
-    valid = ("INDIVIDUAL_PREGNANCIES", "INDIVIDUAL_PREGNANCIES_BY_AGE_AND_YEAR")
-    if brd not in valid:
-        raise ValueError(
-            f"Config parameter 'Birth_Rate_Dependence' is set to '{brd}' but "
-            f"IsPregnant targeting requires '{valid[0]}' or '{valid[1]}'.")
-    return config
+from emodpy_malaria.utils.config_utils import validate_birth_rate_dependence
 
 
 class IsPregnant(_IsPregnantBase):
@@ -22,7 +13,7 @@ class IsPregnant(_IsPregnantBase):
     """
 
     def to_schema_dict(self, campaign):
-        campaign.implicits.append(_validate_birth_rate_dependence)
+        campaign.implicits.append(validate_birth_rate_dependence)
         return super().to_schema_dict(campaign)
 
 

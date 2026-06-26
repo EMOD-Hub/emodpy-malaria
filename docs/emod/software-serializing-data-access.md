@@ -9,6 +9,10 @@ needed to resume or branch a simulation from that moment.
 
 This guide walks through common tasks for reading, modifying, and writing
 serialized population files using the `emodpy_malaria.serialization` module.
+The functions shown here are a sample of what can be done — serialized
+population data is standard Python data structures once loaded, so you can
+write your own code to inspect or manipulate any part of the population
+beyond what this module provides.
 
 For background on the binary file format, see
 [Serialized population file](software-serialized.md). For EMOD configuration

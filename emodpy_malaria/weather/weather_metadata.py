@@ -1,6 +1,6 @@
 """Weather metadata classes for EMOD ``.bin.json`` files.
 
-Wraps [emod_api.weather.weather.Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) (``BaseMetadata``) for core
+Wraps [Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) (``BaseMetadata``) for core
 node-offset computation and ``.bin.json`` parsing, and extends it with:
 
 * [WeatherAttributes](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_metadata/) — rich metadata (provenance, spatial resolution,
@@ -248,7 +248,7 @@ class WeatherAttributes:
 class WeatherMetadata(WeatherAttributes):
     """Weather metadata with node offsets and count fields.
 
-    Wraps [emod_api.weather.weather.Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) for core node-offset
+    Wraps [Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) for core node-offset
     computation and basic ``.bin.json`` parsing, extending it with rich
     metadata attributes and shared-offset (deduplication) support.
     """
@@ -289,7 +289,7 @@ class WeatherMetadata(WeatherAttributes):
                         for k in self.node_offsets))
 
     def to_base_metadata(self) -> BaseMetadata:
-        """Create an [emod_api.weather.weather.Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
+        """Create an [Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
 
         Useful for interoperability with code that expects the emod-api
         ``Metadata`` object.  Note: shared offsets are expanded — each
@@ -418,7 +418,7 @@ class WeatherMetadata(WeatherAttributes):
         """Write the rich ``.bin.json`` metadata file.
 
         Produces a superset of the format written by
-        [emod_api.weather.weather.Metadata.write_file()](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/), including
+        [Metadata.write_file()](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/), including
         additional attributes like ``Tool``, ``WeatherSchemaVersion``,
         ``Resolution``, etc.
         """
@@ -432,7 +432,7 @@ class WeatherMetadata(WeatherAttributes):
     def from_file(cls, file_path: Union[str, Path]) -> "WeatherMetadata":
         """Read a ``.bin.json`` file.
 
-        Uses [emod_api.weather.weather.Metadata.from_file()](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) for core
+        Uses [Metadata.from_file()](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) for core
         parsing (node offsets, datavalue count), then augments with any
         additional attributes present in the file.
         """

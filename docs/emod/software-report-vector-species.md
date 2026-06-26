@@ -63,7 +63,7 @@ The data channels included are:
 ## Example
 
 
-The following is a sample of an VectorSpeciesReport.json file.
+The following is a sample of a VectorSpeciesReport.json file.
 
 ```json
 {

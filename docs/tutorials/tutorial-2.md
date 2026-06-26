@@ -1,8 +1,7 @@
 # Tutorial 2: Reports
 
-This tutorial builds on Tutorial 1 by adding output reports, downloading the results, and
-plotting the data. It introduces `add_reporters()`, idmtools analyzers, and the emodpy-malaria
-plotting utilities.
+This tutorial builds on Tutorial 1 by adding additional reports beyond InsetChart, configuring
+report filtering, and plotting different report types.
 
 **File:** `tutorials/tutorial_2_reports.py`
 
@@ -14,7 +13,8 @@ it, and returns it.
 
 ```python
 def build_reports(reporters):
-    from emodpy_malaria.reporters.reporters import MalariaSummaryReport, DemographicsReport
+    from emodpy_malaria.reporters.reporters import (MalariaSummaryReport, DemographicsReport,
+                                                     InsetChart, ReportVectorStats)
     from emodpy.reporters.base import ReportFilter
 
     reporters.add(MalariaSummaryReport(
@@ -26,20 +26,27 @@ def build_reports(reporters):
         report_filter=ReportFilter(start_day=1, end_day=sim_years * 365)
     ))
 
+    reporters.add(InsetChart(reporters))
     reporters.add(DemographicsReport(reporters))
+    reporters.add(ReportVectorStats(reporters, stratify_by_species=True))
 
     return reporters
 ```
 
-Two custom reports are added:
+Four reports are added:
 
+- **InsetChart** — simulation-wide averages per time step across channels like population
+  size, infection prevalence, daily biting rate, and many other statistics. Produces
+  `InsetChart.json`.
 - **MalariaSummaryReport** — age-stratified malaria metrics (PfPR, clinical incidence,
   population) grouped by reporting interval and age bin. `ReportFilter` controls the
   time window for data collection.
 - **DemographicsReport** — population and vital dynamics over time, producing
   `DemographicsSummary.json` and `BinnedReport.json`.
-
-InsetChart is always produced by EMOD as a built-in report.
+- **ReportVectorStats** — CSV report with detailed vector life-cycle data per time step,
+  including population counts by state (adult, infected, infectious, larva, egg),
+  indoor/outdoor biting counts, and habitat statistics. Setting `stratify_by_species=True`
+  adds a `Species` column so you can track each vector species independently.
 
 The callback is passed to `EMODTask.from_defaults()`:
 
@@ -61,6 +68,7 @@ filenames = [
     "output/InsetChart.json",
     "output/DemographicsSummary.json",
     "output/MalariaSummaryReport_monthly.json",
+    "output/ReportVectorStats.csv",
 ]
 analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
 
@@ -78,6 +86,7 @@ tutorial_2_results/
     InsetChart.json
     DemographicsSummary.json
     MalariaSummaryReport_monthly.json
+    ReportVectorStats.csv
 ```
 
 ## Plotting results

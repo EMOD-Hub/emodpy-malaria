@@ -7,3 +7,18 @@ from emodpy.campaign.common import PropertyRestrictions as PropertyRestrictions 
 from emodpy.campaign.common import ValueMap as ValueMap  # noqa: F401
 
 MAX_AGE_YEARS = EMODPY_MAX_AGE_YEARS
+
+
+__all_exports = [
+    CommonInterventionParameters,
+    TargetGender,
+    TargetDemographicsConfig,
+    RepetitionConfig,
+    PropertyRestrictions,
+    ValueMap,
+]
+
+for _ in __all_exports:
+    _.__module__ = __name__
+
+__all__ = [_.__name__ for _ in __all_exports] + ['MAX_AGE_YEARS']

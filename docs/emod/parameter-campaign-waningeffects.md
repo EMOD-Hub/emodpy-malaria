@@ -16,6 +16,7 @@ do not control the overall duration of an intervention and are not assigned prob
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 See the example below that uses a mix of different waning effect classes and the tables below that
 describe all parameters that can be used with each waning effect class.
 

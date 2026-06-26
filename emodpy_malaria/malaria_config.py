@@ -75,7 +75,7 @@ def set_team_defaults(config, manifest):
     """
     vector_config.set_team_defaults(config, manifest)
     config.parameters.Simulation_Type = "MALARIA_SIM"
-    # removing Infectious_Period parameteres because not allowed in MALARIA_SIM, but need in VECTOR SIM
+    # removing Infectious_Period parameters because not allowed in MALARIA_SIM, but need in VECTOR SIM
     config.parameters.pop("Infectious_Period_Constant")
     config.parameters.pop("Infectious_Period_Distribution")
     config.parameters.Malaria_Strain_Model = MalariaStrainModel.FALCIPARUM_RANDOM_STRAIN
@@ -248,7 +248,7 @@ def set_parasite_genetics_params(config, manifest,
     config.parameters.Falciparum_PfEMP1_Variants = 1000
     config.parameters.Vector_Sampling_Type = VectorSamplingType.TRACK_ALL_VECTORS
     config.parameters.Max_Individual_Infections = 10
-    # setting up Parasite_Genetics parameteres
+    # setting up Parasite_Genetics parameters
     fpg = s2c.get_class_with_defaults("idmType:ParasiteGenetics", schema_path=manifest.schema_file)
     fpg.Var_Gene_Randomness_Type = var_gene_randomness_type
     fpg.Sporozoite_Life_Expectancy = 25

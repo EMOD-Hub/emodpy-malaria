@@ -46,7 +46,6 @@ nav:
     - Tutorial 6 - Calibration: tutorials/tutorial-6.md
     - Tutorial 7 - Burn-in: tutorials/tutorial-7.md
     - Tutorial 8 - Migration: tutorials/tutorial-8.md
-    - Tutorial 9 - Weather: tutorials/tutorial-9.md
   - Software:
     - Overview: emod/software-overview.md
     - Inputs:
@@ -60,6 +59,7 @@ nav:
         - How to create migration files: emod/software-migration-creation.md
         - How to create vector migration files: emod/software-migration-creation-vector.md
         - Vector migration: emod/software-migration-vector.md
+        - Advanced migration how-to: emod/howto-migration-advanced.md
       - Climate: emod/software-climate.md
       - Load-balancing files: emod/software-load-balancing.md
       - Serialized population file: emod/software-serialized.md

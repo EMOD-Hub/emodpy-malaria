@@ -93,11 +93,12 @@ def build_demographics():
     """
     from emodpy_malaria.demographics.malaria_demographics import MalariaDemographics
     from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
 
     demographics = MalariaDemographics.from_template_node(pop=1000)
     demographics.add_individual_property(property="DrugStatus", values=["None", "RecentDrug"], initial_distribution=[1, 0])
-    demographics.set_age_distribution(UniformDistribution(0, 50*365))
-    demographics.set_birth_rate(12)
+    demographics.set_age_distribution(UniformDistribution(0, 50))
+    demographics.set_birth_rate(12, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
 
 
     return demographics

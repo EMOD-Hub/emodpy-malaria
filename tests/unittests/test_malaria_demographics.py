@@ -1,6 +1,8 @@
 import unittest
 from types import SimpleNamespace
 
+import pytest
+
 from emod_api.demographics.node import Node
 from emodpy_malaria.demographics import MalariaDemographics, MalariaNode
 from emodpy_malaria.demographics.malaria_node import _set_enable_demog_risk
@@ -19,6 +21,7 @@ def _make_demographics(n_nodes=1):
     return MalariaDemographics(nodes=nodes)
 
 
+@pytest.mark.unit
 class TestMalariaNodeSetters(unittest.TestCase):
 
     def test_set_risk_simple_distribution(self):
@@ -36,6 +39,7 @@ class TestMalariaNodeSetters(unittest.TestCase):
         self.assertEqual(node.individual_attributes.innate_immune_distribution2, 0.8)
 
 
+@pytest.mark.unit
 class TestMalariaNodeToDict(unittest.TestCase):
 
     def test_to_dict_includes_risk_distribution(self):
@@ -70,6 +74,7 @@ class TestMalariaNodeToDict(unittest.TestCase):
         self.assertEqual(d["IndividualAttributes"]["RiskDistribution2"], 0)
 
 
+@pytest.mark.unit
 class TestMalariaNodeFromData(unittest.TestCase):
 
     def _node_dict_with_risk(self):
@@ -132,6 +137,7 @@ class TestMalariaNodeFromData(unittest.TestCase):
         self.assertEqual(d["IndividualAttributes"]["RiskDistribution2"], 1.5)
 
 
+@pytest.mark.unit
 class TestMalariaDemographicsFactories(unittest.TestCase):
 
     def test_from_template_node_creates_malaria_nodes(self):
@@ -142,6 +148,7 @@ class TestMalariaDemographicsFactories(unittest.TestCase):
                 self.assertIsInstance(node, MalariaNode)
 
 
+@pytest.mark.unit
 class TestSetRiskDistribution(unittest.TestCase):
 
     def test_sets_risk_on_default_node(self):
@@ -179,6 +186,7 @@ class TestSetRiskDistribution(unittest.TestCase):
             demog.set_risk_distribution("not a distribution")
 
 
+@pytest.mark.unit
 class TestSetInnateImmuneDistribution(unittest.TestCase):
 
     def test_sets_on_default_node(self):

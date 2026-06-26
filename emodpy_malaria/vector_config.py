@@ -8,46 +8,13 @@ from emod_api import campaign as api_campaign
 
 from emodpy.campaign.common import ValueMap
 
+from emodpy_malaria.utils.config_utils import validate_allele_combo
 from emodpy_malaria.utils.emod_enum import (
     VectorTrait, DriverType, VectorSamplingType, EggHatchDensityDependence,
     EggSaturationAtOviposition, HabitatType, ModifierEquationType,
     ClimateModel, ClimateUpdateResolution, PopulationScaleType,
     AgeDependentBitingRiskType
 )
-
-
-def _validate_allele_combo(species_params, allele_combo):
-    """
-    Internal method to validate that a user provided an acceptal allele_combo
-    where it is a two dimentional array of strings and the inner array has
-    two elements where each element is an allele of the same gene.
-    """
-    if len(allele_combo) == 0:
-        raise ValueError("allele_combo must define some alleles to target")
-
-    for combo in allele_combo:
-        if len(combo) != 2:
-            raise ValueError(
-                "Each combo in allele_combo must have two values - one for each chromosome, '*' is acceptable. \n")
-
-    # Check that the alleles referenced here have been 'declared' previously
-    allele_names = []
-    allele_names_in_combo = []
-    for gene in species_params.Genes:
-        for allele in gene["Alleles"]:
-            allele_names.append(allele["Name"])
-
-    for combo in allele_combo:
-        for allele_name in combo:
-            if allele_name != "X" and allele_name != "Y" and allele_name != "*":
-                allele_names_in_combo.append(allele_name)
-
-    for alnic in allele_names_in_combo:
-        if alnic not in allele_names:
-            raise ValueError(f"Allele name {alnic} submitted in one of the allele_combos is not found"
-                             f" in the Genes parameter for {species_params.Name}.\n")
-
-    return
 
 
 #
@@ -709,7 +676,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
         (dict): configured config
     """
     species_params = get_species_params(config, species)
-    _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
+    validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
 
     if not trait_modifiers or not isinstance(trait_modifiers, list):
         raise ValueError("Please make sure to pass in a list of trait modifiers created by create_trait() function.\n")
@@ -778,7 +745,7 @@ def add_blood_meal_mortality(config, manifest,
         raise ValueError(f"Invalid value for 'default_probability_of_death'={default_probability_of_death}.\n"
                          f"The value must be between 0 and 1.\n")
 
-    _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
+    validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
 
     if (probability_of_death_for_allele_combo < 0.0) or (1.0 < probability_of_death_for_allele_combo):
         raise ValueError(f"Invalid value for 'probability_of_death_for_allele_combo'={probability_of_death_for_allele_combo}.\n"
@@ -832,7 +799,7 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str, species:
 
     # checks if species name is valid
     species_params = get_species_params(config, species)
-    _validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
+    validate_allele_combo(species_params=species_params, allele_combo=allele_combo)
 
     resistance = s2c.get_class_with_defaults("idmType:ResistantAlleleComboProbabilityConfig", schema_path=manifest.schema_file)
     resistance.Blocking_Modifier = blocking

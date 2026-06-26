@@ -62,12 +62,14 @@ N_ITERATIONS = manifest.n_calibration_iterations
 
 
 def constrain_sample(sample):
+    """Clips the calibration parameter to its allowed range."""
     p = CALIBRATION_PARAMETERS[0]
     sample[p["Name"]] = float(np.clip(sample[p["Name"]], p["Min"], p["Max"]))
     return sample
 
 
 def map_sample_to_model_input(simulation, sample):
+    """Converts a log10 sample value to x_Temporary_Larval_Habitat and applies it."""
     log_value = float(sample["log10_x_Temporary_Larval_Habitat"])
     value = 10 ** log_value
     simulation.task.config.parameters.x_Temporary_Larval_Habitat = value
@@ -75,6 +77,7 @@ def map_sample_to_model_input(simulation, sample):
 
 
 def plot_all_iterations(calib_dir, ref_pfpr):
+    """Plots simulated vs reference PfPR and parameter vs RMSE across all iterations."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -162,6 +165,7 @@ def plot_all_iterations(calib_dir, ref_pfpr):
 
 class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
     def __init__(self, site, uid=None):
+        """Initializes the analyzer with reference data and report filenames."""
         super().__init__(
             uid=uid or "pfpr_monthly",
             filenames=["output/MalariaSummaryReport_monthly.json"],
@@ -169,12 +173,14 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
         )
 
     def map(self, data, item):
+        """Extracts monthly PfPR for under-5s from one simulation's output."""
         report = data["output/MalariaSummaryReport_monthly.json"]
         pfpr_by_time = report["DataByTimeAndAgeBins"]["PfPR by Age Bin"]
         sim_pfpr = [step[1] for step in pfpr_by_time[-12:]]
         return {"sim_pfpr": sim_pfpr}
 
     def reduce(self, all_data):
+        """Computes RMSE scores across all simulations and plots convergence."""
         iter_dir = os.path.normpath(self.working_dir)
         calib_dir = os.path.dirname(iter_dir)
 
@@ -206,20 +212,25 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
 
 class TutorialCalibSite(CalibSite):
     def __init__(self):
+        """Loads reference PfPR data from CSV."""
         self.reference = pd.read_csv(os.path.join(_tutorials_dir, "tutorial_6_reference_pfpr.csv"))
         super().__init__(name="Tutorial_Site")
 
     def get_reference_data(self, reference_type=None):
+        """Returns the reference PfPR DataFrame."""
         return self.reference
 
     def get_analyzers(self):
+        """Returns the MalariaSummaryAnalyzer for this site."""
         return [MalariaSummaryAnalyzer(site=self, uid="pfpr_monthly")]
 
     def get_setup_functions(self):
+        """Returns an empty list (no setup functions needed)."""
         return []
 
 
 def build_config(config):
+    """Configures simulation with seasonal habitat for calibration."""
     import emodpy_malaria.malaria_config as malaria_config
 
     config = malaria_config.set_team_defaults(config, manifest)
@@ -250,23 +261,27 @@ def build_config(config):
 
 
 def build_demographics():
-    from emodpy_malaria.demographics.malaria_demographics import Demographics
+    """Creates a single-node population with birth rate and age distribution."""
+    from emodpy_malaria.demographics import MalariaDemographics as Demographics
     from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
 
     demog = Demographics.from_template_node(lat=-3.2, lon=37.9, pop=1000,
                                             name="Tutorial_Site")
-    demog.set_birth_rate(40)
-    demog.set_age_distribution(UniformDistribution(0, 60*365))
+    demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
+    demog.set_age_distribution(UniformDistribution(0, 60))
     demog.set_prevalence_distribution(UniformDistribution(0, 0.2))
     return demog
 
 
 def build_campaign(campaign):
+    """Sets the schema path (no interventions during calibration)."""
     campaign.set_schema(manifest.schema_path)
     return campaign
 
 
 def build_reports(reporters):
+    """Adds MalariaSummaryReport and InsetChart for calibration scoring."""
     from emodpy_malaria.reporters.reporters import MalariaSummaryReport, InsetChart
     from emodpy.reporters.base import ReportFilter
 
@@ -285,6 +300,7 @@ def build_reports(reporters):
 
 
 def run_calibration():
+    """Sets up platform, CalibManager, and OptimTool, then runs calibration."""
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================

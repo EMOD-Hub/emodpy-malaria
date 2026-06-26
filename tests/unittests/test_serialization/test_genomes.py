@@ -6,6 +6,7 @@ import numpy as np
 from emodpy_malaria.serialization._genomes import Genome
 
 
+@pytest.mark.unit
 class TestGenome:
     def test_basic_construction(self):
         g = Genome("ACGT", allele_root_id=42)
