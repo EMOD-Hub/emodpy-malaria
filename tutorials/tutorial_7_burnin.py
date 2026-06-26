@@ -30,7 +30,6 @@ starts new simulations from the saved states, adding interventions.
 3. Run this script. When it finishes it prints the experiment ID — copy
    that ID into BURNIN_EXP_ID in tutorial_7_pickup.py.
 """
-import os
 import pathlib
 
 from idmtools.core.platform_factory import Platform
@@ -110,48 +109,12 @@ def build_campaign(campaign):
     return campaign
 
 
-def process_results(experiment, platform, output_path):
-    """Downloads InsetChart output from completed simulations."""
-    import shutil
-    from idmtools.analysis.analyze_manager import AnalyzeManager
-    from idmtools.analysis.download_analyzer import DownloadAnalyzer
-
-    if os.path.exists(output_path):
-        shutil.rmtree(output_path)
-
-    filenames = [
-        "output/InsetChart.json"
-    ]
-    analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
-
-    manager = AnalyzeManager(platform=platform, analyzers=analyzers)
-    manager.add_item(experiment)
-    manager.analyze()
-
-
-def plot_results(output_path):
-    """Plots InsetChart channels from the burnin simulations."""
-    from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
-
-    plot_inset_chart(dir_name=output_path,
-                     title="Tutorial 7 - Burnin InsetChart",
-                     output=output_path)
-
-
 def handle_results(experiment, platform):
-    """Checks experiment status, downloads results, and prints the burnin experiment ID."""
+    """Checks experiment status and prints the burnin experiment ID."""
     if experiment.succeeded:
         print(f"Experiment {experiment.id} succeeded.")
         with open("experiment_id", "w") as f:
             f.write(experiment.id)
-
-        output_path = "tutorial_7_results_burnin"
-
-        process_results(experiment, platform, output_path)
-        print(f"Downloaded results for experiment {experiment.id}.")
-
-        plot_results(output_path)
-        print(f"\nLook in '{output_path}' for the plots.")
 
         print(f"\nBurnin complete. {N_BURNIN_RUNS} serialized populations saved.")
         print("Copy this experiment ID into tutorial_7_pickup.py:")

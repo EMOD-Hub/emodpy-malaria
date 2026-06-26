@@ -88,7 +88,7 @@ def build_config(config):
                                          seasonal_habitat, overwrite=True)
 
     # Serialization reading is configured per-simulation in update_serialize_parameters()
-    # because the population_path differs for each burnin run.
+    # because the path differs for each burnin run.
 
     config.parameters.x_Base_Population = manifest.x_Base_Population_scale
 
@@ -187,8 +187,8 @@ def update_serialize_parameters(simulation, burnin_index, df):
     filename = f"state-{serialize_years * 365:05d}.dtk"
     configure_serialization_read(
         simulation.task.config,
-        population_path=sim_path,
-        population_filenames=[filename],
+        path=sim_path,
+        filenames=[filename],
     )
     return {
         "Run_Number":                 int(df["Run_Number"][burnin_index]),

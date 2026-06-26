@@ -162,7 +162,8 @@ def build_reports(reporters):
     ))
     reporters.add(InsetChart(reporters))
     reporters.add(DemographicsReport(reporters))
-    reporters.add(ReportVectorStats(reporters, stratify_by_species=True))
+    reporters.add(ReportVectorStats(reporters, species_list=["gambiae", "arabiensis", "funestus"],
+                                    stratify_by_species=True))
 
     return reporters
 

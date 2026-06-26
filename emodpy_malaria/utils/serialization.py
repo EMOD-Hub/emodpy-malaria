@@ -153,7 +153,7 @@ def get_burnin_sim_outpaths(
     """Resolve platform-correct output paths for each simulation in a burnin experiment.
 
     Returns a DataFrame with at least ``sim_id`` and ``outpath`` columns.
-    ``outpath`` is the value to pass as *population_path* to
+    ``outpath`` is the value to pass as *path* to
     `configure_serialization_read()` — it already points to each
     simulation's ``output/`` directory using a path that the pickup
     simulation's EMOD process can reach (container-mapped, COMPS working
