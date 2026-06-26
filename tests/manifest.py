@@ -18,3 +18,10 @@ failed_tests = os.path.join(str(current_directory), "failed_tests")
 
 container_platform_name = "Container"
 plat_image = "ghcr.io/emod-hub/emod-ubuntu-runtime:latest"
+
+job_dir = os.path.join(str(current_directory), "tutorial_output")
+x_Base_Population_scale = 1
+burnin_serialize_years = 50
+
+comps_sif_path = os.path.join(str(current_directory), "comps_sif_file.id")
+slurm_sif_path = "/path/to/emod-malaria.sif"
