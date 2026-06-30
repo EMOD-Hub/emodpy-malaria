@@ -22,7 +22,7 @@ def delete_existing_folder(path, must_be_empty=False):
             try:
                 shutil.rmtree(path)
             except PermissionError:
-                print(f"Failed to delete folder {path}. Files may be owned by root.")
+                print(f"Failed to delete folder {path}.  It could be that the files are owned by root.")
 
 
 def close_idmtools_logger(logger):

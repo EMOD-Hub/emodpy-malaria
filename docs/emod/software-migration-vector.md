@@ -14,8 +14,7 @@ vector migration will be built internally and vectors will automatically migrate
 Vectors do not have a "MigrationType" as each species uses only one file for all their migration needs.
 
 Each vector species has its own **Vector_Migration_Filename**; if it is left as an empty string, no
-migration will happen for that species. The **Vector_Migration_Modifier_Equation** and its parameters 
-can influence female vector migration to particular nodes over others, while **x_Vector_Migration** is
+migration will happen for that species. **x_Vector_Migration** is
 a multiplier that affects the migration rates for both genders. See [parameter-configuration](parameter-configuration.md) for more
 information on the parameters governing vector migration.
 

@@ -5,10 +5,12 @@ emodpy-malaria is the Python interface for configuring and running EMOD malaria
 simulations. This tutorial walks through the core building blocks of every
 emodpy-malaria script:
 
-  - manifest.py       paths to executables, outputs, and platform settings
-  - build_config()    configures config.json (simulation parameters)
-  - build_demog()     builds the demographics file (human population)
-  - run_experiment()  sets up the platform, task, and experiment, then runs it
+  - manifest.py                paths to executables, outputs, and platform settings
+  - build_config(config)       configures config.json (simulation parameters)
+  - build_campaign(campaign)   configures campaign.json (interventions and events)
+  - build_demographics()       builds the demographics file (human population)
+  - build_reporters(reporter)  configures various reporters for data output
+  - run_experiment()           sets up the platform, task, and experiment, then runs it
 
 === INSTRUCTIONS ===
 There are two places below you may need to update depending on your platform:
@@ -25,7 +27,7 @@ import pathlib
 from idmtools.builders import SimulationBuilder
 from idmtools.core.platform_factory import Platform
 from idmtools.entities.experiment import Experiment
-import emodpy.emod_task as emod_task
+from emodpy.emod_task import EMODTask
 
 import manifest
 
@@ -33,77 +35,109 @@ sim_years = 3
 
 
 def sweep_run_number(simulation, value):
-    """
-    Callback used by SimulationBuilder to set the Run_Number parameter.
-    Run_Number is the random seed — different values give different stochastic
-    realizations of the same scenario.
-    """
+    """Sets the random seed for a simulation."""
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
 
 
 def build_config(config):
-    """
-    Configure simulation parameters. This function is passed as a callback to
-    EMODTask and is called when building config.json.
-    """
+    """Configures simulation parameters with team defaults and three vector species."""
     import emodpy_malaria.malaria_config as malaria_config
 
-    # applies the malaria team's standard parameter set
     config = malaria_config.set_team_defaults(config, manifest)
-
-    # adds pre-configured species parameters for three Anopheles vector species
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
     config.parameters.Run_Number = 0
     config.parameters.Simulation_Duration = sim_years * 365
 
+    # Set the base population according to the manifest setting.
+    # This is just an example of how you can use the manifest to set parameters in the config.
+    # In a real script, you might have more complex logic to determine how to set parameters based
+    # on the manifest or other inputs.
+
+    # This parameter lets us run small test simulations before running with the full population
+    config.parameters.x_Base_Population = manifest.x_Base_Population_scale
+
     return config
 
 
-def build_demog():
-    """
-    Build the demographics file describing the simulated human population.
-
-    from_template_node() creates a single-node population at the given lat/lon.
-    SetEquilibriumVitalDynamics() sets birth and death rates equal so the
-    population stays roughly stable over the simulation.
-    SetAgeDistribution() initializes the population with a realistic age
-    structure for sub-Saharan Africa.
-    """
-    import emodpy_malaria.demographics.MalariaDemographics as Demographics
-    import emod_api.demographics.PreDefinedDistributions as Distributions
+def build_demographics():
+    """Creates a single-node population with birth rate and age distribution."""
+    from emodpy_malaria.demographics import MalariaDemographics as Demographics
+    from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
 
     demog = Demographics.from_template_node(lat=-3.2, lon=37.9, pop=1000,
                                             name="Tutorial_Site")
-    demog.SetEquilibriumVitalDynamics()
-    demog.SetAgeDistribution(Distributions.AgeDistribution_SSAfrica)
+    demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
+    demog.set_age_distribution(UniformDistribution(0, 60))
+
+    # This will set the initial prevalence of infection in the population to be uniformly distributed between 0 and 20%
+    # for every new simulation that is run.
+    demog.set_prevalence_distribution(UniformDistribution(0, 0.2))
     return demog
 
 
-def handle_results(experiment):
-    """
-    Save the experiment ID and report success or failure.
-    Called after experiment.run() completes.
-    """
+def build_reports(reporters):
+    """Adds InsetChart reporter for basic simulation output."""
+    from emodpy_malaria.reporters.reporters import InsetChart
+    reporters.add(InsetChart(reporters))
+    return reporters
+
+
+def process_results(experiment, platform, output_path):
+    """Downloads InsetChart output from completed simulations."""
+    import os
+    import shutil
+    from idmtools.analysis.analyze_manager import AnalyzeManager
+    from idmtools.analysis.download_analyzer import DownloadAnalyzer
+
+    if os.path.exists(output_path):
+        shutil.rmtree(output_path)
+
+    filenames = ["output/InsetChart.json"]
+    analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
+
+    manager = AnalyzeManager(platform=platform, analyzers=analyzers)
+    manager.add_item(experiment)
+    manager.analyze()
+
+
+def plot_results(output_path):
+    """Plots InsetChart channels over time."""
+    from emodpy_malaria.plotting.plot_inset_chart import plot_inset_chart
+    plot_inset_chart(dir_name=output_path,
+                     title="Tutorial 1 - InsetChart",
+                     output=output_path)
+
+
+def handle_results(experiment, platform):
+    """Checks experiment status, downloads results, and generates plots."""
     if experiment.succeeded:
         print(f"Experiment {experiment.id} succeeded.")
         with open("experiment_id", "w") as f:
             f.write(experiment.id)
+
+        output_path = "tutorial_1_results"
+        process_results(experiment, platform, output_path)
+        print(f"Downloaded results for experiment {experiment.id}.")
+
+        plot_results(output_path)
+        print(f"\nLook in '{output_path}' for the plots.")
     else:
         print(f"Experiment {experiment.id} failed.")
 
 
 def run_experiment():
-    """
-    Set up the platform, create the EMODTask, build the experiment, and run it.
-    """
+    """Sets up the platform, task, and experiment, then runs it."""
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
+    # sym_link=False: idmtools defaults to symlinks, but Windows requires Developer Mode
+    # to create them. Using file copies instead works on all Windows configurations.
     platform = Platform("Container", job_directory=manifest.job_dir,
                         docker_image=manifest.plat_image,
-                        max_job=4)
+                        sym_link=False, max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
@@ -116,43 +150,28 @@ def run_experiment():
     #                     max_running_jobs=1000000,
     #                     array_batch_size=1000000)
 
-    # EMODTask defines how EMOD will be configured for each simulation:
-    # which executable to run, which config/campaign/demographics callbacks
-    # to call, and where to find supporting files.
-    task = emod_task.EMODTask.from_default2(
-        config_path="config.json",
+    task = EMODTask.from_defaults(
         eradication_path=manifest.eradication_path,
-        campaign_builder=None,
         schema_path=manifest.schema_path,
-        ep4_custom_cb=None,
-        param_custom_cb=build_config,
-        demog_builder=build_demog,
-        plugin_report=None
+        config_builder=build_config,
+        campaign_builder=None,
+        demographics_builder=build_demographics,
+        report_builder=build_reports
     )
 
-    task.config.parameters.x_Base_Population *= manifest.x_Base_Population_scale
 
-    # set_sif() tells EMOD which container image to use to run the executable.
-    # For COMPS and SLURM, the image is a Singularity Image File (SIF);
-    # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path)
+        task.set_sif(manifest.comps_sif_path, platform)
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
-    # SimulationBuilder manages parameter sweeps across simulations.
-    # Here we run a single simulation (Run_Number=0). Tutorial 5 covers
-    # how to sweep over multiple values to run parameter studies.
     builder = SimulationBuilder()
     builder.add_sweep_definition(sweep_run_number, [0])
 
     experiment = Experiment.from_builder(builder, task, name="tutorial_1_intro")
-
-    # experiment.run() submits all simulations and blocks here until they finish.
-    # Remove wait_until_done=True if you want to submit and check back later.
     experiment.run(wait_until_done=True, platform=platform)
 
-    handle_results(experiment)
+    handle_results(experiment, platform)
 
     print("\nTutorial 1 is done.")
 
@@ -160,7 +179,6 @@ def run_experiment():
 
 
 if __name__ == "__main__":
-    # Extract the EMOD executable and schema needed to run simulations.
     import emod_malaria.bootstrap as dtk
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_experiment()

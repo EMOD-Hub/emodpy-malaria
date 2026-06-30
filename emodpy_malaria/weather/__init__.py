@@ -1,133 +1,75 @@
-import pandas as pd
-from typing import Tuple, Dict, Union
-from pathlib import Path
+"""Weather file creation, reading, and conversion for EMOD simulations.
 
-from emodpy_malaria.weather.weather_variable import WeatherVariable
-from emodpy_malaria.weather.weather_metadata import WeatherAttributes
-from emodpy_malaria.weather.weather_set import WeatherSet
-from emodpy_malaria.weather.weather_request import WeatherRequest, WeatherArgs
+Main features:
 
-from idmtools_platform_comps.comps_platform import COMPSPlatform
-
-# module level doc-string
-__doc__ = """
-**weather** is a module providing features for working with EMOD weather files.
-
-Main Features
--------------
-Here are main features:
-
-  - Generate EMOD weather files locally from a csv file.
-  - Generate EMOD weather files using COMPS SSMT weather service.
-  - Convert existing EMOD weather files to csv file or dataframes.
-  - Programmatic access to EMOD weather files via weather object model.
-
+- Create EMOD weather files from CSV, DataFrame, or dictionary data.
+- Read existing EMOD weather files into Python objects.
+- Convert between EMOD binary weather format and tabular formats.
+- Configure EMOD climate model settings.
 """
 
-# Use __all__ to let type checkers know what is part of the public API.
-_all_ = ['csv_to_weather',
-         'generate_weather'
-         'weather_to_csv',
-         'WeatherRequest',
-         'WeatherArgs',
-         'RequestReport',
-         'WeatherMetadata',
-         'WeatherAttributes',
-         'WeatherData',
-         'DataFrameInfo',
-         'WeatherSet',
-         'WeatherVariable']
+import pandas as pd
 
+from pathlib import Path
+from typing import Union
 
-def generate_weather(platform: Union[str, COMPSPlatform],
-                     site_file: Union[str, Path],
-                     start_date: int,
-                     end_date: int = None,
-                     node_column: str = "nodes",
-                     lat_column: str = "lat",
-                     lon_column: str = "lon",
-                     id_reference: str = None,
-                     request_name: str = "",
-                     local_dir: Union[str, Path] = None,
-                     data_source: str = None,
-                     force: bool = False) -> WeatherRequest:
-    """
-    Generate weather files by submitting a request and downloading generated weather files to a specified dir.
+from emodpy_malaria.weather.weather_variable import WeatherVariable
+from emodpy_malaria.weather.weather_metadata import WeatherAttributes, WeatherMetadata
+from emodpy_malaria.weather.weather_data import WeatherData, DataFrameInfo
+from emodpy_malaria.weather.weather_set import WeatherSet
+from emodpy_malaria.weather.weather_config import set_climate_constant, set_climate_by_data
 
-    Args:
-        platform: Platform name (like "Calculon") or COMPSPlatform object, where the work item will run.
-        site_file: CSV (.csv) or demographics (.json) file containing a set of sites (points) defined with lat/lon.
-            CSV file must contain columns for: EMOD node ids (node), latitude (lat) and longitude (lon).
-            Demographics file must match EMOD demographics file schema.
-        start_date: Start date, in formats: year (2018), year and day-of-year (2018001) or date (20180101)
-        end_date: (Optional) End date, in formats: year (2018), year and day-of-year (2018365) or date (20181231)
-        node_column: (Optional) Name of a column containing EMOD node ids. The default is "nodes".
-        lat_column: (Optional) Name of a column containing site (point) latitude. The default is "lat".
-        lon_column: (Optional) Name of a column containing site (point) longitude. The default is "lon".
-        id_reference: (Optional) Value of weather metadata IdReference attribute. The default is "Default".
-        request_name: (Optional) Name to be used for the weather SSMT work item.
-        local_dir: (Optional) Local dir where files will be downloaded.
-        data_source: (Optional) SSMT data source to be used.
-        force: (Optional) Flag ensuring a new weather request is submitted, even if weather files exist in "local_dir".
-
-    Returns:
-        (WeatherRequest): Can be used to access asset collection id or a local dir (if not given as ) argument or a download report.
-    """
-    wa = WeatherArgs(site_file=site_file,
-                     start_date=start_date,
-                     end_date=end_date,
-                     node_column=node_column,
-                     lat_column=lat_column,
-                     lon_column=lon_column,
-                     id_reference=id_reference)
-
-    wr = WeatherRequest(platform=platform, local_dir=local_dir, data_source=data_source)
-    wr.generate(weather_args=wa, request_name=request_name, force=force)
-    wr.download(force=force)
-
-    return wr
+__all__ = [
+    "csv_to_weather",
+    "weather_to_csv",
+    "WeatherVariable",
+    "WeatherAttributes",
+    "WeatherMetadata",
+    "WeatherData",
+    "DataFrameInfo",
+    "WeatherSet",
+    "set_climate_constant",
+    "set_climate_by_data",
+]
 
 
 def csv_to_weather(csv_data: Union[str, Path, pd.DataFrame],
                    node_column: str = "nodes",
                    step_column: str = "steps",
-                   weather_columns: Dict[WeatherVariable, str] = None,
+                   weather_columns: dict[WeatherVariable, str] = None,
                    attributes: WeatherAttributes = None,
                    weather_dir: Union[str, Path] = None,
-                   weather_file_names: Dict[WeatherVariable, str] = None) -> WeatherSet:
-    """
-    Convert a dataframe or csv file, containing node, step and weather columns, into a weather set
-    and corresponding weather files, if weather dir is specified.
+                   weather_file_names: dict[WeatherVariable, str] = None) -> WeatherSet:
+    """Convert a CSV file or DataFrame to EMOD weather files.
 
     Args:
-        csv_data: Dataframe or a csv file path, containing weather data.
-        node_column: (Optional) Column containing node ids. The default is "nodes". The default is "nodes".
-        step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
-        weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
-        attributes: (Optional) Weather attribute object containing metadata for WeatherMetadata object.
-        weather_dir: (Optional) Directory where weather files are stored. If not specified files are not created.
-        weather_file_names: (Optional) Dictionary of weather variables (keys) and weather .bin file names (values).
+        csv_data (Union[str, Path, pd.DataFrame]): Path to CSV file or a pandas DataFrame containing weather
+            data with node, step, and weather variable columns.
+        node_column (str): Column name for node IDs.
+        step_column (str): Column name for time step indices.
+        weather_columns (dict[WeatherVariable, str]): ``{WeatherVariable: column_name}`` mapping. If
+            omitted, default column names from [WeatherVariable](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_variable/)
+            values are used (``airtemp``, ``humidity``, ``rainfall``).
+        attributes (WeatherAttributes): Optional metadata attributes for the output files.
+        weather_dir (Union[str, Path]): If specified, write ``.bin``/``.bin.json`` files here.
+        weather_file_names (dict[WeatherVariable, str]): Optional ``{WeatherVariable: filename}``
+            mapping. If omitted, conventional names are generated.
 
     Returns:
-        WeatherSet object.
+        [WeatherSet](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_set/) containing the parsed weather data.
     """
-
     if isinstance(csv_data, pd.DataFrame):
-        ws = WeatherSet.from_dataframe(df=csv_data,
-                                       node_column=node_column,
-                                       step_column=step_column,
-                                       weather_columns=weather_columns,
-                                       attributes=attributes)
-
-    elif isinstance(csv_data, str) or isinstance(csv_data, Path):
-        ws = WeatherSet.from_csv(file_path=csv_data,
-                                 node_column=node_column,
-                                 step_column=step_column,
-                                 weather_columns=weather_columns,
-                                 attributes=attributes)
+        ws = WeatherSet.from_dataframe(
+            df=csv_data, node_column=node_column, step_column=step_column,
+            weather_columns=weather_columns, attributes=attributes,
+        )
+    elif isinstance(csv_data, (str, Path)):
+        ws = WeatherSet.from_csv(
+            file_path=csv_data, node_column=node_column, step_column=step_column,
+            weather_columns=weather_columns, attributes=attributes,
+        )
     else:
-        raise TypeError("The data argument must be a file path or a pandas dataframe.")
+        raise TypeError("csv_data must be a file path or a pandas DataFrame.")
 
     if weather_dir:
         ws.to_files(dir_path=weather_dir, file_names=weather_file_names)
@@ -137,37 +79,37 @@ def csv_to_weather(csv_data: Union[str, Path, pd.DataFrame],
 
 def weather_to_csv(weather_dir: Union[str, Path],
                    weather_file_prefix: str = "",
-                   weather_file_names: Dict[WeatherVariable, str] = None,
+                   weather_file_names: dict[WeatherVariable, str] = None,
                    csv_file: Union[str, Path] = None,
                    node_column: str = "nodes",
                    step_column: str = "steps",
-                   weather_columns: Dict[WeatherVariable, str] = None) -> Tuple[pd.DataFrame, WeatherAttributes]:
-    """
-    Convert weather files into a dataframe and a .csv file, if csv file path is specified.
+                   weather_columns: dict[WeatherVariable, str] = None
+                   ) -> tuple[pd.DataFrame, WeatherAttributes]:
+    """Convert EMOD weather files to a CSV file or DataFrame.
 
     Args:
-        weather_dir: Local dir containing weather files.
-        weather_file_prefix: (Optional) Weather files prefix, e.g. "dtk_15arcmin"
-        weather_file_names: (Optional) Dictionary of weather variables (keys) and weather .bin file names (values).
-        csv_file: (Optional) The path of a csv file to be generated. If not specified csv file is not created.
-        node_column: (Optional) Column containing node ids. The default is "nodes".
-        step_column: (Optional) Column containing node index for weather time series values. The default is "steps".
-        weather_columns: (Optional) Dictionary of weather variables (keys) and weather column names (values).
-            Defaults are WeatherVariables values are used: "airtemp", "humidity", "rainfall", "landtemp".
+        weather_dir (Union[str, Path]): Directory containing ``.bin``/``.bin.json`` file pairs.
+        weather_file_prefix (str): File name prefix for auto-detection (e.g.
+            ``"namawala_weather"``).
+        weather_file_names (dict[WeatherVariable, str]): Explicit ``{WeatherVariable: filename}`` mapping.
+        csv_file (Union[str, Path]): If specified, write the output DataFrame to this path.
+        node_column (str): Column name for node IDs in the output.
+        step_column (str): Column name for time step indices in the output.
+        weather_columns (dict[WeatherVariable, str]): ``{WeatherVariable: column_name}`` mapping for
+            the output.
 
     Returns:
-        Dataframe and weather attributes objects.
+        Tuple of (DataFrame, WeatherAttributes).
     """
     ws = WeatherSet.from_files(dir_path=weather_dir, prefix=weather_file_prefix, file_names=weather_file_names)
     if csv_file:
-        df = ws.to_csv(file_path=csv_file,
-                       node_column=node_column,
-                       step_column=step_column,
-                       weather_columns=weather_columns)
+        df = ws.to_csv(
+            file_path=csv_file, node_column=node_column,
+            step_column=step_column, weather_columns=weather_columns,
+        )
     else:
-        df = ws.to_dataframe(node_column=node_column,
-                             step_column=step_column,
-                             weather_columns=weather_columns)
-    wa = ws.attributes
-
-    return df, wa
+        df = ws.to_dataframe(
+            node_column=node_column, step_column=step_column,
+            weather_columns=weather_columns,
+        )
+    return df, ws.attributes

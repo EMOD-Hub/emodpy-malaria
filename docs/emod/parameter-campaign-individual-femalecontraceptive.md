@@ -27,6 +27,7 @@ At a glance:
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 The table below describes all possible parameters with which this class can be configured. The JSON
 example that follows shows one potential configuration.
 
@@ -38,26 +39,29 @@ example that follows shows one potential configuration.
     "Events": [
         {
             "class": "CampaignEvent",
-            "Start_Day": 730,
+            "Start_Day": 1,
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
-                "Target_Demographic": "ExplicitGender",
-                "Target_Gender": "Female",
-                "Demographic_Coverage": 0.1,
                 "Intervention_Config": {
-                    "class": "FemaleContraceptive",
-                    "Cost_To_Consumer": 1,
-                    "Waning_Config": {
-                        "class": "WaningEffectBox",
-                        "Box_Duration": 180,
-                        "Initial_Effect": 0.95
-                    },
-                    "Usage_Duration_Distribution": "CONSTANT_DISTRIBUTION",
-                    "Usage_Duration_Constant": 150,
-                    "Usage_Expiration_Event": "StopUsingContraceptive"
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["NewClinicalCase"],
+                    "Demographic_Coverage": 0.5,
+                    "Target_Gender": "Female",
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "FemaleContraceptive",
+                        "Cost_To_Consumer": 5,
+                        "Usage_Duration_Distribution": "CONSTANT_DISTRIBUTION",
+                        "Usage_Duration_Constant": 180,
+                        "Usage_Expiration_Event": "ContraceptiveExpired",
+                        "Waning_Config": {
+                            "class": "WaningEffectBox",
+                            "Box_Duration": 180,
+                            "Initial_Effect": 0.95
+                        }
+                    }
                 }
             }
         }

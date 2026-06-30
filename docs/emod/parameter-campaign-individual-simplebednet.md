@@ -11,10 +11,10 @@ and has been correctly installed. Blocked feeding attempts also carry the possib
 Net ownership is configured through the demographic coverage, and the repelling, blocking, and killing rates
 of mosquitoes are time-dependent. All the efficacies are also affected by the Usage_Config parameter - the
 usage effect is multiplied by the repelling, blocking, and killing effects to determine the final efficacy of the
-net on any given day.
+net on any given night.
 
-**SimpleBednet** can model the bednet usage of net owners by reducing the daily efficacy. To model
-individuals using nets intermittently, see [UsageDependentBednet](parameter-campaign-individual-usagedependentbednet.md).
+**SimpleBednet** can model the nightly bednet usage of net owners by reducing the daily efficacy.
+To model individuals using nets intermittently, see [UsageDependentBednet](parameter-campaign-individual-usagedependentbednet.md).
 To include multiple insecticides, see [MultiInsecticideUsageDependentBednet](parameter-campaign-individual-multiinsecticideusagedependentbednet.md).
 
 
@@ -41,6 +41,7 @@ At a glance:
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 The table below describes all possible parameters with which this class can be configured. The JSON
 example that follows shows one potential configuration.
 

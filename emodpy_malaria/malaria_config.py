@@ -1,19 +1,68 @@
-"""Primary module for setting simulation-wide configuration values for a malaria simulation.
-
-Start with team defaults and use the other functions in this module to meet your specific needs,
-including vector species and larval habitats, drug and parasite parameters, insecticide resistance,
-microsporidia, and parasite genetics.
-"""
-
 import math
 import csv
 import os
+import warnings
 
-import emod_api.config.default_from_schema_no_validation as dfs
+import emod_api.schema_to_class as s2c
 from emodpy_malaria.malaria_vector_species_params import species_params
 
-from . import utils
-from . import vector_config
+from emodpy_malaria.utils.emod_enum import (
+    InnateImmuneVariationType, MalariaStrainModel, ParasiteSwitchType,
+    VarGeneRandomnessType, VectorSamplingType
+)
+from emodpy_malaria.utils.distributions import BaseDistribution, GaussianDistribution
+from emodpy_malaria.drug_config import MalariaDrugTypeParameters, DrugModifier, DoseFractionByAge
+from emodpy_malaria import vector_config
+from emodpy_malaria.vector_config import (
+    set_species_param,
+    add_species,
+    add_genes_and_alleles,
+    add_mutation,
+    create_trait,
+    add_trait,
+    add_blood_meal_mortality,
+    add_insecticide_resistance,
+    add_species_drivers,
+    add_maternal_deposition,
+    get_species_params,
+    set_max_larval_capacity,
+    add_microsporidia,
+    add_vector_migration,
+    VectorHabitat,
+    VectorSpeciesParameters,
+)
+
+__all__ = [
+    # malaria-specific
+    "set_team_defaults",
+    "set_team_drug_params",
+    "set_parasite_genetics_params",
+    "get_drug_params",
+    "set_drug_param",
+    "add_new_drug",
+    "add_drug_resistance",
+    # drug config classes
+    "MalariaDrugTypeParameters",
+    "DrugModifier",
+    "DoseFractionByAge",
+    # re-exported from vector_config
+    "set_species_param",
+    "add_species",
+    "add_genes_and_alleles",
+    "add_mutation",
+    "create_trait",
+    "add_trait",
+    "add_blood_meal_mortality",
+    "add_insecticide_resistance",
+    "add_species_drivers",
+    "add_maternal_deposition",
+    "get_species_params",
+    "set_max_larval_capacity",
+    "add_microsporidia",
+    "add_vector_migration",
+    "VectorHabitat",
+    "VectorSpeciesParameters",
+]
 
 #
 # PUBLIC API section
@@ -22,14 +71,14 @@ from . import vector_config
 
 def set_team_defaults(config, manifest):
     """
-    Set configuration defaults using team-wide values, including drugs and vector species.
+        Set configuration defaults using team-wide values, including drugs and vector species.
     """
     vector_config.set_team_defaults(config, manifest)
     config.parameters.Simulation_Type = "MALARIA_SIM"
-    # removing Infectious_Period parameteres because not allowed in MALARIA_SIM, but need in VECTOR SIM
+    # removing Infectious_Period parameters because not allowed in MALARIA_SIM, but need in VECTOR SIM
     config.parameters.pop("Infectious_Period_Constant")
     config.parameters.pop("Infectious_Period_Distribution")
-    config.parameters.Malaria_Strain_Model = "FALCIPARUM_RANDOM_STRAIN"
+    config.parameters.Malaria_Strain_Model = MalariaStrainModel.FALCIPARUM_RANDOM_STRAIN
     config.parameters.Enable_Disease_Mortality = 0
     # config.parameters.Enable_Malaria_CoTransmission = 0
 
@@ -40,14 +89,14 @@ def set_team_defaults(config, manifest):
     config.parameters.Incubation_Period_Constant = 7
     config.parameters.Antibody_IRBC_Kill_Rate = 1.596
     config.parameters.RBC_Destruction_Multiplier = 3.29
-    config.parameters.Parasite_Switch_Type = "RATE_PER_PARASITE_7VARS"
+    config.parameters.Parasite_Switch_Type = ParasiteSwitchType.RATE_PER_PARASITE_7VARS
 
     # IMMUNITY; these are NOT schema defaults
     config.parameters.Antibody_CSP_Killing_Threshold = 20
     config.parameters.Antigen_Switch_Rate = math.pow(10, -9.116590124)
     config.parameters.Base_Gametocyte_Production_Rate = 0.06150582
     config.parameters.Base_Gametocyte_Mosquito_Survival_Rate = 0.002011099
-    config.parameters.Innate_Immune_Variation_Type = utils.InnateImmuneVariationType.NONE.value  # passing the string value
+    config.parameters.Innate_Immune_Variation_Type = InnateImmuneVariationType.NONE
     config.parameters.Pyrogenic_Threshold = 1.5e4
     config.parameters.Falciparum_MSP_Variants = 32
     config.parameters.Falciparum_Nonspecific_Types = 76
@@ -108,77 +157,62 @@ def set_team_defaults(config, manifest):
 
 
 def set_team_drug_params(config, manifest):
-    # TBD: load csv with drug params and populate from that.
-    with open(os.path.join(os.path.dirname(__file__), 'malaria_drug_params.csv'), newline='') as csvfile:
-        my_reader = csv.reader(csvfile)
+    """
+    Loads antimalarial drug parameters from the bundled CSV and appends them to
+    the simulation config.
 
-        header = next(my_reader)
-        drug_name_idx = header.index("Name")
-        drug_pkpd_model_idx = header.index("PKPD_Model")
-        drug_cmax_idx = header.index("Drug_Cmax")
-        drug_decayt1_idx = header.index("Drug_Decay_T1")
-        drug_decayt2_idx = header.index("Drug_Decay_T2")
-        drug_vd_idx = header.index("Drug_Vd")
-        drug_pkpdc50_idx = header.index("Drug_PKPD_C50")
-        drug_ftdoses_idx = header.index("Drug_Fulltreatment_Doses")
-        drug_dose_interval_idx = header.index("Drug_Dose_Interval")
-        drug_gam02_idx = header.index("Drug_Gametocyte02_Killrate")
-        drug_gam34_idx = header.index("Drug_Gametocyte34_Killrate")
-        drug_gamM_idx = header.index("Drug_GametocyteM_Killrate")
-        drug_hep_idx = header.index("Drug_Hepatocyte_Killrate")
-        drug_maxirbc_idx = header.index("Max_Drug_IRBC_Kill")
-        # drug_adher_idx = header.index("Drug_Adherence_Rate")
-        drug_bwexp_idx = header.index("Bodyweight_Exponent")
-        drug_fracdos_key_idx = header.index("Upper_Age_In_Years")
-        drug_fracdos_val_idx = header.index("Fraction_Of_Adult_Dose")
+    Args:
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
 
-        # for each
-        for row in my_reader:
-            mdp = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:MalariaDrugTypeParameters"])
-            mdp.parameters.Drug_Cmax = float(row[drug_cmax_idx])
-            mdp.parameters.Drug_Decay_T1 = float(row[drug_decayt1_idx])
-            mdp.parameters.Drug_Decay_T2 = float(row[drug_decayt2_idx])
-            mdp.parameters.Drug_Vd = float(row[drug_vd_idx])
-            mdp.parameters.Drug_PKPD_C50 = float(row[drug_pkpdc50_idx])
-            mdp.parameters.Drug_Fulltreatment_Doses = float(row[drug_ftdoses_idx])
-            mdp.parameters.Drug_Dose_Interval = float(row[drug_dose_interval_idx])
-            mdp.parameters.Drug_Gametocyte02_Killrate = float(row[drug_gam02_idx])
-            mdp.parameters.Drug_Gametocyte34_Killrate = float(row[drug_gam34_idx])
-            mdp.parameters.Drug_GametocyteM_Killrate = float(row[drug_gamM_idx])
-            mdp.parameters.Drug_Hepatocyte_Killrate = float(row[drug_hep_idx])
-            mdp.parameters.Max_Drug_IRBC_Kill = float(row[drug_maxirbc_idx])
-            mdp.parameters.PKPD_Model = row[drug_pkpd_model_idx]
-            mdp.parameters.Name = row[drug_name_idx]
-            # mdp.parameters.Drug_Adherence_Rate = float(row[ drug_adher_idx ])
-            mdp.parameters.Bodyweight_Exponent = float(row[drug_bwexp_idx])
-
+    Returns:
+        (dict): configured config
+    """
+    csv_path = os.path.join(os.path.dirname(__file__), 'malaria_drug_params.csv')
+    with open(csv_path, newline='') as csvfile:
+        for row in csv.DictReader(csvfile):
             try:
-                key = row[drug_fracdos_key_idx].strip('[]').replace(' ', '')
-                if len(key) > 0:
-                    ages = [float(x) for x in row[drug_fracdos_key_idx].strip('[]').split(",")]
-                    values = [float(x) for x in row[drug_fracdos_val_idx].strip('[]').split(",")]
+                ages_str = row["Upper_Age_In_Years"].strip('[]').replace(' ', '')
+                values_str = row["Fraction_Of_Adult_Dose"].strip('[]').replace(' ', '')
+                if ages_str:
+                    ages = [float(x) for x in ages_str.split(",")]
+                    fractions = [float(x) for x in values_str.split(",")]
+                    dose_fractions = [
+                        DoseFractionByAge(age, frac)
+                        for age, frac in zip(ages, fractions)
+                    ]
+                else:
+                    dose_fractions = []
             except Exception as ex:
-                print("For drug {}, {}".format(row[0], str(ex)))
-                ages = []
-                values = []
-            for idx in range(len(ages)):
-                fdbua = dict()
-                # this is what we want but not ready yet
-                # fdbua = dfs.schema_to_config_subnode(mani.schema_file, ["idmTypes","idmType:DoseMap"] )
-                # fdbua.Upper_Age_In_Years = ages[idx]
-                # fdbua.Fraction_Of_Adult_Dose = values[idx]
-                fdbua["Upper_Age_In_Years"] = ages[idx]
-                fdbua["Fraction_Of_Adult_Dose"] = values[idx]
-                # fdbua.finalize()
-                mdp.parameters.Fractional_Dose_By_Upper_Age.append(fdbua)
+                warnings.warn(f"For drug {row['Name']}: {ex}. Defaulting to empty dose fractions.")
+                dose_fractions = []
 
-            config.parameters.Malaria_Drug_Params.append(mdp.parameters)
-    # end
+            drug = MalariaDrugTypeParameters(
+                name=row["Name"],
+                pkpd_model=row["PKPD_Model"],
+                drug_cmax=float(row["Drug_Cmax"]),
+                drug_decay_t1=float(row["Drug_Decay_T1"]),
+                drug_decay_t2=float(row["Drug_Decay_T2"]),
+                drug_vd=float(row["Drug_Vd"]),
+                drug_pkpd_c50=float(row["Drug_PKPD_C50"]),
+                drug_fulltreatment_doses=int(row["Drug_Fulltreatment_Doses"]),
+                drug_dose_interval=float(row["Drug_Dose_Interval"]),
+                drug_gametocyte02_killrate=float(row["Drug_Gametocyte02_Killrate"]),
+                drug_gametocyte34_killrate=float(row["Drug_Gametocyte34_Killrate"]),
+                drug_gametocytem_killrate=float(row["Drug_GametocyteM_Killrate"]),
+                drug_hepatocyte_killrate=float(row["Drug_Hepatocyte_Killrate"]),
+                max_drug_irbc_kill=float(row["Max_Drug_IRBC_Kill"]),
+                bodyweight_exponent=float(row["Bodyweight_Exponent"]),
+                fractional_dose_by_upper_age=dose_fractions,
+            )
+            config.parameters.Malaria_Drug_Params.append(drug.to_schema_dict(manifest))
 
     return config
 
 
-def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str = "ALL_RANDOM"):
+def set_parasite_genetics_params(config, manifest,
+                                 var_gene_randomness_type: VarGeneRandomnessType = VarGeneRandomnessType.ALL_RANDOM,
+                                 sporozoites_per_oocyst: BaseDistribution = None):
     """
     Sets up the default parameters for parasite genetics simulations
     Malaria_Model = "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS"
@@ -186,11 +220,25 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
     Args:
         config (dict): schema-backed config smart dict
         manifest (ModuleType): schema path container
-        var_gene_randomness_type (str): possible values are "FIXED_NEIGHBORHOOD", "FIXED_MSP", "ALL_RANDOM" (default)
+        var_gene_randomness_type (VarGeneRandomnessType): Controls randomness of var genes in new
+            infections. Defaults to ``VarGeneRandomnessType.ALL_RANDOM``.
+        sporozoites_per_oocyst (BaseDistribution): A [BaseDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/) that
+            sets the Sporozoites_Per_Oocyst distribution parameters. Defaults to
+            ``GaussianDistribution(mean=10000, std_dev=1000)``.
 
     Returns:
         (dict): configured config
     """
+    if sporozoites_per_oocyst is None:
+        sporozoites_per_oocyst = GaussianDistribution(mean=10000, std_dev=1000)
+    if not isinstance(var_gene_randomness_type, VarGeneRandomnessType):
+        try:
+            var_gene_randomness_type = VarGeneRandomnessType(var_gene_randomness_type)
+        except ValueError:
+            valid_types = [v.value for v in VarGeneRandomnessType]
+            raise ValueError(f"Invalid var_gene_randomness_type '{var_gene_randomness_type}'. "
+                             f"Must be one of: {valid_types}")
+
     set_team_defaults(config, manifest)
     config.parameters.pop("Malaria_Strain_Model")  # removing incompatible Malaria_Strain_Model parameter
     # config.parameters.pop("Enable_Initial_Prevalence") # popping it here doesn't work
@@ -198,23 +246,21 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
     config.parameters.Falciparum_MSP_Variants = 100
     config.parameters.Falciparum_Nonspecific_Types = 20
     config.parameters.Falciparum_PfEMP1_Variants = 1000
-    config.parameters.Vector_Sampling_Type = "TRACK_ALL_VECTORS"
+    config.parameters.Vector_Sampling_Type = VectorSamplingType.TRACK_ALL_VECTORS
     config.parameters.Max_Individual_Infections = 10
-    # setting up Parasite_Genetics parameteres
-    fpg = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:ParasiteGenetics"])
-    fpg.parameters.Var_Gene_Randomness_Type = var_gene_randomness_type
-    fpg.parameters.Sporozoite_Life_Expectancy = 25
-    fpg.parameters.Num_Sporozoites_In_Bite_Fail = 12
-    fpg.parameters.Probability_Sporozoite_In_Bite_Fails = 0.5
-    fpg.parameters.Num_Oocyst_From_Bite_Fail = 3
-    fpg.parameters.Probability_Oocyst_From_Bite_Fails = 0.5
-    fpg.parameters.Sporozoites_Per_Oocyst_Distribution = "GAUSSIAN_DISTRIBUTION"
-    fpg.parameters.Sporozoites_Per_Oocyst_Gaussian_Mean = 10000
-    fpg.parameters.Sporozoites_Per_Oocyst_Gaussian_Std_Dev = 1000
-    fpg.parameters.Crossover_Gamma_K = 2
-    fpg.parameters.Crossover_Gamma_Theta = 0.38
-    fpg.parameters.Drug_Resistant_Genome_Locations = []
-    fpg.parameters.Barcode_Genome_Locations = [
+    # setting up Parasite_Genetics parameters
+    fpg = s2c.get_class_with_defaults("idmType:ParasiteGenetics", schema_path=manifest.schema_file)
+    fpg.Var_Gene_Randomness_Type = var_gene_randomness_type
+    fpg.Sporozoite_Life_Expectancy = 25
+    fpg.Num_Sporozoites_In_Bite_Fail = 12
+    fpg.Probability_Sporozoite_In_Bite_Fails = 0.5
+    fpg.Num_Oocyst_From_Bite_Fail = 3
+    fpg.Probability_Oocyst_From_Bite_Fails = 0.5
+    sporozoites_per_oocyst.set_intervention_distribution(fpg, "Sporozoites_Per_Oocyst")
+    fpg.Crossover_Gamma_K = 2
+    fpg.Crossover_Gamma_Theta = 0.38
+    fpg.Drug_Resistant_Genome_Locations = []
+    fpg.Barcode_Genome_Locations = [
         311500,
         1116500,
         2140000,
@@ -240,11 +286,11 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
         20590000,
         21690000
     ]
-    if var_gene_randomness_type == "FIXED_NEIGHBORHOOD" or var_gene_randomness_type == "FIXED_MSP":
-        fpg.parameters.MSP_Genome_Location = 200000
-        fpg.parameters.Neighborhood_Size_MSP = 4
-        if var_gene_randomness_type == "FIXED_NEIGHBORHOOD":
-            fpg.parameters.PfEMP1_Variants_Genome_Locations = [
+    if var_gene_randomness_type == VarGeneRandomnessType.FIXED_NEIGHBORHOOD or var_gene_randomness_type == VarGeneRandomnessType.FIXED_MSP:
+        fpg.MSP_Genome_Location = 200000
+        fpg.Neighborhood_Size_MSP = 4
+        if var_gene_randomness_type == VarGeneRandomnessType.FIXED_NEIGHBORHOOD:
+            fpg.PfEMP1_Variants_Genome_Locations = [
                 214333,
                 428667,
                 958667,
@@ -296,8 +342,8 @@ def set_parasite_genetics_params(config, manifest, var_gene_randomness_type: str
                 21470000,
                 22130000
             ]
-            fpg.parameters.Neighborhood_Size_PfEMP1 = 10
-    config.parameters.Parasite_Genetics = fpg.parameters
+            fpg.Neighborhood_Size_PfEMP1 = 10
+    config.parameters.Parasite_Genetics = fpg
     # setting up gambiae parameters for parasite genetics
     fpg_gambiae_params = species_params(manifest, "fpg_gambiae")
     config.parameters.Vector_Species_Params = [fpg_gambiae_params]
@@ -312,215 +358,109 @@ def get_drug_params(cb, drug_name):
     raise ValueError(f"{drug_name} not found.")
 
 
-def set_drug_param(config, drug_name: str = None, parameter: str = None, value: any = None):
+def add_new_drug(config, manifest, drug: MalariaDrugTypeParameters, overwrite: bool = False):
     """
-     Set a drug parameter, by passing in drug name, parameter and the parameter value.
-     Added to facilitate adding drug Resistances.<br>
-     Example:
-
-            artemether_drug_resistance = [{
-                "Drug_Resistant_String": "A",
-                "PKPD_C50_Modifier": 2.0,
-                "Max_IRBC_Kill_Modifier": 0.9}]
-            set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
+    Adds a new drug to the simulation's **Malaria_Drug_Params** list.
 
     Args:
         config (dict): schema-backed config smart dict
-        drug_name (str): The drug that has a parameter to set
+        manifest (ModuleType): manifest file containing the schema path
+        drug (MalariaDrugTypeParameters): fully configured drug object
+        overwrite (bool): If ``True`` and a drug with the same name already exists,
+            replace it. If ``False`` (default), raise ``ValueError`` on duplicate names.
+
+    Returns:
+        (dict): configured config
+
+    **Example**::
+
+        drug = MalariaDrugTypeParameters(
+            name="MyNewDrug",
+            pkpd_model=PKPDModel.CONCENTRATION_VERSUS_TIME,
+            drug_cmax=200,
+            drug_decay_t1=0.5,
+            max_drug_irbc_kill=6.0,
+        )
+        add_new_drug(config, manifest, drug)
+    """
+    if not isinstance(drug, MalariaDrugTypeParameters):
+        raise ValueError(
+            f"'drug' must be a MalariaDrugTypeParameters instance, "
+            f"got {type(drug).__name__}.")
+
+    for idx, existing in enumerate(config.parameters.Malaria_Drug_Params):
+        if existing.Name == drug.name:
+            if overwrite:
+                config.parameters.Malaria_Drug_Params[idx] = drug.to_schema_dict(manifest)
+                return config
+            raise ValueError(
+                f"Drug '{drug.name}' already exists. "
+                f"Set overwrite=True to replace it.")
+
+    config.parameters.Malaria_Drug_Params.append(drug.to_schema_dict(manifest))
+    return config
+
+
+def set_drug_param(config, drug_name: str = None, parameter: str = None, value: any = None):
+    """
+     Set a drug parameter, by passing in drug name, parameter and the parameter value.
+     Added to facilitate adding drug Resistances,
+     **Example**::
+
+         artemether_drug_resistance = [{
+            "Drug_Resistant_String": "A",
+            "PKPD_C50_Modifier": 2.0,
+            "Max_IRBC_Kill_Modifier": 0.9}]
+         set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
+
+    Args:
+        config (dict): schema-backed config smart dict
+        drug_name (str): The drug that has a **parameter** to set
         parameter (str): The parameter to set
         value (any): The new value to set
     """
 
-    if not drug_name or not parameter or not value:
+    if not drug_name or not parameter or value is None:
         raise Exception("Please pass in all: drug_name, parameter, and value.\n")
     for drug in config.parameters.Malaria_Drug_Params:
         if drug.Name == drug_name:
+            if parameter not in drug:
+                warnings.warn(f"Parameter '{parameter}' not found in drug '{drug_name}' parameters. "
+                              f"It will be added — verify the spelling is correct.")
             drug[parameter] = value
             return  # should I return anything here?
     raise ValueError(f"{drug_name} not found.\n")
 
 
-def add_drug_resistance(config, manifest, drugname: str = None, drug_resistant_string: str = None,
+def add_drug_resistance(config, manifest, drugname: str, drug_resistant_string: str,
                         pkpd_c50_modifier: float = 1.0, max_irbc_kill_modifier: float = 1.0):
     """
-    Adds drug resistances by drug name and parameters.
+    Adds a drug resistance modifier to an existing drug in the simulation config.
 
     Args:
-        config (dict): schema-backed config smart dict.
-        manifest (ModuleType): manifest file containing the schema path.
-        drugname (str): name of the drug for which to assign resistances.
-        drug_resistant_string (str): A series of nucleotide base letters (A, C, G, T) that represent the drug resistant
-            values at locations in the genome.
-        pkpd_c50_modifier (float): If the parasite has this genome marker, this value will be multiplied times the
-            'Drug_PKPD_C50' value of the drug. Genomes with multiple markers will be simply multiplied together.
-        max_irbc_kill_modifier (float): If the parasite has this genome marker, this value will be multiplied times the
-            'Max_Drug_IRBC_Kill' value of the drug.  Genomes with multiple markers will be simply multiplied together.
+        config (dict): schema-backed config smart dict
+        manifest (ModuleType): manifest file containing the schema path
+        drugname (str): name of the drug for which to assign resistances
+        drug_resistant_string (str): Nucleotide base letters (A, C, G, T) representing
+            resistance at specific genome locations.
+        pkpd_c50_modifier (float): Multiplier applied to the drug's Drug_PKPD_C50
+            when the parasite genome matches. Genomes with multiple markers have
+            modifiers multiplied together. Default: 1.0.
+        max_irbc_kill_modifier (float): Multiplier applied to the drug's
+            Max_Drug_IRBC_Kill when the parasite genome matches. Default: 1.0.
 
     Returns:
         (dict): configured config
     """
-
-    drugmod = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:DrugModifier"])
-    drugmod.parameters.Drug_Resistant_String = drug_resistant_string
-    drugmod.parameters.Max_IRBC_Kill_Modifier = max_irbc_kill_modifier
-    drugmod.parameters.PKPD_C50_Modifier = pkpd_c50_modifier
+    modifier = DrugModifier(
+        drug_resistant_string=drug_resistant_string,
+        pkpd_c50_modifier=pkpd_c50_modifier,
+        max_irbc_kill_modifier=max_irbc_kill_modifier,
+    )
 
     for drug_param in config.parameters.Malaria_Drug_Params:
         if drug_param.Name == drugname:
-            drug_param.Resistances.append(drugmod.parameters)
+            drug_param.Resistances.append(modifier.to_schema_dict(manifest))
             return config
 
     raise ValueError(f"Drug name {drugname} not found.\n")
-
-
-def set_species_param(config, species, parameter, value, overwrite=False):
-    """
-        Pass through for vector version of function.
-    """
-    return vector_config.set_species_param(config, species, parameter, value, overwrite=overwrite)
-
-
-def add_species(config, manifest, species_to_select):
-    """
-        Pass through for vector version of function.
-    """
-    vector_config.add_species(config, manifest, species_to_select)
-
-
-def add_blood_meal_mortality(config, manifest,
-                             default_probability_of_death: float = 0.0,
-                             species: str = "",
-                             allele_combo: list = None,
-                             probability_of_death_for_allele_combo: float = 0.0):
-    """
-        Pass through for vector version of function.
-    """
-    return vector_config.add_blood_meal_mortality(config, manifest,
-                                                  default_probability_of_death,
-                                                  species,
-                                                  allele_combo,
-                                                  probability_of_death_for_allele_combo)
-
-
-def add_insecticide_resistance(config, manifest, insecticide_name: str = "", species: str = "",
-                               allele_combo: list = None, blocking: float = 1.0, killing: float = 1.0,
-                               repelling: float = 1.0, larval_killing: float = 1.0):
-    """
-        Pass through for vector version of function.
-    """
-    vector_config.add_insecticide_resistance(config, manifest, insecticide_name, species,
-                                             allele_combo, blocking, killing,
-                                             repelling, larval_killing)
-
-
-def get_species_params(config, species: str = None):
-    """
-        Pass through for vector version of function.
-    """
-    return vector_config.get_species_params(config, species)
-
-
-def set_max_larval_capacity(config, species_name: str, habitat_type: str, max_larval_capacity: int):
-    """
-    Set the **Max_Larval_Capacity** for a given species and habitat.
-
-    Args:
-        config (dict): schema-backed config smart dict.
-        species_name (str): string. Species_Name to target.
-        habitat_type (str): enum. Habitat_Type to target.
-        max_larval_capacity (int): integer. New value of Max_Larval_Capacity.
-    """
-    return vector_config.set_max_larval_capacity(config, species_name, habitat_type, max_larval_capacity)
-
-
-def add_microsporidia(config, manifest, species_name: str = None,
-                      strain_name: str = "Strain_A",
-                      female_to_male_probability: float = 0,
-                      female_to_egg_probability: float = 0,
-                      male_to_female_probability: float = 0,
-                      male_to_egg_probability: float = 0,
-                      duration_to_disease_acquisition_modification: dict = None,
-                      duration_to_disease_transmission_modification: dict = None,
-                      larval_growth_modifier: float = 1,
-                      female_mortality_modifier: float = 1,
-                      male_mortality_modifier: float = 1):
-    """
-    Adds microsporidia parameters to the named species' parameters.
-
-    Args:
-        config (dict): schema-backed config dictionary, written to config.json.
-        manifest (ModuleType): file that contains path to the schema file.
-        species_name (str): Species to target, **Name** parameter
-        strain_name (str): **Strain_Name** The name/identifier of the collection of transmission parameters.
-            Cannot be empty string.
-        female_to_male_probability (float): **Microsporidia_Female_to_Male_Transmission_Probability** The probability
-            an infected female will infect an uninfected male.
-        female_to_egg_probability (float): **Microsporidia_Female_To_Egg_Transmission_Probability** The probability
-            an infected female will infect her eggs when laying them.
-        male_to_female_probability (float): **Microsporidia_Male_To_Female_Transmission_Probability** The probability
-            an infected male will infect an uninfected female.
-        male_to_egg_probability (float): **Microsporidia_Male_To_Egg_Transmission_Probability** The probability a female that
-            mated with an infected male will infect her eggs when laying them, independent of her being infected and
-            transmitting to her offspring.
-        duration_to_disease_acquisition_modification (dict): **Microsporidia_Duration_To_Disease_Acquisition_Modification**,
-            A dictionary for "Times" and "Values" as an age-based modification that the female will acquire malaria.
-            **Times** is an array of days in ascending order that represent the number of days since the vector became
-            infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
-            probability that the vector will acquire malaria due to Microsporidia.
-        duration_to_disease_transmission_modification (dict): **Microsporidia_Duration_To_Disease_Transmission_Modification**,
-            A dictionary for "Times" and "Values" as an age-based modification that the female will transmit malaria.
-            **Times** is an array of days in ascending order that represent the number of days since the vector became
-            infected. **Values** is an array of probabilities with values from 0 to 1 where each probability is the
-            probability that the vector will acquire malaria due to Microsporidia.
-        larval_growth_modifier (float): **Microsporidia_Larval_Growth_Modifier** A multiplier modifier to the daily, temperature
-            dependent, larval growth progress.
-        female_mortality_modifier (float): **Microsporidia_Female_Mortality_Modifier** A multiplier modifier on the death
-            rate for female vectors due to general life expectancy, age, and dry heat.
-        male_mortality_modifier (float): **Microsporidia_Male_Mortality_Modifier** A multiplier modifier on the death rate for
-            male vectors due to general life expectancy, age, and dry heat.
-    """
-    vector_config.add_microsporidia(config, manifest,
-                                    species_name=species_name,
-                                    strain_name=strain_name,
-                                    female_to_male_probability=female_to_male_probability,
-                                    female_to_egg_probability=female_to_egg_probability,
-                                    male_to_female_probability=male_to_female_probability,
-                                    male_to_egg_probability=male_to_egg_probability,
-                                    duration_to_disease_acquisition_modification=duration_to_disease_acquisition_modification,
-                                    duration_to_disease_transmission_modification=duration_to_disease_transmission_modification,
-                                    larval_growth_modifier=larval_growth_modifier,
-                                    female_mortality_modifier=female_mortality_modifier,
-                                    male_mortality_modifier=male_mortality_modifier)
-
-
-def configure_linear_spline(manifest, max_larval_capacity: float = pow(10, 8),
-                            capacity_distribution_number_of_years: int = 1,
-                            capacity_distribution_over_time: dict = None):
-    """
-    Configures and returns a ReadOnlyDict of the LINEAR_SPLINE habitat parameters.
-
-    Args:
-        manifest (ModuleType): manifest file containing the schema path.
-        max_larval_capacity (float): The maximum larval capacity. Sets **Max_Larval_Capacity**.
-        capacity_distribution_number_of_years (int): The total length of time in
-            years for the scaling. If the simulation goes longer than this time, the pattern will repeat. Ideally,
-            this value times 365 is the last value in **Capacity_Distribution_Over_Time**.
-            Sets **Capacity_Distribution_Number_Of_Years**.
-        capacity_distribution_over_time (dict):  This allows one to scale the larval
-            capacity over time.  The Times and Values arrays must be the same length where Times is in days and
-            Values are a scale factor per degrees squared.  The value is multiplied times the max capacity and
-            'Node_Grid_Size' squared/4. Ideally, you want the last value  to equal the first value if they are
-            one day apart. A point will be added if not. Sets **Capacity_Distribution_Over_Time**.
-
-            Example:
-
-                        {
-                            "Times": [0,  30,  60,   91,  122, 152, 182, 213, 243, 274, 304, 334, 365 ],
-                            "Values": [3, 0.8, 1.25, 0.1, 2.7, 8,    4,   35, 6.8, 6.5, 2.6, 2.1, 2]
-                        }
-
-    Returns:
-        (dict): "LINEAR_SPLINE" parameters to be passed directly to "set_species_params" function.
-    """
-    return vector_config.configure_linear_spline(manifest, max_larval_capacity, capacity_distribution_number_of_years,
-                                                 capacity_distribution_over_time)

@@ -1,136 +1,133 @@
-"""
-Pre-configured parameter sets for common Anopheles vector species used in malaria simulations.
-"""
+import copy
 
-import emod_api.config.default_from_schema_no_validation as dfs
+from emodpy_malaria.vector_config import VectorSpeciesParameters, VectorHabitat
+from emodpy_malaria.utils.emod_enum import HabitatType
+from emodpy.campaign.common import ValueMap
+
+_BASE = VectorSpeciesParameters(
+    name="gambiae",
+    habitats=[
+        VectorHabitat(habitat_type=HabitatType.WATER_VEGETATION, max_larval_capacity=20000000)
+    ],
+    anthropophily=0.65,
+    acquire_modifier=0.8,
+    adult_life_expectancy=20,
+    aquatic_arrhenius_1=84200000000,
+    aquatic_arrhenius_2=8328,
+    aquatic_mortality_rate=0.1,
+    days_between_feeds=3,
+    egg_batch_size=100,
+    immature_duration=2,
+    indoor_feeding_fraction=0.95,
+    infected_arrhenius_1=117000000000,
+    infected_arrhenius_2=8336,
+    infected_egg_batch_factor=0.8,
+    infectious_human_feed_mortality_factor=1.5,
+    male_life_expectancy=10,
+    transmission_rate=0.9,
+    vector_sugar_feeding_frequency="VECTOR_SUGAR_FEEDING_NONE",
+)
+
+_gambiae = _BASE
+
+_arabiensis = copy.deepcopy(_BASE)
+_arabiensis.name = "arabiensis"
+_arabiensis.indoor_feeding_fraction = 0.5
+_arabiensis.habitats = [
+    VectorHabitat(habitat_type=HabitatType.TEMPORARY_RAINFALL, max_larval_capacity=800000000),
+    VectorHabitat(habitat_type=HabitatType.CONSTANT, max_larval_capacity=80000000),
+]
+
+_funestus = copy.deepcopy(_BASE)
+_funestus.name = "funestus"
+_funestus.habitats = [
+    VectorHabitat(habitat_type=HabitatType.TEMPORARY_RAINFALL, max_larval_capacity=800000000),
+    VectorHabitat(habitat_type=HabitatType.CONSTANT, max_larval_capacity=80000000),
+]
+
+_fpg_gambiae = copy.deepcopy(_BASE)
+_fpg_gambiae.name = "fpg_gambiae"
+_fpg_gambiae.indoor_feeding_fraction = 0.5
+_fpg_gambiae.vector_sugar_feeding_frequency = "VECTOR_SUGAR_FEEDING_EVERY_DAY"
+_fpg_gambiae.habitats = [
+    VectorHabitat(
+        habitat_type=HabitatType.LINEAR_SPLINE,
+        max_larval_capacity=316227766.01683795,
+        capacity_distribution_number_of_years=1,
+        capacity_distribution_over_time=ValueMap(
+            times=[0, 30.417, 60.833, 91.25, 121.667, 152.083, 182.5, 212.917, 243.333, 273.75, 304.167, 334.583],
+            values=[3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8, 6.5, 2.6, 2.1]
+        ),
+    ),
+]
+
+_minimus = copy.deepcopy(_BASE)
+_minimus.name = "minimus"
+_minimus.anthropophily = 0.5
+_minimus.adult_life_expectancy = 25
+_minimus.egg_batch_size = 70
+_minimus.indoor_feeding_fraction = 0.6
+_minimus.transmission_rate = 0.8
+_minimus.habitats = [
+    VectorHabitat(habitat_type=HabitatType.WATER_VEGETATION, max_larval_capacity=20000000),
+    VectorHabitat(
+        habitat_type=HabitatType.LINEAR_SPLINE,
+        max_larval_capacity=30000000,
+        capacity_distribution_number_of_years=1,
+        capacity_distribution_over_time=ValueMap(
+            times=[0, 1, 245, 275, 364],
+            values=[0.2, 0.2, 0.7, 3, 3]
+        ),
+    ),
+]
+
+_dirus = copy.deepcopy(_BASE)
+_dirus.name = "dirus"
+_dirus.anthropophily = 0.5
+_dirus.adult_life_expectancy = 30
+_dirus.egg_batch_size = 70
+_dirus.indoor_feeding_fraction = 0.01
+_dirus.transmission_rate = 0.8
+_dirus.habitats = [
+    VectorHabitat(habitat_type=HabitatType.CONSTANT, max_larval_capacity=10000000),
+    VectorHabitat(habitat_type=HabitatType.TEMPORARY_RAINFALL, max_larval_capacity=70000000),
+]
+
+_SPECIES_DATA = {
+    "gambiae": _gambiae,
+    "arabiensis": _arabiensis,
+    "funestus": _funestus,
+    "fpg_gambiae": _fpg_gambiae,
+    "minimus": _minimus,
+    "dirus": _dirus,
+}
+
+BUILTIN_SPECIES = list(_SPECIES_DATA.keys())
 
 
-def species_params(manifest, species: str = None):
+def species_params(manifest: object, species: str = None) -> object | list[str]:
     """
-    Returns configured species parameters based on species name
+    Returns configured species parameters based on species name.
+
+    Prefer [VectorSpeciesParameters](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/vector_config/)
+    and its `from_preset()` classmethod for new code.
 
     Args:
-        manifest (ModuleType): file that contains path to the schema file.
-        species (str): species, configuration for which, we will be adding to the simulation.
+        manifest (object): module containing ``schema_file`` path
+        species (str): name of the species to configure
 
     Returns:
-        (Union[dict, list]): Dict of parameter if valid species; list of valid species otherwise.
+        Schema-backed parameters dict if species is found;
+        list of available species names otherwise.
     """
+    if species not in _SPECIES_DATA:
+        return BUILTIN_SPECIES
 
-    # generic
-    vsp = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorSpeciesParameters"])
-    vsp.parameters.Anthropophily = 0.65
-    vsp.parameters.Name = "gambiae"
-    vsp.parameters.Acquire_Modifier = 0.8
-    vsp.parameters.Adult_Life_Expectancy = 20
-    vsp.parameters.Aquatic_Arrhenius_1 = 84200000000
-    vsp.parameters.Aquatic_Arrhenius_2 = 8328
-    vsp.parameters.Aquatic_Mortality_Rate = 0.1
-    vsp.parameters.Days_Between_Feeds = 3
-    vsp.parameters.Egg_Batch_Size = 100
-    vsp.parameters.Immature_Duration = 2
-    vsp.parameters.Indoor_Feeding_Fraction = 0.95
-    vsp.parameters.Infected_Arrhenius_1 = 117000000000
-    vsp.parameters.Infected_Arrhenius_2 = 8336
-    vsp.parameters.Infected_Egg_Batch_Factor = 0.8
-    vsp.parameters.Infectious_Human_Feed_Mortality_Factor = 1.5
-    vsp.parameters.Male_Life_Expectancy = 10
-    vsp.parameters.Transmission_Rate = 0.9
-    vsp.parameters.Vector_Sugar_Feeding_Frequency = "VECTOR_SUGAR_FEEDING_NONE"
-    # adding habitats
-    lht = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-    lht.parameters.Habitat_Type = "WATER_VEGETATION"
-    lht.parameters.Max_Larval_Capacity = 20000000
-    # end adding larval capacity
-    vsp.parameters.Habitats = [lht.parameters]
-
-    builtin_species_list = ["gambiae", "arabiensis", "funestus", "fpg_gambiae", "minimus", "dirus"]  # please update if more species is added
-    if species == "gambiae":  # same as generic species
-        return vsp.parameters
-    elif species == "arabiensis":
-        # default arabiensis
-        vsp.parameters.Name = "arabiensis"
-        vsp.parameters.Indoor_Feeding_Fraction = 0.5
-        # replacing habitats
-        lht1 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht1.parameters.Habitat_Type = "TEMPORARY_RAINFALL"
-        lht1.parameters.Max_Larval_Capacity = 800000000
-        lht2 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht2.parameters.Habitat_Type = "CONSTANT"
-        lht2.parameters.Max_Larval_Capacity = 80000000
-        # end adding larval capacity
-        vsp.parameters.Habitats = [lht1.parameters, lht2.parameters]
-        return vsp.parameters
-    elif species == "funestus":
-        vsp.parameters.Name = "funestus"
-        # replacing habitats
-        lht1 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht1.parameters.Habitat_Type = "TEMPORARY_RAINFALL"
-        lht1.parameters.Max_Larval_Capacity = 800000000
-        lht2 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht2.parameters.Habitat_Type = "CONSTANT"
-        lht2.parameters.Max_Larval_Capacity = 80000000
-        # end adding larval capacity
-        vsp.parameters.Habitats = [lht1.parameters, lht2.parameters]
-        return vsp.parameters
-    elif species == "fpg_gambiae":  # from Jon Russel's sims, still called "gambiae"
-        vsp.parameters.Acquire_Modifier = 0.8
-        vsp.parameters.Indoor_Feeding_Fraction = 0.5
-        vsp.parameters.Vector_Sugar_Feeding_Frequency = "VECTOR_SUGAR_FEEDING_EVERY_DAY"
-        # replacing habitats
-        lht = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht.parameters.Habitat_Type = "LINEAR_SPLINE"
-        lht.parameters.Max_Larval_Capacity = 316227766.01683795
-        lht.parameters.Capacity_Distribution_Number_Of_Years = 1
-        # adding larval capacity
-        cdot = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
-        cdot.parameters.Times = [0, 30.417, 60.833, 91.25, 121.667, 152.083, 182.5, 212.917, 243.333, 273.75, 304.167,
-                                 334.583]
-        cdot.parameters.Values = [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8, 6.5, 2.6, 2.1]
-        lht.parameters.Capacity_Distribution_Over_Time = cdot.parameters
-        # end adding larval capacity
-        vsp.parameters.Habitats = [lht.parameters]
-        return vsp.parameters
-    elif species == "minimus":  # from Monique Ambrose's sims
-        vsp.parameters.Anthropophily = 0.5
-        vsp.parameters.Name = "minimus"
-        vsp.parameters.Acquire_Modifier = 0.8
-        vsp.parameters.Adult_Life_Expectancy = 25
-        vsp.parameters.Egg_Batch_Size = 70
-        vsp.parameters.Indoor_Feeding_Fraction = 0.6
-        vsp.parameters.Transmission_Rate = 0.8
-        # adding habitats
-        lht1 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht1.parameters.Habitat_Type = "WATER_VEGETATION"
-        lht1.parameters.Max_Larval_Capacity = 2e7
-        lht2 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht2.parameters.Habitat_Type = "LINEAR_SPLINE"
-        lht2.parameters.Max_Larval_Capacity = 3e7
-        lht2.parameters.Capacity_Distribution_Number_Of_Years = 1
-        # adding larval capacity
-        cdot = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:InterpolatedValueMap"])
-        cdot.parameters.Times = [0, 1, 245, 275, 364]
-        cdot.parameters.Values = [0.2, 0.2, 0.7, 3, 3]
-        lht2.parameters.Capacity_Distribution_Over_Time = cdot.parameters
-        # end adding larval capacity
-        vsp.parameters.Habitats = [lht1.parameters, lht2.parameters]
-        return vsp.parameters
-    elif species == "dirus":  # dirus for Monique Ambrose's sims
-        vsp.parameters.Anthropophily = 0.5
-        vsp.parameters.Name = "dirus"
-        vsp.parameters.Adult_Life_Expectancy = 30
-        vsp.parameters.Egg_Batch_Size = 70
-        vsp.parameters.Indoor_Feeding_Fraction = 0.01
-        vsp.parameters.Transmission_Rate = 0.8
-        # adding habitats
-        lht1 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht1.parameters.Habitat_Type = "CONSTANT"
-        lht1.parameters.Max_Larval_Capacity = 1e7
-        lht2 = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
-        lht2.parameters.Habitat_Type = "TEMPORARY_RAINFALL"
-        lht2.parameters.Max_Larval_Capacity = 7e7
-        # end adding larval capacity
-        vsp.parameters.Habitats = [lht1.parameters, lht2.parameters]
-        return vsp.parameters
-    else:
-        return builtin_species_list
+    preset = copy.deepcopy(_SPECIES_DATA[species])
+    from emod_api import campaign as api_campaign
+    if not api_campaign.get_schema():
+        api_campaign.set_schema(manifest.schema_file)
+    preset._campaign = api_campaign
+    for h in preset.habitats:
+        h._campaign = api_campaign
+    return preset.to_schema_dict()

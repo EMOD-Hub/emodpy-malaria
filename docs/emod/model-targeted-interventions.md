@@ -95,7 +95,7 @@ In this example, the intervention targets suburban individuals, regardless of th
 ### Single property, multiple values
 
 
-If you want to individuals with multiple values for the same property type, list the key/value pairs
+If you want to target individuals with multiple values for the same property type, list the key/value pairs
 as separate objects in the array.
 
 In this example, the intervention targets both rural and urban individuals.
@@ -121,7 +121,7 @@ In this example, the intervention targets both rural and urban individuals.
 To target individuals who match particular values defined by multiple property types, list the
 key/value pairs in the same object. This is an AND combination.
 
-In this example, a intervention is targeted at low risk, suburban individuals. Individuals must have
+In this example, an intervention is targeted at low risk, suburban individuals. Individuals must have
 both property values.
 
 ```json

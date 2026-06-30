@@ -53,8 +53,7 @@ class Layer(dict):
         return len(self)
 
     def __getitem__(self, key):
-        """
-        Allows indexing directly into this object with source node id
+        """Allows indexing directly into this object with source node id
 
         Args:
             key (int): source node id
@@ -300,10 +299,8 @@ class VectorMigration(object):
 
     def __getitem__(self, key):
         """allows indexing on this object to read/write rate data
-
         Args:
             key (slice): source node id:gender:age (gender and age depend on GenderDataType and AgesYears properties)
-
         Returns:
             dict for specified node/gender/age
         """
@@ -616,7 +613,7 @@ def from_params(demographics_file_path: any = None, population: int = 1e6, num_n
     """
     This function is for creating a migration file that goes with a (multinode)
     demographics file created from a few parameters, as opposed to one from real-world data.
-    Note that the **demographics_file_path** input param is not used at this time but in future
+    Note that the 'demographics_file_path" input param is not used at this time but in future
     will be exploited to ensure nodes, etc., match.
     """
     # ***** Write migration files *****
@@ -677,15 +674,15 @@ def from_params(demographics_file_path: any = None, population: int = 1e6, num_n
 def from_demographics_and_gravity_params(demographics_object, gravity_params: list,
                                          filename: str = None):
     """
-    This function takes a demographics object, creates a vector migration file based on the populations and
-    distances of nodes and saves to be used by the sim.
+        This function takes a demographics object, creates a vector migration file based on the populations and
+        distances of nodes and saves to be used by the sim
 
     Args:
         demographics_object (MalaraiDemographics): demographics object created by Demographics class (use Demographics.from_file()
             to load a demographics file you already have and pass in the returned object)
         gravity_params (list): a list of four parameters that will affect the gravity model
-            gravity_params[0] denoted as g[0], etc, and they are used in the following way:<br>
-            migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])<br>
+            gravity_params[0] denoted as g[0], etc, and they are used in the following way:
+            migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
             if rate >= 1, 1 is used.
         filename (str): name of migration file to be created and added to the experiment,
             Default: vector_migration.bin
@@ -699,13 +696,13 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
         Utility function for computing migration rates using gravity model
 
         Args:
-            gravity_params: a list of four parameters that will affect the gravity model
-                gravity_params[0] denoted as g[0], etc, and they are used in the following way:<br>
-                `migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])`<br>
+            gravity_params (list[float]): a list of four parameters that will affect the gravity model
+                gravity_params[0] denoted as g[0], etc, and they are used in the following way:
+                migration_rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
                 if migration_rate >= 1, 1 is used.
-            from_node_population: Initial_Population in the from_node
-            to_node_population: Initial_Population in the to_node
-            distance: distance, in kilomenteres, between two nodes
+            from_node_population (int): Initial_Population in the from_node
+            to_node_population (int): Initial_Population in the to_node
+            distance (float): distance, in kilometres, between two nodes
 
         Returns:
             (float): Rate of vector migration from from_node to to_node
@@ -724,12 +721,12 @@ def from_demographics_and_gravity_params(demographics_object, gravity_params: li
         Utility function for computing migration value map.
 
         Args:
-            node_list: list of nodes as dictionaries created from the demographics object
-            gravity_params: a list of four parameters that will affect the gravity model
+            node_list (list): list of nodes as dictionaries created from the demographics object
+            gravity_params (list): a list of four parameters that will affect the gravity model
                 gravity_params[0] denoted as g[0], etc, and they are used in the following way:
                 rate = g[0] * (from_node_population^(g[1]-1)) * (to_node_population^g[2]) * (distance^g[3])
                 if rate >= 1, 1 is used.
-            exclude_nodes: a list of node ids for nodes you don't want any migration happening to or from.
+            exclude_nodes (list): a list of node ids for nodes you don't want any migration happening to or from.
 
         Returns:
             (VectorMigration): VectorMigration object based on demographics object that was passed in

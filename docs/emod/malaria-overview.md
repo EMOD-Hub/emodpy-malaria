@@ -10,7 +10,7 @@ by IDM to aid in malaria elimination.
 
 
 Malaria is a mosquito-borne disease caused by *plasmodium* parasites  transmitted through the bite of
-blood-feeding *Anopheles* mosquitos. There are roughly 30 species of Anophelenes capable of serving
+blood-feeding *Anopheles* mosquitoes. There are roughly 30 species of Anopheles capable of serving
 as malaria vectors, and only females bite (i.e. seek blood meals) to gain nutrients necessary for
 *oviposition*.  After taking blood meals, females lay eggs in water sources, where the emerging larvae
 hatch and mature. Each species of *Anopheles* has different aquatic habitat preferences, ranging from
@@ -29,11 +29,11 @@ Once an infected mosquito bites a human and transmits parasites, the parasites m
 host's liver, then infect and destroy red blood cells (erythrocytes). During the blood stage, the
 parasites that infect and destroy erythrocytes release *merozoites* which then infect other
 erythrocytes. The *gametocyte* form of the blood-stage parasite are ingested
-by female Anophelenes during future blood meals, where the mosquito-based life cycle continues.
+by female Anopheles during future blood meals, where the mosquito-based life cycle continues.
 
 
 In the mosquito, the ingested gametocytes generate zygotes in the mosquito's gut. Those zygotes
-undergo development, embed into the mosquito's midgut wall, and mature into oocytes. Oocytes develop
+undergo development, embed into the mosquito's midgut wall, and mature into oocysts. Oocytes develop
 and in turn rupture, releasing the *sporozoite* form of the parasite. The sporozoites travel
 to and reside in the mosquito's salivary glands. Then, when the female takes a blood meal, the
 sporozoites are injected into the host, starting another infection cycle. The mosquito is the
@@ -50,7 +50,7 @@ caption for an illustrated description of this process.
 
 All the clinical symptoms associated with malaria are caused by the asexual erythrocytic (or blood
 stage) parasites. Malaria has a long incubation period, so symptoms do not develop immediately after
-a person has been bitten by an infectious mosquito; they can occur  7 days after
+a person has been bitten by an infectious mosquito; they can occur 7 days after
 infection, but this may vary up to 30 days.
 
 Symptoms of malaria range in severity, but include fever, headache, body-ache, chills, and vomiting.

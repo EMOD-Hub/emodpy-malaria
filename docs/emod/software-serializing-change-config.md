@@ -1,4 +1,4 @@
-# Changing serialized configuration parameters
+# Changing simulation configuration parameters when starting from a serialized file
 
 
 Not every parameter can be changed after the creation of serialized files. The following overview
@@ -55,7 +55,7 @@ is intended as high-level guidance for what changes can and cannot be made.
 ### Can be changed
 
 
-* **Enable_Aging** This parameters is not serialized and can be changed.  However, if it was enabled and you disable it, people will be frozen at whatever age they were during serialization.  Conversely, people will start aging when you enable it.  This could mean everyone is the same age.
+* **Enable_Aging** This parameter is not serialized and can be changed.  However, if it was enabled and you disable it, people will be frozen at whatever age they were during serialization.  Conversely, people will start aging when you enable it.  This could mean everyone is the same age.
 * **Infection_Updates_Per_Timestep** This parameter is not serialized and can be changed.  However, it could impact some interventions like drugs.
 * **Enable_Superinfection**
 * **Max_Individual_Infections**
@@ -158,8 +158,8 @@ behavior depending on how the parameters are set.
 
     * Cannot add/remove a species
     * Habitat - Cannot change Habitat parameters (but they may be masked).
-    * Genes - Genes can be added but assume alleles in existing vectors are the first allele.  You can remove an gene if you remove all other references to it.  If an insecticide had resistance to the gene, you can change the insecticide so it is not referring to the gene.  However, you cannot remove an insecticide if it was used by an intervention that was serialized.
-    * Alleles- alleles can be added but not removed.  You can replace the name of an allele.
+    * Genes - Genes can be added but assume alleles in existing vectors are the first allele.  You can remove a gene if you remove all other references to it.  If an insecticide had resistance to the gene, you can change the insecticide so it is not referring to the gene.  However, you cannot remove an insecticide if it was used by an intervention that was serialized.
+    * Alleles - alleles can be added but not removed.  You can replace the name of an allele.
     * Gene_To_Trait_Modifiers - These can be modified.  Just make sure that if you change genes or alleles that you update these as well.
     * Drivers - These can be modified.  Just make sure that if you change genes or alleles that you update these as well.
     * Other parameters - They can be modified but impact might take a generation of vectors.

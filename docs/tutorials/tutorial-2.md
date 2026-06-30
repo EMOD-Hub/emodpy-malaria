@@ -1,46 +1,60 @@
 # Tutorial 2: Reports
 
-This tutorial builds on Tutorial 1 by adding output reports, downloading the results, and
-plotting the data. It introduces `add_reporters()`, idmtools analyzers, and the emodpy-malaria
-plotting utilities.
+This tutorial builds on Tutorial 1 by adding additional reports beyond InsetChart, configuring
+report filtering, and plotting different report types.
 
 **File:** `tutorials/tutorial_2_reports.py`
 
 ## Adding reports
 
-A new `add_reporters()` function configures the reports to add to the simulation task. Reports
-are added after `EMODTask` is created and before the experiment runs.
-
-```python linenums="1"
-def add_reporters(task):
-    task.config.parameters.Enable_Default_Reporting = 1
-    task.config.parameters.Enable_Demographics_Reporting = 1
-
-    add_malaria_summary_report(task, manifest,
-                               start_day=1,
-                               end_day=sim_years * 365,
-                               reporting_interval=30,
-                               age_bins=[0.25, 5, 115],
-                               max_number_reports=sim_years * 13,
-                               filename_suffix="monthly",
-                               pretty_format=True)
-```
-
-Three reports are enabled:
-
-- **InsetChart** (`Enable_Default_Reporting = 1`) — EMOD's built-in time-series summary.
-  Channels include fraction infected, daily EIR, new clinical cases, and many others.
-- **DemographicsSummary** (`Enable_Demographics_Reporting = 1`) — population and vital dynamics
-  over time. `set_team_defaults()` disables this by default, so it is re-enabled here.
-- **MalariaSummaryReport** — age-stratified malaria metrics (PfPR, clinical incidence,
-  population) grouped by reporting interval and age bin. The `filename_suffix` produces
-  `MalariaSummaryReport_monthly.json`.
-
-`add_reporters()` is called after `EMODTask` is created in `run_experiment()`:
+A `build_reports()` callback configures reporters and is passed to `EMODTask.from_defaults()`
+via `report_builder=`. The callback receives a `Reporters` object, adds reporter instances to
+it, and returns it.
 
 ```python
-task = emod_task.EMODTask.from_default2(...)
-add_reporters(task)
+def build_reports(reporters):
+    from emodpy_malaria.reporters.reporters import (MalariaSummaryReport, DemographicsReport,
+                                                     InsetChart, ReportVectorStats)
+    from emodpy.reporters.base import ReportFilter
+
+    reporters.add(MalariaSummaryReport(
+        reporters,
+        reporting_interval=30,
+        age_bins=[0.25, 5, 115],
+        max_number_reports=sim_years * 13,
+        pretty_format=True,
+        report_filter=ReportFilter(start_day=1, end_day=sim_years * 365)
+    ))
+
+    reporters.add(InsetChart(reporters))
+    reporters.add(DemographicsReport(reporters))
+    reporters.add(ReportVectorStats(reporters, stratify_by_species=True))
+
+    return reporters
+```
+
+Four reports are added:
+
+- **InsetChart** — simulation-wide averages per time step across channels like population
+  size, infection prevalence, daily biting rate, and many other statistics. Produces
+  `InsetChart.json`.
+- **MalariaSummaryReport** — age-stratified malaria metrics (PfPR, clinical incidence,
+  population) grouped by reporting interval and age bin. `ReportFilter` controls the
+  time window for data collection.
+- **DemographicsReport** — population and vital dynamics over time, producing
+  `DemographicsSummary.json` and `BinnedReport.json`.
+- **ReportVectorStats** — CSV report with detailed vector life-cycle data per time step,
+  including population counts by state (adult, infected, infectious, larva, egg),
+  indoor/outdoor biting counts, and habitat statistics. Setting `stratify_by_species=True`
+  adds a `Species` column so you can track each vector species independently.
+
+The callback is passed to `EMODTask.from_defaults()`:
+
+```python
+task = EMODTask.from_defaults(
+    ...,
+    report_builder=build_reports
+)
 ```
 
 ## Downloading results
@@ -49,11 +63,12 @@ After the experiment completes, `DownloadAnalyzer` copies specific output files 
 simulation into a local directory. This works the same way regardless of platform — Container,
 COMPS, or SLURM.
 
-```python linenums="1"
+```python
 filenames = [
     "output/InsetChart.json",
     "output/DemographicsSummary.json",
     "output/MalariaSummaryReport_monthly.json",
+    "output/ReportVectorStats.csv",
 ]
 analyzers = [DownloadAnalyzer(filenames=filenames, output_path=output_path)]
 
@@ -71,6 +86,7 @@ tutorial_2_results/
     InsetChart.json
     DemographicsSummary.json
     MalariaSummaryReport_monthly.json
+    ReportVectorStats.csv
 ```
 
 ## Plotting results
@@ -88,7 +104,7 @@ plot_inset_chart(dir_name=output_path,
 `DemographicsSummary.json` has the same channel report format as `InsetChart.json` and can be
 plotted the same way. `get_filenames()` locates the downloaded files by prefix:
 
-```python linenums="1"
+```python
 demog_files = get_filenames(dir_or_filename=output_path,
                             file_prefix="DemographicsSummary",
                             file_extension="json")

@@ -27,7 +27,7 @@ builder.add_sweep_definition(sweep_run_number, [0, 1, 2])
 Coverage is now a parameter rather than a constant. `update_campaign()` is the sweep callback
 that rebuilds the campaign for each simulation with the assigned coverage value:
 
-```python linenums="1"
+```python
 def update_campaign(simulation, treatment_coverage):
     build_campaign_partial = partial(build_campaign, treatment_coverage=treatment_coverage)
     simulation.task.create_campaign_from_callback(build_campaign_partial)
@@ -38,19 +38,39 @@ def update_campaign(simulation, treatment_coverage):
 which is what `create_campaign_from_callback()` expects. The dict returned becomes a tag on
 the simulation — used below to group results by coverage value.
 
-`build_campaign()` accepts `treatment_coverage` as a parameter and applies it to both clinical and severe
-case targets:
+`build_campaign()` accepts `treatment_coverage` as a parameter and applies it to both clinical
+and severe case targets via `demographic_coverage` in `TargetDemographicsConfig`:
 
-```python linenums="1"
-def build_campaign(treatment_coverage=0.8):
-    add_treatment_seeking(campaign,
-                          start_day=365,
-                          targets=[{"trigger": "NewClinicalCase", "coverage": treatment_coverage},
-                                   {"trigger": "NewSevereCase",
-                                    "coverage": min(treatment_coverage + 0.2, 1.0)}])
+```python title="tutorial_5_sweep.py, lines 96–130"
+def build_campaign(campaign, treatment_coverage=0.8):
+    campaign.set_schema(manifest.schema_path)
+
+    clinical_drug = AntimalarialDrug(campaign, drug_type="Artemether")
+    add_intervention_triggered(
+        campaign,
+        intervention_list=[clinical_drug],
+        triggers_list=["NewClinicalCase"],
+        start_day=60,
+        target_demographics_config=TargetDemographicsConfig(
+            demographic_coverage=treatment_coverage)
+    )
+
+    severe_drug = [AntimalarialDrug(campaign, drug_type="Chloroquine"),
+                   AntimalarialDrug(campaign, drug_type="Lumefantrine")]
+    add_intervention_triggered(
+        campaign,
+        intervention_list=severe_drug,
+        triggers_list=["NewSevereCase"],
+        start_day=40,
+        target_demographics_config=TargetDemographicsConfig(
+            demographic_coverage=min(treatment_coverage + 0.2, 1.0),
+            target_age_max=40)
+    )
 ```
 
-ITN coverage remains fixed at 0.5 — only treatment-seeking coverage is swept.
+`demographic_coverage` controls what fraction of the target population receives the
+intervention. `target_age_max=40` restricts severe case treatment to people 40 years and
+younger. ITN coverage remains fixed at 0.5 — only treatment-seeking coverage is swept.
 
 ## Grouping results by coverage
 
@@ -58,7 +78,7 @@ After downloading, `group_by_coverage()` reads the `treatment_coverage` tag from
 the experiment object and moves its downloaded directory into a subdirectory named by coverage
 value:
 
-```python linenums="1"
+```python
 def group_by_coverage(experiment, output_path):
     for sim in experiment.simulations:
         coverage = sim.tags.get("treatment_coverage")
@@ -91,7 +111,7 @@ tutorial_5_results/
 label. `show_raw_data=True` overlays the individual simulation lines in a lighter color so
 the stochastic spread within each group is visible alongside the mean:
 
-```python linenums="1"
+```python
 from emodpy_malaria.plotting.plot_inset_chart_mean_compare import plot_mean
 
 plot_mean(dir1=dirs[0],

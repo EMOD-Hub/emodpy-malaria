@@ -19,7 +19,7 @@ See [Campaign parameters](parameter-campaign.md) for more information.
 
 
 
-## Modeling a box profile of antimalaria drug pharmacokinetics
+## Modeling a box profile of antimalarial drug pharmacokinetics
 
 
 Pharmacokinetics (PK) of antimalarial drugs can be modeled with a box profile or with a double

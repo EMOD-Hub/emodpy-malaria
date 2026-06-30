@@ -3,19 +3,20 @@
 
 The **UsageDependentBednet** intervention class is similar to [SimpleBednet](parameter-campaign-individual-simplebednet.md),
 as it distributes insecticide-treated nets to individuals in the simulation. However,
-bednet ownership and bednet usage are distinct in this intervention. As in **SimpleBednet**, net
-ownership is configured through the demographic coverage, and the repelling, blocking, and killing rates of
-mosquitoes are time-dependent. Use of bednets is age-dependent and can vary seasonally. Once a net
-has been distributed to someone, the net usage is determined by the product of the seasonal and
-age-dependent usage probabilities until the net-retention counter runs out, and the net is discarded.
+bednet ownership and nightly bednet usage are distinct in this intervention. As in **SimpleBednet**,
+net ownership is configured through the demographic coverage, and the repelling, blocking, and
+killing rates of mosquitoes are time-dependent. Nightly use of bednets is age-dependent and can
+vary seasonally. Once a net has been distributed to someone, the nightly net usage is determined by
+the product of the seasonal and age-dependent usage probabilities until the net-retention counter
+runs out, and the net is discarded.
 
 While **SimpleBednet** usage is applied as a daily reduction in efficacy, **UsageDependentBednet**
-uses the usage efficacy to determine whether or not the person used the net that day.  For example,
-if we look at bednet with 0% repelling, 100% blocking, and 100% killing effects, and 50% usage effect,
-the person with the **SimpleBednet** will have a net that has final efficacy of 50% blocking and 50% killing
-each day and the person with the **UsageDependentBednet** will have half of their days with a 100% blocking and
-100% killing net and half of their days with no net at all. Note that when a person migrates, they
-take their net with them.
+uses the usage efficacy to determine whether or not the person slept under the net that night. For
+example, if we look at a bednet with 0% repelling, 100% blocking, and 100% killing effects, and
+50% usage effect, the person with the **SimpleBednet** will have a net that has final efficacy of
+50% blocking and 50% killing each night and the person with the **UsageDependentBednet** will have
+half of their nights with a 100% blocking and 100% killing net and half of their nights with no
+net at all. Note that when a person migrates, they take their net with them.
 
 
 At a glance:
@@ -41,6 +42,7 @@ At a glance:
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 The table below describes all possible parameters with which this class can be configured. The JSON
 example that follows shows one potential configuration.
 

@@ -24,7 +24,7 @@ an experiment directory; the script calculates and plots the mean for each direc
 to compare results between different scenarios or parameter sets.
 
 ```
-python -m emodpy_hiv.plotting.plot_inset_chart_mean_compare baseline/ intervention/
+python -m emodpy_malaria.plotting.plot_inset_chart_mean_compare baseline/ intervention/
 ```
 
 ![](../images/plotting/plot_inset_chart_mean_compare_example.png)

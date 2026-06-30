@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "emodpy-malaria"
-version = "5.2.2"
+version = "6.0.0"
 description = "IDM's malaria-specific EMOD-API binding code"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -18,7 +18,7 @@ authors = [
 ]
 keywords = ["modeling", "IDM"]
 dependencies = [
-    "emodpy~=1.16",
+    "emodpy~=3.3",
     "chardet<6.0.0",
     "emod-malaria~=2.35",
     "idmtools-calibra~=3.0",
@@ -70,7 +70,7 @@ emodpy_malaria = [
 ]
 
 [tool.bumpversion]
-current_version = "5.2.2"
+current_version = "6.0.0"
 commit = true
 
 [[tool.bumpversion.files]]

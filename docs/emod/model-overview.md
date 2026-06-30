@@ -57,7 +57,7 @@ inheritance, see [software-overview](software-overview.md).
 The EMOD generic model forms the foundation for all other disease models in EMOD. It
 provides the fundamental logic for contact-based disease transmission and interventions aimed at
 controlling the spread of disease that are targeted to individuals or geographic nodes. You can
-easily add heterogeneity to your simulation by configuring he infectivity of the disease,
+easily add heterogeneity to your simulation by configuring the infectivity of the disease,
 susceptibility of individuals, and more.
 
 The figure below demonstrates the main components of the generic EMOD *simulation type*.

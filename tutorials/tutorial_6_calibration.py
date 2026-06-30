@@ -7,11 +7,6 @@ a config-level scale factor that multiplies the larval habitat capacity for
 all habitat types — to match a reference monthly PfPR curve for children
 under 5 (tutorial_6_reference_pfpr.csv).
 
-Calibrating x_Temporary_Larval_Habitat is common because it controls
-transmission intensity without requiring changes to the habitat shape or type.
-If the scenario included multiple habitat types, one scale factor would adjust
-them all in proportion.
-
 idmtools-calibra provides:
   - CalibManager    orchestrates the calibration loop (runs iterations, writes results)
   - OptimTool       gradient-free optimizer: proposes samples, updates on scores
@@ -19,35 +14,14 @@ idmtools-calibra provides:
   - BaseCalibrationAnalyzer
                     map/reduce framework: map() processes one simulation's output,
                     reduce() combines all map results into a score per sample.
-                    Calibra MAXIMIZES the score, so reduce() returns 1/RMSE (Root Mean Square Error).
+                    Calibra MAXIMIZES the score, so reduce() returns 1/RMSE.
 
 New in this tutorial (diff from tutorial_5_sweep.py):
-  - sim_years                   increased from 3 to 5 (longer run reaches equilibrium
-                                without interventions before the reference period)
-  - CALIBRATION_PARAMETERS      log10_x_Temporary_Larval_Habitat — calibrated in log space
-                                so OptimTool explores orders of magnitude evenly
-  - N_SAMPLES / N_ITERATIONS    calibration budget constants
-  - constrain_sample()          clips sampled values to declared bounds
-  - map_sample_to_model_input() sets x_Temporary_Larval_Habitat on each simulation
-  - MalariaSummaryAnalyzer      BaseCalibrationAnalyzer that reads the JSON report
-  - TutorialCalibSite           CalibSite subclass with reference data and analyzer
-  - run_calibration()           replaces run_experiment(); CalibManager drives the loop
-  - plot_iteration()            two-panel figure saved after every iteration: PfPR
-                                curves colored by fit quality (green=close, red=far)
-                                and a parameter-vs-RMSE scatter with the best point
-                                marked. Watch these to gauge convergence and stop
-                                early once the fit is close enough.
-
-Removed from tutorial_5_sweep.py:
-  - from functools import partial
-  - SimulationBuilder, Experiment (CalibManager creates experiments internally)
-  - update_campaign()           was the sweep callback; CalibManager does the sweep
-  - build_campaign(treatment_coverage)
-                                coverage parameter dropped; interventions removed so
-                                calibration targets baseline (unadjusted) transmission
-  - add_treatment_seeking, add_itn_scheduled in build_campaign
-  - process_results(), plot_results(), handle_results()
-                                CalibManager writes its own output directory
+  - CALIBRATION_PARAMETERS      log10_x_Temporary_Larval_Habitat
+  - MalariaSummaryAnalyzer      reads JSON report, scores vs reference PfPR
+  - TutorialCalibSite           CalibSite subclass with reference data
+  - run_calibration()           replaces run_experiment()
+  - plot_all_iterations()       convergence plots saved after every iteration
 
 === INSTRUCTIONS ===
 Select the correct platform in run_calibration() and update manifest.py if
@@ -60,14 +34,12 @@ import numpy as np
 import pandas as pd
 
 from idmtools.core.platform_factory import Platform
-import emodpy.emod_task as emod_task
+from emodpy.emod_task import EMODTask
 
 from idmtools_calibra.calib_manager import CalibManager
 from idmtools_calibra.calib_site import CalibSite
 from idmtools_calibra.algorithms.optim_tool import OptimTool
 from idmtools_calibra.analyzers.base_calibration_analyzer import BaseCalibrationAnalyzer
-
-from emodpy_malaria.reporters.builtin import add_malaria_summary_report
 
 import manifest
 
@@ -79,35 +51,25 @@ CALIBRATION_PARAMETERS = [
     {
         "Name":    "log10_x_Temporary_Larval_Habitat",
         "Dynamic": True,
-        "Guess":   -2.0,   # 10^-2 = 0.01
-        "Min":     -4.0,   # 10^-4 = 0.0001
-        "Max":     -1.0,   # 10^-1 = 0.1
+        "Guess":   -2.0,
+        "Min":     -4.0,
+        "Max":     -1.0,
     }
 ]
 
-N_SAMPLES    = manifest.n_calibration_samples    # parameter samples per iteration
-N_ITERATIONS = manifest.n_calibration_iterations  # number of calibration iterations
+N_SAMPLES    = manifest.n_calibration_samples
+N_ITERATIONS = manifest.n_calibration_iterations
 
 
 def constrain_sample(sample):
-    """
-    Clip each parameter to its declared [Min, Max] bounds.
-    OptimTool can propose values outside the bounds; this ensures they stay valid.
-    """
+    """Clips the calibration parameter to its allowed range."""
     p = CALIBRATION_PARAMETERS[0]
     sample[p["Name"]] = float(np.clip(sample[p["Name"]], p["Min"], p["Max"]))
     return sample
 
 
 def map_sample_to_model_input(simulation, sample):
-    """
-    Apply one calibration parameter sample to a simulation before it runs.
-
-    The parameter is defined in log10 space so that OptimTool searches evenly
-    across orders of magnitude. This function converts back to linear space
-    before setting x_Temporary_Larval_Habitat. The actual linear value is
-    stored as a tag so the analyzer can read it back for plotting.
-    """
+    """Converts a log10 sample value to x_Temporary_Larval_Habitat and applies it."""
     log_value = float(sample["log10_x_Temporary_Larval_Habitat"])
     value = 10 ** log_value
     simulation.task.config.parameters.x_Temporary_Larval_Habitat = value
@@ -115,22 +77,7 @@ def map_sample_to_model_input(simulation, sample):
 
 
 def plot_all_iterations(calib_dir, ref_pfpr):
-    """
-    Save a two-panel figure showing all calibration iterations completed so far.
-
-    Each iteration's records are saved to its CalibManager directory (iter0/,
-    iter1/, ...) as pfpr_records.csv. This function reads all of them so every
-    plot shows the full history — you can watch the samples converge toward the
-    reference as iterations progress.
-
-    Left panel: past-iteration curves in grey; current iteration colored
-    green-to-red by RMSE so fit quality is visible at a glance.
-    Right panel: x_Temporary_Larval_Habitat vs RMSE for all iterations,
-    colored by iteration number (dark=early, bright=late). The best sample
-    across all iterations is marked with a green star.
-
-    There is no automated stopping criterion — stop when the fit looks close enough.
-    """
+    """Plots simulated vs reference PfPR and parameter vs RMSE across all iterations."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -142,8 +89,8 @@ def plot_all_iterations(calib_dir, ref_pfpr):
 
     all_dfs = []
     for f in data_files:
-        iter_name = os.path.basename(os.path.dirname(f))  # "iter0", "iter1", ...
-        it = int(iter_name.replace("iter", "")) + 1        # convert to 1-based
+        iter_name = os.path.basename(os.path.dirname(f))
+        it = int(iter_name.replace("iter", "")) + 1
         df = pd.read_csv(f)
         df["iteration"] = it
         all_dfs.append(df)
@@ -156,14 +103,13 @@ def plot_all_iterations(calib_dir, ref_pfpr):
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     fig.suptitle(f"Calibration — through Iteration {cur_iter}", fontsize=13)
 
-    # --- Left panel: PfPR curves ---
     cur_df   = df_all[df_all["iteration"] == cur_iter]
     vmin     = cur_df["rmse"].min()
     vmax     = cur_df["rmse"].max()
     if vmax == vmin:
         vmax = vmin + 1e-6
     norm_rmse = mcolors.Normalize(vmin=vmin, vmax=vmax)
-    cmap_rmse = plt.cm.RdYlGn_r      # low RMSE → green, high RMSE → red
+    cmap_rmse = plt.cm.RdYlGn_r
 
     for it in sorted(df_all["iteration"].unique()):
         sub = df_all[df_all["iteration"] == it]
@@ -187,7 +133,6 @@ def plot_all_iterations(calib_dir, ref_pfpr):
     axes[0].set_title("Simulated vs Reference PfPR")
     axes[0].legend(loc="upper left")
 
-    # --- Right panel: parameter vs RMSE, colored by iteration ---
     iter_norm = mcolors.Normalize(vmin=1, vmax=max(cur_iter, 2))
     iter_cmap = plt.cm.viridis
     for it in sorted(df_all["iteration"].unique()):
@@ -219,18 +164,8 @@ def plot_all_iterations(calib_dir, ref_pfpr):
 
 
 class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
-    """
-    Extract monthly PfPR for children under 5 from the last year of each
-    simulation and score each sample by comparing to the reference data.
-
-    MalariaSummaryReport JSON structure:
-      ``["DataByTimeAndAgeBins"]["PfPR by Age Bin"][time_index][age_bin_index]``
-    With age_bins=[0.25, 5, 115], index 1 is the under-5 age group (0.25-5 years).
-
-    Calibra maximizes the score, so reduce() returns 1/RMSE: higher is better.
-    """
-
     def __init__(self, site, uid=None):
+        """Initializes the analyzer with reference data and report filenames."""
         super().__init__(
             uid=uid or "pfpr_monthly",
             filenames=["output/MalariaSummaryReport_monthly.json"],
@@ -238,35 +173,15 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
         )
 
     def map(self, data, item):
-        """
-        Extract the last 12 monthly PfPR values (under-5 age group) from one simulation.
-        Called once per simulation; the returned dict is passed to reduce().
-        """
+        """Extracts monthly PfPR for under-5s from one simulation's output."""
         report = data["output/MalariaSummaryReport_monthly.json"]
         pfpr_by_time = report["DataByTimeAndAgeBins"]["PfPR by Age Bin"]
-        # Last 12 time steps = last year; age bin 1 = 0.25-5 years (under 5)
         sim_pfpr = [step[1] for step in pfpr_by_time[-12:]]
         return {"sim_pfpr": sim_pfpr}
 
     def reduce(self, all_data):
-        """
-        Compute a score per parameter sample, save this iteration's records to
-        disk, update the cumulative plot, and return scores.
-
-        self.working_dir is set by CalibManager to the per-iteration directory
-        it creates (iter0/, iter1/, ...). The iteration number is parsed from
-        that path, which avoids any in-memory state that would reset when
-        CalibManager creates a new analyzer instance each iteration.
-
-        Per-iteration records are saved as pfpr_records.csv inside
-        self.working_dir. plot_all_iterations() reads all iter*/pfpr_records.csv
-        files so every plot shows the full calibration history.
-
-        Returns a pandas Series indexed by sample index. Calibra maximizes the
-        score, so return 1/RMSE (not RMSE) — closer match = higher score.
-        """
-        iter_dir  = os.path.normpath(self.working_dir)
-        iteration = int(os.path.basename(iter_dir).replace("iter", "")) + 1
+        """Computes RMSE scores across all simulations and plots convergence."""
+        iter_dir = os.path.normpath(self.working_dir)
         calib_dir = os.path.dirname(iter_dir)
 
         ref_pfpr = np.array(self.reference_data["pfpr_u5"])
@@ -296,50 +211,38 @@ class MalariaSummaryAnalyzer(BaseCalibrationAnalyzer):
 
 
 class TutorialCalibSite(CalibSite):
-    """
-    Calibration site: supplies reference PfPR data and the MalariaSummaryAnalyzer.
-
-    get_reference_data() returns a DataFrame with columns [month, pfpr_u5]
-    read from tutorial_6_reference_pfpr.csv.
-    """
-
     def __init__(self):
+        """Loads reference PfPR data from CSV."""
         self.reference = pd.read_csv(os.path.join(_tutorials_dir, "tutorial_6_reference_pfpr.csv"))
         super().__init__(name="Tutorial_Site")
 
     def get_reference_data(self, reference_type=None):
+        """Returns the reference PfPR DataFrame."""
         return self.reference
 
     def get_analyzers(self):
+        """Returns the MalariaSummaryAnalyzer for this site."""
         return [MalariaSummaryAnalyzer(site=self, uid="pfpr_monthly")]
 
     def get_setup_functions(self):
+        """Returns an empty list (no setup functions needed)."""
         return []
 
 
 def build_config(config):
-    """
-    Configure simulation parameters. This function is passed as a callback to
-    EMODTask and is called when building config.json.
-
-    The seasonal habitat shape from Tutorial 4 is retained here.
-    x_Temporary_Larval_Habitat (default 1.0) is overridden
-    per simulation by map_sample_to_model_input during calibration.
-    """
+    """Configures simulation with seasonal habitat for calibration."""
     import emodpy_malaria.malaria_config as malaria_config
-    import emodpy_malaria.vector_config as vector_config
 
-    # applies the malaria team's standard parameter set
     config = malaria_config.set_team_defaults(config, manifest)
-
-    # adds pre-configured species parameters for three Anopheles vector species
     malaria_config.add_species(config, manifest, ["gambiae", "arabiensis", "funestus"])
 
     config.parameters.Run_Number = 0
     config.parameters.Simulation_Duration = sim_years * 365
 
-    seasonal_habitat = vector_config.configure_linear_spline(
-        manifest,
+    from emodpy_malaria.utils.emod_enum import HabitatType
+
+    seasonal_habitat = malaria_config.VectorHabitat(
+        habitat_type=HabitatType.LINEAR_SPLINE,
         max_larval_capacity=1e8,
         capacity_distribution_number_of_years=1,
         capacity_distribution_over_time={
@@ -352,86 +255,60 @@ def build_config(config):
         malaria_config.set_species_param(config, species, "Habitats",
                                          seasonal_habitat, overwrite=True)
 
+    config.parameters.x_Base_Population = manifest.x_Base_Population_scale
+
     return config
 
 
-def build_demog():
-    """
-    Build the demographics file describing the simulated human population.
-
-    from_template_node() creates a single-node population at the given lat/lon.
-    SetEquilibriumVitalDynamics() sets birth and death rates equal so the
-    population stays roughly stable over the simulation.
-    SetAgeDistribution() initializes the population with a realistic age
-    structure for sub-Saharan Africa.
-    """
-    import emodpy_malaria.demographics.MalariaDemographics as Demographics
-    import emod_api.demographics.PreDefinedDistributions as Distributions
+def build_demographics():
+    """Creates a single-node population with birth rate and age distribution."""
+    from emodpy_malaria.demographics import MalariaDemographics as Demographics
+    from emodpy_malaria.utils.distributions import UniformDistribution
+    from emodpy_malaria.utils.emod_enum import BirthRateDependence
 
     demog = Demographics.from_template_node(lat=-3.2, lon=37.9, pop=1000,
                                             name="Tutorial_Site")
-    demog.SetEquilibriumVitalDynamics()
-    demog.SetAgeDistribution(Distributions.AgeDistribution_SSAfrica)
+    demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
+    demog.set_age_distribution(UniformDistribution(0, 60))
+    demog.set_prevalence_distribution(UniformDistribution(0, 0.2))
     return demog
 
 
-def build_campaign():
-    """
-    Build the campaign file. Interventions are removed for calibration so that
-    simulated PfPR reflects baseline (unadjusted) transmission only. Tutorial 7
-    adds interventions back after the right transmission intensity is established.
-    """
-    import emod_api.campaign as campaign
-
+def build_campaign(campaign):
+    """Sets the schema path (no interventions during calibration)."""
     campaign.set_schema(manifest.schema_path)
     return campaign
 
 
-def add_reporters(task):
-    """
-    Add the MalariaSummaryReport. MalariaSummaryAnalyzer reads this file to
-    extract under-5 PfPR. reporting_interval=30 gives monthly reports;
-    max_number_reports covers the full 5-year simulation. age_bins=[0.25, 5, 115]
-    puts the under-5 population in index 1, matching the analyzer.
-    """
-    task.config.parameters.Enable_Default_Reporting = 1
+def build_reports(reporters):
+    """Adds MalariaSummaryReport and InsetChart for calibration scoring."""
+    from emodpy_malaria.reporters.reporters import MalariaSummaryReport, InsetChart
+    from emodpy.reporters.base import ReportFilter
 
-    add_malaria_summary_report(task, manifest,
-                               start_day=1,
-                               end_day=sim_years * 365,
-                               reporting_interval=30,
-                               age_bins=[0.25, 5, 115],
-                               max_number_reports=sim_years * 13,
-                               filename_suffix="monthly",
-                               pretty_format=True)
+    reporters.add(MalariaSummaryReport(
+        reporters,
+        reporting_interval=30,
+        age_bins=[0.25, 5, 115],
+        max_number_reports=sim_years * 13,
+        pretty_format=True,
+        report_filter=ReportFilter(start_day=1, end_day=sim_years * 365, filename_suffix="monthly")
+    ))
+
+    reporters.add(InsetChart(reporters))
+
+    return reporters
 
 
 def run_calibration():
-    """
-    Set up the platform, create the EMODTask, and run the calibration.
-
-    CalibManager orchestrates the calibration loop:
-    1. OptimTool proposes N_SAMPLES values of x_Temporary_Larval_Habitat.
-    2. CalibManager runs one simulation per value, calling map_sample_to_model_input
-       to set x_Temporary_Larval_Habitat on each simulation's config.
-    3. MalariaSummaryAnalyzer scores each simulation against the reference PfPR.
-    4. OptimTool uses the scores to propose better values for the next iteration.
-    5. Repeat for N_ITERATIONS iterations.
-
-    Results are written to the 'tutorial_6_calibration' directory.
-
-    For the Container platform, max_job controls how many simulations run at the
-    same time — a new one starts as soon as a slot opens. For an experiment with
-    nine simulations and max_job=4, simulations run roughly four at a time: four,
-    then four, then one. 4 is a safe default on most laptops.
-    """
+    """Sets up platform, CalibManager, and OptimTool, then runs calibration."""
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
-    # max_job limits concurrent simulations — see docstring above
+    # sym_link=False: idmtools defaults to symlinks, but Windows requires Developer Mode
+    # to create them. Using file copies instead works on all Windows configurations.
     platform = Platform("Container", job_directory=manifest.job_dir,
                         docker_image=manifest.plat_image,
-                        max_job=4)
+                        sym_link=False, max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 
@@ -444,38 +321,22 @@ def run_calibration():
     #                     max_running_jobs=1000000,
     #                     array_batch_size=1000000)
 
-    # EMODTask defines how EMOD will be configured for each simulation.
-    # CalibManager calls map_sample_to_model_input before each simulation runs
-    # to set x_Temporary_Larval_Habitat to the current sampled value.
-    task = emod_task.EMODTask.from_default2(
-        config_path="config.json",
+    task = EMODTask.from_defaults(
         eradication_path=manifest.eradication_path,
-        campaign_builder=build_campaign,
         schema_path=manifest.schema_path,
-        ep4_custom_cb=None,
-        param_custom_cb=build_config,
-        demog_builder=build_demog,
-        plugin_report=None
+        config_builder=build_config,
+        campaign_builder=build_campaign,
+        demographics_builder=build_demographics,
+        report_builder=build_reports
     )
 
-    task.config.parameters.x_Base_Population *= manifest.x_Base_Population_scale
-
-    # set_sif() tells EMOD which container image to use to run the executable.
-    # For COMPS and SLURM, the image is a Singularity Image File (SIF);
-    # for Container platform the image is specified via docker_image above.
     if platform.get_platform_type() == "COMPS":
-        task.set_sif(manifest.comps_sif_path)
+        task.set_sif(manifest.comps_sif_path, platform)
     elif platform.get_platform_type() == "Slurm":
         task.set_sif(manifest.slurm_sif_path, platform)
 
-    # Reports are added to the task after EMODTask is created.
-    add_reporters(task)
-
     site = TutorialCalibSite()
 
-    # OptimTool implements a gradient-free optimization method.
-    # Each iteration it runs samples_per_iteration simulations, scores them,
-    # and refines the search region around the best-performing sample.
     optimtool = OptimTool(
         CALIBRATION_PARAMETERS,
         constrain_sample_fn=constrain_sample,
@@ -496,20 +357,19 @@ def run_calibration():
 
     calib_manager.run_calibration()
 
-    print(f"\nCalibration complete.")
-    print(f"Results are in the 'tutorial_6_calibration' directory.")
-    print(f"Iteration plots are in 'tutorial_6_calibration/plots'.")
+    print("\nCalibration complete.")
+    print("Results are in the 'tutorial_6_calibration' directory.")
+    print("Iteration plots are in 'tutorial_6_calibration/plots'.")
     print(f"\n{'=' * 60}")
-    print(f"NEXT STEP: open tutorial_6_calibration/CalibManager.json, find")
-    print(f"  final_samples -> log10_x_Temporary_Larval_Habitat[0]")
-    print(f"  and paste that value into CALIBRATED_LOG10_X_LARVAL_HABITAT")
-    print(f"  in tutorial_7_burnin.py and tutorial_7_pickup.py")
+    print("NEXT STEP: open tutorial_6_calibration/CalibManager.json, find")
+    print("  final_samples -> log10_x_Temporary_Larval_Habitat[0]")
+    print("  and paste that value into CALIBRATED_LOG10_X_LARVAL_HABITAT")
+    print("  in tutorial_7_burnin.py and tutorial_7_pickup.py")
     print(f"{'=' * 60}")
     print("\nTutorial 6 is done.")
 
 
 if __name__ == "__main__":
-    # Extract the EMOD executable and schema needed to run simulations.
     import emod_malaria.bootstrap as dtk
     dtk.setup(pathlib.Path(manifest.eradication_path).parent)
     run_calibration()

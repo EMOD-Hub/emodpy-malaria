@@ -1,6 +1,0 @@
-id,cluster,lon,lat,continent,birth_rate_country,source
-1,1,23.8125,-29.14583333,Africa,Sub-Saharan Africa,v4_era5_bounded_transmission
-2,2,-3.8125,10.1875,Africa,Sub-Saharan Africa,v4_era5_bounded_transmission
-3,3,23.52083333,0.645833334,Africa,Sub-Saharan Africa,v4_era5_bounded_transmission
-4,4,5.645833334,8.0625,Africa,Sub-Saharan Africa,v4_era5_bounded_transmission
-5,5,46.22916667,2.9375,Africa,Sub-Saharan Africa,v4_era5_bounded_transmission

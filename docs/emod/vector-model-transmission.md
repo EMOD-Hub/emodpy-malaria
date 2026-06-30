@@ -7,7 +7,7 @@ vector model inherits the same human-infection model structure from the generic 
 uninfected, latent incubation, infectious, multiple immune variables, and super-infection. However,
 the transmission of infections is not between individual humans, but rather via the human-to-vector
 and vector-to-human pathways. The model is a closed-loop feeding cycle where a successful vector
-(mosquito) feeds (both indoors and outdoors), mates, then produce eggs which become larva and then
+(mosquito) feeds (both indoors and outdoors), mates, then produces eggs which become larva and then
 adult mosquitoes.
 
 For example, vector blood-feeding branches into various probabilities that are calculated once per

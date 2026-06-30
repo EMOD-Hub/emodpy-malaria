@@ -15,7 +15,7 @@ def calculate_mean(dir_name: str):
     Args:
         dir_name (str): Directory with InsetChart.json files
 
-    Returns:
+    Return:
         mean_cr: Mean ChannelReport object
         raw_data_list: List of raw data dictionaries from the InsetChart.json files
     """
@@ -43,7 +43,6 @@ def plot_mean(dir1: str,
               dir2: str,
               dir3: str,
               title: str = None,
-              add_dir_names_to_title: bool = True,
               show_raw_data: bool = False,
               subplot_index_min: int = 0,
               subplot_index_max: int = 100,
@@ -53,18 +52,25 @@ def plot_mean(dir1: str,
 
     Args:
         dir1 (str): Directory with InsetChart.json files
+
         dir2 (str): Directory with InsetChart.json files
+
         dir3 (str): Directory with InsetChart.json files
+
         title (str): Title of Plot
+
         show_raw_data (bool): If true, shows the raw/individual simulation data in a lighter color.
+
         subplot_index_min (int): The index of the first subplot to show based on the alphabetical
             order of the channels in the report.
+
         subplot_index_max (int): The index of the last subplot to show based on the alphabetical
             order of the channels in the report.
-        output (str): If provided, a directory will be created and images saved to the folder. If not provided, it opens windows.
 
-    Returns:
-        None. If output is provided, an image will be saved to the output directory, else a window will be opened.
+        output (str): If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.
+
+    Return:
+        None, if output is provided, an image will be saved to the output directory, else a window will be opened.
     """
     dir_names = []
     mean_data = []
@@ -92,18 +98,13 @@ def plot_mean(dir1: str,
     if plot_name is None:
         plot_name = "InsetChart_Compare"
 
-    tmp_title = ""
-    if title is not None:
-        tmp_title = title
-        if add_dir_names_to_title:
-            tmp_title = tmp_title + "\n" + pic.create_title_string(reference=None, data_filenames=dir_names)
-    else:
-        tmp_title = pic.create_title_string(reference=None, data_filenames=dir_names)
+    if title is None:
+        title = "" + pic.create_title_string(reference=None, data_filenames=dir_names)
 
     if not show_raw_data:
         raw_data_lists = None
 
-    pic.plot_data(title=tmp_title,
+    pic.plot_data(title=title,
                   ref_data=None,
                   test_data=mean_data,
                   raw_data_list_of_lists=raw_data_lists,

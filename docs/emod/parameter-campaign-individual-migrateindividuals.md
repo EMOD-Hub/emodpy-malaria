@@ -30,6 +30,7 @@ node, and Node A becomes the destination node and still remains the home node.
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 The table below describes all possible parameters with which this class can be configured. The JSON
 example that follows shows one potential configuration.
 

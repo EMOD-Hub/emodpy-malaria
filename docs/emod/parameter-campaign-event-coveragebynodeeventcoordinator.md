@@ -1,15 +1,25 @@
 # CoverageByNodeEventCoordinator
 
 
-The **CoverageByNodeEventCoordinator** coordinator class distributes individual-level interventions and is
-similar to the **StandardInterventionDistributionEventCoordinator**, but adds the ability to specify
-different demographic coverages by node. If no coverage has been specified for a particular node ID,
-the coverage will be zero. See the following JSON example and table, which shows all available
-parameters for this event coordinator.
+The **CoverageByNodeEventCoordinator** distributes individual-level interventions with
+node-specific demographic coverage. It is similar to the
+[StandardInterventionDistributionEventCoordinator](parameter-campaign-event-standardinterventiondistributioneventcoordinator.md)
+but adds the ability to specify different coverage fractions for each node via the
+**Coverage_By_Node** parameter. Each entry in **Coverage_By_Node** is a pair of node ID and
+coverage value. If no coverage has been specified for a particular node ID, the coverage
+defaults to zero for that node.
+
+This coordinator supports the same demographic targeting, property restrictions, repetition, and
+targeting config options as the standard event coordinator.
 
 !!! note
     This can only be used with individual-level interventions, but EMOD will not produce an error
-    if you attempt to use it with an node-level intervention.
+    if you attempt to use it with a node-level intervention.
+
+At a glance:
+
+*  **Distributed to:** Nodes
+*  **Serialized:** No, it needs to be redistributed when starting from a serialized file.
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.
@@ -21,6 +31,7 @@ parameters for this event coordinator.
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 The table below describes all possible parameters with which this class can be configured. The JSON
 example that follows shows one potential configuration.
 
@@ -28,6 +39,7 @@ example that follows shows one potential configuration.
 
 ```json
 {
+    "Use_Defaults": 1,
     "Events": [
         {
             "class": "CampaignEvent",
@@ -39,17 +51,25 @@ example that follows shows one potential configuration.
             "Event_Coordinator_Config": {
                 "class": "CoverageByNodeEventCoordinator",
                 "Target_Demographic": "Everyone",
+                "Number_Repetitions": 1,
                 "Coverage_By_Node": [
-                    [1, 0.6],
-                    [2, 0.9],
-                    [3, 0.1]
+                    {
+                        "Node_Id": 1,
+                        "Coverage": 0.6
+                    },
+                    {
+                        "Node_Id": 2,
+                        "Coverage": 0.9
+                    },
+                    {
+                        "Node_Id": 3,
+                        "Coverage": 0.1
+                    }
                 ],
                 "Intervention_Config": {
                     "class": "SimpleVaccine",
-                    "Cost_To_Consumer": 10.0,
-                    "Reduced_Transmit": 0,
-                    "Vaccine_Take": 1,
                     "Vaccine_Type": "AcquisitionBlocking",
+                    "Vaccine_Take": 1,
                     "Waning_Config": {
                         "class": "WaningEffectBox",
                         "Initial_Effect": 1,

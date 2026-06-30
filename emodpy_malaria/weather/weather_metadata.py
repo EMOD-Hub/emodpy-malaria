@@ -1,33 +1,29 @@
-#!/usr/bin/env python3
+"""Weather metadata classes for EMOD ``.bin.json`` files.
 
+Wraps [Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) (``BaseMetadata``) for core
+node-offset computation and ``.bin.json`` parsing, and extends it with:
+
+* [WeatherAttributes](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_metadata/) — rich metadata (provenance, spatial resolution,
+  lat/lon bounds, schema version, etc.).
+* [WeatherMetadata](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/weather/weather_metadata/) — adds shared-offset support (deduplication) and
+  the extended attribute set to the base metadata.
 """
-Weather metadata module, implementing functionality for working with weather metadata files (.bin.json).
-"""
 
-from __future__ import annotations
-
-import numpy as np
 import json
+import numpy as np
 
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, List, NoReturn, Union
+from typing import Union
+
+from emod_api.weather.weather import Metadata as BaseMetadata
 
 from emodpy_malaria.weather.weather_utils import invert_dict, make_path, save_json, validate_str_value
 
-SERIES_BYTE_VALUE_SIZE = 4  # Single series value is stored as 4 bytes = 32b
-assert SERIES_BYTE_VALUE_SIZE == np.dtype(np.float32).itemsize, "Unexpected weather time series value size."
+SERIES_BYTE_VALUE_SIZE = 4
+assert SERIES_BYTE_VALUE_SIZE == np.dtype(np.float32).itemsize
 
-# META DEFAULTS
-_META_DEFAULT_TOOL = "emodpy_malaria"
-_META_DEFAULT_ID_REFERENCE = "Default"
-_META_DEFAULT_UNSPECIFIED = "Unspecified"
-_META_DEFAULT_AUTHOR = "Institute for Disease Modeling"
-_META_DEFAULT_START_DOY = 1
-_META_DEFAULT_WEATHER_SCHEMA_V = "2.0"
-
-# META ATTRIBUTE NAMES
-# READ-WRITE
+# Metadata key constants
 _META_TOOL = "Tool"
 _META_DATE_CREATED = "DateCreated"
 _META_AUTHOR = "Author"
@@ -41,30 +37,37 @@ _META_LAT_MAX = "UpperLatitude"
 _META_LON_MIN = "LeftLongitude"
 _META_LAT_MIN = "BottomLatitude"
 _META_LON_MAX = "RightLongitude"
-# READ-ONLY
 _META_WEATHER_SCHEMA_V = "WeatherSchemaVersion"
+_META_NOTES = "Notes"
 _META_DATA_VALUE_COUNT = "DatavalueCount"
-# AUTO-SET
 _META_DTK_NODES_COUNT = "NumberDTKNodes"
 _META_OFFSET_COUNT = "OffsetEntryCount"
 _META_NODE_COUNT = "NodeCount"
 _META_DATA_CELL_VALUE_COUNT = "DatavaluePerCell"
-# SET BY SERVICE
-# _META_WEATHER_CELL_COUNT = "WeatherCellCount"
+_META_WEATHER_CELL_COUNT = "WeatherCellCount"
+
+# Defaults
+_META_DEFAULT_TOOL = "emodpy_malaria"
+_META_DEFAULT_ID_REFERENCE = "Default"
+_META_DEFAULT_UNSPECIFIED = "Unspecified"
+_META_DEFAULT_AUTHOR = "Institute for Disease Modeling"
+_META_DEFAULT_START_DOY = 1
+_META_DEFAULT_WEATHER_SCHEMA_V = "2.0"
 
 _META_REQUIRED_ARGS = [_META_ID_REFERENCE]
 _META_REQUIRED_CALC = [_META_DATA_VALUE_COUNT]
 
 
 class WeatherAttributes:
-    """
-    Weather attributes containing metadata used to construct the "metadata" element and stored in .bin.json file.
-    Used to initiate weather metadata object. If no metadata is specified, defaults are used. If metadata dict is
-    specified, that dictionary is used as is, without setting any defaults.
+    """Metadata attributes for EMOD weather files.
+
+    Manages the key/value pairs stored in the ``"Metadata"`` section of a
+    ``.bin.json`` file.  Provides sensible defaults when no explicit values
+    are given.
     """
 
     def __init__(self,
-                 attributes_dict: Dict[str, Union[str, int, float]] = None,
+                 attributes_dict: dict[str, Union[str, int, float]] = None,
                  reference: str = None,
                  resolution: str = None,
                  provenance: str = None,
@@ -78,40 +81,14 @@ class WeatherAttributes:
                  lon_max: float = None,
                  tool: str = None,
                  author: str = None,
-                 schema_version: str = None):
-        """
-        Initialize the weather attributes object by either passing the metadata dictionary or setting.
+                 schema_version: str = None,
+                 notes: str = None):
+        self._attributes_dict: dict[str, Union[str, int, float]] = (
+            attributes_dict or self.metadata_defaults_dict()
+        )
 
-        Args:
-            attributes_dict (Dict[str, Union[str, int, float]]):  (Optional) A dictionary containing user specified metadata attributes.
-                            Used to initiate weather attributes object. A typical usage is to set metadata attributes
-                            including those not required or explicitly implemented by this class. For example, when
-                            reading existing metadata file (.bin.json), the dictionary read from the file allows
-                            persisting all found attributes, including those explicitly implemented by this class.
-                            This dictionary can be used in combination with other __init__ arguments.
-            reference (str):      (Optional) Reference string expected by EMOD as a way to bind weather and demographic files.
-            resolution (float):     (Optional) Spatial weather data resolution.
-            provenance (str):     (Optional) Data provenance describing data source and how it was obtained.
-            update_freq (str):    (Optional) The frequency.
-            start_year (int):     (Optional) Weather data start year. Used to construct years range attribute.
-            end_year (int):       (Optional) Weather data end year. Used to construct years range attribute.
-            start_doy (int):      (Optional) The start day of year. By default, it is set to 1.
-            lat_min (float):        (Optional) Minimal or top latitude of the weather spatial coverage.
-            lat_max (float):        (Optional) Maximum or bottom latitude of the weather spatial coverage.
-            lon_min (float):        (Optional) Minimal or top longitude of the weather spatial coverage.
-            lon_max (float):        (Optional) Maximum or top longitude of the weather spatial coverage.
-            tool (str):           (Optional) The tool used to prepare weather files.
-            author (str):         (Optional) The author of weather files.
-            schema_version (str): (Optional) The EMOD weather file schema version.
-
-        """
-        # Init the metadata dictionary to provided dictionary or defaults.
-        self._attributes_dict: Dict[str, Union[str, int, float]] = attributes_dict or self.metadata_defaults_dict()
-
-        # If needed, set date attributes based on today's date.
         date_years = f"{start_year}-{end_year}" if start_year is not None and end_year is not None else None
 
-        # Init the metadata object and set arguments. Those that are None are ignored.
         metadata_args = {
             _META_ID_REFERENCE: reference,
             _META_SPATIAL_RESOLUTION: resolution,
@@ -126,218 +103,206 @@ class WeatherAttributes:
             _META_TOOL: tool,
             _META_AUTHOR: author,
             _META_WEATHER_SCHEMA_V: schema_version,
+            _META_NOTES: notes,
         }
 
-        # Remove not specified attributes (Nones).
-        metadata_args2 = {k: v for k, v in metadata_args.items() if v is not None}
-        self._attributes_dict.update(metadata_args2)
+        metadata_args = {k: v for k, v in metadata_args.items() if v is not None}
+        self._attributes_dict.update(metadata_args)
 
-        # Set missing required attributes (like IdReference)
-        missing_required_defaults = self.required_metadata_defaults_dict(exclude_keys=list(self._attributes_dict.keys()))
-        self._attributes_dict.update(missing_required_defaults)
+        missing = self.required_metadata_defaults_dict(exclude_keys=list(self._attributes_dict.keys()))
+        self._attributes_dict.update(missing)
 
-    def __eq__(self, other: WeatherAttributes):
-        """Equality operator for WeatherAttributes objects"""
+    def __eq__(self, other):
+        if not isinstance(other, WeatherAttributes):
+            return NotImplemented
         return self.attributes_dict == other.attributes_dict
 
-    # Getter and setter methods for standard attributes. "snake_case" is for consistency with Python naming convention.
-
     @property
-    def attributes_dict(self) -> Dict[str, Union[str, int, float]]:
+    def attributes_dict(self) -> dict[str, Union[str, int, float]]:
         return self._attributes_dict
 
     @property
-    def tool(self) -> str:
-        """Tool name used to prepare weather files."""
-        return self._attributes_dict.get(_META_TOOL, None)
+    def tool(self) -> str | None:
+        return self._attributes_dict.get(_META_TOOL)
 
     @tool.setter
-    def tool(self, value: str) -> NoReturn:
-        """Set tool name attribute."""
+    def tool(self, value: str) -> None:
         validate_str_value(value)
         self._attributes_dict[_META_TOOL] = value
 
     @property
-    def date_created(self) -> str:
-        """Date weather files are created."""
-        return self._attributes_dict.get(_META_DATE_CREATED, None)
+    def date_created(self) -> str | None:
+        return self._attributes_dict.get(_META_DATE_CREATED)
 
     @date_created.setter
-    def date_created(self, value: str) -> NoReturn:
-        """Set creation date attribute."""
-        value = str(value)
-        validate_str_value(value)
-        # TODO validate date
-        self._attributes_dict[_META_DATE_CREATED] = value
+    def date_created(self, value: str) -> None:
+        validate_str_value(str(value))
+        self._attributes_dict[_META_DATE_CREATED] = str(value)
 
     @property
-    def author(self) -> str:
-        """Author of weather files."""
-        return self._attributes_dict.get(_META_AUTHOR, None)
+    def author(self) -> str | None:
+        return self._attributes_dict.get(_META_AUTHOR)
 
     @author.setter
-    def author(self, value: str):
-        """Set author attribute."""
+    def author(self, value: str) -> None:
         validate_str_value(value)
         self._attributes_dict[_META_AUTHOR] = value
 
     @property
-    def id_reference(self) -> str:
-        """Id reference value used to semantically bind weather files."""
-        return self._attributes_dict.get(_META_ID_REFERENCE, None)
+    def id_reference(self) -> str | None:
+        return self._attributes_dict.get(_META_ID_REFERENCE)
 
     @id_reference.setter
-    def id_reference(self, value: str):
-        """Set id reference attribute."""
+    def id_reference(self, value: str) -> None:
         validate_str_value(value)
         self._attributes_dict[_META_ID_REFERENCE] = value
 
     @property
-    def update_resolution(self) -> str:
-        """Data update frequency (e.g. monthly, yearly)."""
-        return self._attributes_dict.get(_META_UPDATE_FREQUENCY, None)
+    def update_resolution(self) -> str | None:
+        return self._attributes_dict.get(_META_UPDATE_FREQUENCY)
 
     @update_resolution.setter
-    def update_resolution(self, value: str):
-        """Set data update frequency attribute."""
+    def update_resolution(self, value: str) -> None:
         validate_str_value(value)
         self._attributes_dict[_META_UPDATE_FREQUENCY] = value
 
     @property
-    def data_years(self) -> str:
-        """Data years range describing the temporal coverage."""
-        return self._attributes_dict.get(_META_DATA_YEARS, None)
+    def data_years(self) -> str | None:
+        return self._attributes_dict.get(_META_DATA_YEARS)
 
     @data_years.setter
-    def data_years(self, value: str):
-        """Set data years range attribute."""
+    def data_years(self, value: str) -> None:
         validate_str_value(value)
         import re
-        assert re.match("20[0-3][0-9]-20[0-3][0-9]", value), "Years range format must be 20YY-20YY"
+        if not re.match(r"20[0-3][0-9]-20[0-3][0-9]", value):
+            raise ValueError("Years range format must be 20YY-20YY")
         self._attributes_dict[_META_DATA_YEARS] = value
 
     @property
-    def provenance(self) -> str:
-        """Data provenance, describing the data source and how the data was obtained."""
-        return self._attributes_dict.get(_META_PROVENANCE, None)
+    def provenance(self) -> str | None:
+        return self._attributes_dict.get(_META_PROVENANCE)
 
     @provenance.setter
-    def provenance(self, value: str):
-        """Set provenance attribute."""
+    def provenance(self, value: str) -> None:
         validate_str_value(value)
         self._attributes_dict[_META_PROVENANCE] = value
 
     @property
-    def spatial_resolution(self) -> str:
-        """Weather data Spatial resolution (e.g., 30arcsec or 1km)"""
-        return self._attributes_dict.get(_META_SPATIAL_RESOLUTION, None)
+    def spatial_resolution(self) -> str | None:
+        return self._attributes_dict.get(_META_SPATIAL_RESOLUTION)
 
     @spatial_resolution.setter
-    def spatial_resolution(self, value: str):
-        """Set spatial resolution attribute."""
+    def spatial_resolution(self, value: str) -> None:
         validate_str_value(value)
         self._attributes_dict[_META_SPATIAL_RESOLUTION] = value
+
+    @property
+    def notes(self) -> str | None:
+        return self._attributes_dict.get(_META_NOTES)
+
+    @notes.setter
+    def notes(self, value: str) -> None:
+        validate_str_value(value)
+        self._attributes_dict[_META_NOTES] = value
 
     @classmethod
     def format_create_date(cls, created: datetime) -> str:
         return created.strftime("%Y-%m-%d")
 
     @classmethod
-    def metadata_defaults_dict(cls) -> Dict[str, Union[str, int, float]]:
-        """Metadata defaults dictionary."""
+    def metadata_defaults_dict(cls) -> dict[str, Union[str, int, float]]:
         created = datetime.now()
-        default_date_years = f"{created.year}-{created.year}"
-        metadata = {
+        return {
             _META_DATE_CREATED: cls.format_create_date(created),
             _META_ID_REFERENCE: _META_DEFAULT_ID_REFERENCE,
             _META_SPATIAL_RESOLUTION: _META_DEFAULT_UNSPECIFIED,
             _META_PROVENANCE: _META_DEFAULT_UNSPECIFIED,
             _META_UPDATE_FREQUENCY: _META_DEFAULT_UNSPECIFIED,
-            _META_DATA_YEARS: default_date_years,
+            _META_DATA_YEARS: f"{created.year}-{created.year}",
             _META_START_DOY: _META_DEFAULT_START_DOY,
             _META_TOOL: _META_DEFAULT_TOOL,
             _META_AUTHOR: _META_DEFAULT_AUTHOR,
             _META_WEATHER_SCHEMA_V: _META_DEFAULT_WEATHER_SCHEMA_V,
         }
 
-        return metadata
-
     @classmethod
-    def required_metadata_defaults_dict(cls, exclude_keys: List[str] = None) -> Dict[str, Union[str, int, float]]:
-        """Dictionary of required metadata defaults."""
+    def required_metadata_defaults_dict(cls, exclude_keys: list[str] = None) -> dict[str, Union[str, int, float]]:
         exclude_keys = exclude_keys or []
-        metadata = {
+        return {
             k: v for k, v in cls.metadata_defaults_dict().items()
-            if k in _META_REQUIRED_ARGS and k not in exclude_keys}
-        return metadata
+            if k in _META_REQUIRED_ARGS and k not in exclude_keys
+        }
 
-    def update(self, value: Dict[str, Union[int, str]]):
-        """Update metadata dictionary."""
-        assert isinstance(value, Dict), "Metadata must be a dictionary."
+    def update(self, value: dict[str, Union[int, str]]) -> None:
+        if not isinstance(value, dict):
+            raise TypeError("Metadata must be a dictionary.")
         self._attributes_dict.update(value)
 
-    def validate(self) -> NoReturn:
-        """Validate metadata contains requires argument."""
+    def validate(self) -> None:
         for a in _META_REQUIRED_ARGS + _META_REQUIRED_CALC:
-            assert self._attributes_dict[a] is not None and len(str(a).strip()) > 0, f"{a} metadata attribute is not set."
+            val = self._attributes_dict.get(a)
+            if val is None or len(str(val).strip()) == 0:
+                raise ValueError(f"Required metadata attribute {a!r} is not set.")
 
 
 class WeatherMetadata(WeatherAttributes):
-    """
-    Weather metadata containing weather data attributes, counts and node offsets.
-    Used to initiate WeatherData, expose metadata programmatically and create weather metadata files (.bin.json).
+    """Weather metadata with node offsets and count fields.
+
+    Wraps [Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) for core node-offset
+    computation and basic ``.bin.json`` parsing, extending it with rich
+    metadata attributes and shared-offset (deduplication) support.
     """
 
-    # REQUIRED_ATTRIBUTES = ["Tool", ]
     def __init__(self,
-                 node_ids: Union[List[int], Dict[int, int]],
+                 node_ids: Union[list[int], dict[int, int]],
                  series_len: int = None,
-                 attributes: Union[WeatherMetadata, WeatherAttributes, Dict[str, Union[str, int, float]]] = None):
-        """
-        Initiate WeatherMetadata object.
-
-        Args:
-            node_ids (Union[List[int], Dict[int, int]]): A dictionary with node ids as keys and offsets as values, or just a list of node ids.
-                      If node-offset dictionary is provided, node offsets are set per that dictionary.
-                      If a list of nodes ids is provided, offsets are calculated based on weather time series length.
-            series_len (int): The length of a weather time series (aka "data value count").
-            attributes (Union[WeatherMetadata, WeatherAttributes, Dict[str, Union[str, int, float]]]): Weather attributes, either as an objects or a dictionary.
-
-        """
-        if isinstance(attributes, WeatherMetadata) or isinstance(attributes, WeatherAttributes):
+                 attributes: Union["WeatherMetadata", WeatherAttributes,
+                                   dict[str, Union[str, int, float]]] = None):
+        if isinstance(attributes, (WeatherMetadata, WeatherAttributes)):
             attributes_dict = attributes.attributes_dict
         else:
             attributes_dict = attributes
 
         super().__init__(attributes_dict=attributes_dict)
 
-        # Set node offsets dictionary based on node_ids argument.
-        if isinstance(node_ids, Dict):
+        if isinstance(node_ids, dict):
+            # Shared-offset case — store the dict directly
             self._node_offsets = node_ids
             series_len = int(series_len or self._expected_series_len())
             self._validate_series_len(series_len)
         else:
-            # If node id list is provided, offsets are calculated based on weather time series length.
-            self._validate_series_len(series_len)   # if node_ids is a list a valid series_len must be provided.
-            self._node_offsets = {
-                node_id: series_len * node_ids.index(node_id) * SERIES_BYTE_VALUE_SIZE
-                for node_id in sorted(node_ids)
-            }
+            # Simple list — delegate offset calculation to emod-api Metadata
+            self._validate_series_len(series_len)
+            base = BaseMetadata(list(node_ids), series_len)
+            self._node_offsets = dict(base.nodes)
 
         self._series_len = series_len
-
-        # init
-        metadata_count_dict = self._metadata_count_dict
-
-        self.update(metadata_count_dict)
+        self.update(self._metadata_count_dict)
         self.validate()
 
-    def __eq__(self, other: WeatherMetadata):
-        """Equality operator for WeatherMetadata objects"""
-        attributes_eq = super().__eq__(other)
-        nodes_eq = sorted(self.node_offsets) == sorted(other.node_offsets)
-        offsets_eq = [self.node_offsets[k] == other.node_offsets[k] for k in self.node_offsets] if nodes_eq else [False]
-        return attributes_eq and nodes_eq and offsets_eq
+    def __eq__(self, other):
+        if not isinstance(other, WeatherMetadata):
+            return NotImplemented
+        return (super().__eq__(other)
+                and sorted(self.node_offsets) == sorted(other.node_offsets)
+                and all(self.node_offsets[k] == other.node_offsets[k]
+                        for k in self.node_offsets))
+
+    def to_base_metadata(self) -> BaseMetadata:
+        """Create an [Metadata](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
+
+        Useful for interoperability with code that expects the emod-api
+        ``Metadata`` object.  Note: shared offsets are expanded — each
+        node gets its own sequential offset in the returned object.
+        """
+        return BaseMetadata(
+            node_ids=self.nodes,
+            datavalue_count=self._series_len,
+            author=self.author,
+            provenance=self.provenance,
+            reference=self.id_reference,
+            frequency=self.update_resolution,
+        )
 
     @property
     def _metadata_count_dict(self):
@@ -346,202 +311,154 @@ class WeatherMetadata(WeatherAttributes):
             _META_OFFSET_COUNT: len(self._node_offsets),
             _META_DTK_NODES_COUNT: node_count,
             _META_NODE_COUNT: node_count,
+            _META_WEATHER_CELL_COUNT: node_count,
             _META_DATA_VALUE_COUNT: self._series_len,
             _META_DATA_CELL_VALUE_COUNT: self._series_len,
         }
 
     @classmethod
-    def _validate_series_len(cls, series_len: int):
+    def _validate_series_len(cls, series_len: int) -> None:
         if not isinstance(series_len, int) or series_len <= 0:
-            raise ValueError("Weather time series length must be an positive integer.")
+            raise ValueError("Weather time series length must be a positive integer.")
 
     def _expected_series_len(self) -> int:
-        """Returns expected node weather time series length."""
         if self._node_offsets and len(self._node_offsets) > 0:
-            offsets2 = sorted(set(self._node_offsets.values()))[:2]
-            expected = int(float(offsets2[1] - offsets2[0]) / 4) if len(offsets2) > 1 else -1
-        else:
-            expected = -1
-        return expected
+            offsets = sorted(set(self._node_offsets.values()))[:2]
+            if len(offsets) > 1:
+                return int((offsets[1] - offsets[0]) / SERIES_BYTE_VALUE_SIZE)
+        return -1
 
-    def validate(self):
-        """Validate metadata object node-related counts. Relies on inherited validation of metadata attributes."""
+    def validate(self) -> None:
         super().validate()
 
-        # Validate nodes and offsets
-        assert isinstance(self.nodes, Iterable), "node_ids must be iterable"
-        assert len(self.nodes) > 0, "node_ids must not be empty"
-        assert all(map(lambda i: isinstance(i, int), self.nodes)), "node_ids must be integers"
+        if not self.nodes:
+            raise ValueError("node_ids must not be empty.")
+        if not all(isinstance(i, int) for i in self.nodes):
+            raise TypeError("node_ids must be integers.")
 
-        # Validate node id and offset range
-        # https://github.com/InstituteforDiseaseModeling/DtkTrunk/blob/master/Eradication/Climate.h#L151-L154
-        max_uint32 = int("FFFFFFFF", 16)   # max unsigned 32 bit value
-        invalid_nodes, invalid_offsets = [], []
-        for node_id, offset in self.node_offsets.items():
-            if not 0 < node_id <= max_uint32:
-                invalid_nodes.append(node_id)
+        max_uint32 = 0xFFFFFFFF
+        invalid_nodes = [n for n in self.nodes if not (0 < n <= max_uint32)]
+        if invalid_nodes:
+            raise ValueError(
+                f"Node IDs must be in (0, {max_uint32}]. "
+                f"Invalid: {invalid_nodes[:5]}"
+            )
 
-            if not 0 <= offset <= max_uint32:
-                invalid_offsets.append(offset)
+        invalid_offsets = [
+            o for o in self.node_offsets.values()
+            if not (0 <= o <= max_uint32)
+        ]
+        if invalid_offsets:
+            raise ValueError(
+                f"Offsets must be in [0, {max_uint32}]. "
+                f"Invalid: {invalid_offsets[:5]}"
+            )
 
-        if len(invalid_nodes) > 0:
-            print(f"Found {len(invalid_nodes)} invalid node ids: {invalid_nodes[:5]}")
-            raise ValueError(f"Node values must be integers in (0, {str(max_uint32)}] interval.")
+        if len(set(self.nodes)) != len(self.nodes):
+            raise ValueError("node_ids must be unique.")
 
-        if len(invalid_offsets) > 0:
-            print(f"Found {len(invalid_offsets)} invalid offsets: {invalid_offsets[:5]}")
-            raise ValueError(f"Node offset values must be integers in [0, {str(max_uint32)}] interval.")
+        if len(self.node_offset_str) != self.node_count * 16:
+            raise ValueError("node_offset_str length doesn't match node count.")
 
-        assert len(set(self.nodes)) == len(self.nodes), "node_ids must be unique"
-
-        assert len(self.node_offset_str) == self.node_count * 16, "node_offset_str length doesn't match node count. "
-
-        # Validate series_len
         self._validate_series_len(self._series_len)
-        if 0 < self._expected_series_len() != self._series_len:
-            raise ValueError("Weather time series length doesn't match provided offsets distance.")
+        expected = self._expected_series_len()
+        if 0 < expected != self._series_len:
+            raise ValueError("Time series length doesn't match offset distances.")
 
-    # Operational properties (read-only)
     @property
     def attributes(self) -> WeatherAttributes:
-        """Cast back into WeatherAttributes."""
         meta_keys = list(self._metadata_count_dict)
-        attributes_dict = {k: v for k, v in self._attributes_dict.items() if k not in meta_keys}
-        wa = WeatherAttributes(attributes_dict=attributes_dict)
-        return wa
+        attributes_dict = {
+            k: v for k, v in self._attributes_dict.items()
+            if k not in meta_keys
+        }
+        return WeatherAttributes(attributes_dict=attributes_dict)
 
     @property
     def datavalue_count(self) -> int:
-        """Number of data values in each weather time series (must be > 0)."""
         return self._series_len
 
     @property
     def series_len(self) -> int:
-        """Number of data values in each timeseries, should be > 0."""
         return self._series_len
 
     @property
     def series_count(self) -> int:
-        """The number of weather time series (expected based on metadata), corresponding to the number of offsets."""
-        return len(set(list(self._node_offsets.values())))
+        return len(set(self._node_offsets.values()))
 
     @property
-    def series_unique_count(self):
-        """The number of unique weather time series (expected based on metadata), based on offsets."""
+    def series_unique_count(self) -> int:
         return len(self.offset_nodes)
 
     @property
     def total_value_count(self) -> int:
-        """The total count of all values, in all weather time series (expected based on metadata)."""
         return self.series_count * self.series_len
 
     @property
-    def nodes(self) -> List[int]:
-        """The list of nodes (node ids) in the node-offset dictionary."""
+    def nodes(self) -> list[int]:
         return list(self._node_offsets)
 
     @property
     def node_count(self) -> int:
-        """The number of node in the node-offset dictionary."""
         return len(self.nodes)
 
     @property
     def node_offset_str(self) -> str:
-        """The node offset string, as it will appear in the weather metadata file (.bin.json)."""
         return self._convert_offset_dict_to_str(self._node_offsets)
 
     @property
-    def node_offsets(self) -> Dict[int, int]:
-        """Node-offset dictionary, mapping node ids (keys) to node offsets (values)."""
+    def node_offsets(self) -> dict[int, int]:
         return self._node_offsets
 
     @property
-    def offset_nodes(self) -> Dict[int, List[int]]:
-        """The offset-nodes dictionary, grouping nodes (values) by offset (key). Used to find unique series."""
-        offset_nodes = invert_dict(self._node_offsets, sort=True)
-        return offset_nodes
+    def offset_nodes(self) -> dict[int, list[int]]:
+        return invert_dict(self._node_offsets, sort=True)
 
-    # Import/Export members
+    def to_file(self, file_path: Union[str, Path]) -> None:
+        """Write the rich ``.bin.json`` metadata file.
 
-    def to_file(self, file_path: Union[str, Path]) -> NoReturn:
-        """
-        Save weather metadata object as weather metadata file (.bin.json).
-
-        Args:
-            file_path (Union[str, Path]): The path of the output weather metadata file.
-
-        Returns:
-            None
+        Produces a superset of the format written by
+        [Metadata.write_file()](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/), including
+        additional attributes like ``Tool``, ``WeatherSchemaVersion``,
+        ``Resolution``, etc.
         """
         self.validate()
-        # Ensure parent dir exists.
         make_path(Path(file_path).parent)
-        # Construct the node offset string.
         offset_str = self._convert_offset_dict_to_str(self._node_offsets)
-        # Prepare json object based on metadata and node offset string.
         content = dict(Metadata=self.attributes_dict, NodeOffsets=offset_str)
-        # Save json object to a file.
         save_json(content=content, file_path=file_path)
 
-        assert Path(file_path).is_file(), f"Failed to create weather metadata file {file_path}"
-
     @classmethod
-    def from_file(cls, file_path: Union[str, Path]) -> WeatherMetadata:
+    def from_file(cls, file_path: Union[str, Path]) -> "WeatherMetadata":
+        """Read a ``.bin.json`` file.
+
+        Uses [Metadata.from_file()](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) for core
+        parsing (node offsets, datavalue count), then augments with any
+        additional attributes present in the file.
         """
-        Read weather metadata file into a weather metadata object.
-        """
-        # Load metadata json file into a json object.
-        with open(str(file_path), "rb") as file:
-            content = json.load(file)
+        base = BaseMetadata.from_file(str(file_path))
 
-        # Convert node offset string into a node-offset dictionary
-        node_offsets = cls._convert_offset_str_to_dict(content["NodeOffsets"])
-        if "Metadata" in content and _META_DATA_VALUE_COUNT in content["Metadata"]:
-            series_len = content["Metadata"][_META_DATA_VALUE_COUNT]
-        else:
-            series_len = None
-        # Instantiate the weather metadata object based on node-offset dictionary and metadata attribute dictionary.
-        metadata = WeatherMetadata(node_ids=node_offsets, attributes=content["Metadata"], series_len=series_len)
+        with open(str(file_path), "rb") as f:
+            content = json.load(f)
+        raw_meta = content.get("Metadata", {})
 
-        return metadata
-
-    # Helpers
+        return WeatherMetadata(
+            node_ids=dict(base.nodes),
+            series_len=base.datavalue_count,
+            attributes=raw_meta,
+        )
 
     @staticmethod
-    def _convert_offset_str_to_dict(offset_str: str) -> Dict[int, int]:
-        """
-        Convert node offset string into a node-offset dictionary.
-
-        Args:
-            offset_str (str): The node offset string.
-
-        Returns:
-            The node-offset dictionary, having node ids as keys and offsets as values.
-        """
+    def _convert_offset_str_to_dict(offset_str: str) -> dict[int, int]:
         entry_count = len(offset_str) // 16
         node_offsets = {}
         for i in range(entry_count):
             idx = i * 16
-            entry_str = offset_str[idx: idx + 16]
-            node_id = int(entry_str[:8], 16)
-            offset = int(entry_str[8:16], 16)
-            node_offsets[node_id] = offset
-
+            entry = offset_str[idx: idx + 16]
+            node_offsets[int(entry[:8], 16)] = int(entry[8:16], 16)
         return node_offsets
 
     @staticmethod
-    def _convert_offset_dict_to_str(node_offsets: Dict[int, int]) -> str:
-        """
-        Convert node-offset dictionary into a string.
-
-        Args:
-            node_offsets (Dict[int, int]): The node offset dictionary.
-
-        Returns:
-            The node offset string, as it appears in the weather metadata file.
-        """
-        offset_str = ""
-        for node_id, offset in node_offsets.items():
-            offset_str += f"{node_id:08x}{offset:08x}"
-
-        return offset_str
+    def _convert_offset_dict_to_str(node_offsets: dict[int, int]) -> str:
+        return "".join(f"{node_id:08x}{offset:08x}"
+                       for node_id, offset in node_offsets.items())

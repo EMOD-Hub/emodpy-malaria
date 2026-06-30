@@ -16,13 +16,14 @@ for your site.
 
 ## Configuring the seasonal habitat
 
-`configure_linear_spline()` builds a habitat object from a set of (day, scale) pairs. The
-scale values are relative multipliers on `max_larval_capacity` — values near zero represent
-the dry season, the peak represents the wet season.
+`VectorHabitat` builds a habitat object from a habitat type and — for `LINEAR_SPLINE` —
+a set of (day, scale) pairs. The scale values are relative multipliers on
+`max_larval_capacity` — values near zero represent the dry season, the peak represents
+the wet season.
 
-```python linenums="1"
-seasonal_habitat = vector_config.configure_linear_spline(
-    manifest,
+```python
+seasonal_habitat = malaria_config.VectorHabitat(
+    habitat_type=HabitatType.LINEAR_SPLINE,
     max_larval_capacity=1e8,
     capacity_distribution_number_of_years=1,
     capacity_distribution_over_time={
@@ -59,7 +60,7 @@ uses it as the constant-transmission reference (plotted in red) so the seasonal 
 out directly against the flat baseline. If you are starting here without having run Tutorial
 3, the plot will still work — the reference line simply will not appear.
 
-```python linenums="1"
+```python
 plot_inset_chart(dir_name=output_path,
                  reference=reference,
                  title="Tutorial 4 - InsetChart",

@@ -1,9 +1,0 @@
-name,lat,lon,cluster,country,birth_rate_country,continent,nodes
-aba,5.43,7.58,1,Nigeria,Nigeria,Africa,1
-kasama,-10.21,31.1957,2,Zambia,Zambia,Africa,2
-djibo,14.1,-1.65,3,Burkina_Faso,Burkina Faso,Africa,3
-kananga,-6.188,21.57,4,Democratic_Republic_of_the_Congo,"Congo, Dem. Rep.",Africa,4
-moine,-24.896,32.5,5,Mozambique,Mozambique,Africa,5
-gode,5.91,43.6,6,Ethiopia,Ethiopia,Africa,6
-karen,17.4116,98.0511,1,Myanmar,Myanmar,Asia,7
-bajonapo,-0.7292,-75.6459,1,Ecuador,Ecuador,Americas,8

@@ -1,7 +1,7 @@
 # Input files
 
 
-The following parameters set the paths to the the campaign file and the input files for climate, migration, demographics, and load-balancing.
+The following parameters set the paths to the campaign file and the input files for climate, migration, demographics, and load-balancing.
 
 !!! note
     Parameters are case-sensitive. For Boolean parameters, set to 1 for true or 0 for false.
@@ -13,4 +13,5 @@ The following parameters set the paths to the the campaign file and the input fi
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 {{ read_csv("csv/config-input-malaria.csv", keep_default_na=False) }}

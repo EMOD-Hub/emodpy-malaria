@@ -137,7 +137,7 @@ Laboratory studies with Microsporidia MB have shown minimal impact on adult surv
 
 Microsporidia's primary value for malaria control lies in their ability to interfere with *Plasmodium* development and transmission:
 
-**Malaria Acquisition interference**: The `Duration_To_Disease_Acquisition_Modification` parameter defines how microsporidia infection affects the probability that a female mosquito becomes infected with malaria when feeding on an infectious human. This is specified as a time-dependent modifier using an dictionary with **Times** and **Values** keys, where:
+**Malaria Acquisition interference**: The `Duration_To_Disease_Acquisition_Modification` parameter defines how microsporidia infection affects the probability that a female mosquito becomes infected with malaria when feeding on an infectious human. This is specified as a time-dependent modifier using a dictionary with **Times** and **Values** keys, where:
 
 - **Times**: Array of days since microsporidia infection (ascending order)
 - **Values**: Array of probability multipliers (0-1) for malaria acquisition
@@ -166,6 +166,7 @@ Microsporidia strains are configured within the **Vector_Species_Params** sectio
     JSON format does not permit comments, but you can add "dummy" parameters to add contextual
     information to your files. Any keys that are not EMOD parameter names will be ignored by the
     model.
+
 {{ read_csv("csv/config-vector-microsporidia-malaria.csv", keep_default_na=False) }}
 
 The following example shows a two-strain microsporidia configuration for *Anopheles gambiae*.
