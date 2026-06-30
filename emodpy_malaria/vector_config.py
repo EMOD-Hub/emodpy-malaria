@@ -1187,8 +1187,7 @@ def add_vector_migration(task: object,
                          species: str = None,
                          vector_migration_data: object = None,
                          vector_migration_filename_path: str = None,
-                         x_vector_migration: float = 1,
-):
+                         x_vector_migration: float = 1):
     """Adds vector migration parameters to the named species' parameters and adds the migration file to the
     common_assets in task.
 

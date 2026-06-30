@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 import logging
 from pathlib import Path
-from typing import Optional, Union
+from typing import Union
 
 import numpy as np
 
@@ -354,8 +354,6 @@ class VectorMigrationData(MigrationData):
             pass
         else:
             pass
-
-
 
         with metafile.open("w") as f:
             json.dump(metadata, f, indent=4, separators=(",", ": "))

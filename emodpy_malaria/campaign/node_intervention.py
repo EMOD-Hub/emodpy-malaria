@@ -1069,7 +1069,7 @@ class MosquitoRelease(NodeIntervention):
         super().__init__(campaign, 'MosquitoRelease', common_intervention_parameters)
 
         for genome, param in [(released_genome, 'released_genome'),
-                               (released_mate_genome, 'released_mate_genome')]:
+                              (released_mate_genome, 'released_mate_genome')]:
             if genome is None:
                 continue
             for i, locus in enumerate(genome):
