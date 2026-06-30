@@ -21,7 +21,7 @@ from emodpy.campaign.utils import set_event
 from emodpy_malaria.campaign.common import CommonInterventionParameters
 from emodpy_malaria.campaign.waning_config import AbstractWaningConfig, Constant, InsecticideWaningEffect
 from emodpy_malaria.utils.emod_enum import NonAdherenceOption, DiagnosticType, NucleotideSequenceOrigin, EventOrConfig
-from emodpy_malaria.utils.config_utils import validate_insecticide_name, validate_malaria_model
+from emodpy_malaria.utils.config_utils import validate_insecticide_name, validate_malaria_model, validate_genome_locations_length
 from emod_api import campaign as api_campaign
 from emodpy_malaria.utils.distributions import BaseDistribution
 
@@ -559,8 +559,9 @@ class SimpleBednet(IndividualIntervention):
 
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the bednet's mosquito repelling effect. This is the first effect applied
-            to meal-seeking mosquitoes that encounter the net. Repelled vectors survive and do not attempt to feed again
-            until the following day and are not affected by the blocking or killing effects.
+            to meal-seeking mosquitoes that encounter the net. Repelled vectors do not enter the netted space —
+            they survive and do not attempt to feed again until the following day and are not affected by the
+            blocking or killing effects.
             Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         blocking_config (AbstractWaningConfig, required):
@@ -635,11 +636,13 @@ class UsageDependentBednet(IndividualIntervention):
 
     While **SimpleBednet** usage is applied as a daily reduction in efficacy,
     **UsageDependentBednet** uses the usage efficacy to determine whether the person
-    slept under the net that night. For example, if we look at a bednet with 0% repelling,
-    100% blocking, and 100% killing effects, and 50% usage effect, the person with the
-    **SimpleBednet** will have a net that has final efficacy of 50% blocking and 50% killing
-    each night and the person with the **UsageDependentBednet** will have half of their nights
-    with a 100% blocking and 100% killing net and half of their nights with no net usage.
+    slept under the net that night.
+
+    For example, consider a bednet configured with 0% repelling, 100% blocking, 100% killing,
+    and 50% usage effect. A person with a **SimpleBednet** will have a net with final efficacy
+    of 50% blocking and 50% killing every night. A person with a **UsageDependentBednet** will
+    have half of their nights with a 100% blocking and 100% killing net and half with no net
+    usage at all.
 
     At a glance:
 
@@ -660,8 +663,9 @@ class UsageDependentBednet(IndividualIntervention):
 
         repelling_config (AbstractWaningConfig, required):
             Waning effect configuration for the bednet's mosquito repelling effect. This is the first effect applied
-            to meal-seeking mosquitoes that encounter the net. Repelled vectors survive and do not attempt to feed again
-            until the following day and are not affected by the blocking or killing effects.
+            to meal-seeking mosquitoes that encounter the net. Repelled vectors do not enter the netted space —
+            they survive and do not attempt to feed again until the following day and are not affected by the
+            blocking or killing effects.
             Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         blocking_config (AbstractWaningConfig, required):
@@ -892,10 +896,18 @@ class IRSHousingModification(IndividualIntervention):
     The **IRSHousingModification** intervention class includes Indoor Residual Spraying (IRS)
     in the simulation. IRS is another key vector control tool in which insecticide is sprayed on
     the interior walls of a house so that mosquitoes resting on the walls after consuming a
-    blood meal will die. This intervention affects indoor meal-seeking mosquitoes, which maybe be repelled from
+    blood meal will die. This intervention affects indoor meal-seeking mosquitoes, which may be repelled from
     entering the house or killed after landing on the wall post-meal. Since this intervention does not kill vectors
     before feeding, infectious vectors that are not repelled and die from this intervention still contribute to malaria
     transmission by potentially passing it to humans before they die.
+
+    Note that EMOD does not explicitly model houses. **IRSHousingModification** is distributed to
+    individuals, which means you can give IRS to some people in the population and not others —
+    it does not apply uniformly to all individuals in a node the way a node-level intervention
+    would. Also, because this intervention is tied to the individual, when the individual migrates,
+    they "take" it with them. We have a node-level ``IndoorSpaceSpraying`` intervention that is distributed
+    to nodes and does not migrate with individuals but rather affects the individuals currently in the node.
+
 
     At a glance:
 
@@ -1108,7 +1120,9 @@ class ScreeningHousingModification(IndividualIntervention):
     can enter indoors and therefore reduce indoor biting. The vectors that are not repelled by the screens and
     enter the house might then be killed post-meal from landing on the screen.
 
-    This intervention works similarly to IRS.
+    This intervention works similarly to IRS. Like **IRSHousingModification**, it is distributed
+    to individuals rather than applied to a node — EMOD does not explicitly model houses, so
+    this intervention can be given to a subset of the population to represent screened households.
 
     At a glance:
 
@@ -1497,9 +1511,12 @@ class Ivermectin(IndividualIntervention):
                 intervention_name=type(self).__name__))
 
 
-class RTSSVaccine(IndividualIntervention):
+class _RTSSVaccine(IndividualIntervention):
     """
-    The **RTSSVaccine** intervention class protects individuals against infection acquisition
+    Deprecated: **_RTSSVaccine** is not actively used or maintained. Use
+    `ControlledVaccine` or `SimpleVaccine` instead for vaccine interventions.
+
+    The **_RTSSVaccine** intervention class protects individuals against infection acquisition
     by directly boosting the circumsporozoite protein (CSP) antibody concentration. This
     contrasts with the SimpleVaccine intervention, which is used to modify the probability of
     acquisition, transmission, or death.
@@ -1531,7 +1548,7 @@ class RTSSVaccine(IndividualIntervention):
                  campaign: api_campaign,
                  boosted_antibody_concentration: float = 1,
                  common_intervention_parameters: CommonInterventionParameters = None):
-        super().__init__(campaign, 'RTSSVaccine', common_intervention_parameters)
+        super().__init__(campaign, 'RTSSVaccine', common_intervention_parameters)  # noqa: internal class name unchanged
 
         self._intervention.Boosted_Antibody_Concentration = validate_value_range(
             boosted_antibody_concentration, 'boosted_antibody_concentration', 0, 3.40282e+38, float)
@@ -1542,6 +1559,12 @@ class BitingRisk(IndividualIntervention):
     The **BitingRisk** class allows you to adjust the relative risk that the person is bitten
     by a vector. As an intervention, it allows you to target specific groups at specific times
     during the simulation.
+
+    The relative risk is population-relative: it controls how likely one individual is to be
+    bitten *compared to others in the same node*, not the absolute biting rate of the node.
+    For example, setting the entire population to a relative risk of 10 has no effect because
+    everyone's risk is equally scaled — the ratio between individuals is unchanged. The relative
+    risk is only meaningful when some individuals have a different value than others.
 
     The relative biting rate can be initially set using
     [MalariaDemographics.set_risk_distribution()](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/demographics/MalariaDemographics/),
@@ -1695,21 +1718,24 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
             Determines how the parasite genome is created. Use the
             [NucleotideSequenceOrigin](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/emod_enum/) enum values:
 
-            * ``NucleotideSequenceOrigin.BARCODE_STRING`` -- Create the genome from the
-              **barcode_string** parameter. The barcode sets values at barcode locations,
-              and the remaining locations depend on the ``var_gene_randomness_type`` argument of
-              ``malaria_config.set_parasite_genetics_params()``. If set to ``FIXED_MSP`` or
-              ``FIXED_NEIGHBORHOOD``, the barcode determines where in the variant range the
-              MSP and PfEMP1 values come from. It is assumed that if a person has had an
-              infection with a particular barcode, they have antibodies to fight a new
-              infection with the same barcode. Use multiple distributions with different
-              barcode strings to achieve infection diversity.
+            * ``NucleotideSequenceOrigin.BARCODE_STRING`` -- Create the genome from
+              **barcode_string**, **drug_resistant_string**, and **hrp_string**.
+              The barcode locations are defined in the config via
+              ``malaria_config.set_parasite_genetics_params()``. Everyone who receives this
+              outbreak intervention gets the same barcode values. It is assumed that if a person
+              has had an infection with a particular barcode, they have antibodies to fight a new
+              infection with the same barcode. Use multiple distributions with different barcode
+              strings to achieve infection diversity.
             * ``NucleotideSequenceOrigin.ALLELE_FREQUENCIES`` -- Each new infection from
               this outbreak gets a genome created randomly from allele frequencies defined
-              via ``malaria_config.set_parasite_genetics_params()``. This allows random
-              creation of new genomes, analogous to selecting a delay time from a
-              distribution. After the outbreak, new genomes are only created via meiosis
-              and recombination.
+              via **barcode_allele_frequencies_per_genome_location**,
+              **drug_resistant_allele_frequencies_per_genome_location**, and
+              **hrp_allele_frequencies_per_genome_location**. This allows
+              random creation of new genomes with controlled allele frequencies. Note that you
+              need to distribute many infections for the population-level allele frequencies to
+              reflect the configured values — distributing only a handful of infections will
+              not reliably reproduce the intended frequency distribution. After the outbreak,
+              new genomes are only created via meiosis and recombination.
             * ``NucleotideSequenceOrigin.NUCLEOTIDE_SEQUENCE`` -- Use a fully specified
               nucleotide sequence, including MSP and major epitope values. This requires
               **barcode_string**, **drug_resistant_string**, **hrp_string**,
@@ -1753,8 +1779,9 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
             ``malaria_config.set_parasite_genetics_params()``. Each inner array should
             have four values for the frequency of each allele at that location. The position
             of the value in the inner array determines the allele: index 0 is A, index 1 is
-            C, index 2 is G, and index 3 is T. Required when
-            **create_nucleotide_sequence_from** is set to ``ALLELE_FREQUENCIES``.
+            C, index 2 is G, and index 3 is T. The four values in each inner array must sum
+            to 1.0. Required when **create_nucleotide_sequence_from** is set to
+            ``ALLELE_FREQUENCIES``.
             Range per value: 0.0 to 1.0.
             Default value: None
 
@@ -1787,7 +1814,7 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
             antibodies recognize merozoites during blood-stage infection. This value must
             be less than or equal to the ``Falciparum_MSP_Variants`` value set via
             ``malaria_config.set_parasite_genetics_params()``. Can only be used when **create_nucleotide_sequence_from** is set to
-            ``NUCLEOTIDE_SEQUENCE``. Range: 0 to 1000.
+            ``NUCLEOTIDE_SEQUENCE``.
             Default value: None
 
         pfemp1_variants_values (list[int], optional):
@@ -1797,13 +1824,13 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
             to the ``Falciparum_PfEMP1_Variants`` value set via
             ``malaria_config.set_parasite_genetics_params()``. The array must
             contain exactly 50 values. Only used when **create_nucleotide_sequence_from**
-            is set to ``NUCLEOTIDE_SEQUENCE``. Range per value: 0 to 10000.
+            is set to ``NUCLEOTIDE_SEQUENCE``.
             Default value: None
 
         ignore_immunity (bool, optional):
             If True, individuals will be force-infected with the specified parasite strain
-            regardless of their actual immunity level. Set to False to have immunity
-            affect whether the infection takes hold.
+            regardless of their actual immunity level. If False, individual's immunity
+            affects whether the infection takes hold.
             Default value: True
 
         incubation_period_override (int, optional):
@@ -1866,6 +1893,26 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
         campaign.implicits.append(partial(
             validate_malaria_model,
             intervention_name="OutbreakIndividualMalariaGenetics"))
+
+        _location_checks = [
+            (barcode_string,
+             'barcode_string', 'Barcode_Genome_Locations'),
+            (drug_resistant_string,
+             'drug_resistant_string', 'Drug_Resistant_Genome_Locations'),
+            (hrp_string,
+             'hrp_string', 'HRP_Genome_Locations'),
+            (barcode_allele_frequencies_per_genome_location,
+             'barcode_allele_frequencies_per_genome_location', 'Barcode_Genome_Locations'),
+            (drug_resistant_allele_frequencies_per_genome_location,
+             'drug_resistant_allele_frequencies_per_genome_location', 'Drug_Resistant_Genome_Locations'),
+            (hrp_allele_frequencies_per_genome_location,
+             'hrp_allele_frequencies_per_genome_location', 'HRP_Genome_Locations'),
+        ]
+        for _value, _pname, _lattr in _location_checks:
+            if _value is not None:
+                campaign.implicits.append(partial(
+                    validate_genome_locations_length,
+                    value=_value, param_name=_pname, locations_attr=_lattr))
 
         self._intervention.Ignore_Immunity = 1 if ignore_immunity else 0
         self._intervention.Incubation_Period_Override = incubation_period_override
@@ -2065,7 +2112,7 @@ __all_exports = [
     IndoorIndividualEmanator,
     HumanHostSeekingTrap,
     Ivermectin,
-    RTSSVaccine,
+    # _RTSSVaccine intentionally excluded — not part of public API
     BitingRisk,
     SimpleHealthSeekingBehavior,
     OutbreakIndividualMalariaGenetics,

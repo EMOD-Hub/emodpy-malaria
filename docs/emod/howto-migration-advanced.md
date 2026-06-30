@@ -171,7 +171,6 @@ gender structure is encoded in the binary file itself:
 demog.add_migration(
     data=regional_mig,
     migration_type=MigrationType.REGIONAL,
-    user_notes="Age/gender regional migration"
 )
 ```
 
@@ -248,12 +247,6 @@ on `add_vector_migration()`:
 | Parameter | Effect |
 |-----------|--------|
 | `x_vector_migration` | Scale factor applied to all migration rates |
-| `vector_migration_habitat_modifier` | Preference toward nodes with more larval habitat |
-| `vector_migration_food_modifier` | Preference toward nodes with more humans |
-| `vector_migration_stay_put_modifier` | Preference to remain in the current node |
-| `vector_migration_modifier_equation` | `LINEAR` (default) or `EXPONENTIAL` |
-
-These modifiers apply only to female vectors.
 
 ## Loading existing migration files
 

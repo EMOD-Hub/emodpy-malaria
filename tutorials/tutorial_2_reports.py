@@ -153,9 +153,11 @@ def run_experiment():
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
+    # sym_link=False: idmtools defaults to symlinks, but Windows requires Developer Mode
+    # to create them. Using file copies instead works on all Windows configurations.
     platform = Platform("Container", job_directory=manifest.job_dir,
                         docker_image=manifest.plat_image,
-                        max_job=4)
+                        sym_link=False, max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 

@@ -91,7 +91,6 @@ def build_demographics():
         migration_pattern="SINGLE_ROUND_TRIPS",
         roundtrip_duration=3.0,
         roundtrip_probability=0.9,
-        user_notes="Tutorial 8: gravity-model local migration"
     )
 
     # ---------------------------------------------------------------
@@ -108,7 +107,6 @@ def build_demographics():
         data=vector_mig,
         species="gambiae",
         x_vector_migration=1.0,
-        user_notes="Tutorial 8: basic vector migration"
     )
 
     return demog
@@ -204,9 +202,11 @@ def run_experiment():
     # ============================================================
     # UPDATE - Select the correct platform for your environment
     # ============================================================
+    # sym_link=False: idmtools defaults to symlinks, but Windows requires Developer Mode
+    # to create them. Using file copies instead works on all Windows configurations.
     platform = Platform("Container", job_directory=manifest.job_dir,
                         docker_image=manifest.plat_image,
-                        max_job=4)
+                        sym_link=False, max_job=4)
 
     # platform = Platform("Calculon", node_group="idm_48cores", priority="Normal")
 

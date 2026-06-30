@@ -18,7 +18,6 @@ from emodpy_malaria.weather.weather_set import WeatherSet
 from emodpy_malaria.utils.emod_enum import (
     ClimateUpdateResolution,
     InnateImmuneVariationType,
-    ModifierEquationType,
 )
 
 logger = logging.getLogger(__name__)
@@ -32,7 +31,7 @@ class MalariaDemographics(Demographics):
     malaria-only demographics distributions (risk, innate immune) are
     available.
 
-    Adds malaria-specific features:
+    Adds features:
 
     - `set_fertility_distribution()` — age-and-year pregnancy rates
     - `set_risk_distribution()` — heterogeneous biting risk via demographics
@@ -77,13 +76,8 @@ class MalariaDemographics(Demographics):
         species: str,
         *,
         vector_migration_filename_path: Optional[str] = None,
-        x_vector_migration: float = 1,
-        vector_migration_modifier_equation: Union[ModifierEquationType, str] = ModifierEquationType.LINEAR,
-        vector_migration_habitat_modifier: float = 0,
-        vector_migration_food_modifier: float = 0,
-        vector_migration_stay_put_modifier: float = 0,
+        x_vector_migration: Optional[float] = None,
         filename: Optional[str] = None,
-        user_notes: Optional[str] = None,
     ):
         """Add vector migration for a species.
 
@@ -99,22 +93,8 @@ class MalariaDemographics(Demographics):
             vector_migration_filename_path (str): Path to a pre-existing binary migration file.
                 Mutually exclusive with ``data``.
             x_vector_migration (float): Scale factor for the rate of vector migration to other nodes.
-            vector_migration_modifier_equation (Union[ModifierEquationType, str]): Functional form of vector migration modifiers.
-                This applies only to female migrating vectors. Default is
-                `ModifierEquationType.LINEAR`.
-            vector_migration_habitat_modifier (float): Preference of a vector to migrate toward a node
-                with more habitat. This applies only to female migrating vectors.
-            vector_migration_food_modifier (float): Preference of a vector to migrate toward a node
-                currently occupied by humans, independent of the number of humans in the node.
-                This only applies to female migrating vectors.
-            vector_migration_stay_put_modifier (float): Preference of a vector to remain in its current
-                node rather than migrate to another node. This applies only to female migrating
-                vectors.
             filename (str): Output path for the binary file when using ``data``.
                 If None, auto-generates as ``vector_migration_{species}.bin``.
-            user_notes (str): Free-text description of the migration data, stored in the metadata
-                JSON sidecar as USER_NOTES. We encourage you to record why this file was
-                created so the context is preserved for future reference.
         """
         from emodpy_malaria.vector_config import _set_vector_migration_config
 
@@ -148,7 +128,7 @@ class MalariaDemographics(Demographics):
             if filename is None:
                 filename = f"vector_migration_{species}.bin"
             path = Path(filename).absolute()
-            data.to_migration_file(path, user_notes=user_notes)
+            data.to_migration_file(path)
         else:
             path = Path(vector_migration_filename_path).absolute()
             if not path.exists():
@@ -157,21 +137,13 @@ class MalariaDemographics(Demographics):
 
         self.migration_files.append(path)
 
-        if isinstance(vector_migration_modifier_equation, ModifierEquationType):
-            eq_value = vector_migration_modifier_equation.value
-        else:
-            eq_value = str(vector_migration_modifier_equation)
-
-        self.implicits.append(partial(
-            _set_vector_migration_config,
+        kwargs = dict(
             species=species,
             filename=path.name,
-            x_vector_migration=x_vector_migration,
-            vector_migration_modifier_equation=eq_value,
-            vector_migration_habitat_modifier=vector_migration_habitat_modifier,
-            vector_migration_food_modifier=vector_migration_food_modifier,
-            vector_migration_stay_put_modifier=vector_migration_stay_put_modifier,
-        ))
+        )
+        if x_vector_migration is not None:
+            kwargs["x_vector_migration"] = x_vector_migration
+        self.implicits.append(partial(_set_vector_migration_config, **kwargs))
 
     _RESOLUTION_SUFFIX = {
         ClimateUpdateResolution.CLIMATE_UPDATE_YEAR: "yearly",

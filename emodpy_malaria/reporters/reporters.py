@@ -604,9 +604,8 @@ class ReportVectorGenetics(BuiltInReporter):
     genome/allele combination exist at each time, node, and vector state. Information can only be collected on one
     species per report; to track multiple species, configure multiple instances with different ``species`` values.
 
-    When ``parasite_barcodes`` is provided, the report uses the ``ReportVectorGeneticsMalariaGenetics`` EMOD reporter
-    class (for ``Malaria_Model`` = MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS), adding
-    ``NumVectorsWithSporozoites_<barcode>`` columns. Otherwise it uses the standard ``ReportVectorGenetics`` class.
+    When ``parasite_barcodes`` is provided, the report adds
+    ``NumVectorsWithSporozoites_<barcode>`` columns.
 
     Each row in the output represents one time step, node, and genome/allele combination. Stratification columns include
     ``Time``, ``NodeID``, and either ``Genome`` (when ``stratify_by`` is GENOME or SPECIFIC_GENOME) or ``Alleles``
@@ -695,9 +694,8 @@ class ReportVectorGenetics(BuiltInReporter):
 
             Default: None
 
-        parasite_barcodes (list[str], optional): A list of parasite barcode strings. When provided, the report switches
-            to the ``ReportVectorGeneticsMalariaGenetics`` EMOD class, adding a
-            ``NumVectorsWithSporozoites_<barcode>`` column for each barcode. Use ``'*'`` as a wild card.
+        parasite_barcodes (list[str], optional): A list of malaria parasite barcode strings. When provided, the report adds
+            ``NumVectorsWithSporozoites_<barcode>`` columns for each barcode. Use ``'*'`` as a wild card.
 
             Example::
 
@@ -814,8 +812,7 @@ class ReportVectorStats(BuiltInReporter):
     ``ReportVectorStatsMalariaGenetics`` is an alias for this class — users only need ``ReportVectorStats`` and can
     pass the ``barcodes`` parameter to enable genetics output.
 
-    When ``barcodes`` is provided, the report switches to the ``ReportVectorStatsMalariaGenetics`` EMOD reporter class
-    (for ``Malaria_Model`` = MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS), adding genetics-specific columns for
+    When ``barcodes`` is provided, the report adds genetics-specific columns for malaria
     parasite status in the vector population. These additional columns include:
 
     - ``MigrationFromCountLocal`` / ``MigrationFromCountRegional`` — vector migration counts.
@@ -891,8 +888,7 @@ class ReportVectorStats(BuiltInReporter):
 
             Default: False
 
-        barcodes (list[str], optional): A list of barcode strings. When provided, the report switches to the
-            ``ReportVectorStatsMalariaGenetics`` EMOD class. For each barcode, a column is created showing the number
+        barcodes (list[str], optional): A list of barcode strings. When provided, for each barcode, a column is created showing the number
             of vectors with sporozoites matching that barcode. Use ``'*'`` as a wild card. An ``OtherBarcodes`` column
             is added for vectors with barcodes not in this list.
 

@@ -55,11 +55,13 @@ class BaseSimTest(unittest.TestCase):
         self.test_folder = os.path.join(manifest.failed_tests, f"{self.case_name}")
         if os.path.exists(self.test_folder):
             helpers.delete_existing_folder(self.test_folder)
-        os.mkdir(self.test_folder)
+        os.makedirs(self.test_folder, exist_ok=True)
         os.chdir(self.test_folder)
         self.output_path = pathlib.Path(self.test_folder).resolve()
+        # sym_link=False: idmtools defaults to symlinks, but Windows requires Developer Mode
+        # to create them. Using file copies instead works on all Windows configurations.
         self.platform = Platform(manifest.container_platform_name, job_directory="container_jobs",
-                                 docker_image=manifest.plat_image)
+                                 docker_image=manifest.plat_image, sym_link=False)
 
     def tearDown(self) -> None:
         helpers.close_idmtools_logger(logger.parent)
@@ -128,7 +130,7 @@ def _build_most_interventions_reports(reporters):
         "MultiInsecticideUsageDependentBednet", "ScreeningHousingModification",
         "SpatialRepellentHousingModification", "SimpleIndividualRepellent",
         "IndoorIndividualEmanator", "HumanHostSeekingTrap", "Ivermectin",
-        "RTSSVaccine", "BitingRisk", "SimpleHealthSeekingBehavior",
+        "BitingRisk", "SimpleHealthSeekingBehavior",
         "SimpleVaccine", "ControlledVaccine", "PropertyValueChanger",
         "DelayedIntervention", "StandardDiagnostic",
         "TriggeredAntimalarialDrug", "CHW_AntimalarialDrug",

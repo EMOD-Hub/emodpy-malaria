@@ -15,6 +15,7 @@ from emodpy_malaria.vector_config import (
     add_species_drivers, add_maternal_deposition,
     set_max_larval_capacity, add_microsporidia,
     add_vector_migration,
+    _set_vector_migration_config,
 )
 from emodpy_malaria.utils.emod_enum import (
     HabitatType, VectorTrait, DriverType, VectorSamplingType,
@@ -829,6 +830,53 @@ class TestAddMicrosporidia(unittest.TestCase):
                           strain_name="Strain_B")
         sp = get_species_params(config, "gambiae")
         self.assertEqual(len(sp.Microsporidia), 2)
+
+
+# ---------------------------------------------------------------------------
+# _set_vector_migration_config
+# ---------------------------------------------------------------------------
+
+@pytest.mark.unit
+class TestSetVectorMigrationConfig(unittest.TestCase):
+
+    def _call(self, config, species="gambiae", filename="mig.bin",
+              x_vector_migration=1.0):
+        return _set_vector_migration_config(
+            config,
+            species=species,
+            filename=filename,
+            x_vector_migration=x_vector_migration,
+        )
+
+    def test_sets_filename(self):
+        config = _vector_config_with_species()
+        self._call(config, filename="my_migration.bin")
+        sp = get_species_params(config, "gambiae")
+        self.assertEqual(sp.Vector_Migration_Filename, "my_migration.bin")
+
+    def test_sets_x_vector_migration(self):
+        config = _vector_config_with_species()
+        self._call(config, x_vector_migration=0.5)
+        sp = get_species_params(config, "gambiae")
+        self.assertAlmostEqual(sp.x_Vector_Migration, 0.5)
+
+    def test_x_vector_migration_none_leaves_default(self):
+        config = _vector_config_with_species()
+        sp_before = get_species_params(config, "gambiae")
+        default_x = sp_before.x_Vector_Migration
+        self._call(config, x_vector_migration=None)
+        sp_after = get_species_params(config, "gambiae")
+        self.assertEqual(sp_after.x_Vector_Migration, default_x)
+
+    def test_returns_config(self):
+        config = _vector_config_with_species()
+        result = self._call(config)
+        self.assertIs(result, config)
+
+    def test_unknown_species_raises(self):
+        config = _vector_config_with_species()
+        with self.assertRaises(ValueError):
+            self._call(config, species="unknown_species")
 
 
 # ---------------------------------------------------------------------------

@@ -9,7 +9,10 @@ from emodpy.campaign.base_intervention import NodeIntervention
 from emodpy.campaign.common import CommonInterventionParameters
 from emodpy.utils import validate_value_range
 from emodpy_malaria.campaign.waning_config import AbstractWaningConfig, InsecticideWaningEffect
-from emodpy_malaria.utils.config_utils import validate_insecticide_name, validate_vector_sampling_type, validate_sugar_feeding_frequency
+from emodpy_malaria.utils.config_utils import (
+    validate_insecticide_name, validate_vector_sampling_type,
+    validate_sugar_feeding_frequency, validate_mosquito_release_genome,
+    validate_larval_habitat_defined)
 from emodpy_malaria.utils.distributions import BaseDistribution, ConstantDistribution
 from emodpy_malaria.utils.emod_enum import (
     HabitatType, EIRType, ChallengeType,
@@ -111,6 +114,10 @@ class LarvalHabitatMultiplierSpec:
         self._habitat = habitat
         self._factor = factor
         self._species = species
+        campaign.implicits.append(partial(
+            validate_larval_habitat_defined,
+            habitat=habitat,
+            species=species))
 
     def to_schema_dict(self) -> s2c.ReadOnlyDict:
         obj = s2c.get_class_with_defaults(
@@ -128,16 +135,15 @@ class SpaceSpraying(NodeIntervention):
     """
     The **SpaceSpraying** intervention class implements node-level vector
     control by spraying pesticides outdoors. This intervention targets
-    specific habitat types, and imposes a mortality rate on all targeted
-    (both immature and adult male and female) mosquitoes. All mosquitoes
-    have daily mortality rates; mortality for adult females due to
-    spraying is independent of whether or not they are feeding.
+    specific habitat types, and kills all mosquitoes found in that habitat
+    (female, male, and immature), with probability of death being the combined
+    current efficacy, coverage, and insecticide resistance effects if any.
 
     - **Distributed to:** Nodes
     - **Serialized:** No. Must be redistributed when starting from a
       serialized file.
     - **Uses insecticides:** Yes. Can target sub-groups using genomes,
-      especially to target specific sexes.
+      by setting up insecticide resistances.
     - **Time-based expiration:** No
     - **Purge existing:** Adding a new intervention of this class
       overwrites any existing intervention of the same class with the
@@ -204,14 +210,14 @@ class IndoorSpaceSpraying(NodeIntervention):
     """
     The **IndoorSpaceSpraying** intervention class is a node-level vector
     control mechanism that works by spraying insecticides indoors. This
-    class is similar to
-    [IRSHousingModification](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/)
-    but ``IRSHousingModification`` is an individual-level intervention
-    that uses both killing and blocking effects and
-    ``IndoorSpaceSpraying`` is a node-level intervention that uses only
-    a killing effect. Do not use these two interventions together. If
+    class is similar to ``IRSHousingModification`` which is an individual-level intervention
+    that uses both repelling and killing effects while ``IndoorSpaceSpraying`` is a node-level
+    intervention that uses only a killing effect. Do not use these two interventions together. If
     used with ``IRSHousingModification``, the ``IndoorSpaceSpraying``
-    will override ``IRSHousingModification``'s killing effect.
+    will override ``IRSHousingModification``'s killing effect. ``IndoorSpaceSpraying`` is recommended
+    for use with migrating population since the individual-level interventions are attached to people
+    and "migrate" with them. This intervention is tied to the node and will affect anyone in the node
+    at currently.
 
     - **Distributed to:** Nodes
     - **Serialized:** No. Must be redistributed when starting from a
@@ -690,7 +696,7 @@ class InputEIR(NodeIntervention):
 
     Whether each individual actually becomes infected from the
     challenge is modified by individual-level factors. Each person's
-    probability of infection is scaled by a combined ``relative_risk``
+    probability of infection is scaled by a combined ``relative risk``
     that accounts for:
 
     * **Acquisition immunity** -- both naturally acquired immunity
@@ -874,15 +880,19 @@ class MalariaChallenge(NodeIntervention):
             Default value: None
 
     Example:
-        Create a challenge with 5 infectious bites::
+        Challenge 8% of the population with 5 infectious bites each; multiple bites
+        still result in only one infection::
 
             from emodpy_malaria.campaign.node_intervention import MalariaChallenge
             from emodpy_malaria.utils.emod_enum import ChallengeType
 
+            # Challenge 8% of the population with 5 infectious bites each;
+            # multiple infectious bites will result in only one infection in a person.
             challenge = MalariaChallenge(
                 campaign=campaign,
                 challenge_type=ChallengeType.INFECTIOUS_BITES,
-                infectious_bite_count=5
+                infectious_bite_count=5,
+                coverage=0.08
             )
     """
 
@@ -954,10 +964,8 @@ class MosquitoRelease(NodeIntervention):
 
         released_genome (list[list[str]], required):
             Defines the alleles of the genome of the vectors to be
-            released. Must define all alleles including the gender
-            gene. Wildcards (``*``) are not allowed. See
-            Vector_Species_Params for the gene definitions for
-            each species.
+            released. You must explicitly define *all* alleles including
+            the gender alleles. Wildcards (``*``) are not allowed.
 
         released_number (int, optional):
             The number of mosquitoes released in the intervention.
@@ -1060,8 +1068,31 @@ class MosquitoRelease(NodeIntervention):
                  common_intervention_parameters: CommonInterventionParameters = None):
         super().__init__(campaign, 'MosquitoRelease', common_intervention_parameters)
 
+        for genome, param in [(released_genome, 'released_genome'),
+                               (released_mate_genome, 'released_mate_genome')]:
+            if genome is None:
+                continue
+            for i, locus in enumerate(genome):
+                for allele in locus:
+                    if allele == '*' or not allele:
+                        raise ValueError(
+                            f"Wildcards ('*'), None, '' are not allowed in '{param}'. "
+                            f"Found one of them at locus {i}. All alleles must be explicitly specified.")
+
         self._intervention.Released_Species = released_species
         self._intervention.Released_Genome = released_genome
+
+        campaign.implicits.append(partial(
+            validate_mosquito_release_genome,
+            released_species=released_species,
+            released_genome=released_genome,
+            param_name='released_genome'))
+        if released_mate_genome is not None:
+            campaign.implicits.append(partial(
+                validate_mosquito_release_genome,
+                released_species=released_species,
+                released_genome=released_mate_genome,
+                param_name='released_mate_genome'))
 
         if released_number is not None and released_ratio is not None:
             raise ValueError(
@@ -1100,11 +1131,9 @@ class ScaleLarvalHabitat(NodeIntervention):
     """
     The **ScaleLarvalHabitat** intervention class is a node-level
     intervention that enables species-specific habitat modification
-    within shared habitat types. This intervention has a similar
-    function to the demographic parameter ``ScaleLarvalMultiplier``,
-    but enables habitat availability to be modified at any time or at
-    any location during the simulation, as specified in the campaign
-    event.
+    within shared habitat types. Habitat availability can be modified
+    at any time or at any location during the simulation, as specified in
+    the campaign event.
 
     The value by which to scale the larval habitat availability
     (specified in **Habitats** in the configuration file) can be set
@@ -1375,18 +1404,12 @@ class SugarTrap(NodeIntervention):
     sugar-baited trap to collect and kill sugar-feeding mosquitoes,
     sometimes called an attractive toxic sugar bait (ATSB). This
     intervention affects all mosquitoes living and feeding at a given
-    node. Male vectors sugar-feed daily and female vectors sugar-feed
-    once per blood meal (or upon emergence), so these traps can impact
-    male survival on a daily basis. Efficacy can be modified using
-    per-sex insecticide resistance.
+    node. Male vectors always sugar-feed daily and female vectors sugar-feed
+    as defined by ``Vector_Sugar_Feeding_Frequency`` parameter. If
+    this parameter for the species is set to ``VECTOR_SUGAR_FEEDING_NONE``,
+    this intervention will have no effect on females.
 
-    The impact of sugar-baited traps depends on the sugar-feeding
-    behavior specified in the configuration file via
-    ``Vector_Sugar_Feeding_Frequency``, whether there is no sugar
-    feeding, sugar feeding occurs once at emergence, sugar feeding
-    occurs once per blood meal, or sugar feeding occurs every day. If
-    it is set to ``VECTOR_SUGAR_FEEDING_NONE``, this intervention will
-    have no effect.
+    If all species have no sugar feeding, this will raise an error.
 
     - **Distributed to:** Nodes
     - **Serialized:** No. Must be redistributed when starting from a
@@ -1411,30 +1434,23 @@ class SugarTrap(NodeIntervention):
             An instance of the emod_api.campaign module.
 
         killing_config (AbstractWaningConfig, required):
-            The configuration of killing efficacy for the sugar-baited trap. Male vectors
-            sugar-feed daily and female vectors sugar-feed once per blood meal (or upon
-            emergence), so this effect impacts male survival on a daily basis. The impact
-            depends on Vector_Sugar_Feeding_Frequency in the configuration file; if set
-            to ``VECTOR_SUGAR_FEEDING_NONE``, this intervention will have no effect.
+            The configuration of killing efficacy for the sugar-baited trap. Male vectors always
+            sugar-feed daily and female vectors sugar-feed as defined by ``Vector_Sugar_Feeding_Frequency``
+            parameter. If this parameter for the species is set to ``VECTOR_SUGAR_FEEDING_NONE``,
+            this intervention will have no effect on females.
             Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
         expiration_period_distribution (BaseDistribution, optional):
             The distribution used to determine when each instance of this
             intervention expires and is removed from the node. Each
             instance draws an expiration duration from this distribution
-            at the time of distribution. Use the distribution classes
-            from [Distributions](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/):
-
-            * [ConstantDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [UniformDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [GaussianDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [ExponentialDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [PoissonDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [LogNormalDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [WeibullDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [DualConstantDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-            * [DualExponentialDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-
+            at the time of distribution. Available types from
+            [Distributions](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/):
+            ``ConstantDistribution``, ``UniformDistribution``,
+            ``GaussianDistribution``, ``ExponentialDistribution``,
+            ``PoissonDistribution``, ``LogNormalDistribution``,
+            ``WeibullDistribution``, ``DualConstantDistribution``,
+            ``DualExponentialDistribution``.
             Default value: ``ConstantDistribution(3.40282e+38)``,
             which effectively means the intervention never expires.
 
@@ -1598,7 +1614,11 @@ class SpatialRepellent(NodeIntervention):
     """
     The **SpatialRepellent** intervention class implements node-level
     spatial repellents exclusively against vectors looking to feed
-    that day.
+    that day. Meal-seeking vectors affected by this intervention stop
+    attempting to feed that day and do not interact with any other
+    interventions affecting meal-seeking females. This reduces the
+    number of bites on humans that day but does not affect the
+    mosquito population.
 
     - **Distributed to:** Nodes
     - **Serialized:** No. Must be redistributed when starting from a

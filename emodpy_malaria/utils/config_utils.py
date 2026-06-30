@@ -31,6 +31,112 @@ def validate_allele_combo(species_params, allele_combo):
     return
 
 
+def validate_mosquito_release_genome(config, released_species, released_genome, param_name):
+    species_params = None
+    for sp in config.parameters.Vector_Species_Params:
+        if sp.Name == released_species:
+            species_params = sp
+            break
+    if species_params is None:
+        available = [sp.Name for sp in config.parameters.Vector_Species_Params]
+        raise ValueError(
+            f"MosquitoRelease uses released_species='{released_species}' but it is not "
+            f"defined in config. Available species: {available}.")
+
+    genes = list(species_params.Genes)
+    has_explicit_gender_gene = any(gene.get("Is_Gender_Gene", 0) for gene in genes)
+    expected_loci = len(genes) if has_explicit_gender_gene else len(genes) + 1
+
+    if len(released_genome) != expected_loci:
+        raise ValueError(
+            f"'{param_name}' defines {len(released_genome)} loci but species "
+            f"'{released_species}' expects {expected_loci} loci "
+            f"({'with' if has_explicit_gender_gene else 'without'} an explicitly defined "
+            f"gender gene in config). All loci must be specified.")
+
+    for locus_idx, locus in enumerate(released_genome):
+        for allele in locus:
+            if allele == "":
+                raise ValueError(
+                    f"'{param_name}' contains an empty-string allele at locus index {locus_idx} "
+                    f"for species '{released_species}'. Alleles must be non-empty strings.")
+            if allele == "*":
+                raise ValueError(
+                    f"'{param_name}' contains a wildcard ('*') at locus index {locus_idx} "
+                    f"for species '{released_species}'. Wildcards are not permitted in a released genome.")
+
+    # Map each genome locus to its config gene; skip the implicit gender locus (X/Y only).
+    genome_to_check = released_genome if has_explicit_gender_gene else released_genome[1:]
+    for locus, gene in zip(genome_to_check, genes):
+        valid_alleles = {allele["Name"] for allele in gene.get("Alleles", [])}
+        gene_name = gene.get("Name", "?")
+        for allele in locus:
+            if allele in ("X", "Y"):
+                continue
+            if allele not in valid_alleles:
+                raise ValueError(
+                    f"'{param_name}' contains allele '{allele}' for gene '{gene_name}' "
+                    f"of species '{released_species}' but it is not defined in config. "
+                    f"Valid alleles for '{gene_name}': {sorted(valid_alleles)}.")
+
+    return config
+
+
+def validate_larval_habitat_defined(config, habitat, species):
+    if str(habitat) == 'ALL_HABITATS':
+        return config
+
+    if species == 'ALL_SPECIES':
+        for sp in config.parameters.Vector_Species_Params:
+            for hab in sp.Habitats:
+                if hab['Habitat_Type'] == habitat:
+                    return config
+        available = {
+            sp.Name: [str(h['Habitat_Type']) for h in sp.Habitats]
+            for sp in config.parameters.Vector_Species_Params
+        }
+        raise ValueError(
+            f"LarvalHabitatMultiplierSpec uses habitat='{habitat}' but no species in "
+            f"config has this habitat type defined. Defined habitats per species: {available}.")
+    else:
+        sp_params = None
+        for sp in config.parameters.Vector_Species_Params:
+            if sp.Name == species:
+                sp_params = sp
+                break
+        if sp_params is None:
+            available = [sp.Name for sp in config.parameters.Vector_Species_Params]
+            raise ValueError(
+                f"LarvalHabitatMultiplierSpec uses species='{species}' but it is not "
+                f"defined in config. Available species: {available}.")
+        for hab in sp_params.Habitats:
+            if hab['Habitat_Type'] == habitat:
+                return config
+        available_habitats = [str(h['Habitat_Type']) for h in sp_params.Habitats]
+        raise ValueError(
+            f"LarvalHabitatMultiplierSpec uses habitat='{habitat}' for species "
+            f"'{species}' but this habitat type is not defined for that species. "
+            f"Defined habitats for '{species}': {available_habitats}.")
+
+
+def validate_genome_locations_length(config, value, param_name, locations_attr):
+    pg = getattr(config.parameters, 'Parasite_Genetics', None)
+    if pg is None:
+        return config
+    locations = getattr(pg, locations_attr, None)
+    if locations is None:
+        return config
+    expected = len(locations)
+    got = len(value)
+    if got != expected:
+        kind = "characters" if isinstance(value, str) else "entries"
+        raise ValueError(
+            f"'{param_name}' has {got} {kind} but "
+            f"Parasite_Genetics.{locations_attr} defines {expected} location(s). "
+            f"These must match.")
+    return config
+
+
 def validate_insecticide_name(config, insecticide_name, intervention_name):
     defined_names = [ins.Name for ins in config.parameters.Insecticides]
     if insecticide_name not in defined_names:

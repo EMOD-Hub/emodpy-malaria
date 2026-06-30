@@ -93,6 +93,109 @@ class TestNodeIntervention(unittest.TestCase):
         self.assertIn("HabitatType", str(context.exception))
 
     # -------------------------------------------------------------------------
+    # LarvalHabitatMultiplierSpec — implicit habitat-defined checks
+    # -------------------------------------------------------------------------
+
+    def _make_habitat_config(self, species_list):
+        """Build a minimal config stub for validate_larval_habitat_defined.
+
+        species_list: [{"name": str, "habitats": [HabitatType, ...]}]
+        """
+        from types import SimpleNamespace
+        def _make_sp(s):
+            sp = SimpleNamespace()
+            sp.Name = s["name"]
+            sp.Habitats = [{"Habitat_Type": h} for h in s["habitats"]]
+            return sp
+        params = SimpleNamespace()
+        params.Vector_Species_Params = [_make_sp(s) for s in species_list]
+        config = SimpleNamespace()
+        config.parameters = params
+        return config
+
+    def test_LarvalHabitatMultiplierSpec_implicit_all_habitats_always_passes(self):
+        """ALL_HABITATS skips the config check entirely."""
+        self.campaign.implicits.clear()
+        LarvalHabitatMultiplierSpec(self.campaign, habitat=HabitatType.ALL_HABITATS, factor=0.5)
+        config = self._make_habitat_config([])  # empty species list — would fail if checked
+        result = self.campaign.implicits[-1](config)
+        self.assertIsNotNone(result)
+
+    def test_LarvalHabitatMultiplierSpec_implicit_valid_habitat_all_species(self):
+        """With ALL_SPECIES, the habitat only needs to be present in at least one species."""
+        self.campaign.implicits.clear()
+        LarvalHabitatMultiplierSpec(self.campaign, habitat=HabitatType.CONSTANT, factor=2.0)
+        config = self._make_habitat_config([
+            {"name": "gambiae", "habitats": [HabitatType.CONSTANT, HabitatType.TEMPORARY_RAINFALL]},
+            {"name": "arabiensis", "habitats": [HabitatType.TEMPORARY_RAINFALL]},
+        ])
+        result = self.campaign.implicits[-1](config)
+        self.assertIsNotNone(result)
+
+    def test_LarvalHabitatMultiplierSpec_implicit_habitat_not_in_any_species_raises(self):
+        """With ALL_SPECIES, raise if the habitat is absent from every species."""
+        self.campaign.implicits.clear()
+        LarvalHabitatMultiplierSpec(self.campaign, habitat=HabitatType.BRACKISH_SWAMP, factor=1.0)
+        config = self._make_habitat_config([
+            {"name": "gambiae", "habitats": [HabitatType.CONSTANT]},
+            {"name": "arabiensis", "habitats": [HabitatType.TEMPORARY_RAINFALL]},
+        ])
+        with self.assertRaises(ValueError) as ctx:
+            self.campaign.implicits[-1](config)
+        self.assertIn("BRACKISH_SWAMP", str(ctx.exception))
+        self.assertIn("gambiae", str(ctx.exception))
+        self.assertIn("arabiensis", str(ctx.exception))
+
+    def test_LarvalHabitatMultiplierSpec_implicit_valid_habitat_specific_species(self):
+        self.campaign.implicits.clear()
+        LarvalHabitatMultiplierSpec(
+            self.campaign, habitat=HabitatType.TEMPORARY_RAINFALL, factor=0.5, species="arabiensis")
+        config = self._make_habitat_config([
+            {"name": "gambiae", "habitats": [HabitatType.CONSTANT]},
+            {"name": "arabiensis", "habitats": [HabitatType.TEMPORARY_RAINFALL]},
+        ])
+        result = self.campaign.implicits[-1](config)
+        self.assertIsNotNone(result)
+
+    def test_LarvalHabitatMultiplierSpec_implicit_species_not_in_config_raises(self):
+        self.campaign.implicits.clear()
+        LarvalHabitatMultiplierSpec(
+            self.campaign, habitat=HabitatType.CONSTANT, factor=1.0, species="funestus")
+        config = self._make_habitat_config([
+            {"name": "gambiae", "habitats": [HabitatType.CONSTANT]},
+        ])
+        with self.assertRaises(ValueError) as ctx:
+            self.campaign.implicits[-1](config)
+        self.assertIn("funestus", str(ctx.exception))
+        self.assertIn("gambiae", str(ctx.exception))
+
+    def test_LarvalHabitatMultiplierSpec_implicit_habitat_not_in_specific_species_raises(self):
+        self.campaign.implicits.clear()
+        LarvalHabitatMultiplierSpec(
+            self.campaign, habitat=HabitatType.WATER_VEGETATION, factor=1.0, species="gambiae")
+        config = self._make_habitat_config([
+            {"name": "gambiae", "habitats": [HabitatType.CONSTANT, HabitatType.TEMPORARY_RAINFALL]},
+        ])
+        with self.assertRaises(ValueError) as ctx:
+            self.campaign.implicits[-1](config)
+        self.assertIn("WATER_VEGETATION", str(ctx.exception))
+        self.assertIn("gambiae", str(ctx.exception))
+
+    def test_LarvalHabitatMultiplierSpec_implicit_habitat_in_other_species_not_target_raises(self):
+        """Habitat is defined for gambiae but we asked for arabiensis — should raise."""
+        self.campaign.implicits.clear()
+        LarvalHabitatMultiplierSpec(
+            self.campaign, habitat=HabitatType.BRACKISH_SWAMP, factor=1.0, species="arabiensis")
+        config = self._make_habitat_config([
+            {"name": "gambiae", "habitats": [HabitatType.BRACKISH_SWAMP]},
+            {"name": "arabiensis", "habitats": [HabitatType.CONSTANT]},
+        ])
+        with self.assertRaises(ValueError) as ctx:
+            self.campaign.implicits[-1](config)
+        self.assertIn("BRACKISH_SWAMP", str(ctx.exception))
+        self.assertIn("arabiensis", str(ctx.exception))
+
+    # -------------------------------------------------------------------------
     # SpaceSpraying
     # -------------------------------------------------------------------------
 
@@ -454,6 +557,27 @@ class TestNodeIntervention(unittest.TestCase):
                 released_number=1000,
                 released_wolbachia="INVALID_TYPE")
         self.assertIn("WolbachiaType", str(context.exception))
+
+    def test_MosquitoRelease_wildcard_in_genome(self):
+        with self.assertRaises(ValueError) as context:
+            MosquitoRelease(
+                self.campaign,
+                released_species="gambiae",
+                released_genome=[["X", "*"], ["a0", "a0"]],
+                released_number=1000)
+        self.assertIn("Wildcards", str(context.exception))
+        self.assertIn("released_genome", str(context.exception))
+
+    def test_MosquitoRelease_wildcard_in_mate_genome(self):
+        with self.assertRaises(ValueError) as context:
+            MosquitoRelease(
+                self.campaign,
+                released_species="gambiae",
+                released_genome=[["X", "X"], ["a0", "a0"]],
+                released_number=1000,
+                released_mate_genome=[["*", "Y"], ["a0", "a0"]])
+        self.assertIn("Wildcards", str(context.exception))
+        self.assertIn("released_mate_genome", str(context.exception))
 
     # -------------------------------------------------------------------------
     # ScaleLarvalHabitat

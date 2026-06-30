@@ -1158,12 +1158,7 @@ def add_microsporidia(config, manifest, species_name: str = None,
     species_parameters.Microsporidia.append(microsporidia)
 
 
-def _set_vector_migration_config(config, species, filename,
-                                 x_vector_migration,
-                                 vector_migration_modifier_equation,
-                                 vector_migration_habitat_modifier,
-                                 vector_migration_food_modifier,
-                                 vector_migration_stay_put_modifier):
+def _set_vector_migration_config(config, species, filename, x_vector_migration=None):
     """Implicit config function registered by MalariaDemographics.add_vector_migration().
 
     Called at task build time to set per-species vector migration parameters.
@@ -1173,21 +1168,18 @@ def _set_vector_migration_config(config, species, filename,
         species (str): species Name string
         filename (str): binary migration filename (name only, not full path)
         x_vector_migration (float): rate multiplier
-        vector_migration_modifier_equation (str): ModifierEquationType value string
-        vector_migration_habitat_modifier (float): habitat modifier float
-        vector_migration_food_modifier (float): food modifier float
-        vector_migration_stay_put_modifier (float): stay-put modifier float
 
     Returns:
         config with vector migration parameters set on the named species
     """
     params = get_species_params(config, species)
     params.Vector_Migration_Filename = filename
-    params.x_Vector_Migration = x_vector_migration
-    params.Vector_Migration_Modifier_Equation = vector_migration_modifier_equation
-    params.Vector_Migration_Habitat_Modifier = vector_migration_habitat_modifier
-    params.Vector_Migration_Food_Modifier = vector_migration_food_modifier
-    params.Vector_Migration_Stay_Put_Modifier = vector_migration_stay_put_modifier
+    if x_vector_migration is not None:
+        params.x_Vector_Migration = x_vector_migration
+    params.Vector_Migration_Modifier_Equation = ModifierEquationType.LINEAR.value
+    params.Vector_Migration_Habitat_Modifier = 0
+    params.Vector_Migration_Food_Modifier = 0
+    params.Vector_Migration_Stay_Put_Modifier = 0
     return config
 
 
@@ -1196,11 +1188,7 @@ def add_vector_migration(task: object,
                          vector_migration_data: object = None,
                          vector_migration_filename_path: str = None,
                          x_vector_migration: float = 1,
-                         vector_migration_modifier_equation: ModifierEquationType = ModifierEquationType.LINEAR,
-                         vector_migration_habitat_modifier: float = 0,
-                         vector_migration_food_modifier: float = 0,
-                         vector_migration_stay_put_modifier: float = 0,
-                         user_notes: str = None):
+):
     """Adds vector migration parameters to the named species' parameters and adds the migration file to the
     common_assets in task.
 
@@ -1219,17 +1207,6 @@ def add_vector_migration(task: object,
         vector_migration_filename_path (str): Path with the filename of the migration file to use to avoid importing
             and writing the file from a VectorMigrationData object. If provided, registers the file with the task.
         x_vector_migration (float): Scale factor for the rate of vector migration to other nodes.
-        vector_migration_modifier_equation (ModifierEquationType): Functional form of vector migration modifiers.
-            This applies only to female migrating vectors. Default is ModifierEquationType.LINEAR.
-        vector_migration_habitat_modifier (float): Preference of a vector to migrate toward a node with more habitat. This
-            applies only to female migrating vectors.
-        vector_migration_food_modifier (float): Preference of a vector to migrate toward a node currently occupied by humans,
-            independent of the number of humans in the node. This only applies to female migrating vectors.
-        vector_migration_stay_put_modifier (float): Preference of a vector to remain in its current node rather than migrate
-            to another node. This applies only to female migrating vectors.
-        user_notes (str): free-text description of the migration data, stored in the metadata JSON sidecar
-            as USER_NOTES. We encourage you to record why this file was created so the context is
-            preserved for future reference.
     """
     warnings.warn(
         "add_vector_migration(task, ...) is deprecated. "
@@ -1245,7 +1222,7 @@ def add_vector_migration(task: object,
 
     if vector_migration_data is not None:
         filename = f"vector_migration_{species}.bin" if species else "vector_migration.bin"
-        path = vector_migration_data.to_migration_file(filename, user_notes=user_notes)
+        path = vector_migration_data.to_migration_file(filename)
         vector_migration_filename_path = str(path)
 
     head, tail = os.path.split(vector_migration_filename_path)
@@ -1253,10 +1230,10 @@ def add_vector_migration(task: object,
     params = get_species_params(task.config, species)
     params.Vector_Migration_Filename = tail
     params.x_Vector_Migration = x_vector_migration
-    params.Vector_Migration_Modifier_Equation = vector_migration_modifier_equation.value
-    params.Vector_Migration_Habitat_Modifier = vector_migration_habitat_modifier
-    params.Vector_Migration_Food_Modifier = vector_migration_food_modifier
-    params.Vector_Migration_Stay_Put_Modifier = vector_migration_stay_put_modifier
+    params.Vector_Migration_Modifier_Equation = ModifierEquationType.LINEAR.value
+    params.Vector_Migration_Habitat_Modifier = 0
+    params.Vector_Migration_Food_Modifier = 0
+    params.Vector_Migration_Stay_Put_Modifier = 0
     if not task.common_assets.has_asset(vector_migration_filename_path):
         task.common_assets.add_asset(vector_migration_filename_path)
     if not task.common_assets.has_asset(vector_migration_filename_path + ".json"):

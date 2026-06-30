@@ -242,7 +242,6 @@ class VectorMigrationData(MigrationData):
         data._gender_data_type = gender_data_type
         data._ages = ages
         data._layers = layers
-        data._user_notes = metadata.get("USER_NOTES", None)
 
         if gender_data_type == VECTOR_MIGRATION_BY_GENETICS:
             allele_combos = metadata.get("AlleleCombinations", None)
@@ -269,8 +268,7 @@ class VectorMigrationData(MigrationData):
     def to_migration_file(self, path: Union[str, Path],
                           migration_type: Union[MigrationType, str] = MigrationType.LOCAL,
                           interpolation_type: object = None,
-                          value_limit: int = 100,
-                          user_notes: Optional[str] = None) -> Path:
+                          value_limit: int = 100) -> Path:
         """Write vector migration data to EMOD binary format with JSON metadata sidecar.
 
         InterpolationType is always PIECEWISE_CONSTANT for vector migration (the
@@ -284,7 +282,6 @@ class VectorMigrationData(MigrationData):
             migration_type (Union[MigrationType, str]): MigrationType enum or string. Default LOCAL.
             interpolation_type (object): ignored — always PIECEWISE_CONSTANT for vectors
             value_limit (int): max destinations per source node (default 100)
-            user_notes (str): free-text description stored in metadata as USER_NOTES
 
         Returns:
             Path to binary file
@@ -358,9 +355,7 @@ class VectorMigrationData(MigrationData):
         else:
             pass
 
-        notes = user_notes or self._user_notes
-        if notes is not None:
-            metadata["Metadata"]["USER_NOTES"] = notes
+
 
         with metafile.open("w") as f:
             json.dump(metadata, f, indent=4, separators=(",", ": "))

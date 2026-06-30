@@ -85,8 +85,6 @@ def set_climate_by_data(config: object, *,
 
     EMOD reads four ``.bin`` / ``.bin.json`` file pairs for air temperature,
     land temperature, rainfall, and relative humidity.
-    ``Land_Temperature_Filename`` is set to the air temperature file — EMOD
-    requires it but does not use it for malaria simulations.
 
     ``Enable_Climate_Stochasticity`` is set automatically when any
     variance is non-zero or rainfall stochasticity is enabled.
@@ -100,7 +98,8 @@ def set_climate_by_data(config: object, *,
         air_temperature_offset (float): Additive offset applied to all air
             temperature values (Celsius).
         air_temperature_variance (float): Standard deviation (Celsius) for
-            Gaussian noise on daily air temperature.
+            Gaussian noise on daily air temperature.  If set to 0, relative humidity
+            does not vary from the data. Set this to > 0 to enable stochasticity.
         rainfall_scale_factor (float): Multiplicative factor applied to all
             rainfall values.
         enable_rainfall_stochasticity (bool): When True, draw daily rainfall from an
@@ -108,7 +107,9 @@ def set_climate_by_data(config: object, *,
         relative_humidity_scale_factor (float): Multiplicative factor applied to
             all relative humidity values.
         relative_humidity_variance (float): Standard deviation (fraction) for
-            Gaussian noise on daily relative humidity.
+            Gaussian noise on daily relative humidity. If set to 0, relative humidity
+            does not vary from the data.
+            Set this to > 0 to enable stochasticity.
     """
     if not isinstance(update_resolution, ClimateUpdateResolution):
         try:

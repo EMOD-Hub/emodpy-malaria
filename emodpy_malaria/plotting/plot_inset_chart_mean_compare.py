@@ -13,7 +13,7 @@ def calculate_mean(dir_name: str):
     Calculate the mean of the InsetChart.json files in the given directory.
 
     Args:
-        dir_name (str):             Directory with InsetChart.json files
+        dir_name (str): Directory with InsetChart.json files
 
     Return:
         mean_cr: Mean ChannelReport object
@@ -51,23 +51,23 @@ def plot_mean(dir1: str,
     Plot the mean of the InsetChart.json files in the given directories.
 
     Args:
-        dir1 (str):             Directory with InsetChart.json files
+        dir1 (str): Directory with InsetChart.json files
 
-        dir2 (str):             Directory with InsetChart.json files
+        dir2 (str): Directory with InsetChart.json files
 
-        dir3 (str):             Directory with InsetChart.json files
+        dir3 (str): Directory with InsetChart.json files
 
-        title (str):             Title of Plot
+        title (str): Title of Plot
 
-        show_raw_data (bool):             If true, shows the raw/individual simulation data in a lighter color.
+        show_raw_data (bool): If true, shows the raw/individual simulation data in a lighter color.
 
-        subplot_index_min (int):             The index of the first subplot to show based on the alphabetical
+        subplot_index_min (int): The index of the first subplot to show based on the alphabetical
             order of the channels in the report.
 
-        subplot_index_max (int):             The index of the last subplot to show based on the alphabetical
+        subplot_index_max (int): The index of the last subplot to show based on the alphabetical
             order of the channels in the report.
 
-        output (str):             If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.
+        output (str): If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.
 
     Return:
         None, if output is provided, an image will be saved to the output directory, else a window will be opened.

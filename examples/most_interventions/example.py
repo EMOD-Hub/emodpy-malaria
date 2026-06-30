@@ -347,13 +347,14 @@ def build_campaign(campaign):
     day += 5
 
     # -----------------------------------------------------------------------
-    # 17. RTSSVaccine — target pregnant women only
+    # 17. ControlledVaccine — target pregnant women only
+    # (RTSSVaccine is not actively used; use ControlledVaccine or SimpleVaccine instead)
     # -----------------------------------------------------------------------
     distribute.add_intervention_scheduled(
         campaign,
         intervention_list=[
-            ind.RTSSVaccine(campaign, boosted_antibody_concentration=1.0),
-            ind.BroadcastEvent(campaign, broadcast_event="RTSSVaccine"),
+            ind.ControlledVaccine(campaign, waning_config=waning.Constant(1.0)),
+            ind.BroadcastEvent(campaign, broadcast_event="ControlledVaccine"),
         ],
         start_day=day,
         target_demographics_config=common.TargetDemographicsConfig(demographic_coverage=0.3),
@@ -896,7 +897,9 @@ def add_reports(reporters):
 # RUN SIMULATION
 # ===========================================================================
 def run_sim():
-    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
+    # sym_link=False: idmtools defaults to symlinks, but Windows requires Developer Mode
+    # to create them. Using file copies instead works on all Windows configurations.
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image, sym_link=manifest.sym_link)
 
     task = emod_task.from_defaults(
         eradication_path=manifest.eradication_path,

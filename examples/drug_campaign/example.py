@@ -124,7 +124,9 @@ def run_sim():
     """
 
     # Set platform
-    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image)
+    # sym_link=False: idmtools defaults to symlinks, but Windows requires Developer Mode
+    # to create them. Using file copies instead works on all Windows configurations.
+    platform = Platform(manifest.plat_name, job_directory=manifest.job_dir, docker_image=manifest.plat_image, sym_link=manifest.sym_link)
 
     experiment_name = "Drug Campaigns example"
 

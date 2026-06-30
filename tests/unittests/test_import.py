@@ -12,7 +12,7 @@ class TestImport:
         assert hasattr(individual_intervention, 'AntimalarialDrug')
         assert hasattr(individual_intervention, 'SimpleBednet')
         assert hasattr(individual_intervention, 'MalariaDiagnostic')
-        assert hasattr(individual_intervention, 'RTSSVaccine')
+        assert not hasattr(individual_intervention, 'RTSSVaccine')  # private: use ControlledVaccine or SimpleVaccine
         assert hasattr(individual_intervention, 'AdherentDrug')
         assert hasattr(individual_intervention, 'Ivermectin')
         assert hasattr(individual_intervention, 'BroadcastEvent')

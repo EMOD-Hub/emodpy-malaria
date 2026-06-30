@@ -15,3 +15,4 @@ ep4_path="python_scripts"
 plat_name = "Container"
 job_dir = "../example_jobs"
 plat_image = "ghcr.io/emod-hub/emod-ubuntu-runtime"
+sym_link = False  # symlinks require Developer Mode on Windows

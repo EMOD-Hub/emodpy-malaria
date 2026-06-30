@@ -6,7 +6,7 @@ from emodpy_malaria.campaign.individual_intervention import (
     IRSHousingModification, MultiInsecticideIRSHousingModification,
     ScreeningHousingModification, SpatialRepellentHousingModification,
     SimpleIndividualRepellent, IndoorIndividualEmanator, HumanHostSeekingTrap,
-    Ivermectin, RTSSVaccine, BitingRisk, SimpleHealthSeekingBehavior,
+    Ivermectin, BitingRisk, SimpleHealthSeekingBehavior,
     OutbreakIndividualMalariaGenetics, OutbreakIndividualMalariaVarGenes
 )
 import emodpy_malaria.campaign.waning_config as wc
@@ -606,18 +606,20 @@ class TestIntervention(unittest.TestCase):
         self.assertCIP(intervention=ivm._intervention)
 
     # -------------------------------------------------------------------------
-    # RTSSVaccine
+    # _RTSSVaccine (private — not part of public API)
     # -------------------------------------------------------------------------
 
     def test_RTSSVaccine_default(self):
-        vaccine = RTSSVaccine(self.campaign)
+        from emodpy_malaria.campaign.individual_intervention import _RTSSVaccine
+        vaccine = _RTSSVaccine(self.campaign)
         self.assertEqual(vaccine._intervention['class'], 'RTSSVaccine')
         self.assertEqual(vaccine._intervention.Boosted_Antibody_Concentration, 1)
 
     def test_RTSSVaccine(self):
-        vaccine = RTSSVaccine(self.campaign,
-                              boosted_antibody_concentration=2.5,
-                              common_intervention_parameters=self.CIP)
+        from emodpy_malaria.campaign.individual_intervention import _RTSSVaccine
+        vaccine = _RTSSVaccine(self.campaign,
+                               boosted_antibody_concentration=2.5,
+                               common_intervention_parameters=self.CIP)
         self.assertEqual(vaccine._intervention['class'], 'RTSSVaccine')
         self.assertEqual(vaccine._intervention.Boosted_Antibody_Concentration, 2.5)
         self.assertCIP(intervention=vaccine._intervention)
@@ -884,7 +886,7 @@ class TestIntervention(unittest.TestCase):
             self.campaign,
             create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
             barcode_string="AATTCCGG")
-        self.assertEqual(len(self.campaign.implicits), 1)
+        self.assertEqual(len(self.campaign.implicits), 2)  # validate_malaria_model + barcode_string length check
 
         class MockConfig:
             class parameters:
@@ -896,6 +898,137 @@ class TestIntervention(unittest.TestCase):
 
         MockConfig.parameters.Malaria_Model = "MALARIA_MECHANISTIC_MODEL_WITH_PARASITE_GENETICS"
         result = self.campaign.implicits[0](MockConfig())
+        self.assertIsNotNone(result)
+
+    def _make_fpg_config(self, barcode_locs=2, drug_locs=1, hrp_locs=1):
+        """Minimal config stub with Parasite_Genetics location lists."""
+        from types import SimpleNamespace
+        pg = SimpleNamespace(
+            Barcode_Genome_Locations=list(range(barcode_locs)),
+            Drug_Resistant_Genome_Locations=list(range(drug_locs)),
+            HRP_Genome_Locations=list(range(hrp_locs)),
+        )
+        params = SimpleNamespace(Parasite_Genetics=pg)
+        return SimpleNamespace(parameters=params)
+
+    def test_implicit_barcode_string_wrong_length_raises(self):
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
+            barcode_string="ACG")  # 3 chars, but config has 2 locations
+        config = self._make_fpg_config(barcode_locs=2)
+        location_implicit = self.campaign.implicits[1]
+        with self.assertRaises(ValueError) as ctx:
+            location_implicit(config)
+        self.assertIn("barcode_string", str(ctx.exception))
+        self.assertIn("3", str(ctx.exception))
+        self.assertIn("2", str(ctx.exception))
+
+    def test_implicit_barcode_string_correct_length_passes(self):
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
+            barcode_string="AC")  # 2 chars, config has 2 locations
+        config = self._make_fpg_config(barcode_locs=2)
+        result = self.campaign.implicits[1](config)
+        self.assertIsNotNone(result)
+
+    def test_implicit_drug_resistant_string_wrong_length_raises(self):
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
+            barcode_string="AC",
+            drug_resistant_string="ACG")  # 3 chars, config has 1 location
+        config = self._make_fpg_config(barcode_locs=2, drug_locs=1)
+        drug_implicit = self.campaign.implicits[2]
+        with self.assertRaises(ValueError) as ctx:
+            drug_implicit(config)
+        self.assertIn("drug_resistant_string", str(ctx.exception))
+        self.assertIn("3", str(ctx.exception))
+        self.assertIn("1", str(ctx.exception))
+
+    def test_implicit_hrp_string_wrong_length_raises(self):
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
+            barcode_string="AC",
+            hrp_string="AC")  # 2 chars, config has 1 location
+        config = self._make_fpg_config(barcode_locs=2, hrp_locs=1)
+        hrp_implicit = self.campaign.implicits[2]
+        with self.assertRaises(ValueError) as ctx:
+            hrp_implicit(config)
+        self.assertIn("hrp_string", str(ctx.exception))
+        self.assertIn("2", str(ctx.exception))
+        self.assertIn("1", str(ctx.exception))
+
+    def test_implicit_barcode_allele_frequencies_wrong_length_raises(self):
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.ALLELE_FREQUENCIES,
+            barcode_allele_frequencies_per_genome_location=[
+                [0.25, 0.25, 0.25, 0.25],
+                [0.25, 0.25, 0.25, 0.25],
+                [0.25, 0.25, 0.25, 0.25],
+            ])  # 3 entries, config has 2 locations
+        config = self._make_fpg_config(barcode_locs=2)
+        freq_implicit = self.campaign.implicits[1]
+        with self.assertRaises(ValueError) as ctx:
+            freq_implicit(config)
+        self.assertIn("barcode_allele_frequencies_per_genome_location", str(ctx.exception))
+        self.assertIn("3", str(ctx.exception))
+        self.assertIn("2", str(ctx.exception))
+
+    def test_implicit_drug_resistant_allele_frequencies_wrong_length_raises(self):
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.ALLELE_FREQUENCIES,
+            barcode_allele_frequencies_per_genome_location=[[0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25]],
+            drug_resistant_allele_frequencies_per_genome_location=[
+                [0.5, 0.5, 0.0, 0.0],
+                [0.5, 0.5, 0.0, 0.0],
+            ])  # 2 entries, config has 1 drug location
+        config = self._make_fpg_config(barcode_locs=2, drug_locs=1)
+        drug_freq_implicit = self.campaign.implicits[2]
+        with self.assertRaises(ValueError) as ctx:
+            drug_freq_implicit(config)
+        self.assertIn("drug_resistant_allele_frequencies_per_genome_location", str(ctx.exception))
+        self.assertIn("2", str(ctx.exception))
+        self.assertIn("1", str(ctx.exception))
+
+    def test_implicit_hrp_allele_frequencies_wrong_length_raises(self):
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.ALLELE_FREQUENCIES,
+            barcode_allele_frequencies_per_genome_location=[[0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25]],
+            hrp_allele_frequencies_per_genome_location=[
+                [0.5, 0.5, 0.0, 0.0],
+                [0.5, 0.5, 0.0, 0.0],
+            ])  # 2 entries, config has 1 HRP location
+        config = self._make_fpg_config(barcode_locs=2, hrp_locs=1)
+        hrp_freq_implicit = self.campaign.implicits[2]
+        with self.assertRaises(ValueError) as ctx:
+            hrp_freq_implicit(config)
+        self.assertIn("hrp_allele_frequencies_per_genome_location", str(ctx.exception))
+        self.assertIn("2", str(ctx.exception))
+        self.assertIn("1", str(ctx.exception))
+
+    def test_implicit_skipped_when_parasite_genetics_absent(self):
+        """Length check should pass silently when Parasite_Genetics is not in config."""
+        from types import SimpleNamespace
+        self.campaign.implicits.clear()
+        OutbreakIndividualMalariaGenetics(
+            self.campaign,
+            create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
+            barcode_string="ACGTACGT")
+        config_no_pg = SimpleNamespace(parameters=SimpleNamespace())
+        result = self.campaign.implicits[1](config_no_pg)
         self.assertIsNotNone(result)
 
     def test_OutbreakIndividualMalariaVarGenes_implicit_validates_malaria_model(self):
