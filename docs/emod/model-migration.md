@@ -31,3 +31,28 @@ fraction of the node’s population that is migrating *out* of the node per day.
 per day, meaning the number of people migrating per day divided by the total population of the node.
 For more information on the structure of these files, see [Migration creation](software-migration.md).
 
+## Migration heterogeneity
+
+By default, all individuals within a migration rate group (e.g., an age group in a node) share
+the same migration rate. When **Enable_Migration_Heterogeneity** is set to true (1), each individual
+is assigned a personal migration rate multiplier drawn from a configurable distribution at birth or
+simulation initialization. This multiplier scales the individual’s overall migration rate for the
+duration of their life, so some individuals migrate more frequently than others.
+
+The distribution is configured in the demographics file using the **NodeAttributes** parameters
+**MigrationHeterogeneityDistributionFlag**, **MigrationHeterogeneityDistribution1**, and
+**MigrationHeterogeneityDistribution2**. Supported distribution types include constant, uniform,
+Gaussian, exponential, Poisson, log normal, bimodal, and Weibull (flags 0–7). For example, setting
+the flag to 0 (constant) with a value of 1 gives every individual the same rate (equivalent to
+disabling heterogeneity), while setting the flag to 3 (exponential) produces a population where most
+individuals migrate rarely and a few migrate frequently.
+
+See [NodeAttributes](parameter-demographics.md#nodeattributes) for the demographics parameters and
+[Migration configuration](parameter-configuration-migration.md) for the configuration parameter.
+
+!!! note
+
+    Migration heterogeneity applies only to human migration. Vector migration uses a separate system
+    with its own modifiers (habitat, food, and stay-put) and is not affected by the human migration
+    heterogeneity setting. See [Vector migration](software-migration-vector.md) for details.
+

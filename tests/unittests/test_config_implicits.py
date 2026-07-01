@@ -12,7 +12,7 @@ import emodpy_malaria.campaign.distributor as distribute
 import emodpy_malaria.campaign.waning_config as waning
 import emodpy_malaria.campaign.event_coordinator as ec
 from emodpy_malaria.demographics.malaria_demographics import MalariaDemographics
-from emodpy_malaria.utils.emod_enum import VectorCountType, VectorGender, NucleotideSequenceOrigin
+from emodpy_malaria.utils.emod_enum import VectorCountType, VectorGender, NucleotideSequenceOrigin, HabitatType
 from emodpy_malaria.utils.distributions import ConstantDistribution
 from emodpy_malaria.utils.targeting_config import IsPregnant
 
@@ -384,6 +384,206 @@ class TestBirthRateDependenceImplicit(unittest.TestCase):
                 demographics_builder=_base_demog,
             )
         self.assertIn("Birth_Rate_Dependence", str(ctx.exception))
+
+
+@pytest.mark.unit
+class TestLarvalHabitatImplicit(unittest.TestCase):
+
+    def _campaign_with_scale_larval_habitat(self, campaign, habitat, species="ALL_SPECIES"):
+        campaign.set_schema(manifest.schema_path)
+        spec = node_iv.LarvalHabitatMultiplierSpec(
+            campaign, habitat=habitat, factor=1.5, species=species)
+        iv = node_iv.ScaleLarvalHabitat(campaign, larval_habitat_multiplier=[spec])
+        distribute.add_intervention_scheduled(campaign, intervention_list=[iv], start_day=0)
+        return campaign
+
+    def test_valid_habitat_for_species_passes(self):
+        emod_task.EMODTask.from_defaults(
+            eradication_path=manifest.eradication_path,
+            schema_path=manifest.schema_path,
+            config_builder=_base_config,
+            campaign_builder=partial(
+                self._campaign_with_scale_larval_habitat,
+                habitat=HabitatType.WATER_VEGETATION,
+                species="gambiae",
+            ),
+            demographics_builder=_base_demog,
+        )
+
+    def test_all_habitats_always_passes(self):
+        emod_task.EMODTask.from_defaults(
+            eradication_path=manifest.eradication_path,
+            schema_path=manifest.schema_path,
+            config_builder=_base_config,
+            campaign_builder=partial(
+                self._campaign_with_scale_larval_habitat,
+                habitat=HabitatType.ALL_HABITATS,
+            ),
+            demographics_builder=_base_demog,
+        )
+
+    def test_wrong_habitat_for_species_raises(self):
+        with self.assertRaises(ValueError) as ctx:
+            emod_task.EMODTask.from_defaults(
+                eradication_path=manifest.eradication_path,
+                schema_path=manifest.schema_path,
+                config_builder=_base_config,
+                campaign_builder=partial(
+                    self._campaign_with_scale_larval_habitat,
+                    habitat=HabitatType.TEMPORARY_RAINFALL,
+                    species="gambiae",
+                ),
+                demographics_builder=_base_demog,
+            )
+        self.assertIn("TEMPORARY_RAINFALL", str(ctx.exception))
+
+    def test_species_not_in_config_raises(self):
+        with self.assertRaises(ValueError) as ctx:
+            emod_task.EMODTask.from_defaults(
+                eradication_path=manifest.eradication_path,
+                schema_path=manifest.schema_path,
+                config_builder=_base_config,
+                campaign_builder=partial(
+                    self._campaign_with_scale_larval_habitat,
+                    habitat=HabitatType.WATER_VEGETATION,
+                    species="arabiensis",
+                ),
+                demographics_builder=_base_demog,
+            )
+        self.assertIn("arabiensis", str(ctx.exception))
+
+
+@pytest.mark.unit
+class TestMosquitoReleaseGenomeImplicit(unittest.TestCase):
+
+    def _config_with_gambiae_gene(self, config):
+        config = _base_config(config)
+        # One autosomal gene, no explicit gender gene → expected loci = 2 (implicit gender + 1 gene)
+        vector_config.add_genes_and_alleles(
+            config, manifest, "gambiae", [("a1", 0.5), ("a2", 0.5)])
+        return config
+
+    def _campaign_with_release(self, campaign, species, genome):
+        campaign.set_schema(manifest.schema_path)
+        release = node_iv.MosquitoRelease(
+            campaign,
+            released_species=species,
+            released_genome=genome,
+            released_number=1000,
+        )
+        distribute.add_intervention_scheduled(campaign, intervention_list=[release], start_day=0)
+        return campaign
+
+    def test_valid_genome_passes(self):
+        emod_task.EMODTask.from_defaults(
+            eradication_path=manifest.eradication_path,
+            schema_path=manifest.schema_path,
+            config_builder=self._config_with_gambiae_gene,
+            campaign_builder=partial(
+                self._campaign_with_release,
+                species="gambiae",
+                genome=[["X", "X"], ["a1", "a1"]],
+            ),
+            demographics_builder=_base_demog,
+        )
+
+    def test_species_not_in_config_raises(self):
+        with self.assertRaises(ValueError) as ctx:
+            emod_task.EMODTask.from_defaults(
+                eradication_path=manifest.eradication_path,
+                schema_path=manifest.schema_path,
+                config_builder=self._config_with_gambiae_gene,
+                campaign_builder=partial(
+                    self._campaign_with_release,
+                    species="funestus",
+                    genome=[["X", "X"], ["a1", "a1"]],
+                ),
+                demographics_builder=_base_demog,
+            )
+        self.assertIn("funestus", str(ctx.exception))
+
+    def test_wrong_locus_count_raises(self):
+        with self.assertRaises(ValueError) as ctx:
+            emod_task.EMODTask.from_defaults(
+                eradication_path=manifest.eradication_path,
+                schema_path=manifest.schema_path,
+                config_builder=self._config_with_gambiae_gene,
+                campaign_builder=partial(
+                    self._campaign_with_release,
+                    species="gambiae",
+                    genome=[["X", "X"]],  # 1 locus, expected 2
+                ),
+                demographics_builder=_base_demog,
+            )
+        self.assertIn("loci", str(ctx.exception))
+
+    def test_invalid_allele_name_raises(self):
+        with self.assertRaises(ValueError) as ctx:
+            emod_task.EMODTask.from_defaults(
+                eradication_path=manifest.eradication_path,
+                schema_path=manifest.schema_path,
+                config_builder=self._config_with_gambiae_gene,
+                campaign_builder=partial(
+                    self._campaign_with_release,
+                    species="gambiae",
+                    genome=[["X", "X"], ["bad_allele", "a1"]],
+                ),
+                demographics_builder=_base_demog,
+            )
+        self.assertIn("bad_allele", str(ctx.exception))
+
+
+@pytest.mark.unit
+class TestGenomeLocationsLengthImplicit(unittest.TestCase):
+
+    def _genetics_config(self, config):
+        malaria_config.set_parasite_genetics_params(config, manifest)
+        config.parameters.Simulation_Duration = 1
+        config.parameters.Run_Number = 0
+        return config
+
+    def test_barcode_string_wrong_length_raises(self):
+        # set_parasite_genetics_params sets 24 Barcode_Genome_Locations by default
+        def campaign_fn(campaign):
+            campaign.set_schema(manifest.schema_path)
+            ob = ind.OutbreakIndividualMalariaGenetics(
+                campaign,
+                create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
+                barcode_string="ACGT",  # 4 chars, expected 24
+            )
+            distribute.add_intervention_scheduled(campaign, intervention_list=[ob], start_day=0)
+            return campaign
+
+        with self.assertRaises(ValueError) as ctx:
+            emod_task.EMODTask.from_defaults(
+                eradication_path=manifest.eradication_path,
+                schema_path=manifest.schema_path,
+                config_builder=self._genetics_config,
+                campaign_builder=campaign_fn,
+                demographics_builder=_base_demog,
+            )
+        self.assertIn("barcode_string", str(ctx.exception))
+        self.assertIn("Barcode_Genome_Locations", str(ctx.exception))
+
+    def test_barcode_string_correct_length_passes(self):
+        # 24 chars matches 24 Barcode_Genome_Locations entries
+        def campaign_fn(campaign):
+            campaign.set_schema(manifest.schema_path)
+            ob = ind.OutbreakIndividualMalariaGenetics(
+                campaign,
+                create_nucleotide_sequence_from=NucleotideSequenceOrigin.BARCODE_STRING,
+                barcode_string="A" * 24,
+            )
+            distribute.add_intervention_scheduled(campaign, intervention_list=[ob], start_day=0)
+            return campaign
+
+        emod_task.EMODTask.from_defaults(
+            eradication_path=manifest.eradication_path,
+            schema_path=manifest.schema_path,
+            config_builder=self._genetics_config,
+            campaign_builder=campaign_fn,
+            demographics_builder=_base_demog,
+        )
 
 
 if __name__ == "__main__":
