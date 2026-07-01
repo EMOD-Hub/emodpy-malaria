@@ -36,6 +36,8 @@ class MalariaDemographics(Demographics):
     - `set_fertility_distribution()` — age-and-year pregnancy rates
     - `set_risk_distribution()` — heterogeneous biting risk via demographics
     - `set_innate_immune_distribution()` — heterogeneous innate immunity
+    - `set_initial_prevalence()` — initial infection prevalence
+    - `set_migration_heterogeneity()` — per-individual migration rate heterogeneity
     - `add_vector_migration()` — per-species vector migration
     - `add_weather()` — weather files with node/idref validation
 
@@ -44,8 +46,6 @@ class MalariaDemographics(Demographics):
     - `set_age_distribution()` — initial age distribution (simple or complex)
     - `set_mortality_distribution()` — gendered mortality (complex)
     - `set_susceptibility_distribution()` — susceptibility (simple or complex)
-    - `set_prevalence_distribution()` — initial prevalence (simple)
-    - `set_migration_heterogeneity_distribution()` — migration heterogeneity (simple)
     """
     def __init__(self, nodes: list[Node], idref: str = None, default_node: Node = None, set_defaults: bool = True):
         """
@@ -384,15 +384,18 @@ class MalariaDemographics(Demographics):
         """Set the risk distribution for demographics-based heterogeneous biting.
 
         Each individual is assigned a risk multiplier drawn from this
-        distribution at initialization, scaling their probability of being
+        distribution at initialization/birth, scaling their probability of being
         bitten relative to others.
-
-        Automatically sets ``Enable_Demographics_Risk = 1`` at task build time.
 
         Args:
             distribution (BaseDistribution): A
                 [BaseDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
                 defining the simple distribution for individual risk values.
+                Valid distributions: ``ConstantDistribution``, ``UniformDistribution``,
+                ``GaussianDistribution``, ``ExponentialDistribution``, ``PoissonDistribution``,
+                ``LogNormalDistribution``, ``BimodalDistribution``, ``WeibullDistribution``.
+                ``DualConstantDistribution`` and ``DualExponentialDistribution`` are not
+                supported for demographics and will raise ``NotImplementedError``.
             node_ids (list[int]): Node id(s) to apply to. ``None`` targets the default node.
 
         Raises:
@@ -411,37 +414,53 @@ class MalariaDemographics(Demographics):
 
     def set_innate_immune_distribution(
         self,
-        distribution: BaseDistribution,
+        distribution: Optional[BaseDistribution],
         innate_immune_variation_type: Union[InnateImmuneVariationType, str],
         node_ids: list[int] = None,
     ) -> None:
         """Set the innate immune distribution for heterogeneous innate immunity.
 
-        Each individual is assigned an innate-immunity modifier drawn from
-        this distribution.  The interpretation depends on
-        *innate_immune_variation_type*.
+        Each individual is assigned an innate-immunity modifier drawn
+        from *distribution* at initialization.
 
-        Automatically sets ``Innate_Immune_Variation_Type`` at task build time.
+        For EMOD parameter details, see
+        [Innate immune variation](https://emod.idmod.org/emodpy-malaria/emod/model-heterogeneity/#innate-immune-variation).
 
         Args:
-            distribution (BaseDistribution): A
+            distribution (Optional[BaseDistribution]): A
                 [BaseDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
-                defining the simple distribution for innate immunity values.
+                defining the simple distribution for innate-immunity modifier values.
+                Must be ``None`` for ``PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE``
+                (the distribution is forced internally to Uniform(0, 1)); must be a valid
+                BaseDistribution for all other types.
             innate_immune_variation_type (Union[InnateImmuneVariationType, str]): How the drawn value modifies innate
                 immunity. Accepts a [InnateImmuneVariationType](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/emod_enum/)
-                member or its string value.
-                ``NONE`` is rejected — no **distribution** is needed when
-                variation is disabled.
+                member or its string value. ``NONE`` is rejected — no distribution is needed when
+                variation is disabled. Values:
+
+                - ``PYROGENIC_THRESHOLD`` — individual threshold = ``v * Pyrogenic_Threshold``.
+                - ``CYTOKINE_KILLING`` — individual kill rate = ``v * Fever_IRBC_Kill_Rate``.
+                - ``PYROGENIC_THRESHOLD_VS_AGE_CONCAVE`` — threshold starts at
+                  ``v * Pyrogenic_Threshold`` and decreases with age: under 2 years it
+                  increases linearly (``+ 0.035 * threshold * age_years``); over 2 years
+                  it decays exponentially toward 10% of the initial value
+                  (``threshold * 0.965 * exp(-0.09 * (age_years - 2)) + threshold * 0.1``).
+                  Updated every 3 months. Bounded by ``Pyrogenic_Threshold_Min/Max``.
+                - ``PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE``
+                  — pyrogenic threshold = ``v * Pyrogenic_Threshold * 10^(0.132 * age_years)``,
+                  capped at ``Pyrogenic_Threshold_Max``; cytokine kill rate =
+                  ``Fever_IRBC_Kill_Rate * (2 - v)``. Distribution is forced internally to
+                  Uniform(0, 1); pass ``distribution=None``.
+
             node_ids (list[int]): Node id(s) to apply to. ``None`` targets the default node.
 
         Raises:
-            TypeError: If *distribution* is not a BaseDistribution.
-            ValueError: If *innate_immune_variation_type* is ``NONE`` or invalid.
+            TypeError: If *distribution* is not a BaseDistribution for types other than
+                ``PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE``.
+            ValueError: If *innate_immune_variation_type* is ``NONE`` or invalid, or if
+                *distribution* is not ``None`` for
+                ``PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE``.
         """
-        if not isinstance(distribution, BaseDistribution):
-            raise TypeError(
-                f"distribution must be a BaseDistribution instance (simple distribution), "
-                f"got {type(distribution).__name__}.")
         if not isinstance(innate_immune_variation_type, InnateImmuneVariationType):
             try:
                 innate_immune_variation_type = InnateImmuneVariationType(innate_immune_variation_type)
@@ -453,12 +472,100 @@ class MalariaDemographics(Demographics):
             raise ValueError(
                 "innate_immune_variation_type cannot be NONE when setting a distribution. "
                 "NONE disables innate immune variation entirely.")
-        self._set_distribution(
-            distribution=distribution,
-            use_case="innate_immune",
-            simple_distribution_implicits=[
+        _UNIFORM_INTERNAL = InnateImmuneVariationType.PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE
+        if innate_immune_variation_type == _UNIFORM_INTERNAL:
+            if distribution is not None:
+                raise ValueError(
+                    f"distribution must be None for {_UNIFORM_INTERNAL.value!r} — "
+                    "the distribution is forced internally to Uniform(0, 1).")
+            self.implicits.append(
                 partial(_set_innate_immune_variation_type,
                         variation_type=innate_immune_variation_type.value)
+            )
+        else:
+            if not isinstance(distribution, BaseDistribution):
+                raise TypeError(
+                    f"distribution must be a BaseDistribution instance (simple distribution), "
+                    f"got {type(distribution).__name__}.")
+            self._set_distribution(
+                distribution=distribution,
+                use_case="innate_immune",
+                simple_distribution_implicits=[
+                    partial(_set_innate_immune_variation_type,
+                            variation_type=innate_immune_variation_type.value)
+                ],
+                node_ids=node_ids,
+            )
+
+    def set_initial_prevalence(self, distribution: BaseDistribution, node_ids: list[int] = None) -> None:
+        """Set the initial infection prevalence distribution per simulation.
+
+        Each node starts with its own initial prevalence, a value drawn from this
+        distribution at the start of the simulation.
+
+        Args:
+            distribution (BaseDistribution): A
+                [BaseDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+                defining the simple distribution for initial prevalence values.
+                Valid distributions: ``ConstantDistribution``, ``UniformDistribution``,
+                ``GaussianDistribution``, ``ExponentialDistribution``, ``PoissonDistribution``,
+                ``LogNormalDistribution``, ``BimodalDistribution``, ``WeibullDistribution``.
+                ``DualConstantDistribution`` and ``DualExponentialDistribution`` are not
+                supported for demographics and will raise ``NotImplementedError``.
+            node_ids (list[int]): Node id(s) to apply to. ``None`` targets the default node.
+
+        Raises:
+            TypeError: If *distribution* is not a BaseDistribution.
+        """
+        if not isinstance(distribution, BaseDistribution):
+            raise TypeError(
+                f"distribution must be a BaseDistribution instance (simple distribution), "
+                f"got {type(distribution).__name__}.")
+        from emod_api.demographics.implicit_functions import _set_init_prev
+        self._set_distribution(
+            distribution=distribution,
+            use_case="prevalence",
+            simple_distribution_implicits=[_set_init_prev],
+            node_ids=node_ids,
+        )
+
+    def set_migration_heterogeneity(self, distribution: BaseDistribution, node_ids: list[int] = None) -> None:
+        """Set the migration heterogeneity distribution.
+
+        Each individual is assigned a migration rate multiplier drawn from this
+        distribution at creation/birth, scaling multiplier of how more often they
+        migrate relative to the base rate. Values >1 increate migration, <1 reduce it.
+
+         Migration itself must be configured separately via ``add_migration()``.
+
+        Args:
+            distribution (BaseDistribution): A
+                [BaseDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
+                defining the simple distribution for per-individual migration rate multipliers.
+                Valid distributions: ``ConstantDistribution``, ``UniformDistribution``,
+                ``GaussianDistribution``, ``ExponentialDistribution``, ``PoissonDistribution``,
+                ``LogNormalDistribution``, ``BimodalDistribution``, ``WeibullDistribution``.
+                ``DualConstantDistribution`` and ``DualExponentialDistribution`` are not
+                supported for demographics and will raise ``NotImplementedError``.
+            node_ids (list[int]): Node id(s) to apply to. ``None`` targets the default node.
+
+        Raises:
+            TypeError: If *distribution* is not a BaseDistribution.
+        """
+        if not isinstance(distribution, BaseDistribution):
+            raise TypeError(
+                f"distribution must be a BaseDistribution instance (simple distribution), "
+                f"got {type(distribution).__name__}.")
+        from emod_api.demographics.implicit_functions import (
+            _set_migration_model_fixed_rate,
+            _set_enable_migration_model_heterogeneity,
+        )
+        self._set_distribution(
+            distribution=distribution,
+            use_case="migration_heterogeneity",
+            simple_distribution_implicits=[
+                _set_migration_model_fixed_rate,
+                _set_enable_migration_model_heterogeneity,
             ],
             node_ids=node_ids,
         )

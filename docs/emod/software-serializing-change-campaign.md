@@ -38,7 +38,7 @@ will need to be added to the new campaign.
 
 
 Node-level interventions are not serialized.  Any node-level vector control will need to be
-redistributed.  Any **NodelLevelHealthTriggeredIV** that is responding to events will also need to be
+redistributed.  Any **NodeLevelHealthTriggeredIV** that is responding to events will also need to be
 redistributed.
 
 

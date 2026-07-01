@@ -48,6 +48,106 @@ properties can be leveraged to add heterogeneity in transmission based on the pr
 assigned to each individual. For example, you might configure higher transmission among school-age
 children. 
 
+## Innate immune variation
+
+Individuals in a population differ in their innate immune responses to malaria. EMOD can model
+this heterogeneity by drawing a per-individual innate immunity modifier (*v*) from a distribution
+configured in the demographics file
+(**InnateImmuneDistributionFlag**/**InnateImmuneDistribution1**/**InnateImmuneDistribution2**).
+The modifier persists for the individual's lifetime.
+
+The **Innate_Immune_Variation_Type** configuration parameter controls how the drawn value is
+interpreted. In the formulas below, *v* is the drawn value, **Pyrogenic_Threshold** and
+**Fever_IRBC_Kill_Rate** are configuration parameters, and *age* is the individual's age in
+years.
+
+### `NONE` (default)
+
+No innate immune variation. The distribution is ignored; all individuals use the configured
+**Pyrogenic_Threshold** and **Fever_IRBC_Kill_Rate** directly.
+
+### `PYROGENIC_THRESHOLD`
+
+The drawn value scales the individual's pyrogenic threshold — the IRBC/µL density at which
+fever is triggered:
+
+```
+individual_pyrogenic_threshold = v × Pyrogenic_Threshold
+```
+
+Higher values mean the individual tolerates higher parasite loads before becoming febrile.
+Bounded by **Pyrogenic_Threshold_Min** and **Pyrogenic_Threshold_Max**.
+
+### `CYTOKINE_KILLING`
+
+The drawn value scales the individual's cytokine-mediated parasite killing rate:
+
+```
+individual_kill_rate = v × Fever_IRBC_Kill_Rate
+```
+
+Higher values produce a stronger innate killing response.
+
+### `PYROGENIC_THRESHOLD_VS_AGE_CONCAVE`
+
+The pyrogenic threshold starts at `v × Pyrogenic_Threshold` and changes with age, reflecting
+acquired tolerance. The threshold is recalculated every 3 months:
+
+```
+base = v × Pyrogenic_Threshold
+
+if age < 2 years:
+    threshold = base + 0.035 × base × age
+else:
+    threshold = base × 0.965 × exp(-0.09 × (age - 2)) + base × 0.1
+```
+
+For young children, the threshold increases linearly. After age 2, it decays exponentially
+toward 10% of the base value (the asymptotic tolerance level for adults). Bounded by
+**Pyrogenic_Threshold_Min** and **Pyrogenic_Threshold_Max**.
+
+### `PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE`
+
+Both the pyrogenic threshold and cytokine killing rate are modified. The distribution
+should be Uniform(0, 1) because the cytokine formula assumes *v* is in that range.
+
+**Pyrogenic threshold** increases with age:
+
+```
+base = v × Pyrogenic_Threshold
+threshold = base × 10^(0.132 × age)
+```
+
+Capped at **Pyrogenic_Threshold_Max**. Once the cap is reached, the threshold remains fixed.
+
+**Cytokine killing rate** varies inversely with *v*:
+
+```
+individual_kill_rate = Fever_IRBC_Kill_Rate × (2 - v)
+```
+
+Individuals with a higher pyrogenic threshold (more tolerant of fever) have a lower cytokine
+killing rate, and vice versa.
+
+### Related parameters
+
+| Parameter | Description |
+|---|---|
+| **Pyrogenic_Threshold** | Base IRBC/µL level at which innate inflammatory response is half-maximal (default: 1000) |
+| **Pyrogenic_Threshold_Min** | Floor for calculated pyrogenic threshold (default: 0.1) |
+| **Pyrogenic_Threshold_Max** | Ceiling for calculated pyrogenic threshold (default: 100000) |
+| **Fever_IRBC_Kill_Rate** | Maximum IRBC kill rate from innate inflammatory response (default: 0.15) |
+
+See [Immunity configuration](parameter-configuration-immunity.md) for the full parameter list.
+
+To configure innate immune variation in emodpy-malaria, use
+[MalariaDemographics.set_innate_immune_distribution()](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/demographics/MalariaDemographics/).
+This method automatically sets **Innate_Immune_Variation_Type** at task build time.
+
+For more details on the innate immune response model, see
+[Infection and immunity](malaria-model-infection-immunity.md#innate-immune-response).
+
+
 ## Transmission
 
 
@@ -66,6 +166,16 @@ this simulation type. Because HINT cannot be used with this simulation type, the
 EMOD can also simulate human and vector migration, which can be important in the transmission of
 many diseases. You can assign different characteristics to each geographic *node* to control
 how the disease spreads.
+
+When **Enable_Migration_Heterogeneity** is enabled, each individual receives a personal migration
+rate multiplier drawn from a distribution configured in the demographics file
+(**MigrationHeterogeneityDistributionFlag/Distribution1/Distribution2**). This multiplier persists
+for the individual's lifetime, creating realistic variation where some individuals are frequent
+travelers and others rarely leave their home node. This heterogeneity applies only to human
+migration; vector migration rates are controlled separately through habitat, food, and stay-put
+modifiers.
+
+For more information, see [Geographic migration](model-migration.md).
 
 For more information on how you can target campaign interventions to individuals or locations based
 on certain criteria, see [model-campaign](model-campaign.md).

@@ -1,13 +1,13 @@
 # BitingRisk
 
 
-The **BitingRisk** class allows you to adjust the relative risk that the person is bitten by a
+The **BitingRisk** intervention class allows you to adjust the relative risk that the person is bitten by a
 vector. As an intervention, it allows you to target specific groups at specific times during the
 simulation.
 
 The relative biting rate can be initially set by setting **Enable_Demographic_Risk** to 1 and then
 configuring **IndividualAttributes**, **RiskDistributionFlag**, **RiskDistributionParam1**, and
-**RiskDistributionParam2**. This will give each new person their own relative risk.
+**RiskDistributionParam2** in Demographics. This will give each new person their own relative risk.
 
 The relative biting rate can be thought of as having two parts: the relative risk value and the age
 dependent value. Age dependence is set using the  **Age_Dependent_Biting_Risk_Type** parameter.
