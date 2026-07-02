@@ -145,12 +145,12 @@ class TestSetFertilityDistributionImplicit(unittest.TestCase):
 
 
 @pytest.mark.unit
-class TestSetPrevalenceDistributionImplicit(unittest.TestCase):
+class TestSetInitialPrevalenceDistributionImplicit(unittest.TestCase):
 
     def test_enable_initial_prevalence_set(self):
         def demog():
             d = MalariaDemographics.from_template_node(pop=100)
-            d.set_prevalence_distribution(ConstantDistribution(0.1))
+            d.set_initial_prevalence_distribution(ConstantDistribution(0.1))
             return d
 
         task = _make_task(demog)

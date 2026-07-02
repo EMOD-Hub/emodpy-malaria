@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
@@ -340,11 +340,11 @@ class TestSetFertilityDistribution(unittest.TestCase):
 
 
 @pytest.mark.unit
-class TestSetPrevalenceDistribution(unittest.TestCase):
+class TestSetInitialPrevalenceDistribution(unittest.TestCase):
 
     def test_sets_prevalence_on_default_node(self):
         demog = _make_demographics()
-        demog.set_prevalence_distribution(ConstantDistribution(0.1))
+        demog.set_initial_prevalence_distribution(ConstantDistribution(0.1))
         ia = demog.default_node.individual_attributes
         self.assertIsNotNone(ia.prevalence_distribution_flag)
         self.assertEqual(ia.prevalence_distribution1, 0.1)
@@ -352,7 +352,7 @@ class TestSetPrevalenceDistribution(unittest.TestCase):
     def test_registers_enable_initial_prevalence_implicit(self):
         demog = _make_demographics()
         initial_count = len(demog.implicits)
-        demog.set_prevalence_distribution(ConstantDistribution(0.2))
+        demog.set_initial_prevalence_distribution(ConstantDistribution(0.2))
         self.assertEqual(len(demog.implicits), initial_count + 1)
         config = SimpleNamespace(parameters=SimpleNamespace())
         demog.implicits[-1](config)
@@ -360,7 +360,7 @@ class TestSetPrevalenceDistribution(unittest.TestCase):
 
     def test_sets_prevalence_on_specific_node(self):
         demog = _make_demographics(n_nodes=2)
-        demog.set_prevalence_distribution(UniformDistribution(0.0, 0.5), node_ids=[1])
+        demog.set_initial_prevalence_distribution(UniformDistribution(0.0, 0.5), node_ids=[1])
         node1 = demog.get_node_by_id(1)
         node2 = demog.get_node_by_id(2)
         self.assertIsNotNone(

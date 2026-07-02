@@ -36,7 +36,7 @@ class MalariaDemographics(Demographics):
     - `set_fertility_distribution()` — age-and-year pregnancy rates
     - `set_risk_distribution()` — heterogeneous biting risk via demographics
     - `set_innate_immune_distribution()` — heterogeneous innate immunity
-    - `set_initial_prevalence()` — initial infection prevalence
+    - `set_initial_prevalence_distribution()` — initial infection prevalence
     - `set_migration_heterogeneity()` — per-individual migration rate heterogeneity
     - `add_vector_migration()` — per-species vector migration
     - `add_weather()` — weather files with node/idref validation
@@ -497,7 +497,7 @@ class MalariaDemographics(Demographics):
                 node_ids=node_ids,
             )
 
-    def set_initial_prevalence(self, distribution: BaseDistribution, node_ids: list[int] = None) -> None:
+    def set_initial_prevalence_distribution(self, distribution: BaseDistribution, node_ids: list[int] = None) -> None:
         """Set the initial infection prevalence distribution per simulation.
 
         Each node starts with its own initial prevalence, a value drawn from this
@@ -533,10 +533,14 @@ class MalariaDemographics(Demographics):
         """Set the migration heterogeneity distribution.
 
         Each individual is assigned a migration rate multiplier drawn from this
-        distribution at creation/birth, scaling multiplier of how more often they
-        migrate relative to the base rate. Values >1 increate migration, <1 reduce it.
+        distribution at creation/birth. Values >1 increase migration frequency
+        relative to the base rate; values <1 reduce it.
 
-         Migration itself must be configured separately via ``add_migration()``.
+        Human migration rates must be configured separately via ``add_migration()``.
+
+        **Note:** This method is not specific to malaria and would ideally live in
+        ``emodpy`` or ``emod-api`` so that downstream modules such as
+        ``emodpy-hiv`` can reuse it without duplicating the implementation.
 
         Args:
             distribution (BaseDistribution): A
