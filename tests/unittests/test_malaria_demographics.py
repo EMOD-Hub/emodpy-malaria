@@ -1,4 +1,5 @@
 import unittest
+import warnings
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -110,7 +111,9 @@ class TestMalariaNodeFromData(unittest.TestCase):
         self.assertIn(_set_enable_demog_risk, implicits)
 
     def test_from_data_loads_innate_immune_distribution(self):
-        node, _ = MalariaNode.from_data(self._node_dict_with_innate_immune())
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", Warning)
+            node, _ = MalariaNode.from_data(self._node_dict_with_innate_immune())
         self.assertEqual(node.individual_attributes.innate_immune_distribution_flag, 3)
         self.assertEqual(node.individual_attributes.innate_immune_distribution1, 0.2)
 
