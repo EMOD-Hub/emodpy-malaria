@@ -1,5 +1,7 @@
 """Unit tests for emodpy_malaria.serialization._genomes."""
 
+import warnings
+
 import pytest
 import numpy as np
 
@@ -87,10 +89,12 @@ class TestGenome:
         barcode_hash_code = np.int32(17)
         nucleotides = [0, 1, 2, 3]
 
-        for val in nucleotides:
-            barcode_hash_code = np.int32(31 * barcode_hash_code + val)
-            hash_code = np.int32(31 * hash_code + val)
-            hash_code = np.int32(31 * hash_code + allele_root_id)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", RuntimeWarning)
+            for val in nucleotides:
+                barcode_hash_code = np.int32(31 * barcode_hash_code + val)
+                hash_code = np.int32(31 * hash_code + val)
+                hash_code = np.int32(31 * hash_code + allele_root_id)
 
         g = Genome(barcode, allele_root_id)
         assert g.hashcode == int(hash_code)

@@ -74,7 +74,7 @@ def build_demographics():
 
     # This will set the initial prevalence of infection in the population to be uniformly distributed between 0 and 20%
     # for every new simulation that is run.
-    demog.set_prevalence_distribution(UniformDistribution(0, 0.2))
+    demog.set_initial_prevalence_distribution(UniformDistribution(0, 0.2))
     return demog
 
 
