@@ -417,11 +417,27 @@ class MalariaDemographics(Demographics):
     ) -> None:
         """Set the innate immune distribution for heterogeneous innate immunity.
 
-        Each individual is assigned an innate-immunity modifier drawn from
-        this distribution.  The interpretation depends on
-        *innate_immune_variation_type*.
+        Each individual is assigned an innate-immunity modifier (``v``) drawn
+        from *distribution* at initialization. How ``v`` is used depends on
+        *innate_immune_variation_type*:
+
+        - ``PYROGENIC_THRESHOLD`` — individual threshold = ``v * Pyrogenic_Threshold``.
+        - ``CYTOKINE_KILLING`` — individual kill rate = ``v * Fever_IRBC_Kill_Rate``.
+        - ``PYROGENIC_THRESHOLD_VS_AGE_CONCAVE`` — threshold starts at
+          ``v * Pyrogenic_Threshold`` and decreases with age: under 2 years it
+          increases linearly (``+ 0.035 * threshold * age_years``); over 2 years
+          it decays exponentially toward 10% of the initial value
+          (``threshold * 0.965 * exp(-0.09 * (age_years - 2)) + threshold * 0.1``).
+          Updated every 3 months. Bounded by ``Pyrogenic_Threshold_Min/Max``.
+        - ``PYROGENIC_THRESHOLD_VS_AGE_INCREASING_AND_CYTOKINE_KILLING_INVERSE``
+          — pyrogenic threshold = ``v * Pyrogenic_Threshold * 10^(0.132 * age_years)``,
+          capped at ``Pyrogenic_Threshold_Max``; cytokine kill rate =
+          ``Fever_IRBC_Kill_Rate * (2 - v)``. Distribution should be Uniform(0, 1).
 
         Automatically sets ``Innate_Immune_Variation_Type`` at task build time.
+
+        For EMOD parameter details, see
+        [Innate immune variation](https://emod.idmod.org/emodpy-malaria/emod/model-heterogeneity/#innate-immune-variation).
 
         Args:
             distribution (BaseDistribution): A
