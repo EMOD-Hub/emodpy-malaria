@@ -426,9 +426,6 @@ class MalariaDemographics(Demographics):
         For EMOD parameter details, see
         [Innate immune variation](https://emod.idmod.org/emodpy-malaria/emod/model-heterogeneity/#innate-immune-variation).
 
-        For EMOD parameter details, see
-        [Innate immune variation](https://emod.idmod.org/emodpy-malaria/emod/model-heterogeneity/#innate-immune-variation).
-
         Args:
             distribution (Optional[BaseDistribution]): A
                 [BaseDistribution](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/distributions/)
