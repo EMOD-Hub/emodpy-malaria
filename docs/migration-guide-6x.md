@@ -1,6 +1,6 @@
 # Migration Guide: emodpy-malaria 5.x → 6.x
 
-**Versions:** 5.2.x → 6.0.2  
+**Versions:** 5.2.x → 6.0.3  
 **emodpy dependency:** ~1.16 → ~3.3  
 **emod-malaria:** ~2.35 (unchanged)
 
@@ -53,7 +53,7 @@ The 6.x API reflects several deliberate design shifts:
 ## 1. Dependencies
 
 ```
-pip install "emodpy-malaria>=6.0.2"
+pip install "emodpy-malaria>=6.0.3"
 ```
 
 emodpy-malaria 6.x requires **emodpy ~3.3** (was ~1.16). Update your

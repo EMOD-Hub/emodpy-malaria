@@ -1,6 +1,6 @@
-# emodpy-malaria: Changes from 5.x to 6.0.2
+# emodpy-malaria: Changes from 5.x to 6.0.3
 
-**Version:** 5.2.1 → 6.0.2  
+**Version:** 5.2.2 → 6.0.3  
 **emodpy dependency:** ~1.16 → ~3.3  
 **emod-malaria:** ~2.35 (unchanged)
 
@@ -8,9 +8,9 @@
 
 ## 1. Version and Dependency Changes
 
-| Item | 5.x | 6.0.2 |
+| Item | 5.x | 6.0.3 |
 |---|---|---|
-| emodpy-malaria version | 5.2.1 | 6.0.2 |
+| emodpy-malaria version | 5.2.2 | 6.0.3 |
 | emodpy dependency | ~1.16 | ~3.3 |
 | emod-malaria | ~2.35 | ~2.35 (unchanged) |
 
