@@ -270,7 +270,7 @@ def build_demographics():
                                             name="Tutorial_Site")
     demog.set_birth_rate(40, birth_rate_dependence=BirthRateDependence.POPULATION_DEP_RATE)
     demog.set_age_distribution(UniformDistribution(0, 60))
-    demog.set_prevalence_distribution(UniformDistribution(0, 0.2))
+    demog.set_initial_prevalence_distribution(UniformDistribution(0, 0.2))
     return demog
 
 

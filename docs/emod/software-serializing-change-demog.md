@@ -46,6 +46,8 @@ See also: [Serializing populations](software-serializing-pops.md),
 * **LarvalHabitatMultiplier**
 
 !!! note
+    We discourage use of **LarvalHabitatMultiplier** due to its deserialization issues.
+
     **LarvalHabitatMultiplier** is read but not used at deserialization time.
     Both **LarvalHabitatMultiplier** and **x_Temporary_Larval_Habitat** are applied when a
     habitat is created at the beginning of a simulation. When the habitat is serialized, it is

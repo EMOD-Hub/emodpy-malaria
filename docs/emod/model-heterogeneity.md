@@ -168,7 +168,7 @@ many diseases. You can assign different characteristics to each geographic *node
 how the disease spreads.
 
 When **Enable_Migration_Heterogeneity** is enabled, each individual receives a personal migration
-rate multiplier drawn from a distribution configured in the demographics file
+rate multiplier drawn from a distribution configured in the demographics
 (**MigrationHeterogeneityDistributionFlag/Distribution1/Distribution2**). This multiplier persists
 for the individual's lifetime, creating realistic variation where some individuals are frequent
 travelers and others rarely leave their home node. This heterogeneity applies only to human
