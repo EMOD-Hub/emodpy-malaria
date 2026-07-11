@@ -54,6 +54,16 @@ https://emod.idmod.org/emodpy-malaria/installation/
 
 For developers, see the [developer installation](developer_installation.md) instructions.
 
+## Upgrading from 5.x
+
+**Version 6.0 is a major overhaul** of emodpy-malaria. Import paths,
+API patterns, and the dependency stack have all changed significantly.
+Projects using emodpy-malaria 5.x or earlier will require substantial
+restructuring to work with 6.x.
+
+- **[Migration guide](https://emod.idmod.org/emodpy-malaria/migration-guide-6x/)** — step-by-step upgrade instructions with before/after code examples
+- **[Changelog](https://emod.idmod.org/emodpy-malaria/changes-5x-to-6x/)** — complete inventory of every file, module, and API change
+
 ## Documentation
 
 Full documentation: https://emod.idmod.org/emodpy-malaria

@@ -19,6 +19,15 @@ See the [Malaria Overview](emod/malaria-overview.md) for a full description of t
 
 If you encounter any issues while using the software, please visit our [discussion board][discussions].
 
+## Upgrading from 5.x
+
+Version 6.0 is a major overhaul of emodpy-malaria. Import paths, API patterns, and the
+dependency stack have all changed significantly. Projects using emodpy-malaria 5.x or earlier
+will require substantial restructuring.
+
+- **[Migration guide](migration-guide-6x.md)** — step-by-step upgrade instructions with before/after code examples
+- **[Changelog](changes-5x-to-6x.md)** — complete inventory of every file, module, and API change
+
 ## emodpy-malaria
 
 emodpy-malaria is the primary interface for working with EMOD. It provides the tools to configure

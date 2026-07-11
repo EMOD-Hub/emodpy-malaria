@@ -31,6 +31,8 @@ theme:
 
 nav:
   - Home: index.md
+  - Migrating to 6.x: migration-guide-6x.md
+  - Changelog (5.x → 6.x): changes-5x-to-6x.md
   - Installation:
     - Installation: installation.md
     - Virtual environments: virtual_environments.md
