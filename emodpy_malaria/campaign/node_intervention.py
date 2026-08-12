@@ -90,7 +90,6 @@ class LarvalHabitatMultiplierSpec:
                 factor=0.5
             )
             ```
-    
         Double temporary rainfall habitat for a specific species:
             ```
             spec = LarvalHabitatMultiplierSpec(
@@ -779,7 +778,6 @@ class InputEIR(NodeIntervention):
                 monthly_eir=[5, 10, 20, 30, 25, 15, 10, 8, 12, 18, 10, 5]
             )
             ```
-        
         Apply daily EIR with a scaling factor:
             ```
             import numpy as np

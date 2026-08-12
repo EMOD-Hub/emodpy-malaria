@@ -1193,7 +1193,7 @@ def add_vector_migration(task: object,
     """
     **Deprecated:** Use `MalariaDemographics.add_vector_migration()` instead, which follows the
     deferred implicit pattern and does not require a task object upfront.
-    
+
     Adds vector migration parameters to the named species' parameters and adds the migration file to the
     common_assets in task.
 
