@@ -178,8 +178,6 @@ def xy_plot(img_dir: str,
 
         y_axis_as_log_scale (bool, optional):
             If True, the Y-axis is assumed to be logarithmic.
-
-    Returns:
     """
 
     fig, ax = plt.subplots(layout='constrained')

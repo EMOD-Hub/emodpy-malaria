@@ -1,6 +1,5 @@
 # Individual and node properties
 
-
 One of the strengths of an agent-based model, as opposed to a compartmental model governed by ODEs,
 is that you can introduce heterogeneity in individuals and regions. For example, you can define
 property values for accessibility, age, geography, risk, and other properties and assign these
@@ -15,12 +14,9 @@ are difficult to access. For more information on creating campaign interventions
 
 The following sections describe how to define individual properties and assign different values to
 individuals in a simulation. However, with the exception of setting up age bins, you can use the
-same process to assign properties to a *node*. To see all individual and node property
-parameters, see [NodeProperties and IndividualProperties](parameter-demographics.md:nodeproperties-and-individualproperties).
-
+same process to assign properties to a *node*.
 
 ## Create individual properties other than age
-
 
 Assigning property values to individuals uses the **IndividualProperties** parameter in the
 demographics file. See [Demographics parameters](parameter-demographics.md) for a list of supported properties. The values
@@ -56,9 +52,7 @@ the different properties are merely suggestions and can be used to track any pro
     layer demographics file or an overlay file, but they cannot be split between the files.
     The maximum number of property types that can be added is two.
 
-
 ## Create properties for age ranges
-
 
 Creating properties based on age ranges works a little differently than other properties.
 **Age_Bin** is tied to the simulated age of an individual rather than being an independent property.
@@ -78,7 +72,6 @@ simulation.
         delimited list of integers in ascending order that define the boundaries used for each of
         the age bins, in years. The first number must always be 0 (zero) to indicate the age at
         birth and the last number must be -1 to indicate the maximum age in the simulation.
-
 
 The example below shows how to set up several property values based on disease risk and physical
 place. It also defines three age bins: 0 to 5 years, older than 5 to 13, and older than 13 to the
@@ -108,9 +101,7 @@ maximum age.
 }
 ```
 
-
 ## Create node properties
-
 
 Node properties work the same way as individual properties but are assigned to *nodes* rather than
 individuals. They are useful for targeting node-level interventions to subsets of nodes. For example,
@@ -125,7 +116,6 @@ of them.
     The **Transitions** and **TransmissionMatrix** parameters available for **IndividualProperties**
     are not supported for **NodeProperties**. Node property values can only be changed at runtime
     using the **NodePropertyValueChanger** campaign intervention.
-
 
 ### NodeProperties array format
 
@@ -158,7 +148,6 @@ and the probability distribution used to assign values to nodes at the start of 
 At the start of the simulation, each node draws its property value randomly from the
 **Initial_Distribution**. In the example above, each node has a 60% chance of being assigned
 ``Place:RURAL`` and a 40% chance of ``Place:URBAN``.
-
 
 ### Override node property values with NodePropertyValues
 
@@ -221,7 +210,6 @@ In this example:
 - **Node 2** is explicitly set to ``Place:RURAL`` and ``InterventionStatus:SPRAYED_B``.
 - **Node 3** has no overrides, so both properties are drawn from **Initial_Distribution**.
 
-
 ### Use node properties in campaign interventions
 
 Once node properties are defined, you can use them to target or restrict campaign interventions:
@@ -231,4 +219,3 @@ Once node properties are defined, you can use them to target or restrict campaig
 - **NodePropertyValueChanger** is a node-level intervention that changes a node's property value
   at runtime. For example, changing ``InterventionStatus:NONE`` to ``InterventionStatus:SPRAYED_A``
   after distributing indoor residual spraying to that node.
-

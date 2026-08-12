@@ -55,17 +55,19 @@ def add_broadcast_coordinator_event(campaign: api_campaign,
     Returns:
         None, adds the configuration to the campaign.
 
-    Example:
-        >>> from emodpy_malaria.campaign.distributor import add_broadcast_coordinator_event
-        >>> from emod_api import campaign as api_campaign
-        >>> my_campaign = api_campaign
-        >>> my_campaign.set_schema('path_to_schema.json')
-        >>> add_broadcast_coordinator_event(
-        ...     campaign=my_campaign,
-        ...     broadcast_event="StartSurveillance",
-        ...     start_day=1,
-        ...     coordinator_name="TriggerSurveillance"
-        ... )
+    Examples:
+        ```
+        from emodpy_malaria.campaign.distributor import add_broadcast_coordinator_event
+        from emod_api import campaign as api_campaign
+        my_campaign = api_campaign
+        my_campaign.set_schema('path_to_schema.json')
+        add_broadcast_coordinator_event(
+            campaign=my_campaign,
+            broadcast_event="StartSurveillance",
+            start_day=1,
+            coordinator_name="TriggerSurveillance"
+        )
+        ```
     """
     _emodpy_add_broadcast_coordinator_event(
         campaign,
@@ -98,6 +100,13 @@ def add_vector_surveillance(campaign: api_campaign,
     periodic sampling when an event from ``start_trigger_condition_list`` is received,
     and stops when an event from ``stop_trigger_condition_list`` is received or
     ``duration`` expires.
+
+    The ``respond()`` function in **dtk_vector_surveillance.py** can return
+    coordinator-level event names at runtime. These events are determined
+    dynamically and **cannot** be auto-detected from the script. You must
+    manually register any event names that ``respond()`` might return in
+    **Custom_Coordinator_Events** in the simulation configuration. Failing
+    to register them will cause the simulation to fail at runtime.
 
     Args:
         campaign (api_campaign, required):
@@ -146,33 +155,26 @@ def add_vector_surveillance(campaign: api_campaign,
     Returns:
         None, adds the configuration to the campaign.
 
-    .. important::
-
-        The ``respond()`` function in **dtk_vector_surveillance.py** can return
-        coordinator-level event names at runtime. These events are determined
-        dynamically and **cannot** be auto-detected from the script. You must
-        manually register any event names that ``respond()`` might return in
-        **Custom_Coordinator_Events** in the simulation configuration. Failing
-        to register them will cause the simulation to fail at runtime.
-
-    Example:
-        >>> from emodpy_malaria.campaign.distributor import add_vector_surveillance
-        >>> from emodpy_malaria.campaign.event_coordinator import VectorCounter
-        >>> from emodpy_malaria.utils.distributions import ConstantDistribution
-        >>> from emod_api import campaign as api_campaign
-        >>> my_campaign = api_campaign
-        >>> my_campaign.set_schema('path_to_schema.json')
-        >>> counter = VectorCounter(species="gambiae",
-        ...                         sample_size_distribution=ConstantDistribution(100))
-        >>> add_vector_surveillance(
-        ...     campaign=my_campaign,
-        ...     counter=counter,
-        ...     start_trigger_condition_list=["StartSurveillance"],
-        ...     start_day=1,
-        ...     survey_completed_event="SurveyComplete",
-        ...     duration=365,
-        ...     coordinator_name="MySurveillance"
-        ... )
+    Examples:
+        ```
+        from emodpy_malaria.campaign.distributor import add_vector_surveillance
+        from emodpy_malaria.campaign.event_coordinator import VectorCounter
+        from emodpy_malaria.utils.distributions import ConstantDistribution
+        from emod_api import campaign as api_campaign
+        my_campaign = api_campaign
+        my_campaign.set_schema('path_to_schema.json')
+        counter = VectorCounter(species="gambiae",
+                                sample_size_distribution=ConstantDistribution(100))
+        add_vector_surveillance(
+            campaign=my_campaign,
+            counter=counter,
+            start_trigger_condition_list=["StartSurveillance"],
+            start_day=1,
+            survey_completed_event="SurveyComplete",
+            duration=365,
+            coordinator_name="MySurveillance"
+        )
+        ```
     """
     coordinator = VectorSurveillanceEventCoordinator(
         campaign,

@@ -1,11 +1,10 @@
 # BinnedReport
 
-
 The binned output report  (BinnedReport.json) is a JSON-formatted file where the channel data has
 been sorted into age bins. It is very similar to an inset chart, however, with the binned report all
 channels are broken down into sub-channels (bins) based on age. For example, instead of
 having a single prevalence channel, you might have prevalence in the "0-3 years old bin" and the
-"4-6 years old bin, and so forth.
+"4-6 years old bin", and so forth.
 
 The file contains a header and a channels section.
 
@@ -14,7 +13,6 @@ The file contains a header and a channels section.
 To generate the report, set the **Enable_Demographics_Reporting** configuration parameter to 1. The [DemographicsSummary](software-report-demographic-summary.md) report will also be generated.
 
 ## Header
-
 
 The header section contains the following parameters.
 
@@ -37,9 +35,7 @@ The **Subchannel_Metadata** includes the following parameters.
 | ValuesPerAxis | array of integers | The maximum age in days for each bin in the axis. |
 | MeaningPerAxis | array of strings | Shows the ValuesPerAxis values binned by age range, such as younger than 5 years (<5), 5 to 9 (5-9), and so on.  |
 
-
 ## Channels
-
 
 Malaria binned reports have the following channel data:
 
@@ -66,7 +62,6 @@ Malaria binned reports have the following channel data:
 | True Positive | The number of individuals who are detectable with the TRUE_PARASITE_DENSITY version of **MalariaDiagnostic**. The detectability of the diagnostic is controlled by parameter **Report_Detection_Threshold_True_Parasite_Density**. |
 
 ## Example
-
 
 The following is a sample of a BinnedReport.json file for malaria.
 

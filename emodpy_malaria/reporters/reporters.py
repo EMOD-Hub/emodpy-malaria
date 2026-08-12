@@ -231,13 +231,12 @@ class MalariaSummaryReport(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -329,15 +328,14 @@ class MalariaPatientJSONReport(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -400,15 +398,14 @@ class ReportMalariaFiltered(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -469,15 +466,14 @@ class ReportMalariaFilteredIntraHost(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -559,13 +555,12 @@ class MalariaImmunityReport(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -667,7 +662,7 @@ class ReportVectorGenetics(BuiltInReporter):
             when ``stratify_by`` is SPECIFIC_GENOME. Each object has an ``Allele_Combination`` key containing a list of
             allele pairs. Use ``'*'`` to list all entries at a locus and ``'?'`` to combine all entries at a locus.
 
-            Example::
+            Example:
 
                 specific_genome_combinations_for_stratification=[
                     {"Allele_Combination": [["X", "X"], ["a0", "*"], ["b1", "b0"]]},
@@ -679,7 +674,7 @@ class ReportVectorGenetics(BuiltInReporter):
         allele_combinations_for_stratification (list, optional): A list of allele combination lists. Required when
             ``stratify_by`` is ALLELE. Each entry is a list of allele strings representing one combination to track.
 
-            Example::
+            Example:
 
                 allele_combinations_for_stratification=[["a0", "b0"], ["a1", "b1"]]
 
@@ -688,7 +683,7 @@ class ReportVectorGenetics(BuiltInReporter):
         alleles_for_stratification (list[str], optional): A list of allele strings for which to collect frequency
             counts. Used when ``stratify_by`` is ALLELE_FREQ. If empty, the report uses all possible alleles.
 
-            Example::
+            Example:
 
                 alleles_for_stratification=["a0", "a1", "b0", "b1"]
 
@@ -697,7 +692,7 @@ class ReportVectorGenetics(BuiltInReporter):
         parasite_barcodes (list[str], optional): A list of malaria parasite barcode strings. When provided, the report adds
             ``NumVectorsWithSporozoites_<barcode>`` columns for each barcode. Use ``'*'`` as a wild card.
 
-            Example::
+            Example:
 
                 parasite_barcodes=["AABBCCDD", "AABB****"]
 
@@ -706,11 +701,10 @@ class ReportVectorGenetics(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - filename_suffix
     """
 
     def __init__(self,
@@ -892,7 +886,7 @@ class ReportVectorStats(BuiltInReporter):
             of vectors with sporozoites matching that barcode. Use ``'*'`` as a wild card. An ``OtherBarcodes`` column
             is added for vectors with barcodes not in this list.
 
-            Example::
+            Example:
 
                 barcodes=["AAAAAA", "AAAATTA", "AA**AA"]
 
@@ -967,10 +961,9 @@ class ReportVectorMigration(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - filename_suffix
     """
 
     def __init__(self,
@@ -1168,9 +1161,8 @@ class ReportInfectionStatsMalaria(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-
+            - start_day
+            - end_day
     """
 
     def __init__(self,
@@ -1286,15 +1278,14 @@ class ReportAntibodies(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -1366,14 +1357,13 @@ class ReportFpgOutput(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
     """
 
     def __init__(self,
@@ -1435,15 +1425,14 @@ class ReportFpgNewInfections(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -1499,15 +1488,14 @@ class SpatialReportMalariaFiltered(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -1596,15 +1584,14 @@ class ReportInterventionPopAvg(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -1701,15 +1688,14 @@ class MalariaSurveyAnalyzer(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -1781,22 +1767,21 @@ class ReportSimpleMalariaTransmission(BuiltInReporter):
         include_human_to_vector_transmission (bool, optional): When true, human-to-vector transmission events will be
             included in the report. These events have acquireIndividualId=0 and transmitTime=acquireTime.
 
-            .. warning:: Enabling this can make the output file size very large.
+            Warning! Enabling this can make the output file size very large.
 
             Default: False
 
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-                - node_ids
-                - min_age_years
-                - max_age_years
-                - must_have_ip_key_value
-                - must_have_intervention
-                - filename_suffix
-
+            - start_day
+            - end_day
+            - node_ids
+            - min_age_years
+            - max_age_years
+            - must_have_ip_key_value
+            - must_have_intervention
+            - filename_suffix
     """
 
     def __init__(self,
@@ -1880,9 +1865,8 @@ class SqlReportMalaria(BuiltInReporter):
         report_filter (ReportFilter, optional): Common report filtering parameters. Valid filtering parameters for this
             report are:
 
-                - start_day
-                - end_day
-
+            - start_day
+            - end_day
     """
 
     def __init__(self,

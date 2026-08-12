@@ -25,8 +25,9 @@ def get_filenames(dir_or_filename: str,
             Prefix to filter files by.
         file_extension (string, optional):
             Extension to filter files by.
+
     Returns:
-        List of filenames that match the criteria.
+        (list): List of filenames that match the criteria.
     """
 
     dir_filenames = []

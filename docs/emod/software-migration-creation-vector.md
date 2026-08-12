@@ -1,6 +1,5 @@
 # How to create vector migration files
 
-
 You can create the JSON metadata and binary migration files needed by EMOD to run simulations
 from CSV data using the Python script below. You can assign the same probability of migration to
 each vector in a *node* or you can assign different migration rates based on gender or genetics of the vector.
@@ -20,7 +19,6 @@ python -m emodpy_malaria.migration.convert_csv_to_bin_vector_migration [input-mi
 Below are different csv file input configurations you can use to create vector migration.
 
 ### One rate for all vectors
-
 
 Header (optional):  FromNodeID, ToNodeID, Rate (Average # of Trips Per Day)
 If the csv/text file has three columns with no headers, this is the format we assume.
@@ -66,7 +64,6 @@ Actual csv:
 
 ### Different rates for male and female vectors
 
-
 Header (optional):  FromNodeID, ToNodeID, RateMales, RateFemales
 If the csv/text file has four columns with no headers, this is the format we assume.
 
@@ -104,18 +101,17 @@ FromNodeID,ToNodeID,RateMales,RateFemales
 5,9,0.1,0
 ```
 
-
 ### Different rates depending on genetics of the vector
 
-
 Header (required):  FromNodeID, ToNodeID, [], arrays denoting Allele_Combinations
-Allele_Combinations: [["a1", "a1"], ["b1", "b1"]] or  [["X1","Y2"]] or [["*", "a0"], ["X1", "Y1"]]
+Allele_Combinations: [["a1", "a1"], ["b1", "b1"]] or [["X1","Y2"]] or [["*", "a0"], ["X1", "Y1"]]
+
 Due to use of commas in headers, it is best to use Excel to create the csv input files.
 The first (empty, []) array is used as a "default rate" if the vector's genetics doesn't match any of the
 Allele_Combinations. The other column headers denote the rate that the vector will travel at if it matches the
 Allele_Combinations listed. Vectors are checked against Allele_Combinations from most-specific, to least-specific,
 regardless of the order in the csv file. Allele_Combinations can, but don't have to, include sex-alleles. Without
-specified sex-alleles, any vector that matches the alleles regardless of sex will travel at that rate. Use '*' as a
+specified sex-alleles, any vector that matches the alleles regardless of sex will travel at that rate. Use "*" as a
 wildcard if the second allele does not matter and can be matched with anything.
 
 | Parameter | Data type | Min | Max | Default | Description |
@@ -166,17 +162,13 @@ FromNodeID,ToNodeID,[],"[[""X1"",""Y2""]]","[[""a1"", ""a1""],[""b1"",""b0""], [
 3,7,0,0.5,0,0,0
 3,8,0.5,0,0,0.0,0.5
 3,9,0,0.5,0,0,0.0
-
 ```
 
 ## Migration binary file
 
-
 For information, see [binary files](software-migration.md#binary-file).
 
-
 ## JSON metadata file
-
 
 The metadata file is a JSON-formatted file that includes a metadata section and a node offsets
 section. The **Metadata** section contains a *JSON (JavaScript Object Notation)* with parameters that help
@@ -184,9 +176,7 @@ EMOD interpret the migration binary file. You are encouraged to add your own par
 your selves about the source, reason, and purpose of the binary file and the data it contains. Non-required parameters
 are ignored.
 
-
 ### Vector Migration Metadata File Parameters
-
 
 | Parameter | Data type | Description |
 | --- | --- | --- |
@@ -201,7 +191,6 @@ are ignored.
 | User-created parameter | string | (Informational for user only) Example of a user-created parameter. |
 
 ### Example
-
 
 ```json
 {

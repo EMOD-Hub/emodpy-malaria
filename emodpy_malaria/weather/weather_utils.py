@@ -12,14 +12,16 @@ from typing import Union
 def invert_dict(in_dict: dict, sort: bool = False, single_value: bool = False) -> dict:
     """Invert a dictionary by grouping keys by value.
 
-    Example (single_value=False)::
-
-        {1: 'a', 2: 'a', 3: 'b'}  ->  {'a': [1, 2], 'b': [3]}
-
     Args:
         in_dict (dict): Dictionary to invert.
         sort (bool): Sort resulting dict by key and value lists.
         single_value (bool): Return only one representative key per unique value.
+
+    Examples:
+        single_value=False
+        ```
+        {1: 'a', 2: 'a', 3: 'b'}  ->  {'a': [1, 2], 'b': [3]}
+        ```
     """
     out_dict: dict = defaultdict(list)
     for k, v in in_dict.items():

@@ -73,7 +73,7 @@ class AdherentDrug(IndividualIntervention):
             the drugs taken in a single dose. All drug names must match those defined in the
             simulation's Malaria_Drug_Params.
 
-            Example -- a standard 3-day AL (Artemether-Lumefantrine) regimen with 6 doses::
+            Example -- a standard 3-day AL (Artemether-Lumefantrine) regimen with 6 doses:
 
                 doses = [
                     ["Artemether", "Lumefantrine"],  # dose 1 (day 0)
@@ -84,7 +84,7 @@ class AdherentDrug(IndividualIntervention):
                     ["Artemether"],  # dose 6 (day 2 + 8h)
                 ]
 
-            Example -- a single-dose SP (Sulfadoxine-Pyrimethamine) for IPTp::
+            Example -- a single-dose SP (Sulfadoxine-Pyrimethamine) for IPTp:
 
                 doses = [["Sulfadoxine", "Pyrimethamine"]]
 
@@ -93,12 +93,12 @@ class AdherentDrug(IndividualIntervention):
             to specify how this probability changes over time.
             Available types are defined in [Waning Effects](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/waning_config/).
 
-            Example -- 80% adherence that stays constant throughout the regimen::
+            Example -- 80% adherence that stays constant throughout the regimen:
 
                 from emodpy_malaria.campaign.waning_config import Constant
                 adherence_config = Constant(campaign, initial_effect=0.8)
 
-            Example -- adherence that decays from 90% to 50% over the course of a 3-day regimen::
+            Example -- adherence that decays from 90% to 50% over the course of a 3-day regimen:
 
                 from emodpy_malaria.campaign.waning_config import BoxExponential
                 adherence_config = BoxExponential(campaign, initial_effect=0.9,
@@ -125,7 +125,7 @@ class AdherentDrug(IndividualIntervention):
               remaining pills will be taken.
 
             Example -- most people who miss a dose wait for the next scheduled time, but
-            some stop entirely::
+            some stop entirely:
 
                 non_adherence_options = [
                     NonAdherenceOption.NEXT_DOSAGE_TIME,
@@ -137,7 +137,7 @@ class AdherentDrug(IndividualIntervention):
             and have the same length as **non_adherence_options**. Each value is the probability
             of the corresponding non-adherence behavior when a dose is missed.
 
-            Example -- matching the options above, 90% wait for next dose time, 10% stop::
+            Example -- matching the options above, 90% wait for next dose time, 10% stop:
 
                 non_adherence_distribution = [0.9, 0.1]
 
@@ -147,7 +147,7 @@ class AdherentDrug(IndividualIntervention):
             Maximum value: 100000
             Default value: 1
 
-            Example -- twice-daily dosing for an AL regimen::
+            Example -- twice-daily dosing for an AL regimen:
 
                 dose_interval = 0.5
 
@@ -158,7 +158,7 @@ class AdherentDrug(IndividualIntervention):
             Maximum value: 3.40282e+38
             Default value: 3.40282e+38
 
-            Example -- give up on the regimen after 7 days regardless of adherence::
+            Example -- give up on the regimen after 7 days regardless of adherence:
 
                 max_dose_consideration_duration = 7
 
@@ -167,7 +167,7 @@ class AdherentDrug(IndividualIntervention):
             adherence or triggering follow-up actions.
             Default value: None
 
-            Example -- broadcast an event to count **doses** taken::
+            Example -- broadcast an event to count **doses** taken:
 
                 took_dose_event = "TookALDose"
 
@@ -177,10 +177,10 @@ class AdherentDrug(IndividualIntervention):
             dont_allow_duplicates.
             Default value: None
 
-    Example:
+    Examples:
         A 3-day AL regimen with once-every-two days, 80% constant adherence, and mixed
-        non-adherence behaviors::
-
+        non-adherence behaviors:
+            ```
             from emodpy_malaria.campaign.individual_intervention import AdherentDrug
             from emodpy_malaria.campaign.waning_config import Constant
             from emodpy_malaria.utils.emod_enum import NonAdherenceOption
@@ -206,6 +206,7 @@ class AdherentDrug(IndividualIntervention):
                 max_dose_consideration_duration=7,
                 took_dose_event="TookALDose",
             )
+            ```
     """
 
     def __init__(self,
@@ -265,7 +266,7 @@ class MultiPackComboDrug(IndividualIntervention):
             the drugs taken in a single dose. All drug names must match those defined in the
             simulation's Malaria_Drug_Params.
 
-            Example -- a standard 3-day AL (Artemether-Lumefantrine) regimen with 6 doses::
+            Example -- a standard 3-day AL (Artemether-Lumefantrine) regimen with 6 doses:
 
                 doses = [
                     ["Artemether", "Lumefantrine"],  # dose 1 (day 0)
@@ -276,7 +277,7 @@ class MultiPackComboDrug(IndividualIntervention):
                     ["Artemether"],  # dose 6 (day 2 + 8h)
                 ]
 
-            Example -- a single-dose SP (Sulfadoxine-Pyrimethamine) for IPTp::
+            Example -- a single-dose SP (Sulfadoxine-Pyrimethamine) for IPTp:
 
                 doses = [["Sulfadoxine", "Pyrimethamine"]]
 
@@ -286,7 +287,7 @@ class MultiPackComboDrug(IndividualIntervention):
             Maximum value: 100000
             Default value: 1
 
-            Example -- twice-daily dosing for an AL regimen::
+            Example -- twice-daily dosing for an AL regimen:
 
                 dose_interval = 0.5
 
@@ -326,7 +327,7 @@ class MalariaDiagnostic(IndividualIntervention):
               This diagnostic includes Poisson sampling noise because real-world smear tests
               may not perfectly measure parasite levels. **detection_threshold** is in
               parasites per microliter. Uses the **measurement_sensitivity** parameter; a
-              positive diagnosis is made if measurement > detection_threshold, where::
+              positive diagnosis is made if measurement > detection_threshold, where:
 
                   measurement = (1 / measurement_sensitivity) * Poisson(measurement_sensitivity * true_parasite_density)
 
@@ -335,7 +336,7 @@ class MalariaDiagnostic(IndividualIntervention):
               counted. Same Poisson sampling noise as BLOOD_SMEAR_PARASITES.
               **detection_threshold** is in gametocytes per microliter. Uses
               **measurement_sensitivity**; a positive diagnosis is made if
-              measurement > detection_threshold, where::
+              measurement > detection_threshold, where:
 
                   measurement = (1 / measurement_sensitivity) * Poisson(measurement_sensitivity * true_gametocyte_density)
 
@@ -387,7 +388,7 @@ class MalariaDiagnostic(IndividualIntervention):
             noise in blood smear diagnostics. Only applies when **diagnostic_type** is
             ``DiagnosticType.BLOOD_SMEAR_PARASITES`` or ``DiagnosticType.BLOOD_SMEAR_GAMETOCYTES``.
 
-            The diagnostic measurement is calculated as::
+            The diagnostic measurement is calculated as:
 
                 measurement = (1 / measurement_sensitivity) * Poisson(measurement_sensitivity * true_density)
 
@@ -437,9 +438,9 @@ class MalariaDiagnostic(IndividualIntervention):
             The CommonInterventionParameters object that contains the 5 common parameters.
             Default value: None
 
-    Example:
-        Test for malaria using blood smear and broadcast an event on positive result::
-
+    Examples:
+        Test for malaria using blood smear and broadcast an event on positive result:
+            ```
             from emodpy_malaria.campaign.individual_intervention import MalariaDiagnostic
             from emodpy_malaria.utils.emod_enum import DiagnosticType
 
@@ -451,10 +452,9 @@ class MalariaDiagnostic(IndividualIntervention):
                 positive_diagnosis="TestedPositive",
                 negative_diagnosis="TestedNegative",
             )
-
-    Example:
-        Use an RDT and distribute a drug on positive diagnosis::
-
+            ```
+        Use an RDT and distribute a drug on positive diagnosis:
+            ```
             from emodpy_malaria.campaign.individual_intervention import MalariaDiagnostic, AntimalarialDrug
             from emodpy_malaria.utils.emod_enum import DiagnosticType
 
@@ -465,6 +465,7 @@ class MalariaDiagnostic(IndividualIntervention):
                 measurement_sensitivity=0.1,
                 positive_diagnosis=AntimalarialDrug(campaign, drug_type="Chloroquine"),
             )
+            ```
     """
 
     def __init__(self,
@@ -771,7 +772,7 @@ class MultiInsecticideUsageDependentBednet(IndividualIntervention):
     [UsageDependentBednet](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/individual_intervention/) but allows
     the addition of multiple insecticides. Each insecticide entry defines its own repelling,
     blocking, and killing waning effects. The effectiveness of multiple insecticides is combined
-    using the following equation::
+    using the following equation:
 
         Total efficacy = 1.0 - (1.0 - efficacy_1) * (1.0 - efficacy_2) * ... * (1.0 - efficacy_n)
 
@@ -979,7 +980,7 @@ class MultiInsecticideIRSHousingModification(IndividualIntervention):
     specified. This class uses Indoor Residual Spraying (IRS), where insecticide is sprayed on
     the interior walls of houses such that mosquitoes resting on the walls after consuming
     blood meals will die. The effectiveness of the intervention is combined using the following
-    equation::
+    equation:
 
         Total efficacy = 1.0 - (1.0 - efficacy_1) * (1.0 - efficacy_2) * ... * (1.0 - efficacy_n)
 
@@ -1655,9 +1656,9 @@ class SimpleHealthSeekingBehavior(IndividualIntervention):
             The CommonInterventionParameters object that contains the 5 common parameters.
             Default value: None
 
-    Example:
-        Distribute antimalarial treatment when symptomatic individuals seek care::
-
+    Examples:
+        Distribute antimalarial treatment when symptomatic individuals seek care:
+            ```
             from emodpy_malaria.campaign.individual_intervention import SimpleHealthSeekingBehavior, AntimalarialDrug
 
             hsb = SimpleHealthSeekingBehavior(
@@ -1666,10 +1667,9 @@ class SimpleHealthSeekingBehavior(IndividualIntervention):
                 single_use=False,
                 actual_intervention=AntimalarialDrug(campaign, drug_type="Chloroquine")
             )
-
-    Example:
-        Broadcast an event when care is sought::
-
+            ```
+        Broadcast an event when care is sought:
+            ```
             from emodpy_malaria.campaign.individual_intervention import SimpleHealthSeekingBehavior
 
             hsb = SimpleHealthSeekingBehavior(
@@ -1677,6 +1677,7 @@ class SimpleHealthSeekingBehavior(IndividualIntervention):
                 tendency=0.6,
                 actual_intervention="SeekingTreatment"
             )
+            ```
     """
 
     def __init__(self,
@@ -1844,9 +1845,9 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
             The CommonInterventionParameters object that contains the 5 common parameters.
             Default value: None
 
-    Example:
-        Create an outbreak with a specific barcode::
-
+    Examples:
+        Create an outbreak with a specific barcode:
+            ```
             from emodpy_malaria.campaign.individual_intervention import OutbreakIndividualMalariaGenetics
             from emodpy_malaria.utils.emod_enum import NucleotideSequenceOrigin
 
@@ -1857,10 +1858,9 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
                 drug_resistant_string="AA",
                 hrp_string="AT"
             )
-
-    Example:
-        Create an outbreak using allele frequencies::
-
+            ```
+        Create an outbreak using allele frequencies:
+            ```
             from emodpy_malaria.campaign.individual_intervention import OutbreakIndividualMalariaGenetics
             from emodpy_malaria.utils.emod_enum import NucleotideSequenceOrigin
 
@@ -1873,6 +1873,7 @@ class OutbreakIndividualMalariaGenetics(IndividualIntervention):
                 ],
                 ignore_immunity=False
             )
+            ```
     """
 
     def __init__(self,
