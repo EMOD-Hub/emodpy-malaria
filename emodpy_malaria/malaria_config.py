@@ -372,8 +372,8 @@ def add_new_drug(config, manifest, drug: MalariaDrugTypeParameters, overwrite: b
     Returns:
         (dict): configured config
 
-    **Example**::
-
+    Examples:
+        ```
         drug = MalariaDrugTypeParameters(
             name="MyNewDrug",
             pkpd_model=PKPDModel.CONCENTRATION_VERSUS_TIME,
@@ -382,6 +382,7 @@ def add_new_drug(config, manifest, drug: MalariaDrugTypeParameters, overwrite: b
             max_drug_irbc_kill=6.0,
         )
         add_new_drug(config, manifest, drug)
+        ```
     """
     if not isinstance(drug, MalariaDrugTypeParameters):
         raise ValueError(
@@ -404,20 +405,22 @@ def add_new_drug(config, manifest, drug: MalariaDrugTypeParameters, overwrite: b
 def set_drug_param(config, drug_name: str = None, parameter: str = None, value: any = None):
     """
      Set a drug parameter, by passing in drug name, parameter and the parameter value.
-     Added to facilitate adding drug Resistances,
-     **Example**::
-
-         artemether_drug_resistance = [{
-            "Drug_Resistant_String": "A",
-            "PKPD_C50_Modifier": 2.0,
-            "Max_IRBC_Kill_Modifier": 0.9}]
-         set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
+     Added to facilitate adding drug Resistances
 
     Args:
         config (dict): schema-backed config smart dict
         drug_name (str): The drug that has a **parameter** to set
         parameter (str): The parameter to set
         value (any): The new value to set
+
+    Examples:
+        ```
+        artemether_drug_resistance = [{
+           "Drug_Resistant_String": "A",
+           "PKPD_C50_Modifier": 2.0,
+            "Max_IRBC_Kill_Modifier": 0.9}]
+        set_drug_param(cb, drug_name='Artemether', parameter="Resistances", value=artemether_drug_resistance)
+        ```
     """
 
     if not drug_name or not parameter or value is None:

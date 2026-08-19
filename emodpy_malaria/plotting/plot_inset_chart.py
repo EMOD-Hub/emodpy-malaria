@@ -156,8 +156,6 @@ def plot_data(title: str,
         img_dir (str): The name of the directory to save the images to.  If not provided, it will open a window.
 
         plot_name (str): If provided the name of the file for the saved image.
-
-    Returns:
     """
     if test_filenames is None:
         test_filenames = []
@@ -268,8 +266,6 @@ def plot_inset_chart(dir_name: str = None,
         include_filenames_in_title (bool): If true, includes the filenames in the **title** (needed for testing)
 
         output (str): If provided, a directory will be created and images saved to the folder.  If not provided, it opens windows.
-
-    Returns:
     """
     test_filenames = []
     test_data = []

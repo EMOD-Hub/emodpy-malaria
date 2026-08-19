@@ -1,6 +1,5 @@
 # Larval habitat
 
-
 Available larval habitat is a primary driver of local mosquito populations, and different mosquito
 species can have different habitat preferences. Rainfall and humidity can strongly affect available
 larval habitat, although this depends on the mosquito species and its particular habitat preference.
@@ -22,7 +21,6 @@ larval density. Rainfall and temperature then combine through habitat creation a
 development to create varying local patterns of distribution by larval instar, and larval mortality
 and development duration determine pupal rates.
 
-
 The creation of the habitat model is described in further detail in the articles
 [Eckhoff, Malaria Journal 2011, 10:303][eckhoff-2011],
 [Eckhoff, Malaria Journal 2012, 11:419][eckhoff-2012-mj], and
@@ -32,7 +30,6 @@ configure these parameters in EMOD.
 
 See [Larval configuration](parameter-configuration-larval.md) and [Vector lifecycle configuration](parameter-configuration-vector-lifecycle.md) parameters for more information on
 configuring the various vector species.
-
 
 ## Modeling mosquito life cycles and larval habitat
 
@@ -47,7 +44,6 @@ The temporary rainfall relationship between larval habitat and rainfall cannot r
 (sub-week) changes in biting rates, and an additional rainfall-driven larval mortality term has been
 implemented to capture the non-linear rain-to-habitat relationship.
 
-
 ![Vector abundance depends on larval habitat availability](../figures/vector-malaria/Vector_Transmission_abundance.png)
 
 *Vector abundance depends on larval habitat availability*
@@ -55,7 +51,6 @@ implemented to capture the non-linear rain-to-habitat relationship.
 ![Larval habitat type determines how rainfall and temperature influence vector populations](../figures/vector-malaria/Vector_Transmission_larval_habitats.png)
 
 *Larval habitat type determines how rainfall and temperature influence vector populations*
-
 
 ## Habitats
 
@@ -66,7 +61,6 @@ may utilize the same habitat, with each species existing independently. The scal
 represents the number of larvae in a 1x1-degree area. The factor multiplicatively scales the
 resulting weather or population dependent functional form. The following example shows how to use
 this parameter, using *Anopheles funestus* as the vector and CONSTANT as the scaled habitat type.
-
 
 ```json
 {
@@ -94,10 +88,7 @@ The following are possible values for **Habitats**. They are described in detail
 * HUMAN_POPULATION
 * LINEAR_SPLINE
 
-
-
 ### Temporary rainfall
-
 
 TEMPORARY_RAINFALL habitat corresponds to mosquitoes such as *Anopheles arabiensis* or
 *Anopheles gambiae* which breed primarily in temporary puddles which are replenished by rainfall
@@ -149,7 +140,6 @@ correct annual *entomological inoculation rate (EIR)* for that species.
 The carrying capacity for TEMPORARY_RAINFALL is the number of larvae per [R * Degree$^2$]
 where R is accumulated rainfall (in meters).
 
-
 ### Semi-permanent water vegetation
 
 The second type of larval habitat, WATER_VEGETATION, is a semi-permanent habitat, which corresponds
@@ -173,9 +163,7 @@ EIR to tailor a simulation to a specific setting.
 The carrying capacity for WATER_VEGETATION is the number of larvae per [R * Degree$^2$]
 where R is accumulated rainfall (in meters).
 
-
 ### Constant habitat
-
 
 For habitat type CONSTANT, larval carrying capacity is constant throughout the year and does not
 depend on weather. However, there will be a seasonal signal in adult population levels due to the
@@ -186,9 +174,7 @@ is used to specify the carrying capacity per unit area $D_\text{cell}^2$.
 
 The carrying capacity for CONSTANT is the number of larvae per Degree$^2$.
 
-
 ### Brackish swamp
-
 
 The BRACKISH_SWAMP habitat setting deals with the dynamics of how rain fills a brackish swamp, how
 it decays and the associated parameter for rainfall-driven mortality threshold. This habitat type is
@@ -201,14 +187,11 @@ semi-permanent water vegetation habitat.
 
 The carrying capacity for BRACKISH_SWAMP is the number of larvae per Degree$^2$.
 
-
-
 ![Rainfall-driven mortality during swamp flushing](../figures/vector-malaria/Rainfall_Driven_Mortality_Flushing_of_Swamp.png)
 
 *Rainfall-driven mortality during swamp flushing*
 
 ### Human population
-
 
 The habitat type HUMAN_POPULATION scales with correlates of urban development, for example, water
 that is available due to water pots in urban areas. This type is configured by multiplying the
@@ -219,10 +202,7 @@ water sources).
 
 The carrying capacity for HUMAN_POPULATION is the number of larvae per person.
 
-
-
 ### Linear spline
-
 
 LINEAR_SPLINE is a user-customizable habitat type. Instead of specifying a given
 habitat type, users may utilize data that tracks the number of larvae measured throughout the year(s)
@@ -269,10 +249,7 @@ to zero.
 
 The carrying capacity for LINEAR_SPLINE is the number of larvae per Degree$^2$.
 
-
-
 ## Modifying habitat availability
-
 
 Ultimately, habitat is configured in order to create mosquito populations that realistically emulate
 observed *entomological inoculation rate (EIR)*. Briefly, available habitat is directly related
@@ -281,19 +258,16 @@ to calibrate the model there are several options for configuring habitat. You ca
 parameters and modify them directly using the habitat scalar and decay rate. Then, after those
 initial parameters are set, you can modify habitat with overall scaling parameters.
 
-
 ### Habitat scalars and decay rates
-
 
 The following two figures demonstrate the effects of varying the habitat scalar
 (**Habitats**) and the **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)  for a
 single species with temporary habitat. Changing the habitat scalar will scale the resulting adult
 population size and biting rate by a similar factor.
 
-
 ![Effect of varying the habitat scalar, **Habitats**](../figures/vector-malaria/Vary_Habitat_Scalar.png){#hab-scalar-fig}
 
-*Effect of varying the habitat scalar, **Habitats***
+*Effect of varying the habitat scalar,* **Habitats**
 
 Lowering $k_\text{tempdecay}$ causes the resulting rainfall-driven habitat to decay at a slower
 rate and thus increases $\tau_\text{temp}$.  A slower decay rate will result in higher
@@ -302,7 +276,7 @@ larval habitat on average, and higher resulting adult population biting rates.
 
 ![Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)](../figures/vector-malaria/Vary_Temporary_Habitat_Scalar.png){#decay-rate-fig}
 
-*Effect of varying the decay rate, **Temporary_Habitat_Decay_Factor** ($k_\text{tempdecay}$)*
+*Effect of varying the decay rate,* **Temporary_Habitat_Decay_Factor** *($k_\text{tempdecay}$)*
 
 These two parameters can be co-varied to produce an appropriate temporal profile. If rainfall is
 constant, there is only one degree of freedom, as the habitat is always at equilibrium. The two
@@ -315,10 +289,7 @@ versus the dry season. As seen in the graph [decay rate variation](#decay-rate-f
 given ratio in rainy season will become exaggerated in the start of dry season (with a higher ratio
 the drier the season), as the slower decay rate extends habitat longer into the dry season.
 
-
-
 ### Overall scaling
-
 
 Often, it is desired to study a similar location, with the same species, temporal profile, etc., but
 with a different annual *entomological inoculation rate (EIR)*. EIR depends not only on
@@ -336,7 +307,6 @@ An alternative to **x_Temporary_Larval_Habitat** is **LarvalHabitatMultiplier**.
 habitat types configured for the simulation, specific habitat types, or individual mosquito species
 within particular habitat types in the Nodes array of the demographics file (see NodeAttributes in
 [parameter-demographics](parameter-demographics.md)). The following example shows the syntax:
-
 
 ```json
 {
@@ -359,16 +329,13 @@ It should be noted that **LarvalHabitatMultiplier** enables habitat availability
 independently for each species within a shared habitat. This is an upgrade over previous versions
 of EMOD in which the modifier would be applied equally to all species within a shared habitat.
 
-
 ## Basic species configuration
-
 
 For each species listed in **Vector_Species_Params**, a "VectorPopulation" object will be added to the
 simulation at each node. Each species will be defined by parameters in the simulation configuration file 
 for the vector ecology and behavior of the species. This allows for a mechanistic description of vector
 abundances and behavior through the effects of climate and weather on different preferred larval
 habitats.
-
 
 The following example shows the syntax for configuring species parameters for *Anopheles arabiensis*.
 Note that you would also need to configure parameters for *An. fuenstus* and *An. gambiae*, if you are

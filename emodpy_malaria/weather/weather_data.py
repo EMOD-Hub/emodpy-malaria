@@ -76,7 +76,7 @@ class WeatherData:
         return self._data
 
     def to_base_weather(self) -> BaseWeather:
-        """Create an [Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
+        """Create a [Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance.
 
         Useful for interoperability with code that expects the emod-api
         ``Weather`` object.  Note: shared offsets are expanded — each node
@@ -98,7 +98,7 @@ class WeatherData:
     @classmethod
     def from_base_weather(cls, base: BaseWeather,
                           attributes: WeatherAttributes = None) -> "WeatherData":
-        """Create from an [Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance."""
+        """Create from a [Weather](https://emod.idmod.org/emod-api/autoapi/emod_api/weather/weather/) instance."""
         node_series = {
             node_id: base.nodes[node_id].data
             for node_id in base.node_ids

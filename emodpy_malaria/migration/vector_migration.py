@@ -674,8 +674,8 @@ def from_params(demographics_file_path: any = None, population: int = 1e6, num_n
 def from_demographics_and_gravity_params(demographics_object, gravity_params: list,
                                          filename: str = None):
     """
-        This function takes a demographics object, creates a vector migration file based on the populations and
-        distances of nodes and saves to be used by the sim
+    This function takes a demographics object, creates a vector migration file based on the populations and
+    distances of nodes and saves to be used by the sim.
 
     Args:
         demographics_object (MalaraiDemographics): demographics object created by Demographics class (use Demographics.from_file()

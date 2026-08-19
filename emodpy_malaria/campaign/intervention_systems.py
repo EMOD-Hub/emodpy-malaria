@@ -212,7 +212,7 @@ def add_treatment_seeking(campaign: api_campaign,
               (1 / mean delay in days) between trigger and treatment. A value of 0
               means treatment is immediate. Default: 0.
 
-            Example::
+            Example:
 
                 targets = [
                     {"trigger": "NewClinicalCase", "coverage": 0.8,
@@ -256,24 +256,26 @@ def add_treatment_seeking(campaign: api_campaign,
     Returns:
         None, adds events to the campaign.
 
-    Example:
-        >>> from emodpy_malaria.campaign.intervention_systems import add_treatment_seeking
-        >>> from emod_api import campaign as api_campaign
-        >>> my_campaign = api_campaign
-        >>> my_campaign.set_schema("path_to_schema.json")
-        >>> from emodpy_malaria.campaign.common import PropertyRestrictions
-        >>> add_treatment_seeking(
-        ...     campaign=my_campaign,
-        ...     targets=[
-        ...         {"trigger": "NewClinicalCase", "coverage": 0.8, "rate": 0.3},
-        ...         {"trigger": "NewSevereCase", "coverage": 0.9}
-        ...     ],
-        ...     drug=["Artemether", "Lumefantrine"],
-        ...     start_day=1,
-        ...     property_restrictions=PropertyRestrictions(
-        ...         individual_property_restrictions=[["Risk:High"]]),
-        ...     drug_ineligibility_duration=14
-        ... )
+    Examples:
+        ```
+        from emodpy_malaria.campaign.intervention_systems import add_treatment_seeking
+        from emod_api import campaign as api_campaign
+        my_campaign = api_campaign
+        my_campaign.set_schema("path_to_schema.json")
+        from emodpy_malaria.campaign.common import PropertyRestrictions
+        add_treatment_seeking(
+            campaign=my_campaign,
+            targets=[
+                {"trigger": "NewClinicalCase", "coverage": 0.8, "rate": 0.3},
+                {"trigger": "NewSevereCase", "coverage": 0.9}
+            ],
+            drug=["Artemether", "Lumefantrine"],
+            start_day=1,
+            property_restrictions=PropertyRestrictions(
+                individual_property_restrictions=[["Risk:High"]]),
+            drug_ineligibility_duration=14
+        )
+        ```
     """
     if drug is None:
         drug = ["Artemether", "Lumefantrine"]

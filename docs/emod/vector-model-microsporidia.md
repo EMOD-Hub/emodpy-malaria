@@ -1,6 +1,5 @@
 # Microsporidia Infection Model
 
-
 The model extends the standard VECTOR_SIM model to track endosymbiont infections and their
 effects in mosquito vectors throughout the complete lifecycle — from larval infections through
 adult transmission events to vertical transmission to offspring.
@@ -36,7 +35,6 @@ Some of the model limitations include:
 
 ## What are microsporidia?
 
-
 Microsporidia are a diverse group of obligate intracellular eukaryotic parasites that infect a wide range of hosts, including insects. In mosquitoes, certain microsporidia species (such as Microsporidia MB) have been identified as naturally occurring symbionts that can dramatically reduce malaria transmission. These parasites are particularly attractive for biocontrol applications because they:
 
 - Are vertically transmitted from parents to offspring, ensuring persistence in mosquito populations
@@ -46,21 +44,17 @@ Microsporidia are a diverse group of obligate intracellular eukaryotic parasites
 
 Field studies have shown that microsporidia-infected *Anopheles* mosquitoes are significantly less likely to become infected with *P. falciparum* and, when infected, rarely develop sporozoites capable of transmission. This makes microsporidia an important tool for understanding and potentially controlling malaria transmission dynamics.
 
-
 ## Why model microsporidia?
-
 
 Modeling microsporidia infections is essential for:
 
-**Evaluating biocontrol strategies**: Microsporidia-based interventions could involve releasing infected mosquitoes to establish symbiont infections in wild populations. Models help predict the conditions under which such releases would be successful and sustainable.
-**Optimizing intervention timing and coverage**: The model can evaluate how release timing, coverage levels, and strain characteristics affect the establishment and persistence of transmission-blocking microsporidia.
-**Assessing combined intervention effects**: Microsporidia work synergistically with other vector control measures. Models help predict how microsporidia-based interventions interact with insecticides, bed nets, and other malaria control tools.
-**Understanding natural transmission dynamics**: Wild mosquito populations often harbor microsporidia at moderate prevalences. Understanding how these infections spread and persist helps explain natural variation in malaria transmission intensity and seasonal patterns.
-**Strain selection and optimization**: By comparing different microsporidia strains with varying transmission characteristics and phenotypic effects, models can guide the selection of optimal strains for field deployment.
-
+- **Evaluating biocontrol strategies**: Microsporidia-based interventions could involve releasing infected mosquitoes to establish symbiont infections in wild populations. Models help predict the conditions under which such releases would be successful and sustainable.
+- **Optimizing intervention timing and coverage**: The model can evaluate how release timing, coverage levels, and strain characteristics affect the establishment and persistence of transmission-blocking microsporidia.
+- **Assessing combined intervention effects**: Microsporidia work synergistically with other vector control measures. Models help predict how microsporidia-based interventions interact with insecticides, bed nets, and other malaria control tools.
+- **Understanding natural transmission dynamics**: Wild mosquito populations often harbor microsporidia at moderate prevalences. Understanding how these infections spread and persist helps explain natural variation in malaria transmission intensity and seasonal patterns.
+- **Strain selection and optimization**: By comparing different microsporidia strains with varying transmission characteristics and phenotypic effects, models can guide the selection of optimal strains for field deployment.
 
 ## Transmission mechanisms
-
 
 ### Inter-population transmission
 
@@ -68,7 +62,6 @@ When vector migration is used, microsporidia infections migrate with their hosts
 spatial spread modeling between different vector populations and metapopulation analysis.
 The model does not currently include environmental transmission pathways (e.g., spore contamination of larval habitats)
 beyond the **LarvalMicrosporidiaIntervention**, see [larval-microsporidia-intervention](#larvalmicrosporidiaintervention) below for details.
-
 
 ### Intra-population transmission
 
@@ -85,7 +78,6 @@ During mating, microsporidia can transmit between adult mosquitoes through two p
 If both partners are already infected (regardless of strain), no additional transmission occurs. 
 
 ### Adult-to-egg
-
 
 Microsporidia transmit from infected parents to their offspring through vertical transmission pathways:
 
@@ -107,24 +99,19 @@ The model uses binomial approximation to determine how many eggs become infected
 
 ### Larval habitat seeding
 
-
 Microsporidia can also be introduced directly into larval habitats through the **LarvalMicrosporidiaIntervention**.
 This intervention mimics environmental seeding of water bodies with microsporidia spores, allowing larvae to become
 infected through ingestion or contact with contaminated water. See [larval-microsporidia-intervention](#larvalmicrosporidiaintervention) below for details.
 
-
 ## Phenotypic effects
-
 
 Microsporidia infection affects multiple aspects of mosquito biology, with effects varying by strain:
 
 ### Larval development
 
-
 **Growth rate modification**: The `Larval_Growth_Modifier` parameter adjusts the daily larval growth rate. Values greater than 1.0 accelerate development (as observed with Microsporidia MB), while values less than 1.0 slow development.
 
 ### Adult mortality
-
 
 **Female mortality effects**: The `Female_Mortality_Modifier` adjusts female adult mortality rates. Values greater than 1.0 increase mortality (shorter lifespan), while values less than 1.0 decrease mortality.
 
@@ -133,7 +120,6 @@ Microsporidia infection affects multiple aspects of mosquito biology, with effec
 Laboratory studies with Microsporidia MB have shown minimal impact on adult survival, but the model allows for strain-specific effects that may differ from field observations.
 
 ### Malaria transmission interference
-
 
 Microsporidia's primary value for malaria control lies in their ability to interfere with *Plasmodium* development and transmission:
 
@@ -149,9 +135,7 @@ Microsporidia's primary value for malaria control lies in their ability to inter
 
 For example, newly infected mosquitoes might show no acquisition or transmission interference (multiplier = 1.0), but interference increases over time as the microsporidia establish infection, reaching maximum effect (multiplier = 0.0) after several days. The model uses linear interpolation to calculate values for times not explicitly defined, with times greater than maximum time defined maintaining the last value of the map.
 
-
 ## Configuration parameters
-
 
 Microsporidia strains are configured within the **Vector_Species_Params** section as an array called
 **Microsporidia**. Each array element defines one strain with the following parameters.
@@ -221,10 +205,7 @@ The following example shows a two-strain microsporidia configuration for *Anophe
 
 ## Interventions
 
-
-
 ### LarvalMicrosporidiaIntervention
-
 
 The **LarvalMicrosporidiaIntervention** provides a mechanism for introducing microsporidia into larval habitats, simulating environmental release programs or natural habitat contamination. This node-level intervention can target specific habitat types and applies configurable infectivity that may decay over time.
 
@@ -232,13 +213,11 @@ See [LarvalMicrosporidiaIntervention](parameter-campaign-node-larvalmicrosporidi
 
 ### MosquitoRelease intervention
 
-
 Microsporidia can also be introduced through the **MosquitoRelease** intervention by specifying the `Released_Microsporidia_Strain` parameter with the desired strain name. This allows for targeted release of infected adult mosquitoes to establish microsporidia in wild populations.
 
 See [MosquitoRelease](parameter-campaign-node-mosquitorelease.md) for details.
 
 ## Output and reporting
-
 
 The microsporidia model extends several existing reports and adds a dedicated report to track
 infection dynamics:
@@ -255,12 +234,9 @@ infection dynamics:
 When vector migration is enabled, microsporidia infections migrate with their hosts, enabling
 spatial spread modeling and metapopulation analysis.
 
-
 ## Implementation notes
 
-
 ### Performance considerations
-
 
 The microsporidia model adds computational overhead through:
 

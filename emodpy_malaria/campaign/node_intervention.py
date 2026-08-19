@@ -78,9 +78,9 @@ class LarvalHabitatMultiplierSpec:
             ``"ALL_SPECIES"`` to apply to all species.
             Default value: "ALL_SPECIES"
 
-    Example:
-        Reduce all habitat by half for all species::
-
+    Examples:
+        Reduce all habitat by half for all species:
+            ```
             from emodpy_malaria.campaign.node_intervention import LarvalHabitatMultiplierSpec
             from emodpy_malaria.utils.emod_enum import HabitatType
 
@@ -89,16 +89,16 @@ class LarvalHabitatMultiplierSpec:
                 habitat=HabitatType.ALL_HABITATS,
                 factor=0.5
             )
-
-    Example:
-        Double temporary rainfall habitat for a specific species::
-
+            ```
+        Double temporary rainfall habitat for a specific species:
+            ```
             spec = LarvalHabitatMultiplierSpec(
                 campaign=campaign,
                 habitat=HabitatType.TEMPORARY_RAINFALL,
                 factor=2.0,
                 species="arabiensis"
             )
+            ```
     """
 
     def __init__(self, campaign, habitat: Union[HabitatType, str],
@@ -518,9 +518,9 @@ class Larvicides(NodeIntervention):
         common_intervention_parameters (CommonInterventionParameters, optional):
             Default value: None
 
-    Example:
-        Apply larvicide to all habitats::
-
+    Examples:
+        Apply larvicide to all habitats:
+            ```
             from emodpy_malaria.campaign.node_intervention import Larvicides
             from emodpy_malaria.campaign.waning_config import Constant
             from emodpy_malaria.utils.emod_enum import HabitatType
@@ -530,16 +530,17 @@ class Larvicides(NodeIntervention):
                 killing_config=Constant(campaign, initial_effect=0.7),
                 habitat_target=HabitatType.ALL_HABITATS
             )
+            ```
 
-    Example:
-        Target only temporary rainfall habitats::
-
+        Target only temporary rainfall habitats:
+            ```
             larvicide = Larvicides(
                 campaign=campaign,
                 killing_config=Constant(campaign, initial_effect=0.9),
                 habitat_target=HabitatType.TEMPORARY_RAINFALL,
                 insecticide_name="Temephos"
             )
+            ```
     """
 
     def __init__(self,
@@ -643,9 +644,9 @@ class LarvalMicrosporidiaIntervention(NodeIntervention):
         common_intervention_parameters (CommonInterventionParameters, optional):
             Default value: None
 
-    Example:
-        Introduce microsporidia into all habitats::
-
+    Examples:
+        Introduce microsporidia into all habitats:
+            ```
             from emodpy_malaria.campaign.node_intervention import LarvalMicrosporidiaIntervention
             from emodpy_malaria.campaign.waning_config import Constant
             from emodpy_malaria.utils.emod_enum import HabitatType
@@ -657,6 +658,7 @@ class LarvalMicrosporidiaIntervention(NodeIntervention):
                 habitat_coverage=0.8,
                 infectivity_config=Constant(campaign, initial_effect=0.5)
             )
+            ```
     """
 
     def __init__(self,
@@ -766,19 +768,18 @@ class InputEIR(NodeIntervention):
         common_intervention_parameters (CommonInterventionParameters, optional):
             Default value: None
 
-    Example:
-        Apply a seasonal monthly EIR pattern::
-
+    Examples:
+        Apply a seasonal monthly EIR pattern:
+            ```
             from emodpy_malaria.campaign.node_intervention import InputEIR
 
             eir = InputEIR(
                 campaign=campaign,
                 monthly_eir=[5, 10, 20, 30, 25, 15, 10, 8, 12, 18, 10, 5]
             )
-
-    Example:
-        Apply daily EIR with a scaling factor::
-
+            ```
+        Apply daily EIR with a scaling factor:
+            ```
             import numpy as np
             from emodpy_malaria.campaign.node_intervention import InputEIR
 
@@ -788,6 +789,7 @@ class InputEIR(NodeIntervention):
                 daily_eir=daily_values,
                 scaling_factor=0.5
             )
+            ```
     """
 
     def __init__(self,
@@ -879,10 +881,10 @@ class MalariaChallenge(NodeIntervention):
         common_intervention_parameters (CommonInterventionParameters, optional):
             Default value: None
 
-    Example:
+    Examples:
         Challenge 8% of the population with 5 infectious bites each; multiple bites
-        still result in only one infection::
-
+        still result in only one infection:
+            ```
             from emodpy_malaria.campaign.node_intervention import MalariaChallenge
             from emodpy_malaria.utils.emod_enum import ChallengeType
 
@@ -894,6 +896,7 @@ class MalariaChallenge(NodeIntervention):
                 infectious_bite_count=5,
                 coverage=0.08
             )
+            ```
     """
 
     def __init__(self,
@@ -1027,9 +1030,9 @@ class MosquitoRelease(NodeIntervention):
         common_intervention_parameters (CommonInterventionParameters, optional):
             Default value: None
 
-    Example:
-        Release 10,000 sterile male mosquitoes::
-
+    Examples:
+        Release 10,000 sterile male mosquitoes:
+            ```
             from emodpy_malaria.campaign.node_intervention import MosquitoRelease
 
             release = MosquitoRelease(
@@ -1038,10 +1041,10 @@ class MosquitoRelease(NodeIntervention):
                 released_genome=[["X", "Y"], ["a0", "a0"]],
                 released_number=10000
             )
+            ```
 
-    Example:
-        Release pre-mated Wolbachia-infected females at a ratio::
-
+        Release pre-mated Wolbachia-infected females at a ratio:
+            ```
             from emodpy_malaria.campaign.node_intervention import MosquitoRelease
             from emodpy_malaria.utils.emod_enum import WolbachiaType
 
@@ -1053,6 +1056,7 @@ class MosquitoRelease(NodeIntervention):
                 released_mate_genome=[["X", "Y"], ["a0", "a0"]],
                 released_wolbachia=WolbachiaType.VECTOR_WOLBACHIA_A
             )
+            ```
     """
 
     def __init__(self,
@@ -1179,9 +1183,9 @@ class ScaleLarvalHabitat(NodeIntervention):
         common_intervention_parameters (CommonInterventionParameters, optional):
             Default value: None
 
-    Example:
-        Reduce all habitats by half for all species::
-
+    Examples:
+        Reduce all habitats by half for all species:
+            ```
             from emodpy_malaria.campaign.node_intervention import (
                 ScaleLarvalHabitat, LarvalHabitatMultiplierSpec)
             from emodpy_malaria.utils.emod_enum import HabitatType
@@ -1196,10 +1200,10 @@ class ScaleLarvalHabitat(NodeIntervention):
                     )
                 ]
             )
+            ```
 
-    Example:
-        Apply different multipliers per habitat type and species::
-
+        Apply different multipliers per habitat type and species:
+            ```
             slh = ScaleLarvalHabitat(
                 campaign=campaign,
                 larval_habitat_multiplier=[
@@ -1217,6 +1221,7 @@ class ScaleLarvalHabitat(NodeIntervention):
                     )
                 ]
             )
+            ```
     """
 
     def __init__(self,
@@ -1567,9 +1572,9 @@ class OvipositionTrap(NodeIntervention):
         common_intervention_parameters (CommonInterventionParameters, optional):
             Default value: None
 
-    Example:
-        Place oviposition traps targeting all habitats::
-
+    Examples:
+        Place oviposition traps targeting all habitats:
+            ```
             from emodpy_malaria.campaign.node_intervention import OvipositionTrap
             from emodpy_malaria.campaign.waning_config import Constant
             from emodpy_malaria.utils.emod_enum import HabitatType
@@ -1579,6 +1584,7 @@ class OvipositionTrap(NodeIntervention):
                 killing_config=Constant(campaign, initial_effect=0.8),
                 habitat_target=HabitatType.ALL_HABITATS
             )
+            ```
     """
 
     def __init__(self,

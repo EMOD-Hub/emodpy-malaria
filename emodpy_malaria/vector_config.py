@@ -104,8 +104,8 @@ def get_species_params(config, species: str = None):
 
 def set_species_param(config, species, parameter, value, overwrite=False):
     """
-        Sets a parameter value for a specific species.
-        Raises value error if species not found
+    Sets a parameter value for a specific species.
+    Raises value error if species not found
 
     Args:
         config (dict): schema-backed config smart dict
@@ -179,7 +179,7 @@ class VectorHabitat:
             degrees squared. Ideally, the last value should equal the first
             value if they are one day apart.
 
-            Example::
+            Example:
 
                 {"Times": [0, 30, 60, 91, 122, 152, 182, 213, 243, 274, 304, 334, 365],
                  "Values": [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8, 6.5, 2.6, 2.1, 2]}
@@ -190,28 +190,29 @@ class VectorHabitat:
             runs longer than this, the pattern repeats.
             Default value: 1
 
-    Example:
-        Seasonal habitat with a linear spline::
+    Examples:
+        Seasonal habitat with a linear spline:
+        ```
+        from emodpy_malaria.vector_config import VectorHabitat
+        from emodpy_malaria.utils.emod_enum import HabitatType
 
-            from emodpy_malaria.vector_config import VectorHabitat
-            from emodpy_malaria.utils.emod_enum import HabitatType
+        habitat = VectorHabitat(
+            habitat_type=HabitatType.LINEAR_SPLINE,
+            max_larval_capacity=1e8,
+            capacity_distribution_over_time={
+                "Times":  [0, 30, 60, 91, 122, 152, 182, 213, 243, 274, 304, 334, 365],
+                "Values": [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8, 6.5, 2.6, 2.1, 2]
+            }
+        )
+        ```
 
-            habitat = VectorHabitat(
-                habitat_type=HabitatType.LINEAR_SPLINE,
-                max_larval_capacity=1e8,
-                capacity_distribution_over_time={
-                    "Times":  [0, 30, 60, 91, 122, 152, 182, 213, 243, 274, 304, 334, 365],
-                    "Values": [3, 0.8, 1.25, 0.1, 2.7, 8, 4, 35, 6.8, 6.5, 2.6, 2.1, 2]
-                }
-            )
-
-    Example:
-        Simple constant habitat::
-
-            habitat = VectorHabitat(
-                habitat_type=HabitatType.CONSTANT,
-                max_larval_capacity=1e7
-            )
+        Simple constant habitat:
+        ```
+        habitat = VectorHabitat(
+            habitat_type=HabitatType.CONSTANT,
+            max_larval_capacity=1e7
+        )
+        ```
     """
 
     def __init__(self,
@@ -346,24 +347,25 @@ class VectorSpeciesParameters:
             ``"VECTOR_SUGAR_FEEDING_EVERY_DAY"``.
             Default value: ``"VECTOR_SUGAR_FEEDING_NONE"``
 
-    Example:
-        Create a custom species with a seasonal spline habitat::
+    Examples:
+        Create a custom species with a seasonal spline habitat:
+        ```
+        habitat = VectorHabitat(HabitatType.LINEAR_SPLINE,
+                                max_larval_capacity=1e8,
+                                capacity_distribution_over_time={...})
+        species = VectorSpeciesParameters(name="gambiae",
+                                            habitats=[habitat],
+                                            anthropophily=0.65,
+                                            indoor_feeding_fraction=0.95)
+        config.parameters.Vector_Species_Params.append(species.to_schema_dict())
+        ```
 
-            habitat = VectorHabitat(HabitatType.LINEAR_SPLINE,
-                                    max_larval_capacity=1e8,
-                                    capacity_distribution_over_time={...})
-            species = VectorSpeciesParameters(name="gambiae",
-                                              habitats=[habitat],
-                                              anthropophily=0.65,
-                                              indoor_feeding_fraction=0.95)
-            config.parameters.Vector_Species_Params.append(species.to_schema_dict())
-
-    Example:
-        Load a built-in preset and override one parameter::
-
-            species = VectorSpeciesParameters.from_preset(campaign, manifest, "arabiensis")
-            species.indoor_feeding_fraction = 0.3
-            config.parameters.Vector_Species_Params.append(species.to_schema_dict())
+        Load a built-in preset and override one parameter:
+        ```
+        species = VectorSpeciesParameters.from_preset(campaign, manifest, "arabiensis")
+        species.indoor_feeding_fraction = 0.3
+        config.parameters.Vector_Species_Params.append(species.to_schema_dict())
+        ```
     """
 
     def __init__(self,
@@ -666,7 +668,7 @@ def add_trait(config, manifest, species, allele_combo: list = None, trait_modifi
         allele_combo (list): List of lists, This defines a possible subset of allele pairs that a vector could have.
             Each pair are alleles from one gene.  If the vector has this subset, then the associated traits will
             be adjusted.  Order does not matter.  '*' is allowed when only the occurrence of one allele is important.
-            Example::
+            Example:
 
             [[  "X",  "X" ], [ "a0", "a1" ]]
 
@@ -768,8 +770,8 @@ def add_insecticide_resistance(config, manifest, insecticide_name: str, species:
                                allele_combo: list[list[str]], blocking: float = 1.0, killing: float = 1.0,
                                repelling: float = 1.0, larval_killing: float = 1.0):
     """
-        Use this function to add to the list of **Resistances** parameter for a specific insecticide
-        Add each resistance separately.
+    Use this function to add to the list of **Resistances** parameter for a specific insecticide
+    Add each resistance separately.
 
     Args:
         config (dict): schema-backed config smart dict
@@ -829,9 +831,9 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
                         allele_to_shred_to: str = None, allele_shredding_fraction: float = None,
                         allele_to_shred_to_surviving_fraction: float = None):
     """
-        Add a gene drive that propagates a particular set of alleles.
-        Adds one **Alleles_Driven** item to the **Alleles_Driven** list, using 'driving_allele' as key if matching one
-        already exists.
+    Add a gene drive that propagates a particular set of alleles.
+    Adds one **Alleles_Driven** item to the **Alleles_Driven** list, using 'driving_allele' as key if matching one
+    already exists.
 
     Args:
         config (dict): schema-backed config smart dict
@@ -975,10 +977,10 @@ def add_species_drivers(config, manifest, species: str = None, driving_allele: s
 def add_maternal_deposition(config, manifest, species: str, cas9_grna_from: str,
                             allele_to_cut: str, likelihood_list: list):
     """
-        Adds a maternal deposition element for the specified species.
-        After meiosis and fertilization, maternal deposition of Cas9 and gRNA can form additional drive-resistant alleles
-        in the zygote or early embryo from wildtype alleles. These elements define the likelihoods of forming additional
-        drive-resistant alleles.
+    Adds a maternal deposition element for the specified species.
+    After meiosis and fertilization, maternal deposition of Cas9 and gRNA can form additional drive-resistant alleles
+    in the zygote or early embryo from wildtype alleles. These elements define the likelihoods of forming additional
+    drive-resistant alleles.
 
     Args:
         config (dict): schema-backed config smart dict
@@ -1087,7 +1089,7 @@ def add_microsporidia(config, manifest, species_name: str = None,
                       female_mortality_modifier: float = 1,
                       male_mortality_modifier: float = 1):
     """
-        Adds microsporidia parameters to the named species' parameters.
+    Adds microsporidia parameters to the named species' parameters.
 
     Args:
         config (dict): schema-backed config dictionary, written to config.json
@@ -1188,12 +1190,12 @@ def add_vector_migration(task: object,
                          vector_migration_data: object = None,
                          vector_migration_filename_path: str = None,
                          x_vector_migration: float = 1):
-    """Adds vector migration parameters to the named species' parameters and adds the migration file to the
-    common_assets in task.
+    """
+    **Deprecated:** Use `MalariaDemographics.add_vector_migration()` instead, which follows the
+    deferred implicit pattern and does not require a task object upfront.
 
-    .. deprecated::
-        Use `MalariaDemographics.add_vector_migration()` instead, which follows the
-        deferred implicit pattern and does not require a task object upfront.
+    Adds vector migration parameters to the named species' parameters and adds the migration file to the
+    common_assets in task.
 
     Provide either ``vector_migration_data`` (a VectorMigrationData object) or
     ``vector_migration_filename_path`` (path to an existing binary file), not both.

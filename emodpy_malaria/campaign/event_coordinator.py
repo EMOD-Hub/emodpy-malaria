@@ -26,7 +26,7 @@ from emodpy_malaria.utils.emod_enum import VectorCountType, VectorGender
 
 class VectorCounter:
     """
-    Defines the sampling parameters for a [VectorSurveillanceEventCoordinator](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/campaign/event_coordinator/).
+    Defines the sampling parameters for a VectorSurveillanceEventCoordinator.
     Specifies which vector species and gender to sample, how many to sample, how often,
     and what statistic to compute from the sample.
 
@@ -51,10 +51,10 @@ class VectorCounter:
             [VectorCountType](https://emod.idmod.org/emodpy-malaria/autoapi/emodpy_malaria/utils/emod_enum/) enum values:
 
             * ``VectorCountType.ALLELE_FREQ`` -- Calculates the frequency of every allele
-              in the sampled population. Each vector contributes 0, 1, or 2 occurrences
-              of each allele.
+                in the sampled population. Each vector contributes 0, 1, or 2 occurrences
+                of each allele.
             * ``VectorCountType.GENOME_FRACTION`` -- Calculates the fraction of each
-              genome (grouped by similarity) in the sampled population.
+                genome (grouped by similarity) in the sampled population.
 
         gender (Union[VectorGender, str], required):
             The sex of the vectors to sample. Use the
@@ -131,6 +131,13 @@ class VectorSurveillanceEventCoordinator(BaseEventCoordinator):
     and stops when an event from ``stop_trigger_condition_list`` is received or
     ``duration`` expires.
 
+    The ``respond()`` function can return coordinator-level event names at
+    runtime. These events are determined dynamically and **cannot** be
+    auto-detected from the script. You must manually register any event
+    names that ``respond()`` might return in **Custom_Coordinator_Events**
+    in the simulation configuration. Failing to register them will cause
+    the simulation to fail at runtime.
+
     Embedded Python: dtk_vector_surveillance.py
         The **dtk_vector_surveillance.py** file must define a ``respond()`` function and
         may optionally define ``create_responder()`` and ``delete_responder()``.
@@ -167,15 +174,6 @@ class VectorSurveillanceEventCoordinator(BaseEventCoordinator):
 
         **delete_responder(responder_id, coordinator_name)** -- Optional. Called when a
         coordinator expires (after ``duration`` elapses). Use for cleanup.
-
-    .. important::
-
-        The ``respond()`` function can return coordinator-level event names at
-        runtime. These events are determined dynamically and **cannot** be
-        auto-detected from the script. You must manually register any event
-        names that ``respond()`` might return in **Custom_Coordinator_Events**
-        in the simulation configuration. Failing to register them will cause
-        the simulation to fail at runtime.
 
     Args:
         campaign (api_campaign, required):
