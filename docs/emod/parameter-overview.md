@@ -69,5 +69,5 @@ The following is an example of a JSON formatted file.
 
 The website [jsonlint.com](https://jsonlint.com) provides validation of JSON formatting. This can be very helpful in
 identifying missing commas, unbalanced curly braces, missing quotation marks, and other common JSON
-syntax errors. Another helpful site is [jsondiff.com](http://jsondiff.com/), which highlights differences between
-two uploaded JSON files.
+syntax errors. [jsondiff.com](https://jsondiff.com/) and [JSONViewerTool JSON Compare](https://jsonviewertool.com/json-compare)
+are browser-based options that highlight differences between two JSON files.
